@@ -9,8 +9,8 @@ created: 1785254500000
 # State
 
 **Snapshot date:** 2026-07-28
-**Active mission step:** M1 — [[mission.step-01-foundations]] (nearly closed)
-**Last commit:** `research(M1): E01 engine throughput and diagnosis stability`
+**Active mission step:** **M2** — [[mission.step-02-sections]] (first pass done); M1 open on one item
+**Last commit:** `design(M2): section catalogue`
 
 Rewritten at the end of every cycle. The honest answer to "if someone joined today, what would they
 need to know?"
@@ -24,8 +24,11 @@ need to know?"
 | Chess domain knowledge | first pass + primary source | [[domain.chess-concepts]], [[domain.coaching]], [[domain.signals]], [[domain.puzzle-themes]], [[domain.sources]] |
 | Prior-art knowledge | **complete** | [[domain.prior-art]] — all five projects read |
 | Tooling | **verified working** | Stockfish 18 driven from python-chess; Lichess API fetching real games |
-| Measured evidence | **first experiment done** | [[experiments.e01-engine-throughput]] |
-| Section catalogue | no | M2 |
+| Measured evidence | **two experiments** | [[experiments.e01-engine-throughput]], [[experiments.e02-positional-detectors]] |
+| Positional vocabulary | yes | [[domain.positional-vocabulary]] — rated for detectability |
+| Section catalogue | **yes, first pass** | [[domain.sections]] — 11 sections, 3 tiers, build order set |
+| Working detectors | **4, tested** | outpost, isolated pawn, backward pawn, rook on open file — experiment code, to be reimplemented in M4 |
+| Scope | **decided** | [[decisions.0005-scope-band-source-online-only]] — 1400–1800, Lichess, online only |
 | Architecture design | partial | [[decisions.0002-compute-first-speak-last]] accepted; player-profile schema (C1) undesigned |
 | Any agent | no | M4 |
 | Evaluation harness | no | designed in M3 |
@@ -58,29 +61,28 @@ This is what actually moved this cycle.
 
 | Capacity dimension | Score 0–5 | Δ | Note |
 |---|:--:|:--:|---|
-| Domain knowledge (chess) | 3 | +1 | first primary source held and used; contested claims now sourced rather than asserted |
-| Domain knowledge (coaching) | 2 | — | still secondary sources; F2 outstanding |
-| Signal & tooling knowledge | 4 | +1 | engine + API verified by running them; throughput and label stability measured |
-| Prior-art knowledge | 5 | +4 | all five read; adopt/avoid/differentiate recorded |
-| Architecture | 2 | +1 | ADR-0002 accepted on evidence; profile schema still open |
-| Evaluation design | 1 | — | intent only |
+| Domain knowledge (chess) | 4 | +1 | primary sources in use; positional vocabulary assembled and rated for detectability |
+| Domain knowledge (coaching) | 2 | — | still secondary sources; F2 partially addressed |
+| Signal & tooling knowledge | 5 | +1 | engine, API, tactical and positional detection all verified **by running them** |
+| Prior-art knowledge | 5 | — | complete |
+| Architecture | 3 | +1 | ADR-0002 accepted; scope decided; section catalogue and build order set. Profile schema still open |
+| Evaluation design | 1 | — | intent only — now the weakest dimension, and the one the thesis's contribution claim rests on |
 
 ## Next logical steps (priority order)
 
-1. **P0 — Author decisions B1–B3** ([[open-questions]] § B). Target band, game source, whether
-   over-the-board players are in scope. These are not researchable; they gate M2's priorities and
-   M3's scope. Recommendations are recorded against each.
-2. **P1 — E02: positional feature detectors** (question D4, now well-framed). Take 3–4 concepts from
-   the free corpus — knight outpost, isolated queen's pawn, backward pawn, open-file control — write
-   conservative detectors over `python-chess`, and check them by hand against real games. Report
-   precision honestly. This is the project's biggest technical risk and it is now cheap to probe.
-3. **P2 — Close M1: read the free primary sources** (F2). Capablanca is held; Nimzowitsch next,
-   for the positional vocabulary P1 needs.
-4. **P3 — M2 section catalogue**, built on K1–K10, the four gap types, and the puzzle-theme
-   vocabulary — which already supplies a ready-made tactical section boundary.
-5. **P4 — C2 minimum-sample policy.** Promoted in importance by E01: it is what makes claims survive
-   a change of analysis parameters. Adopt the shape of prior art's escalation tiers and validate
-   thresholds on our own data.
+1. **P0 — E03: relevance weighting (question C6).** The successor to E02's finding, and now the
+   critical path: Tier 2 sections cannot be built until a detected feature can be shown to *matter*.
+   Test one route — feature co-occurrence with the player's evaluation losses versus their baseline —
+   on the games already fetched. Both halves of the machinery exist.
+2. **P1 — M3 architecture.** The player-profile schema (C1) is the load-bearing artefact and
+   everything else waits on it. Also owed by M3: the interaction/probe protocol (V9), the
+   minimum-sample policy (C2), and the orchestration pattern (C3).
+3. **P2 — C2 minimum-sample policy.** Promoted from good practice to a correctness requirement by
+   E01: it is what makes a claim survive a change of analysis parameters. Adopt the shape of prior
+   art's escalation tiers and validate thresholds on our own data.
+4. **P3 — Close M1's last item:** verify *My System*'s Part-2 chapter list against the text; it is
+   the one unverified structural claim in [[domain.positional-vocabulary]].
+5. **P4 — M4: build S2** (decision process & clock behaviour), the first agent.
 
 ## Open questions
 

@@ -23,7 +23,8 @@ Distinct from [[capacity.knowledge]], which is about *how* knowledge is held and
 | [[domain.sources]] | sources used, each with an evidence-quality note | first pass ✔ |
 | [[domain.prior-art]] | the five existing LLM chess coaches, read: adopt / avoid / do differently | read ✔ |
 | [[domain.puzzle-themes]] | the 75 free Lichess puzzle themes mapped onto our concepts | mapped ✔ |
-| [[domain.sections]] | the prioritised section catalogue | M2 — not started |
+| [[domain.positional-vocabulary]] | the positional concept catalogue, rated for machine detectability | assembled ✔ |
+| [[domain.sections]] | the prioritised section catalogue | **M2 first pass ✔** |
 
 ## Headline findings so far
 

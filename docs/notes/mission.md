@@ -11,7 +11,8 @@ created: 1785254500000
 The mission is the **path**, not the destination. It exists to serve [[vision]]; if a step stops
 serving the vision, the step is rewritten — not obeyed out of inertia.
 
-**Active step:** M1 — Chess & coaching foundations research → [[mission.step-01-foundations]]
+**Active step:** M2 — Section catalogue → [[mission.step-02-sections]] *(M1 remains open on one item:
+reading Nimzowitsch's Part 2 against the text)*
 
 ## The steps
 
@@ -23,7 +24,7 @@ Produce a general overview of the knowledge the swarm needs in order to coach ef
 ### M2 — Chunk the knowledge into sections, ordered by priority
 Break the coaching knowledge into small, cohesive sections. Order the sections by how much they
 matter for coaching effectiveness (and how well they can stand alone as an agent's remit).
-Output: a prioritised section catalogue in [[domain.sections]].
+Output: a prioritised section catalogue in [[domain.sections]]. → [[mission.step-02-sections]]
 
 ### M3 — Design the swarm
 For the whole system, plan:
@@ -82,8 +83,8 @@ dedicated step is still needed.
 
 | Step | Status | Note |
 |---|---|---|
-| M1 | wip | [[mission.step-01-foundations]] — landscape mapped; prior art, primary sources and engine-cost measurement still open |
-| M2 | pending | |
+| M1 | nearly closed | [[mission.step-01-foundations]] — landscape mapped, prior art read, engine cost measured; one primary-source item open |
+| M2 | first pass done | [[mission.step-02-sections]] → [[domain.sections]]: 11 sections in 3 tiers, build order set |
 | M3 | pending | |
 | M4 | pending | |
 | M5 | pending | |
