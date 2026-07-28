@@ -52,6 +52,25 @@ coaches, peer-reviewed work). Flagged as an open item in [[state]].
 | [Chess.com — basic rook endgames: Philidor and Lucena](https://www.chess.com/blog/vinniethepooh/basic-rook-endgames-philidor-and-lucena) | rook-ending priority, "50% of games reach rook endings" | expert-consensus | the 50% figure is widely repeated and **not verified** — mark as unverified if used |
 | [ChessWorld — endgames trainer](https://www.chessworld.net/chess-endgames.asp) | endgame learning order | expert-consensus | |
 
+## Primary sources (free — constraint C7)
+
+Held locally in `docs/pdf/`. See [[decisions.0004-free-research-materials]].
+
+| Source | Used for | Class | Quality note |
+|---|---|---|---|
+| **Capablanca, *Chess Fundamentals* (1921)** — [Project Gutenberg #33870](https://www.gutenberg.org/ebooks/33870), full text held locally | study order, endgame-first pedagogy, the limits of book learning | **primary / world champion** | Public domain in the USA. The **book's own structure is evidence**: Chapter I is "First Principles: **Endings**, Middle-game and Openings" — in that order — and he opens by telling the student to learn the power of the pieces through simple mates. This is first-hand support for the endgame-first tradition that [[domain.chess-concepts]] § E lists as contested, from the person most associated with it |
+| Gobet, *Expert memory: a comparison of four theories* | chunking / expertise theory | **measured** | the one research paper held in full, in `docs/pdf/` |
+
+> **Quotation worth the thesis** (Chess Fundamentals, §3): *"nobody can learn how to play well merely
+> from the study of a book; it can only serve as a guide and the rest must be done by the teacher, if
+> the student has one; if not, the student must realise by long and bitter experience the practical
+> application of the many things explained in the book."*
+>
+> Capablanca is drawing exactly the line this project is built on: a book transmits knowledge, a
+> teacher converts it into practical application, and without one the student pays in "long and
+> bitter experience". The swarm is trying to be the teacher, not the book — and that is also why
+> V9 (dialogue and active assessment) is a capability rather than a UI feature.
+
 ## Cognitive science of chess expertise
 
 | Source | Used for | Class | Quality note |

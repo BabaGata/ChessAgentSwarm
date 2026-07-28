@@ -11,6 +11,9 @@ created: 1785254800000
 Resolves **F1** in [[open-questions]]. All five projects were cloned and read on 2026-07-28.
 Previously this was a list of search-result snippets; it is now based on the source.
 
+**Held locally** at `C:\Users\vujic\Documents\MachineLearning\ChessLLMs\`, alongside the Stockfish
+wiki — re-readable without re-cloning. See [[capacity.knowledge]] § local reference library.
+
 Also the raw material for the thesis's related-work section.
 
 ## Summary

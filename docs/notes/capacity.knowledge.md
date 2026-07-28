@@ -30,6 +30,21 @@ two copies.
 | Prior art | [[domain.sources]] § prior art | five comparable open-source projects identified, **none read yet** |
 | Runtime knowledge store | — | does not exist; designed in M3 |
 
+## Local reference library
+
+Held on disk, no network needed, all free (constraint C7,
+[[decisions.0004-free-research-materials]]):
+
+| Material | Location | Use |
+|---|---|---|
+| Five prior-art projects | `C:\Users\vujic\Documents\MachineLearning\ChessLLMs\` | [[domain.prior-art]] — re-readable without re-cloning |
+| Stockfish wiki | `…\ChessLLMs\Stockfish.wiki\` | engine documentation, UCI options, evaluation semantics |
+| Gobet, *Expert memory: a comparison of four theories* | `docs/pdf/` | the only research paper held in full; cognitive basis for pattern/chunk-driven expertise |
+| Stockfish 18 binary | `C:\stockfish\` | the analysis engine |
+
+**Note on the repo copies:** these are read-only references. Arrakis Engine is AGPL-3.0, so its code
+may inform our design but must never be copied into this project.
+
 ## Quality rules for domain knowledge
 
 Chess improvement advice contains a lot of confident folklore. Every domain claim carries:

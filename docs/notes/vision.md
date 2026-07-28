@@ -43,6 +43,7 @@ The finished system must be able to do all of the following for an individual pl
 | C4 | **Cost per coaching session must be measured, not assumed** | See [[evaluation]]; cost is a first-class metric alongside quality. |
 | C5 | **Auditable reasoning** | No black-box "trust me" coaching. Ties to V8. |
 | C6 | **Incrementally useful** | Each mission step must leave a system that is usable on its own, not only at the very end. |
+| C7 | **Free research materials too** | Not just free to *run* — free to *build*. Sources, datasets, papers and books used to construct the knowledge base must be freely obtainable. Paid material is a last resort, permitted only when a free path cannot resolve an actual blocker, and must be justified. Added 2026-07-28, see [[decisions.0004-free-research-materials]]. |
 
 ## Success criteria
 

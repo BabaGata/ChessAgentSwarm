@@ -36,3 +36,6 @@ Thumbs.db
 docs/.dendron.*
 docs/notes/.dendron.cache.json
 docs/build/
+
+# Reference material (third-party texts, kept locally, not redistributed)
+docs/pdf/
