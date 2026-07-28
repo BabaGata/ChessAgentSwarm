@@ -89,6 +89,9 @@ expected to sit at zero until M4.
 
 ## Open questions
 
+**The full register lives in [[open-questions]]** — every unknown with an ID, an owner, what it
+blocks and a concrete resolution path. Summary of the live ones:
+
 - Where do the player's games come from — Lichess/Chess.com import, PGN upload, or live play?
   *(Leaning: Lichess API first — free, documented, and the puzzle/opening data shares the ecosystem.)*
 - Is the interaction conversational, report-based, or both? M1 says **both are needed**: passive

@@ -31,6 +31,7 @@ execution and review cycle reads from and writes back to these notes.
 - [[vision]] — desired result, constraints, success criteria, non-goals
 - [[mission]] — the 7 iterative steps, the active step, alignment argument
 - [[state]] — current state, distance-to-vision scorecard, next steps & priorities
+- [[open-questions]] — the live register of unknowns: owner, what it blocks, how it resolves
 - [[capacity]] — inventory of agents, tools, knowledge, infrastructure
 - [[learning]] — how capacity gets improved; [[learning.lessons]], [[learning.risks]]
 - [[process]] — the operating cycle every unit of work follows

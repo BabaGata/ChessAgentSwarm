@@ -20,7 +20,7 @@ self-hostable) unless an explicit exception is logged in [[decisions]].
 
 | Tool | Status | Purpose | Notes |
 |---|:--:|---|---|
-| Stockfish | candidate | position evaluation, blunder detection, best-move comparison | free, local, the obvious baseline; verify licence and local run cost |
+| Stockfish | **evaluated — installed** | position evaluation, blunder detection, best-move comparison | **Stockfish 18**, `C:\stockfish\stockfish-windows-x86-64-avx2.exe`, AVX2 build, 20 cores on the target machine. GPL-3.0 — fine for a thesis, relevant if anything is ever distributed. **Throughput still unmeasured** — that is P1 in [[state]] and the input to [[decisions.0002-compute-first-speak-last]] |
 | Lichess analysis / cloud eval | candidate | precomputed evals without local compute | free API, rate-limited |
 
 ## Data sources
