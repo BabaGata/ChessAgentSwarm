@@ -24,7 +24,7 @@ need to know?"
 | Chess domain knowledge | first pass + primary source | [[domain.chess-concepts]], [[domain.coaching]], [[domain.signals]], [[domain.puzzle-themes]], [[domain.sources]] |
 | Prior-art knowledge | **complete** | [[domain.prior-art]] — all five projects read |
 | Tooling | **verified working** | Stockfish 18 driven from python-chess; Lichess API fetching real games |
-| Measured evidence | **two experiments** | [[experiments.e01-engine-throughput]], [[experiments.e02-positional-detectors]] |
+| Measured evidence | **three experiments** | [[experiments.e01-engine-throughput]], [[experiments.e02-positional-detectors]], [[experiments.e03-relevance-weighting]] |
 | Positional vocabulary | yes | [[domain.positional-vocabulary]] — rated for detectability |
 | Section catalogue | **yes, first pass** | [[domain.sections]] — 11 sections, 3 tiers, build order set |
 | Working detectors | **4, tested** | outpost, isolated pawn, backward pawn, rook on open file — experiment code, to be reimplemented in M4 |
@@ -70,19 +70,20 @@ This is what actually moved this cycle.
 
 ## Next logical steps (priority order)
 
-1. **P0 — E03: relevance weighting (question C6).** The successor to E02's finding, and now the
-   critical path: Tier 2 sections cannot be built until a detected feature can be shown to *matter*.
-   Test one route — feature co-occurrence with the player's evaluation losses versus their baseline —
-   on the games already fetched. Both halves of the machinery exist.
-2. **P1 — M3 architecture.** The player-profile schema (C1) is the load-bearing artefact and
-   everything else waits on it. Also owed by M3: the interaction/probe protocol (V9), the
-   minimum-sample policy (C2), and the orchestration pattern (C3).
-3. **P2 — C2 minimum-sample policy.** Promoted from good practice to a correctness requirement by
-   E01: it is what makes a claim survive a change of analysis parameters. Adopt the shape of prior
-   art's escalation tiers and validate thresholds on our own data.
-4. **P3 — Close M1's last item:** verify *My System*'s Part-2 chapter list against the text; it is
-   the one unverified structural claim in [[domain.positional-vocabulary]].
-5. **P4 — M4: build S2** (decision process & clock behaviour), the first agent.
+1. **P0 — M3 architecture.** No longer blocked by C6: E03 showed positional relevance is a weak,
+   possibly band-inappropriate signal, so Tier 2 is re-scoped rather than gating. The player-profile
+   schema (C1) is the load-bearing artefact and everything waits on it. Also owed by M3: the
+   interaction/probe protocol (V9), the minimum-sample policy (C2), the orchestration pattern (C3).
+2. **P1 — Evaluation harness first, before the first agent.** Per [[evaluation]]'s build order: the
+   planted-weakness generator (C1 family) and the split-half harness (B1). E03 demonstrated why —
+   without held-out replication the project would already have recorded a false finding (L-008).
+3. **P2 — M4: build S2** (decision process & clock behaviour), the first agent. Cheapest, needs no
+   engine for most of its signal, and E03 strengthens the case: at this band, process and tactics
+   look far more decisive than structure.
+4. **P3 — C6 remaining routes**, when Tier 2 comes up: peer-population deviation (most promising —
+   asks whether the player is *unusual*, which E03's negative result does not touch) and
+   outcome-level association.
+5. **P4 — Close M1's last item:** verify *My System*'s Part-2 chapter list against the text.
 
 ## Open questions
 

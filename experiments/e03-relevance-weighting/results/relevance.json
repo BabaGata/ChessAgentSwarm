@@ -1,0 +1,692 @@
+{
+  "moves": 3382,
+  "baseline_err_rate_pct": 9.7,
+  "min_observations_for_reliable": 50,
+  "drift_moves": 3,
+  "by_phase": {
+    "endgame": {
+      "moves": 1185,
+      "err_rate_pct": 6.1
+    },
+    "late_middlegame": {
+      "moves": 1061,
+      "err_rate_pct": 9.9
+    },
+    "opening_middlegame": {
+      "moves": 1136,
+      "err_rate_pct": 13.4
+    }
+  },
+  "population": {
+    "own_backward_pawn": {
+      "n_present": 412,
+      "n_absent": 2970,
+      "games_with_feature": 33,
+      "err_rate_present_pct": 11.2,
+      "err_rate_absent_pct": 9.5,
+      "ci95_present_pct": [
+        8.5,
+        14.6
+      ],
+      "blunder_rate_present_pct": 1.5,
+      "lift": 1.17,
+      "reliable": true
+    },
+    "own_isolated_pawn": {
+      "n_present": 1584,
+      "n_absent": 1798,
+      "games_with_feature": 48,
+      "err_rate_present_pct": 9.3,
+      "err_rate_absent_pct": 10.1,
+      "ci95_present_pct": [
+        7.9,
+        10.8
+      ],
+      "blunder_rate_present_pct": 2.3,
+      "lift": 0.92,
+      "reliable": true
+    },
+    "opp_backward_pawn": {
+      "n_present": 415,
+      "n_absent": 2967,
+      "games_with_feature": 33,
+      "err_rate_present_pct": 11.8,
+      "err_rate_absent_pct": 9.4,
+      "ci95_present_pct": [
+        9.0,
+        15.3
+      ],
+      "blunder_rate_present_pct": 1.7,
+      "lift": 1.25,
+      "reliable": true
+    },
+    "opp_rook_open_file": {
+      "n_present": 1484,
+      "n_absent": 1898,
+      "games_with_feature": 49,
+      "err_rate_present_pct": 9.7,
+      "err_rate_absent_pct": 9.7,
+      "ci95_present_pct": [
+        8.3,
+        11.3
+      ],
+      "blunder_rate_present_pct": 2.2,
+      "lift": 1.0,
+      "reliable": true
+    },
+    "own_rook_open_file": {
+      "n_present": 1447,
+      "n_absent": 1935,
+      "games_with_feature": 48,
+      "err_rate_present_pct": 9.2,
+      "err_rate_absent_pct": 10.1,
+      "ci95_present_pct": [
+        7.8,
+        10.8
+      ],
+      "blunder_rate_present_pct": 2.0,
+      "lift": 0.91,
+      "reliable": true
+    },
+    "own_outpost": {
+      "n_present": 124,
+      "n_absent": 3258,
+      "games_with_feature": 22,
+      "err_rate_present_pct": 12.1,
+      "err_rate_absent_pct": 9.6,
+      "ci95_present_pct": [
+        7.5,
+        19.0
+      ],
+      "blunder_rate_present_pct": 3.2,
+      "lift": 1.26,
+      "reliable": true
+    },
+    "opp_outpost": {
+      "n_present": 137,
+      "n_absent": 3245,
+      "games_with_feature": 26,
+      "err_rate_present_pct": 10.2,
+      "err_rate_absent_pct": 9.7,
+      "ci95_present_pct": [
+        6.2,
+        16.4
+      ],
+      "blunder_rate_present_pct": 2.2,
+      "lift": 1.05,
+      "reliable": true
+    },
+    "opp_isolated_pawn": {
+      "n_present": 1578,
+      "n_absent": 1804,
+      "games_with_feature": 48,
+      "err_rate_present_pct": 9.0,
+      "err_rate_absent_pct": 10.4,
+      "ci95_present_pct": [
+        7.7,
+        10.5
+      ],
+      "blunder_rate_present_pct": 2.2,
+      "lift": 0.87,
+      "reliable": true
+    }
+  },
+  "drift": {
+    "opp_backward_pawn": {
+      "n_present": 392,
+      "mean_drift_present": 11.85,
+      "mean_drift_absent": 10.24,
+      "drift_ratio": 1.16
+    },
+    "opp_isolated_pawn": {
+      "n_present": 1477,
+      "mean_drift_present": 9.85,
+      "mean_drift_absent": 10.95,
+      "drift_ratio": 0.9
+    },
+    "opp_outpost": {
+      "n_present": 119,
+      "mean_drift_present": 9.27,
+      "mean_drift_absent": 10.48,
+      "drift_ratio": 0.88
+    },
+    "opp_rook_open_file": {
+      "n_present": 1405,
+      "mean_drift_present": 9.73,
+      "mean_drift_absent": 11.0,
+      "drift_ratio": 0.89
+    },
+    "own_backward_pawn": {
+      "n_present": 389,
+      "mean_drift_present": 11.52,
+      "mean_drift_absent": 10.29,
+      "drift_ratio": 1.12
+    },
+    "own_isolated_pawn": {
+      "n_present": 1482,
+      "mean_drift_present": 10.33,
+      "mean_drift_absent": 10.53,
+      "drift_ratio": 0.98
+    },
+    "own_outpost": {
+      "n_present": 106,
+      "mean_drift_present": 11.51,
+      "mean_drift_absent": 10.4,
+      "drift_ratio": 1.11
+    },
+    "own_rook_open_file": {
+      "n_present": 1368,
+      "mean_drift_present": 9.3,
+      "mean_drift_absent": 11.3,
+      "drift_ratio": 0.82
+    }
+  },
+  "lift_within_phase": {
+    "endgame": {
+      "own_backward_pawn": {
+        "n_present": 121,
+        "err_present_pct": 11.6,
+        "err_absent_pct": 5.5,
+        "lift": 2.12
+      },
+      "own_isolated_pawn": {
+        "n_present": 668,
+        "err_present_pct": 6.7,
+        "err_absent_pct": 5.2,
+        "lift": 1.29
+      },
+      "opp_backward_pawn": {
+        "n_present": 126,
+        "err_present_pct": 12.7,
+        "err_absent_pct": 5.3,
+        "lift": 2.4
+      },
+      "opp_rook_open_file": {
+        "n_present": 566,
+        "err_present_pct": 5.3,
+        "err_absent_pct": 6.8,
+        "lift": 0.78
+      },
+      "own_rook_open_file": {
+        "n_present": 564,
+        "err_present_pct": 5.7,
+        "err_absent_pct": 6.4,
+        "lift": 0.88
+      },
+      "own_outpost": {
+        "n_present": 38,
+        "err_present_pct": 5.3,
+        "err_absent_pct": 6.1,
+        "lift": 0.86
+      },
+      "opp_outpost": {
+        "n_present": 38,
+        "err_present_pct": 7.9,
+        "err_absent_pct": 6.0,
+        "lift": 1.31
+      },
+      "opp_isolated_pawn": {
+        "n_present": 669,
+        "err_present_pct": 6.3,
+        "err_absent_pct": 5.8,
+        "lift": 1.08
+      }
+    },
+    "late_middlegame": {
+      "own_backward_pawn": {
+        "n_present": 121,
+        "err_present_pct": 8.3,
+        "err_absent_pct": 10.1,
+        "lift": 0.82
+      },
+      "own_isolated_pawn": {
+        "n_present": 588,
+        "err_present_pct": 9.5,
+        "err_absent_pct": 10.4,
+        "lift": 0.92
+      },
+      "opp_backward_pawn": {
+        "n_present": 116,
+        "err_present_pct": 9.5,
+        "err_absent_pct": 9.9,
+        "lift": 0.95
+      },
+      "opp_rook_open_file": {
+        "n_present": 641,
+        "err_present_pct": 10.6,
+        "err_absent_pct": 8.8,
+        "lift": 1.2
+      },
+      "own_rook_open_file": {
+        "n_present": 617,
+        "err_present_pct": 10.2,
+        "err_absent_pct": 9.5,
+        "lift": 1.08
+      },
+      "own_outpost": {
+        "n_present": 48,
+        "err_present_pct": 18.8,
+        "err_absent_pct": 9.5,
+        "lift": 1.98
+      },
+      "opp_outpost": {
+        "n_present": 53,
+        "err_present_pct": 11.3,
+        "err_absent_pct": 9.8,
+        "lift": 1.15
+      },
+      "opp_isolated_pawn": {
+        "n_present": 579,
+        "err_present_pct": 9.3,
+        "err_absent_pct": 10.6,
+        "lift": 0.88
+      }
+    },
+    "opening_middlegame": {
+      "own_backward_pawn": {
+        "n_present": 170,
+        "err_present_pct": 12.9,
+        "err_absent_pct": 13.5,
+        "lift": 0.96
+      },
+      "own_isolated_pawn": {
+        "n_present": 328,
+        "err_present_pct": 14.0,
+        "err_absent_pct": 13.1,
+        "lift": 1.07
+      },
+      "opp_backward_pawn": {
+        "n_present": 173,
+        "err_present_pct": 12.7,
+        "err_absent_pct": 13.5,
+        "lift": 0.94
+      },
+      "opp_rook_open_file": {
+        "n_present": 277,
+        "err_present_pct": 16.6,
+        "err_absent_pct": 12.3,
+        "lift": 1.35
+      },
+      "own_rook_open_file": {
+        "n_present": 266,
+        "err_present_pct": 14.3,
+        "err_absent_pct": 13.1,
+        "lift": 1.09
+      },
+      "own_outpost": {
+        "n_present": 38,
+        "err_present_pct": 10.5,
+        "err_absent_pct": 13.5,
+        "lift": 0.78
+      },
+      "opp_outpost": {
+        "n_present": 46,
+        "err_present_pct": 10.9,
+        "err_absent_pct": 13.5,
+        "lift": 0.81
+      },
+      "opp_isolated_pawn": {
+        "n_present": 330,
+        "err_present_pct": 13.9,
+        "err_absent_pct": 13.2,
+        "lift": 1.06
+      }
+    }
+  },
+  "per_player": {
+    "esik24": {
+      "moves": 752,
+      "err_rate_pct": 9.4,
+      "features": {
+        "own_backward_pawn": {
+          "n_present": 31,
+          "n_absent": 721,
+          "games_with_feature": 6,
+          "err_rate_present_pct": 12.9,
+          "err_rate_absent_pct": 9.3,
+          "ci95_present_pct": [
+            5.1,
+            28.9
+          ],
+          "blunder_rate_present_pct": 3.2,
+          "lift": 1.39,
+          "reliable": false
+        },
+        "own_isolated_pawn": {
+          "n_present": 259,
+          "n_absent": 493,
+          "games_with_feature": 16,
+          "err_rate_present_pct": 8.9,
+          "err_rate_absent_pct": 9.7,
+          "ci95_present_pct": [
+            6.0,
+            13.0
+          ],
+          "blunder_rate_present_pct": 1.5,
+          "lift": 0.91,
+          "reliable": true
+        },
+        "opp_backward_pawn": {
+          "n_present": 87,
+          "n_absent": 665,
+          "games_with_feature": 8,
+          "err_rate_present_pct": 9.2,
+          "err_rate_absent_pct": 9.5,
+          "ci95_present_pct": [
+            4.7,
+            17.1
+          ],
+          "blunder_rate_present_pct": 1.1,
+          "lift": 0.97,
+          "reliable": true
+        },
+        "opp_rook_open_file": {
+          "n_present": 300,
+          "n_absent": 452,
+          "games_with_feature": 20,
+          "err_rate_present_pct": 9.7,
+          "err_rate_absent_pct": 9.3,
+          "ci95_present_pct": [
+            6.8,
+            13.5
+          ],
+          "blunder_rate_present_pct": 2.0,
+          "lift": 1.04,
+          "reliable": true
+        },
+        "own_rook_open_file": {
+          "n_present": 374,
+          "n_absent": 378,
+          "games_with_feature": 16,
+          "err_rate_present_pct": 7.8,
+          "err_rate_absent_pct": 11.1,
+          "ci95_present_pct": [
+            5.5,
+            10.9
+          ],
+          "blunder_rate_present_pct": 1.9,
+          "lift": 0.7,
+          "reliable": true
+        },
+        "own_outpost": {
+          "n_present": 25,
+          "n_absent": 727,
+          "games_with_feature": 7,
+          "err_rate_present_pct": 20.0,
+          "err_rate_absent_pct": 9.1,
+          "ci95_present_pct": [
+            8.9,
+            39.1
+          ],
+          "blunder_rate_present_pct": 8.0,
+          "lift": 2.2,
+          "reliable": false
+        },
+        "opp_outpost": {
+          "n_present": 10,
+          "n_absent": 742,
+          "games_with_feature": 5,
+          "err_rate_present_pct": 0.0,
+          "err_rate_absent_pct": 9.6,
+          "ci95_present_pct": [
+            0.0,
+            27.8
+          ],
+          "blunder_rate_present_pct": 0.0,
+          "lift": null,
+          "reliable": false
+        },
+        "opp_isolated_pawn": {
+          "n_present": 446,
+          "n_absent": 306,
+          "games_with_feature": 19,
+          "err_rate_present_pct": 9.0,
+          "err_rate_absent_pct": 10.1,
+          "ci95_present_pct": [
+            6.7,
+            12.0
+          ],
+          "blunder_rate_present_pct": 2.0,
+          "lift": 0.89,
+          "reliable": true
+        }
+      }
+    },
+    "levit79": {
+      "moves": 600,
+      "err_rate_pct": 8.8,
+      "features": {
+        "own_backward_pawn": {
+          "n_present": 105,
+          "n_absent": 495,
+          "games_with_feature": 11,
+          "err_rate_present_pct": 12.4,
+          "err_rate_absent_pct": 8.1,
+          "ci95_present_pct": [
+            7.4,
+            20.0
+          ],
+          "blunder_rate_present_pct": 1.9,
+          "lift": 1.53,
+          "reliable": true
+        },
+        "own_isolated_pawn": {
+          "n_present": 267,
+          "n_absent": 333,
+          "games_with_feature": 16,
+          "err_rate_present_pct": 8.2,
+          "err_rate_absent_pct": 9.3,
+          "ci95_present_pct": [
+            5.5,
+            12.2
+          ],
+          "blunder_rate_present_pct": 2.2,
+          "lift": 0.89,
+          "reliable": true
+        },
+        "opp_backward_pawn": {
+          "n_present": 52,
+          "n_absent": 548,
+          "games_with_feature": 8,
+          "err_rate_present_pct": 7.7,
+          "err_rate_absent_pct": 8.9,
+          "ci95_present_pct": [
+            3.0,
+            18.2
+          ],
+          "blunder_rate_present_pct": 1.9,
+          "lift": 0.86,
+          "reliable": true
+        },
+        "opp_rook_open_file": {
+          "n_present": 271,
+          "n_absent": 329,
+          "games_with_feature": 16,
+          "err_rate_present_pct": 12.9,
+          "err_rate_absent_pct": 5.5,
+          "ci95_present_pct": [
+            9.4,
+            17.4
+          ],
+          "blunder_rate_present_pct": 3.0,
+          "lift": 2.36,
+          "reliable": true
+        },
+        "own_rook_open_file": {
+          "n_present": 213,
+          "n_absent": 387,
+          "games_with_feature": 15,
+          "err_rate_present_pct": 6.1,
+          "err_rate_absent_pct": 10.3,
+          "ci95_present_pct": [
+            3.6,
+            10.2
+          ],
+          "blunder_rate_present_pct": 0.5,
+          "lift": 0.59,
+          "reliable": true
+        },
+        "own_outpost": {
+          "n_present": 33,
+          "n_absent": 567,
+          "games_with_feature": 5,
+          "err_rate_present_pct": 6.1,
+          "err_rate_absent_pct": 9.0,
+          "ci95_present_pct": [
+            1.7,
+            19.6
+          ],
+          "blunder_rate_present_pct": 0.0,
+          "lift": 0.67,
+          "reliable": false
+        },
+        "opp_outpost": {
+          "n_present": 29,
+          "n_absent": 571,
+          "games_with_feature": 6,
+          "err_rate_present_pct": 6.9,
+          "err_rate_absent_pct": 8.9,
+          "ci95_present_pct": [
+            1.9,
+            22.0
+          ],
+          "blunder_rate_present_pct": 3.4,
+          "lift": 0.77,
+          "reliable": false
+        },
+        "opp_isolated_pawn": {
+          "n_present": 335,
+          "n_absent": 265,
+          "games_with_feature": 16,
+          "err_rate_present_pct": 7.8,
+          "err_rate_absent_pct": 10.2,
+          "ci95_present_pct": [
+            5.4,
+            11.1
+          ],
+          "blunder_rate_present_pct": 2.4,
+          "lift": 0.76,
+          "reliable": true
+        }
+      }
+    },
+    "Sajjadmm": {
+      "moves": 344,
+      "err_rate_pct": 9.0,
+      "features": {
+        "own_backward_pawn": {
+          "n_present": 72,
+          "n_absent": 272,
+          "games_with_feature": 10,
+          "err_rate_present_pct": 9.7,
+          "err_rate_absent_pct": 8.8,
+          "ci95_present_pct": [
+            4.8,
+            18.7
+          ],
+          "blunder_rate_present_pct": 0.0,
+          "lift": 1.1,
+          "reliable": true
+        },
+        "own_isolated_pawn": {
+          "n_present": 156,
+          "n_absent": 188,
+          "games_with_feature": 10,
+          "err_rate_present_pct": 9.6,
+          "err_rate_absent_pct": 8.5,
+          "ci95_present_pct": [
+            5.9,
+            15.3
+          ],
+          "blunder_rate_present_pct": 0.6,
+          "lift": 1.13,
+          "reliable": true
+        },
+        "opp_backward_pawn": {
+          "n_present": 71,
+          "n_absent": 273,
+          "games_with_feature": 7,
+          "err_rate_present_pct": 9.9,
+          "err_rate_absent_pct": 8.8,
+          "ci95_present_pct": [
+            4.9,
+            19.0
+          ],
+          "blunder_rate_present_pct": 0.0,
+          "lift": 1.12,
+          "reliable": true
+        },
+        "opp_rook_open_file": {
+          "n_present": 177,
+          "n_absent": 167,
+          "games_with_feature": 11,
+          "err_rate_present_pct": 6.2,
+          "err_rate_absent_pct": 12.0,
+          "ci95_present_pct": [
+            3.5,
+            10.8
+          ],
+          "blunder_rate_present_pct": 1.1,
+          "lift": 0.52,
+          "reliable": true
+        },
+        "own_rook_open_file": {
+          "n_present": 141,
+          "n_absent": 203,
+          "games_with_feature": 9,
+          "err_rate_present_pct": 8.5,
+          "err_rate_absent_pct": 9.4,
+          "ci95_present_pct": [
+            4.9,
+            14.3
+          ],
+          "blunder_rate_present_pct": 1.4,
+          "lift": 0.91,
+          "reliable": true
+        },
+        "own_outpost": {
+          "n_present": 8,
+          "n_absent": 336,
+          "games_with_feature": 2,
+          "err_rate_present_pct": 12.5,
+          "err_rate_absent_pct": 8.9,
+          "ci95_present_pct": [
+            2.2,
+            47.1
+          ],
+          "blunder_rate_present_pct": 0.0,
+          "lift": 1.4,
+          "reliable": false
+        },
+        "opp_outpost": {
+          "n_present": 28,
+          "n_absent": 316,
+          "games_with_feature": 5,
+          "err_rate_present_pct": 7.1,
+          "err_rate_absent_pct": 9.2,
+          "ci95_present_pct": [
+            2.0,
+            22.6
+          ],
+          "blunder_rate_present_pct": 0.0,
+          "lift": 0.78,
+          "reliable": false
+        },
+        "opp_isolated_pawn": {
+          "n_present": 119,
+          "n_absent": 225,
+          "games_with_feature": 9,
+          "err_rate_present_pct": 10.9,
+          "err_rate_absent_pct": 8.0,
+          "ci95_present_pct": [
+            6.5,
+            17.8
+          ],
+          "blunder_rate_present_pct": 2.5,
+          "lift": 1.37,
+          "reliable": true
+        }
+      }
+    }
+  }
+}

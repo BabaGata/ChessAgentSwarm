@@ -18,6 +18,7 @@ An experiment with no consequence was not worth running.
 |---|---|---|---|
 | E01 | A1 engine throughput, A2 diagnosis stability | done | [[experiments.e01-engine-throughput]] |
 | E02 | D4 — are positional concepts detectable without labelled data? | done | [[experiments.e02-positional-detectors]] |
+| E03 | C6 — how is a detected feature weighted for relevance? | done — **largely negative** | [[experiments.e03-relevance-weighting]] |
 
 ## Conventions
 

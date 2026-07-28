@@ -78,6 +78,14 @@ them, how often they are punished before move 15, which named traps they fall in
 
 Detection is proven; relevance-weighting (C6) is not. These sections are where that gets solved.
 
+> **Re-scoped 2026-07-28 after E03.** Positional features showed almost no association with this
+> band's errors, and the one striking effect failed replication
+> ([[experiments.e03-relevance-weighting]]). Two consequences. First, this **confirms the Tier 1 /
+> Tier 2 ordering** — at 1400–1800 games really do appear to be decided by tactics and process
+> rather than structure, exactly as M1's sources claimed. Second, Tier 2 sections must now justify
+> themselves on **peer-deviation** grounds ("you concede this more than your rating peers") rather
+> than error-prediction grounds, because error prediction was tested and did not work.
+
 ### S5 · Pawn-structure weaknesses
 **Owns:** backward, isolated, doubled and hanging pawns; passed pawns; which side of the structure
 the player is on and whether they handle it correctly.

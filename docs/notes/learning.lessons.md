@@ -24,6 +24,26 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 
 ---
 
+### L-008 — Held-out replication is not optional; the first striking result was an artefact
+**Date:** 2026-07-28 · **Cycle / mission step:** M2 (E03) · **Class:** process
+**Context:** Testing whether positional features predict a player's errors
+([[experiments.e03-relevance-weighting]]).
+**Observation:** Pooled analysis showed nothing. Stratifying by game phase produced a striking
+effect — backward pawns in endgames with error lift 2.40 and 2.12 — together with a tidy mechanistic
+explanation for why pooling had hidden it. On a held-out sample of four different players the same
+measurement gave 0.88 and 0.76: not merely absent, **reversed**. With 8 features across 3 phases
+there were 24 cells; the largest was always going to look impressive.
+**Lesson:** Any association discovered by searching a space of measurements must reproduce on a
+held-out sample of *different players* before it is written down as a finding — and a plausible
+mechanism is not evidence, it is the thing that makes an artefact convincing. Practically: every
+diagnostic rule the swarm ever uses gets discovered on one player set and confirmed on another, and
+the same discipline becomes the B1 split-half test in [[evaluation]]. The cost of this replication
+was ten minutes of engine time.
+**Applied to:** [[experiments.e03-relevance-weighting]], risk R-13, [[evaluation]] T0 tier,
+open question C6.
+
+---
+
 ### L-007 — Detecting a feature is easy; knowing it matters is the hard part
 **Date:** 2026-07-28 · **Cycle / mission step:** M1 (E02) · **Class:** domain
 **Context:** Building positional feature detectors to resolve D4, the project's biggest technical risk.
