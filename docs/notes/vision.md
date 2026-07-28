@@ -31,6 +31,7 @@ The finished system must be able to do all of the following for an individual pl
 | V6 | **Path planning** | Produce a coaching path: ordered steps, priorities, time estimates, and the observable signs that a step has been absorbed. |
 | V7 | **Progress tracking** | Re-assess over time, detect whether predicted progress signs appeared, and re-plan when they did not. |
 | V8 | **Explainability** | Every recommendation traceable to evidence (specific games, positions, patterns) — a coach who can say *why*. |
+| V9 | **Dialogue & active assessment** | Ask the player things games cannot reveal — goals, available time — and **probe** their knowledge with positions where they give a move *and its reason*, so a knowledge gap can be told apart from a skill gap. Added 2026-07-28, see [[decisions.0003-add-v9-dialogue-and-active-assessment]]. |
 
 ## Constraints (non-negotiable qualities)
 

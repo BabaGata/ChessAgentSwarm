@@ -28,6 +28,18 @@ created: 1785254500000
 Filled during M1 as terms are actually used. Definitions must be precise enough for an agent to act
 on — "positional understanding" is not yet a definition.
 
-| Term | Meaning | Source |
+| Term | Meaning | Where used |
 |---|---|---|
-| — | to be filled in M1 | |
+| **ACPL** | average centipawn loss — mean engine-evaluation cost of a player's moves. A centipawn is 1/100 of a pawn. Not comparable across time controls or position sharpness | [[domain.signals]] |
+| **Motif** | a reusable tactical pattern (fork, pin, skewer, deflection…). Machine-labelled in the Lichess puzzle database | [[domain.chess-concepts]] K2 |
+| **Imbalance** | a difference between the two sides (material, structure, minor-piece quality, space, initiative, king safety) from which a plan is derived | [[domain.chess-concepts]] K4 |
+| **Prophylaxis** | preventing the opponent's best idea before executing your own plan | [[domain.chess-concepts]] K4/K8 |
+| **Outpost** | an advanced square, protected by a pawn, that enemy pawns cannot attack | [[domain.chess-concepts]] K4 |
+| **Candidate moves** | the shortlist of moves considered before calculating, rather than following the first impulse | [[domain.chess-concepts]] K3 |
+| **Kotov syndrome** | long think, nothing found, panic as the clock falls, then playing an unanalysed move | [[domain.chess-concepts]] K9 |
+| **Lucena / Philidor** | the standard winning and drawing techniques in rook + pawn endings | [[domain.chess-concepts]] K7 |
+| **Opposition** | kings facing each other with an odd number of squares between; the side *not* to move holds it | [[domain.chess-concepts]] K7 |
+| **Gap type** | why an error happened: knowledge / skill / process-habit / psychological. Different remedies | [[domain.coaching]] § 2 |
+| **Probe position** | a position presented to the player to elicit a move *and its reason*, to test knowledge that games cannot reveal (V9) | [[domain.coaching]], [[domain.signals]] |
+| **Band** | an approximate strength range (e.g. 1400–1800) with its own binding constraint and study balance | [[domain.chess-concepts]] § D |
+| **Turning point** | the move in a game where the evaluation actually decided the result | [[domain.signals]] |

@@ -16,6 +16,8 @@ real work, or if a future reader would otherwise ask *"why on earth is it like t
 | ID | Date | Decision | Status |
 |---|---|---|---|
 | [[decisions.0001-adaptive-documentation-driven-process]] | 2026-07-28 | Steer the project as an adaptive system through a Dendron vault + enforced cycle | accepted |
+| [[decisions.0002-compute-first-speak-last]] | 2026-07-28 | Deterministic analysis core produces a structured player profile; LLMs operate only on the summary | **proposed** (decide in M3) |
+| [[decisions.0003-add-v9-dialogue-and-active-assessment]] | 2026-07-28 | Add V9 (dialogue & active assessment) to the vision — passive analysis cannot separate knowledge gaps from skill gaps | accepted |
 
 ## Template
 

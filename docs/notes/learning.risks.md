@@ -26,6 +26,9 @@ in [[process]], a check in the `adaptive-cycle` skill, a test, or a design const
 | R-08 | **Thesis-time overrun** — infinite refinement of the loop instead of building | high | medium | Each mission step has a definition of done; C6 requires each step to end on something usable |
 | R-09 | **Evaluation without ground truth** — no way to tell good coaching from bad | high | high | [[evaluation]] must define proxies (engine agreement, rating trajectory, expert review) before M4 builds anything |
 | R-10 | **Player data privacy** — handling real players' games and profiles | medium | low | Use public games only; no personal data beyond public usernames; state this in the thesis |
+| R-11 | **Weak source base** — chess-improvement web content is largely commercial marketing of variable rigour, and some of it sells the very thing it recommends studying | high | **materialised in M1** | Evidence class recorded per source in [[domain.sources]]; commercial bias noted inline; primary sources required before any claim enters the thesis |
+| R-12 | **LLM coaching default is the anti-pattern** — asked to coach, a language model lists many weaknesses and recites generic level-appropriate advice, which is exactly what [[domain.coaching]] § 4 identifies as bad coaching | high | high | Design against it explicitly: the swarm must output **one or two** priorities with evidence; add this to the agent efficacy measures in [[evaluation]] |
+| R-13 | **Statistical overclaiming** — declaring a weakness from a handful of games, or comparing ACPL across time controls and opponents | high | high | Minimum-sample and confidence rules must exist before the first diagnosis agent ships ([[domain.signals]] § 4); listed as an open question in [[state]] |
 
 ## Encountered issues
 

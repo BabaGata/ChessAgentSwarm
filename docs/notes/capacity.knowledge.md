@@ -23,10 +23,11 @@ two copies.
 | Body | Where | Coverage |
 |---|---|---|
 | Project steering | this vault | vision, mission, process, decisions — complete for the current stage |
-| Chess concepts | [[domain.chess-concepts]] | empty — M1 |
-| Coaching practice | [[domain.coaching]] | empty — M1 |
-| Computable signals | [[domain.signals]] | empty — M1 |
-| Sources | [[domain.sources]] | empty — M1 |
+| Chess concepts | [[domain.chess-concepts]] | **first pass** — 10 domains, concept inventory, prerequisite order, band table, contested claims marked. Missing: typical-plan catalogues per structure, positional-motif taxonomy |
+| Coaching practice | [[domain.coaching]] | **first pass** — assessment method, four-way gap taxonomy, sequencing, anti-patterns, progress indicators, operational style definition. Missing: a detailed published curriculum, adult-vs-junior differences, intervention timescales |
+| Computable signals | [[domain.signals]] | **first pass, strongest area** — signal inventory, free tooling, what is *not* computable, methodological warnings |
+| Sources | [[domain.sources]] | **first pass** — every source evidence-classed; commercial bias flagged (R-11); one claim marked unverified |
+| Prior art | [[domain.sources]] § prior art | five comparable open-source projects identified, **none read yet** |
 | Runtime knowledge store | — | does not exist; designed in M3 |
 
 ## Quality rules for domain knowledge

@@ -61,17 +61,37 @@ expensive; getting it *approximately* right and revisable is the target.
 
 ## Definition of done
 
-- [ ] Every question 1–13 has an answer or an explicit "unknown / deferred" with a reason.
-- [ ] [[domain.chess-concepts]] exists: the concept landscape with dependency structure.
-- [ ] [[domain.coaching]] exists: assessment, diagnosis, sequencing, progress-tracking practice.
-- [ ] [[domain.signals]] exists: what is computable from games, with the free tooling that does it.
-- [ ] [[domain.sources]] exists: source list with a quality note on each.
-- [ ] Contested / low-evidence claims are marked as such.
-- [ ] [[state]] scorecard and [[capacity.knowledge]] updated; findings that change [[vision]] or
+- [x] Every question 1–13 has an answer or an explicit "unknown / deferred" with a reason.
+      *(1–4 answered first-pass; 5–10 answered first-pass; 11–13 answered well. Remaining unknowns
+      listed under "Open items" in each domain note and as P2 in [[state]].)*
+- [x] [[domain.chess-concepts]] exists: the concept landscape with dependency structure.
+- [x] [[domain.coaching]] exists: assessment, diagnosis, sequencing, progress-tracking practice.
+- [x] [[domain.signals]] exists: what is computable from games, with the free tooling that does it.
+- [x] [[domain.sources]] exists: source list with a quality note on each.
+- [x] Contested / low-evidence claims are marked as such.
+- [x] [[state]] scorecard and [[capacity.knowledge]] updated; findings that change [[vision]] or
       [[mission]] have been applied or explicitly rejected in [[decisions]].
+- [ ] **Prior art actually read** (five projects identified in [[domain.sources]], none read).
+- [ ] Primary sources for coaching pedagogy read (current pass is web/secondary material).
+- [ ] Engine cost measured — the number that constrains every M3 option.
+
+**Step status: open.** The landscape is mapped well enough for M2 to begin, but three items above
+must close before M1 can be called done. They are P0–P2 in [[state]].
+
+## Findings that changed the plan
+
+| Finding | Consequence |
+|---|---|
+| Lichess puzzle DB is CC0 **with motif theme tags** | free labelled corpus that maps onto the tactical motif vocabulary — the strongest asset found; shapes M2 and the first agent |
+| Passive game analysis cannot separate knowledge gaps from skill gaps | the swarm needs **active assessment** (probe positions), so interaction is a core capability, not a UI afterthought → [[mission]] M3 brief updated, L-002 |
+| ~All diagnostic signals are deterministic computation | **compute first, speak last** architecture → [[decisions.0002-compute-first-speak-last]] (proposed), L-003 |
+| Coaches produce *one* diagnosis, not a list | an LLM coach's default behaviour (list nine weaknesses) is a known anti-pattern; must be designed against |
+| Advice differs sharply by strength band | argues for choosing one band for the first slice; recommendation 1400–1800 |
+| Tactics are machine-labelled, strategy is not | asymmetry that will likely determine which agent is buildable first |
 
 ## Working log
 
-| Date | Activity | Outcome |
-|---|---|---|
-| 2026-07-28 | Step opened; documentation spine created | Questions 1–13 framed |
+| Date | Activity | Alignment check | Outcome |
+|---|---|---|---|
+| 2026-07-28 | Step opened; documentation spine created | serves C5/C6; moves D11 | Questions 1–13 framed |
+| 2026-07-28 | First research pass: chess concepts, coaching practice, computable signals, tooling, prior art | Serves V1–V4 (defines *what* must be assessed) and C1 (identifies how much can be done without LLM calls). Moves capacity dimensions, not the vision scorecard — expected for M1. Cheaper alternative considered: skip straight to M2/M3 and design from general knowledge — rejected, because the section catalogue determines the entire agent topology (L-001) and would then rest on unsourced assumption. Narrowed the pass to *coach-diagnosable* structure rather than a full chess encyclopaedia. | 4 domain notes; 3 open items; 1 proposed ADR; 3 lessons |

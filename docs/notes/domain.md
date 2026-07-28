@@ -17,11 +17,27 @@ Distinct from [[capacity.knowledge]], which is about *how* knowledge is held and
 
 | Note | Contents | Status |
 |---|---|---|
-| [[domain.chess-concepts]] | the concept landscape and its prerequisite structure | M1 |
-| [[domain.coaching]] | assessment, diagnosis, sequencing, progress tracking | M1 |
-| [[domain.signals]] | what is computable from a player's games, with which free tooling | M1 |
-| [[domain.sources]] | sources used, each with an evidence-quality note | M1 |
-| [[domain.sections]] | the prioritised section catalogue | M2 |
+| [[domain.chess-concepts]] | the concept landscape and its prerequisite structure | first pass ✔ |
+| [[domain.coaching]] | assessment, diagnosis, sequencing, progress tracking | first pass ✔ |
+| [[domain.signals]] | what is computable from a player's games, with which free tooling | first pass ✔ |
+| [[domain.sources]] | sources used, each with an evidence-quality note | first pass ✔ |
+| [[domain.sections]] | the prioritised section catalogue | M2 — not started |
+
+## Headline findings so far
+
+1. **Ten knowledge domains** (K1–K10), of which two — practical process and meta-learning — are not
+   "chess knowledge" in the classical sense but are among the strongest determinants of club results
+   *and* the most machine-diagnosable.
+2. **Four gap types** behind any error — knowledge, skill, process/habit, psychological — each
+   needing a different remedy. This is the sharpest structural idea found and a strong candidate to
+   become a first-class element of the swarm.
+3. **Nearly all diagnostic signals are deterministic**, so the language model belongs at the
+   explanation and dialogue layer, not the analysis layer ([[decisions.0002-compute-first-speak-last]]).
+4. **Tactics are machine-labelled, strategy is not.** The Lichess CC0 puzzle database gives free
+   motif labels; nothing comparable exists for positional concepts. This asymmetry will likely decide
+   which agent is buildable first.
+5. **Advice is band-dependent.** What is right at 1100 is wrong at 1900; the system must know which
+   band it is coaching.
 
 ## Rules for notes in this hierarchy
 
