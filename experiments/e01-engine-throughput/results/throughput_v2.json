@@ -20,5 +20,16 @@
     "seconds_per_position": 0.1337,
     "wall_seconds_per_game": 1.79,
     "projected_wall_seconds_50_games": 89.4
+  },
+  "depth18_t1": {
+    "threads_per_engine": 1,
+    "workers": 18,
+    "games": 10,
+    "positions": 980,
+    "engine_seconds_total": 611.8,
+    "wall_seconds": 80.56,
+    "seconds_per_position": 0.6243,
+    "wall_seconds_per_game": 8.06,
+    "projected_wall_seconds_50_games": 402.8
   }
 }

@@ -61,10 +61,14 @@ coaches, peer-reviewed work). Flagged as an open item in [[state]].
 | [Gobet — Expert memory: a comparison of four theories (PDF)](https://cognitivearchaeologyblog.wordpress.com/wp-content/uploads/2015/11/1996-gobet.pdf) | theory background | measured | |
 | [Chess.com — the cognitive psychology of chess](https://www.chess.com/article/view/the-cognitive-psychology-of-chess) | popular summary, deliberate-practice/starting-age findings | secondary | **used only as a pointer**; the underlying papers must be cited directly in the thesis |
 
-> **Unverified claim to resolve:** the figure that deliberate practice explains roughly a third of
-> skill variance in chess comes from meta-analytic work (Hambrick and colleagues, ~2014) and is
-> currently cited **from memory, not from a retrieved source**. Do not use it in the thesis until the
-> paper is retrieved and the number checked.
+| [Hambrick, Oswald, Altmann, Meinz, Gobet & Campitelli (2014), *Deliberate practice: Is that all it takes to become an expert?*, Intelligence 45, 34–45](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4101876/) | the deliberate-practice variance figure | **measured** | **D1 resolved 2026-07-28.** Deliberate practice accounts for about **one third of the reliable variance** in chess. Restricted to chess and music, the two domains with well-documented training activities. Note the wording: *reliable* variance, not total — check the exact phrasing against the PDF before quoting it in the thesis |
+| [Macnamara, Hambrick & Oswald (2014), *Psychological Science*](https://journals.sagepub.com/doi/abs/10.1177/0956797614535810) | broader meta-analysis across domains | **measured** | corroborates the order of magnitude for games |
+
+> **Resolved 2026-07-28 (D1).** The deliberate-practice figure was previously cited from memory. It
+> is now attributed: ~one third of *reliable* variance in chess, from Hambrick et al. (2014). The
+> honest statement for the thesis is that practice matters enormously **and** explains a minority of
+> the differences between players — which is exactly why a coaching system must not promise rating
+> gains it cannot evidence.
 
 ## Tooling & data
 
