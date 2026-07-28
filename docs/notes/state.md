@@ -66,7 +66,7 @@ This is what actually moved this cycle.
 | Signal & tooling knowledge | 5 | +1 | engine, API, tactical and positional detection all verified **by running them** |
 | Prior-art knowledge | 5 | — | complete |
 | Architecture | 3 | +1 | ADR-0002 accepted; scope decided; section catalogue and build order set. Profile schema still open |
-| Evaluation design | 1 | — | intent only — now the weakest dimension, and the one the thesis's contribution claim rests on |
+| Evaluation design | 3 | +2 | design space mapped across 7 families with a 3-tier strategy and a build order; harness not written |
 
 ## Next logical steps (priority order)
 

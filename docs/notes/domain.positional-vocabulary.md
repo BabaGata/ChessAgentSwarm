@@ -54,7 +54,7 @@ properties are cheap to compute while relational/intentional ones are not:
 
 | Concept | Detectability | Note |
 |---|---|---|
-| Prophylaxis | **hard** | requires knowing the opponent's intention and whether it was prevented. Engine-assisted approximation: did the move reduce the opponent's best available gain? |
+| Prophylaxis | **revised → tractable with engine assistance** | the engine supplies the opponent's intention: a quiet move after which the opponent's previously-best continuation has lost its value. Two analyses per candidate move; E01 showed the budget exists. See [[domain.hard-concepts]] |
 | Overprotection | open | counting defenders of a key square is easy; identifying *which* square is strategically key is not |
 | Isolated queen's pawn | **proven** (E02) | present in a very high share of positions; the coaching content is which *side* of it the player is on and whether they play it correctly |
 | Hanging pawns | straightforward | two adjacent friendly pawns with no neighbours; geometric |
@@ -64,19 +64,21 @@ properties are cheap to compute while relational/intentional ones are not:
 | Doubled pawns | straightforward | trivially geometric |
 | The two bishops | straightforward | material configuration; its *value* depends on structure openness, itself computable |
 | Good vs. bad bishop | straightforward | count own pawns on the bishop's colour complex |
-| Restraint / blockade | hard | blockading piece in front of a passed pawn is geometric; "restraint" as a plan is not |
-| Piece activity / worst-placed piece | hard | needs a mobility metric or engine support; no crisp definition |
-| Piece harmony, coordination | open | no mechanical definition; likely needs the language layer, if it can be done at all |
+| Restraint / blockade | **revised → straightforward** | blockade is geometric; restraint = count of the opponent's candidate pawn breaks currently denied. See [[domain.hard-concepts]] |
+| Piece activity / worst-placed piece | **revised → straightforward** | safe-mobility per piece; worst-placed piece = lowest mobility relative to its type's norm. The earlier "hard" rating was wrong |
+| Piece harmony, coordination | **revised → index, not detector** | decomposes into mutual defence, attack concentration on key squares, and self-obstruction. Composite score, comparable against peers |
 
 ## What this tells M2
 
 1. **Roughly two thirds of the positional vocabulary is mechanically detectable**, and the detectable
    parts are the *structural* ones — pawn structure, squares, files, material configuration. That is
    a substantial, buildable section of the swarm, and it was the part in doubt.
-2. **The undetectable third is a coherent group**: prophylaxis, restraint, harmony, activity — all
-   concepts about *intention and relation* rather than arrangement. They will need engine-derived
-   proxies or the language layer, and they should be scheduled late, after the structural sections
-   prove the pipeline.
+2. ~~The undetectable third is a coherent group~~ **— corrected 2026-07-28.** They *are* a coherent
+   group (prophylaxis, restraint, harmony, activity — all about intention and relation rather than
+   arrangement), but they are **not undetectable**. [[domain.hard-concepts]] gives each an
+   operational definition; three of the four reduce to rules plus engine calls. The original claim
+   confused *no labelled data* with *no definition*. They stay scheduled late, but for priority
+   reasons (L-007), not feasibility ones.
 3. **The tactics/strategy boundary is ours, not the game's.** Nimzowitsch lists the pin and
    discovered check among his Elements while Lichess tags them as tactical motifs. M2 should not
    split sections along that seam just because our two source vocabularies happen to.

@@ -24,6 +24,7 @@ Distinct from [[capacity.knowledge]], which is about *how* knowledge is held and
 | [[domain.prior-art]] | the five existing LLM chess coaches, read: adopt / avoid / do differently | read ✔ |
 | [[domain.puzzle-themes]] | the 75 free Lichess puzzle themes mapped onto our concepts | mapped ✔ |
 | [[domain.positional-vocabulary]] | the positional concept catalogue, rated for machine detectability | assembled ✔ |
+| [[domain.hard-concepts]] | prophylaxis, restraint, harmony, activity — can they be detected at all? | resolved ✔ (mostly yes, without ML) |
 | [[domain.sections]] | the prioritised section catalogue | **M2 first pass ✔** |
 
 ## Headline findings so far
