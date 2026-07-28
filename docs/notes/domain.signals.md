@@ -99,8 +99,11 @@ These are the ways an automated chess-diagnosis system produces confident nonsen
    control, and prefer within-player comparisons over cross-player ones.
 2. **Sample size.** "You blunder in rook endings" from three rook endings is noise. Every diagnosis
    needs a minimum-sample rule and a confidence statement.
-3. **Engine depth changes the labels.** Blunder classification depends on the analysis depth used;
-   fix it and record it, or the diagnoses are not reproducible between runs.
+3. **Engine depth changes the labels — measured, not theoretical.** [[experiments.e01-engine-throughput]]
+   found depth 15 and depth 18 agreeing on only 73.6 % of error labels and 83.7 % of blunders
+   (depth 12: 61.3 % / 69.2 %). Consequences: **store the analysis depth with every derived signal**,
+   never merge profiles built at different depths, and never present a single move's label as a bare
+   fact — only aggregates survive (L-006).
 4. **Opponent strength confound.** Error rates rise against stronger opponents; rating-adjust before
    claiming a trend.
 5. **Selection bias in "recent games".** A losing streak of blitz games is not a representative

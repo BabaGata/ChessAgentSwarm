@@ -2,15 +2,15 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1785254600000
+updated: 1785255200000
 created: 1785254500000
 ---
 
 # State
 
 **Snapshot date:** 2026-07-28
-**Active mission step:** M1 — [[mission.step-01-foundations]] (first research pass done, step still open)
-**Last commit:** `research(M1): chess & coaching foundations — concepts, coaching practice, computable signals`
+**Active mission step:** M1 — [[mission.step-01-foundations]] (nearly closed)
+**Last commit:** `research(M1): E01 engine throughput and diagnosis stability`
 
 Rewritten at the end of every cycle. The honest answer to "if someone joined today, what would they
 need to know?"
@@ -19,90 +19,75 @@ need to know?"
 
 | Area | Exists | Notes |
 |---|---|---|
-| Documentation / steering | yes | Dendron vault: vision, mission, state, capacity, learning, process, evaluation, decisions |
-| Process automation | yes | `adaptive-cycle` skill; one full cycle run through it |
-| Chess domain knowledge | **first pass** | [[domain.chess-concepts]], [[domain.coaching]], [[domain.signals]], [[domain.sources]] |
-| Tooling inventory | **first pass** | [[capacity.tools]] — identified, none evaluated by running it |
+| Documentation / steering | yes | full vault; [[open-questions]] register; 4 ADRs |
+| Process automation | yes | `adaptive-cycle` skill, exercised over several cycles |
+| Chess domain knowledge | first pass + primary source | [[domain.chess-concepts]], [[domain.coaching]], [[domain.signals]], [[domain.puzzle-themes]], [[domain.sources]] |
+| Prior-art knowledge | **complete** | [[domain.prior-art]] — all five projects read |
+| Tooling | **verified working** | Stockfish 18 driven from python-chess; Lichess API fetching real games |
+| Measured evidence | **first experiment done** | [[experiments.e01-engine-throughput]] |
 | Section catalogue | no | M2 |
-| Architecture design | no | M3 (one ADR proposed: [[decisions.0002-compute-first-speak-last]]) |
+| Architecture design | partial | [[decisions.0002-compute-first-speak-last]] accepted; player-profile schema (C1) undesigned |
 | Any agent | no | M4 |
 | Evaluation harness | no | designed in M3 |
-| Code | none | intentionally — no code before M1–M3 |
+| Production code | none | only experiment harnesses, which are measurement tools |
 
 ## Distance to vision
 
-[[vision]] capabilities/constraints scored **0–5** (0 = nothing, 3 = works but weak, 5 = meets the
-success criteria).
-
 | Dim | Vision item | Score | Δ | Evidence / why |
 |---|---|:--:|:--:|---|
-| D1 | V1 skill assessment | 0 | — | signals identified, nothing built |
-| D2 | V2 knowledge assessment | 0 | — | *method* now identified (probe positions) but unbuilt |
-| D3 | V3 style profiling | 0 | — | operational definition drafted ([[domain.coaching]] § 6) |
-| D4 | V4 gap detection | 0 | — | diagnosis taxonomy drafted, unbuilt |
+| D1 | V1 skill assessment | 0 | — | nothing built |
+| D2 | V2 knowledge assessment | 0 | — | method identified (probes), unbuilt |
+| D3 | V3 style profiling | 0 | — | operational definition drafted |
+| D4 | V4 gap detection | 0 | — | signals + motif approach known, unbuilt |
 | D5 | V5 prioritisation | 0 | — | band table gives a starting heuristic |
 | D6 | V6 path planning | 0 | — | |
 | D7 | V7 progress tracking | 0 | — | leading indicators identified |
 | D8 | V8 explainability | 0 | — | |
-| D9 | C1–C4 cost profile | 0 | — | no measurement yet; the key unknown is Stockfish throughput on the target laptop |
-| D10 | Evaluation capability | 0 | — | |
-| D11 | Process & documentation health | 4 | +1 | one full cycle executed end-to-end through the skill |
-| D12 | V9 dialogue & active assessment | 0 | new | capability added this cycle, [[decisions.0003-add-v9-dialogue-and-active-assessment]] |
+| D9 | C1–C4 cost profile | 0 | — | *measured but not yet built into anything* — see below |
+| D10 | Evaluation capability | 0 | — | confirmed novel: no prior-art project evaluates coaching correctness |
+| D11 | Process & documentation health | 4 | — | cycle held up under real work, including reversing its own mis-framed question |
+| D12 | V9 dialogue & active assessment | 0 | — | |
 
-**Total: 4 / 60** (was 3 / 55; the denominator grew because the vision gained a capability —
-that is the process working, not a regression).
+**Total: 4 / 60.** Unchanged, and correctly so — the vision scorecard measures *system capability*,
+and no agent exists yet. D9 deserves comment: the cost question is now *answered* (it is negligible),
+but the score stays 0 because scoring measures a working system, not knowledge about one.
 
-**Read this correctly:** M1–M3 are *capacity-building* steps. They are expected to move [[capacity]]
-without moving the vision scorecard — the scorecard only moves once agents exist (M4+). To keep
-progress visible in the meantime, track capacity readiness separately:
+## Capacity readiness
 
-| Capacity dimension | Score 0–5 | Note |
-|---|:--:|---|
-| Domain knowledge (chess) | 2 | landscape mapped; primary sources not yet read; positional-concept catalogue missing |
-| Domain knowledge (coaching) | 2 | method + diagnosis taxonomy captured; no detailed published curriculum studied |
-| Signal & tooling knowledge | 3 | strong; the puzzle DB + engine path is clear, unvalidated by running anything |
-| Prior-art knowledge | 1 | five comparable projects identified, **none read** |
-| Architecture | 1 | one proposed ADR, no design |
-| Evaluation design | 1 | intent only |
+This is what actually moved this cycle.
 
-**Standing rule (from the [[process]] two-cycle trigger):** if the *capacity* table also stops moving
-for two consecutive cycles, that is the mission-review trigger — not the vision scorecard, which is
-expected to sit at zero until M4.
+| Capacity dimension | Score 0–5 | Δ | Note |
+|---|:--:|:--:|---|
+| Domain knowledge (chess) | 3 | +1 | first primary source held and used; contested claims now sourced rather than asserted |
+| Domain knowledge (coaching) | 2 | — | still secondary sources; F2 outstanding |
+| Signal & tooling knowledge | 4 | +1 | engine + API verified by running them; throughput and label stability measured |
+| Prior-art knowledge | 5 | +4 | all five read; adopt/avoid/differentiate recorded |
+| Architecture | 2 | +1 | ADR-0002 accepted on evidence; profile schema still open |
+| Evaluation design | 1 | — | intent only |
 
 ## Next logical steps (priority order)
 
-1. **P0 — Read the prior art.** [[domain.sources]] § prior art lists five comparable projects,
-   notably `bleongcw/Arrakis_Engine` (recurring weakness escalation across games). The
-   research-and-reuse rule says read these *before* designing anything. Cheapest possible way to
-   avoid re-deriving a diagnosis pipeline.
-2. **P1 — Measure the engine budget.** Time Stockfish over ~50 games at a candidate depth on the
-   target laptop. This single number decides whether per-game deep analysis is feasible (C1/C2) and
-   constrains every M3 architecture option. Currently the biggest unknown in the project.
-3. **P2 — Close M1's remaining questions.** Primary sources for coaching pedagogy; the
-   deliberate-practice figure; typical-plan catalogues per pawn structure; whether positional motifs
-   can be classified without labelled data.
-4. **P3 — M2 section catalogue,** built on the K1–K10 domains and the four-way gap taxonomy.
-5. **P4 — Pick the target band for the first end-to-end slice.** Recommendation from M1:
-   **1400–1800**, because that is the band where sources agree losses come from *individual
-   recurring weaknesses* rather than generic blunders — i.e. where personalised diagnosis beats
-   generic advice, which is exactly this system's claim. Decide in M3 and log an ADR.
+1. **P0 — Author decisions B1–B3** ([[open-questions]] § B). Target band, game source, whether
+   over-the-board players are in scope. These are not researchable; they gate M2's priorities and
+   M3's scope. Recommendations are recorded against each.
+2. **P1 — E02: positional feature detectors** (question D4, now well-framed). Take 3–4 concepts from
+   the free corpus — knight outpost, isolated queen's pawn, backward pawn, open-file control — write
+   conservative detectors over `python-chess`, and check them by hand against real games. Report
+   precision honestly. This is the project's biggest technical risk and it is now cheap to probe.
+3. **P2 — Close M1: read the free primary sources** (F2). Capablanca is held; Nimzowitsch next,
+   for the positional vocabulary P1 needs.
+4. **P3 — M2 section catalogue**, built on K1–K10, the four gap types, and the puzzle-theme
+   vocabulary — which already supplies a ready-made tactical section boundary.
+5. **P4 — C2 minimum-sample policy.** Promoted in importance by E01: it is what makes claims survive
+   a change of analysis parameters. Adopt the shape of prior art's escalation tiers and validate
+   thresholds on our own data.
 
 ## Open questions
 
-**The full register lives in [[open-questions]]** — every unknown with an ID, an owner, what it
-blocks and a concrete resolution path. Summary of the live ones:
-
-- Where do the player's games come from — Lichess/Chess.com import, PGN upload, or live play?
-  *(Leaning: Lichess API first — free, documented, and the puzzle/opening data shares the ecosystem.)*
-- Is the interaction conversational, report-based, or both? M1 says **both are needed**: passive
-  analysis cannot separate knowledge gaps from skill gaps without probes.
-- How much can be precomputed once (concept knowledge, motif banks) versus per-player?
-- What is the minimum viable player profile all agents read/write? *(Now the central M3 artefact —
-  the four-way gap taxonomy suggests its shape.)*
-- Does the swarm handle over-the-board players (no digital game record) at all, or online only?
-- **Sample-size and confidence policy:** what is the minimum evidence before the swarm is allowed to
-  state a weakness? Needs a concrete rule, not a judgement call.
+Full register with owners and resolution paths: **[[open-questions]]**.
+Resolved this cycle: A1, A2, C5, D1, D2, E1, F1. Reframed: D4. Added: C7 constraint.
+Author-owned and waiting: B1–B5.
 
 ## Blockers
 
-None. P0 and P1 are both unblocked and cheap.
+None technical. B1–B3 are waiting on the thesis author, but P1 and P2 can proceed without them.

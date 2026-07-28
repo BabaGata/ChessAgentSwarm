@@ -71,12 +71,16 @@ expensive; getting it *approximately* right and revisable is the target.
 - [x] Contested / low-evidence claims are marked as such.
 - [x] [[state]] scorecard and [[capacity.knowledge]] updated; findings that change [[vision]] or
       [[mission]] have been applied or explicitly rejected in [[decisions]].
-- [ ] **Prior art actually read** (five projects identified in [[domain.sources]], none read).
-- [ ] Primary sources for coaching pedagogy read (current pass is web/secondary material).
-- [ ] Engine cost measured — the number that constrains every M3 option.
+- [x] **Prior art actually read** — all five, → [[domain.prior-art]].
+- [x] **Engine cost measured** — → [[experiments.e01-engine-throughput]]. 50 games in 89 s at
+      depth 15, zero cash cost. Also measured that analysis depth changes the *diagnosis*, which
+      changed the architecture more than the cost figure did.
+- [ ] Primary sources read — Capablanca held and used; Nimzowitsch outstanding (F2, now under
+      constraint C7).
 
-**Step status: open.** The landscape is mapped well enough for M2 to begin, but three items above
-must close before M1 can be called done. They are P0–P2 in [[state]].
+**Step status: nearly closed.** One item remains, and it no longer blocks M2 — the section catalogue
+can be built on the puzzle-theme vocabulary and the K1–K10 map, with Nimzowitsch feeding the
+positional sections when read.
 
 ## Findings that changed the plan
 

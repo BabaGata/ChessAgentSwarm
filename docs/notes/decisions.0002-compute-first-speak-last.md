@@ -8,7 +8,22 @@ created: 1785254600000
 
 # ADR-0002 — Compute first, speak last
 
-**Date:** 2026-07-28 · **Status:** **proposed** (to be accepted or rejected in M3)
+**Date:** 2026-07-28 · **Status:** **accepted** 2026-07-28
+
+## Acceptance evidence
+
+Proposed on reasoning, accepted the same day on evidence:
+
+1. **Independent convergence.** Arrakis Engine, a mature shipped system, states the same "two-step
+   analysis" insight as its core design ([[domain.prior-art]]). It was arrived at independently.
+2. **The deterministic layer is affordable.** [[experiments.e01-engine-throughput]] measured a
+   player's full recent history at 89 s (depth 15) on this laptop, at zero cash cost — so the
+   compute-heavy half of the architecture costs essentially nothing.
+3. **The deterministic layer is also the *trustworthy* half.** E01 showed per-move labels shift with
+   analysis depth, which means claims must be aggregate and evidence-backed — something a structured
+   profile supports and free-form LLM narration does not.
+4. **Token cost of the language layer is small and known.** Prior art runs a rich cross-game summary
+   in ~200–250 tokens.
 
 ## Context
 

@@ -24,6 +24,25 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 
 ---
 
+### L-006 — A single move's error label is not a fact; a recurring pattern is
+**Date:** 2026-07-28 · **Cycle / mission step:** M1 (E01) · **Class:** domain
+**Context:** Measuring whether analysis depth changes the diagnosis
+([[experiments.e01-engine-throughput]]).
+**Observation:** Between depth 15 and depth 18, about a quarter of error labels disagree and one
+blunder in six is seen by one setting and not the other. Depth 12 agrees with depth 18 on only 61 %
+of labels. The disagreement concentrates at classification thresholds — moves landing just either
+side of a boundary.
+**Lesson:** Per-move claims are unreliable at any affordable depth; **aggregate, recurrence-based
+claims are robust**, because threshold noise averages out over many instances while a genuine
+weakness does not. Therefore: the swarm may say "you missed knight forks nine times across six
+games"; it may not assert "move 23 was a blunder" as a bare fact. This turns the minimum-sample rule
+(C2) from good practice into a correctness requirement, and it means analysis depth must be stored
+with every derived signal — profiles built at different depths are not comparable.
+**Applied to:** [[experiments.e01-engine-throughput]], [[domain.signals]], open question C2,
+risk R-13.
+
+---
+
 ### L-005 — Classify errors on win probability, not raw centipawns
 **Date:** 2026-07-28 · **Cycle / mission step:** M1 (F1) · **Class:** technique
 **Context:** Writing the E01 benchmark's error classifier, then reading Arrakis Engine's analyzer.

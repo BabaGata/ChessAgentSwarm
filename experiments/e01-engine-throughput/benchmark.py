@@ -295,10 +295,13 @@ def main() -> int:
     if args.phase in ("stability", "both"):
         games = load_games(args.games_dir, args.stability_games)
         print(f"\nA2 stability: {len(games)} games", flush=True)
+        # Depth 18 is the reference rather than 20: measured wall time at depth 20
+        # is dominated by whichever single game is longest (see results/README),
+        # which makes it an impractical baseline for a 30-game comparison.
         pairs = [
-            (Config("depth12_t1", depth=12), Config("depth20_t1", depth=20)),
-            (Config("depth15_t1", depth=15), Config("depth20_t1", depth=20)),
-            (Config("depth18_t1", depth=18), Config("depth20_t1", depth=20)),
+            (Config("depth12_t1", depth=12), Config("depth18_t1", depth=18)),
+            (Config("depth15_t1", depth=15), Config("depth18_t1", depth=18)),
+            (Config("movetime100_t1", movetime_ms=100), Config("depth18_t1", depth=18)),
         ]
         cache: dict[str, list[GameResult]] = {}
         comparisons: dict[str, object] = {}

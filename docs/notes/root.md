@@ -36,6 +36,7 @@ execution and review cycle reads from and writes back to these notes.
 - [[learning]] — how capacity gets improved; [[learning.lessons]], [[learning.risks]]
 - [[process]] — the operating cycle every unit of work follows
 - [[evaluation]] — how we measure whether the swarm actually coaches well
+- [[experiments]] — measured experiments and what changed because of them
 - [[decisions]] — decision log (ADRs)
 - [[domain]] — chess & coaching knowledge base (the swarm's subject matter)
 - [[glossary]] — shared vocabulary

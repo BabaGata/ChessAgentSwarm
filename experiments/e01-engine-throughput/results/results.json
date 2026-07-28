@@ -1,0 +1,48 @@
+{
+  "engine": "C:\\stockfish\\stockfish-windows-x86-64-avx2.exe",
+  "hash_mb_per_process": 256,
+  "workers": 18,
+  "thresholds_win_pct": {
+    "inaccuracy": 10.0,
+    "mistake": 20.0,
+    "blunder": 30.0
+  },
+  "stability": {
+    "depth12_t1_vs_depth18_t1": {
+      "labelled_moves_total": 253,
+      "same_label": 155,
+      "different_label": 35,
+      "only_in_cheap": 28,
+      "only_in_rich": 35,
+      "exact_agreement_pct": 61.3,
+      "blunders_cheap": 41,
+      "blunders_rich": 47,
+      "blunders_in_both": 36,
+      "blunder_agreement_pct": 69.2
+    },
+    "depth15_t1_vs_depth18_t1": {
+      "labelled_moves_total": 250,
+      "same_label": 184,
+      "different_label": 22,
+      "only_in_cheap": 25,
+      "only_in_rich": 19,
+      "exact_agreement_pct": 73.6,
+      "blunders_cheap": 43,
+      "blunders_rich": 47,
+      "blunders_in_both": 41,
+      "blunder_agreement_pct": 83.7
+    },
+    "movetime100_t1_vs_depth18_t1": {
+      "labelled_moves_total": 261,
+      "same_label": 168,
+      "different_label": 28,
+      "only_in_cheap": 36,
+      "only_in_rich": 29,
+      "exact_agreement_pct": 64.4,
+      "blunders_cheap": 42,
+      "blunders_rich": 47,
+      "blunders_in_both": 40,
+      "blunder_agreement_pct": 81.6
+    }
+  }
+}

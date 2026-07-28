@@ -1,0 +1,185 @@
+{
+  "depth12_t1": [
+    {
+      "game_id": "GtRX7MCk",
+      "positions": 29,
+      "seconds": 2.2769029999999475,
+      "labels": {
+        "W6": "inaccuracy",
+        "W8": "inaccuracy"
+      }
+    },
+    {
+      "game_id": "bRVzjzl1",
+      "positions": 182,
+      "seconds": 7.554829400000017,
+      "labels": {
+        "B21": "inaccuracy",
+        "W23": "inaccuracy",
+        "B25": "inaccuracy",
+        "W28": "inaccuracy",
+        "B33": "inaccuracy",
+        "W34": "inaccuracy",
+        "B34": "inaccuracy",
+        "W57": "mistake",
+        "B57": "mistake",
+        "B75": "mistake",
+        "W77": "mistake",
+        "B80": "blunder",
+        "W81": "blunder",
+        "B82": "blunder"
+      }
+    },
+    {
+      "game_id": "0DMF8Vf9",
+      "positions": 77,
+      "seconds": 2.748220499999661,
+      "labels": {
+        "B12": "inaccuracy",
+        "B16": "inaccuracy",
+        "W17": "blunder"
+      }
+    }
+  ],
+  "depth18_t1": [
+    {
+      "game_id": "GtRX7MCk",
+      "positions": 29,
+      "seconds": 37.777771900000516,
+      "labels": {
+        "W6": "inaccuracy",
+        "W9": "inaccuracy"
+      }
+    },
+    {
+      "game_id": "bRVzjzl1",
+      "positions": 182,
+      "seconds": 104.7447546000003,
+      "labels": {
+        "B21": "inaccuracy",
+        "B25": "inaccuracy",
+        "W28": "inaccuracy",
+        "W33": "inaccuracy",
+        "B33": "mistake",
+        "W34": "mistake",
+        "B34": "mistake",
+        "B35": "inaccuracy",
+        "W36": "inaccuracy",
+        "B36": "inaccuracy",
+        "W38": "inaccuracy",
+        "B38": "inaccuracy",
+        "W40": "mistake",
+        "W41": "inaccuracy",
+        "W57": "blunder",
+        "B57": "blunder",
+        "B75": "blunder",
+        "W77": "blunder",
+        "B80": "blunder",
+        "W81": "blunder",
+        "B82": "blunder"
+      }
+    },
+    {
+      "game_id": "0DMF8Vf9",
+      "positions": 77,
+      "seconds": 65.03163380000115,
+      "labels": {
+        "B12": "inaccuracy",
+        "B16": "inaccuracy",
+        "W17": "blunder"
+      }
+    }
+  ],
+  "depth15_t1": [
+    {
+      "game_id": "GtRX7MCk",
+      "positions": 29,
+      "seconds": 7.631815299999289,
+      "labels": {
+        "W6": "inaccuracy"
+      }
+    },
+    {
+      "game_id": "bRVzjzl1",
+      "positions": 182,
+      "seconds": 26.619046300000264,
+      "labels": {
+        "B19": "inaccuracy",
+        "W20": "inaccuracy",
+        "B21": "inaccuracy",
+        "W23": "inaccuracy",
+        "B25": "inaccuracy",
+        "W28": "inaccuracy",
+        "W33": "inaccuracy",
+        "B33": "mistake",
+        "W34": "mistake",
+        "B34": "mistake",
+        "B35": "inaccuracy",
+        "W36": "inaccuracy",
+        "W40": "inaccuracy",
+        "W57": "mistake",
+        "B57": "mistake",
+        "B75": "inaccuracy",
+        "W77": "blunder",
+        "B80": "blunder",
+        "W81": "blunder",
+        "B82": "blunder"
+      }
+    },
+    {
+      "game_id": "0DMF8Vf9",
+      "positions": 77,
+      "seconds": 14.18807630000083,
+      "labels": {
+        "W7": "inaccuracy",
+        "B12": "inaccuracy",
+        "B16": "inaccuracy",
+        "W17": "blunder"
+      }
+    }
+  ],
+  "movetime100_t1": [
+    {
+      "game_id": "GtRX7MCk",
+      "positions": 29,
+      "seconds": 3.23542930000076,
+      "labels": {
+        "W6": "inaccuracy",
+        "W8": "inaccuracy"
+      }
+    },
+    {
+      "game_id": "bRVzjzl1",
+      "positions": 182,
+      "seconds": 18.886733000001186,
+      "labels": {
+        "B21": "inaccuracy",
+        "B25": "inaccuracy",
+        "W28": "inaccuracy",
+        "B33": "inaccuracy",
+        "W34": "mistake",
+        "B34": "inaccuracy",
+        "W40": "inaccuracy",
+        "W57": "mistake",
+        "B57": "mistake",
+        "B75": "blunder",
+        "W77": "blunder",
+        "B80": "blunder",
+        "W81": "blunder",
+        "B82": "blunder",
+        "B83": "inaccuracy"
+      }
+    },
+    {
+      "game_id": "0DMF8Vf9",
+      "positions": 77,
+      "seconds": 8.128367199999047,
+      "labels": {
+        "W7": "inaccuracy",
+        "B12": "inaccuracy",
+        "B16": "inaccuracy",
+        "W17": "blunder"
+      }
+    }
+  ]
+}

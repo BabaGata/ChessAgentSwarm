@@ -27,8 +27,8 @@ appended with the next free ID in their section.
 
 | ID | Question | Status | Owner | Blocks | Resolution path |
 |---|---|---|---|---|---|
-| **A1** | **How long does analysing a player's games actually take on this machine?** | in-progress | agent | everything in M3; [[decisions.0002-compute-first-speak-last]] | Fetch ~50 real games. Analyse at depth 15 / 18 / 20 and at fixed movetime, across 1 / 4 / 16 threads. Produce a table of seconds-per-position, seconds-per-game and total wall clock. **This is the single most consequential number in the project.** |
-| **A2** | Does deeper analysis change the *diagnosis*, or only the evaluation? | in-progress | agent | cost architecture | Same 50 games at depth 15 vs 20: do blunder/mistake labels and the identified weakness set actually differ? If not, use the cheap setting permanently. |
+| **A1** | ~~How long does analysing a player's games actually take?~~ **RESOLVED 2026-07-28** → [[experiments.e01-engine-throughput]]. **50 games in 27 s (depth 12), 89 s (depth 15), 403 s (depth 18)** on this machine, zero cash cost. Two surprises: more engine threads made fixed-depth analysis *slower* (1 thread is 2.9× faster per position than 16), so cores go to more games at once, not more threads per game; and wall time is dominated by the longest single game, so production should parallelise **per position**, not per game. **C1 is comfortably satisfied for the deterministic layer.** | resolved | agent | — | — |
+| **A2** | ~~Does deeper analysis change the diagnosis, or only the evaluation?~~ **RESOLVED 2026-07-28 — and the answer is inconvenient.** It changes the diagnosis. Against depth 18: depth 15 agrees on 73.6 % of error labels and 83.7 % of blunders; depth 12 on 61.3 % / 69.2 %. **A single move's label is not a stable fact** (L-006). Aggregate recurrence-based claims survive; per-move claims do not. Working setting: depth 15 routine, depth 18 for discussed positions, **depth recorded with every stored signal** since profiles built at different depths are not comparable. | resolved | agent | — | — |
 | **A3** | Is a local small LLM good enough for chess explanation and probe dialogue? | open | agent | C1, the language layer | Later benchmark: give one fixed structured profile to a local model and a hosted one; score both against a rubric. Do **after** the profile schema (C1) exists. |
 
 ## B. Scope & product decisions
@@ -51,7 +51,7 @@ appended with the next free ID in their section.
 | **C2** | **Minimum-sample / confidence policy** — when may the swarm assert a weakness? (risk R-13) | open | agent | first diagnosis agent | Write an explicit rule (e.g. ≥N occurrences across ≥M games within one time control, reported with a confidence band), then **validate it**: run on a player, hold out half their games, check the diagnosis reproduces. Highly testable; strong thesis section. |
 | **C3** | Orchestration pattern — pipeline, blackboard, or planner-with-specialists? | open | agent | M3 | Falls out of C1 plus F1. Do not decide in the abstract. |
 | **C4** | Precompute-once vs. per-player computation split | open | agent | M3 | Falls out of A1. |
-| **C5** | Is [[decisions.0002-compute-first-speak-last]] accepted or rejected? | open | agent | M3 | Decide after A1 and A2. |
+| **C5** | ~~Is [[decisions.0002-compute-first-speak-last]] accepted or rejected?~~ **RESOLVED 2026-07-28 — accepted.** Independent convergence with shipped prior art, plus E01 showing the deterministic layer costs ~89 s per player at zero cash. | resolved | agent | — | — |
 
 ## D. Domain knowledge gaps
 
