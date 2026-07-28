@@ -17,6 +17,7 @@ An experiment with no consequence was not worth running.
 | ID | Question | Status | Note |
 |---|---|---|---|
 | E01 | A1 engine throughput, A2 diagnosis stability | done | [[experiments.e01-engine-throughput]] |
+| E02 | D4 — are positional concepts detectable without labelled data? | done | [[experiments.e02-positional-detectors]] |
 
 ## Conventions
 

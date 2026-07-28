@@ -24,6 +24,24 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 
 ---
 
+### L-007 — Detecting a feature is easy; knowing it matters is the hard part
+**Date:** 2026-07-28 · **Cycle / mission step:** M1 (E02) · **Class:** domain
+**Context:** Building positional feature detectors to resolve D4, the project's biggest technical risk.
+**Observation:** Four positional concepts were detected with 16/16 hand-verified precision in a few
+hundred lines of `python-chess` — no engine, dataset or model. But isolated pawns appear in 74.7 % of
+sampled positions and 96 % of games, and rooks on open/semi-open files likewise. Worse, several
+*correctly* detected outposts were edge knights in simplified endgames that no coach would ever
+mention: the definition held, the relevance did not.
+**Lesson:** The scarce resource in automated coaching is **relevance, not detection**. Any pipeline
+step that outputs "feature X is present" must be paired with evidence that X *mattered* — through
+co-occurrence with evaluation loss, recurrence across the player's games, or comparison against a
+peer population. It also names a failure mode that no correctness test catches: **output that is
+true, specific and useless.** That belongs in [[evaluation]] as something to test for explicitly.
+**Applied to:** [[experiments.e02-positional-detectors]], [[domain.signals]], risk R-14, the M2 brief
+(sections defined by what goes wrong, not by what is present).
+
+---
+
 ### L-006 — A single move's error label is not a fact; a recurring pattern is
 **Date:** 2026-07-28 · **Cycle / mission step:** M1 (E01) · **Class:** domain
 **Context:** Measuring whether analysis depth changes the diagnosis

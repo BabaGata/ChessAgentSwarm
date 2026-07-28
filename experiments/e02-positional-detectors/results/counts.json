@@ -1,0 +1,34 @@
+{
+  "positions_sampled": 766,
+  "games": 50,
+  "per_feature": {
+    "outpost": {
+      "detections": 62,
+      "positions_with": 55,
+      "pct_of_positions": 7.2,
+      "games_with": 18,
+      "pct_of_games": 36.0
+    },
+    "isolated_pawn": {
+      "detections": 1132,
+      "positions_with": 572,
+      "pct_of_positions": 74.7,
+      "games_with": 48,
+      "pct_of_games": 96.0
+    },
+    "backward_pawn": {
+      "detections": 212,
+      "positions_with": 159,
+      "pct_of_positions": 20.8,
+      "games_with": 30,
+      "pct_of_games": 60.0
+    },
+    "rook_open_file": {
+      "detections": 845,
+      "positions_with": 572,
+      "pct_of_positions": 74.7,
+      "games_with": 47,
+      "pct_of_games": 94.0
+    }
+  }
+}

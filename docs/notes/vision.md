@@ -65,6 +65,10 @@ The vision is reached when, for a set of held-out real players:
 - Not a playing bot. Playing strength of the system itself is irrelevant.
 - Not a general-purpose tutoring platform. Chess only.
 - Not a commercial product: no accounts, billing, scaling, or multi-tenant concerns.
+- **Not for players without a digital game record.** Over-the-board-only players are out of scope —
+  without games there is no signal layer. See [[decisions.0005-scope-band-source-online-only]].
+- **Not band-general, initially.** The first end-to-end slice targets **1400–1800**; other bands are
+  future work, stated as a limitation rather than assumed away.
 - Not a replacement for a titled human coach — the target is *useful, honest, personalised guidance*.
 
 ## Review triggers
