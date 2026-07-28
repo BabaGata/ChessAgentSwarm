@@ -1,0 +1,24 @@
+{
+  "depth12_t1": {
+    "threads_per_engine": 1,
+    "workers": 18,
+    "games": 10,
+    "positions": 980,
+    "engine_seconds_total": 30.81,
+    "wall_seconds": 5.36,
+    "seconds_per_position": 0.0314,
+    "wall_seconds_per_game": 0.54,
+    "projected_wall_seconds_50_games": 26.8
+  },
+  "depth15_t1": {
+    "threads_per_engine": 1,
+    "workers": 18,
+    "games": 10,
+    "positions": 980,
+    "engine_seconds_total": 131.06,
+    "wall_seconds": 17.88,
+    "seconds_per_position": 0.1337,
+    "wall_seconds_per_game": 1.79,
+    "projected_wall_seconds_50_games": 89.4
+  }
+}
