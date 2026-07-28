@@ -1,0 +1,26 @@
+{
+  "depth15_t1": {
+    "games": 5,
+    "positions": 482,
+    "total_seconds": 30.76,
+    "seconds_per_position": 0.0638,
+    "seconds_per_game": 6.15,
+    "projected_seconds_50_games": 307.6
+  },
+  "depth15_t4": {
+    "games": 5,
+    "positions": 482,
+    "total_seconds": 70.17,
+    "seconds_per_position": 0.1456,
+    "seconds_per_game": 14.03,
+    "projected_seconds_50_games": 701.7
+  },
+  "depth15_t16": {
+    "games": 5,
+    "positions": 482,
+    "total_seconds": 89.47,
+    "seconds_per_position": 0.1856,
+    "seconds_per_game": 17.89,
+    "projected_seconds_50_games": 894.7
+  }
+}

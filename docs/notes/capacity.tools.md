@@ -30,6 +30,7 @@ self-hostable) unless an explicit exception is logged in [[decisions]].
 | Lichess API | candidate | player games as PGN/NDJSON with `evals`, `accuracy`, `opening`, `division` (phase) parameters; ratings | free; rate-limited — back off a full minute on HTTP 429. Parameter names taken from a third-party doc mirror, **verify against `lichess.org/api`** |
 | **Lichess puzzle database** | candidate — **highest value found in M1** | ~millions of puzzles as CSV with motif **theme tags**, ratings, popularity, opening tags | **CC0 licence**, zstd-compressed. Maps directly onto the K2 motif vocabulary in [[domain.chess-concepts]]; usable both as prescribed training material and as a labelled corpus for a motif classifier |
 | Lichess open database | candidate | bulk games, opening explorer | free, very large |
+| **lichess-org/chess-openings** | candidate | full opening book **and named traps/gambits** as TSV | **CC0**. Found via [[domain.prior-art]] — Arrakis filters it to ~1,475 named traps and 3,690 openings and vendors the result so runtime needs no network. Second free labelled asset after the puzzle DB |
 | Chess.com public API | candidate | player games for chess.com users | free, read-only |
 | python-chess | candidate | PGN parsing, board logic, UCI engine driver | the standard glue library; near-certain adoption |
 
