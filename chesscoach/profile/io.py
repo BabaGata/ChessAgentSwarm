@@ -136,8 +136,10 @@ def _finding_to_dict(finding: Finding) -> dict[str, Any]:
             "games_with_data": finding.measurement.games_with_data,
             "rate": finding.measurement.rate,
             "peer_rate": finding.measurement.peer_rate,
+            "baseline_rate": finding.measurement.baseline_rate,
             "ci95": list(finding.measurement.ci95) if finding.measurement.ci95 else None,
             "lift_vs_peer": finding.measurement.lift_vs_peer,
+            "lift_vs_baseline": finding.measurement.lift_vs_baseline,
         },
         "provenance": {
             "engine": finding.provenance.engine,
@@ -196,6 +198,7 @@ def _finding_from_dict(payload: dict[str, Any]) -> Finding:
             games_with_data=measurement["games_with_data"],
             rate=measurement["rate"],
             peer_rate=measurement.get("peer_rate"),
+            baseline_rate=measurement.get("baseline_rate"),
             ci95=tuple(ci95) if ci95 else None,
         ),
         provenance=Provenance(

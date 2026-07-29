@@ -20,7 +20,11 @@ import math
 from dataclasses import dataclass, field, replace
 from enum import Enum
 
-SCHEMA_VERSION = 1
+# v2 adds Measurement.baseline_rate. Building S2 showed that comparing a player
+# against their own out-of-condition rate is a different claim from comparing
+# them against their rating peers, and reusing `peer_rate` for it would have
+# quietly overstated what the system knows.
+SCHEMA_VERSION = 2
 
 _Z = 1.96  # 95% normal quantile, for Wilson intervals
 
@@ -110,6 +114,7 @@ class Measurement:
     games_with_data: int
     rate: float
     peer_rate: float | None = None
+    baseline_rate: float | None = None
     ci95: tuple[float, float] | None = None
 
     def __post_init__(self) -> None:
@@ -128,10 +133,26 @@ class Measurement:
 
     @property
     def lift_vs_peer(self) -> float | None:
-        """How unusual this player is. A claim true of everyone lifts by 1."""
+        """How unusual this player is among their rating peers.
+
+        A claim true of everyone lifts by 1. Requires a reference population;
+        None means we do not have one, not that the player is ordinary.
+        """
         if not self.peer_rate:
             return None
         return self.rate / self.peer_rate
+
+    @property
+    def lift_vs_baseline(self) -> float | None:
+        """How much worse this condition is than the same player's other moves.
+
+        Deliberately distinct from `lift_vs_peer`: "worse than you usually are"
+        and "worse than players at your level" are different claims, and only
+        the second needs a reference corpus.
+        """
+        if not self.baseline_rate:
+            return None
+        return self.rate / self.baseline_rate
 
 
 @dataclass(frozen=True)

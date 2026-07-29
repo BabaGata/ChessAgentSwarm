@@ -24,6 +24,30 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 
 ---
 
+### L-010 — When an agent fails its evaluation, suspect the fixture first
+**Date:** 2026-07-28 · **Cycle / mission step:** M4 (S2) · **Class:** process
+**Context:** Scoring the first agent against the planted `time_pressure` weakness.
+**Observation:** S2 reported a `long_think_error` at 2.92× and missed the planted weakness entirely.
+The agent was right and the fixture was wrong: the generator's time model made the flawed player
+think slowly for its first ten moves, so "long think" coincided exactly with "early game", where
+errors still cost win probability, while the planted time-pressure errors happened late, where they
+compress toward invisibility (L-009). S2 had correctly found the strongest real pattern in the data
+it was given.
+**Lesson:** A failed evaluation is a claim about the *pair* of agent and fixture, and the fixture is
+the newer and less-examined half. Before changing an agent, check what the fixture actually contains
+— here, that a synthetic condition had been made to coincide with a confound. Two fixes followed,
+one on each side: the generator now uses uniform think times so a time-pressure plant cannot be
+confounded with a long-think signal, and **S2 now excludes moves played in already-decided
+positions**, which is a genuine improvement that only surfaced because something was measured. Within
+competitive positions the planted signal reads 37.7 % against 6.8 %, where across all moves it read
+8.9 % — the decided positions had been burying it.
+**Applied to:** `chesscoach/sections/s2_decision_process.py` (`DECIDED_CP`), `cli.py` time-model
+options, [[mission.step-04-first-agent]], and `ScoreCard`, which now distinguishes *declined for
+insufficient data* from *missed* — scoring an honest refusal as a failure would penalise the
+behaviour the whole design is trying to produce.
+
+---
+
 ### L-009 — A planted weakness is not automatically a *measurable* weakness
 **Date:** 2026-07-28 · **Cycle / mission step:** M3 (evaluation harness) · **Class:** technique
 **Context:** Building the planted-weakness generator, family C of [[evaluation]].

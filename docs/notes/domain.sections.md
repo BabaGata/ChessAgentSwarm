@@ -47,7 +47,7 @@ art, L-004) + the player's puzzle history.
 **Why first:** the only section where diagnosis and prescription share one free, labelled vocabulary.
 Everything else has to invent its own.
 
-### S2 · Decision process & clock behaviour
+### S2 · Decision process & clock behaviour — **built** ([[capacity.agents.s2-decision-process]])
 **Owns:** the habits that produce errors regardless of knowledge — moving instantly in critical
 positions, time-trouble collapse, long-think-then-bad-move (the Kotov-syndrome signature), failure to
 check opponent threats.

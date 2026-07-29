@@ -17,7 +17,7 @@ Each agent gets its own note `capacity.agents.<name>` and a row here.
 
 | Agent | Section ([[domain.sections]]) | Status | Note |
 |---|---|---|---|
-| — | — | — | none yet |
+| **S2 decision process & clock behaviour** | S2 | **built, scored** | [[capacity.agents.s2-decision-process]] · found the planted weakness at 5.54× lift with 0 spurious findings |
 
 ## Required fields for every agent
 

@@ -95,3 +95,12 @@ class TestScoring:
         card = score_findings((a_finding(),), TIME_SPEC)
 
         assert "time_pressure" in card.summary()
+
+    def test_distinguishes_declining_from_missing(self):
+        # Declining for lack of evidence is correct behaviour. Calling it a miss
+        # would penalise the agent for being honest about what it cannot know.
+        declined = score_findings((), TIME_SPEC, insufficient_data=True)
+        missed = score_findings((a_finding(kind="missed_motif", subject="fork"),), TIME_SPEC)
+
+        assert "DECLINED" in declined.summary()
+        assert "MISSED" in missed.summary()

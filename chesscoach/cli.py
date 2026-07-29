@@ -23,7 +23,7 @@ from chesscoach.analysis.observations import Observation
 from chesscoach.ingest.corpus import build_corpus
 from chesscoach.ingest.pgn import parse_pgn_dir, parse_pgn_file
 from chesscoach.profile.io import save_profile
-from chesscoach.profile.models import PlayerProfile, PlayerRef
+from chesscoach.profile.models import PlayerProfile, PlayerRef, Provenance
 
 
 def analyse(args: argparse.Namespace) -> int:
@@ -117,7 +117,12 @@ def make_eval_set(args: argparse.Namespace) -> int:
         phase=args.phase,
         background_severity=args.background,
     )
-    model = TimeModel(initial_seconds=args.initial_seconds)
+    model = TimeModel(
+        initial_seconds=args.initial_seconds,
+        normal_think=args.normal_think,
+        slow_think=args.slow_think,
+        slow_until_ply=args.slow_until_ply,
+    )
 
     print(f"planting {spec.kind} (severity {spec.severity}) across {args.games} games...", flush=True)
     with EngineMoveChooser(args.engine, depth=args.gen_depth) as chooser:
@@ -185,6 +190,65 @@ def _error_rate(observations: list[Observation]) -> float:
     return sum(1 for o in observations if o.is_error) / len(observations)
 
 
+def score_agent(args: argparse.Namespace) -> int:
+    """Run a section agent against a planted weakness and score it.
+
+    Both halves count: did it find the flaw that was planted, and did it assert
+    anything else? A detector that reports everything finds every planted
+    weakness and is worthless.
+    """
+    import json
+
+    from chesscoach.evaluation.planted import FLAWED_PLAYER, WeaknessSpec
+    from chesscoach.evaluation.scoring import score_findings
+    from chesscoach.sections.base import SectionContext
+    from chesscoach.sections.s2_decision_process import S2DecisionProcess
+
+    directory = Path(args.eval_set)
+    truth = json.loads((directory / "ground_truth.json").read_text(encoding="utf-8"))
+    spec = WeaknessSpec(**truth["spec"])
+
+    games = parse_pgn_file(directory / "planted.pgn")
+    corpus = build_corpus(FLAWED_PLAYER, games)
+
+    cache = EvalCache(args.cache) if args.cache else None
+    try:
+        with StockfishAnalyser(args.engine, depth=args.depth, cache=cache) as analyser:
+            print(f"analysing {corpus.n_games} games at depth {args.depth}...", flush=True)
+            observations = analyse_corpus(corpus, games, analyser)
+            provenance = Provenance(
+                engine=analyser.engine_name,
+                depth=args.depth,
+                corpus_id=corpus.corpus_id,
+                analysed_at=date.today().isoformat(),
+            )
+    finally:
+        if cache is not None:
+            cache.close()
+
+    agent = S2DecisionProcess()
+    report = agent.report(SectionContext(observations, corpus, provenance))
+    card = score_findings(report.findings, spec, insufficient_data=report.insufficient_data)
+
+    print(f"\nplanted        {spec.kind} (severity {spec.severity})")
+    print(f"agent          {agent.section}")
+    print(f"findings       {len(report.findings)}")
+    for finding in report.findings:
+        measurement = finding.measurement
+        lift = measurement.lift_vs_baseline
+        print(
+            f"  [{finding.confidence.tier.value:>8}] {finding.claim.kind:<20}"
+            f" rate {measurement.rate:.1%} vs baseline {measurement.baseline_rate:.1%}"
+            f"{f' ({lift:.2f}x)' if lift else ''}"
+            f"  {measurement.distinct_games} games"
+        )
+    if report.insufficient_data:
+        print("  (insufficient data — the agent declined to assess)")
+
+    print(f"\n{card.summary()}")
+    return 0 if card.detected and card.spurious_count == 0 else 1
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="chesscoach")
     subcommands = parser.add_subparsers(dest="command", required=True)
@@ -217,6 +281,15 @@ def build_parser() -> argparse.ArgumentParser:
     make.add_argument("--threshold-seconds", type=float, default=60.0)
     make.add_argument("--phase", default="endgame")
     make.add_argument("--initial-seconds", type=float, default=300.0)
+    make.add_argument("--normal-think", type=float, default=6.0)
+    make.add_argument(
+        "--slow-think",
+        type=float,
+        default=6.0,
+        help="think time during the early slow phase; equal to --normal-think means no slow phase, "
+        "which keeps a time-pressure plant from being confounded with a long-think signal",
+    )
+    make.add_argument("--slow-until-ply", type=int, default=0)
     make.add_argument("--max-plies", type=int, default=120)
     make.add_argument("--gen-depth", type=int, default=8, help="engine depth while generating")
     make.set_defaults(handler=make_eval_set)
@@ -229,6 +302,15 @@ def build_parser() -> argparse.ArgumentParser:
     check.add_argument("--depth", type=int, default=DEFAULT_DEPTH)
     check.add_argument("--cache", default=None)
     check.set_defaults(handler=check_eval_set)
+
+    score = subcommands.add_parser(
+        "score-agent", help="run a section agent against a planted weakness and score it"
+    )
+    score.add_argument("--eval-set", required=True)
+    score.add_argument("--engine", required=True)
+    score.add_argument("--depth", type=int, default=DEFAULT_DEPTH)
+    score.add_argument("--cache", default=None)
+    score.set_defaults(handler=score_agent)
 
     return parser
 

@@ -50,6 +50,7 @@ class ScoreCard:
     matched: tuple[str, ...]
     spurious: tuple[str, ...]
     asserted_count: int
+    insufficient_data: bool = False
 
     @property
     def detected(self) -> bool:
@@ -67,14 +68,23 @@ class ScoreCard:
         return len(self.matched) / self.asserted_count
 
     def summary(self) -> str:
-        verdict = "found" if self.detected else "MISSED"
+        if self.detected:
+            verdict = "found"
+        elif self.insufficient_data:
+            # Declining for lack of evidence is correct behaviour, not a failure.
+            # Reporting it as a miss would penalise the agent for being honest.
+            verdict = "DECLINED (insufficient data)"
+        else:
+            verdict = "MISSED"
         return (
             f"planted {self.planted_kind}: {verdict}; "
             f"{self.spurious_count} spurious of {self.asserted_count} asserted"
         )
 
 
-def score_findings(findings: tuple[Finding, ...], spec: WeaknessSpec) -> ScoreCard:
+def score_findings(
+    findings: tuple[Finding, ...], spec: WeaknessSpec, insufficient_data: bool = False
+) -> ScoreCard:
     """Score a set of findings against the weakness that was planted."""
     asserted = tuple(f for f in findings if f.confidence.tier in _ASSERTED)
     matched = tuple(f.id for f in asserted if matches_spec(f, spec))
@@ -85,4 +95,5 @@ def score_findings(findings: tuple[Finding, ...], spec: WeaknessSpec) -> ScoreCa
         matched=matched,
         spurious=spurious,
         asserted_count=len(asserted),
+        insufficient_data=insufficient_data,
     )
