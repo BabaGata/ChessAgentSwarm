@@ -26,14 +26,18 @@ afterwards. Start there:
 The **skeleton**: ingest → deterministic analysis core → player profile. Section agents (the parts
 that produce findings) arrive in mission step M4.
 
+The **evaluation harness** also exists, built deliberately *before* the first agent — one written
+afterwards is one shaped by the agents.
+
 ```
 chesscoach/
   ingest/      PGN parsing, corpus identity
   analysis/    engine, evaluation cache, error labels, observations
   profile/     the player profile — models and persistence
-  cli.py       the pipeline entry point
+  evaluation/  split-half replication, planted weaknesses, ground-truth scoring
+  cli.py       analyse · make-eval-set · check-eval-set
 experiments/   e01–e03: the measurements that shaped the design
-tests/         74 tests
+tests/         114 tests
 ```
 
 ## Running it
@@ -50,9 +54,23 @@ python -m chesscoach.cli analyse \
 
 Needs a local Stockfish binary. Everything else is free and offline.
 
+Generating an evaluation set whose weakness is known by construction:
+
 ```bash
-python -m pytest                              # 74 tests
-python -m pytest --cov=chesscoach             # 85% coverage
+python -m chesscoach.cli make-eval-set \
+    --engine /path/to/stockfish --out evalset/ \
+    --kind time_pressure --severity 0.8 --background 0.15 --games 12
+
+python -m chesscoach.cli check-eval-set \
+    --eval-set evalset/ --engine /path/to/stockfish
+```
+
+The second command verifies the planted flaw is actually visible to the analysis core before
+anything is scored against it. A fixture nobody has checked is not a test.
+
+```bash
+python -m pytest                              # 114 tests
+python -m pytest --cov=chesscoach             # 80% coverage
 ```
 
 ## Design in one paragraph

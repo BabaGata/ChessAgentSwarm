@@ -24,6 +24,30 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 
 ---
 
+### L-009 — A planted weakness is not automatically a *measurable* weakness
+**Date:** 2026-07-28 · **Cycle / mission step:** M3 (evaluation harness) · **Class:** technique
+**Context:** Building the planted-weakness generator, family C of [[evaluation]].
+**Observation:** Two problems appeared as soon as the fixture was checked against the analysis core.
+First, the initial fixture gave planted moves a 16.9 % error rate against **0.0 %** for the flawed
+player's other moves — because outside the planted condition it played the engine's own choice. That
+is a far easier discrimination than any real player presents, and any agent measured against it
+would have been flattered. Second, only a minority of deliberately bad moves registered as errors at
+all: once a game is decided, further bad moves cost almost no win probability, so the *measured*
+severity of a planted flaw is diluted by the damage already done. Adding a background mistake rate
+fixed the first problem and made the second visible — planted error rate fell from 16.9 % to 7.7 %
+against a 4.3 % baseline, a lift of 1.81×.
+**Lesson:** An evaluation fixture needs its own verification step before anything is scored against
+it. Two requirements follow: **background noise**, so the flawed player is not perfect outside the
+planted condition; and awareness that **win-probability labels compress in decided positions**, so a
+weakness planted late in a lost game is nearly invisible. A fixture that cannot be seen by the
+deterministic layer is not a test of any agent — it is a broken fixture, and `check-eval-set` exists
+to catch that before it wastes a measurement.
+**Applied to:** `chesscoach/evaluation/planted.py` (`background_severity`, and `write_eval_set`
+refusing a set where nothing was planted), the `check-eval-set` command, and [[evaluation]]'s
+limitations.
+
+---
+
 ### L-008 — Held-out replication is not optional; the first striking result was an artefact
 **Date:** 2026-07-28 · **Cycle / mission step:** M2 (E03) · **Class:** process
 **Context:** Testing whether positional features predict a player's errors

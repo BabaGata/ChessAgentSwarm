@@ -98,6 +98,93 @@ def _write_observations(observations: tuple[Observation, ...], path: Path) -> No
             sink.write(json.dumps(record) + "\n")
 
 
+def make_eval_set(args: argparse.Namespace) -> int:
+    """Generate games carrying one known weakness, then check it is findable."""
+    from chesscoach.evaluation.choosers import EngineMoveChooser
+    from chesscoach.evaluation.planted import (
+        FLAWED_PLAYER,
+        TimeModel,
+        WeaknessSpec,
+        generate_games,
+        total_spoiled,
+        write_eval_set,
+    )
+
+    spec = WeaknessSpec(
+        kind=args.kind,
+        severity=args.severity,
+        threshold_seconds=args.threshold_seconds,
+        phase=args.phase,
+        background_severity=args.background,
+    )
+    model = TimeModel(initial_seconds=args.initial_seconds)
+
+    print(f"planting {spec.kind} (severity {spec.severity}) across {args.games} games...", flush=True)
+    with EngineMoveChooser(args.engine, depth=args.gen_depth) as chooser:
+        games = generate_games(
+            chooser, spec, n_games=args.games, seed=args.seed, time_model=model,
+            max_plies=args.max_plies,
+        )
+
+    truth_path = write_eval_set(games, spec, args.out)
+    plies = sum(game.n_plies for game in games)
+    print(f"games    {len(games)} ({plies} plies)")
+    print(f"planted  {total_spoiled(games)} spoiled moves, all played by {FLAWED_PLAYER}")
+    print(f"written  {args.out}\n         {truth_path}")
+    return 0
+
+
+def check_eval_set(args: argparse.Namespace) -> int:
+    """Confirm the planted weakness is actually visible to the analysis core.
+
+    A planted flaw that the deterministic layer cannot see is not a test of any
+    agent -- it is a broken fixture. This checks the fixture before anything is
+    ever measured against it.
+    """
+    import json
+
+    from chesscoach.evaluation.planted import FLAWED_PLAYER
+
+    directory = Path(args.eval_set)
+    truth = json.loads((directory / "ground_truth.json").read_text(encoding="utf-8"))
+    spoiled = {
+        game["game_id"]: set(game["spoiled_plies"]) for game in truth["games"]
+    }
+
+    games = parse_pgn_file(directory / "planted.pgn")
+    corpus = build_corpus(FLAWED_PLAYER, games)
+
+    cache = EvalCache(args.cache) if args.cache else None
+    try:
+        with StockfishAnalyser(args.engine, depth=args.depth, cache=cache) as analyser:
+            print(f"checking {corpus.n_games} games at depth {args.depth}...", flush=True)
+            observations = analyse_corpus(corpus, games, analyser)
+    finally:
+        if cache is not None:
+            cache.close()
+
+    flawed = [o for o in observations if o.mover == FLAWED_PLAYER]
+    planted = [o for o in flawed if o.ply in spoiled.get(o.game_id, set())]
+    clean = [o for o in flawed if o.ply not in spoiled.get(o.game_id, set())]
+
+    planted_rate = _error_rate(planted)
+    clean_rate = _error_rate(clean)
+    print(f"\nplanted moves  {len(planted):>5}  error rate {planted_rate:.1%}")
+    print(f"other moves    {len(clean):>5}  error rate {clean_rate:.1%}")
+    if clean_rate > 0:
+        print(f"lift           {planted_rate / clean_rate:.2f}x")
+
+    usable = planted_rate > clean_rate
+    print("\nfixture is usable" if usable else "\nFIXTURE PROBLEM: planted moves are not worse")
+    return 0 if usable else 1
+
+
+def _error_rate(observations: list[Observation]) -> float:
+    if not observations:
+        return 0.0
+    return sum(1 for o in observations if o.is_error) / len(observations)
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="chesscoach")
     subcommands = parser.add_subparsers(dest="command", required=True)
@@ -113,6 +200,35 @@ def build_parser() -> argparse.ArgumentParser:
     run.add_argument("--source", default="lichess")
     run.add_argument("--band", default="1400-1800")
     run.set_defaults(handler=analyse)
+
+    make = subcommands.add_parser("make-eval-set", help="generate games with a known weakness")
+    make.add_argument("--engine", required=True)
+    make.add_argument("--out", required=True, help="directory for the generated set")
+    make.add_argument("--kind", default="time_pressure", choices=["time_pressure", "phase", "uniform"])
+    make.add_argument("--severity", type=float, default=0.8)
+    make.add_argument(
+        "--background",
+        type=float,
+        default=0.15,
+        help="mistake rate outside the planted condition, so the fixture is not unrealistically clean",
+    )
+    make.add_argument("--games", type=int, default=12)
+    make.add_argument("--seed", type=int, default=1)
+    make.add_argument("--threshold-seconds", type=float, default=60.0)
+    make.add_argument("--phase", default="endgame")
+    make.add_argument("--initial-seconds", type=float, default=300.0)
+    make.add_argument("--max-plies", type=int, default=120)
+    make.add_argument("--gen-depth", type=int, default=8, help="engine depth while generating")
+    make.set_defaults(handler=make_eval_set)
+
+    check = subcommands.add_parser(
+        "check-eval-set", help="verify a planted weakness is visible to the analysis core"
+    )
+    check.add_argument("--eval-set", required=True, help="directory written by make-eval-set")
+    check.add_argument("--engine", required=True)
+    check.add_argument("--depth", type=int, default=DEFAULT_DEPTH)
+    check.add_argument("--cache", default=None)
+    check.set_defaults(handler=check_eval_set)
 
     return parser
 

@@ -108,6 +108,31 @@ Three tiers, so that cheap evidence runs constantly and expensive evidence is sp
 agent, so that S2 has something to be measured against on the day it exists. An evaluation harness
 written after the agents is an evaluation harness shaped by the agents.
 
+## Implementation status
+
+Built **before the first agent**, deliberately — an evaluation harness written after the agents is
+an evaluation harness shaped by the agents. `chesscoach/evaluation/`:
+
+| Design | Code | Status |
+|---|---|---|
+| B1 split-half replication | `splithalf.py` | built — generic over any measure; also the runtime promotion rule in [[architecture.confidence]] |
+| C1 planted-weakness players | `planted.py`, `choosers.py` | built — seeded, reproducible, with background noise |
+| scoring against ground truth | `scoring.py` | built — sensitivity *and* specificity, counting only findings a player would be shown |
+| fixture verification | `cli.py check-eval-set` | built — confirms a planted flaw is visible before anything is scored against it |
+| A1 held-out error prediction | — | next, once an agent emits findings |
+| D1–D5 anti-pattern metrics | — | needs the language layer to exist |
+| C2 peer reference population | — | P3 in [[state]]; doubles as C6's remaining route |
+
+**Verified end to end:** 12 generated games, 142 planted mistakes, checked against the analysis core
+at depth 12 — planted moves show a 7.7 % error rate against 4.3 % for the same player's other moves,
+a lift of 1.81×. That is a genuine but modest signal, which is what a realistic diagnosis problem
+looks like.
+
+Getting there required a correction worth recording (L-009): the first fixture scored 16.9 % against
+**0.0 %**, because outside the planted condition the flawed player played the engine's own move. No
+real player is perfect except in one condition, and an agent measured against that fixture would have
+been flattered. `background_severity` fixed it.
+
 ## Test data discipline
 
 - Held-out players, never used while designing prompts, thresholds or knowledge.
@@ -120,7 +145,10 @@ written after the agents is an evaluation harness shaped by the agents.
 - **A1 assumes error types are stable over weeks.** If a player is actively improving, a
   correct diagnosis may fail to predict *because the coaching worked*. Confounded in the direction
   that makes the system look worse, which is at least the safe direction.
-- **C1's planted weaknesses are artificial.** An engine told to overlook forks does not fail the way
-  a human fails. It tests the detector, not the coaching.
+- **C1's planted weaknesses are artificial.** An engine told to play badly does not fail the way a
+  human fails. It tests the detector, not the coaching.
+- **Win-probability labels compress in decided positions** (L-009). A weakness planted late in an
+  already-lost game is nearly invisible, so measured severity understates planted severity. A future
+  refinement is to score only while the game is still competitive — noted rather than solved.
 - **Nothing here measures whether the player actually improves.** Only F1/F2 do, and both are weak
   within a thesis timeline. This limitation must be stated in the thesis rather than papered over.
