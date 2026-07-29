@@ -66,13 +66,18 @@ Recorded explicitly, because a design that cannot name its evidence is a design 
 - [x] Interaction and probe protocol specified, including what a probe can overturn.
 - [x] Confidence policy with concrete (provisional) thresholds and a validation plan.
 - [x] Storage decided; cost budget stated against measurements.
-- [ ] **Built** — skeleton implementing ingest → analysis core → profile, with the schema as code.
-- [ ] **Tested** — determinism, cache correctness, profile round-trip.
+- [x] **Built** — skeleton implementing ingest → analysis core → profile, with the schema as code.
+      `chesscoach/` package, CLI runs layers 1→2→4 end to end.
+- [x] **Tested** — 74 tests, 85 % coverage. Determinism, cache correctness and profile round-trip all
+      covered; determinism additionally verified on real games (byte-identical profile across runs).
 - [ ] **Evaluation harness** — planted-weakness generator and split-half check, *before* the first
       agent ([[evaluation]] build order).
+- [ ] Confidence thresholds validated against real data ([[architecture.confidence]] — currently
+      provisional).
 
 ## Working log
 
 | Date | Activity | Alignment check | Outcome |
 |---|---|---|---|
 | 2026-07-28 | Designed the architecture from E01–E03 evidence and prior-art gaps | see above | 4 architecture notes, 2 ADRs; C1, C2, C3, B4 resolved |
+| 2026-07-28 | Built the skeleton test-first: ingest, analysis core, profile, CLI | Serves C5 (auditable) and unblocks M4; the profile schema had to exist as code before any agent could emit findings. Cheaper alternative — build S2 first and let the schema emerge — was rejected in the step's alignment check, and building confirmed the call: two design improvements (pure `to_position_eval`, injected analyser) came from testability pressure that an agent-first order would have applied too late | 74 tests, 85 % coverage; 1,860 real moves analysed; identical profile across runs |

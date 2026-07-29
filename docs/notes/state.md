@@ -30,7 +30,8 @@ need to know?"
 | Working detectors | **4, tested** | outpost, isolated pawn, backward pawn, rook on open file — experiment code, to be reimplemented in M4 |
 | Scope | **decided** | [[decisions.0005-scope-band-source-online-only]] — 1400–1800, Lichess, online only |
 | Architecture design | **done** | [[architecture]] + 3 children; profile schema, orchestration, interaction, confidence, storage all specified |
-| Architecture **built** | no | M3's remaining half — skeleton, tests, evaluation harness |
+| Architecture **built** | **skeleton done** | `chesscoach/` — ingest, analysis core, profile, CLI. 74 tests, 85 % coverage. Sections, arbiter and language layer outstanding |
+| Production code | **yes, first** | design note existed first, so the guardrail held |
 | Any agent | no | M4 |
 | Evaluation harness | no | designed in M3 |
 | Production code | none | only experiment harnesses, which are measurement tools |
@@ -71,23 +72,22 @@ This is what actually moved this cycle.
 
 ## Next logical steps (priority order)
 
-1. **P0 — Build the M3 skeleton.** Ingest → analysis core → profile, with
-   [[architecture.player-profile]] as code and the SQLite cache keyed by (position, engine, depth).
-   Tests: determinism, cache correctness, profile round-trip. This is the first production code in
-   the project; its design note now exists, so the guardrail is satisfied.
-2. **P1 — Evaluation harness, before the first agent.** Per [[evaluation]]'s build order: the
+1. **P0 — Evaluation harness, before the first agent.** Per [[evaluation]]'s build order: the
    planted-weakness generator (family C) and the split-half check (B1). E03 demonstrated why — the
    project would already have recorded a false finding without held-out replication (L-008). The
    split-half check is also a **runtime** requirement of [[architecture.confidence]], so it is built
    once and used twice.
-3. **P2 — Validate the confidence thresholds.** Every number in [[architecture.confidence]] is
+2. **P1 — Validate the confidence thresholds.** Every number in [[architecture.confidence]] is
    provisional. Check that split-half agreement is actually achieved at those values before the
    first agent depends on them.
-4. **P3 — M4: build S2** (decision process & clock behaviour), the first agent. Cheapest, needs no
+3. **P2 — M4: build S2** (decision process & clock behaviour), the first agent. Cheapest, needs no
    engine for most of its signal, and E03 strengthens the case: at this band, process and tactics
-   look far more decisive than structure.
-5. **P4 — Peer reference rates.** Build the rating-band reference population once from the Lichess
+   look far more decisive than structure. The skeleton already parses the clock data it needs.
+4. **P3 — Peer reference rates.** Build the rating-band reference population once from the Lichess
    open database. Serves C6's remaining route *and* evaluation metric D2.
+5. **P4 — Per-position parallelism** in the analysis core. The seam exists (the analyser is
+   injected); E01 measured that per-game parallelism is dominated by the longest game. Not urgent —
+   the current speed is already comfortable.
 6. **P5 — Close M1's last item:** verify *My System*'s Part-2 chapter list against the text.
 
 ## Open questions

@@ -151,6 +151,35 @@ findings, not of the number of moves analysed.**
 | C5 auditable | every claim traces to positions with provenance |
 | C6 incrementally useful | each section agent is independently valuable and independently ablatable |
 
+## Implementation status
+
+The skeleton — layers 1, 2 and 4 — is built and tested. Layers 3 and 5–8 do not exist yet.
+
+| Design | Code | Status |
+|---|---|---|
+| 1 Ingest | `chesscoach/ingest/pgn.py`, `ingest/corpus.py` | built; deterministic corpus id |
+| 2 Analysis core | `chesscoach/analysis/{core,engine,cache,labels,observations}.py` | built; cache keyed by (position, engine, depth) |
+| 3 Section agents | — | M4, starting with S2 |
+| 4 Player profile | `chesscoach/profile/{models,io}.py` | built; typed findings, validation, round-trip |
+| 5 Arbiter | — | after the first two sections exist |
+| 6–8 Prober / planner / explainer | — | later in M3's build-out |
+| CLI | `chesscoach/cli.py` | `analyse` runs layers 1→2→4 end to end |
+
+**Verified by running it**, not only by tests: 24 real games, 1,860 moves, 8.8 % error rate at
+depth 12; a second run over the same games completed in **0.78 s** from the cache and produced a
+**byte-identical** profile — which is the B4 determinism property the evaluation plan needs.
+
+74 tests, 85 % coverage. The uncovered remainder is the code that drives a live engine subprocess
+and the CLI's top-level handler; both are exercised by the end-to-end run rather than by unit tests.
+
+Two design notes that only became visible while building:
+
+- **`to_position_eval` is a pure function**, separate from the engine wrapper, so the mate-clamping
+  logic can be tested without a subprocess. That logic is exactly where L-005's bug lives.
+- **The analyser is injected** into the analysis core rather than constructed by it. That is what
+  makes the core testable without Stockfish, and it is the same seam a parallel implementation will
+  use when per-position parallelism is added.
+
 ## Deliberate omissions
 
 - **No inter-agent conversation.** Reasons in [[architecture.orchestration]].
