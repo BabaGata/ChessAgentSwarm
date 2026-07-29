@@ -40,17 +40,17 @@ appended with the next free ID in their section.
 | **B1** | Target strength band | **1400–1800** | **RESOLVED 2026-07-28** → [[decisions.0005-scope-band-source-online-only]] | author | — |
 | **B2** | Game source | **Lichess API first**, PGN upload as fallback | **RESOLVED 2026-07-28** → same ADR. Note it is a *game* source, not an analysis source — Lichess evals are absent for ordinary amateur games (E1) | author | — |
 | **B3** | Over-the-board players in scope? | **No** — online play only | **RESOLVED 2026-07-28** → same ADR; recorded in [[vision]] non-goals | author | — |
-| **B4** | Report, conversation, or both? | **Both** — the probe dialogue is load-bearing (V9). Remaining question is which comes first | open (narrowed) | agent | M3 interaction design |
+| **B4** | Report, conversation, or both? | **Both, with the split settled** — the report is the durable artefact, the conversation is how assessment happens | **RESOLVED 2026-07-28** → [[architecture.interaction]] | agent | — |
 | **B5** | Runtime language | **Python** — settled by use; the E01 harness already runs on `python-chess` + Stockfish | effectively settled | agent | — |
 
 ## C. Architecture questions for M3
 
 | ID | Question | Status | Owner | Blocks | Resolution path |
 |---|---|---|---|---|---|
-| **C1** | **The structured player profile schema** — the typed artefact every agent reads and writes | open | agent | every agent, [[evaluation]] | Derive from the four gap types ([[domain.coaching]] § 2) plus the signal inventory ([[domain.signals]] § 2). Design **after** F1 — this is precisely where other projects' mistakes are instructive. Most load-bearing artefact in the system. |
-| **C2** | **Minimum-sample / confidence policy** — when may the swarm assert a weakness? (risk R-13) | open | agent | first diagnosis agent | Write an explicit rule (e.g. ≥N occurrences across ≥M games within one time control, reported with a confidence band), then **validate it**: run on a player, hold out half their games, check the diagnosis reproduces. Highly testable; strong thesis section. |
-| **C3** | Orchestration pattern — pipeline, blackboard, or planner-with-specialists? | open | agent | M3 | Falls out of C1 plus F1. Do not decide in the abstract. |
-| **C4** | Precompute-once vs. per-player computation split | open | agent | M3 | Falls out of A1. |
+| **C1** | ~~The structured player profile schema~~ **RESOLVED 2026-07-28** → [[architecture.player-profile]]. Typed Findings carrying evidence, provenance (incl. depth), uncertainty, peer comparison, context and gap-type determination; persistent across sessions. Each field is justified by the specific failure it prevents. | resolved | agent | — |
+| **C2** | ~~Minimum-sample / confidence policy~~ **RESOLVED 2026-07-28** → [[architecture.confidence]]. Four tiers; counts in **distinct games**, never instances; gate at 10 games with data per section; `focus` requires held-out split replication; peer-band comparison rather than absolute thresholds. Thresholds are provisional and flagged for validation before the first agent ships. | resolved | agent | — |
+| **C3** | ~~Orchestration pattern~~ **RESOLVED 2026-07-28** → [[decisions.0006-staged-blackboard-orchestration]]. Staged blackboard; section agents parallel and isolated; **no inter-agent messaging**. Conversational swarms rejected on cost, determinism, ablatability and explainability — and because agents measuring different things have nothing to argue about. | resolved | agent | — |
+| **C4** | ~~Precompute-once vs per-player split~~ **RESOLVED 2026-07-28.** Per-player engine analysis is cheap enough (E01) that little needs precomputing; what is precomputed once is the **corpora** (puzzle themes, openings/traps, peer reference rates) and the shared position cache keyed by (position, engine, depth) → [[decisions.0007-storage-sqlite-cache-json-profile]]. | resolved | agent | — |
 | **C5** | ~~Is [[decisions.0002-compute-first-speak-last]] accepted or rejected?~~ **RESOLVED 2026-07-28 — accepted.** Independent convergence with shipped prior art, plus E01 showing the deterministic layer costs ~89 s per player at zero cash. | resolved | agent | — | — |
 
 ## D. Domain knowledge gaps

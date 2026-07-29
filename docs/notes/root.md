@@ -35,6 +35,7 @@ execution and review cycle reads from and writes back to these notes.
 - [[capacity]] — inventory of agents, tools, knowledge, infrastructure
 - [[learning]] — how capacity gets improved; [[learning.lessons]], [[learning.risks]]
 - [[process]] — the operating cycle every unit of work follows
+- [[architecture]] — the system design: profile, orchestration, interaction, confidence
 - [[evaluation]] — how we measure whether the swarm actually coaches well
 - [[experiments]] — measured experiments and what changed because of them
 - [[decisions]] — decision log (ADRs)

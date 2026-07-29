@@ -20,6 +20,8 @@ real work, or if a future reader would otherwise ask *"why on earth is it like t
 | [[decisions.0003-add-v9-dialogue-and-active-assessment]] | 2026-07-28 | Add V9 (dialogue & active assessment) to the vision — passive analysis cannot separate knowledge gaps from skill gaps | accepted |
 | [[decisions.0004-free-research-materials]] | 2026-07-28 | Add C7 — build the knowledge base from freely obtainable sources; paid material only to unblock | accepted |
 | [[decisions.0005-scope-band-source-online-only]] | 2026-07-28 | Scope: target band 1400–1800, Lichess API as game source, online play only | accepted |
+| [[decisions.0006-staged-blackboard-orchestration]] | 2026-07-28 | Staged blackboard: agents share the profile, run in isolation, never message each other | accepted |
+| [[decisions.0007-storage-sqlite-cache-json-profile]] | 2026-07-28 | SQLite position cache keyed by (position, engine, depth); JSON player profiles | accepted |
 
 ## Template
 

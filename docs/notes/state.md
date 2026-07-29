@@ -9,8 +9,8 @@ created: 1785254500000
 # State
 
 **Snapshot date:** 2026-07-28
-**Active mission step:** **M2** — [[mission.step-02-sections]] (first pass done); M1 open on one item
-**Last commit:** `design(M2): section catalogue`
+**Active mission step:** **M3** — [[mission.step-03-architecture]] (design done, build outstanding)
+**Last commit:** `design(M3): swarm architecture`
 
 Rewritten at the end of every cycle. The honest answer to "if someone joined today, what would they
 need to know?"
@@ -29,7 +29,8 @@ need to know?"
 | Section catalogue | **yes, first pass** | [[domain.sections]] — 11 sections, 3 tiers, build order set |
 | Working detectors | **4, tested** | outpost, isolated pawn, backward pawn, rook on open file — experiment code, to be reimplemented in M4 |
 | Scope | **decided** | [[decisions.0005-scope-band-source-online-only]] — 1400–1800, Lichess, online only |
-| Architecture design | partial | [[decisions.0002-compute-first-speak-last]] accepted; player-profile schema (C1) undesigned |
+| Architecture design | **done** | [[architecture]] + 3 children; profile schema, orchestration, interaction, confidence, storage all specified |
+| Architecture **built** | no | M3's remaining half — skeleton, tests, evaluation harness |
 | Any agent | no | M4 |
 | Evaluation harness | no | designed in M3 |
 | Production code | none | only experiment harnesses, which are measurement tools |
@@ -65,25 +66,29 @@ This is what actually moved this cycle.
 | Domain knowledge (coaching) | 2 | — | still secondary sources; F2 partially addressed |
 | Signal & tooling knowledge | 5 | +1 | engine, API, tactical and positional detection all verified **by running them** |
 | Prior-art knowledge | 5 | — | complete |
-| Architecture | 3 | +1 | ADR-0002 accepted; scope decided; section catalogue and build order set. Profile schema still open |
+| Architecture | 4 | +1 | fully specified — profile schema, orchestration, interaction, confidence, storage — and each choice traced to a measurement or a rejected alternative. Not yet built |
 | Evaluation design | 3 | +2 | design space mapped across 7 families with a 3-tier strategy and a build order; harness not written |
 
 ## Next logical steps (priority order)
 
-1. **P0 — M3 architecture.** No longer blocked by C6: E03 showed positional relevance is a weak,
-   possibly band-inappropriate signal, so Tier 2 is re-scoped rather than gating. The player-profile
-   schema (C1) is the load-bearing artefact and everything waits on it. Also owed by M3: the
-   interaction/probe protocol (V9), the minimum-sample policy (C2), the orchestration pattern (C3).
-2. **P1 — Evaluation harness first, before the first agent.** Per [[evaluation]]'s build order: the
-   planted-weakness generator (C1 family) and the split-half harness (B1). E03 demonstrated why —
-   without held-out replication the project would already have recorded a false finding (L-008).
-3. **P2 — M4: build S2** (decision process & clock behaviour), the first agent. Cheapest, needs no
+1. **P0 — Build the M3 skeleton.** Ingest → analysis core → profile, with
+   [[architecture.player-profile]] as code and the SQLite cache keyed by (position, engine, depth).
+   Tests: determinism, cache correctness, profile round-trip. This is the first production code in
+   the project; its design note now exists, so the guardrail is satisfied.
+2. **P1 — Evaluation harness, before the first agent.** Per [[evaluation]]'s build order: the
+   planted-weakness generator (family C) and the split-half check (B1). E03 demonstrated why — the
+   project would already have recorded a false finding without held-out replication (L-008). The
+   split-half check is also a **runtime** requirement of [[architecture.confidence]], so it is built
+   once and used twice.
+3. **P2 — Validate the confidence thresholds.** Every number in [[architecture.confidence]] is
+   provisional. Check that split-half agreement is actually achieved at those values before the
+   first agent depends on them.
+4. **P3 — M4: build S2** (decision process & clock behaviour), the first agent. Cheapest, needs no
    engine for most of its signal, and E03 strengthens the case: at this band, process and tactics
    look far more decisive than structure.
-4. **P3 — C6 remaining routes**, when Tier 2 comes up: peer-population deviation (most promising —
-   asks whether the player is *unusual*, which E03's negative result does not touch) and
-   outcome-level association.
-5. **P4 — Close M1's last item:** verify *My System*'s Part-2 chapter list against the text.
+5. **P4 — Peer reference rates.** Build the rating-band reference population once from the Lichess
+   open database. Serves C6's remaining route *and* evaluation metric D2.
+6. **P5 — Close M1's last item:** verify *My System*'s Part-2 chapter list against the text.
 
 ## Open questions
 

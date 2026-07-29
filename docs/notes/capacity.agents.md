@@ -37,5 +37,7 @@ Copied from [[mission]] M4 — an agent is not "designed" until all of these are
 
 ## Orchestration
 
-Defined in M3. Until then, open: whether the swarm is a pipeline, a blackboard, a
-planner-with-specialists, or a debate/critique arrangement. Record the choice in [[decisions]].
+**Decided in M3:** a staged blackboard — agents read and write [[architecture.player-profile]] and
+never message each other ([[decisions.0006-staged-blackboard-orchestration]]). The full agent
+contract, including the rules that agents may return zero findings and may not call a language model
+in the diagnosis stage, is in [[architecture.orchestration]].

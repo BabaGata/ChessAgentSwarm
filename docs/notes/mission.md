@@ -11,8 +11,8 @@ created: 1785254500000
 The mission is the **path**, not the destination. It exists to serve [[vision]]; if a step stops
 serving the vision, the step is rewritten — not obeyed out of inertia.
 
-**Active step:** M2 — Section catalogue → [[mission.step-02-sections]] *(M1 remains open on one item:
-reading Nimzowitsch's Part 2 against the text)*
+**Active step:** M3 — Swarm architecture → [[mission.step-03-architecture]] *(design done; build,
+test and the evaluation harness outstanding)*
 
 ## The steps
 
@@ -85,7 +85,7 @@ dedicated step is still needed.
 |---|---|---|
 | M1 | nearly closed | [[mission.step-01-foundations]] — landscape mapped, prior art read, engine cost measured; one primary-source item open |
 | M2 | first pass done | [[mission.step-02-sections]] → [[domain.sections]]: 11 sections in 3 tiers, build order set |
-| M3 | pending | |
+| M3 | **design done, build outstanding** | [[mission.step-03-architecture]] → [[architecture]]; C1, C2, C3, C4, B4 resolved; ADR-0006, ADR-0007 |
 | M4 | pending | |
 | M5 | pending | |
 | M6 | recurring | runs at the end of every cycle |
