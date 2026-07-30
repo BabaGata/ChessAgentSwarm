@@ -23,6 +23,7 @@ from typing import Callable
 from chesscoach.analysis.observations import Observation
 from chesscoach.confidence import MIN_GAMES_WITH_DATA, ClaimStats, assign_tier
 from chesscoach.evaluation.splithalf import split_half_check
+from chesscoach.peers import ConditionMeasurement
 from chesscoach.profile.models import (
     Claim,
     Confidence,
@@ -90,14 +91,44 @@ class S2DecisionProcess:
     def findings(self, context: SectionContext) -> tuple[Finding, ...]:
         return self.report(context).findings
 
-    def report(self, context: SectionContext) -> SectionReport:
-        observations = tuple(
+    def measure(self, context: SectionContext) -> tuple[ConditionMeasurement, ...]:
+        """Raw per-condition rates, with no judgement applied.
+
+        This is what building a peer reference needs: every player's numbers,
+        including the unremarkable ones, and without the confidence policy
+        deciding anything.
+        """
+        observations = self._eligible(context)
+        games_with_data = len({o.game_id for o in observations})
+
+        measurements = []
+        for condition in _conditions(observations):
+            inside = tuple(o for o in observations if condition.applies(o))
+            errors = tuple(o for o in inside if o.is_error)
+            measurements.append(
+                ConditionMeasurement(
+                    claim_key=Claim.of(kind=condition.kind, subject=condition.subject).key(),
+                    instances=len(errors),
+                    opportunities=len(inside),
+                    distinct_games=len({o.game_id for o in errors}),
+                    games_with_data=games_with_data,
+                )
+            )
+        return tuple(measurements)
+
+    @staticmethod
+    def _eligible(context: SectionContext) -> tuple[Observation, ...]:
+        """Timed, post-opening moves from positions that were still competitive."""
+        return tuple(
             o
             for o in context.player_observations()
             if o.ply > OPENING_GRACE_PLIES
             and o.seconds_spent is not None
             and abs(o.score_cp_before) <= DECIDED_CP
         )
+
+    def report(self, context: SectionContext) -> SectionReport:
+        observations = self._eligible(context)
         # Games with data **for the section** -- games in which this player made
         # any timed, competitive move after the opening. Deliberately not "games
         # in which the condition occurred": gating each condition on its own
@@ -148,20 +179,10 @@ class S2DecisionProcess:
         rate = len(errors) / len(inside)
         baseline = (sum(1 for o in outside if o.is_error) / len(outside)) if outside else 0.0
 
-        stats = ClaimStats(
-            distinct_games=len({o.game_id for o in errors}),
-            games_with_data=games_with_data,
-            rate=rate,
-            baseline_rate=baseline,
-            ci95=wilson_interval(len(errors), len(inside)),
-            replicated=self._replicates(condition, inside, baseline),
-        )
-        decision = assign_tier(stats)
+        claim = Claim.of(kind=condition.kind, subject=condition.subject)
+        peer_rate = context.peer_rate(claim.key())
 
-        if not decision.is_assertable:
-            return None, None
-
-        if condition.selection_confounded:
+        if condition.selection_confounded and peer_rate is None:
             # Measured, and deliberately not said. Without a rating-peer
             # baseline this cannot be distinguished from something every player
             # does, and asserting it would be true-but-useless output (R-14).
@@ -170,7 +191,25 @@ class S2DecisionProcess:
                 "withheld: needs a rating-peer baseline to separate this player from the base rate"
             )
 
-        claim = Claim.of(kind=condition.kind, subject=condition.subject)
+        # For a condition selected by the same thing that causes the error, the
+        # player's own baseline answers the wrong question; only the population
+        # rate is meaningful. Elsewhere the self-baseline is the comparison and
+        # the peer rate is recorded alongside it.
+        comparison = peer_rate if condition.selection_confounded else baseline
+
+        stats = ClaimStats(
+            distinct_games=len({o.game_id for o in errors}),
+            games_with_data=games_with_data,
+            rate=rate,
+            baseline_rate=comparison,
+            ci95=wilson_interval(len(errors), len(inside)),
+            replicated=self._replicates(condition, inside, comparison),
+        )
+        decision = assign_tier(stats)
+
+        if not decision.is_assertable:
+            return None, None
+
         return Finding(
             section=SECTION,
             claim=claim,
@@ -180,6 +219,7 @@ class S2DecisionProcess:
                 games_with_data=stats.games_with_data,
                 rate=round(rate, 4),
                 baseline_rate=round(baseline, 4),
+                peer_rate=round(peer_rate, 4) if peer_rate is not None else None,
                 ci95=stats.ci95,
             ),
             provenance=context.provenance,

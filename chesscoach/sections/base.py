@@ -17,21 +17,39 @@ from typing import Protocol
 
 from chesscoach.analysis.observations import Observation
 from chesscoach.ingest.corpus import Corpus
+from chesscoach.peers import ConditionMeasurement, PeerReference
 from chesscoach.profile.models import Finding, Provenance
 
 
 @dataclass(frozen=True)
 class SectionContext:
-    """Everything a section agent is given. Read-only."""
+    """Everything a section agent is given. Read-only.
+
+    `band`, `time_control` and `peers` are optional because a reference
+    population may not exist yet. An agent that needs one to speak honestly must
+    stay silent without it rather than fall back to a weaker comparison.
+    """
 
     observations: tuple[Observation, ...]
     corpus: Corpus
     provenance: Provenance
+    band: str | None = None
+    time_control: str | None = None
+    peers: PeerReference | None = None
 
     def player_observations(self) -> tuple[Observation, ...]:
         """Only the moves the player made. Their opponents' errors are not theirs."""
         username = self.corpus.username.lower()
         return tuple(o for o in self.observations if o.mover.lower() == username)
+
+    def peer_rate(self, claim_key: str) -> float | None:
+        """Population rate for a claim, with this player left out of it."""
+        if self.peers is None or self.band is None or self.time_control is None:
+            return None
+        stats = self.peers.lookup(
+            self.band, self.time_control, claim_key, excluding=self.corpus.username
+        )
+        return stats.rate if stats else None
 
 
 @dataclass(frozen=True)
@@ -51,9 +69,17 @@ class SectionReport:
 
 
 class SectionAgent(Protocol):
-    """A diagnostic agent for one section of coaching knowledge."""
+    """A diagnostic agent for one section of coaching knowledge.
+
+    Measuring and asserting are separate methods on purpose. `measure` returns
+    raw rates with no judgement applied, which is what building a peer reference
+    needs — every player's numbers, including the unremarkable ones. `report`
+    is `measure` plus the confidence policy.
+    """
 
     section: str
+
+    def measure(self, context: SectionContext) -> tuple[ConditionMeasurement, ...]: ...
 
     def report(self, context: SectionContext) -> SectionReport: ...
 

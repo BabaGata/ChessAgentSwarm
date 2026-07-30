@@ -24,6 +24,26 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 
 ---
 
+### L-012 — Self-baselines overstate by however much the population shares the behaviour
+**Date:** 2026-07-29 · **Cycle / mission step:** M7 (peer reference) · **Class:** technique
+**Context:** Building the rating-peer reference and re-running S2 against it
+([[architecture.peer-reference]]).
+**Observation:** Four players had apparent long-think weaknesses at 2.10–2.85× their own baselines.
+Measured against a population of their peers, two disappeared entirely — one sat inside the
+population rate, one *below* it — and the two that survived fell to 1.65× and 1.52×. The population
+rate for that condition is 17.7 %, against individual self-baselines of 9–11 %.
+**Lesson:** A within-player comparison overstates every effect by roughly the amount the behaviour is
+universal, and the overstatement is invisible from inside one player's data. Concretely here it was
+a factor of about 1.7 and it turned two non-findings into confident ones. Any coaching system without
+a peer reference will over-report, and will do so most confidently on exactly the conditions that are
+most universal — because those have the largest gap between the population rate and any individual's
+"other moves". The display must also state the comparison actually used: showing a self-baseline lift
+for a claim promoted on a peer comparison would misrepresent the evidence.
+**Applied to:** `chesscoach/peers.py`, S2's peer-aware assertion, `_comparison_line` in the CLI,
+and the resolution of open question C6.
+
+---
+
 ### L-011 — A weakness most players share is a base rate, not a diagnosis
 **Date:** 2026-07-28 · **Cycle / mission step:** M5 · **Class:** domain
 **Context:** Running S2 on 135 real games across seven players, the first non-synthetic data in the

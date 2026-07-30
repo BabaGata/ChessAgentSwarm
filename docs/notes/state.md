@@ -36,7 +36,7 @@ need to know?"
 | **First agent (S2)** | **built, scored, assessed on real data** | finds the planted weakness at 5.54× with 0 spurious; **says nothing about any of 7 real players**, which is honest and is the ceiling described in [[mission.step-05-assess-s2]] |
 | Orchestration | **built** | `chesscoach/orchestrator.py` — fan-out, failure isolation, section-scoped replacement. Findings now reach the profile |
 | Shared pipeline | **built** | `chesscoach/pipeline.py` — engine/cache session and provenance, extracted in M6 from three copies |
-| Peer reference corpus | **no — and now blocking** | three separate needs depend on it: C6, evaluation D2, and S2's withheld conditions |
+| Peer reference corpus | **built** | `chesscoach/peers.py` — 7 players, band 1400–1800 rapid, depth 15, leave-one-out. Unblocks C6, evaluation D2 and S2's withheld conditions. Too small to be trustworthy; stated as such |
 | Confidence policy | **enforced at runtime** | `chesscoach/confidence.py` — tiers, distinct-game counts, split-half replication as a promotion requirement |
 | Production code | **yes, first** | design note existed first, so the guardrail held |
 | Any agent | no | M4 |
@@ -50,7 +50,7 @@ need to know?"
 | D1 | V1 skill assessment | 0 | — | nothing built |
 | D2 | V2 knowledge assessment | 0 | — | method identified (probes), unbuilt |
 | D3 | V3 style profiling | 0 | — | operational definition drafted |
-| D4 | V4 gap detection | **1** | **+1** | one gap class detected and **verified against ground truth** — process gaps under measurable conditions (S2). One of eleven sections |
+| D4 | V4 gap detection | **2** | **+1** | verified against ground truth, and now **population-relative**: two real players carry a claim that survives comparison with their peers. One of eleven sections |
 | D5 | V5 prioritisation | 0 | — | band table gives a starting heuristic |
 | D6 | V6 path planning | 0 | — | |
 | D7 | V7 progress tracking | 0 | — | leading indicators identified |
@@ -60,10 +60,12 @@ need to know?"
 | D11 | Process & documentation health | 4 | — | cycle held up under real work, including reversing its own mis-framed question |
 | D12 | V9 dialogue & active assessment | 0 | — | |
 
-**Total: 9 / 60** (was 4). **The vision scorecard has moved for the first time** — because an agent
-now exists and was measured against ground truth, not because anything was asserted. Eight of the
-twelve dimensions are still at zero, which is the honest picture: one section of eleven is built,
-and nothing yet speaks to a player.
+**Total: 10 / 60** (was 9). Eight of twelve dimensions remain at zero, which is the honest picture:
+one section of eleven exists, and nothing yet speaks to a player in words.
+
+What changed this cycle is smaller than it sounds and more important than it looks: the system can
+now distinguish *"you do this"* from *"players at your level do this"*, which is the difference
+between a description and a diagnosis.
 
 ## Capacity readiness
 
@@ -80,15 +82,16 @@ This is what actually moved this cycle.
 
 ## Next logical steps (priority order)
 
-1. **P0 — Build the rating-peer reference corpus.** Promoted from optional to **blocking** by M5:
-   C6's only remaining relevance route, evaluation metric D2, and S2's withheld conditions all
-   require it. Built once from the free Lichess open database, per rating band and time control.
-   When three lines of work need the same artefact, it is the next thing to build.
+1. **P0 — Widen the peer reference.** Seven players is enough to demonstrate the mechanism and not
+   enough to trust it. Fetch 30–50 players per band, which is bounded only by analysis time, and
+   store per time control. Until then every peer-based claim carries that caveat.
 2. **P1 — Implement evaluation metric D1 (inter-player divergence).** It would have caught M5's
    base-rate finding automatically instead of by eye, and it is cheap: compare findings across
    players and flag anything nearly universal.
 3. **P2 — Validate the confidence thresholds** against real findings. Every number in
    [[architecture.confidence]] is provisional; the split-half harness exists to check them.
+4. **P3 — M4 again: build S1 (tactical pattern gaps).** The richest section, with a free labelled
+   vocabulary already mapped in [[domain.puzzle-themes]]. The peer machinery it needs now exists.
 4. **P3 — Peer reference rates.** Build the rating-band reference population once from the Lichess
    open database. Serves C6's remaining route *and* evaluation metric D2.
 5. **P4 — Per-position parallelism** in the analysis core. The seam exists (the analyser is

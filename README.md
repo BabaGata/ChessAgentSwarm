@@ -79,14 +79,18 @@ python -m pytest --cov=chesscoach             # 82% coverage
 
 ## What it currently says about real players
 
-Nothing. Run against seven real players in the target band, S2 reports **no findings** — while still
-detecting a deliberately planted weakness at 5.54× with zero false positives. Its one strong signal
-on real data turned out to be a base rate rather than a diagnosis: four of six players showed it at
-similar magnitude, because the condition was *selected by* the thing that caused the error. It is
-measured and withheld until a rating-peer baseline exists.
+Very little, on purpose. Across seven real players in the target band, S2 asserts **two** findings.
 
-That is the honest state, and it is recorded rather than tuned away. See
-`docs/notes/mission.step-05-assess-s2.md`.
+The story of how it got there is the project in miniature. Four of six players initially showed an
+elevated error rate after long thinks, at 2.10–2.85× their own baseline — all correct measurements,
+none of them a diagnosis, because a long think happens *where the position is hard* and hard
+positions produce errors. Compared against a population of their peers instead, two of the four
+vanish, and the two that survive drop to 1.65× and 1.52×.
+
+A self-baseline overstates every effect by however much the behaviour is universal. That is why the
+peer reference exists, and why the system says less than it could.
+
+See `docs/notes/mission.step-05-assess-s2.md` and `docs/notes/architecture.peer-reference.md`.
 
 ## Design in one paragraph
 

@@ -48,7 +48,27 @@ def analyse(args: argparse.Namespace) -> int:
         observations = analyse_corpus(corpus, games, session.analyser)
         provenance = session.provenance(corpus.corpus_id)
 
-    diagnosis = diagnose(SectionContext(observations, corpus, provenance), default_agents())
+    peers = None
+    if args.peers:
+        from chesscoach.peers import PeerReference
+
+        peers = PeerReference.load(args.peers)
+        if peers.depth != args.depth:
+            print(
+                f"peer reference was built at depth {peers.depth}, analysis is at {args.depth};"
+                " rates are not comparable across depths"
+            )
+            return 1
+
+    context = SectionContext(
+        observations,
+        corpus,
+        provenance,
+        band=args.band,
+        time_control=args.time_control,
+        peers=peers,
+    )
+    diagnosis = diagnose(context, default_agents())
 
     profile = apply_to_profile(
         PlayerProfile(
@@ -65,14 +85,10 @@ def analyse(args: argparse.Namespace) -> int:
     for line in summarise(diagnosis):
         print(line)
     for finding in profile.findings:
+        print(f"\n  [{finding.confidence.tier.value}] {finding.claim.kind} ({finding.claim.subject})")
+        print(f"    {_comparison_line(finding.measurement)}")
         measurement = finding.measurement
-        lift = measurement.lift_vs_baseline
-        print(
-            f"\n  [{finding.confidence.tier.value}] {finding.claim.kind} ({finding.claim.subject})"
-            f"\n    {measurement.rate:.1%} vs {measurement.baseline_rate:.1%} baseline"
-            f"{f' — {lift:.2f}x' if lift else ''}"
-            f", {measurement.distinct_games} of {measurement.games_with_data} games"
-        )
+        print(f"    seen in {measurement.distinct_games} of {measurement.games_with_data} games")
 
     print(f"\nprofile  {args.out}  ({len(profile.findings)} findings)")
 
@@ -81,6 +97,31 @@ def analyse(args: argparse.Namespace) -> int:
         print(f"moves    {args.observations}")
 
     return 0
+
+
+def _comparison_line(measurement) -> str:
+    """State the comparison the decision was actually made against.
+
+    Showing a self-baseline lift for a claim promoted on a peer comparison would
+    misrepresent the evidence, which is the one thing this project's output must
+    not do.
+    """
+    parts = [f"{measurement.rate:.1%}"]
+    if measurement.peer_rate is not None:
+        lift = measurement.lift_vs_peer
+        parts.append(
+            f"vs {measurement.peer_rate:.1%} for peers"
+            + (f" — {lift:.2f}x" if lift else "")
+        )
+        if measurement.baseline_rate is not None:
+            parts.append(f"(own other moves: {measurement.baseline_rate:.1%})")
+    elif measurement.baseline_rate is not None:
+        lift = measurement.lift_vs_baseline
+        parts.append(
+            f"vs {measurement.baseline_rate:.1%} on their other moves"
+            + (f" — {lift:.2f}x" if lift else "")
+        )
+    return " ".join(parts)
 
 
 def _report(observations: tuple[Observation, ...], cache: CacheStats | None) -> None:
@@ -248,6 +289,60 @@ def score_agent(args: argparse.Namespace) -> int:
     return 0 if card.detected and card.spurious_count == 0 else 1
 
 
+def build_peer_reference(args: argparse.Namespace) -> int:
+    """Build a rating-band reference population from a directory of PGN files.
+
+    Each file is one player, named by its filename — the layout `fetch_games.py`
+    produces. Every agent's `measure` is collected, including the unremarkable
+    numbers, because a reference made only of interesting players is not a
+    reference.
+    """
+    from chesscoach.peers import build_reference
+
+    directory = Path(args.pgn_dir)
+    paths = sorted(directory.glob("*.pgn"))
+    if not paths:
+        print(f"no PGN files in {directory}")
+        return 1
+
+    agents = default_agents()
+    collected: list[tuple[str, tuple]] = []
+
+    with engine_session(args.engine, args.depth, args.cache) as session:
+        for path in paths:
+            player = path.stem
+            games = load_games(path)
+            corpus = build_corpus(player, games)
+            if corpus.n_games == 0:
+                print(f"  {player}: no games, skipped")
+                continue
+
+            observations = analyse_corpus(corpus, games, session.analyser)
+            context = SectionContext(
+                observations, corpus, session.provenance(corpus.corpus_id)
+            )
+            measurements = tuple(m for agent in agents for m in agent.measure(context))
+            collected.append((player, measurements))
+            print(f"  {player}: {corpus.n_games} games, {len(measurements)} conditions", flush=True)
+
+    reference = build_reference(
+        collected, band=args.band, time_control=args.time_control, depth=args.depth
+    )
+    reference.save(args.out)
+
+    print(f"\nplayers  {len(collected)}")
+    print(f"band     {args.band} / {args.time_control} at depth {args.depth}")
+    for key in sorted(reference.cells):
+        stats = reference.cells[key]
+        moves = sum(c.opportunities for c in stats)
+        instances = sum(c.instances for c in stats)
+        claim = key.split("|")[-1]
+        share = instances / moves if moves else 0.0
+        print(f"  {claim:<40} {share:6.1%}  ({instances}/{moves} moves, {len(stats)} players)")
+    print(f"\nwritten  {args.out}")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="chesscoach")
     subcommands = parser.add_subparsers(dest="command", required=True)
@@ -262,6 +357,13 @@ def build_parser() -> argparse.ArgumentParser:
     run.add_argument("--observations", default=None, help="optional JSONL dump of every move")
     run.add_argument("--source", default="lichess")
     run.add_argument("--band", default="1400-1800")
+    run.add_argument("--time-control", default="rapid")
+    run.add_argument(
+        "--peers",
+        default=None,
+        help="peer reference built by build-peer-reference; without it, "
+        "selection-confounded conditions stay withheld",
+    )
     run.set_defaults(handler=analyse)
 
     make = subcommands.add_parser("make-eval-set", help="generate games with a known weakness")
@@ -310,6 +412,18 @@ def build_parser() -> argparse.ArgumentParser:
     score.add_argument("--depth", type=int, default=DEFAULT_DEPTH)
     score.add_argument("--cache", default=None)
     score.set_defaults(handler=score_agent)
+
+    peers = subcommands.add_parser(
+        "build-peer-reference", help="build a rating-band reference population from PGN files"
+    )
+    peers.add_argument("--pgn-dir", required=True, help="directory of PGNs, one file per player")
+    peers.add_argument("--engine", required=True)
+    peers.add_argument("--out", required=True)
+    peers.add_argument("--band", default="1400-1800")
+    peers.add_argument("--time-control", default="rapid")
+    peers.add_argument("--depth", type=int, default=DEFAULT_DEPTH)
+    peers.add_argument("--cache", default=None)
+    peers.set_defaults(handler=build_peer_reference)
 
     return parser
 

@@ -9,10 +9,13 @@ enough data", and never present its self-baseline comparison as a peer one.
 
 from __future__ import annotations
 
+import pytest
+
 from chesscoach.analysis.labels import ErrorLabel
 from chesscoach.analysis.observations import Observation
 from chesscoach.ingest.corpus import Corpus
-from chesscoach.profile.models import ConfidenceTier, GapTypeHypothesis, Provenance
+from chesscoach.peers import ConditionMeasurement, PeerReference, build_reference
+from chesscoach.profile.models import Claim, ConfidenceTier, GapTypeHypothesis, Provenance
 from chesscoach.sections.s2_decision_process import S2DecisionProcess, SectionContext
 
 PROVENANCE = Provenance(engine="stub", depth=15, corpus_id="c1", analysed_at="2026-07-28")
@@ -220,6 +223,91 @@ class TestLongThink:
         report = S2DecisionProcess().report(a_context(long_think_player()))
 
         assert any("rating-peer baseline" in note for note in report.notes)
+
+
+def peers_with(long_think_rate: float) -> PeerReference:
+    """A reference population whose long-think error rate is `long_think_rate`."""
+    key = Claim.of(kind="long_think_error", subject="long_think").key()
+    return build_reference(
+        [
+            (name, (ConditionMeasurement(key, int(long_think_rate * 1000), 1000, 20, 40),))
+            for name in ("peer1", "peer2", "peer3")
+        ],
+        band="1400-1800",
+        time_control="rapid",
+        depth=15,
+    )
+
+
+def with_peers(observations, peers: PeerReference) -> SectionContext:
+    base = a_context(observations)
+    return SectionContext(
+        observations=base.observations,
+        corpus=base.corpus,
+        provenance=base.provenance,
+        band="1400-1800",
+        time_control="rapid",
+        peers=peers,
+    )
+
+
+class TestPeerComparison:
+    def test_stays_silent_when_peers_are_just_as_bad(self):
+        # The M5 case: correct measurement, no diagnosis. The player's long-think
+        # error rate is ~67%, and so is everyone else's.
+        report = S2DecisionProcess().report(with_peers(long_think_player(), peers_with(0.67)))
+
+        assert [f.claim.kind for f in report.findings] == []
+
+    def test_speaks_when_the_player_is_worse_than_their_peers(self):
+        report = S2DecisionProcess().report(with_peers(long_think_player(), peers_with(0.10)))
+
+        assert [f.claim.kind for f in report.findings] == ["long_think_error"]
+
+    def test_records_the_peer_rate_it_compared_against(self):
+        report = S2DecisionProcess().report(with_peers(long_think_player(), peers_with(0.10)))
+
+        assert report.findings[0].measurement.peer_rate == pytest.approx(0.10)
+        assert report.findings[0].measurement.lift_vs_peer > 1
+
+    def test_never_compares_a_player_against_a_population_containing_them(self):
+        key = Claim.of(kind="long_think_error", subject="long_think").key()
+        peers = build_reference(
+            [
+                ("alice", (ConditionMeasurement(key, 900, 1000, 20, 40),)),  # the subject
+                ("peer1", (ConditionMeasurement(key, 100, 1000, 20, 40),)),
+            ],
+            band="1400-1800",
+            time_control="rapid",
+            depth=15,
+        )
+
+        report = S2DecisionProcess().report(with_peers(long_think_player(), peers))
+
+        # Alice's own inflated contribution must not raise the bar she is judged against.
+        assert report.findings[0].measurement.peer_rate == pytest.approx(0.10)
+
+
+class TestMeasure:
+    def test_reports_raw_rates_without_judgement(self):
+        measurements = S2DecisionProcess().measure(a_context(player_with_time_trouble(30, 3)))
+
+        by_key = {m.claim_key: m for m in measurements}
+        pressure = by_key["time_pressure_error.clock.own"]
+        assert pressure.opportunities == 150
+        assert pressure.instances == 90
+
+    def test_includes_conditions_that_would_never_be_asserted(self):
+        # The peer builder needs the unremarkable numbers too.
+        measurements = S2DecisionProcess().measure(a_context(player_with_time_trouble(30, 0)))
+
+        assert any(m.instances == 0 and m.opportunities > 0 for m in measurements)
+
+    def test_a_condition_that_never_arose_has_no_opportunities(self):
+        measurements = S2DecisionProcess().measure(a_context(player_with_time_trouble(30, 3)))
+
+        by_key = {m.claim_key: m for m in measurements}
+        assert by_key["instant_move_error.instant_moves.own"].opportunities == 0
 
 
 class TestDataGate:

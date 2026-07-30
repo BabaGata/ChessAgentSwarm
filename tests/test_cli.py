@@ -8,7 +8,8 @@ import pytest
 
 from chesscoach.analysis.labels import ErrorLabel
 from chesscoach.analysis.observations import Observation
-from chesscoach.cli import _report, _write_observations, build_parser
+from chesscoach.cli import _comparison_line, _report, _write_observations, build_parser
+from chesscoach.profile.models import Measurement
 
 
 def an_observation(**overrides) -> Observation:
@@ -64,6 +65,31 @@ class TestReport:
         _report((an_observation(phase="endgame"),), cache=None)
 
         assert "endgame 1" in capsys.readouterr().out
+
+
+class TestComparisonLine:
+    def test_leads_with_the_peer_comparison_when_there_is_one(self):
+        # A claim promoted on a peer comparison must not be shown as though it
+        # rested on the player's own baseline.
+        measurement = Measurement(
+            instances=20, distinct_games=9, games_with_data=24, rate=0.28,
+            baseline_rate=0.10, peer_rate=0.177,
+        )
+
+        line = _comparison_line(measurement)
+
+        assert "17.7% for peers" in line
+        assert "own other moves: 10.0%" in line
+
+    def test_falls_back_to_the_self_baseline_without_a_peer_rate(self):
+        measurement = Measurement(
+            instances=20, distinct_games=9, games_with_data=24, rate=0.28, baseline_rate=0.10
+        )
+
+        line = _comparison_line(measurement)
+
+        assert "on their other moves" in line
+        assert "peers" not in line
 
 
 class TestObservationsDump:
