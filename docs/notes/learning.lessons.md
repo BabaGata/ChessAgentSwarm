@@ -24,6 +24,27 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 
 ---
 
+### L-011 — A weakness most players share is a base rate, not a diagnosis
+**Date:** 2026-07-28 · **Cycle / mission step:** M5 · **Class:** domain
+**Context:** Running S2 on 135 real games across seven players, the first non-synthetic data in the
+project ([[mission.step-05-assess-s2]]).
+**Observation:** Four of six eligible players showed `long_think_error` at 2.10×, 2.22×, 2.31× and
+2.85× against their own baselines. The uniformity was the finding. The mechanism is plain once seen:
+a long think happens *because* the position is hard, and hard positions produce errors — the
+condition is **selected by the same thing that causes the outcome**. A self-baseline cannot separate
+"you are bad after long thinks" from "long thinks happen in bad positions".
+**Lesson:** Before asserting a measured effect, ask whether the condition is *selected* by something
+correlated with the outcome. Where it is, a within-player baseline is structurally incapable of
+answering, and only a peer population can. Two practical consequences: conditions of this shape are
+marked and **withheld** rather than reported (S2's `selection_confounded`), and the check should be
+automatic — comparing findings *across* players would have caught this immediately, which is
+evaluation metric D1 and is now promoted. More generally, this is why the peer reference corpus is
+no longer optional: three separate lines of work (C6, D2, and S2's assertability) now depend on it.
+**Applied to:** `chesscoach/sections/s2_decision_process.py`, [[mission.step-05-assess-s2]],
+risk R-14, and the reordered priorities in [[state]].
+
+---
+
 ### L-010 — When an agent fails its evaluation, suspect the fixture first
 **Date:** 2026-07-28 · **Cycle / mission step:** M4 (S2) · **Class:** process
 **Context:** Scoring the first agent against the planted `time_pressure` weakness.

@@ -21,7 +21,7 @@ from dataclasses import dataclass
 from typing import Callable
 
 from chesscoach.analysis.observations import Observation
-from chesscoach.confidence import ClaimStats, assign_tier
+from chesscoach.confidence import MIN_GAMES_WITH_DATA, ClaimStats, assign_tier
 from chesscoach.evaluation.splithalf import split_half_check
 from chesscoach.profile.models import (
     Claim,
@@ -68,6 +68,18 @@ class Condition:
     subject: str
     applies: Callable[[Observation], bool]
     describe: Callable[[Observation], str]
+    selection_confounded: bool = False
+    """True when the condition is *selected by* the same thing that causes the error.
+
+    A long think happens because the position is hard, and hard positions produce
+    errors — so an elevated error rate after long thinks says little about the
+    player and much about chess. Comparing against the player's own baseline
+    cannot separate the two; only a rating-peer population can.
+
+    Confirmed empirically in M5: four of six real players showed this at a
+    similar magnitude, which is the signature of a base rate, not a weakness.
+    Such conditions are measured but withheld until a peer baseline exists.
+    """
 
 
 class S2DecisionProcess:
@@ -86,25 +98,34 @@ class S2DecisionProcess:
             and o.seconds_spent is not None
             and abs(o.score_cp_before) <= DECIDED_CP
         )
+        # Games with data **for the section** -- games in which this player made
+        # any timed, competitive move after the opening. Deliberately not "games
+        # in which the condition occurred": gating each condition on its own
+        # frequency would make a rare-but-severe condition permanently
+        # unassertable, however badly the player handled it. How often the
+        # condition arises is already carried by `distinct_games` and the rate.
         games_with_data = len({o.game_id for o in observations})
 
-        if games_with_data == 0:
+        if games_with_data < MIN_GAMES_WITH_DATA:
             return SectionReport(
-                section=SECTION, insufficient_data=True, notes=("no timed moves after the opening",)
+                section=SECTION,
+                insufficient_data=True,
+                notes=(f"only {games_with_data} games with timed moves after the opening",),
             )
 
-        findings = []
-        insufficient = False
+        findings: list[Finding] = []
+        notes: list[str] = []
         for condition in _conditions(observations):
-            finding, was_insufficient = self._assess(condition, observations, context)
-            insufficient = insufficient or was_insufficient
+            finding, note = self._assess(condition, observations, context, games_with_data)
             if finding is not None:
                 findings.append(finding)
+            if note is not None:
+                notes.append(note)
 
         return SectionReport(
             section=SECTION,
             findings=tuple(sorted(findings, key=lambda f: f.id)),
-            insufficient_data=insufficient and not findings,
+            notes=tuple(notes),
         )
 
     def _assess(
@@ -112,21 +133,24 @@ class S2DecisionProcess:
         condition: Condition,
         observations: tuple[Observation, ...],
         context: SectionContext,
-    ) -> tuple[Finding | None, bool]:
-        """Measure one condition and decide whether it may be asserted."""
+        games_with_data: int,
+    ) -> tuple[Finding | None, str | None]:
+        """Measure one condition and decide whether it may be asserted.
+
+        Returns the finding, if any, and a note explaining anything withheld.
+        """
         inside = tuple(o for o in observations if condition.applies(o))
         outside = tuple(o for o in observations if not condition.applies(o))
         if not inside:
-            return None, False
+            return None, None
 
         errors = tuple(o for o in inside if o.is_error)
         rate = len(errors) / len(inside)
         baseline = (sum(1 for o in outside if o.is_error) / len(outside)) if outside else 0.0
 
-        games_with_condition = {o.game_id for o in inside}
         stats = ClaimStats(
             distinct_games=len({o.game_id for o in errors}),
-            games_with_data=len(games_with_condition),
+            games_with_data=games_with_data,
             rate=rate,
             baseline_rate=baseline,
             ci95=wilson_interval(len(errors), len(inside)),
@@ -135,34 +159,40 @@ class S2DecisionProcess:
         decision = assign_tier(stats)
 
         if not decision.is_assertable:
-            return None, decision.insufficient_data
+            return None, None
+
+        if condition.selection_confounded:
+            # Measured, and deliberately not said. Without a rating-peer
+            # baseline this cannot be distinguished from something every player
+            # does, and asserting it would be true-but-useless output (R-14).
+            return None, (
+                f"{condition.kind} measured at {rate:.1%} vs {baseline:.1%} own baseline, "
+                "withheld: needs a rating-peer baseline to separate this player from the base rate"
+            )
 
         claim = Claim.of(kind=condition.kind, subject=condition.subject)
-        return (
-            Finding(
-                section=SECTION,
-                claim=claim,
-                measurement=Measurement(
-                    instances=len(errors),
-                    distinct_games=stats.distinct_games,
-                    games_with_data=stats.games_with_data,
-                    rate=round(rate, 4),
-                    baseline_rate=round(baseline, 4),
-                    ci95=stats.ci95,
-                ),
-                provenance=context.provenance,
-                confidence=Confidence(
-                    tier=decision.tier, replicated=stats.replicated, reasons=decision.reasons
-                ),
-                gap_type=GapType(
-                    hypothesis=GapTypeHypothesis.PROCESS, determined_by=DeterminedBy.INFERRED
-                ),
-                evidence=_sample_evidence(
-                    errors, condition, seed_key=f"{SECTION}.{claim.key()}:{context.corpus.corpus_id}"
-                ),
+        return Finding(
+            section=SECTION,
+            claim=claim,
+            measurement=Measurement(
+                instances=len(errors),
+                distinct_games=stats.distinct_games,
+                games_with_data=stats.games_with_data,
+                rate=round(rate, 4),
+                baseline_rate=round(baseline, 4),
+                ci95=stats.ci95,
             ),
-            False,
-        )
+            provenance=context.provenance,
+            confidence=Confidence(
+                tier=decision.tier, replicated=stats.replicated, reasons=decision.reasons
+            ),
+            gap_type=GapType(
+                hypothesis=GapTypeHypothesis.PROCESS, determined_by=DeterminedBy.INFERRED
+            ),
+            evidence=_sample_evidence(
+                errors, condition, seed_key=f"{SECTION}.{claim.key()}:{context.corpus.corpus_id}"
+            ),
+        ), None
 
     @staticmethod
     def _replicates(
@@ -208,6 +238,7 @@ def _conditions(observations: tuple[Observation, ...]) -> tuple[Condition, ...]:
             subject="long_think",
             applies=lambda o: (o.seconds_spent or 0.0) >= long_think_seconds,
             describe=lambda o: f"{o.seconds_spent:.0f}s spent, then a mistake",
+            selection_confounded=True,
         ),
     )
 

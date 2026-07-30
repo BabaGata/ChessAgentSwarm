@@ -8,8 +8,14 @@ created: 1785257000000
 
 # Agent S2 — Decision process & clock behaviour
 
-**Section:** [[domain.sections]] → S2 · **Status:** designed
-**Built in:** [[mission.step-04-first-agent]]
+**Section:** [[domain.sections]] → S2 · **Status:** built, scored, assessed on real data
+**Built in:** [[mission.step-04-first-agent]] · **Assessed in:** [[mission.step-05-assess-s2]]
+
+> **Current behaviour, honestly stated.** S2 finds the planted weakness at 5.54× with zero spurious
+> findings, and says **nothing about any of seven real players**. Two of its three conditions are
+> either rarely triggered (time pressure, in 600+0 arena games) or withheld as
+> selection-confounded (long think). It is a correct agent whose useful range is currently narrow,
+> and it widens when the rating-peer corpus exists.
 
 The first agent, chosen ahead of the richer tactical section on purpose: it is the cheapest to
 build, needs no engine for most of its signal, targets the **process gap** that content-based
@@ -116,3 +122,9 @@ few thousand records. Runs in well under a second.
 - Correlation only. Errors under time pressure may be caused by the pressure, or the pressure and
   the errors may share a cause — playing positions this player finds hard. S2 states the association
   and does not claim the mechanism.
+- **Selection confounding, confirmed in M5.** The long-think condition is *selected by* position
+  difficulty, which also causes errors, so a within-player baseline cannot separate the two. Four of
+  six real players showed it at similar magnitude — the signature of a base rate. Such conditions are
+  measured and withheld until a rating-peer baseline exists (L-011).
+- The time-pressure condition rarely fires in 600+0 arena games, so S2's headline capability is
+  mostly untested on real data. A shorter time control would exercise it.

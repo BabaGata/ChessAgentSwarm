@@ -9,8 +9,9 @@ created: 1785254500000
 # State
 
 **Snapshot date:** 2026-07-28
-**Active mission step:** **M5** — assess S2 inside the swarm ([[mission.step-04-first-agent]] done)
-**Last commit:** `feat(M4): S2 decision-process agent`
+**Active mission step:** **M6/M7** — maintain, then repeat M4 with the next capability
+([[mission.step-05-assess-s2]] done)
+**Last commit:** `feat(M5): orchestrator, and two defects found by real players`
 
 Rewritten at the end of every cycle. The honest answer to "if someone joined today, what would they
 need to know?"
@@ -32,7 +33,9 @@ need to know?"
 | Architecture design | **done** | [[architecture]] + 3 children; profile schema, orchestration, interaction, confidence, storage all specified |
 | Architecture **built** | **skeleton done** | `chesscoach/` — ingest, analysis core, profile, CLI. Sections, arbiter and language layer outstanding |
 | Evaluation harness | **built, before the first agent** | `chesscoach/evaluation/` — split-half (B1), planted weaknesses (family C), ground-truth scoring, fixture verification |
-| **First agent (S2)** | **built and scored** | [[capacity.agents.s2-decision-process]] — found the planted weakness at 5.54× lift, 0 spurious. 144 tests, 81 % coverage |
+| **First agent (S2)** | **built, scored, assessed on real data** | finds the planted weakness at 5.54× with 0 spurious; **says nothing about any of 7 real players**, which is honest and is the ceiling described in [[mission.step-05-assess-s2]] |
+| Orchestration | **built** | `chesscoach/orchestrator.py` — fan-out, failure isolation, section-scoped replacement. Findings now reach the profile |
+| Peer reference corpus | **no — and now blocking** | three separate needs depend on it: C6, evaluation D2, and S2's withheld conditions |
 | Confidence policy | **enforced at runtime** | `chesscoach/confidence.py` — tiers, distinct-game counts, split-half replication as a promotion requirement |
 | Production code | **yes, first** | design note existed first, so the guardrail held |
 | Any agent | no | M4 |
@@ -76,12 +79,15 @@ This is what actually moved this cycle.
 
 ## Next logical steps (priority order)
 
-1. **P0 — M5: run S2 on real players' games.** It has only ever been scored on synthetic ones, where
-   the weakness was planted by an engine told to play badly. The 135 real games already fetched are
-   the obvious first test. The question is not "does it find something" but "is what it finds
-   plausible, and does it stay silent when it should".
-2. **P1 — Validate the confidence thresholds** against those real findings. Every number in
-   [[architecture.confidence]] is provisional; the split-half harness now exists to check them.
+1. **P0 — Build the rating-peer reference corpus.** Promoted from optional to **blocking** by M5:
+   C6's only remaining relevance route, evaluation metric D2, and S2's withheld conditions all
+   require it. Built once from the free Lichess open database, per rating band and time control.
+   When three lines of work need the same artefact, it is the next thing to build.
+2. **P1 — Implement evaluation metric D1 (inter-player divergence).** It would have caught M5's
+   base-rate finding automatically instead of by eye, and it is cheap: compare findings across
+   players and flag anything nearly universal.
+3. **P2 — Validate the confidence thresholds** against real findings. Every number in
+   [[architecture.confidence]] is provisional; the split-half harness exists to check them.
 4. **P3 — Peer reference rates.** Build the rating-band reference population once from the Lichess
    open database. Serves C6's remaining route *and* evaluation metric D2.
 5. **P4 — Per-position parallelism** in the analysis core. The seam exists (the analyser is

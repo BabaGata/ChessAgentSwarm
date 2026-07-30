@@ -191,22 +191,64 @@ class TestInstantMoves:
         assert findings == ()
 
 
+def long_think_player() -> list[Observation]:
+    observations: list[Observation] = []
+    for game in range(30):
+        for ply in range(11, 31, 2):
+            observations.append(
+                observation(game, ply, clock_after=400.0, seconds=10.0, error=False)
+            )
+        for index, ply in enumerate(range(31, 37, 2)):
+            observations.append(
+                observation(game, ply, clock_after=200.0, seconds=90.0, error=index < 2)
+            )
+    return observations
+
+
 class TestLongThink:
-    def test_finds_the_long_think_then_bad_move_signature(self):
+    def test_measures_the_long_think_signature_but_withholds_it(self):
+        # A long think happens *because* the position is hard, and hard
+        # positions produce errors. Against the player's own baseline that is
+        # indistinguishable from something every player does — confirmed in M5,
+        # where four of six real players showed it at a similar magnitude.
+        report = S2DecisionProcess().report(a_context(long_think_player()))
+
+        assert [f.claim.kind for f in report.findings] == []
+        assert any("long_think_error" in note for note in report.notes)
+
+    def test_the_withheld_note_says_what_is_missing(self):
+        report = S2DecisionProcess().report(a_context(long_think_player()))
+
+        assert any("rating-peer baseline" in note for note in report.notes)
+
+
+class TestDataGate:
+    def test_gates_on_games_with_data_for_the_section_not_per_condition(self):
+        # A condition that only arises in some games must still be assertable.
+        # Gating each condition on its own frequency would make a rare but
+        # severe weakness permanently unsayable, however badly it went.
         observations: list[Observation] = []
         for game in range(30):
             for ply in range(11, 31, 2):
                 observations.append(
                     observation(game, ply, clock_after=400.0, seconds=10.0, error=False)
                 )
-            for index, ply in enumerate(range(31, 37, 2)):
-                observations.append(
-                    observation(game, ply, clock_after=200.0, seconds=90.0, error=index < 2)
-                )
+            if game < 12:  # time trouble in only 12 of 30 games
+                for index, ply in enumerate(range(31, 41, 2)):
+                    observations.append(
+                        observation(game, ply, clock_after=20.0, seconds=3.0, error=index < 3)
+                    )
 
         findings = S2DecisionProcess().findings(a_context(observations))
 
-        assert any(f.claim.kind == "long_think_error" for f in findings)
+        assert [f.claim.kind for f in findings] == ["time_pressure_error"]
+        assert findings[0].measurement.games_with_data == 30
+
+    def test_reports_insufficient_data_below_the_section_gate(self):
+        report = S2DecisionProcess().report(a_context(player_with_time_trouble(9, 3), 9))
+
+        assert report.insufficient_data is True
+        assert "9 games" in " ".join(report.notes)
 
 
 class TestDecidedPositions:

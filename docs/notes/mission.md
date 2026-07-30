@@ -11,8 +11,9 @@ created: 1785254500000
 The mission is the **path**, not the destination. It exists to serve [[vision]]; if a step stops
 serving the vision, the step is rewritten — not obeyed out of inertia.
 
-**Active step:** M5 — assess S2 inside the swarm *(M4 delivered the first agent:
-[[mission.step-04-first-agent]])*
+**Active step:** M6/M7 — maintain and repeat. The next M4 iteration is **not** another section but
+the **rating-peer reference corpus**, which M5 showed three separate lines of work depend on
+([[mission.step-05-assess-s2]]).
 
 ## The steps
 
@@ -87,7 +88,7 @@ dedicated step is still needed.
 | M2 | first pass done | [[mission.step-02-sections]] → [[domain.sections]]: 11 sections in 3 tiers, build order set |
 | M3 | **done** | [[mission.step-03-architecture]] → [[architecture]]; skeleton + evaluation harness built and tested |
 | M4 | **first agent done** | [[mission.step-04-first-agent]] → S2, scored against ground truth |
-| M5 | **active** | assess S2 inside the swarm; run it on real players' games |
+| M5 | **done** | [[mission.step-05-assess-s2]] — information flow was broken and is fixed; two defects found by real players; peer corpus promoted to blocking |
 | M6 | recurring | runs at the end of every cycle |
 | M7 | pending | |
 

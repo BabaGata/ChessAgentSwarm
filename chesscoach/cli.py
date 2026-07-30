@@ -22,6 +22,8 @@ from chesscoach.analysis.engine import DEFAULT_DEPTH, StockfishAnalyser
 from chesscoach.analysis.observations import Observation
 from chesscoach.ingest.corpus import build_corpus
 from chesscoach.ingest.pgn import parse_pgn_dir, parse_pgn_file
+from chesscoach.orchestrator import apply_to_profile, default_agents, diagnose, summarise
+from chesscoach.sections.base import SectionContext
 from chesscoach.profile.io import save_profile
 from chesscoach.profile.models import PlayerProfile, PlayerRef, Provenance
 
@@ -48,18 +50,44 @@ def analyse(args: argparse.Namespace) -> int:
         with StockfishAnalyser(args.engine, depth=args.depth, cache=cache) as analyser:
             print(f"engine   {analyser.engine_name}\nanalysing...", flush=True)
             observations = analyse_corpus(corpus, games, analyser)
+            engine_name = analyser.engine_name
     finally:
         if cache is not None:
             cache.commit()
 
-    profile = PlayerProfile(
-        player=PlayerRef(source=args.source, username=args.player, band=args.band),
-        corpus=corpus.to_ref(),
+    provenance = Provenance(
+        engine=engine_name,
+        depth=args.depth,
+        corpus_id=corpus.corpus_id,
+        analysed_at=date.today().isoformat(),
+    )
+    diagnosis = diagnose(SectionContext(observations, corpus, provenance), default_agents())
+
+    profile = apply_to_profile(
+        PlayerProfile(
+            player=PlayerRef(source=args.source, username=args.player, band=args.band),
+            corpus=corpus.to_ref(),
+        ),
+        diagnosis,
     )
     save_profile(profile, args.out)
 
     _report(observations, cache)
-    print(f"\nprofile  {args.out}  ({len(profile.findings)} findings — section agents arrive in M4)")
+
+    print("\nsections")
+    for line in summarise(diagnosis):
+        print(line)
+    for finding in profile.findings:
+        measurement = finding.measurement
+        lift = measurement.lift_vs_baseline
+        print(
+            f"\n  [{finding.confidence.tier.value}] {finding.claim.kind} ({finding.claim.subject})"
+            f"\n    {measurement.rate:.1%} vs {measurement.baseline_rate:.1%} baseline"
+            f"{f' — {lift:.2f}x' if lift else ''}"
+            f", {measurement.distinct_games} of {measurement.games_with_data} games"
+        )
+
+    print(f"\nprofile  {args.out}  ({len(profile.findings)} findings)")
 
     if args.observations:
         _write_observations(observations, Path(args.observations))
