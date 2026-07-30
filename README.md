@@ -31,13 +31,17 @@ afterwards is one shaped by the agents.
 
 ```
 chesscoach/
-  ingest/      PGN parsing, corpus identity
-  analysis/    engine, evaluation cache, error labels, observations
-  profile/     the player profile — models and persistence
-  evaluation/  split-half replication, planted weaknesses, ground-truth scoring
-  cli.py       analyse · make-eval-set · check-eval-set
-experiments/   e01–e03: the measurements that shaped the design
-tests/         114 tests
+  ingest/         PGN parsing, corpus identity
+  analysis/       engine, evaluation cache, error labels, observations
+  profile/        the player profile — models and persistence
+  sections/       the diagnostic agents (S2 so far)
+  evaluation/     split-half replication, planted weaknesses, ground-truth scoring
+  confidence.py   when the swarm may assert a weakness
+  orchestrator.py runs the agents, writes findings to the profile
+  pipeline.py     engine/cache session and provenance
+  cli.py          analyse · make-eval-set · check-eval-set · score-agent
+experiments/      e01–e03: the measurements that shaped the design
+tests/            166 tests
 ```
 
 ## Running it
@@ -69,9 +73,20 @@ The second command verifies the planted flaw is actually visible to the analysis
 anything is scored against it. A fixture nobody has checked is not a test.
 
 ```bash
-python -m pytest                              # 114 tests
-python -m pytest --cov=chesscoach             # 80% coverage
+python -m pytest                              # 166 tests
+python -m pytest --cov=chesscoach             # 82% coverage
 ```
+
+## What it currently says about real players
+
+Nothing. Run against seven real players in the target band, S2 reports **no findings** — while still
+detecting a deliberately planted weakness at 5.54× with zero false positives. Its one strong signal
+on real data turned out to be a base rate rather than a diagnosis: four of six players showed it at
+similar magnitude, because the condition was *selected by* the thing that caused the error. It is
+measured and withheld until a rating-peer baseline exists.
+
+That is the honest state, and it is recorded rather than tuned away. See
+`docs/notes/mission.step-05-assess-s2.md`.
 
 ## Design in one paragraph
 

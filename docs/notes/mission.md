@@ -89,7 +89,7 @@ dedicated step is still needed.
 | M3 | **done** | [[mission.step-03-architecture]] → [[architecture]]; skeleton + evaluation harness built and tested |
 | M4 | **first agent done** | [[mission.step-04-first-agent]] → S2, scored against ground truth |
 | M5 | **done** | [[mission.step-05-assess-s2]] — information flow was broken and is fixed; two defects found by real players; peer corpus promoted to blocking |
-| M6 | recurring | runs at the end of every cycle |
+| M6 | recurring | [[mission.step-06-maintain]] — assessments logged per cycle, including what was left alone |
 | M7 | pending | |
 
 ## Review triggers

@@ -35,6 +35,7 @@ need to know?"
 | Evaluation harness | **built, before the first agent** | `chesscoach/evaluation/` — split-half (B1), planted weaknesses (family C), ground-truth scoring, fixture verification |
 | **First agent (S2)** | **built, scored, assessed on real data** | finds the planted weakness at 5.54× with 0 spurious; **says nothing about any of 7 real players**, which is honest and is the ceiling described in [[mission.step-05-assess-s2]] |
 | Orchestration | **built** | `chesscoach/orchestrator.py` — fan-out, failure isolation, section-scoped replacement. Findings now reach the profile |
+| Shared pipeline | **built** | `chesscoach/pipeline.py` — engine/cache session and provenance, extracted in M6 from three copies |
 | Peer reference corpus | **no — and now blocking** | three separate needs depend on it: C6, evaluation D2, and S2's withheld conditions |
 | Confidence policy | **enforced at runtime** | `chesscoach/confidence.py` — tiers, distinct-game counts, split-half replication as a promotion requirement |
 | Production code | **yes, first** | design note existed first, so the guardrail held |

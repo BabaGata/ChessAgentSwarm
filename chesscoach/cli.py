@@ -16,28 +16,26 @@ from collections import Counter
 from datetime import date
 from pathlib import Path
 
-from chesscoach.analysis.cache import EvalCache
 from chesscoach.analysis.core import analyse_corpus
-from chesscoach.analysis.engine import DEFAULT_DEPTH, StockfishAnalyser
+from chesscoach.analysis.engine import DEFAULT_DEPTH
 from chesscoach.analysis.observations import Observation
 from chesscoach.ingest.corpus import build_corpus
-from chesscoach.ingest.pgn import parse_pgn_dir, parse_pgn_file
 from chesscoach.orchestrator import apply_to_profile, default_agents, diagnose, summarise
-from chesscoach.sections.base import SectionContext
+from chesscoach.pipeline import CacheStats, engine_session, load_games
 from chesscoach.profile.io import save_profile
-from chesscoach.profile.models import PlayerProfile, PlayerRef, Provenance
+from chesscoach.profile.models import PlayerProfile, PlayerRef
+from chesscoach.sections.base import SectionContext
 
 
 def analyse(args: argparse.Namespace) -> int:
-    source = Path(args.pgn)
-    games = parse_pgn_dir(source) if source.is_dir() else parse_pgn_file(source)
+    games = load_games(args.pgn)
     if not games:
-        print(f"no standard games found in {source}")
+        print(f"no standard games found in {args.pgn}")
         return 1
 
     corpus = build_corpus(args.player, games)
     if corpus.n_games == 0:
-        print(f"no games found for player {args.player!r} in {source}")
+        print(f"no games found for player {args.player!r} in {args.pgn}")
         return 1
 
     print(f"player   {args.player}")
@@ -45,22 +43,11 @@ def analyse(args: argparse.Namespace) -> int:
     print(f"corpus   {corpus.corpus_id}")
     print(f"depth    {args.depth}")
 
-    cache = EvalCache(args.cache) if args.cache else None
-    try:
-        with StockfishAnalyser(args.engine, depth=args.depth, cache=cache) as analyser:
-            print(f"engine   {analyser.engine_name}\nanalysing...", flush=True)
-            observations = analyse_corpus(corpus, games, analyser)
-            engine_name = analyser.engine_name
-    finally:
-        if cache is not None:
-            cache.commit()
+    with engine_session(args.engine, args.depth, args.cache) as session:
+        print(f"engine   {session.analyser.engine_name}\nanalysing...", flush=True)
+        observations = analyse_corpus(corpus, games, session.analyser)
+        provenance = session.provenance(corpus.corpus_id)
 
-    provenance = Provenance(
-        engine=engine_name,
-        depth=args.depth,
-        corpus_id=corpus.corpus_id,
-        analysed_at=date.today().isoformat(),
-    )
     diagnosis = diagnose(SectionContext(observations, corpus, provenance), default_agents())
 
     profile = apply_to_profile(
@@ -72,7 +59,7 @@ def analyse(args: argparse.Namespace) -> int:
     )
     save_profile(profile, args.out)
 
-    _report(observations, cache)
+    _report(observations, session.cache_stats())
 
     print("\nsections")
     for line in summarise(diagnosis):
@@ -93,12 +80,10 @@ def analyse(args: argparse.Namespace) -> int:
         _write_observations(observations, Path(args.observations))
         print(f"moves    {args.observations}")
 
-    if cache is not None:
-        cache.close()
     return 0
 
 
-def _report(observations: tuple[Observation, ...], cache: EvalCache | None) -> None:
+def _report(observations: tuple[Observation, ...], cache: CacheStats | None) -> None:
     labels = Counter(o.label.value for o in observations if o.label)
     total = len(observations)
     errors = sum(labels.values())
@@ -112,9 +97,10 @@ def _report(observations: tuple[Observation, ...], cache: EvalCache | None) -> N
     print("phases   " + ", ".join(f"{phase} {count}" for phase, count in sorted(phases.items())))
 
     if cache is not None:
-        looked_up = cache.hits + cache.misses
-        share = 100 * cache.hits / max(1, looked_up)
-        print(f"cache    {cache.hits} hits / {looked_up} lookups ({share:.1f}%), {cache.size()} rows")
+        print(
+            f"cache    {cache.hits} hits / {cache.lookups} lookups "
+            f"({100 * cache.hit_rate:.1f}%), {cache.rows} rows"
+        )
 
 
 def _write_observations(observations: tuple[Observation, ...], path: Path) -> None:
@@ -184,17 +170,12 @@ def check_eval_set(args: argparse.Namespace) -> int:
         game["game_id"]: set(game["spoiled_plies"]) for game in truth["games"]
     }
 
-    games = parse_pgn_file(directory / "planted.pgn")
+    games = load_games(directory / "planted.pgn")
     corpus = build_corpus(FLAWED_PLAYER, games)
 
-    cache = EvalCache(args.cache) if args.cache else None
-    try:
-        with StockfishAnalyser(args.engine, depth=args.depth, cache=cache) as analyser:
-            print(f"checking {corpus.n_games} games at depth {args.depth}...", flush=True)
-            observations = analyse_corpus(corpus, games, analyser)
-    finally:
-        if cache is not None:
-            cache.close()
+    with engine_session(args.engine, args.depth, args.cache) as session:
+        print(f"checking {corpus.n_games} games at depth {args.depth}...", flush=True)
+        observations = analyse_corpus(corpus, games, session.analyser)
 
     flawed = [o for o in observations if o.mover == FLAWED_PLAYER]
     planted = [o for o in flawed if o.ply in spoiled.get(o.game_id, set())]
@@ -236,23 +217,13 @@ def score_agent(args: argparse.Namespace) -> int:
     truth = json.loads((directory / "ground_truth.json").read_text(encoding="utf-8"))
     spec = WeaknessSpec(**truth["spec"])
 
-    games = parse_pgn_file(directory / "planted.pgn")
+    games = load_games(directory / "planted.pgn")
     corpus = build_corpus(FLAWED_PLAYER, games)
 
-    cache = EvalCache(args.cache) if args.cache else None
-    try:
-        with StockfishAnalyser(args.engine, depth=args.depth, cache=cache) as analyser:
-            print(f"analysing {corpus.n_games} games at depth {args.depth}...", flush=True)
-            observations = analyse_corpus(corpus, games, analyser)
-            provenance = Provenance(
-                engine=analyser.engine_name,
-                depth=args.depth,
-                corpus_id=corpus.corpus_id,
-                analysed_at=date.today().isoformat(),
-            )
-    finally:
-        if cache is not None:
-            cache.close()
+    with engine_session(args.engine, args.depth, args.cache) as session:
+        print(f"analysing {corpus.n_games} games at depth {args.depth}...", flush=True)
+        observations = analyse_corpus(corpus, games, session.analyser)
+        provenance = session.provenance(corpus.corpus_id)
 
     agent = S2DecisionProcess()
     report = agent.report(SectionContext(observations, corpus, provenance))
