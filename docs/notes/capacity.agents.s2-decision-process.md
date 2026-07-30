@@ -12,10 +12,13 @@ created: 1785257000000
 **Built in:** [[mission.step-04-first-agent]] · **Assessed in:** [[mission.step-05-assess-s2]]
 
 > **Current behaviour, honestly stated.** S2 finds the planted weakness at 5.54× with zero spurious
-> findings, and says **nothing about any of seven real players**. Two of its three conditions are
-> either rarely triggered (time pressure, in 600+0 arena games) or withheld as
-> selection-confounded (long think). It is a correct agent whose useful range is currently narrow,
-> and it widens when the rating-peer corpus exists.
+> findings. Against **38 real players** with a peer reference, it asserts a finding for **6 of them**
+> (16 %), stays silent for 28, and declines on 4 for want of data.
+>
+> All six findings are the **same claim kind**. Of its three conditions, time pressure almost never
+> triggers in 600+0 games and instant moves never clear the population rate — so S2 has one working
+> detector in practice. A coach whose only sentence is "you err after long thinks" is not yet a
+> coach, and that is the strongest argument for building S1 next.
 
 The first agent, chosen ahead of the richer tactical section on purpose: it is the cheapest to
 build, needs no engine for most of its signal, targets the **process gap** that content-based

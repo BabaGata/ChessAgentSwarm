@@ -24,6 +24,28 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 
 ---
 
+### L-013 — Population rates converge fast; individual verdicts at the boundary do not
+**Date:** 2026-07-31 · **Cycle / mission step:** M7 · **Class:** technique
+**Context:** Widening the peer reference from 7 players to 38 ([[architecture.peer-reference]]).
+**Observation:** The population rate for the long-think condition moved from 17.7 % to **17.8 %** —
+a seven-player sample had already estimated it to within 0.1 points across 3,675 moves. Yet
+`esik24`, asserted at `priority` against the small reference, went **silent** against the wide one.
+A 0.4 percentage point change in the peer rate flipped the verdict, because that player's confidence
+interval straddles the population rate.
+**Lesson:** These are the same fact seen twice. A small reference is fine for *estimating a
+population* and unsafe for *judging a borderline player*, precisely because the borderline is where
+a small shift in the reference decides the answer. Two consequences were applied. First, tiering was
+wrong: `priority` was reached on **distinct-game count alone**, so a claim whose interval merely
+grazed the population rate printed at the strongest tier. It now additionally requires the interval
+to clear the comparison **by a margin** (1.25×), which regraded four of six findings from `priority`
+to `focus`. Second, the tier follows the interval's *lower bound* rather than the point estimate, so
+a player at 1.89× can rank below one at 1.78× — apparent size and strength of evidence are different
+things, and the tier should track the second.
+**Applied to:** `chesscoach/confidence.py` (`PRIORITY_MARGIN`), [[architecture.confidence]],
+[[architecture.peer-reference]].
+
+---
+
 ### L-012 — Self-baselines overstate by however much the population shares the behaviour
 **Date:** 2026-07-29 · **Cycle / mission step:** M7 (peer reference) · **Class:** technique
 **Context:** Building the rating-peer reference and re-running S2 against it

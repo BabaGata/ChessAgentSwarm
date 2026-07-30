@@ -36,7 +36,8 @@ need to know?"
 | **First agent (S2)** | **built, scored, assessed on real data** | finds the planted weakness at 5.54× with 0 spurious; **says nothing about any of 7 real players**, which is honest and is the ceiling described in [[mission.step-05-assess-s2]] |
 | Orchestration | **built** | `chesscoach/orchestrator.py` — fan-out, failure isolation, section-scoped replacement. Findings now reach the profile |
 | Shared pipeline | **built** | `chesscoach/pipeline.py` — engine/cache session and provenance, extracted in M6 from three copies |
-| Peer reference corpus | **built** | `chesscoach/peers.py` — 7 players, band 1400–1800 rapid, depth 15, leave-one-out. Unblocks C6, evaluation D2 and S2's withheld conditions. Too small to be trustworthy; stated as such |
+| Peer reference corpus | **built and widened** | `chesscoach/peers.py` — **38 players, ~820 games**, band 1400–1800 rapid, depth 15, leave-one-out. Population rates converged (17.7 % → 17.8 %); borderline verdicts did not (L-013) |
+| Parallel analysis | **built** | `chesscoach/analysis/parallel.py` — corpus-wide dedup + prefetch. ~3× on a cold cache, measured |
 | Confidence policy | **enforced at runtime** | `chesscoach/confidence.py` — tiers, distinct-game counts, split-half replication as a promotion requirement |
 | Production code | **yes, first** | design note existed first, so the guardrail held |
 | Any agent | no | M4 |
@@ -82,16 +83,19 @@ This is what actually moved this cycle.
 
 ## Next logical steps (priority order)
 
-1. **P0 — Widen the peer reference.** Seven players is enough to demonstrate the mechanism and not
-   enough to trust it. Fetch 30–50 players per band, which is bounded only by analysis time, and
-   store per time control. Until then every peer-based claim carries that caveat.
+1. **P0 — M4 again: build S1 (tactical pattern gaps).** Now the clearest priority rather than the
+   next in line. Across 38 players S2 produces **one kind of claim**, for 16 % of them; a system that
+   can only say "you err after long thinks" is not a coach. S1 is the richest section, its free
+   labelled vocabulary is already mapped in [[domain.puzzle-themes]], and every piece of machinery it
+   needs — profile, confidence, peers, orchestrator, evaluation — now exists.
 2. **P1 — Implement evaluation metric D1 (inter-player divergence).** It would have caught M5's
-   base-rate finding automatically instead of by eye, and it is cheap: compare findings across
-   players and flag anything nearly universal.
-3. **P2 — Validate the confidence thresholds** against real findings. Every number in
-   [[architecture.confidence]] is provisional; the split-half harness exists to check them.
-4. **P3 — M4 again: build S1 (tactical pattern gaps).** The richest section, with a free labelled
-   vocabulary already mapped in [[domain.puzzle-themes]]. The peer machinery it needs now exists.
+   base-rate finding automatically instead of by eye, and it would have flagged the
+   one-claim-kind problem above without a manual sweep.
+3. **P2 — Validate the remaining confidence thresholds.** `PRIORITY_MARGIN` was set from measurement
+   (L-013); the rest are still provisional and the split-half harness exists to check them.
+4. **P3 — Widen the reference further and add time controls.** 38 players is workable for rapid;
+   blitz and classical have no reference at all, and S2's time-pressure condition needs a shorter
+   time control before it can be tested on real data.
 4. **P3 — Peer reference rates.** Build the rating-band reference population once from the Lichess
    open database. Serves C6's remaining route *and* evaluation metric D2.
 5. **P4 — Per-position parallelism** in the analysis core. The seam exists (the analyser is

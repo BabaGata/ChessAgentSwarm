@@ -79,18 +79,26 @@ python -m pytest --cov=chesscoach             # 82% coverage
 
 ## What it currently says about real players
 
-Very little, on purpose. Across seven real players in the target band, S2 asserts **two** findings.
+Across **38 real players** in the target band, the one existing agent asserts a finding for **6** of
+them, stays silent for 28, and declines on 4 for want of data.
 
-The story of how it got there is the project in miniature. Four of six players initially showed an
-elevated error rate after long thinks, at 2.10–2.85× their own baseline — all correct measurements,
-none of them a diagnosis, because a long think happens *where the position is hard* and hard
-positions produce errors. Compared against a population of their peers instead, two of the four
-vanish, and the two that survive drop to 1.65× and 1.52×.
+The route there is the project in miniature. Players initially showed elevated error rates after long
+thinks at 2.10–2.85× their *own* baseline — all correct measurements, none of them diagnoses, because
+a long think happens *where the position is hard* and hard positions produce errors. Measured against
+a population of peers instead, most of that evaporates: the population itself errs 17.8% of the time
+in exactly those positions.
 
-A self-baseline overstates every effect by however much the behaviour is universal. That is why the
-peer reference exists, and why the system says less than it could.
+Two further things fell out of widening that population from 7 players to 38:
 
-See `docs/notes/mission.step-05-assess-s2.md` and `docs/notes/architecture.peer-reference.md`.
+- **Population rates converge fast.** Seven players estimated 17.7% against 3,675 moves' worth of 38.
+- **Borderline verdicts do not.** One player flipped from a top-tier finding to silence on a 0.4
+  percentage point change in the reference. Tiering now requires a claim to clear the population by a
+  *margin*, not merely to touch it.
+
+And the honest limitation: all six findings are the **same kind**. A coach whose only sentence is
+"you err after long thinks" is not yet a coach.
+
+See `docs/notes/architecture.peer-reference.md` and `docs/notes/learning.lessons.md`.
 
 ## Design in one paragraph
 

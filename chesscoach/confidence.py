@@ -30,6 +30,14 @@ FOCUS_GAMES_WITH_DATA = 20
 
 PRIORITY_DISTINCT_GAMES = 8
 
+# `focus` only needs the interval to clear the comparison rate at all. That is
+# too weak for the top tier: a claim whose lower bound sits a fraction above the
+# population rate is real but marginal, and measurement showed exactly how
+# fragile such claims are -- a 0.4 percentage point change in the reference
+# population flipped one from `priority` to nothing at all. To be called a
+# priority a claim must clear the comparison by a margin, not merely touch it.
+PRIORITY_MARGIN = 1.25
+
 
 @dataclass(frozen=True)
 class ClaimStats:
@@ -90,11 +98,16 @@ def assign_tier(stats: ClaimStats) -> TierDecision:
     reasons.append("interval excludes baseline")
     reasons.append("replicated across a split of the player's games")
 
-    if stats.distinct_games >= PRIORITY_DISTINCT_GAMES:
+    clears_by_margin = stats.ci95[0] >= stats.baseline_rate * PRIORITY_MARGIN
+    if stats.distinct_games >= PRIORITY_DISTINCT_GAMES and clears_by_margin:
         reasons.append(f"distinct_games>={PRIORITY_DISTINCT_GAMES}")
+        reasons.append(f"interval clears the comparison by {PRIORITY_MARGIN:g}x")
         return TierDecision(
             tier=ConfidenceTier.PRIORITY, reasons=tuple(reasons), insufficient_data=False
         )
+
+    if stats.distinct_games >= PRIORITY_DISTINCT_GAMES:
+        reasons.append("margin over the comparison rate too narrow for priority")
 
     return TierDecision(tier=ConfidenceTier.FOCUS, reasons=tuple(reasons), insufficient_data=False)
 

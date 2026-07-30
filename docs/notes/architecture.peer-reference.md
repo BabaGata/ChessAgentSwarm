@@ -121,6 +121,40 @@ the whole reason M5 refused to let these be asserted.
 Leave-one-out is visible in the output: esik24 is compared against 17.1 % and levit79 against 15.8 %,
 because each is excluded from the population they are judged by.
 
+## Widened to 38 players — and what that showed
+
+Rebuilt from **38 players / ~820 games**, band 1400–1800, rapid, depth 15:
+
+| Condition | 7 players | **38 players** | Sample |
+|---|---|---|---|
+| long think → error | 17.7 % | **17.8 %** | 654 / 3675 moves |
+| instant move → error | 7.3 % | **7.5 %** | 575 / 7669 moves |
+| time pressure → error | 16.7 % | **15.5 %** | 45 / 290 moves, 13 players |
+
+**The population rate barely moved.** A seven-player reference already estimated it to within
+0.1 points. That is a genuine and slightly surprising result: population rates converge fast.
+
+**Individual verdicts did not.** `esik24` was asserted at `priority` against the small reference
+(peer 17.1 %) and is **silent** against the wide one (peer 17.5 %). A 0.4 percentage point change in
+the reference flipped the verdict, because that player's interval straddles the population rate.
+
+The two facts are consistent and the combination is the lesson: a small reference is adequate for
+*estimating the population*, and inadequate for *judging a borderline player* — because the
+borderline is exactly where a small change in the reference decides the answer. See L-013.
+
+### Coverage, across 38 players
+
+| | |
+|---|---|
+| a finding asserted | **6** (16 %) |
+| nothing to report | 28 (74 %) |
+| insufficient data | 4 (10 %) |
+
+All six findings are the **same claim kind**. S2 has three conditions and effectively one working
+detector: time pressure almost never triggers in 600+0 games, and instant moves never clear the
+population rate. A coach whose only sentence is "you err after long thinks" is not yet a coach —
+which is the strongest argument yet for building S1 next.
+
 ## Honest limitations, stated before building
 
 - **The first build will be small.** Bootstrapped from the 135 games already analysed across seven

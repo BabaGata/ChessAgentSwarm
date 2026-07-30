@@ -67,6 +67,24 @@ class TestPromotion:
 
         assert result.tier is ConfidenceTier.PRIORITY
 
+    def test_a_narrow_margin_over_the_comparison_is_only_focus(self):
+        # Measured: a 0.4 percentage point change in the reference population
+        # flipped a claim from priority to nothing. A claim that barely clears
+        # the comparison is real but not a priority.
+        result = assign_tier(
+            counts(distinct_games=10, games_with_data=40, rate=0.13, ci95=(0.105, 0.20))
+        )
+
+        assert result.tier is ConfidenceTier.FOCUS
+        assert any("too narrow" in reason for reason in result.reasons)
+
+    def test_a_clear_margin_still_reaches_priority(self):
+        result = assign_tier(
+            counts(distinct_games=10, games_with_data=40, rate=0.35, ci95=(0.25, 0.45))
+        )
+
+        assert result.tier is ConfidenceTier.PRIORITY
+
     def test_a_rate_below_baseline_is_never_promoted(self):
         # Doing something *less* than usual is not a weakness.
         result = assign_tier(counts(rate=0.02, baseline_rate=0.10, ci95=(0.01, 0.05)))

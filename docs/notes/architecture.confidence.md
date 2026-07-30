@@ -34,7 +34,15 @@ piece three times in one disastrous game does not have a pattern, they had a bad
 |---|---|
 | `watch` | ≥ 3 distinct games · ≥ 10 games with data for that section |
 | `focus` | ≥ 5 distinct games · ≥ 20 games with data · rate CI excludes the peer rate · **replicated** on a held-out split |
-| `priority` | `focus` conditions · ≥ 8 distinct games **or** an active recency streak ≥ 3 · measurable cost attached |
+| `priority` | `focus` conditions · ≥ 8 distinct games · **and the interval clears the comparison rate by a margin (1.25×)**, not merely touching it |
+
+**Why `priority` needs a margin.** It originally required only the distinct-game count, which meant a
+claim whose interval grazed the population rate printed at the strongest tier. Measurement settled
+it: a 0.4 percentage point change in the reference population flipped one such claim from `priority`
+to nothing at all (L-013). Sample breadth and strength of evidence are different properties, and the
+top tier should reflect the second. Note the consequence — because the test uses the interval's
+lower bound, a player with a larger point lift can rank *below* one with a smaller but better-evidenced
+one. That is intended.
 
 **Gate:** below 10 games with data for a section, that section reports `insufficient_data` and emits
 nothing. A new account produces no findings, which is correct — the alternative is a system that
