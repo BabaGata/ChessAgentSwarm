@@ -18,6 +18,7 @@ from pathlib import Path
 
 from chesscoach.analysis.core import analyse_corpus
 from chesscoach.analysis.engine import DEFAULT_DEPTH
+from chesscoach.analysis.parallel import prefetch
 from chesscoach.analysis.observations import Observation
 from chesscoach.ingest.corpus import build_corpus
 from chesscoach.orchestrator import apply_to_profile, default_agents, diagnose, summarise
@@ -45,6 +46,7 @@ def analyse(args: argparse.Namespace) -> int:
 
     with engine_session(args.engine, args.depth, args.cache) as session:
         print(f"engine   {session.analyser.engine_name}\nanalysing...", flush=True)
+        _prefetch(session, games, args)
         observations = analyse_corpus(corpus, games, session.analyser)
         provenance = session.provenance(corpus.corpus_id)
 
@@ -97,6 +99,29 @@ def analyse(args: argparse.Namespace) -> int:
         print(f"moves    {args.observations}")
 
     return 0
+
+
+def _prefetch(session, games, args) -> None:
+    """Fill the cache in parallel before the sequential pass reads it.
+
+    Skipped without a cache, since there would be nowhere to put the results.
+    """
+    if session.cache is None:
+        return
+
+    def show(done: int, total: int) -> None:
+        print(f"  evaluated {done}/{total} positions", end="\r", flush=True)
+
+    new = prefetch(
+        games,
+        session.cache,
+        engine=args.engine,
+        depth=args.depth,
+        workers=getattr(args, "workers", None),
+        progress=show,
+    )
+    if new:
+        print(f"  evaluated {new} new positions in parallel   ")
 
 
 def _comparison_line(measurement) -> str:
@@ -309,6 +334,11 @@ def build_peer_reference(args: argparse.Namespace) -> int:
     collected: list[tuple[str, tuple]] = []
 
     with engine_session(args.engine, args.depth, args.cache) as session:
+        # Prefetch across every player at once: openings repeat heavily between
+        # players, so the corpus costs far less than the sum of its parts.
+        all_games = [game for path in paths for game in load_games(path)]
+        _prefetch(session, all_games, args)
+
         for path in paths:
             player = path.stem
             games = load_games(path)
@@ -354,6 +384,7 @@ def build_parser() -> argparse.ArgumentParser:
     run.add_argument("--out", required=True, help="where to write the player profile")
     run.add_argument("--depth", type=int, default=DEFAULT_DEPTH)
     run.add_argument("--cache", default=None, help="SQLite evaluation cache path")
+    run.add_argument("--workers", type=int, default=None, help="parallel engines for prefetch")
     run.add_argument("--observations", default=None, help="optional JSONL dump of every move")
     run.add_argument("--source", default="lichess")
     run.add_argument("--band", default="1400-1800")
@@ -423,6 +454,7 @@ def build_parser() -> argparse.ArgumentParser:
     peers.add_argument("--time-control", default="rapid")
     peers.add_argument("--depth", type=int, default=DEFAULT_DEPTH)
     peers.add_argument("--cache", default=None)
+    peers.add_argument("--workers", type=int, default=None, help="parallel engines for prefetch")
     peers.set_defaults(handler=build_peer_reference)
 
     return parser

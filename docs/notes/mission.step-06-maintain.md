@@ -42,7 +42,34 @@ stats slightly later than the others.
 | **Split `cli.py` into a package** | Need: mild — it is the largest module at ~190 statements across five commands. Usefulness: low today; it is still readable top to bottom and the commands share little beyond what was just extracted. **Revisit at ~8 commands or 300 statements.** |
 | **Move E02's positional detectors into the package** | Deliberate. `experiments/` holds historical records of what was measured; reproducing an experiment must not depend on later refactors. The detectors get reimplemented against the section contract when a positional section is built — already the stated intent in [[experiments.e02-positional-detectors]]. |
 | **Cover `evaluation/choosers.py`** (0 %) | Accepted. It exists only to drive a live engine subprocess; a unit test would test a mock. It is exercised whenever an evaluation set is generated. |
-| **Parallelise the analysis core** | Deferred, not refused. A performance issue, not a correctness one ([[mission.step-05-assess-s2]] § 1), and the seam already exists because the analyser is injected. Stays P4 in [[state]] until analysis time is actually in the way. |
+| **Parallelise the analysis core** | Deferred, not refused. A performance issue, not a correctness one ([[mission.step-05-assess-s2]] § 1), and the seam already exists because the analyser is injected. Stays P4 in [[state]] until analysis time is actually in the way. **Un-deferred 2026-07-29** — see below. |
+
+---
+
+## 2026-07-29 · parallel analysis, un-deferred on its own stated condition
+
+The M5 assessment deferred this with an explicit trigger: *"until analysis time is actually in the
+way"*. Widening the peer reference to a real population means analysing several hundred games, and
+at the sequential rate that is roughly an hour per rebuild. The trigger fired, so the work was done
+rather than deferred again — which is the point of writing the condition down instead of a vague
+"later".
+
+| | |
+|---|---|
+| **Need** | Real, and newly so. The same code was fine at seven players and is not fine at forty. |
+| **Usefulness** | High: the peer reference has to be rebuilt whenever a section adds a condition, so this cost recurs. |
+| **Possibility** | Safe. E01 already established the shape — one engine thread each, parallelise per *position* rather than per game — and the design needed no change to the analyser, only a prefetch pass that fills the cache the sequential path then reads. |
+
+**Result:** `chesscoach/analysis/parallel.py`. Positions are collected across the whole corpus,
+deduplicated, evaluated across many single-threaded engines, and written to the cache in one pass.
+Deduplication earns its place beyond the parallelism: openings repeat heavily both within and across
+players, so a multi-player corpus costs much less than the sum of its parts.
+
+**Measured, and an earlier claim corrected.** One player's 24 games at depth 15 on a cold cache:
+~119 s implied by E01's sequential rate → **40.9 s**. That is about **3×**, where
+[[mission.step-05-assess-s2]] had said "roughly an order of magnitude". The original figure was
+extrapolated from per-position numbers without checking end to end; the note now carries the
+correction rather than the estimate.
 
 ### Documentation health
 

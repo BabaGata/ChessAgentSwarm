@@ -36,9 +36,14 @@ rate on re-run.
 
 The production analyser is **sequential**. E01 measured that per-position parallelism is what makes
 whole-corpus analysis fast, and the seam exists, but the shipped path analyses one position at a
-time — roughly an order of magnitude off the measured optimum. Invisible against warm caches and
-small planted sets; obvious the moment seven real players were queued at depth 15. Recorded, not
-urgent at this scale.
+time. Invisible against warm caches and small planted sets; obvious the moment seven real players
+were queued at depth 15. Recorded, not urgent at this scale.
+
+> **Corrected 2026-07-29.** This note originally said "roughly an order of magnitude off the measured
+> optimum". That was an overstatement made from E01's per-position figures without checking the
+> end-to-end case. Measured after building the parallel path: one player's 24 games at depth 15 on a
+> cold cache fell from ~119 s implied by E01's sequential rate to **40.9 s** — about **3×**, not 10×.
+> The difference is contention and the sequential pass that still walks the games afterwards.
 
 ## 2 · Does the end result serve the goal?
 
