@@ -137,9 +137,22 @@ anything was done. **Any** system that measures a weakness, prescribes for it an
 appear to work — which is very likely what a coaching tool reporting "your weakness improved" is
 reporting, since none of the comparable projects checks against a control.
 
-So the progress check's verdicts are **not currently evidence that coaching works**, and this README
-will not pretend otherwise. Fixing it means shrinking the estimate before setting a target, and
-beating the measured control rather than halving a gap. See
+Fixing that took two attempts, and the failed one is the interesting half:
+
+| Target rule | Met by doing nothing |
+|---|---|
+| halve the gap from the measured rate | **92%** |
+| halve the gap from a shrunk estimate *(the principled fix)* | 83% |
+| calibrated against the measured no-change distribution | **8%** |
+
+Empirical-Bayes shrinkage barely helped, because it corrects for sampling noise and the regression is
+much larger than noise — the later rate is a median 0.44 of the earlier one. When the control says
+the effect is twice what the theory predicts, the theory is missing something, and calibrating
+against the control fixes the number without needing to know what.
+
+Every progress sign now states its own false-positive rate: *"about 20% of players reach this without
+doing anything."* And the 8% is **in-sample** — the constant was fitted on the players it was tested
+against — which is said here rather than quietly enjoyed. See
 `docs/notes/experiments.e05-natural-drift.md`.
 
 The other honest limitation: **nothing asks the player anything.** Probes, and phrasing fit for a

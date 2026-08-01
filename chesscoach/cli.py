@@ -85,7 +85,15 @@ def analyse(args: argparse.Namespace) -> int:
 
     selection = select_priorities(profile.findings)
     profile = replace(
-        profile, plan=build_plan(selection.priorities, created=date.today().isoformat())
+        profile,
+        plan=build_plan(
+            selection.priorities,
+            created=date.today().isoformat(),
+            peers=peers,
+            band=args.band,
+            time_control=args.time_control,
+            player=args.player,
+        ),
     )
     save_profile(profile, args.out)
 

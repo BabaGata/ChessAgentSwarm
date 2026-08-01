@@ -24,6 +24,26 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 
 ---
 
+### L-017 — When theory and the control disagree, calibrate against the control
+**Date:** 2026-07-31 · **Cycle / mission step:** M3 (fixing the target rule) · **Class:** technique
+**Context:** Repairing the planner after E05 found 92 % of its targets met by doing nothing.
+**Observation:** The principled fix — empirical-Bayes shrinkage, with the prior's strength estimated
+from the peer population rather than guessed — moved it only from **92 % to 83 %**. Shrinkage
+corrects for sampling noise, and the regression is much larger than sampling noise: the later rate
+is a median **0.44** of the earlier one. Setting the target instead at a percentile of the *measured*
+no-change distribution took it to **8 %**.
+**Lesson:** A correction derived from a model of the noise only removes the noise the model knows
+about. When the control says the effect is twice what the theory predicts, the control is measuring
+something the theory omits — here, selection on statistical significance and possibly real
+improvement over time, which this design cannot separate. Calibrating against the control fixes the
+number without needing to know which. Two obligations follow: the constant must be **recalibrated**
+whenever anything upstream changes, and it must be **fitted and tested on different players** — the
+8 % above is in-sample and therefore optimistic, which is stated wherever it appears.
+**Applied to:** `chesscoach/planner.py` (`NO_CHANGE_RATIO`), `chesscoach/peers.py` (shrinkage and
+`prior_strength`), and the progress sign, which now states how often doing nothing would suffice.
+
+---
+
 ### L-016 — Selecting a weakness guarantees it will look like it improved
 **Date:** 2026-07-31 · **Cycle / mission step:** M3 (E05) · **Class:** technique
 **Context:** Running the retrospective split across 32 players

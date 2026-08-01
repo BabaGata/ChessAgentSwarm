@@ -85,6 +85,37 @@ survives in a stronger form; the number in it did not.
 that machinery works. But a verdict that means nothing is not progress tracking, and scoring it as
 though it were would be the self-flattery this project exists to avoid.
 
+## The fix, and what it took
+
+Three target rules, each measured against the same 32 untreated players:
+
+| Rule | Met by doing nothing | Target asked for |
+|---|---|---|
+| halve the gap from the **measured** rate | **92 %** | +5.5 pts |
+| halve the gap from a **shrunk** estimate | 83 % | +7.8 pts |
+| **calibrated against the no-change distribution** | **8 %** | +15.8 pts |
+
+**Shrinkage alone was not enough**, and the reason is informative. Empirical-Bayes shrinkage corrects
+for *sampling noise*, and the observed regression is far larger than sampling noise explains: across
+the 13 predictions the later rate is a **median 0.44** of the earlier one, mean 0.51. A rate that
+halves on its own is not being moved by chance in a handful of observations.
+
+Two candidates for the extra, and **E05 cannot separate them**: selection on statistical significance
+(a finding must clear a confidence test to exist at all, which inflates it beyond simple noise), and
+genuine improvement over a split that spans months of real play. Both would produce exactly this.
+
+So the correction had to be **calibrated rather than derived**: the target is set at the 20th
+percentile of the measured no-change distribution. That turns it into a hypothesis test with a
+stated false-positive rate, and the progress sign now says so out loud — *"about 20 % of players
+reach this without doing anything"*.
+
+### The caveat that matters
+
+**The calibration constant was fitted on the same 13 predictions it is now evaluated against.** The
+8 % is therefore an in-sample figure and optimistic; the honest version needs the constant estimated
+on one set of players and tested on another. Until that is done, 8 % is evidence the *approach*
+works and not a number to quote.
+
 ## What would fix it
 
 1. **Shrink the estimate before setting the target.** The player's true rate is better estimated by

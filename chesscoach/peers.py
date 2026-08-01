@@ -17,12 +17,21 @@ their own deviation.
 from __future__ import annotations
 
 import json
+import statistics
 from dataclasses import dataclass, field
 from pathlib import Path
 
 from chesscoach.profile.models import wilson_interval
 
 SCHEMA_VERSION = 1
+
+# Pseudo-observations of prior weight used when there are too few peers to
+# estimate one. Deliberately substantial: with a thin population, an extreme
+# observed rate is far more likely to be noise than to be real.
+DEFAULT_PRIOR_STRENGTH = 50.0
+
+# Fewer contributors than this and the spread of rates says nothing.
+MIN_PEERS_FOR_PRIOR = 3
 
 
 @dataclass(frozen=True)
@@ -105,6 +114,50 @@ class PeerReference:
             instances=instances,
         )
 
+    def expected_rate(
+        self,
+        band: str,
+        time_control: str,
+        claim_key: str,
+        instances: int,
+        opportunities: int,
+        excluding: str | None = None,
+    ) -> float | None:
+        """What this player's rate really is, allowing for how little data there is.
+
+        An empirical-Bayes estimate: the observed rate pulled toward the
+        population, by an amount the population itself determines. This is the
+        answer to E05 -- a finding is selected for being extreme, and extremes
+        regress, so the selected value is a biased estimate of the truth and must
+        not be what a prediction is measured from.
+
+        Also the honest prediction for "nothing changes": if the player carries
+        on as they are, this is roughly where the next measurement lands.
+        """
+        if opportunities <= 0:
+            return None
+
+        contributions = self._contributions(band, time_control, claim_key, excluding)
+        if not contributions:
+            return None
+
+        total_opportunities = sum(c.opportunities for c in contributions)
+        if total_opportunities == 0:
+            return None
+
+        population = sum(c.instances for c in contributions) / total_opportunities
+        strength = prior_strength(contributions)
+        return (instances + strength * population) / (opportunities + strength)
+
+    def _contributions(
+        self, band: str, time_control: str, claim_key: str, excluding: str | None
+    ) -> tuple[_Contribution, ...]:
+        contributions = self.cells.get(self.key(band, time_control, claim_key), ())
+        if excluding is None:
+            return contributions
+        wanted = excluding.lower()
+        return tuple(c for c in contributions if c.player.lower() != wanted)
+
     def merged_with(self, other: PeerReference) -> PeerReference:
         """Combine two references, refusing to mix analysis depths."""
         if other.depth != self.depth:
@@ -152,6 +205,40 @@ class PeerReference:
                 for key, contributions in payload["cells"].items()
             },
         )
+
+
+def prior_strength(contributions: tuple[_Contribution, ...]) -> float:
+    """How much the population should outweigh one player's observation.
+
+    Estimated by method of moments on a beta-binomial: if peers' rates differ
+    widely, most of the spread is real and an individual's observation is
+    informative, so shrink little. If they are all alike, most of the spread in
+    any one measurement is sampling noise, so shrink hard.
+
+    This is the "how much" that E05 showed cannot be guessed -- it is a property
+    of the population, and the population is already stored.
+    """
+    usable = [c for c in contributions if c.opportunities > 0]
+    if len(usable) < MIN_PEERS_FOR_PRIOR:
+        return DEFAULT_PRIOR_STRENGTH
+
+    rates = [c.instances / c.opportunities for c in usable]
+    mean_rate = sum(c.instances for c in usable) / sum(c.opportunities for c in usable)
+    if mean_rate <= 0 or mean_rate >= 1:
+        return DEFAULT_PRIOR_STRENGTH
+
+    observed_variance = statistics.pvariance(rates)
+    # Part of that spread is just sampling noise, and only the remainder is real
+    # variation between players.
+    sampling_variance = statistics.mean(
+        mean_rate * (1 - mean_rate) / c.opportunities for c in usable
+    )
+    between = observed_variance - sampling_variance
+    if between <= 0:
+        return DEFAULT_PRIOR_STRENGTH
+
+    strength = mean_rate * (1 - mean_rate) / between - 1
+    return max(strength, 1.0)
 
 
 def build_reference(

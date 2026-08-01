@@ -82,7 +82,14 @@ def run_player(session, player: str, games, peers, args) -> PlayerResult | None:
         peers=peers,
     )
     findings = diagnose(context, default_agents()).findings
-    plan = build_plan(select_priorities(findings).priorities, created=date.today().isoformat())
+    plan = build_plan(
+        select_priorities(findings).priorities,
+        created=date.today().isoformat(),
+        peers=peers,
+        band=BAND,
+        time_control=TIME_CONTROL,
+        player=player,
+    )
     if plan is None:
         return PlayerResult(player, len(early), len(late), 0, [])
 

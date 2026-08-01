@@ -21,6 +21,7 @@ from __future__ import annotations
 import math
 
 from chesscoach.arbiter import Priority
+from chesscoach.peers import PeerReference
 from chesscoach.profile.models import Finding, Plan, PlanStep
 
 # Enough games that a rate measured over them means something. Matches the
@@ -31,30 +32,83 @@ MIN_CHECK_GAMES = 20
 MIN_OPPORTUNITIES_TO_RECHECK = 40
 
 # A training block should halve the distance to the comparison rate, not close
-# it. Provisional, like every threshold in this project.
+# it. Used only when there is no peer population to calibrate against.
 GAP_CLOSED_PER_BLOCK = 0.5
 
+# What a rate does on its own, measured in E05 across 32 players who were never
+# told anything: the later period comes in at roughly half the earlier one,
+# median ratio 0.44, mean 0.51. Shrinking for sampling noise does not account for
+# a halving, so the correction is calibrated rather than derived.
+#
+# This is the 20th percentile of that distribution, which makes the target a
+# hypothesis test with a stated false-positive rate: about one untreated player
+# in five reaches it anyway. Recalibrate by re-running E05 whenever anything
+# upstream of the measurement changes.
+NO_CHANGE_RATIO = 0.34
+BASELINE_MET_SHARE = 0.20
 
-def build_plan(priorities: tuple[Priority, ...], created: str) -> Plan | None:
-    """One step per priority, in rank order. No priorities, no plan."""
+
+def build_plan(
+    priorities: tuple[Priority, ...],
+    created: str,
+    peers: PeerReference | None = None,
+    band: str | None = None,
+    time_control: str | None = None,
+    player: str | None = None,
+) -> Plan | None:
+    """One step per priority, in rank order. No priorities, no plan.
+
+    The peer reference is not optional in spirit: without it, targets are set
+    from the selected value and E05 showed that produces predictions met 92 % of
+    the time by doing nothing.
+    """
     if not priorities:
         return None
 
     return Plan(
         created=created,
-        steps=tuple(_step(priority.finding) for priority in priorities),
+        steps=tuple(
+            _step(priority.finding, _expected(priority.finding, peers, band, time_control, player))
+            for priority in priorities
+        ),
     )
 
 
-def _step(finding: Finding) -> PlanStep:
-    target = _target_rate(finding)
+def _expected(
+    finding: Finding,
+    peers: PeerReference | None,
+    band: str | None,
+    time_control: str | None,
+    player: str | None,
+) -> float | None:
+    """Where the next measurement lands if nothing about the player changes."""
+    if peers is None or band is None or time_control is None:
+        return None
+
+    measurement = finding.measurement
+    if not measurement.rate:
+        return None
+
+    opportunities = round(measurement.instances / measurement.rate)
+    return peers.expected_rate(
+        band,
+        time_control,
+        finding.claim.key(),
+        instances=measurement.instances,
+        opportunities=opportunities,
+        excluding=player,
+    )
+
+
+def _step(finding: Finding, expected: float | None) -> PlanStep:
+    target = _target_rate(finding, expected)
     games = _check_after_games(finding)
 
     return PlanStep(
         finding_id=finding.id,
         action=_action(finding),
         why=_why(finding),
-        progress_sign=_progress_sign(finding, target, games),
+        progress_sign=_progress_sign(finding, target, games, expected),
         check_after_games=games,
         # The number the prose describes. Without it the sign is readable and
         # uncheckable, which is only half of falsifiable (schema v3).
@@ -73,13 +127,23 @@ def _comparison(finding: Finding) -> float:
     return measurement.baseline_rate or 0.0
 
 
-def _target_rate(finding: Finding) -> float:
-    """Halfway from where they are to where the comparison sits."""
-    rate = finding.measurement.rate
-    comparison = _comparison(finding)
-    if comparison >= rate:
-        return rate
-    return rate - (rate - comparison) * GAP_CLOSED_PER_BLOCK
+def _target_rate(finding: Finding, expected: float | None) -> float:
+    """Halfway from where the player really is to where the comparison sits.
+
+    "Where they really are" is the shrunk estimate, not the measured rate. E05
+    showed why: a finding is selected for being extreme, so the measured rate is
+    biased upward, and a target set from it is beaten by regression alone. The
+    estimate is also the no-change prediction, so a target below it is a claim
+    about the coaching rather than about the arithmetic.
+    """
+    if expected is None:
+        # No population to calibrate against: fall back to halving the gap, and
+        # accept that such a target is weak. E05 measured how weak.
+        rate = finding.measurement.rate
+        comparison = _comparison(finding)
+        return rate if comparison >= rate else rate - (rate - comparison) * GAP_CLOSED_PER_BLOCK
+
+    return expected * NO_CHANGE_RATIO
 
 
 def _check_after_games(finding: Finding) -> int:
@@ -97,12 +161,20 @@ def _check_after_games(finding: Finding) -> int:
     return max(MIN_CHECK_GAMES, needed)
 
 
-def _progress_sign(finding: Finding, target: float, games: int) -> str:
-    """The observable claim this step is making, stated so it can be checked."""
-    return (
-        f"{_quantity(finding)} below {target:.1%} over the next {games} games "
-        f"(currently {finding.measurement.rate:.1%})"
-    )
+def _progress_sign(finding: Finding, target: float, games: int, expected: float | None) -> str:
+    """The observable claim this step is making, stated so it can be checked.
+
+    Where the no-change expectation is known it is stated too. Without it a
+    reader cannot tell a real improvement from regression, and E05 showed that
+    is most of what there is to see.
+    """
+    sign = f"{_quantity(finding)} below {target:.1%} over the next {games} games"
+    if expected is not None:
+        return (
+            f"{sign} (measured {finding.measurement.rate:.1%}, ~{expected:.1%} if nothing changes; "
+            f"about {BASELINE_MET_SHARE:.0%} of players reach this without doing anything)"
+        )
+    return f"{sign} (currently {finding.measurement.rate:.1%})"
 
 
 def _quantity(finding: Finding) -> str:

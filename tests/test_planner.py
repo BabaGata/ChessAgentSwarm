@@ -111,6 +111,74 @@ class TestProgressSign:
         assert "currently 30.0%" in step.progress_sign
 
 
+class TestShrunkTargets:
+    """E05: a target set from the selected value is beaten by regression alone."""
+
+    def peers(self, rate: float = 0.12, size: int = 300):
+        from chesscoach.peers import ConditionMeasurement, build_reference
+
+        key = Claim.of(kind="missed_motif", subject="pin").key()
+        return build_reference(
+            [
+                (
+                    f"peer{n}",
+                    (ConditionMeasurement(key, round(rate * size), size, 20, 40),),
+                )
+                for n in range(5)
+            ],
+            band="1400-1800",
+            time_control="rapid",
+            depth=15,
+        )
+
+    def plan_with_peers(self, finding):
+        return build_plan(
+            select_priorities((finding,)).priorities,
+            created="2026-07-31",
+            peers=self.peers(),
+            band="1400-1800",
+            time_control="rapid",
+        )
+
+    def test_the_target_is_set_from_the_estimate_not_the_measured_rate(self):
+        # 9 misses in 30 chances reads as 30%, but against peers at 12% with a
+        # sample that small, the player's true rate is nearer the population.
+        finding = a_finding(rate=0.30, instances=9, distinct_games=8, peer_rate=0.12)
+
+        step = self.plan_with_peers(finding).steps[0]
+
+        assert step.target_rate < 0.21  # what the old rule would have asked for
+
+    def test_the_sign_states_what_happens_if_nothing_changes(self):
+        # Without it a reader cannot tell improvement from regression.
+        finding = a_finding(rate=0.30, instances=9, distinct_games=8, peer_rate=0.12)
+
+        sign = self.plan_with_peers(finding).steps[0].progress_sign
+
+        assert "if nothing changes" in sign
+
+    def test_the_target_is_calibrated_against_what_happens_anyway(self):
+        from chesscoach.planner import NO_CHANGE_RATIO
+
+        finding = a_finding(rate=0.30, instances=600, distinct_games=20, peer_rate=0.12)
+
+        step = self.plan_with_peers(finding).steps[0]
+
+        # Set below what a player reaches on their own, not below where they are.
+        assert step.target_rate < 0.30 * NO_CHANGE_RATIO * 1.2
+
+    def test_the_sign_states_how_often_doing_nothing_would_suffice(self):
+        # Without this a "met" verdict reads as proof, and it is not.
+        finding = a_finding(rate=0.30, instances=600, distinct_games=20, peer_rate=0.12)
+
+        assert "without doing anything" in self.plan_with_peers(finding).steps[0].progress_sign
+
+    def test_without_peers_it_falls_back_to_the_measured_rate(self):
+        step = plan_for(a_finding(rate=0.30, peer_rate=0.12)).steps[0]
+
+        assert step.target_rate == pytest.approx(0.21, abs=0.001)
+
+
 class TestCheckPoint:
     def test_derives_the_check_point_from_how_often_the_chance_arises(self):
         # 30 misses at 30% means 100 opportunities across 24 games -- roughly

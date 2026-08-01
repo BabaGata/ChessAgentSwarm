@@ -1,0 +1,316 @@
+{
+  "players": 32,
+  "players_with_a_plan": 12,
+  "predictions": 13,
+  "statuses": {
+    "met": 1,
+    "not_met": 11,
+    "too_early": 1,
+    "not_measurable": 0
+  },
+  "met_share_of_judged": 0.083,
+  "drift_without_coaching": {
+    "mean_improvement": 0.1122,
+    "median_improvement": 0.0908
+  },
+  "target_asked_for": {
+    "mean_improvement": 0.1582
+  },
+  "per_player": [
+    {
+      "player": "AADAVAN2024",
+      "early_games": 30,
+      "late_games": 30,
+      "outcomes": [
+        {
+          "finding_id": "S1.missed_motif.discoveredAttack.own",
+          "status": "too_early",
+          "target": 0.1081,
+          "before": 0.5333,
+          "after": 0.15
+        }
+      ]
+    },
+    {
+      "player": "alecs469",
+      "early_games": 28,
+      "late_games": 29,
+      "outcomes": []
+    },
+    {
+      "player": "amgaa99",
+      "early_games": 30,
+      "late_games": 30,
+      "outcomes": []
+    },
+    {
+      "player": "Atheindrra",
+      "early_games": 29,
+      "late_games": 30,
+      "outcomes": []
+    },
+    {
+      "player": "azlansulaiman09",
+      "early_games": 29,
+      "late_games": 30,
+      "outcomes": [
+        {
+          "finding_id": "S2.long_think_error.long_think.own",
+          "status": "not_met",
+          "target": 0.0968,
+          "before": 0.3229,
+          "after": 0.2441860465116279
+        }
+      ]
+    },
+    {
+      "player": "brodskaft",
+      "early_games": 30,
+      "late_games": 30,
+      "outcomes": []
+    },
+    {
+      "player": "cengi1",
+      "early_games": 29,
+      "late_games": 30,
+      "outcomes": [
+        {
+          "finding_id": "S1.missed_motif.pin.own",
+          "status": "not_met",
+          "target": 0.0566,
+          "before": 0.225,
+          "after": 0.0784313725490196
+        }
+      ]
+    },
+    {
+      "player": "cfrehley",
+      "early_games": 29,
+      "late_games": 30,
+      "outcomes": []
+    },
+    {
+      "player": "Correlona",
+      "early_games": 27,
+      "late_games": 28,
+      "outcomes": []
+    },
+    {
+      "player": "ElderlyCent",
+      "early_games": 30,
+      "late_games": 30,
+      "outcomes": []
+    },
+    {
+      "player": "esik24",
+      "early_games": 30,
+      "late_games": 30,
+      "outcomes": [
+        {
+          "finding_id": "S1.allowed_motif.pin.own",
+          "status": "not_met",
+          "target": 0.0566,
+          "before": 0.1905,
+          "after": 0.0641025641025641
+        }
+      ]
+    },
+    {
+      "player": "Gaurishb",
+      "early_games": 30,
+      "late_games": 30,
+      "outcomes": [
+        {
+          "finding_id": "S1.allowed_motif.fork.own",
+          "status": "not_met",
+          "target": 0.0506,
+          "before": 0.1809,
+          "after": 0.09009009009009009
+        }
+      ]
+    },
+    {
+      "player": "Haohan22345",
+      "early_games": 21,
+      "late_games": 21,
+      "outcomes": []
+    },
+    {
+      "player": "j409428",
+      "early_games": 30,
+      "late_games": 30,
+      "outcomes": []
+    },
+    {
+      "player": "javid70",
+      "early_games": 30,
+      "late_games": 30,
+      "outcomes": []
+    },
+    {
+      "player": "jmbaa",
+      "early_games": 30,
+      "late_games": 30,
+      "outcomes": [
+        {
+          "finding_id": "S1.allowed_motif.fork.own",
+          "status": "not_met",
+          "target": 0.0425,
+          "before": 0.1461,
+          "after": 0.08163265306122448
+        },
+        {
+          "finding_id": "S1.allowed_motif.hangingPiece.own",
+          "status": "not_met",
+          "target": 0.0491,
+          "before": 0.1573,
+          "after": 0.11224489795918367
+        }
+      ]
+    },
+    {
+      "player": "JUVEPERSEMPRE",
+      "early_games": 29,
+      "late_games": 29,
+      "outcomes": []
+    },
+    {
+      "player": "kanyoi",
+      "early_games": 30,
+      "late_games": 30,
+      "outcomes": []
+    },
+    {
+      "player": "kyderby",
+      "early_games": 28,
+      "late_games": 29,
+      "outcomes": []
+    },
+    {
+      "player": "levit79",
+      "early_games": 30,
+      "late_games": 30,
+      "outcomes": []
+    },
+    {
+      "player": "LHA-AllAboutTactics",
+      "early_games": 30,
+      "late_games": 30,
+      "outcomes": [
+        {
+          "finding_id": "S1.allowed_motif.hangingPiece.own",
+          "status": "not_met",
+          "target": 0.0723,
+          "before": 0.25,
+          "after": 0.11016949152542373
+        }
+      ]
+    },
+    {
+      "player": "Lipetsk-Kanst_54",
+      "early_games": 30,
+      "late_games": 30,
+      "outcomes": [
+        {
+          "finding_id": "S1.allowed_motif.fork.own",
+          "status": "not_met",
+          "target": 0.0518,
+          "before": 0.1972,
+          "after": 0.07563025210084033
+        }
+      ]
+    },
+    {
+      "player": "Matthew28",
+      "early_games": 30,
+      "late_games": 30,
+      "outcomes": [
+        {
+          "finding_id": "S1.allowed_motif.fork.own",
+          "status": "not_met",
+          "target": 0.044,
+          "before": 0.15,
+          "after": 0.08602150537634409
+        }
+      ]
+    },
+    {
+      "player": "Mc-conegol",
+      "early_games": 30,
+      "late_games": 30,
+      "outcomes": [
+        {
+          "finding_id": "S1.allowed_motif.fork.own",
+          "status": "met",
+          "target": 0.0476,
+          "before": 0.1957,
+          "after": 0.038461538461538464
+        }
+      ]
+    },
+    {
+      "player": "Oberlandler",
+      "early_games": 30,
+      "late_games": 30,
+      "outcomes": []
+    },
+    {
+      "player": "popoy121",
+      "early_games": 30,
+      "late_games": 30,
+      "outcomes": []
+    },
+    {
+      "player": "Potap_Baklaga",
+      "early_games": 30,
+      "late_games": 30,
+      "outcomes": [
+        {
+          "finding_id": "S1.allowed_motif.capturingDefender.own",
+          "status": "not_met",
+          "target": 0.0312,
+          "before": 0.1111,
+          "after": 0.04597701149425287
+        }
+      ]
+    },
+    {
+      "player": "Rudransh_Bhardwaj_24",
+      "early_games": 26,
+      "late_games": 26,
+      "outcomes": []
+    },
+    {
+      "player": "SAMUELMICHON",
+      "early_games": 29,
+      "late_games": 30,
+      "outcomes": []
+    },
+    {
+      "player": "sumang_blacksuit",
+      "early_games": 28,
+      "late_games": 28,
+      "outcomes": []
+    },
+    {
+      "player": "Temnink1966",
+      "early_games": 30,
+      "late_games": 30,
+      "outcomes": [
+        {
+          "finding_id": "S1.allowed_motif.hangingPiece.own",
+          "status": "not_met",
+          "target": 0.0475,
+          "before": 0.1515,
+          "after": 0.17647058823529413
+        }
+      ]
+    },
+    {
+      "player": "Volonia",
+      "early_games": 29,
+      "late_games": 30,
+      "outcomes": []
+    }
+  ]
+}
