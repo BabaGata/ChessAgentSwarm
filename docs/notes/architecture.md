@@ -159,9 +159,9 @@ The skeleton — layers 1, 2 and 4 — is built and tested. Layers 3 and 5–8 d
 |---|---|---|
 | 1 Ingest | `chesscoach/ingest/pgn.py`, `ingest/corpus.py` | built; deterministic corpus id |
 | 2 Analysis core | `chesscoach/analysis/{core,engine,cache,labels,observations}.py` | built; cache keyed by (position, engine, depth) |
-| 3 Section agents | — | M4, starting with S2 |
+| 3 Section agents | `chesscoach/sections/` | **S2 and S1 built**, both assessed on real players |
 | 4 Player profile | `chesscoach/profile/{models,io}.py` | built; typed findings, validation, round-trip |
-| 5 Arbiter | — | after the first two sections exist |
+| 5 Arbiter | `chesscoach/arbiter.py` | **built** — ranks by tier, then unusualness, then breadth; caps at two; prefers a second priority about something else |
 | 6–8 Prober / planner / explainer | — | later in M3's build-out |
 | CLI | `chesscoach/cli.py` | `analyse` runs layers 1→2→4 end to end |
 

@@ -53,7 +53,7 @@ need to know?"
 | D2 | V2 knowledge assessment | 0 | — | method identified (probes), unbuilt |
 | D3 | V3 style profiling | 0 | — | operational definition drafted |
 | D4 | V4 gap detection | **3** | **+1** | **two sections, six claim kinds**, peer-compared, detectors precision-gated. 9 of 38 real players carry a finding; one carries a three-part profile |
-| D5 | V5 prioritisation | 0 | — | band table gives a starting heuristic |
+| D5 | V5 prioritisation | **1** | **+1** | arbiter built: picks one or two from a multi-part profile, deterministically, with stated reasons. No time estimates or expected-gain reasoning yet |
 | D6 | V6 path planning | 0 | — | |
 | D7 | V7 progress tracking | 0 | — | leading indicators identified |
 | D8 | V8 explainability | **1** | **+1** | findings carry evidence and provenance, enforced by the schema; nothing presents them to a player yet |
@@ -62,9 +62,9 @@ need to know?"
 | D11 | Process & documentation health | 4 | — | cycle held up under real work, including reversing its own mis-framed question |
 | D12 | V9 dialogue & active assessment | 0 | — | |
 
-**Total: 11 / 60** (was 10). Eight of twelve dimensions remain at zero, which is the honest picture:
-two sections of eleven exist, and **nothing yet speaks to a player in words** — no arbiter, no
-planner, no explainer, no probes.
+**Total: 12 / 60** (was 11). Seven of twelve dimensions remain at zero. Two sections of eleven exist
+and the arbiter now chooses between their findings — but **nothing yet speaks to a player in
+words**: no prober, no planner, no explainer.
 
 What changed this cycle is smaller than it sounds and more important than it looks: the system can
 now distinguish *"you do this"* from *"players at your level do this"*, which is the difference
@@ -85,11 +85,11 @@ This is what actually moved this cycle.
 
 ## Next logical steps (priority order)
 
-1. **P0 — The arbiter, and something that speaks.** The swarm now measures six kinds of weakness and
-   still cannot say a sentence to a player. Layers 5–8 of [[architecture]] — arbiter, prober,
-   planner, explainer — are entirely unbuilt, and they are what turn a profile into coaching. The
-   arbiter is the cheap deterministic half and comes first: pick one or two priorities from a
-   multi-part profile, using confidence, prerequisite order and band-appropriateness.
+1. **P0 — Something that speaks.** The arbiter now chooses priorities; nothing turns them into
+   language. Layers 6–8 of [[architecture]] — prober, planner, explainer — are unbuilt, and they are
+   the whole remaining distance to coaching. The **planner** is the next honest step, because its
+   output is falsifiable: every step must carry a progress sign and a check point
+   ([[architecture.player-profile]]), which is what makes V6/V7 measurable rather than rhetorical.
 2. **P1 — External validation of the detectors** against the CC0 puzzle themes. The strongest
    evidence available, because the labels are independent of me; E04 hand-checked only two motifs
    thoroughly. Needs the puzzle dump, for validation only.

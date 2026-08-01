@@ -19,6 +19,7 @@ from pathlib import Path
 from chesscoach.analysis.core import analyse_corpus
 from chesscoach.analysis.engine import DEFAULT_DEPTH
 from chesscoach.analysis.parallel import prefetch
+from chesscoach.arbiter import select_priorities
 from chesscoach.analysis.observations import Observation
 from chesscoach.ingest.corpus import build_corpus
 from chesscoach.orchestrator import apply_to_profile, default_agents, diagnose, summarise
@@ -92,6 +93,8 @@ def analyse(args: argparse.Namespace) -> int:
         measurement = finding.measurement
         print(f"    seen in {measurement.distinct_games} of {measurement.games_with_data} games")
 
+    _print_priorities(profile.findings)
+
     print(f"\nprofile  {args.out}  ({len(profile.findings)} findings)")
 
     if args.observations:
@@ -122,6 +125,22 @@ def _prefetch(session, games, args) -> None:
     )
     if new:
         print(f"  evaluated {new} new positions in parallel   ")
+
+
+def _print_priorities(findings) -> None:
+    """What a player would actually be told to work on."""
+    selection = select_priorities(findings)
+    if not selection.priorities:
+        return
+
+    print(f"\npriorities  ({selection.considered} findings considered)")
+    for priority in selection.priorities:
+        claim = priority.finding.claim
+        print(f"  {priority.rank}. {claim.kind} ({claim.subject})")
+        for reason in priority.reasons:
+            print(f"       {reason}")
+    if selection.not_selected:
+        print(f"  set aside: {', '.join(selection.not_selected)}")
 
 
 def _comparison_line(measurement) -> str:

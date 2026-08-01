@@ -75,6 +75,22 @@ Deterministic, not a model. Selects one or two priorities by:
 Cap of two is a design constraint, not a tuning parameter: coaches give one or two priorities, and
 "here are your nine weaknesses" is the anti-pattern (R-12, D3 in [[evaluation]]).
 
+**Built** as `chesscoach/arbiter.py`, with two departures from the list above, both recorded rather
+than quietly taken:
+
+- **Prerequisite order is not implemented.** [[domain.chess-concepts]] § C says tactics gate
+  calculation, and that practical-process skills are cross-cutting and teachable at any level — so
+  between the claim kinds that currently exist, tactical and process weaknesses have **no defensible
+  ordering**. Inventing one would be fabricated pedagogy. The hook is there for when a section emits
+  a claim that genuinely depends on another.
+- **A diversity preference was added**: the second slot prefers a different subject, because missing
+  pins and conceding pins are one thing to work on rather than two.
+
+Ranking is therefore tier → unusualness (peer lift where available) → breadth of evidence → id.
+Tier comes first deliberately: on real data a `focus` finding at 3.1× peers ranks *below* a
+`priority` finding at 2.6×, because strength of evidence should outrank apparent size — the same
+principle as `PRIORITY_MARGIN` in [[architecture.confidence]].
+
 ## Ablation as a first-class property
 
 Because findings carry `section`, removing an agent means filtering the profile. The arbiter,

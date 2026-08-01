@@ -97,8 +97,12 @@ Two further things fell out of widening that population from 7 players to 38:
   percentage point change in the reference. Tiering now requires a claim to clear the population by a
   *margin*, not merely to touch it.
 
-And the honest limitation: **nothing yet speaks to a player in words.** The swarm measures; the
-arbiter, planner and explainer that would turn a profile into coaching are unbuilt.
+The arbiter then picks **one or two** of those to actually work on. For the three-finding player it
+chooses missing pins (2.6× their peers) and conceding trapped pieces (3.1×), and sets the third
+aside — because a coach who lists nine weaknesses has given you none.
+
+And the honest limitation: **nothing yet speaks to a player in words.** The swarm measures and
+prioritises; the planner and explainer that would turn that into coaching are unbuilt.
 
 See `docs/notes/architecture.peer-reference.md` and `docs/notes/learning.lessons.md`.
 
