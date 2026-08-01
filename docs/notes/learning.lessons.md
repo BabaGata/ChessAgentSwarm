@@ -24,6 +24,27 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 
 ---
 
+### L-018 — A calibrated constant is a fitted parameter, and inherits every disease of one
+**Date:** 2026-07-31 · **Cycle / mission step:** M3 (out-of-sample recalibration) · **Class:** process
+**Context:** Cross-validating the target rule's constant after L-017 set it from measured drift.
+**Observation:** In-sample the rule was met by 8 % of untreated players. **Out-of-sample it was
+38 %** — optimistic by roughly five times. Worse, the two folds produced ratios of 0.385 and 0.518
+and out-of-sample met-rates of **0/6 and 5/7**: from *nothing* to *nearly everything*, on the same
+pipeline and the same kind of data.
+**Lesson:** Calibrating against a control (L-017) fixed the *bias* and introduced a *variance*
+problem, and the second is easy to miss because the first result looks so good. A constant read off
+a distribution is a fitted parameter, and it needs the same treatment as any other: held-out
+evaluation, and a look at how much it moves between folds. Where it moves that much, the honest
+output is **no number at all** — the system's progress sign now states what was measured (rates
+typically halve on their own) rather than a false-positive rate it cannot support. And the blocker
+turned out not to be method but **sample size**: 13 predictions cannot calibrate a percentile, and
+saying so is more useful than a figure that would not survive the next 13.
+**Applied to:** `chesscoach/planner.py` (the claimed baseline share removed, constant kept
+deliberately strict), `experiments/e05-natural-drift/calibrate.py`, and the withdrawal of the 8 %
+figure everywhere it appeared.
+
+---
+
 ### L-017 — When theory and the control disagree, calibrate against the control
 **Date:** 2026-07-31 · **Cycle / mission step:** M3 (fixing the target rule) · **Class:** technique
 **Context:** Repairing the planner after E05 found 92 % of its targets met by doing nothing.

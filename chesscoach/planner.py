@@ -36,16 +36,23 @@ MIN_OPPORTUNITIES_TO_RECHECK = 40
 GAP_CLOSED_PER_BLOCK = 0.5
 
 # What a rate does on its own, measured in E05 across 32 players who were never
-# told anything: the later period comes in at roughly half the earlier one,
-# median ratio 0.44, mean 0.51. Shrinking for sampling noise does not account for
-# a halving, so the correction is calibrated rather than derived.
+# told anything: a rate typically **halves** between periods, median
+# after/expected 0.52. Shrinking for sampling noise does not account for a
+# halving, so the correction is calibrated rather than derived.
 #
-# This is the 20th percentile of that distribution, which makes the target a
-# hypothesis test with a stated false-positive rate: about one untreated player
-# in five reaches it anyway. Recalibrate by re-running E05 whenever anything
-# upstream of the measurement changes.
+# The target sits well below that, which makes it demanding rather than
+# automatic. It is deliberately more demanding than either value two-fold
+# cross-validation produced (0.385 and 0.518), because being too strict costs a
+# missed success while being too loose manufactures one.
 NO_CHANGE_RATIO = 0.34
-BASELINE_MET_SHARE = 0.20
+
+# Deliberately *not* a stated false-positive rate. Fitting on the same
+# predictions it was tested against suggested 8 %; out-of-sample it was 38 %, and
+# the two folds disagreed wildly (0/6 against 5/7). Thirteen predictions cannot
+# support a percentile estimate, so no number is claimed until there are enough
+# of them. Saying "about 20 % of players reach this anyway" was itself an
+# unsupported claim, and it has been removed rather than adjusted.
+BASELINE_SHARE_IS_UNRELIABLE = True
 
 
 def build_plan(
@@ -55,6 +62,7 @@ def build_plan(
     band: str | None = None,
     time_control: str | None = None,
     player: str | None = None,
+    no_change_ratio: float = NO_CHANGE_RATIO,
 ) -> Plan | None:
     """One step per priority, in rank order. No priorities, no plan.
 
@@ -68,13 +76,17 @@ def build_plan(
     return Plan(
         created=created,
         steps=tuple(
-            _step(priority.finding, _expected(priority.finding, peers, band, time_control, player))
+            _step(
+                priority.finding,
+                expected_no_change(priority.finding, peers, band, time_control, player),
+                no_change_ratio,
+            )
             for priority in priorities
         ),
     )
 
 
-def _expected(
+def expected_no_change(
     finding: Finding,
     peers: PeerReference | None,
     band: str | None,
@@ -100,8 +112,8 @@ def _expected(
     )
 
 
-def _step(finding: Finding, expected: float | None) -> PlanStep:
-    target = _target_rate(finding, expected)
+def _step(finding: Finding, expected: float | None, no_change_ratio: float) -> PlanStep:
+    target = _target_rate(finding, expected, no_change_ratio)
     games = _check_after_games(finding)
 
     return PlanStep(
@@ -127,7 +139,7 @@ def _comparison(finding: Finding) -> float:
     return measurement.baseline_rate or 0.0
 
 
-def _target_rate(finding: Finding, expected: float | None) -> float:
+def _target_rate(finding: Finding, expected: float | None, no_change_ratio: float) -> float:
     """Halfway from where the player really is to where the comparison sits.
 
     "Where they really are" is the shrunk estimate, not the measured rate. E05
@@ -143,7 +155,7 @@ def _target_rate(finding: Finding, expected: float | None) -> float:
         comparison = _comparison(finding)
         return rate if comparison >= rate else rate - (rate - comparison) * GAP_CLOSED_PER_BLOCK
 
-    return expected * NO_CHANGE_RATIO
+    return expected * no_change_ratio
 
 
 def _check_after_games(finding: Finding) -> int:
@@ -172,7 +184,7 @@ def _progress_sign(finding: Finding, target: float, games: int, expected: float 
     if expected is not None:
         return (
             f"{sign} (measured {finding.measurement.rate:.1%}, ~{expected:.1%} if nothing changes; "
-            f"about {BASELINE_MET_SHARE:.0%} of players reach this without doing anything)"
+            "rates typically halve on their own, so this target is set below that)"
         )
     return f"{sign} (currently {finding.measurement.rate:.1%})"
 

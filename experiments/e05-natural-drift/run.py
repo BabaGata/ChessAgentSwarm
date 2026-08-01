@@ -31,7 +31,7 @@ from chesscoach.ingest.pgn import GameRecord, parse_pgn_file
 from chesscoach.orchestrator import default_agents, diagnose
 from chesscoach.peers import PeerReference
 from chesscoach.pipeline import engine_session
-from chesscoach.planner import build_plan
+from chesscoach.planner import build_plan, expected_no_change
 from chesscoach.progress import check_plan
 from chesscoach.sections.base import SectionContext
 
@@ -108,6 +108,19 @@ def run_player(session, player: str, games, peers, args) -> PlayerResult | None:
         checked_at=date.today().isoformat(),
     )
 
+    # The no-change estimate is recorded per prediction so a target rule can be
+    # cross-validated afterwards without re-analysing anything: the predictions
+    # and their before/after rates do not depend on the rule, only the verdict
+    # does.
+    by_id = {f.id: f for f in findings}
+    expectations = {
+        step.finding_id: expected_no_change(
+            by_id[step.finding_id], peers, BAND, TIME_CONTROL, player
+        )
+        for step in plan.steps
+        if step.finding_id in by_id
+    }
+
     return PlayerResult(
         player=player,
         early_games=len(early),
@@ -120,6 +133,7 @@ def run_player(session, player: str, games, peers, args) -> PlayerResult | None:
                 "target": o.target_rate,
                 "before": o.previous_rate,
                 "after": o.observed_rate,
+                "expected": expectations.get(o.finding_id),
             }
             for o in report.outcomes
         ],

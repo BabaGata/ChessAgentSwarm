@@ -109,12 +109,37 @@ percentile of the measured no-change distribution. That turns it into a hypothes
 stated false-positive rate, and the progress sign now says so out loud — *"about 20 % of players
 reach this without doing anything"*.
 
-### The caveat that matters
+### Cross-validated — and the 8 % does not survive
 
-**The calibration constant was fitted on the same 13 predictions it is now evaluated against.** The
-8 % is therefore an in-sample figure and optimistic; the honest version needs the constant estimated
-on one set of players and tested on another. Until that is done, 8 % is evidence the *approach*
-works and not a number to quote.
+The constant was fitted on the same 13 predictions it was tested against, so it was refitted properly:
+two folds split by player, fit on one, evaluate on the other, then swap
+(`experiments/e05-natural-drift/calibrate.py`).
+
+| | |
+|---|---|
+| in-sample | 8 % met by doing nothing |
+| **out-of-sample** | **38 %** (5 of 13) |
+| fitted ratios | **0.518** and **0.385** |
+| out-of-sample per fold | **5/7** and **0/6** |
+
+**The in-sample figure was optimistic by about five times**, and the folds disagree so violently —
+nearly all met against none met — that the constant plainly cannot be estimated from this data at
+all. Thirteen predictions will not support a percentile.
+
+Three things follow, all applied:
+
+1. **The 8 % is withdrawn.** It appears nowhere as a property of the system.
+2. **The stated false-positive rate is removed from the output.** The progress sign used to say
+   "about 20 % of players reach this without doing anything", which was itself an unsupported claim.
+   It now says what *is* measured — that rates typically halve on their own, and the target sits
+   below that.
+3. **The constant stays at 0.34**, deliberately more demanding than either fitted value, because
+   being too strict costs a missed success while being too loose manufactures one.
+
+**The real blocker is sample size, not method.** Only 12 of 32 players produced a plan, most with a
+single step, because the confidence gate needs 20+ games with data in the *earlier* half alone. More
+predictions require more players with deeper histories — a data problem, and the honest name for
+what stands between this project and a defensible claim.
 
 ## What would fix it
 

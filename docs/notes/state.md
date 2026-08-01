@@ -55,20 +55,21 @@ need to know?"
 | D4 | V4 gap detection | **3** | **+1** | **two sections, six claim kinds**, peer-compared, detectors precision-gated. 9 of 38 real players carry a finding; one carries a three-part profile |
 | D5 | V5 prioritisation | **1** | **+1** | arbiter built: picks one or two from a multi-part profile, deterministically, with stated reasons. No time estimates or expected-gain reasoning yet |
 | D6 | V6 path planning | **2** | **+2** | plans built and persisted, every step carrying a machine-checkable progress sign and a derived check point. No time estimates — D5 is unresolved and inventing them was refused |
-| D7 | V7 progress tracking | **3** | **+1** | targets now calibrated against the measured no-change distribution: **8 % met by doing nothing**, down from 92 %, and every sign states its own false-positive rate. Held back from 4 because that 8 % is **in-sample** — the constant was fitted on the players it was tested against |
+| D7 | V7 progress tracking | **2** | **−1** | **reduced again.** Cross-validation put the honest figure at **38 % met by doing nothing**, not the in-sample 8 %, and the two folds disagreed 0/6 against 5/7 (L-018). The mechanism and the calibration *method* are right; the constant cannot be estimated from 13 predictions, so no false-positive rate is claimed |
 | D8 | V8 explainability | **1** | **+1** | findings carry evidence and provenance, enforced by the schema; nothing presents them to a player yet |
 | D9 | C1–C4 cost profile | **1** | **+1** | analysis and diagnosis both run at zero cash and seconds of wall clock; the language layer is unbuilt, so the session total is still unmeasured |
 | D10 | Evaluation capability | **2** | **+2** | harness built *and used* — it caught a fixture confound before it became a false result |
 | D11 | Process & documentation health | 4 | — | cycle held up under real work, including reversing its own mis-framed question |
 | D12 | V9 dialogue & active assessment | 0 | — | |
 
-**Total: 17 / 60.** It went 17 → 16 → 17: reduced when E05 showed the progress check's verdicts meant
-nothing, restored when the target rule was fixed and re-measured against the same control. That
-round trip is the process working as designed.
+**Total: 16 / 60.** It has gone 17 → 16 → 17 → 16, and every move was forced by a measurement:
+down when E05 showed the verdicts meant nothing, up when the target rule was recalibrated, down
+again when cross-validation showed that calibration was itself optimistic. A scorecard that only
+went up would not be measuring anything.
 
-The loop is closed and now means something: diagnose, prioritise, predict against a calibrated
-baseline, go back and check. Five of twelve dimensions remain at zero — probes (V9), phrasing fit
-for a person to read (V8), and everything about assessing skill or style.
+The loop is closed — diagnose, prioritise, predict, check — and the prediction is now demanding
+rather than automatic. What it is *not* is quantified: how often an untreated player meets it is
+unknown, because 13 predictions cannot say. Five of twelve dimensions remain at zero.
 
 What changed this cycle is smaller than it sounds and more important than it looks: the system can
 now distinguish *"you do this"* from *"players at your level do this"*, which is the difference
@@ -89,10 +90,11 @@ This is what actually moved this cycle.
 
 ## Next logical steps (priority order)
 
-1. **P0 — Recalibrate the target constant out of sample.** `NO_CHANGE_RATIO` was fitted on the same
-   13 predictions it was then tested against, so the 8 % figure is optimistic (L-017). Split the 32
-   players, fit on one half, evaluate on the other. Cheap, and it is the difference between evidence
-   and a number that flatters itself.
+1. **P0 — More predictions, so the constant can be calibrated at all.** Cross-validation showed 13
+   is nowhere near enough: folds disagreed 0/6 against 5/7 (L-018). The bottleneck is that only 12 of
+   32 players produced a plan, because the confidence gate needs 20+ games with data in the *earlier*
+   half alone. Fetch deeper histories — 150+ games per player — for 60–80 players. It is a data
+   problem, it costs only API and engine time, and nothing downstream can be trusted without it.
 2. **P1 — External validation of the detectors** against the CC0 puzzle themes. The strongest
    evidence available, because the labels are independent of me; E04 hand-checked only two motifs
    thoroughly. Needs the puzzle dump, for validation only.

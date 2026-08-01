@@ -143,17 +143,18 @@ Fixing that took two attempts, and the failed one is the interesting half:
 |---|---|
 | halve the gap from the measured rate | **92%** |
 | halve the gap from a shrunk estimate *(the principled fix)* | 83% |
-| calibrated against the measured no-change distribution | **8%** |
+| calibrated against the measured no-change distribution | 8% *(in-sample)* |
+| the same rule, **cross-validated** | **38%** |
 
 Empirical-Bayes shrinkage barely helped, because it corrects for sampling noise and the regression is
-much larger than noise — the later rate is a median 0.44 of the earlier one. When the control says
-the effect is twice what the theory predicts, the theory is missing something, and calibrating
-against the control fixes the number without needing to know what.
+much larger than noise — a rate typically halves on its own. Calibrating against the measured control
+fixed that. Then cross-validation showed the calibration was itself optimistic by about five times,
+with the two folds disagreeing 0/6 against 5/7.
 
-Every progress sign now states its own false-positive rate: *"about 20% of players reach this without
-doing anything."* And the 8% is **in-sample** — the constant was fitted on the players it was tested
-against — which is said here rather than quietly enjoyed. See
-`docs/notes/experiments.e05-natural-drift.md`.
+So the target is set deliberately strict and **no false-positive rate is claimed** — 13 predictions
+cannot support one, and the honest output is no number rather than a flattering one. The real
+blocker is sample size, and saying so is more useful than a figure that would not survive the next
+13 players. See `docs/notes/experiments.e05-natural-drift.md`.
 
 The other honest limitation: **nothing asks the player anything.** Probes, and phrasing fit for a
 person to read, do not exist.
