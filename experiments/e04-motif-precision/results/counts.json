@@ -1,0 +1,39 @@
+{
+  "games": 807,
+  "positions_after_opening": 51422,
+  "positions_with_a_cached_best_move": 51422,
+  "per_motif": {
+    "backRankMate": {
+      "fired": 194,
+      "pct_of_positions": 0.38
+    },
+    "capturingDefender": {
+      "fired": 1377,
+      "pct_of_positions": 2.68
+    },
+    "discoveredAttack": {
+      "fired": 1250,
+      "pct_of_positions": 2.43
+    },
+    "fork": {
+      "fired": 1862,
+      "pct_of_positions": 3.62
+    },
+    "hangingPiece": {
+      "fired": 3347,
+      "pct_of_positions": 6.51
+    },
+    "pin": {
+      "fired": 3296,
+      "pct_of_positions": 6.41
+    },
+    "skewer": {
+      "fired": 486,
+      "pct_of_positions": 0.95
+    },
+    "trappedPiece": {
+      "fired": 687,
+      "pct_of_positions": 1.34
+    }
+  }
+}

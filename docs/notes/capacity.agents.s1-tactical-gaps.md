@@ -8,8 +8,13 @@ created: 1785312000000
 
 # Agent S1 — Tactical pattern gaps
 
-**Section:** [[domain.sections]] → S1 · **Status:** designed, not built
+**Section:** [[domain.sections]] → S1 · **Status:** detectors built and measured; agent not yet built
 **Design precedes code**, per the guardrail in the `adaptive-cycle` skill.
+
+> **Detectors done.** Eight motifs in `chesscoach/tactics.py`, 30 unit tests, and the §4 gate
+> measured in [[experiments.e04-motif-precision]] — which caught two of them badly over-firing
+> (`trappedPiece` by ~6.5×, `hangingPiece` by counting pawn grabs) exactly as this note predicted.
+> Base rates on 51,422 real positions now range from 0.38 % to 6.51 %.
 
 ## Why this agent, now
 
