@@ -24,7 +24,14 @@ from enum import Enum
 # against their own out-of-condition rate is a different claim from comparing
 # them against their rating peers, and reusing `peer_rate` for it would have
 # quietly overstated what the system knows.
-SCHEMA_VERSION = 2
+#
+# v3 makes plans checkable. `progress_sign` was written for a person to read and
+# a machine cannot test it, so the falsifiability the plan claimed was only half
+# real: PlanStep gains `target_rate`, the number the prose describes.
+# CorpusRef gains `game_ids`, so a later check knows which games are new. And
+# Plan gains `outcomes`, so a plan carries its own verdict -- a system that
+# quietly drops its failed predictions is unfalsifiable.
+SCHEMA_VERSION = 3
 
 _Z = 1.96  # 95% normal quantile, for Wilson intervals
 
@@ -270,6 +277,7 @@ class PlanStep:
     why: str
     progress_sign: str
     check_after_games: int
+    target_rate: float | None = None
     time_estimate_days: int | None = None
 
     def __post_init__(self) -> None:
@@ -277,12 +285,33 @@ class PlanStep:
             raise ValueError("a plan step requires a progress_sign")
         if self.check_after_games <= 0:
             raise ValueError("a plan step requires a positive check_after_games")
+        if self.target_rate is not None and not 0.0 <= self.target_rate <= 1.0:
+            raise ValueError(f"target_rate must be a proportion, got {self.target_rate}")
+
+    @property
+    def claim_key(self) -> str:
+        """The measurement this step is a prediction about."""
+        return self.finding_id.split(".", 1)[1]
+
+
+@dataclass(frozen=True)
+class StepOutcome:
+    """What actually happened to a prediction. Kept whether or not it flattered us."""
+
+    finding_id: str
+    status: str  # met | not_met | too_early | not_measurable
+    target_rate: float
+    previous_rate: float
+    observed_rate: float | None
+    games_since: int
+    checked_at: str
 
 
 @dataclass(frozen=True)
 class Plan:
     created: str
     steps: tuple[PlanStep, ...] = ()
+    outcomes: tuple[StepOutcome, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -301,6 +330,8 @@ class CorpusRef:
     n_games: int
     time_controls: tuple[str, ...] = ()
     date_range: tuple[str, str] | None = None
+    # Recorded so a later progress check can tell which games are new.
+    game_ids: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)

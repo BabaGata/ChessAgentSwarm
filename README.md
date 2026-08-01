@@ -113,8 +113,22 @@ points are derived from how often the chance actually arises — 30 games for pi
 commoner. Time estimates in days are deliberately absent: how long an intervention takes to show is
 an open question, and inventing "2–3 weeks" would be exactly the folklore this project refuses.
 
-The honest limitation: **nothing yet goes back to check.** The predictions exist; the mechanism that
-re-runs them, and the phrasing fit for a person to read, do not.
+And then it goes back to find out. Run against a player's *later* games, the first prediction the
+system ever checked came out like this:
+
+```
+progress  (0 met, 1 not met)
+  [NOT MET] S2.long_think_error.long_think.own
+       predicted  below 21.9% over the next 20 games (currently 26.4%)
+       observed   24.4% (was 26.4%, target 21.9%)
+```
+
+Recorded, not hidden — a plan carries how it turned out. That run was a retrospective split with no
+intervention, which makes it a **control**: it says untreated drift is about two points, against a
+target asking for four and a half. A target that drift alone would satisfy is not a prediction.
+
+The honest limitation: **nothing asks the player anything.** Probes, and phrasing fit for a person
+to read, do not exist.
 
 See `docs/notes/architecture.peer-reference.md` and `docs/notes/learning.lessons.md`.
 

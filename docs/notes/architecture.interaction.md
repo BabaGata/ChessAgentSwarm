@@ -102,6 +102,20 @@ What makes this a coach rather than a report generator, and what no prior-art pr
 Point 4 is the honesty mechanism for V6/V7. It is also the only evidence the project will ever
 generate about whether its coaching actually works.
 
+**Built** as `chesscoach/progress.py` and the `check-progress` command. It re-measures the same
+quantity over the games played **since** the plan — a rate over the whole corpus would be diluted by
+the very games that produced the diagnosis — and records the verdict in the plan itself, so a plan
+carries how it turned out.
+
+Two verdicts exist for *we cannot say*, kept apart from *no*: `too_early` (fewer games than the plan
+asked for, so judging now would claim a success it has not earned) and `not_measurable` (the chance
+never arose). Collapsing either into a failure would make the system look more decisive and be less
+honest.
+
+Making it work required a schema change worth recording: `progress_sign` was written for a person to
+read, and a machine cannot test prose. The falsifiability the plan claimed was only half real until
+`PlanStep` carried `target_rate` — the number the sentence describes.
+
 ## Tone
 
 Not a design flourish — a diagnosis a player rejects is a diagnosis that does nothing. Findings are

@@ -56,6 +56,9 @@ def _step(finding: Finding) -> PlanStep:
         why=_why(finding),
         progress_sign=_progress_sign(finding, target, games),
         check_after_games=games,
+        # The number the prose describes. Without it the sign is readable and
+        # uncheckable, which is only half of falsifiable (schema v3).
+        target_rate=round(target, 4),
         # Deliberately empty: see D5. Progress is counted in games, which we can
         # derive, rather than days, which we cannot.
         time_estimate_days=None,

@@ -26,7 +26,7 @@ from chesscoach.analysis.observations import Observation
 from chesscoach.ingest.corpus import build_corpus
 from chesscoach.orchestrator import apply_to_profile, default_agents, diagnose, summarise
 from chesscoach.pipeline import CacheStats, engine_session, load_games
-from chesscoach.profile.io import save_profile
+from chesscoach.profile.io import load_profile, save_profile
 from chesscoach.profile.models import PlayerProfile, PlayerRef
 from chesscoach.sections.base import SectionContext
 
@@ -341,6 +341,81 @@ def score_agent(args: argparse.Namespace) -> int:
     return 0 if card.detected and card.spurious_count == 0 else 1
 
 
+def check_progress(args: argparse.Namespace) -> int:
+    """Go back and find out whether the plan's predictions came true.
+
+    Measured over the games played **since** the plan only. A rate over the whole
+    corpus would be diluted by the very games that produced the diagnosis.
+    """
+    from chesscoach.progress import check_plan
+
+    previous = load_profile(args.profile)
+    if previous.plan is None or not previous.plan.steps:
+        print("that profile has no plan to check")
+        return 1
+
+    games = load_games(args.pgn)
+    corpus = build_corpus(args.player, games)
+    already_seen = set(previous.corpus.game_ids)
+    new_ids = [game_id for game_id in corpus.game_ids if game_id not in already_seen]
+
+    print(f"plan made   {previous.plan.created} over {previous.corpus.n_games} games")
+    print(f"new games   {len(new_ids)}")
+    if not new_ids:
+        print("\nnothing to check yet: no games since the plan was made")
+        return 0
+
+    new_games = [game for game in games if game.game_id in set(new_ids)]
+    new_corpus = build_corpus(args.player, new_games)
+
+    with engine_session(args.engine, args.depth, args.cache) as session:
+        _prefetch(session, new_games, args)
+        observations = analyse_corpus(new_corpus, new_games, session.analyser)
+        provenance = session.provenance(new_corpus.corpus_id)
+
+    context = SectionContext(observations, new_corpus, provenance)
+    later = {m.claim_key: m for agent in default_agents() for m in agent.measure(context)}
+    previous_rates = {f.claim.key(): f.measurement.rate for f in previous.findings}
+
+    report = check_plan(
+        previous.plan,
+        later,
+        previous_rates=previous_rates,
+        games_since=len(new_ids),
+        checked_at=date.today().isoformat(),
+    )
+    _print_progress(report, previous.plan)
+
+    if args.out:
+        updated = replace(previous, plan=replace(previous.plan, outcomes=report.outcomes))
+        save_profile(updated, args.out)
+        print(f"\nprofile  {args.out}")
+    return 0
+
+
+def _print_progress(report, plan) -> None:
+    """State each verdict, including the ones that did not go our way."""
+    signs = {step.finding_id: step.progress_sign for step in plan.steps}
+    labels = {
+        "met": "MET",
+        "not_met": "NOT MET",
+        "too_early": "too early",
+        "not_measurable": "cannot say",
+    }
+
+    print(f"\nprogress  ({report.summary()})")
+    for outcome in report.outcomes:
+        print(f"\n  [{labels.get(outcome.status, outcome.status)}] {outcome.finding_id}")
+        print(f"       predicted  {signs.get(outcome.finding_id, '?')}")
+        if outcome.observed_rate is None:
+            print(f"       observed   no opportunities in {outcome.games_since} games")
+        else:
+            print(
+                f"       observed   {outcome.observed_rate:.1%} "
+                f"(was {outcome.previous_rate:.1%}, target {outcome.target_rate:.1%})"
+            )
+
+
 def build_peer_reference(args: argparse.Namespace) -> int:
     """Build a rating-band reference population from a directory of PGN files.
 
@@ -483,6 +558,19 @@ def build_parser() -> argparse.ArgumentParser:
     peers.add_argument("--cache", default=None)
     peers.add_argument("--workers", type=int, default=None, help="parallel engines for prefetch")
     peers.set_defaults(handler=build_peer_reference)
+
+    progress = subcommands.add_parser(
+        "check-progress", help="did the plan's predictions come true?"
+    )
+    progress.add_argument("--profile", required=True, help="a profile containing a plan")
+    progress.add_argument("--pgn", required=True, help="games, including any played since")
+    progress.add_argument("--player", required=True)
+    progress.add_argument("--engine", required=True)
+    progress.add_argument("--depth", type=int, default=DEFAULT_DEPTH)
+    progress.add_argument("--cache", default=None)
+    progress.add_argument("--workers", type=int, default=None)
+    progress.add_argument("--out", default=None, help="write the profile back with its outcomes")
+    progress.set_defaults(handler=check_progress)
 
     return parser
 

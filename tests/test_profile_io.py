@@ -21,10 +21,13 @@ from chesscoach.profile.models import (
     GapType,
     GapTypeHypothesis,
     Measurement,
+    Plan,
+    PlanStep,
     PlayerProfile,
     PlayerRef,
     Provenance,
     SCHEMA_VERSION,
+    StepOutcome,
 )
 
 
@@ -44,11 +47,37 @@ def a_profile() -> PlayerProfile:
                            move_played="Rf1", better_move="Rd8", loss_wp=41.0,
                            note="played in under two seconds with 40s left"),),
     )
+    plan = Plan(
+        created="2026-07-31",
+        steps=(
+            PlanStep(
+                finding_id=finding.id,
+                action="drill it",
+                why="seen in 8 of 40 games",
+                progress_sign="below 21.0% over the next 30 games",
+                check_after_games=30,
+                target_rate=0.21,
+            ),
+        ),
+        outcomes=(
+            StepOutcome(
+                finding_id=finding.id,
+                status="not_met",
+                target_rate=0.21,
+                previous_rate=0.30,
+                observed_rate=0.28,
+                games_since=31,
+                checked_at="2026-09-01",
+            ),
+        ),
+    )
     return PlayerProfile(
         player=PlayerRef(source="lichess", username="someone", ratings={"rapid": 1612}, band="1400-1800"),
         corpus=CorpusRef(corpus_id="c1", n_games=40, time_controls=("rapid",),
-                         date_range=("2026-05-02", "2026-07-26")),
+                         date_range=("2026-05-02", "2026-07-26"),
+                         game_ids=("g1", "g2", "g3")),
         findings=(finding,),
+        plan=plan,
     )
 
 

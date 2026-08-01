@@ -35,6 +35,8 @@ class Corpus:
             n_games=self.n_games,
             time_controls=self.time_controls,
             date_range=self.date_range,
+            # Recorded so a later progress check knows which games are new.
+            game_ids=self.game_ids,
         )
 
 

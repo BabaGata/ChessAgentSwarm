@@ -24,6 +24,27 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 
 ---
 
+### L-015 — Build the control before claiming the treatment
+**Date:** 2026-07-31 · **Cycle / mission step:** M3 (progress check) · **Class:** technique
+**Context:** First end-to-end run of the progress check, on a retrospective split of one player's
+history: a plan built from their earlier 41 games, checked against their next 42.
+**Observation:** The plan predicted a long-think error rate below **21.9 %**; the later games came in
+at **24.4 %**, against 26.4 % before. Verdict **NOT MET**, recorded in the profile. The player never
+saw the advice, so this is a **null condition**, and it is more informative than a success would have
+been: it shows the check mechanism works end to end, and it puts a number on what "no intervention"
+looks like — roughly two points of drift toward the mean, against a target that asked for four and a
+half.
+**Lesson:** A target that natural drift would satisfy is not a prediction, it is a coin-flip dressed
+as coaching. The cheapest way to find out is a **retrospective split**: build a plan from a player's
+earlier games and check it against their later ones, with no intervention in between. That is a
+control condition costing nothing but engine time, and it should be run for every future target rule
+before any claim is made about whether coaching works. Doing it first also means the first thing the
+system ever got wrong was something it was *designed* to be able to get wrong.
+**Applied to:** `chesscoach/progress.py`, the `check-progress` command, and
+[[evaluation]] family F, where this is the cheap version of the longitudinal test.
+
+---
+
 ### L-014 — What a rate is divided by decides what it measures
 **Date:** 2026-07-31 · **Cycle / mission step:** M7 iteration 2 · **Class:** technique
 **Context:** First run of S1 across 38 real players ([[mission.step-07-second-iteration]]).

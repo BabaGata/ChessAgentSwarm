@@ -38,6 +38,7 @@ from chesscoach.profile.models import (
     ProbeRecord,
     ProfileHistoryEntry,
     Provenance,
+    StepOutcome,
 )
 
 
@@ -56,6 +57,7 @@ def to_dict(profile: PlayerProfile) -> dict[str, Any]:
             "n_games": profile.corpus.n_games,
             "time_controls": list(profile.corpus.time_controls),
             "date_range": list(profile.corpus.date_range) if profile.corpus.date_range else None,
+            "game_ids": list(profile.corpus.game_ids),
         },
         "context": _context_to_dict(profile.context),
         "findings": [_finding_to_dict(f) for f in profile.findings],
@@ -90,6 +92,7 @@ def from_dict(payload: dict[str, Any]) -> PlayerProfile:
             n_games=corpus["n_games"],
             time_controls=tuple(corpus.get("time_controls") or ()),
             date_range=tuple(date_range) if date_range else None,
+            game_ids=tuple(corpus.get("game_ids") or ()),
         ),
         findings=tuple(_finding_from_dict(f) for f in payload.get("findings") or ()),
         probes=tuple(_probe_from_dict(p) for p in payload.get("probes") or ()),
@@ -292,9 +295,22 @@ def _plan_to_dict(plan: Plan | None) -> dict[str, Any] | None:
                 "why": s.why,
                 "progress_sign": s.progress_sign,
                 "check_after_games": s.check_after_games,
+                "target_rate": s.target_rate,
                 "time_estimate_days": s.time_estimate_days,
             }
             for s in plan.steps
+        ],
+        "outcomes": [
+            {
+                "finding_id": o.finding_id,
+                "status": o.status,
+                "target_rate": o.target_rate,
+                "previous_rate": o.previous_rate,
+                "observed_rate": o.observed_rate,
+                "games_since": o.games_since,
+                "checked_at": o.checked_at,
+            }
+            for o in plan.outcomes
         ],
     }
 
@@ -305,4 +321,5 @@ def _plan_from_dict(payload: dict[str, Any] | None) -> Plan | None:
     return Plan(
         created=payload["created"],
         steps=tuple(PlanStep(**step) for step in payload.get("steps") or ()),
+        outcomes=tuple(StepOutcome(**outcome) for outcome in payload.get("outcomes") or ()),
     )
