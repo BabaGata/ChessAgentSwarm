@@ -24,7 +24,34 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 
 ---
 
+### L-016 — Selecting a weakness guarantees it will look like it improved
+**Date:** 2026-07-31 · **Cycle / mission step:** M3 (E05) · **Class:** technique
+**Context:** Running the retrospective split across 32 players
+([[experiments.e05-natural-drift]]).
+**Observation:** **92 % of the plan's targets were met with no intervention whatsoever.** Mean
+improvement without coaching was **+11.2 points** against targets asking for **+5.5**. Every one of
+the thirteen predictions saw its rate fall in the later period — 19.6 % → 3.8 %, 22.5 % → 7.8 %,
+25 % → 11 % — from players who were never told anything.
+**Lesson:** This is regression to the mean, and it is **guaranteed by the selection**, not a tuning
+error. A finding becomes a finding precisely because its rate was extreme in the measured period;
+re-measuring an extreme value returns a lower one on average, with no change in the player. The more
+selective the diagnosis, the larger the improvement it will appear to produce. Two consequences.
+**Any** coaching system that measures, prescribes and re-measures will appear to work — which is
+almost certainly what prior art reporting "your weakness improved" is reporting, since none of them
+uses a control. And a target must be set against a **shrunk** estimate of the player's true rate, or
+against a measured control, rather than against the selected value that produced the finding.
+**Applied to:** [[experiments.e05-natural-drift]], risk R-15, the D7 score in [[state]] (reduced),
+and the correction to L-015 below.
+
+---
+
 ### L-015 — Build the control before claiming the treatment
+> **Corrected 2026-07-31 by L-016.** The numbers in this lesson came from a single player who turned
+> out to be the one exception in thirteen. It concluded that untreated drift is "about two points
+> against a target asking for four and a half", and therefore that the targets were demanding. At
+> scale it is **+11.2 against +5.5** — the reverse, and the targets are routinely met by doing
+> nothing. The lesson's *instruction* — build the control before claiming the treatment — was right
+> and is what caught this. Its inference from n=1 was not, and generalising from it was the mistake.
 **Date:** 2026-07-31 · **Cycle / mission step:** M3 (progress check) · **Class:** technique
 **Context:** First end-to-end run of the progress check, on a retrospective split of one player's
 history: a plan built from their earlier 41 games, checked against their next 42.

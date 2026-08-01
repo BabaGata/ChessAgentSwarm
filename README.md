@@ -123,12 +123,27 @@ progress  (0 met, 1 not met)
        observed   24.4% (was 26.4%, target 21.9%)
 ```
 
-Recorded, not hidden — a plan carries how it turned out. That run was a retrospective split with no
-intervention, which makes it a **control**: it says untreated drift is about two points, against a
-target asking for four and a half. A target that drift alone would satisfy is not a prediction.
+Recorded, not hidden — a plan carries how it turned out.
 
-The honest limitation: **nothing asks the player anything.** Probes, and phrasing fit for a person
-to read, do not exist.
+## The most important result so far is a negative one
+
+Running that same check across **32 players who were never told anything**, **92% of the targets
+were met anyway**. Mean improvement with no coaching at all: **+11.2 points**, against targets asking
+for +5.5.
+
+That is regression to the mean, and it is guaranteed by the selection: a weakness becomes a finding
+*because* its rate was extreme, and re-measuring an extreme value returns a lower one whether or not
+anything was done. **Any** system that measures a weakness, prescribes for it and re-measures will
+appear to work — which is very likely what a coaching tool reporting "your weakness improved" is
+reporting, since none of the comparable projects checks against a control.
+
+So the progress check's verdicts are **not currently evidence that coaching works**, and this README
+will not pretend otherwise. Fixing it means shrinking the estimate before setting a target, and
+beating the measured control rather than halving a gap. See
+`docs/notes/experiments.e05-natural-drift.md`.
+
+The other honest limitation: **nothing asks the player anything.** Probes, and phrasing fit for a
+person to read, do not exist.
 
 See `docs/notes/architecture.peer-reference.md` and `docs/notes/learning.lessons.md`.
 

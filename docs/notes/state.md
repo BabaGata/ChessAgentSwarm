@@ -55,19 +55,20 @@ need to know?"
 | D4 | V4 gap detection | **3** | **+1** | **two sections, six claim kinds**, peer-compared, detectors precision-gated. 9 of 38 real players carry a finding; one carries a three-part profile |
 | D5 | V5 prioritisation | **1** | **+1** | arbiter built: picks one or two from a multi-part profile, deterministically, with stated reasons. No time estimates or expected-gain reasoning yet |
 | D6 | V6 path planning | **2** | **+2** | plans built and persisted, every step carrying a machine-checkable progress sign and a derived check point. No time estimates — D5 is unresolved and inventing them was refused |
-| D7 | V7 progress tracking | **3** | **+2** | predictions are made, **checked against later games, and the verdict recorded** — including the first one the system got wrong. No repeat/re-plan cycle yet |
+| D7 | V7 progress tracking | **2** | **−1** | **reduced.** The machinery works — predictions made, checked, recorded — but E05 showed 92 % of targets are met with no intervention at all, so a verdict of "met" currently means nothing. Scoring working machinery as working *tracking* would be self-flattery |
 | D8 | V8 explainability | **1** | **+1** | findings carry evidence and provenance, enforced by the schema; nothing presents them to a player yet |
 | D9 | C1–C4 cost profile | **1** | **+1** | analysis and diagnosis both run at zero cash and seconds of wall clock; the language layer is unbuilt, so the session total is still unmeasured |
 | D10 | Evaluation capability | **2** | **+2** | harness built *and used* — it caught a fixture confound before it became a false result |
 | D11 | Process & documentation health | 4 | — | cycle held up under real work, including reversing its own mis-framed question |
 | D12 | V9 dialogue & active assessment | 0 | — | |
 
-**Total: 17 / 60** (was 15). The loop is closed: the system diagnoses, prioritises, predicts, and
-**goes back to find out whether it was right** — and the first prediction it checked, it got wrong,
-recorded as such (L-015).
+**Total: 16 / 60** (was 17). **The scorecard has gone down for the first time**, and that is the
+process working: E05 showed the progress check's verdicts are not yet evidence of anything
+(L-016, R-15), so D7 was reduced rather than left flattering.
 
-Five of twelve dimensions remain at zero. What is missing is the probes (V9), phrasing fit for a
-person to read (V8), and everything about assessing skill or style.
+The loop is closed mechanically — diagnose, prioritise, predict, go back and check — but the last
+step does not yet mean what it appears to mean. Five of twelve dimensions remain at zero: probes
+(V9), phrasing fit for a person to read (V8), and everything about assessing skill or style.
 
 What changed this cycle is smaller than it sounds and more important than it looks: the system can
 now distinguish *"you do this"* from *"players at your level do this"*, which is the difference
@@ -88,10 +89,12 @@ This is what actually moved this cycle.
 
 ## Next logical steps (priority order)
 
-1. **P0 — Run the retrospective split across many players.** One null result is an anecdote; the
-   same check over 20–30 players gives the **natural-drift baseline** every future target rule needs
-   (L-015). Cheap — engine time only — and it is what turns "the target was not met" into "the target
-   is or is not more demanding than doing nothing".
+1. **P0 — Fix the target rule so it survives its own control.** E05 measured that 92 % of targets
+   are met by regression to the mean (L-016, R-15). Two changes, in order: **shrink** the observed
+   rate toward the peer rate before setting a target, in proportion to how little data supports it —
+   the shrinkage undoes the selection that causes the regression; and set the target to **beat the
+   control** (+11.2 points) rather than to halve a gap. Then **re-run E05**, which is now the
+   acceptance test for any target rule and costs only engine time.
 2. **P1 — External validation of the detectors** against the CC0 puzzle themes. The strongest
    evidence available, because the labels are independent of me; E04 hand-checked only two motifs
    thoroughly. Needs the puzzle dump, for validation only.
