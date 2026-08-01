@@ -24,6 +24,25 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 
 ---
 
+### L-014 — What a rate is divided by decides what it measures
+**Date:** 2026-07-31 · **Cycle / mission step:** M7 iteration 2 · **Class:** technique
+**Context:** First run of S1 across 38 real players ([[mission.step-07-second-iteration]]).
+**Observation:** `allowed_motif` produced 11 findings against `missed_motif`'s 2, and several players
+carried *several* allowed findings at once. Being punished by every motif simultaneously is not a
+pattern-specific weakness — it is erring more often. The denominator was the culprit: measured over
+*all moves*, every allowed-motif rate scales with the player's overall error rate, so a weaker player
+lights up for everything together. Re-measured over the player's **errors** — *when you go wrong,
+what punishes you?* — the multi-allowed pattern disappeared and one player dropped out entirely.
+**Lesson:** Before believing a rate, ask what it is divided by and what else moves that denominator.
+A numerator can be perfectly correct while the rate measures something duller than intended, and the
+symptom is suspicious *correlation between claims* — several findings arriving together for the same
+players. This is the same shape as L-011, one level down: there the comparison was wrong, here the
+denominator was. Both produce claims that are true and not about what they appear to be about.
+**Applied to:** `chesscoach/sections/s1_tactical_gaps.py`, [[mission.step-07-second-iteration]],
+and a check worth running on every future section: do its claims co-occur more than they should?
+
+---
+
 ### L-013 — Population rates converge fast; individual verdicts at the boundary do not
 **Date:** 2026-07-31 · **Cycle / mission step:** M7 · **Class:** technique
 **Context:** Widening the peer reference from 7 players to 38 ([[architecture.peer-reference]]).

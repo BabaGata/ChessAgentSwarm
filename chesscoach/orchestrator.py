@@ -80,12 +80,14 @@ def apply_to_profile(profile: PlayerProfile, result: DiagnosisResult) -> PlayerP
 def default_agents() -> tuple[SectionAgent, ...]:
     """The agents currently in the swarm, in build order.
 
-    One so far. Adding a section here is the whole integration step, which is
-    the point of the blackboard design.
+    Adding a section here is the entire integration step — no wiring, no
+    ordering, no agent aware of any other. That is the blackboard design's
+    central claim (ADR-0006), and adding S1 is the first test of it.
     """
+    from chesscoach.sections.s1_tactical_gaps import S1TacticalGaps
     from chesscoach.sections.s2_decision_process import S2DecisionProcess
 
-    return (S2DecisionProcess(),)
+    return (S2DecisionProcess(), S1TacticalGaps())
 
 
 def summarise(result: DiagnosisResult) -> Iterable[str]:

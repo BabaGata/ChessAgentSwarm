@@ -35,13 +35,9 @@ from chesscoach.profile.models import (
     Measurement,
     wilson_interval,
 )
-from chesscoach.sections.base import SectionContext, SectionReport
+from chesscoach.sections.base import SectionContext, SectionReport, diagnosable
 
 SECTION = "S2"
-
-# Book moves are legitimately instant, and structures have not formed, so the
-# opening is excluded from every condition.
-OPENING_GRACE_PLIES = 8
 
 # Provisional thresholds -- see the design note. The time-pressure threshold is
 # absolute, which is a known limitation: 60 seconds means something different in
@@ -53,12 +49,6 @@ LONG_THINK_MULTIPLE = 3.0
 # Evidence is sampled, not selected: showing the worst examples produces a coach
 # who exaggerates and evidence unrepresentative of its own claim.
 EVIDENCE_SAMPLE_SIZE = 4
-
-# Beyond this evaluation the game is effectively decided. Moves played there are
-# excluded entirely: win probability compresses at the extremes (L-009), so
-# errors are both cheap to make and nearly invisible to measure -- and a coach
-# does not diagnose a player's decision-making from an already-lost position.
-DECIDED_CP = 500
 
 
 @dataclass(frozen=True)
@@ -118,13 +108,9 @@ class S2DecisionProcess:
 
     @staticmethod
     def _eligible(context: SectionContext) -> tuple[Observation, ...]:
-        """Timed, post-opening moves from positions that were still competitive."""
+        """Diagnosable moves that also carry a clock reading, which S2 needs."""
         return tuple(
-            o
-            for o in context.player_observations()
-            if o.ply > OPENING_GRACE_PLIES
-            and o.seconds_spent is not None
-            and abs(o.score_cp_before) <= DECIDED_CP
+            o for o in diagnosable(context.player_observations()) if o.seconds_spent is not None
         )
 
     def report(self, context: SectionContext) -> SectionReport:

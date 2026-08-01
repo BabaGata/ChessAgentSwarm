@@ -33,7 +33,8 @@ need to know?"
 | Architecture design | **done** | [[architecture]] + 3 children; profile schema, orchestration, interaction, confidence, storage all specified |
 | Architecture **built** | **skeleton done** | `chesscoach/` — ingest, analysis core, profile, CLI. Sections, arbiter and language layer outstanding |
 | Evaluation harness | **built, before the first agent** | `chesscoach/evaluation/` — split-half (B1), planted weaknesses (family C), ground-truth scoring, fixture verification |
-| **First agent (S2)** | **built, scored, assessed on real data** | finds the planted weakness at 5.54× with 0 spurious; **says nothing about any of 7 real players**, which is honest and is the ceiling described in [[mission.step-05-assess-s2]] |
+| **S2 decision process** | **built, scored, assessed** | finds the planted weakness at 5.54× with 0 spurious. One working detector in practice |
+| **S1 tactical gaps** | **built, assessed** | eight motif detectors, precision-gated by E04; took the swarm from 1 claim kind to **6** → [[mission.step-07-second-iteration]] |
 | Orchestration | **built** | `chesscoach/orchestrator.py` — fan-out, failure isolation, section-scoped replacement. Findings now reach the profile |
 | Shared pipeline | **built** | `chesscoach/pipeline.py` — engine/cache session and provenance, extracted in M6 from three copies |
 | Peer reference corpus | **built and widened** | `chesscoach/peers.py` — **38 players, ~820 games**, band 1400–1800 rapid, depth 15, leave-one-out. Population rates converged (17.7 % → 17.8 %); borderline verdicts did not (L-013) |
@@ -51,7 +52,7 @@ need to know?"
 | D1 | V1 skill assessment | 0 | — | nothing built |
 | D2 | V2 knowledge assessment | 0 | — | method identified (probes), unbuilt |
 | D3 | V3 style profiling | 0 | — | operational definition drafted |
-| D4 | V4 gap detection | **2** | **+1** | verified against ground truth, and now **population-relative**: two real players carry a claim that survives comparison with their peers. One of eleven sections |
+| D4 | V4 gap detection | **3** | **+1** | **two sections, six claim kinds**, peer-compared, detectors precision-gated. 9 of 38 real players carry a finding; one carries a three-part profile |
 | D5 | V5 prioritisation | 0 | — | band table gives a starting heuristic |
 | D6 | V6 path planning | 0 | — | |
 | D7 | V7 progress tracking | 0 | — | leading indicators identified |
@@ -61,8 +62,9 @@ need to know?"
 | D11 | Process & documentation health | 4 | — | cycle held up under real work, including reversing its own mis-framed question |
 | D12 | V9 dialogue & active assessment | 0 | — | |
 
-**Total: 10 / 60** (was 9). Eight of twelve dimensions remain at zero, which is the honest picture:
-one section of eleven exists, and nothing yet speaks to a player in words.
+**Total: 11 / 60** (was 10). Eight of twelve dimensions remain at zero, which is the honest picture:
+two sections of eleven exist, and **nothing yet speaks to a player in words** — no arbiter, no
+planner, no explainer, no probes.
 
 What changed this cycle is smaller than it sounds and more important than it looks: the system can
 now distinguish *"you do this"* from *"players at your level do this"*, which is the difference
@@ -83,12 +85,14 @@ This is what actually moved this cycle.
 
 ## Next logical steps (priority order)
 
-1. **P0 — M4 again: build S1 (tactical pattern gaps).** Design note done
-   ([[capacity.agents.s1-tactical-gaps]]); implementation next. Across 38 players S2 produces **one
-   kind of claim**, for 16 % of them; a system that can only say "you err after long thinks" is not a
-   coach. Build order within S1: the eight first-tranche detectors with unit tests, then hand-checked
-   precision on real games, then the agent, then external validation against the CC0 puzzle themes.
-   **Diagnosis only** — prescription needs the puzzle dump and is a separate step.
+1. **P0 — The arbiter, and something that speaks.** The swarm now measures six kinds of weakness and
+   still cannot say a sentence to a player. Layers 5–8 of [[architecture]] — arbiter, prober,
+   planner, explainer — are entirely unbuilt, and they are what turn a profile into coaching. The
+   arbiter is the cheap deterministic half and comes first: pick one or two priorities from a
+   multi-part profile, using confidence, prerequisite order and band-appropriateness.
+2. **P1 — External validation of the detectors** against the CC0 puzzle themes. The strongest
+   evidence available, because the labels are independent of me; E04 hand-checked only two motifs
+   thoroughly. Needs the puzzle dump, for validation only.
 2. **P1 — Implement evaluation metric D1 (inter-player divergence).** It would have caught M5's
    base-rate finding automatically instead of by eye, and it would have flagged the
    one-claim-kind problem above without a manual sweep.

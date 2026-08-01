@@ -79,8 +79,10 @@ python -m pytest --cov=chesscoach             # 82% coverage
 
 ## What it currently says about real players
 
-Across **38 real players** in the target band, the one existing agent asserts a finding for **6** of
-them, stays silent for 28, and declines on 4 for want of data.
+Across **38 real players** in the target band, the two existing agents assert findings for **9** of
+them across **6 distinct kinds of weakness**, stay silent for 25, and decline on 4 for want of data.
+One player carries a three-part profile — misses pins, concedes trapped pieces, errs after long
+thinks — each claim peer-compared and traceable to sampled positions from their own games.
 
 The route there is the project in miniature. Players initially showed elevated error rates after long
 thinks at 2.10–2.85× their *own* baseline — all correct measurements, none of them diagnoses, because
@@ -95,8 +97,8 @@ Two further things fell out of widening that population from 7 players to 38:
   percentage point change in the reference. Tiering now requires a claim to clear the population by a
   *margin*, not merely to touch it.
 
-And the honest limitation: all six findings are the **same kind**. A coach whose only sentence is
-"you err after long thinks" is not yet a coach.
+And the honest limitation: **nothing yet speaks to a player in words.** The swarm measures; the
+arbiter, planner and explainer that would turn a profile into coaching are unbuilt.
 
 See `docs/notes/architecture.peer-reference.md` and `docs/notes/learning.lessons.md`.
 

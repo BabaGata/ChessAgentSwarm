@@ -21,6 +21,27 @@ from chesscoach.peers import ConditionMeasurement, PeerReference
 from chesscoach.profile.models import Finding, Provenance
 
 
+# Which moves are worth diagnosing at all. Shared by every section so the answer
+# cannot drift between them.
+#
+# Book moves carry little information and structures have not formed, so the
+# opening is skipped. And beyond DECIDED_CP the game is effectively over: win
+# probability compresses at the extremes (L-009), making errors there both cheap
+# to commit and nearly invisible to measure -- and no coach diagnoses a player
+# from an already-lost position.
+OPENING_GRACE_PLIES = 8
+DECIDED_CP = 500
+
+
+def diagnosable(observations: tuple[Observation, ...]) -> tuple[Observation, ...]:
+    """Post-opening moves played while the game was still competitive."""
+    return tuple(
+        o
+        for o in observations
+        if o.ply > OPENING_GRACE_PLIES and abs(o.score_cp_before) <= DECIDED_CP
+    )
+
+
 @dataclass(frozen=True)
 class SectionContext:
     """Everything a section agent is given. Read-only.

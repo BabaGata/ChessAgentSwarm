@@ -11,10 +11,16 @@ created: 1785312000000
 **Section:** [[domain.sections]] → S1 · **Status:** detectors built and measured; agent not yet built
 **Design precedes code**, per the guardrail in the `adaptive-cycle` skill.
 
-> **Detectors done.** Eight motifs in `chesscoach/tactics.py`, 30 unit tests, and the §4 gate
-> measured in [[experiments.e04-motif-precision]] — which caught two of them badly over-firing
-> (`trappedPiece` by ~6.5×, `hangingPiece` by counting pawn grabs) exactly as this note predicted.
-> Base rates on 51,422 real positions now range from 0.38 % to 6.51 %.
+> **Built and assessed** → [[mission.step-07-second-iteration]].
+>
+> Eight motif detectors in `chesscoach/tactics.py`, gated by
+> [[experiments.e04-motif-precision]] — which caught two badly over-firing (`trappedPiece` by ~6.5×,
+> `hangingPiece` by counting pawn grabs), exactly as this note predicted.
+>
+> The agent took the swarm from **1 claim kind for 16 % of players to 6 kinds for 24 %**, and
+> produced the project's first multi-part coaching profile. Assessment then found and fixed a
+> denominator defect: `allowed_motif` was measured over all moves and therefore tracked the player's
+> overall error rate rather than any specific pattern (L-014).
 
 ## Why this agent, now
 
