@@ -38,7 +38,7 @@ Each section carries three ratings, used to set priority:
 
 Strong signal, strong free support, high band value. These prove the pipeline end to end.
 
-### S1 · Tactical pattern gaps
+### S1 · Tactical pattern gaps — **designed** ([[capacity.agents.s1-tactical-gaps]])
 **Owns:** which tactical motifs the player misses, allows, or executes — by motif, phase and frequency.
 **Diagnosed from:** engine-detected critical moves + motif detection (deterministic, proven in prior
 art, L-004) + the player's puzzle history.

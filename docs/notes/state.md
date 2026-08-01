@@ -83,11 +83,12 @@ This is what actually moved this cycle.
 
 ## Next logical steps (priority order)
 
-1. **P0 — M4 again: build S1 (tactical pattern gaps).** Now the clearest priority rather than the
-   next in line. Across 38 players S2 produces **one kind of claim**, for 16 % of them; a system that
-   can only say "you err after long thinks" is not a coach. S1 is the richest section, its free
-   labelled vocabulary is already mapped in [[domain.puzzle-themes]], and every piece of machinery it
-   needs — profile, confidence, peers, orchestrator, evaluation — now exists.
+1. **P0 — M4 again: build S1 (tactical pattern gaps).** Design note done
+   ([[capacity.agents.s1-tactical-gaps]]); implementation next. Across 38 players S2 produces **one
+   kind of claim**, for 16 % of them; a system that can only say "you err after long thinks" is not a
+   coach. Build order within S1: the eight first-tranche detectors with unit tests, then hand-checked
+   precision on real games, then the agent, then external validation against the CC0 puzzle themes.
+   **Diagnosis only** — prescription needs the puzzle dump and is a separate step.
 2. **P1 — Implement evaluation metric D1 (inter-player divergence).** It would have caught M5's
    base-rate finding automatically instead of by eye, and it would have flagged the
    one-claim-kind problem above without a manual sweep.

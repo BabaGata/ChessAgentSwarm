@@ -17,7 +17,8 @@ Each agent gets its own note `capacity.agents.<name>` and a row here.
 
 | Agent | Section ([[domain.sections]]) | Status | Note |
 |---|---|---|---|
-| **S2 decision process & clock behaviour** | S2 | **built, scored** | [[capacity.agents.s2-decision-process]] · found the planted weakness at 5.54× lift with 0 spurious findings |
+| **S2 decision process & clock behaviour** | S2 | **built, scored** | [[capacity.agents.s2-decision-process]] · found the planted weakness at 5.54× lift with 0 spurious findings; asserts one claim kind for 16 % of 38 real players |
+| **S1 tactical pattern gaps** | S1 | **designed** | [[capacity.agents.s1-tactical-gaps]] · the answer to S2's narrowness, and the first real test that sections are additive |
 
 ## Required fields for every agent
 
