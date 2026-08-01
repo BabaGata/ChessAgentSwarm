@@ -54,17 +54,20 @@ need to know?"
 | D3 | V3 style profiling | 0 | — | operational definition drafted |
 | D4 | V4 gap detection | **3** | **+1** | **two sections, six claim kinds**, peer-compared, detectors precision-gated. 9 of 38 real players carry a finding; one carries a three-part profile |
 | D5 | V5 prioritisation | **1** | **+1** | arbiter built: picks one or two from a multi-part profile, deterministically, with stated reasons. No time estimates or expected-gain reasoning yet |
-| D6 | V6 path planning | 0 | — | |
-| D7 | V7 progress tracking | 0 | — | leading indicators identified |
+| D6 | V6 path planning | **2** | **+2** | plans built and persisted, every step carrying a machine-checkable progress sign and a derived check point. No time estimates — D5 is unresolved and inventing them was refused |
+| D7 | V7 progress tracking | **1** | **+1** | the *predictions* now exist and are recorded in the profile. Nothing yet re-runs to check them |
 | D8 | V8 explainability | **1** | **+1** | findings carry evidence and provenance, enforced by the schema; nothing presents them to a player yet |
 | D9 | C1–C4 cost profile | **1** | **+1** | analysis and diagnosis both run at zero cash and seconds of wall clock; the language layer is unbuilt, so the session total is still unmeasured |
 | D10 | Evaluation capability | **2** | **+2** | harness built *and used* — it caught a fixture confound before it became a false result |
 | D11 | Process & documentation health | 4 | — | cycle held up under real work, including reversing its own mis-framed question |
 | D12 | V9 dialogue & active assessment | 0 | — | |
 
-**Total: 12 / 60** (was 11). Seven of twelve dimensions remain at zero. Two sections of eleven exist
-and the arbiter now chooses between their findings — but **nothing yet speaks to a player in
-words**: no prober, no planner, no explainer.
+**Total: 15 / 60** (was 12). The system now produces, for a real player, two prioritised weaknesses
+with an action, the evidence behind it, and a **check it can be proven wrong about** — the first
+output in this project that is coaching rather than measurement.
+
+Five of twelve dimensions remain at zero. What is missing is the *checking* (V7 has predictions but
+nothing re-runs them), the probes (V9), and any phrasing fit for a person to read (V8).
 
 What changed this cycle is smaller than it sounds and more important than it looks: the system can
 now distinguish *"you do this"* from *"players at your level do this"*, which is the difference
@@ -85,11 +88,12 @@ This is what actually moved this cycle.
 
 ## Next logical steps (priority order)
 
-1. **P0 — Something that speaks.** The arbiter now chooses priorities; nothing turns them into
-   language. Layers 6–8 of [[architecture]] — prober, planner, explainer — are unbuilt, and they are
-   the whole remaining distance to coaching. The **planner** is the next honest step, because its
-   output is falsifiable: every step must carry a progress sign and a check point
-   ([[architecture.player-profile]]), which is what makes V6/V7 measurable rather than rhetorical.
+1. **P0 — Check the predictions (V7).** The plan now states what should change and by when; nothing
+   yet goes back to find out. This is the highest-value thing left in the project, because it is the
+   only mechanism that can tell us whether any of this coaching works — and because a system that
+   quietly drops its failed predictions is unfalsifiable
+   ([[architecture.interaction]] step 8). Concretely: re-analyse a player's later games, compare
+   against the recorded `progress_sign`, and record the outcome whether or not it flattered us.
 2. **P1 — External validation of the detectors** against the CC0 puzzle themes. The strongest
    evidence available, because the labels are independent of me; E04 hand-checked only two motifs
    thoroughly. Needs the puzzle dump, for validation only.

@@ -162,7 +162,9 @@ The skeleton — layers 1, 2 and 4 — is built and tested. Layers 3 and 5–8 d
 | 3 Section agents | `chesscoach/sections/` | **S2 and S1 built**, both assessed on real players |
 | 4 Player profile | `chesscoach/profile/{models,io}.py` | built; typed findings, validation, round-trip |
 | 5 Arbiter | `chesscoach/arbiter.py` | **built** — ranks by tier, then unusualness, then breadth; caps at two; prefers a second priority about something else |
-| 6–8 Prober / planner / explainer | — | later in M3's build-out |
+| 6 Prober | — | needs V9's interaction protocol |
+| 7 Planner | `chesscoach/planner.py` | **built, and deterministic** — see [[decisions.0008-deterministic-planner]] |
+| 8 Explainer | — | the only remaining component that needs a model |
 | CLI | `chesscoach/cli.py` | `analyse` runs layers 1→2→4 end to end |
 
 **Verified by running it**, not only by tests: 24 real games, 1,860 moves, 8.8 % error rate at

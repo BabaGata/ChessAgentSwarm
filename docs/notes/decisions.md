@@ -22,6 +22,7 @@ real work, or if a future reader would otherwise ask *"why on earth is it like t
 | [[decisions.0005-scope-band-source-online-only]] | 2026-07-28 | Scope: target band 1400–1800, Lichess API as game source, online play only | accepted |
 | [[decisions.0006-staged-blackboard-orchestration]] | 2026-07-28 | Staged blackboard: agents share the profile, run in isolation, never message each other | accepted |
 | [[decisions.0007-storage-sqlite-cache-json-profile]] | 2026-07-28 | SQLite position cache keyed by (position, engine, depth); JSON player profiles | accepted |
+| [[decisions.0008-deterministic-planner]] | 2026-07-31 | The planner is deterministic; only the prober and explainer use a model | accepted |
 
 ## Template
 

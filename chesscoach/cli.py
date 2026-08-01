@@ -13,6 +13,7 @@ from __future__ import annotations
 import argparse
 import json
 from collections import Counter
+from dataclasses import replace
 from datetime import date
 from pathlib import Path
 
@@ -20,6 +21,7 @@ from chesscoach.analysis.core import analyse_corpus
 from chesscoach.analysis.engine import DEFAULT_DEPTH
 from chesscoach.analysis.parallel import prefetch
 from chesscoach.arbiter import select_priorities
+from chesscoach.planner import build_plan
 from chesscoach.analysis.observations import Observation
 from chesscoach.ingest.corpus import build_corpus
 from chesscoach.orchestrator import apply_to_profile, default_agents, diagnose, summarise
@@ -80,6 +82,11 @@ def analyse(args: argparse.Namespace) -> int:
         ),
         diagnosis,
     )
+
+    selection = select_priorities(profile.findings)
+    profile = replace(
+        profile, plan=build_plan(selection.priorities, created=date.today().isoformat())
+    )
     save_profile(profile, args.out)
 
     _report(observations, session.cache_stats())
@@ -93,7 +100,7 @@ def analyse(args: argparse.Namespace) -> int:
         measurement = finding.measurement
         print(f"    seen in {measurement.distinct_games} of {measurement.games_with_data} games")
 
-    _print_priorities(profile.findings)
+    _print_plan(selection, profile.plan)
 
     print(f"\nprofile  {args.out}  ({len(profile.findings)} findings)")
 
@@ -127,20 +134,21 @@ def _prefetch(session, games, args) -> None:
         print(f"  evaluated {new} new positions in parallel   ")
 
 
-def _print_priorities(findings) -> None:
-    """What a player would actually be told to work on."""
-    selection = select_priorities(findings)
-    if not selection.priorities:
+def _print_plan(selection, plan) -> None:
+    """The plan, with the check the system is committing to."""
+    if plan is None:
         return
 
-    print(f"\npriorities  ({selection.considered} findings considered)")
-    for priority in selection.priorities:
+    print(f"\nplan  ({selection.considered} findings considered, {len(plan.steps)} chosen)")
+    for step, priority in zip(plan.steps, selection.priorities):
         claim = priority.finding.claim
-        print(f"  {priority.rank}. {claim.kind} ({claim.subject})")
-        for reason in priority.reasons:
-            print(f"       {reason}")
+        print(f"\n  {priority.rank}. {claim.kind} ({claim.subject})")
+        print(f"       do    {step.action}")
+        print(f"       why   {step.why}")
+        print(f"       check {step.progress_sign}")
+
     if selection.not_selected:
-        print(f"  set aside: {', '.join(selection.not_selected)}")
+        print(f"\n  set aside: {', '.join(selection.not_selected)}")
 
 
 def _comparison_line(measurement) -> str:

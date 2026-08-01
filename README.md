@@ -97,12 +97,24 @@ Two further things fell out of widening that population from 7 players to 38:
   percentage point change in the reference. Tiering now requires a claim to clear the population by a
   *margin*, not merely to touch it.
 
-The arbiter then picks **one or two** of those to actually work on. For the three-finding player it
-chooses missing pins (2.6× their peers) and conceding trapped pieces (3.1×), and sets the third
-aside — because a coach who lists nine weaknesses has given you none.
+The arbiter then picks **one or two** of those to work on — because a coach who lists nine weaknesses
+has given you none — and the planner turns each into a step with a check attached:
 
-And the honest limitation: **nothing yet speaks to a player in words.** The swarm measures and
-prioritises; the planner and explainer that would turn that into coaching are unbuilt.
+```
+1. missed_motif (pin)
+     do    Drill `pin` puzzles, and solve to be right rather than fast.
+     why   seen in 8 of 24 games, at 30.3% against 11.6% for peers at your level
+     check pin missed when available below 21.0% over the next 30 games (currently 30.3%)
+```
+
+That last line is the point. It is a prediction the system can be **proven wrong about**, computed
+from the same measurement that produced the finding rather than written by a language model. Check
+points are derived from how often the chance actually arises — 30 games for pins, 20 for something
+commoner. Time estimates in days are deliberately absent: how long an intervention takes to show is
+an open question, and inventing "2–3 weeks" would be exactly the folklore this project refuses.
+
+The honest limitation: **nothing yet goes back to check.** The predictions exist; the mechanism that
+re-runs them, and the phrasing fit for a person to read, do not.
 
 See `docs/notes/architecture.peer-reference.md` and `docs/notes/learning.lessons.md`.
 
