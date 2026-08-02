@@ -154,11 +154,18 @@ def main() -> int:
 
     peers = PeerReference.load(args.peers)
     paths = sorted(args.histories.glob("*.pgn"))
+
+    results = _resume(args.out)
+    done = {r.player for r in results}
+    if done:
+        print(f"resuming: {len(done)} players already done", flush=True)
     print(f"{len(paths)} players at depth {args.depth}\n", flush=True)
 
-    results: list[PlayerResult] = []
     with engine_session(args.engine, args.depth, args.cache) as session:
         for index, path in enumerate(paths, start=1):
+            if path.stem in done:
+                print(f"  {index:>2}/{len(paths)} {path.stem}: done earlier", flush=True)
+                continue
             games = parse_pgn_file(path)
             result = run_player(session, path.stem, games, peers, args)
             if result is None:
@@ -167,12 +174,33 @@ def main() -> int:
             results.append(result)
             verdicts = ", ".join(o["status"] for o in result.outcomes) or "no plan"
             print(f"  {index:>2}/{len(paths)} {path.stem}: {verdicts}", flush=True)
+            # Written after every player: this run takes hours, and a machine
+            # that dies at player 80 should not cost the other 79.
+            _report(results, args.out, quiet=True)
 
     _report(results, args.out)
     return 0
 
 
-def _report(results: list[PlayerResult], out: Path) -> None:
+def _resume(out: Path) -> list[PlayerResult]:
+    """Players already finished in an earlier, interrupted run of the same set."""
+    path = out / "results.json"
+    if not path.exists():
+        return []
+    saved = json.loads(path.read_text(encoding="utf-8"))
+    return [
+        PlayerResult(
+            player=entry["player"],
+            early_games=entry["early_games"],
+            late_games=entry["late_games"],
+            steps=entry.get("steps", len(entry["outcomes"])),
+            outcomes=entry["outcomes"],
+        )
+        for entry in saved.get("per_player", [])
+    ]
+
+
+def _report(results: list[PlayerResult], out: Path, quiet: bool = False) -> None:
     outcomes = [o for r in results for o in r.outcomes]
     statuses = {
         status: sum(1 for o in outcomes if o["status"] == status)
@@ -209,12 +237,15 @@ def _report(results: list[PlayerResult], out: Path) -> None:
                 "player": r.player,
                 "early_games": r.early_games,
                 "late_games": r.late_games,
+                "steps": r.steps,
                 "outcomes": r.outcomes,
             }
             for r in results
         ],
     }
     (out / "results.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
+    if quiet:
+        return
 
     print("\n" + "=" * 60)
     print(f"players with a plan   {summary['players_with_a_plan']} of {len(results)}")
