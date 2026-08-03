@@ -48,11 +48,23 @@ class PlayerResult:
     outcomes: list[dict]
 
 
-def split_by_date(games: tuple[GameRecord, ...]) -> tuple[list[GameRecord], list[GameRecord]]:
-    """Earlier half and later half. Ties broken by id so the split is stable."""
+def split_by_date(
+    games: tuple[GameRecord, ...], early_games: int | None = None
+) -> tuple[list[GameRecord], list[GameRecord]]:
+    """Earlier half and later half. Ties broken by id so the split is stable.
+
+    `early_games` shortens the *measurement* period without touching the outcome
+    period: the later half is unchanged, and the earlier one keeps only the K
+    games immediately before the split. That isolates how much of the drift is
+    an artefact of measuring thinly (D9) — vary what the finding is selected on,
+    hold what it is checked against.
+    """
     ordered = sorted(games, key=lambda g: (g.date or "", g.game_id))
     middle = len(ordered) // 2
-    return ordered[:middle], ordered[middle:]
+    early, late = ordered[:middle], ordered[middle:]
+    if early_games is not None:
+        early = early[-early_games:]
+    return early, late
 
 
 def analyse(session, games, player: str, args) -> tuple:
@@ -65,7 +77,7 @@ def analyse(session, games, player: str, args) -> tuple:
 
 
 def run_player(session, player: str, games, peers, args) -> PlayerResult | None:
-    early, late = split_by_date(games)
+    early, late = split_by_date(games, args.early_games)
     if len(early) < 15 or len(late) < 15:
         return None
 
@@ -149,6 +161,12 @@ def main() -> int:
     parser.add_argument("--out", required=True, type=Path)
     parser.add_argument("--depth", type=int, default=15)
     parser.add_argument("--workers", type=int, default=18)
+    parser.add_argument(
+        "--early-games",
+        type=int,
+        default=None,
+        help="cap the measurement period at K games, leaving the outcome period whole (D9)",
+    )
     args = parser.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
 

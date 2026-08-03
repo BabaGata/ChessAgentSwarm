@@ -8,17 +8,26 @@ created: 1785254500000
 
 # Agents
 
-The swarm's roster. **Currently empty** — the first agent is built in mission step M4, after the
-section catalogue (M2) and the swarm design (M3) exist.
+The swarm's roster. Each agent gets its own note `capacity.agents.<name>` and a row here.
 
-Each agent gets its own note `capacity.agents.<name>` and a row here.
+Two kinds live here, and the distinction matters more than the count. **Section agents** own a slice
+of [[domain.sections]] and are deterministic by decision
+([[decisions.0002-compute-first-speak-last]]). **Player-facing agents** sit outside that catalogue,
+run after diagnosis, and are the only place a language model is permitted.
 
 ## Roster
 
-| Agent | Section ([[domain.sections]]) | Status | Note |
+| Agent | Kind | Status | Note |
 |---|---|---|---|
-| **S2 decision process & clock behaviour** | S2 | **built, scored** | [[capacity.agents.s2-decision-process]] · found the planted weakness at 5.54× lift with 0 spurious findings; asserts one claim kind for 16 % of 38 real players |
-| **S1 tactical pattern gaps** | S1 | **built, assessed** | [[capacity.agents.s1-tactical-gaps]] · eight motif detectors; took the swarm from 1 claim kind to 6. Adding it was a one-line change, which tested ADR-0006's additivity claim |
+| **S2 decision process & clock behaviour** | section | **built, scored** | [[capacity.agents.s2-decision-process]] · found the planted weakness at 5.54× lift with 0 spurious findings; asserts one claim kind for 16 % of 38 real players |
+| **S1 tactical pattern gaps** | section | **built, assessed** | [[capacity.agents.s1-tactical-gaps]] · eight motif detectors; took the swarm from 1 claim kind to 6. Adding it was a one-line change, which tested ADR-0006's additivity claim |
+| **P prober** | player-facing | **designed, not built** | [[capacity.agents.prober]] · the first agent containing a language model, and the only route to V2. Turns `gap_type: unknown` into knowledge / skill / fragile |
+| **E explainer** | player-facing | not designed | V8. Blocked on nothing but priority; the report constraints already exist in [[architecture.interaction]] § 7 |
+
+**Nine of eleven sections remain unbuilt** ([[domain.sections]]). That is deliberate: breadth of
+diagnosis was widened once (S1) and then paused, because a system that diagnoses eleven things and
+cannot ask the player about any of them is further from the vision than one that diagnoses two and
+can.
 
 ## Required fields for every agent
 

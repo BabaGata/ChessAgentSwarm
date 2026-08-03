@@ -11,9 +11,13 @@ created: 1785254500000
 The mission is the **path**, not the destination. It exists to serve [[vision]]; if a step stops
 serving the vision, the step is rewritten — not obeyed out of inertia.
 
-**Active step:** M6/M7 — maintain and repeat. The next M4 iteration is **not** another section but
-the **rating-peer reference corpus**, which M5 showed three separate lines of work depend on
-([[mission.step-05-assess-s2]]).
+**Active step:** M6/M7 — maintain and repeat. The next M4 iteration is **the prober**
+([[capacity.agents.prober]]) — not another section, and not more calibration.
+
+Revised 2026-08-03 → [[decisions.0009-prober-before-breadth]]. The previous target, the rating-peer
+reference corpus, is built. The reason for choosing the prober over sections S3–S11 is that four
+scorecard dimensions sit at zero and all four need the player to be *asked* something, whereas more
+sections widen the column that is already strongest.
 
 ## The steps
 
@@ -59,8 +63,13 @@ Maintain codebase, documentation, plan and overview. Check whether refactoring i
 possible before the codebase gets out of hand. Then git commit.
 
 ### M7 — Repeat M4 → M5 → M6
-Until every section has an agent that works well, the agents are orchestrated well, and the system
-serves the vision well.
+Until the swarm serves the vision well: every section that earns its place has an agent, the
+player-facing agents exist, the agents are orchestrated well.
+
+**Not** "until every section has an agent". That phrasing was written before the swarm had any agents
+and it quietly encoded a wrong objective — it makes eleven detectors the finish line and never
+schedules the prober or the explainer, which between them carry V2, V8, V9 and three of the four
+zeroed scorecard dimensions. Coverage of [[domain.sections]] is a means, not the goal.
 
 ## Alignment argument (why this mission serves this vision)
 
