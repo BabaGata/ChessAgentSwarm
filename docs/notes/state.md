@@ -55,7 +55,7 @@ need to know?"
 | D4 | V4 gap detection | **3** | **+1** | **two sections, six claim kinds**, peer-compared, detectors precision-gated. 9 of 38 real players carry a finding; one carries a three-part profile |
 | D5 | V5 prioritisation | **1** | **+1** | arbiter built: picks one or two from a multi-part profile, deterministically, with stated reasons. No time estimates or expected-gain reasoning yet |
 | D6 | V6 path planning | **2** | **+2** | plans built and persisted, every step carrying a machine-checkable progress sign and a derived check point. No time estimates — D5 is unresolved and inventing them was refused |
-| D7 | V7 progress tracking | **3** | **+1** | **restored, on evidence this time.** 57 predictions from 84 players with ~150-game histories; the constant is cross-validated at 2 *and* 5 folds with a fold spread of 0.011, and a held-out false-positive rate of **15 %** is stated in the output. Not 4: the test's **power is unmeasured** — no coached cohort exists, so nothing shows a real improvement could clear the bar (D5) |
+| D7 | V7 progress tracking | **3** | **+1** | **restored, on evidence this time.** 57 predictions from 84 players with ~150-game histories; the constant is cross-validated at 2 *and* 5 folds with a fold spread of 0.011, and a held-out false-positive rate of **15 %** is stated in the output. Not 4: the test's **power is unmeasured** — no coached cohort exists, so nothing shows a real improvement could clear the bar (**D8**) |
 | D8 | V8 explainability | **1** | **+1** | findings carry evidence and provenance, enforced by the schema; nothing presents them to a player yet |
 | D9 | C1–C4 cost profile | **1** | **+1** | analysis and diagnosis both run at zero cash and seconds of wall clock; the language layer is unbuilt, so the session total is still unmeasured |
 | D10 | Evaluation capability | **2** | **+2** | harness built *and used* — it caught a fixture confound before it became a false result |
@@ -69,8 +69,12 @@ predictions can support what 13 could not. A scorecard that only went up would n
 anything.
 
 The loop is closed — diagnose, prioritise, predict, check — and the prediction is now both demanding
-and **quantified**: about 15 % of untreated players meet it, held out rather than in-sample. Five of
-twelve dimensions remain at zero.
+and **quantified**: about 15 % of untreated players meet it, held out rather than in-sample.
+
+**Four of twelve dimensions remain at zero — and they are the same four.** D1 skill assessment, D2
+knowledge assessment, D3 style profiling, D12 dialogue. Every one of them needs the player to be
+*asked* something, and nothing in the system asks anything. The scorecard's shape is not "28 % done";
+it is one deep, well-tested column and one empty one.
 
 The uncomfortable part of this cycle is not the score. Deepening the histories did not just add
 predictions, it **moved the effect being measured** — drift fell from +11.2 points to +4.8, and the
