@@ -43,9 +43,24 @@ reaches has no power, so it cannot detect a real effect any more than a loose on
 false one. Erring "conservative" on a threshold is still erring. The corollary the project has not
 yet paid: a single constant applied regardless of history depth is now *known* to be wrong, because
 0.34 and 0.58 fit different depths.
-**Applied to:** `chesscoach/planner.py` (`NO_CHANGE_RATIO` 0.34 → 0.58, `UNTREATED_MET_SHARE`
+**Applied to:** `chesscoach/planner.py` (`NO_CHANGE_RATIO` 0.34 → 0.58, `UNTREATED_MET_SHARE_RANGE`
 introduced, the progress sign's "rates typically halve" claim removed as false at depth),
 `experiments/e05-natural-drift/calibrate.py` (`--folds`, `--sweep`), and E05's framing throughout.
+
+**Corrected 2026-08-03, the day after it was written.** The lesson's direction is right and is now
+confirmed four times over — but its magnitude was wrong, and wrong in the flattering direction. It
+claimed *"0.34 fitted 60-game histories, 0.58 fits 150-game ones"*. **0.34 was never a fitted value at
+any depth**: it came from 13 predictions with disagreeing folds and was then tightened by hand.
+Controlling depth properly (D9: same 84 players, outcome period held whole, measurement period capped
+at 30/45/60/78) the constant runs **0.488 → 0.594**, and drift at K=30 is **+7.4 %**, not the +11.2 %
+that was attributed to thinness. Depth explains +7.4 → +4.8; the rest was a different player set.
+
+**The generalisable part is the error, not the numbers.** I compared two runs that differed in *two*
+ways — sample depth and player set — and attributed the whole difference to the one I had a mechanism
+for. Having a good explanation is what made it persuasive; it is also what stopped me looking for the
+confound. A measured effect is only attributable to the variable that was actually isolated, and the
+isolating run here cost nothing because the positions were already cached. **The cheap controlled
+version should have come first, not second.**
 
 ---
 

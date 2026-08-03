@@ -104,13 +104,12 @@ This is what actually moved this cycle.
    84 players, ~150 games each, 57 predictions. Fold spread 0.011; the constant is now estimated
    rather than guessed, and it moved 0.34 → 0.58 because the drift it corrects for was largely an
    artefact of the old sample's thinness (L-019).
-2. **P0 — The constant is depth-dependent and the planner ignores that.** 0.34 fitted 60-game
-   histories, 0.58 fits 150-game ones, and `NO_CHANGE_RATIO` is applied to every player regardless of
-   how many games their finding rests on. A thin-history player therefore gets a target calibrated
-   for a thick-history one, which is the L-016 selection bias re-entering by the back door. Two
-   points do not determine a curve — this needs the existing 84-player corpus re-split at several
-   depths (60/90/120/150), which costs no new data and no new engine time beyond the cache.
-   Registered as **D9**.
+2. **~~P0 — The constant is depth-dependent and the planner ignores that.~~ Done 2026-08-03 (D9).**
+   Isolated properly: same players, outcome period whole, measurement period capped. Real, monotone,
+   modest — fitted constant 0.488 → 0.594. **It also corrected L-019**, which had attributed a
+   cross-corpus difference entirely to depth: 0.34 was never a fitted value, and drift at K=30 is
+   +7.4 % rather than +11.2 %. Resolved by stating the measured **range (15–23 %)** in the output
+   rather than fitting a curve through four points.
 3. **P0 — The test's power is unknown.** 15 % is a false-*positive* rate. Nothing measures whether a
    coached player can meet the target, so a well-calibrated but unreachable target would look exactly
    like the current state. This is open question **D8** and it now blocks V7 harder than calibration

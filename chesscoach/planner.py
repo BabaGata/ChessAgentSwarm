@@ -39,26 +39,42 @@ GAP_CLOSED_PER_BLOCK = 0.5
 # means something. Calibrated in E05 against 57 predictions from 40 players who
 # were never told anything, cross-validated by player at both 2 and 5 folds.
 #
-# The earlier value of 0.34 came from 32 players with 60-game histories, where a
-# rate appeared to **halve** on its own between periods. That turned out to be an
-# artefact of thin samples rather than a fact about players: a finding is
-# selected for being extreme, and a rate measured over 30 games is far likelier
-# to be extreme by luck than one measured over 78. Deepen the histories and most
-# of the regression disappears — median after/expected moved from 0.52 to 0.87.
+# The earlier value of 0.34 was never a fitted value at all: it came from 13
+# predictions whose folds disagreed 0.385 against 0.518, then tightened by hand
+# on the reasoning that strict is the safe direction. It is not — 1 of 52
+# untreated predictions met it, and a target nothing reaches cannot detect
+# coaching either.
 #
-# So 0.34 was not conservative, it was unmeetable: 1 of 52 untreated predictions
-# met it, and a target that nothing reaches cannot detect coaching either.
+# Measured properly (D9), the same rule fitted to a 30-game measurement period
+# gives 0.488, not 0.34. So most of the 0.34 → 0.58 move was replacing a guess
+# with a fit; only 0.488 → 0.594 is the genuine depth effect, and it is modest.
 NO_CHANGE_RATIO = 0.58
 
-# What the constant above buys, out of sample: roughly one in seven untreated
-# predictions still meets its target by drift alone. Unlike the withdrawn 8 %,
-# this one is held out — folds fitted independently landed within 0.011–0.067 of
-# each other, and 2-fold and 5-fold agree.
+# What the constant above buys, out of sample. Unlike the withdrawn 8 %, this is
+# held out — folds fitted independently landed within 0.011–0.067 of each other,
+# and 2-fold and 5-fold agree.
+#
+# A **range**, not a point, because D9 measured it against measurement periods of
+# 78/60/45/30 games and got 15 / 18 / 22 / 23 %: a finding resting on fewer games
+# regresses more, so one constant is slightly too generous for thin histories.
+# Quoting 15 % would be true only at the deep end and would flatter the system
+# for most players; quoting a single midpoint would hide a real dependence.
+#
+# Deliberately *not* a per-depth constant. Four points do not determine a curve,
+# and fitting one is the overfitting L-018 warns about — the spread is
+# 0.488–0.594, narrow enough that stating the range beats modelling it.
+#
+# Historical note, because the numeral is loaded: an earlier version of this
+# output claimed "about 20 % reach this anyway", and that claim was **withdrawn**
+# — it was an in-sample percentile from 13 predictions whose true out-of-sample
+# value was 38 %. A test guards against it returning. The figures here are the
+# measured out-of-sample rates from 27–57 predictions at each depth, which is a
+# different kind of number that happens to overlap the same region.
 #
 # It is a false-*positive* rate only. Nothing here measures whether a coached
 # player can meet the target, because no coached cohort exists yet, so the power
 # of this test is unknown (open question D8).
-UNTREATED_MET_SHARE = 0.15
+UNTREATED_MET_SHARE_RANGE = (0.15, 0.23)
 
 
 def build_plan(
@@ -191,7 +207,8 @@ def _progress_sign(finding: Finding, target: float, games: int, expected: float 
     if expected is not None:
         return (
             f"{sign} (measured {finding.measurement.rate:.1%}, ~{expected:.1%} if nothing changes; "
-            f"about {UNTREATED_MET_SHARE:.0%} of players reach this target without changing anything)"
+            f"{UNTREATED_MET_SHARE_RANGE[0]:.0%}–{UNTREATED_MET_SHARE_RANGE[1]:.0%} of players "
+            "reach this target without changing anything)"
         )
     return f"{sign} (currently {finding.measurement.rate:.1%})"
 

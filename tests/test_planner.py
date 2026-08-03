@@ -176,18 +176,31 @@ class TestShrunkTargets:
         assert "without changing anything" in sign
 
     def test_the_stated_false_positive_rate_is_the_calibrated_one(self):
-        # A number here is only allowed because it is now held out: 57
-        # predictions, cross-validated by player at 2 and 5 folds. The earlier
-        # in-sample 8% was withdrawn for exactly this reason, so the figure the
-        # player is shown must track the constant it was calibrated with.
-        from chesscoach.planner import UNTREATED_MET_SHARE
+        # A number here is only allowed because it is now held out: 27-57
+        # predictions per depth, cross-validated by player at 2 and 5 folds. The
+        # earlier in-sample 8% was withdrawn for exactly this reason, so the
+        # figures shown must track the constants they were calibrated with.
+        from chesscoach.planner import UNTREATED_MET_SHARE_RANGE
 
         finding = a_finding(rate=0.30, instances=600, distinct_games=20, peer_rate=0.12)
 
         sign = self.plan_with_peers(finding).steps[0].progress_sign
 
-        assert f"{UNTREATED_MET_SHARE:.0%}" in sign
-        assert "20%" not in sign
+        assert f"{UNTREATED_MET_SHARE_RANGE[0]:.0%}" in sign
+        assert f"{UNTREATED_MET_SHARE_RANGE[1]:.0%}" in sign
+
+    def test_the_withdrawn_twenty_percent_claim_has_not_crept_back(self):
+        # Guards a specific past mistake, not a style rule. The output once said
+        # "about 20% of players reach this anyway", fitted in-sample on 13
+        # predictions; out of sample it was 38%. D9 later measured the real range
+        # at 15-23%, which overlaps that region — so the numeral is plausible
+        # again for entirely different reasons, and this test exists to make
+        # reintroducing it a deliberate act rather than a drift.
+        finding = a_finding(rate=0.30, instances=600, distinct_games=20, peer_rate=0.12)
+
+        sign = self.plan_with_peers(finding).steps[0].progress_sign
+
+        assert "about 20%" not in sign
 
     def test_without_peers_it_falls_back_to_the_measured_rate(self):
         step = plan_for(a_finding(rate=0.30, peer_rate=0.12)).steps[0]

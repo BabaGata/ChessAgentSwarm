@@ -48,7 +48,7 @@ chesscoach/
                   build-peer-reference · check-progress
 experiments/      e01–e05: the measurements that shaped the design, including
                   the negative ones
-tests/            307 tests
+tests/            314 tests
 ```
 
 Not built: the **prober** (V9, asking the player anything) and the **explainer** (V8, language fit
@@ -83,7 +83,7 @@ The second command verifies the planted flaw is actually visible to the analysis
 anything is scored against it. A fixture nobody has checked is not a test.
 
 ```bash
-python -m pytest                              # 307 tests
+python -m pytest                              # 314 tests
 python -m pytest --cov=chesscoach             # 82% coverage
 ```
 
@@ -115,7 +115,7 @@ has given you none — and the planner turns each into a step with a check attac
      do    Drill `pin` puzzles, and solve to be right rather than fast — review every one you get wrong.
      why   seen in 8 of 24 games, at 30.3% against 11.6% for peers at your level
      check pin missed when available below 14.6% over the next 20 games (measured 30.3%,
-           ~25.2% if nothing changes; about 15% of players reach this target without
+           ~25.2% if nothing changes; 15%–23% of players reach this target without
            changing anything)
 ```
 
@@ -162,7 +162,7 @@ Fixing that took three attempts, and the two failures are the interesting part:
 | halve the gap from a shrunk estimate *(the principled fix)* | 83% |
 | calibrated against the measured no-change distribution | 8% *(in-sample)* |
 | the same rule, **cross-validated** | **38%** |
-| refitted on 6× the data, cross-validated at 2 and 5 folds | **15%** |
+| refitted on 6× the data, cross-validated at 2 and 5 folds | **15–23%** *(depends on sample depth)* |
 
 Empirical-Bayes shrinkage barely helped, because it corrects for sampling noise and the regression is
 much larger than noise. Calibrating against the measured control fixed that. Then cross-validation
@@ -180,9 +180,19 @@ unmeetable — 1 of 52 untreated predictions met it, and a target nothing reache
 coaching either.
 
 Refitted, the folds now agree (spread 0.011, and 2-fold and 5-fold match), so a false-positive rate
-is stated again: **about 15% of untreated players meet their target**, held out rather than
-in-sample. What is still *not* claimed is the other half — whether a genuinely coached player can
-meet it. No coached cohort exists, so the test's power is unknown. See
+is stated again — as a **range**, because a controlled follow-up showed it depends on how much data
+the finding rests on. Capping the measurement period at 30/45/60/78 games while holding the outcome
+period whole gives **23 / 22 / 18 / 15%** met by drift alone. The output says 15–23% rather than
+picking the flattering end.
+
+That follow-up also corrected the previous paragraph's own story. The 0.34 → 0.58 move was *mostly
+replacing a guess with a fit*, not a depth effect: 0.34 was never fitted at any depth, and the
+properly fitted value on 30-game measurements is 0.488. Depth is real but modest. The first version
+compared two runs differing in both sample depth and player set, and credited the difference entirely
+to depth — the mechanism was persuasive enough to stop the confound being looked for.
+
+What is still *not* claimed is the other half — whether a genuinely coached player can meet the
+target. No coached cohort exists, so the test's power is unknown. See
 `docs/notes/experiments.e05-natural-drift.md`.
 
 The other honest limitation: **nothing asks the player anything.** Probes, and phrasing fit for a

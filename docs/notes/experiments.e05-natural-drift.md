@@ -201,6 +201,62 @@ coached player can meet the target is unknown, because no coached cohort exists.
 well-calibrated against drift and still be unreachable by real coaching, and nothing here would show
 it. That is open question **D8** and it now blocks V7 more than calibration does.
 
+## D9 — how much of this is depth? (2026-08-03)
+
+The rerun above compared two different corpora at two different depths, so it could not separate
+"thinner measurement" from "different players". This isolates it: **the outcome period is held whole
+and only the measurement period is capped** — the last K games before the split — so the same 84
+players are re-run at K = 30 / 45 / 60 / 78. Every position is already cached, so it cost no engine
+time.
+
+| early games | players with a plan | predictions | fitted constant @ 15 % | median `after`/`expected` | met with 0.58 |
+|---|---|---|---|---|---|
+| 30 | 24 | 27 | **0.488** | 0.77 | 23 % |
+| 45 | 32 | 39 | **0.503** | 0.77 | 22 % |
+| 60 | 41 | 55 | **0.571** | 0.88 | 18 % |
+| ~78 | 40 | 57 | **0.594** | 0.87 | 15 % |
+
+**The dependence is real, monotone, and modest** — and it corrects the previous section's framing.
+
+### The correction
+
+L-019 originally read *"0.34 fitted 60-game histories, 0.58 fits 150-game ones"*. That is wrong.
+**0.34 was never a fitted value at any depth.** It came from 13 predictions whose folds disagreed
+0.385 against 0.518, and was then tightened by hand. Fitted properly at the same measurement depth,
+the constant is **0.488**.
+
+So the 0.34 → 0.58 move was *mostly replacing a guess with a fit*; only **0.488 → 0.594** is the
+genuine depth effect, and that is a 22 % relative change rather than 70 %.
+
+The same correction applies to the drift figure. At K = 30 on **this** corpus drift is **+7.4 %**, not
++11.2 %. Depth explains +7.4 → +4.8; the remainder was a different player set. The claim "regression
+scales with the thinness of the measurement" survives — the direction is confirmed four times over —
+but its magnitude was overstated by attributing a cross-corpus difference entirely to depth.
+
+### What was done about it
+
+**Not a per-depth constant.** Four points do not determine a curve, and fitting one through them is
+precisely the overfitting L-018 warns about. The spread (0.488–0.594) is narrow enough that modelling
+it would add more risk than it removes.
+
+**Instead the output states the range.** `NO_CHANGE_RATIO` stays 0.58, and the progress sign now says
+**15 %–23 % of players reach this target without changing anything** rather than a single figure. A
+point estimate would have been true only at the deep end and would have flattered the system for most
+players.
+
+A single constant *is* slightly too generous for thin histories — a finding resting on 30 games faces
+23 % rather than 15 %. That is stated rather than corrected, because the honest fix is a number the
+player can see, not a hidden adjustment.
+
+> **A note on the numeral.** The withdrawn claim was *"about 20 % reach this anyway"* — an in-sample
+> percentile from 13 predictions whose true out-of-sample value was 38 %. The range above overlaps
+> that region for entirely different reasons: it is the measured out-of-sample rate at each of four
+> depths. A regression test (`test_the_withdrawn_twenty_percent_claim_has_not_crept_back`) keeps the
+> two apart, so reintroducing the old phrasing has to be deliberate.
+
+**D9 is resolved.** The remaining question about the constant is not its depth dependence but its
+power — **D8**.
+
 ## What would fix it
 
 1. **Shrink the estimate before setting the target.** The player's true rate is better estimated by
