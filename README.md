@@ -23,8 +23,8 @@ afterwards. Start there:
 
 ## What exists today
 
-The **skeleton**: ingest → deterministic analysis core → player profile. Section agents (the parts
-that produce findings) arrive in mission step M4.
+The full loop: ingest → deterministic analysis → findings → priorities → plan → progress check.
+Two of the eleven planned section agents are built.
 
 The **evaluation harness** also exists, built deliberately *before* the first agent — one written
 afterwards is one shaped by the agents.
@@ -32,17 +32,27 @@ afterwards is one shaped by the agents.
 ```
 chesscoach/
   ingest/         PGN parsing, corpus identity
-  analysis/       engine, evaluation cache, error labels, observations
+  analysis/       engine, evaluation cache, error labels, observations, parallel prefetch
   profile/        the player profile — models and persistence
-  sections/       the diagnostic agents (S2 so far)
+  sections/       the diagnostic agents — S1 tactical gaps, S2 decision process
   evaluation/     split-half replication, planted weaknesses, ground-truth scoring
+  tactics.py      eight motif detectors, precision-gated by E04
   confidence.py   when the swarm may assert a weakness
+  peers.py        the rating-band reference population, leave-one-out
   orchestrator.py runs the agents, writes findings to the profile
+  arbiter.py      picks the one or two things worth working on
+  planner.py      turns those into steps with falsifiable targets
+  progress.py     goes back and checks whether the targets were met
   pipeline.py     engine/cache session and provenance
-  cli.py          analyse · make-eval-set · check-eval-set · score-agent
-experiments/      e01–e03: the measurements that shaped the design
-tests/            166 tests
+  cli.py          analyse · make-eval-set · check-eval-set · score-agent ·
+                  build-peer-reference · check-progress
+experiments/      e01–e05: the measurements that shaped the design, including
+                  the negative ones
+tests/            307 tests
 ```
+
+Not built: the **prober** (V9, asking the player anything) and the **explainer** (V8, language fit
+for a person to read). Both are where the language models finally enter, and neither exists yet.
 
 ## Running it
 
@@ -73,7 +83,7 @@ The second command verifies the planted flaw is actually visible to the analysis
 anything is scored against it. A fixture nobody has checked is not a test.
 
 ```bash
-python -m pytest                              # 166 tests
+python -m pytest                              # 307 tests
 python -m pytest --cov=chesscoach             # 82% coverage
 ```
 
@@ -102,16 +112,23 @@ has given you none — and the planner turns each into a step with a check attac
 
 ```
 1. missed_motif (pin)
-     do    Drill `pin` puzzles, and solve to be right rather than fast.
+     do    Drill `pin` puzzles, and solve to be right rather than fast — review every one you get wrong.
      why   seen in 8 of 24 games, at 30.3% against 11.6% for peers at your level
-     check pin missed when available below 21.0% over the next 30 games (currently 30.3%)
+     check pin missed when available below 14.6% over the next 20 games (measured 30.3%,
+           ~25.2% if nothing changes; about 15% of players reach this target without
+           changing anything)
 ```
 
-That last line is the point. It is a prediction the system can be **proven wrong about**, computed
-from the same measurement that produced the finding rather than written by a language model. Check
-points are derived from how often the chance actually arises — 30 games for pins, 20 for something
-commoner. Time estimates in days are deliberately absent: how long an intervention takes to show is
-an open question, and inventing "2–3 weeks" would be exactly the folklore this project refuses.
+That last line is the point, and every number in it is load-bearing. It is a prediction the system
+can be **proven wrong about**, computed from the same measurement that produced the finding rather
+than written by a language model. The target (14.6%) is set below the **no-change estimate** (25.2%),
+not below the measured rate (30.3%) — because the gap between those two is regression to the mean,
+and a target above it would be met by arithmetic. The 15% is the measured rate at which untreated
+players clear the bar anyway.
+
+Check points are derived from how often the chance actually arises, so a rarer motif gets more games.
+Time estimates in days are deliberately absent: how long an intervention takes to show is an open
+question, and inventing "2–3 weeks" would be exactly the folklore this project refuses.
 
 And then it goes back to find out. Run against a player's *later* games, the first prediction the
 system ever checked came out like this:
@@ -137,7 +154,7 @@ anything was done. **Any** system that measures a weakness, prescribes for it an
 appear to work — which is very likely what a coaching tool reporting "your weakness improved" is
 reporting, since none of the comparable projects checks against a control.
 
-Fixing that took two attempts, and the failed one is the interesting half:
+Fixing that took three attempts, and the two failures are the interesting part:
 
 | Target rule | Met by doing nothing |
 |---|---|
@@ -145,16 +162,28 @@ Fixing that took two attempts, and the failed one is the interesting half:
 | halve the gap from a shrunk estimate *(the principled fix)* | 83% |
 | calibrated against the measured no-change distribution | 8% *(in-sample)* |
 | the same rule, **cross-validated** | **38%** |
+| refitted on 6× the data, cross-validated at 2 and 5 folds | **15%** |
 
 Empirical-Bayes shrinkage barely helped, because it corrects for sampling noise and the regression is
-much larger than noise — a rate typically halves on its own. Calibrating against the measured control
-fixed that. Then cross-validation showed the calibration was itself optimistic by about five times,
-with the two folds disagreeing 0/6 against 5/7.
+much larger than noise. Calibrating against the measured control fixed that. Then cross-validation
+showed the calibration was itself optimistic by about five times, with the two folds disagreeing 0/6
+against 5/7 — so the number was withdrawn entirely, because 13 predictions cannot support one.
 
-So the target is set deliberately strict and **no false-positive rate is claimed** — 13 predictions
-cannot support one, and the honest output is no number rather than a flattering one. The real
-blocker is sample size, and saying so is more useful than a figure that would not survive the next
-13 players. See `docs/notes/experiments.e05-natural-drift.md`.
+**Then the sample got bigger, and the finding partly dissolved.** Re-run across **84 players with
+~150 games each** — 57 predictions instead of 13 — drift with no coaching fell from +11.2 points to
+**+4.8**, and rates no longer halve on their own (median 0.52 → **0.87**).
+
+The regression was mostly an artefact of thin samples. A rate measured over 30 games is far likelier
+to be extreme by luck than one measured over 78, so **the +11.2 was never a fact about chess players;
+it was a fact about measuring them briefly.** The constant fitted to it was not conservative but
+unmeetable — 1 of 52 untreated predictions met it, and a target nothing reaches cannot detect
+coaching either.
+
+Refitted, the folds now agree (spread 0.011, and 2-fold and 5-fold match), so a false-positive rate
+is stated again: **about 15% of untreated players meet their target**, held out rather than
+in-sample. What is still *not* claimed is the other half — whether a genuinely coached player can
+meet it. No coached cohort exists, so the test's power is unknown. See
+`docs/notes/experiments.e05-natural-drift.md`.
 
 The other honest limitation: **nothing asks the player anything.** Probes, and phrasing fit for a
 person to read, do not exist.

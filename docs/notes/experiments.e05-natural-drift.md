@@ -1,7 +1,7 @@
 ---
 id: cas-exp-e05
 title: 'E05 — Natural drift: the control condition'
-desc: 'What a plan looks like when nobody follows it. 92% of targets met by doing nothing.'
+desc: 'What a plan looks like when nobody follows it. 92% of targets met by doing nothing — on thin histories; most of that turned out to be an artefact of the sample depth.'
 updated: 1785315000000
 created: 1785315000000
 ---
@@ -9,7 +9,8 @@ created: 1785315000000
 # E05 — Natural drift: the control condition
 
 **Answers:** does the planner's target mean anything? · **Code:** `experiments/e05-natural-drift/`
-**Date:** 2026-07-31 · **Status:** done — **and the answer is no**
+**Date:** 2026-07-31, rerun 2026-08-03 · **Status:** done — **the answer was no, and is now
+"partly, with a stated false-positive rate and unknown power"**
 
 ## Question
 
@@ -141,6 +142,65 @@ single step, because the confidence gate needs 20+ games with data in the *earli
 predictions require more players with deeper histories — a data problem, and the honest name for
 what stands between this project and a defensible claim.
 
+## Rerun on deep histories — and most of the drift was an artefact
+
+**Date:** 2026-08-03 · 84 players, ~150 games each (11,890 games), against 32 players at ~60 before.
+Same pipeline, same depth 15, same peer reference.
+
+The data problem above was the whole blocker, so it was fixed first: `fetch_histories.py` gained
+arena-based discovery, so the sample is no longer limited to the players already held for the peer
+reference.
+
+| | 32 players, 60 games | 84 players, 150 games |
+|---|---|---|
+| produced a plan | 12 of 32 (38 %) | **40 of 84 (48 %)** |
+| predictions | 13 | **57** |
+| mean improvement, no coaching | **+11.2 pts** | **+4.8 pts** |
+| median `after`/`expected` | **0.52** | **0.87** |
+
+**The regression to the mean was mostly an artefact of thin samples.** This is the substantive
+finding, and it corrects the framing above rather than the mechanism. A finding is selected for being
+extreme, and a rate measured over ~30 games is far likelier to be extreme by luck than one measured
+over ~78. Deepen the earlier half and the winner's curse largely dissolves: drift falls from +11.2
+points to +4.8, and the typical rate no longer halves — it lands at 87 % of its no-change estimate.
+
+So **the +11.2 was never a fact about chess players. It was a fact about measuring them briefly.**
+The section above should be read with that qualification throughout: its numbers are correct *for
+60-game histories*, and 60-game histories are the worst case.
+
+### What that did to the constant
+
+`NO_CHANGE_RATIO = 0.34` was fitted where drift was large. Applied where drift is small it asks a
+player's rate to fall to a third of where it would naturally sit — and **1 of 52 untreated
+predictions met it (2 %)**. That is not a conservative setting, it is an unmeetable one: a target
+nothing reaches cannot detect coaching either, because a coached player would fail it too. A test
+with no power is not caution.
+
+Refitted on the 57 predictions, cross-validated by player at **both 2 and 5 folds**
+(`calibrate.py --sweep --folds N`):
+
+| quantile | constant | fold spread | out-of-sample met by doing nothing |
+|---|---|---|---|
+| 10 % | 0.55–0.57 | 0.029–0.067 | 9–12 % |
+| **15 %** | **0.58–0.59** | **0.011–0.036** | **14–16 %** |
+| 20 % | 0.63–0.68 | 0.027–0.094 | 21–30 % |
+| 50 % | 0.87–0.88 | 0.062–0.073 | 53–58 % |
+
+**The constant is now actually being estimated.** On 13 predictions the two folds fitted 0.385 and
+0.518 — a spread of 0.133 — and disagreed 0/6 against 5/7. On 57 the spread narrows to **0.011** at
+the 15 % quantile, and 2-fold and 5-fold agree across the whole curve. The spread is smallest in the
+10–20 % band, which is also where a false-positive rate is worth having.
+
+**Applied:** `NO_CHANGE_RATIO = 0.58`, and a false-positive rate is stated again — but the
+**held-out** one. In-sample 0.58 meets 7 of 57 (12 %); cross-validated it is 14–16 %. The output
+quotes **15 %**, the honest figure rather than the flattering one. This is [[learning.lessons]]
+L-018 applied rather than merely recorded.
+
+**Still unmeasured: the power of the test.** 15 % is a false-*positive* rate. Whether a genuinely
+coached player can meet the target is unknown, because no coached cohort exists. A target could be
+well-calibrated against drift and still be unreachable by real coaching, and nothing here would show
+it. That is open question **D8** and it now blocks V7 more than calibration does.
+
 ## What would fix it
 
 1. **Shrink the estimate before setting the target.** The player's true rate is better estimated by
@@ -154,9 +214,17 @@ what stands between this project and a defensible claim.
 
 ## Honest limitations
 
-- 13 predictions across 12 players is a small sample; the *direction* is unambiguous, the exact
-  +11.2 is not.
+- **The false-positive rate is calibrated; the power is not.** 15 % of untreated predictions meet
+  their target. Whether a coached player can meet one is untested, and no data in this project can
+  test it. See **D8**.
 - The split is retrospective, so "earlier" and "later" differ in more than intervention — form,
   opponents and time controls all vary.
 - Regression is not the *only* explanation. Players may genuinely improve. But nothing here
   distinguishes the two, which is precisely the problem.
+- **The constant is depth-dependent, and that is not yet modelled.** 0.34 fitted 60-game histories,
+  0.58 fits 150-game ones. The planner applies a single constant regardless of how many games a
+  finding was measured over, so a player with a thin history gets a target calibrated for someone
+  with a thick one. Two points do not determine the relationship, and inventing a curve through them
+  would be exactly the overfitting L-018 warns about — but the assumption of a single constant is
+  now known to be wrong rather than merely unexamined. Registered as **D9**.
+- 84 players is still one rating band, one time control, one site.

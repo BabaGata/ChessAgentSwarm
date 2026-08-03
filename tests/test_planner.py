@@ -167,21 +167,26 @@ class TestShrunkTargets:
         # Set below what a player reaches on their own, not below where they are.
         assert step.target_rate < 0.30 * NO_CHANGE_RATIO * 1.2
 
-    def test_the_sign_warns_that_rates_fall_on_their_own(self):
+    def test_the_sign_warns_that_the_target_can_be_met_without_changing(self):
         # Without this a "met" verdict reads as proof, and it is not.
-        finding = a_finding(rate=0.30, instances=600, distinct_games=20, peer_rate=0.12)
-
-        assert "halve on their own" in self.plan_with_peers(finding).steps[0].progress_sign
-
-    def test_claims_no_false_positive_rate_it_cannot_support(self):
-        # Cross-validation put the out-of-sample figure at 38% against an
-        # in-sample 8%, with folds disagreeing 0/6 against 5/7. No number is
-        # quoted until there are enough predictions to support one.
         finding = a_finding(rate=0.30, instances=600, distinct_games=20, peer_rate=0.12)
 
         sign = self.plan_with_peers(finding).steps[0].progress_sign
 
-        assert "%" in sign
+        assert "without changing anything" in sign
+
+    def test_the_stated_false_positive_rate_is_the_calibrated_one(self):
+        # A number here is only allowed because it is now held out: 57
+        # predictions, cross-validated by player at 2 and 5 folds. The earlier
+        # in-sample 8% was withdrawn for exactly this reason, so the figure the
+        # player is shown must track the constant it was calibrated with.
+        from chesscoach.planner import UNTREATED_MET_SHARE
+
+        finding = a_finding(rate=0.30, instances=600, distinct_games=20, peer_rate=0.12)
+
+        sign = self.plan_with_peers(finding).steps[0].progress_sign
+
+        assert f"{UNTREATED_MET_SHARE:.0%}" in sign
         assert "20%" not in sign
 
     def test_without_peers_it_falls_back_to_the_measured_rate(self):

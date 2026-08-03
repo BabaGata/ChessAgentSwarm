@@ -8,10 +8,10 @@ created: 1785254500000
 
 # State
 
-**Snapshot date:** 2026-07-28
+**Snapshot date:** 2026-08-03
 **Active mission step:** **M6/M7** — maintain, then repeat M4 with the next capability
 ([[mission.step-05-assess-s2]] done)
-**Last commit:** `feat(M5): orchestrator, and two defects found by real players`
+**Last commit:** `chore(M3): deeper histories for more players, and a run that survives a crash`
 
 Rewritten at the end of every cycle. The honest answer to "if someone joined today, what would they
 need to know?"
@@ -55,21 +55,27 @@ need to know?"
 | D4 | V4 gap detection | **3** | **+1** | **two sections, six claim kinds**, peer-compared, detectors precision-gated. 9 of 38 real players carry a finding; one carries a three-part profile |
 | D5 | V5 prioritisation | **1** | **+1** | arbiter built: picks one or two from a multi-part profile, deterministically, with stated reasons. No time estimates or expected-gain reasoning yet |
 | D6 | V6 path planning | **2** | **+2** | plans built and persisted, every step carrying a machine-checkable progress sign and a derived check point. No time estimates — D5 is unresolved and inventing them was refused |
-| D7 | V7 progress tracking | **2** | **−1** | **reduced again.** Cross-validation put the honest figure at **38 % met by doing nothing**, not the in-sample 8 %, and the two folds disagreed 0/6 against 5/7 (L-018). The mechanism and the calibration *method* are right; the constant cannot be estimated from 13 predictions, so no false-positive rate is claimed |
+| D7 | V7 progress tracking | **3** | **+1** | **restored, on evidence this time.** 57 predictions from 84 players with ~150-game histories; the constant is cross-validated at 2 *and* 5 folds with a fold spread of 0.011, and a held-out false-positive rate of **15 %** is stated in the output. Not 4: the test's **power is unmeasured** — no coached cohort exists, so nothing shows a real improvement could clear the bar (D5) |
 | D8 | V8 explainability | **1** | **+1** | findings carry evidence and provenance, enforced by the schema; nothing presents them to a player yet |
 | D9 | C1–C4 cost profile | **1** | **+1** | analysis and diagnosis both run at zero cash and seconds of wall clock; the language layer is unbuilt, so the session total is still unmeasured |
 | D10 | Evaluation capability | **2** | **+2** | harness built *and used* — it caught a fixture confound before it became a false result |
 | D11 | Process & documentation health | 4 | — | cycle held up under real work, including reversing its own mis-framed question |
 | D12 | V9 dialogue & active assessment | 0 | — | |
 
-**Total: 16 / 60.** It has gone 17 → 16 → 17 → 16, and every move was forced by a measurement:
+**Total: 17 / 60.** It has gone 17 → 16 → 17 → 16 → 17, and every move was forced by a measurement:
 down when E05 showed the verdicts meant nothing, up when the target rule was recalibrated, down
-again when cross-validation showed that calibration was itself optimistic. A scorecard that only
-went up would not be measuring anything.
+again when cross-validation showed that calibration was itself optimistic, and up now that 57
+predictions can support what 13 could not. A scorecard that only went up would not be measuring
+anything.
 
-The loop is closed — diagnose, prioritise, predict, check — and the prediction is now demanding
-rather than automatic. What it is *not* is quantified: how often an untreated player meets it is
-unknown, because 13 predictions cannot say. Five of twelve dimensions remain at zero.
+The loop is closed — diagnose, prioritise, predict, check — and the prediction is now both demanding
+and **quantified**: about 15 % of untreated players meet it, held out rather than in-sample. Five of
+twelve dimensions remain at zero.
+
+The uncomfortable part of this cycle is not the score. Deepening the histories did not just add
+predictions, it **moved the effect being measured** — drift fell from +11.2 points to +4.8, and the
+old constant turned out to be unmeetable rather than conservative (1 of 52). The control was as
+sample-dependent as the thing it controlled for (L-019).
 
 What changed this cycle is smaller than it sounds and more important than it looks: the system can
 now distinguish *"you do this"* from *"players at your level do this"*, which is the difference
@@ -90,11 +96,23 @@ This is what actually moved this cycle.
 
 ## Next logical steps (priority order)
 
-1. **P0 — More predictions, so the constant can be calibrated at all.** Cross-validation showed 13
-   is nowhere near enough: folds disagreed 0/6 against 5/7 (L-018). The bottleneck is that only 12 of
-   32 players produced a plan, because the confidence gate needs 20+ games with data in the *earlier*
-   half alone. Fetch deeper histories — 150+ games per player — for 60–80 players. It is a data
-   problem, it costs only API and engine time, and nothing downstream can be trusted without it.
+1. **~~P0 — More predictions, so the constant can be calibrated at all.~~ Done 2026-08-03.**
+   84 players, ~150 games each, 57 predictions. Fold spread 0.011; the constant is now estimated
+   rather than guessed, and it moved 0.34 → 0.58 because the drift it corrects for was largely an
+   artefact of the old sample's thinness (L-019).
+2. **P0 — The constant is depth-dependent and the planner ignores that.** 0.34 fitted 60-game
+   histories, 0.58 fits 150-game ones, and `NO_CHANGE_RATIO` is applied to every player regardless of
+   how many games their finding rests on. A thin-history player therefore gets a target calibrated
+   for a thick-history one, which is the L-016 selection bias re-entering by the back door. Two
+   points do not determine a curve — this needs the existing 84-player corpus re-split at several
+   depths (60/90/120/150), which costs no new data and no new engine time beyond the cache.
+   Registered as **D9**.
+3. **P0 — The test's power is unknown.** 15 % is a false-*positive* rate. Nothing measures whether a
+   coached player can meet the target, so a well-calibrated but unreachable target would look exactly
+   like the current state. This is open question **D8** and it now blocks V7 harder than calibration
+   did.
+   It cannot be resolved from public game archives alone; it needs either a treated cohort or a proxy
+   (e.g. players whose rating climbed sharply, as a coarse stand-in for "someone who improved").
 2. **P1 — External validation of the detectors** against the CC0 puzzle themes. The strongest
    evidence available, because the labels are independent of me; E04 hand-checked only two motifs
    thoroughly. Needs the puzzle dump, for validation only.
@@ -116,7 +134,9 @@ This is what actually moved this cycle.
 ## Open questions
 
 Full register with owners and resolution paths: **[[open-questions]]**.
-Resolved this cycle: A1, A2, C5, D1, D2, E1, F1. Reframed: D4. Added: C7 constraint.
+Resolved this cycle: A1, A2, C5, D1, D2, E1, F1. Reframed: D4. Added: C7 constraint, and
+**D8** (the progress check's power) and **D9** (the constant is depth-dependent) — both surfaced by
+fixing the calibration, which is the usual pattern: resolving a question exposes the two behind it.
 Author-owned and waiting: B1–B5.
 
 ## Blockers

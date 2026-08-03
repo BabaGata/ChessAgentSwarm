@@ -24,6 +24,31 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 
 ---
 
+### L-019 — Regression to the mean is a property of the sample, not of the population
+**Date:** 2026-08-03 · **Cycle / mission step:** M3 (deep-history rerun) · **Class:** technique
+**Context:** Re-running E05 on 84 players with ~150 games each, after L-018 identified sample size as
+the blocker ([[experiments.e05-natural-drift]]).
+**Observation:** Deepening the histories did not merely add predictions, it **changed the effect being
+measured**. Drift with no coaching fell from **+11.2 points to +4.8**, and the median `after`/`expected`
+rose from **0.52 to 0.87** — rates no longer halve on their own. The constant calibrated against the
+thin sample (0.34) turned out to be unmeetable on the thick one: **1 of 52** untreated predictions met
+it.
+**Lesson:** The size of a regression-to-the-mean effect is set by how much of the selected value was
+luck, so it scales with the *thinness of the measurement*, not with anything about the subjects. The
++11.2 was never a fact about chess players; it was a fact about measuring them over 30 games. Two
+consequences that generalise beyond this project. First, **a control measured on thin data
+overstates the correction that thicker data needs** — the control is as sample-dependent as the thing
+it controls for. Second, **an over-strict constant is not the safe direction**: a target nothing
+reaches has no power, so it cannot detect a real effect any more than a loose one can distinguish a
+false one. Erring "conservative" on a threshold is still erring. The corollary the project has not
+yet paid: a single constant applied regardless of history depth is now *known* to be wrong, because
+0.34 and 0.58 fit different depths.
+**Applied to:** `chesscoach/planner.py` (`NO_CHANGE_RATIO` 0.34 → 0.58, `UNTREATED_MET_SHARE`
+introduced, the progress sign's "rates typically halve" claim removed as false at depth),
+`experiments/e05-natural-drift/calibrate.py` (`--folds`, `--sweep`), and E05's framing throughout.
+
+---
+
 ### L-018 — A calibrated constant is a fitted parameter, and inherits every disease of one
 **Date:** 2026-07-31 · **Cycle / mission step:** M3 (out-of-sample recalibration) · **Class:** process
 **Context:** Cross-validating the target rule's constant after L-017 set it from measured drift.
@@ -42,6 +67,12 @@ saying so is more useful than a figure that would not survive the next 13.
 **Applied to:** `chesscoach/planner.py` (the claimed baseline share removed, constant kept
 deliberately strict), `experiments/e05-natural-drift/calibrate.py`, and the withdrawal of the 8 %
 figure everywhere it appeared.
+**Resolved 2026-08-03, as this lesson prescribed.** The sample-size blocker it named was the real one:
+at 57 predictions the fold spread narrows from 0.133 to **0.011** and 2-fold and 5-fold agree, so a
+false-positive rate is stated again — the held-out 15 %, not the in-sample 12 %. The lesson stands;
+what changed is that the data now supports a number. Note that the *second* half of it held too, and
+harder than expected: see [[learning.lessons]] L-019, where refitting changed the constant by 70 %
+because the underlying distribution had moved.
 
 ---
 
