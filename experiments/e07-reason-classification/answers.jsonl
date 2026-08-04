@@ -1,0 +1,46 @@
+{"answer": "it pins the knight to the king", "expected": "pin", "label": true, "why": "names it outright"}
+{"answer": "his knight can't move or he loses the queen", "expected": "pin", "label": true, "why": "the concept, without the word - the case a keyword matcher fails"}
+{"answer": "the horse is stuck because the king is behind it", "expected": "pin", "label": true, "why": "non-standard vocabulary, correct understanding"}
+{"answer": "bishop and king line up with the knight in between so it can't run", "expected": "pin", "label": true, "why": "describes the geometry"}
+{"answer": "hoss cant move becose king behind him", "expected": "pin", "label": true, "why": "broken English must not be scored as ignorance"}
+{"answer": "it develops my bishop and castles next", "expected": "pin", "label": false, "why": "a real reason, but not this one"}
+{"answer": "it forks his king and rook", "expected": "pin", "label": false, "why": "false friend - names a different motif confidently"}
+{"answer": "central control", "expected": "pin", "label": false, "why": "positional, unrelated"}
+{"answer": "it attacks two pieces at the same time", "expected": "fork", "label": true, "why": "the definition, without the word"}
+{"answer": "knight hits the king and the rook together", "expected": "fork", "label": true, "why": "concrete instance of the concept"}
+{"answer": "double attack", "expected": "fork", "label": true, "why": "synonym in common use"}
+{"answer": "it forks them", "expected": "fork", "label": true, "why": "names it, minimally"}
+{"answer": "he has to move the king and then I take the rook", "expected": "fork", "label": true, "why": "describes the consequence, which is the mechanism"}
+{"answer": "it wins a pawn", "expected": "fork", "label": false, "why": "an outcome, not this reason"}
+{"answer": "his bishop was hanging", "expected": "fork", "label": false, "why": "different motif"}
+{"answer": "the king has to move so the piece behind it falls", "expected": "skewer", "label": true, "why": "the definition"}
+{"answer": "like a pin but the valuable one is in front", "expected": "skewer", "label": true, "why": "correct, defined by contrast"}
+{"answer": "it skewers the queen", "expected": "skewer", "label": true, "why": "names it"}
+{"answer": "it pins his queen to the rook", "expected": "skewer", "label": false, "why": "the classic confusion - calls a skewer a pin"}
+{"answer": "moving the bishop uncovers the rook's attack", "expected": "discoveredAttack", "label": true, "why": "the mechanism, plainly"}
+{"answer": "when the knight jumps away the queen is suddenly attacking down the file", "expected": "discoveredAttack", "label": true, "why": "concept without the term"}
+{"answer": "discovered check", "expected": "discoveredAttack", "label": true, "why": "the checking variant of the same idea"}
+{"answer": "it opens the file for my rook to use later", "expected": "discoveredAttack", "label": false, "why": "positional intent, not the tactic"}
+{"answer": "the rook is undefended so I just take it", "expected": "hangingPiece", "label": true, "why": "the definition"}
+{"answer": "free piece", "expected": "hangingPiece", "label": true, "why": "colloquial and correct"}
+{"answer": "nothing is guarding the bishop", "expected": "hangingPiece", "label": true, "why": "the concept"}
+{"answer": "I take because it's a good trade", "expected": "hangingPiece", "label": false, "why": "an exchange is not a hanging piece"}
+{"answer": "his knight has nowhere to go and I win it next move", "expected": "trappedPiece", "label": true, "why": "the definition"}
+{"answer": "the bishop ran out of squares", "expected": "trappedPiece", "label": true, "why": "the concept, informally"}
+{"answer": "I attack it and it can't escape", "expected": "trappedPiece", "label": true, "why": "both halves of the idea"}
+{"answer": "I chase the knight to make him lose time", "expected": "trappedPiece", "label": false, "why": "tempo, not entrapment"}
+{"answer": "his king has no escape squares on the back row", "expected": "backRankMate", "label": true, "why": "the definition"}
+{"answer": "mate on the eighth because the pawns never moved", "expected": "backRankMate", "label": true, "why": "names the cause"}
+{"answer": "back rank", "expected": "backRankMate", "label": true, "why": "minimal but unambiguous"}
+{"answer": "I want to double rooks eventually", "expected": "backRankMate", "label": false, "why": "plan, not the mate"}
+{"answer": "I take the knight first because it is the only thing guarding the square", "expected": "capturingDefender", "label": true, "why": "the definition"}
+{"answer": "remove the defender", "expected": "capturingDefender", "label": true, "why": "the standard name"}
+{"answer": "once that pawn is gone nothing covers f7", "expected": "capturingDefender", "label": true, "why": "the concept applied"}
+{"answer": "I trade to simplify into the endgame", "expected": "capturingDefender", "label": false, "why": "a capture for an unrelated reason"}
+{"answer": "I don't know", "expected": "pin", "label": null, "why": "refusal is data, not a wrong answer"}
+{"answer": "no idea, I just played it", "expected": "fork", "label": null, "why": "explicit non-answer"}
+{"answer": "it looked good", "expected": "skewer", "label": null, "why": "no reason offered, so nothing to judge"}
+{"answer": "?", "expected": "hangingPiece", "label": null, "why": "no content"}
+{"answer": "intuition", "expected": "discoveredAttack", "label": null, "why": "declines to give a reason rather than giving a wrong one"}
+{"answer": "not sure really, maybe it wins something", "expected": "trappedPiece", "label": null, "why": "hedged to the point of saying nothing"}
+{"answer": "because the engine said so", "expected": "pin", "label": null, "why": "a source, not a reason"}

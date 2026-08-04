@@ -18,10 +18,15 @@ created: 1785456000000
 > and writing `gap_type` back to findings. The model sits behind a `ReasonClassifier` Protocol, so
 > the boundary in § 3 is enforced by the type rather than by discipline.
 >
-> **Not built, and it does not ship without them:** a model-backed classifier — the provider choice
-> is open, see § 10 — and the hand-labelled answer set with its inter-rater agreement (§ 4), which
-> this note requires *before* any probe result may change a finding. Until that exists the agent can
-> be exercised but not believed.
+> **Classifiers built and measured** → [[experiments.e07-reason-classification]]. Three behind the
+> Protocol; `llama3.1:8b-instruct-q6_K` ships at **kappa 0.74 with zero false-ignorance**, chosen
+> over a marginally higher-scoring 3B because marking an understanding player ignorant is the costly
+> error. The language model beat the embedding baseline 0.74 to 0.56, so it earned its cost rather
+> than being assumed to.
+>
+> **Still not usable on a real player.** The answer set is constructed by me, labelled by me, and the
+> figure is in-sample — the refusal fix was made after seeing which items failed. § 4's gate stays
+> shut. What it needs is not a better model but ~40 answers from people who are not the author.
 
 ## Why this agent, now
 
@@ -99,6 +104,14 @@ Two guards before it may be used, mirroring S1 § 4:
    king" written under a position with no fork);
 2. **inter-rater agreement** measured between the model and a human on that set, reported as a
    number, before any probe result is allowed to change a finding.
+
+**Status: (1) exists but is constructed rather than collected; (2) is measured but in-sample.**
+E07 found something that changed the design rather than the rubric: *did the player offer a reason at
+all* is not a chess question, and asking the classifier to decide it alongside the chess one
+collapsed **declined** into **wrong** — opposite rows of the § 8 table. It now lives in
+`declines_to_answer()`, deterministic and shared by every classifier, and separating it lifted all
+four by 15–22 accuracy points. That the floor and the frontier model failed identically is what
+identified it as structural.
 
 ## 5 · Tools
 
@@ -186,10 +199,15 @@ The first component in the project with a **non-zero marginal cost**, so C1 and 
 
 - 2–6 model calls per session, one per probe, at the **outer** loop — never inside analysis.
 - Input is a position description, a known reason, and a short player answer: small prompts.
-- Free-tier or local model. A local small model is preferred and is plausibly sufficient, because
-  the task is short-text classification against a supplied label, not chess reasoning.
-- **Must be measured, not assumed** — this is the first time D9's cost dimension has anything real to
-  measure, and the session total is currently unknown rather than zero.
+- Local model via Ollama, so **cash cost is zero** and the system stays offline (C1, C3).
+
+**Measured** (E07, this machine): **2.66 s per call** for the 8B, so a full six-probe session costs
+about **16 seconds of local compute and nothing else**. The prediction that a small local model would
+suffice held — the task is short-text classification against a supplied label, not chess reasoning.
+
+The remaining cost is not cash but **reproducibility**: temperature 0 and a fixed seed make a verdict
+repeatable, but a model upgrade can change a stored `gap_type`, which is why `classifier` is recorded
+per probe. No previous component had this property.
 
 ## Known limitations, recorded before building
 
