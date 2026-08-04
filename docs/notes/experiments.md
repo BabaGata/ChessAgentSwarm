@@ -20,7 +20,8 @@ An experiment with no consequence was not worth running.
 | E02 | D4 — are positional concepts detectable without labelled data? | done | [[experiments.e02-positional-detectors]] |
 | E03 | C6 — how is a detected feature weighted for relevance? | done — **largely negative** | [[experiments.e03-relevance-weighting]] |
 | E04 | do the tactical motif detectors fire sensibly on real games? | done — **two were over-firing** | [[experiments.e04-motif-precision]] |
-| E05 | does the planner's target mean anything without coaching? | done — **no: 92 % met by drift** | [[experiments.e05-natural-drift]] |
+| E05 | does the planner's target mean anything without coaching? | done — **no: 92 % met by drift**; recalibrated to 15–23 %, and D9 showed the effect's size depends on sample depth | [[experiments.e05-natural-drift]] |
+| E06 | D8 — does the progress check have any *power*? | done — **suggestive, not established** (25 % vs 8 %, p = 0.12) | [[experiments.e06-progress-power]] |
 
 ## Conventions
 

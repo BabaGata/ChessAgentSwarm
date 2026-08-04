@@ -58,15 +58,15 @@ need to know?"
 | D7 | V7 progress tracking | **3** | **+1** | **restored, on evidence this time.** 57 predictions from 84 players with ~150-game histories; the constant is cross-validated at 2 *and* 5 folds with a fold spread of 0.011, and a held-out false-positive rate of **15 %** is stated in the output. Not 4: the test's **power is unmeasured** — no coached cohort exists, so nothing shows a real improvement could clear the bar (**D8**) |
 | D8 | V8 explainability | **1** | **+1** | findings carry evidence and provenance, enforced by the schema; nothing presents them to a player yet |
 | D9 | C1–C4 cost profile | **1** | **+1** | analysis and diagnosis both run at zero cash and seconds of wall clock; the language layer is unbuilt, so the session total is still unmeasured |
-| D10 | Evaluation capability | **2** | **+2** | harness built *and used* — it caught a fixture confound before it became a false result |
+| D10 | Evaluation capability | **3** | **+1** | harness built *and used*; **both sides of the progress check are now measured** — false-positive rate (E05) and power (E06), the latter with its confound tested rather than conceded |
 | D11 | Process & documentation health | 4 | — | cycle held up under real work, including reversing its own mis-framed question |
 | D12 | V9 dialogue & active assessment | 0 | — | |
 
-**Total: 17 / 60.** It has gone 17 → 16 → 17 → 16 → 17, and every move was forced by a measurement:
+**Total: 18 / 60.** It has gone 17 → 16 → 17 → 16 → 17 → 18, and every move was forced by a measurement:
 down when E05 showed the verdicts meant nothing, up when the target rule was recalibrated, down
 again when cross-validation showed that calibration was itself optimistic, and up now that 57
-predictions can support what 13 could not. A scorecard that only went up would not be measuring
-anything.
+predictions can support what 13 could not, and again now that both sides of the progress check are
+measured rather than one. A scorecard that only went up would not be measuring anything.
 
 The loop is closed — diagnose, prioritise, predict, check — and the prediction is now both demanding
 and **quantified**: about 15 % of untreated players meet it, held out rather than in-sample.
@@ -110,12 +110,11 @@ This is what actually moved this cycle.
    cross-corpus difference entirely to depth: 0.34 was never a fitted value, and drift at K=30 is
    +7.4 % rather than +11.2 %. Resolved by stating the measured **range (15–23 %)** in the output
    rather than fitting a curve through four points.
-3. **P0 — The test's power is unknown.** 15 % is a false-*positive* rate. Nothing measures whether a
-   coached player can meet the target, so a well-calibrated but unreachable target would look exactly
-   like the current state. This is open question **D8** and it now blocks V7 harder than calibration
-   did.
-   It cannot be resolved from public game archives alone; it needs either a treated cohort or a proxy
-   (e.g. players whose rating climbed sharply, as a coarse stand-in for "someone who improved").
+3. **~~P0 — The test's power is unknown.~~ Partly answered 2026-08-03 (D8)** →
+   [[experiments.e06-progress-power]]. **The target is reachable** — improvers met it 25 % against
+   8 %, and the regression confound is measurably absent. But p = 0.120 on 7 met events: suggestive,
+   not established. Enough to justify building the prober, not enough to claim the swarm's targets
+   detect improvement. Closing it properly needs a treated cohort (outside C1) or far more data.
 2. **P1 — External validation of the detectors** against the CC0 puzzle themes. The strongest
    evidence available, because the labels are independent of me; E04 hand-checked only two motifs
    thoroughly. Needs the puzzle dump, for validation only.
