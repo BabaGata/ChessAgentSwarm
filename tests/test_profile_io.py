@@ -114,6 +114,32 @@ class TestRoundTrip:
         with pytest.raises(ValueError, match="schema_version"):
             from_dict(payload)
 
+    def test_refuses_a_version_older_than_anything_it_can_read(self):
+        payload = to_dict(a_profile())
+        payload["schema_version"] = 1
+
+        with pytest.raises(ValueError, match="schema_version"):
+            from_dict(payload)
+
+    def test_reads_a_v3_profile_written_before_probes_existed(self):
+        # v3 -> v4 added the `fragile` gap type and four ProbeRecord fields, all
+        # optional. A v3 payload is therefore already a valid v4 profile, and
+        # refusing it would throw away real analysis to no purpose.
+        payload = to_dict(a_profile())
+        payload["schema_version"] = 3
+
+        profile = from_dict(payload)
+
+        assert profile.probes == ()
+
+    def test_an_upgraded_profile_is_stamped_with_the_current_version(self):
+        # It is a v4 object in memory, so writing it back as v3 would claim a
+        # shape it no longer has -- it can now carry probes.
+        payload = to_dict(a_profile())
+        payload["schema_version"] = 3
+
+        assert from_dict(payload).schema_version == SCHEMA_VERSION
+
 
 class TestProfileUpdates:
     def test_adding_findings_returns_a_new_profile(self):

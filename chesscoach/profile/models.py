@@ -31,7 +31,7 @@ from enum import Enum
 # CorpusRef gains `game_ids`, so a later check knows which games are new. And
 # Plan gains `outcomes`, so a plan carries its own verdict -- a system that
 # quietly drops its failed predictions is unfalsifiable.
-SCHEMA_VERSION = 3
+SCHEMA_VERSION = 4
 
 _Z = 1.96  # 95% normal quantile, for Wilson intervals
 
@@ -52,6 +52,11 @@ class GapTypeHypothesis(str, Enum):
     SKILL = "skill"
     PROCESS = "process"
     PSYCHOLOGICAL = "psychological"
+    # Right move, wrong reason. Distinct from KNOWLEDGE because the player is
+    # not starting from nothing, and distinct from SKILL because what they hold
+    # will not generalise -- the remedy is to rebuild the concept, not to drill.
+    # Only a probe can establish it (schema v4).
+    FRAGILE = "fragile"
     UNKNOWN = "unknown"
 
 
@@ -248,7 +253,12 @@ class Finding:
 
 @dataclass(frozen=True)
 class ProbeRecord:
-    """A question put to the player, and what their answer implies."""
+    """A question put to the player, and what their answer implies.
+
+    `player_reason` is stored verbatim and `reason_matched` separately, so a
+    misclassification is auditable and reversible: the player's words are the
+    evidence, the label is only an interpretation of them.
+    """
 
     id: str
     finding_id: str
@@ -261,6 +271,20 @@ class ProbeRecord:
     verdict: str | None = None
     inference: str | None = None
     asked_at: str | None = None
+    # The reason the position actually turns on -- a detector's motif tag, known
+    # before the probe is shown. Supplied to the classifier, never asked of it.
+    expected_reason: str | None = None
+    move_correct: bool | None = None
+    reason_matched: bool | None = None
+    # Which model and prompt produced `reason_matched`. A stored diagnosis can
+    # change when a model is updated, and no previous component had that
+    # problem, so the version is part of the record.
+    classifier: str | None = None
+
+    @property
+    def overturns_knowledge_gap(self) -> bool:
+        """The player demonstrated the pattern, so this is not a knowledge gap."""
+        return bool(self.move_correct) and self.reason_matched is True
 
 
 @dataclass(frozen=True)

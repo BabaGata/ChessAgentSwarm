@@ -50,7 +50,7 @@ need to know?"
 | Dim | Vision item | Score | Δ | Evidence / why |
 |---|---|:--:|:--:|---|
 | D1 | V1 skill assessment | 0 | — | nothing built |
-| D2 | V2 knowledge assessment | 0 | — | method identified (probes), unbuilt |
+| D2 | V2 knowledge assessment | **1** | **+1** | **the prober's deterministic core exists** — probe selection, move check, inference table, `gap_type` written back (`chesscoach/prober.py`, 28 tests). Not 2: no model sits behind the classifier seam yet and the rubric is unvalidated, so no real player has been asked anything |
 | D3 | V3 style profiling | 0 | — | operational definition drafted |
 | D4 | V4 gap detection | **3** | **+1** | **two sections, six claim kinds**, peer-compared, detectors precision-gated. 9 of 38 real players carry a finding; one carries a three-part profile |
 | D5 | V5 prioritisation | **1** | **+1** | arbiter built: picks one or two from a multi-part profile, deterministically, with stated reasons. No time estimates or expected-gain reasoning yet |
@@ -60,9 +60,9 @@ need to know?"
 | D9 | C1–C4 cost profile | **1** | **+1** | analysis and diagnosis both run at zero cash and seconds of wall clock; the language layer is unbuilt, so the session total is still unmeasured |
 | D10 | Evaluation capability | **3** | **+1** | harness built *and used*; **both sides of the progress check are now measured** — false-positive rate (E05) and power (E06), the latter with its confound tested rather than conceded |
 | D11 | Process & documentation health | 4 | — | cycle held up under real work, including reversing its own mis-framed question |
-| D12 | V9 dialogue & active assessment | 0 | — | |
+| D12 | V9 dialogue & active assessment | **1** | **+1** | probe generation is real and bounded, and a probe can overturn the finding that produced it. Nothing yet conducts a session, and the context questions (interaction step 2) are unbuilt |
 
-**Total: 18 / 60.** It has gone 17 → 16 → 17 → 16 → 17 → 18, and every move was forced by a measurement:
+**Total: 20 / 60.** It has gone 17 → 16 → 17 → 16 → 17 → 18 → 20, and every move was forced by a measurement:
 down when E05 showed the verdicts meant nothing, up when the target rule was recalibrated, down
 again when cross-validation showed that calibration was itself optimistic, and up now that 57
 predictions can support what 13 could not, and again now that both sides of the progress check are
@@ -71,10 +71,10 @@ measured rather than one. A scorecard that only went up would not be measuring a
 The loop is closed — diagnose, prioritise, predict, check — and the prediction is now both demanding
 and **quantified**: about 15 % of untreated players meet it, held out rather than in-sample.
 
-**Four of twelve dimensions remain at zero — and they are the same four.** D1 skill assessment, D2
-knowledge assessment, D3 style profiling, D12 dialogue. Every one of them needs the player to be
-*asked* something, and nothing in the system asks anything. The scorecard's shape is not "28 % done";
-it is one deep, well-tested column and one empty one.
+**Two of twelve dimensions remain at zero**, down from four: D1 skill assessment and D3 style
+profiling. D2 and D12 moved off zero for the first time because the prober's core exists — the swarm
+can now *form a question*, even though it cannot yet interpret the answer. That is the empty column
+starting to fill, and it is the first movement there in the project's history.
 
 The uncomfortable part of this cycle is not the score. Deepening the histories did not just add
 predictions, it **moved the effect being measured** — drift fell from +11.2 points to +4.8, and the
@@ -99,6 +99,14 @@ This is what actually moved this cycle.
 | Evaluation design | 4 | +1 | design space mapped; harness built and proven useful. Predictive-validity (A1) and anti-pattern (D) families still unbuilt |
 
 ## Next logical steps (priority order)
+
+0. **P0 — Put a model behind the classifier seam, and validate it.** The prober cannot be used on a
+   real player until both exist. Two decisions are open and the first is the author's:
+   **which model** — a local small model is preferred under C1 and is plausibly sufficient, since the
+   task is short-text classification against a supplied label rather than chess reasoning — and
+   **the hand-labelled answer set** with inter-rater agreement, which [[capacity.agents.prober]] § 4
+   requires *before* any probe result may change a finding. Building the classifier without the
+   answer set would produce a system that looks finished and cannot be believed.
 
 1. **~~P0 — More predictions, so the constant can be calibrated at all.~~ Done 2026-08-03.**
    84 players, ~150 games each, 57 predictions. Fold spread 0.011; the constant is now estimated

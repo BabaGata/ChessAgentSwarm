@@ -42,6 +42,13 @@ from chesscoach.profile.models import (
 )
 
 
+# Versions this loader will accept. A version belongs here only when the step up
+# from it is additive -- new optional fields, new enum members that old data
+# cannot contain. Anything that changes the meaning of an existing field needs a
+# real migration, not an entry.
+READABLE_SCHEMA_VERSIONS = frozenset({3, SCHEMA_VERSION})
+
+
 def to_dict(profile: PlayerProfile) -> dict[str, Any]:
     """Render a profile as plain JSON-compatible data."""
     return {
@@ -71,10 +78,23 @@ def to_dict(profile: PlayerProfile) -> dict[str, Any]:
 
 
 def from_dict(payload: dict[str, Any]) -> PlayerProfile:
-    """Rebuild a profile, refusing any schema version we do not understand."""
+    """Rebuild a profile, refusing any schema version we do not understand.
+
+    Older versions are read only where the difference is provably additive. v3
+    became v4 by adding the `fragile` gap type and four optional `ProbeRecord`
+    fields, so every v3 payload already *is* a valid v4 profile and refusing it
+    would discard real analysis for no gain in safety.
+
+    The result is stamped with the current version, because what comes back is a
+    current-shaped object -- writing it out as v3 would claim it cannot carry
+    probes, which it now can.
+    """
     version = payload.get("schema_version")
-    if version != SCHEMA_VERSION:
-        raise ValueError(f"unsupported schema_version {version!r}, expected {SCHEMA_VERSION}")
+    if version not in READABLE_SCHEMA_VERSIONS:
+        raise ValueError(
+            f"unsupported schema_version {version!r}, "
+            f"readable: {sorted(READABLE_SCHEMA_VERSIONS)}"
+        )
 
     corpus = payload["corpus"]
     date_range = corpus.get("date_range")
@@ -104,7 +124,7 @@ def from_dict(payload: dict[str, Any]) -> PlayerProfile:
             )
             for h in payload.get("history") or ()
         ),
-        schema_version=version,
+        schema_version=SCHEMA_VERSION,
     )
 
 
@@ -256,6 +276,10 @@ def _probe_to_dict(probe: ProbeRecord) -> dict[str, Any]:
         "verdict": probe.verdict,
         "inference": probe.inference,
         "asked_at": probe.asked_at,
+        "expected_reason": probe.expected_reason,
+        "move_correct": probe.move_correct,
+        "reason_matched": probe.reason_matched,
+        "classifier": probe.classifier,
     }
 
 

@@ -9,10 +9,19 @@ created: 1785456000000
 # Agent P — The prober
 
 **Capability:** [[vision]] V9, and the only route to V2 · **Protocol:** [[architecture.interaction]] § 5
-**Status:** design only — no code yet, per the `adaptive-cycle` guardrail.
+**Status:** **deterministic core built and tested; not yet usable on a real player.**
 
 > The protocol was designed in M3 and has not changed. This note is the *agent*: what it is allowed
 > to do, what it may not, and how it will be judged.
+>
+> **Built** (`chesscoach/prober.py`, 28 tests): probe selection, the move check, the inference table,
+> and writing `gap_type` back to findings. The model sits behind a `ReasonClassifier` Protocol, so
+> the boundary in § 3 is enforced by the type rather than by discipline.
+>
+> **Not built, and it does not ship without them:** a model-backed classifier — the provider choice
+> is open, see § 10 — and the hand-labelled answer set with its inter-rater agreement (§ 4), which
+> this note requires *before* any probe result may change a finding. Until that exists the agent can
+> be exercised but not believed.
 
 ## Why this agent, now
 
@@ -140,9 +149,19 @@ the finding it probed.
 `determined_by` becomes `probed` rather than `inferred` — the first time anything in this system will
 be able to say that.
 
-**Schema consequence:** `GapTypeHypothesis` currently has no `fragile` member and `DeterminedBy` has
-no `probed`. Both are additions, and `ProbeRecord` is a new profile entity — so this is a
-**schema version bump**, planned rather than discovered mid-build.
+**Schema consequence — smaller than this note first claimed.** `ProbeRecord`, `DeterminedBy.PROBED`
+and `PlayerProfile.probes` **already existed**, designed in M3 against exactly this eventuality. The
+prediction that they would need adding was wrong, and pleasantly so: it is the clearest evidence so
+far that [[architecture.player-profile]] was designed for the whole vision rather than for what was
+being built at the time.
+
+What v3 → v4 actually needed: the `fragile` member, and four fields on `ProbeRecord`
+(`expected_reason`, `move_correct`, `reason_matched`, `classifier`) so a verdict is auditable and a
+model version is recorded.
+
+Because every one of those is additive, **v3 profiles remain readable** and are upgraded on load —
+`READABLE_SCHEMA_VERSIONS` in `profile/io.py`, which admits a version only when the step up from it
+cannot change the meaning of existing data.
 
 ## 9 · Efficacy measure
 
