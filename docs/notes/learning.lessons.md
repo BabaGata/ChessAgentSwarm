@@ -24,6 +24,34 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 
 ---
 
+### L-024 — What the opponent gets discriminates; what your position contains does not
+**Date:** 2026-08-05 · **Cycle / mission step:** M4 (S6) · **Class:** technique
+**Context:** Screening five candidate claims for S6 before building it
+([[experiments.e09-square-candidates]]).
+**Observation:** Three candidates failed and two succeeded, and the split was not arbitrary. **Failed
+— all descriptions of the player's own position:** a hole in their camp (spread 1.25), a bishop
+hemmed by its own pawns (1.27), a rook missing from an open file (1.31). **Succeeded — both
+descriptions of what the opponent obtained:** a knight settled where it cannot be evicted (**2.15**,
+the highest in the project) and a rook reaching the player's second rank (**1.82**). The same line
+runs backwards: S5's `concedes_weakness`, about the player's own structure, spreads 1.20–1.85 and
+mostly at the bottom, while S1's `allowed_motif`, about what punishes the player, fires readily.
+**Lesson:** Positions converge; consequences do not. Two players at the same rating reach positions
+with broadly the same number of holes, bad bishops and unoccupied files, because those are properties
+of the openings played at that level rather than of the player. What differs is **what opponents
+manage to do about it** — and that is a joint product of the player's choices and their opponent's,
+which is exactly what a coach can act on. The practical rule for later sections: **when a topic can
+be framed either as a property of the position or as something the opponent achieved, frame it the
+second way.** It is also the framing that makes a claim mean something to read: "you have holes" is
+a description, "opponents park knights in your position" is a diagnosis.
+Second-order, and cheap: this whole finding cost one engine-free minute per candidate. Screening is
+so much cheaper than building that the only reason S5 was not screened first is that nobody had
+thought to.
+**Applied to:** `chesscoach/squares.py` and `chesscoach/sections/s6_squares_and_files.py` (two claims
+rather than five), § 9.1 of [[capacity.agents.s6-squares-and-files]], and carried into S7/S8 as a
+design prior.
+
+---
+
 ### L-023 — A big denominator turns a significance test into a rubber stamp
 **Date:** 2026-08-05 · **Cycle / mission step:** M4 (S5) · **Class:** technique
 **Context:** Building S5, whose claims carry ~526 opportunities per player against 92–232 for every

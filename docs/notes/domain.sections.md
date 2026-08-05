@@ -115,11 +115,19 @@ the player is on and whether they handle it correctly.
 > itself a mistake; conceding a structure is not. Only three features are built (isolated, backward,
 > doubled) — passed pawns, hanging pawns, islands and majorities are all still absent.
 
-### S6 · Squares, files and piece placement
+### S6 · Squares, files and piece placement — **built** ([[capacity.agents.s6-squares-and-files]])
 **Owns:** outposts, holes, open and semi-open files, the seventh rank, good/bad bishop.
 **Support** strong — same detectors. Outposts have the best base rate (7 %) of those tested.
-**Blocked on:** C6, and the relevance problem is sharper here (a correct outpost detection may still
-be a trivial edge knight).
+~~**Blocked on:** C6, and the relevance problem is sharper here.~~
+
+> **Three of these five topics were dropped on evidence** → [[experiments.e09-square-candidates]].
+> Screened before the section was written: holes (spread 1.25), bad bishops (1.27) and unused open
+> files (1.31) do not distinguish players at this band. Outposts (**2.15**) and the seventh rank
+> (**1.82**) do.
+>
+> The warning in this entry was half right. A correct outpost detection is *not* a trivial edge
+> knight — outposts turned out to be the strongest discriminator in the project. What is trivial is
+> everything phrased as a property of the player's own position (L-024).
 
 ### S7 · Calculation quality
 **Owns:** the calculation skills distinct from pattern knowledge — finding quiet moves, finding

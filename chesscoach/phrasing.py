@@ -43,6 +43,7 @@ QUANTITIES: dict[str, str] = {
     "early_error": "mistakes before move 15 {subject}",
     "opening_disadvantage": "games where you are already worse by move 15",
     "concedes_weakness": "moves that leave you with {subject} pawns",
+    "allows_square": "moves that let your opponent establish {subject}",
 }
 
 # The finding as a sentence a person would say. Deliberately flat: no severity
@@ -61,12 +62,18 @@ STATEMENTS: dict[str, str] = {
     # features and this band's errors, so anything implying cost -- "this is
     # losing you games" -- would be a claim the evidence does not support.
     "concedes_weakness": "You end up with {subject} pawns more often than players at your level.",
+    "allows_square": "You let opponents establish {subject} more often than players at your level.",
 }
 
 STRUCTURE_NAMES: dict[str, str] = {
     "isolated": "isolated",
     "backward": "backward",
     "doubled": "doubled",
+}
+
+SQUARE_NAMES: dict[str, str] = {
+    "outpost": "a knight you cannot chase away",
+    "rook_seventh": "a rook on your second rank",
 }
 
 # Colours read as a phrase rather than a word, so the sentence works either way.
@@ -87,6 +94,7 @@ ENDGAME_CLASSES: dict[str, str] = {
 POOLED = "any"
 
 POOLED_QUANTITIES: dict[str, str] = {
+    "allows_square": "moves that let your opponent settle into your position",
     "endgame_error": "mistakes in the endgame",
     "early_error": "mistakes before move 15",
     "opening_disadvantage": "games where you are already worse by move 15",
@@ -98,6 +106,10 @@ POOLED_STATEMENTS: dict[str, str] = {
     "concedes_weakness": (
         "Your moves leave weaknesses in your own pawn structure more often than "
         "players at your level."
+    ),
+    "allows_square": (
+        "You let opponents settle pieces into your position more often than players "
+        "at your level."
     ),
 }
 
@@ -116,6 +128,8 @@ def subject_name(subject: str, kind: str | None = None) -> str:
         return COLOURS.get(subject, subject)
     if kind == "concedes_weakness":
         return STRUCTURE_NAMES.get(subject, subject)
+    if kind == "allows_square":
+        return SQUARE_NAMES.get(subject, subject)
     return MOTIF_NAMES.get(subject, subject)
 
 

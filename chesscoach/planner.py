@@ -301,6 +301,11 @@ def _action(finding: Finding) -> str:
             "allowed it. Conceding a weakness for something concrete is fine; doing it "
             "without noticing is the habit worth changing."
         ),
+        "allows_square": (
+            "Before a pawn move, ask which square it gives up for good — a pawn cannot "
+            "come back. In the cited games, find the move where the square your opponent "
+            "later occupied stopped being defensible."
+        ),
     }
     return actions.get(
         finding.claim.kind,

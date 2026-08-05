@@ -24,6 +24,7 @@ An experiment with no consequence was not worth running.
 | E06 | D8 — does the progress check have any *power*? | done — **suggestive, not established** (25 % vs 8 %, p = 0.12) | [[experiments.e06-progress-power]] |
 | E07 | which classifier may decide a player's gap type? | done — **8B local model, kappa 0.74, zero false-ignorance**; the real find was a design flaw, not a model | [[experiments.e07-reason-classification]] |
 | E08 | evaluation family D — is the swarm generic, overloaded, or ungrounded? | done — **none of those; it is silent**, for 29 of 38 players | [[experiments.e08-anti-patterns]] |
+| E09 | which of S6's candidate claims distinguish players at all? | done — **two of five**, and the split says what kind of claim works (L-024) | [[experiments.e09-square-candidates]] |
 
 ## Conventions
 

@@ -52,7 +52,7 @@ need to know?"
 | D1 | V1 skill assessment | 0 | — | nothing built |
 | D2 | V2 knowledge assessment | **2** | **+2** | **the prober works end to end** — probe selection, move check, a local model classifying reasons at kappa 0.74 with zero false-ignorance (E07), `gap_type` written back. Not 3: the rubric's answer set is written and labelled by the author and the figure is in-sample, so it may not yet change a real player's finding |
 | D3 | V3 style profiling | 0 | — | operational definition drafted |
-| D4 | V4 gap detection | **4** | — | **five sections, thirteen claim kinds** (S3, S4, S5). Coverage 9 → **19 of 38** advised, overlap 0.24 → **0.08** — louder and more specific together. Not 5: **19 of 38 are still told nothing**; nothing covers calculation or attack; and S5 ships with most of its claims suppressed because players concede structure at nearly identical rates (L-023) |
+| D4 | V4 gap detection | **4** | — | **six sections, fifteen claim kinds.** Coverage 9 → **20 of 38** advised, overlap 0.24 → **0.06** — louder and far more specific together. S6 is the first section whose claims were chosen by measurement before it was written, and the first with no dead claims (E09). Not 5: **18 of 38 are still told nothing**, calculation and attack are uncovered, and the binding constraint has moved from peer comparison to `FOCUS_DISTINCT_GAMES` — S6's events are real but rare |
 | D5 | V5 prioritisation | **1** | **+1** | arbiter built: picks one or two from a multi-part profile, deterministically, with stated reasons. No time estimates or expected-gain reasoning yet |
 | D6 | V6 path planning | **2** | **+2** | plans built and persisted, every step carrying a machine-checkable progress sign and a derived check point. No time estimates — D5 is unresolved and inventing them was refused |
 | D7 | V7 progress tracking | **3** | **+1** | **restored, on evidence this time.** 57 predictions from 84 players with ~150-game histories; the constant is cross-validated at 2 *and* 5 folds with a fold spread of 0.011, and a held-out false-positive rate of **15 %** is stated in the output. Not 4: the test's **power is unmeasured** — no coached cohort exists, so nothing shows a real improvement could clear the bar (**D8**) |
@@ -114,11 +114,18 @@ This is what actually moved this cycle.
    re-measurement confirmed 19 advised / 13 kinds / 0.08 overlap unchanged. The defect was real and
    *latent*: no section had a large enough denominator to trip it until S5 (L-023).
 
-0. **P0 — More sections.** S3/S4/S5 took coverage 9 → **19 of 38**, and **19 are still told nothing**.
-   Next in catalogue order is S6 (squares and files); S7 (calculation) is the alternative and is the
-   section most dependent on probes, which now exist. Copy S5's § 9.1: check the population spread
-   against the peer reference *before* shipping, because it costs one query and predicts which of a
-   section's claims can fire at all.
+0. **P0 — More sections, screened first.** S3–S6 took coverage 9 → **20 of 38**; **18 are still told
+   nothing**. Next is **S7 (calculation)**, which is also the section most dependent on probes — and
+   those now exist. **Screen candidates before writing the section** (E09's pattern): it is
+   engine-free, costs about a minute, and on S6 it cut three of five candidates and saved building
+   them. Carry L-024 in as a prior: frame a candidate as *what the opponent achieved*, not as *what
+   the position contains*.
+
+0. **P1 — The binding constraint has moved.** It is no longer the peer comparison but
+   `FOCUS_DISTINCT_GAMES = 5`: S6's claims are real and strongly discriminating (ratios 1.9–2.3) and
+   still produced only three findings, because the events occur in fewer than five separate games for
+   most players. More sections will keep hitting this. The lever is **deeper corpora** — the E05 deep
+   histories (150 games each) already exist and the peer reference is still built from 24-game ones.
 
 0. **P0 — Answers from people who are not the author.** ~40 of them, labelled by someone else. This
    is the only thing standing between the prober and real use, and it is **not a modelling problem**:
