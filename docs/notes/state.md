@@ -52,7 +52,7 @@ need to know?"
 | D1 | V1 skill assessment | 0 | — | nothing built |
 | D2 | V2 knowledge assessment | **2** | **+2** | **the prober works end to end** — probe selection, move check, a local model classifying reasons at kappa 0.74 with zero false-ignorance (E07), `gap_type` written back. Not 3: the rubric's answer set is written and labelled by the author and the figure is in-sample, so it may not yet change a real player's finding |
 | D3 | V3 style profiling | 0 | — | operational definition drafted |
-| D4 | V4 gap detection | **3** | **+1** | **two sections, six claim kinds**, peer-compared, detectors precision-gated. 9 of 38 real players carry a finding; one carries a three-part profile |
+| D4 | V4 gap detection | **3** | — | **three sections, eight claim kinds** (S3 added). Coverage moved 9 → **12 of 38** players advised and mean advice overlap 0.24 → **0.14**, so the swarm is more specific as well as louder. Not 4: **26 of 38 are still told nothing**, and S3's five material classes fired for nobody — only its pooled claim works |
 | D5 | V5 prioritisation | **1** | **+1** | arbiter built: picks one or two from a multi-part profile, deterministically, with stated reasons. No time estimates or expected-gain reasoning yet |
 | D6 | V6 path planning | **2** | **+2** | plans built and persisted, every step carrying a machine-checkable progress sign and a derived check point. No time estimates — D5 is unresolved and inventing them was refused |
 | D7 | V7 progress tracking | **3** | **+1** | **restored, on evidence this time.** 57 predictions from 84 players with ~150-game histories; the constant is cross-validated at 2 *and* 5 folds with a fold spread of 0.011, and a held-out false-positive rate of **15 %** is stated in the output. Not 4: the test's **power is unmeasured** — no coached cohort exists, so nothing shows a real improvement could clear the bar (**D8**) |
@@ -108,12 +108,11 @@ This is what actually moved this cycle.
 
 ## Next logical steps (priority order)
 
-0. **P0 — Build S3, and then more sections.** E08 measured the binding constraint: **29 of 38 players
-   are told nothing**, and only fourteen findings exist across all of them. Detected counts equal
-   advised counts for every claim kind, so this is not the arbiter being fussy — almost nothing
-   clears the gate. [[decisions.0009-prober-before-breadth]] deferred sections because a swarm that
-   diagnoses eleven things and cannot ask about any of them is worse than one that diagnoses two and
-   can; **the prober now exists, so that reason has expired.** Every new claim kind is probeable.
+0. **P0 — More sections, and pooled claims rather than fine ones.** S3 is built and moved coverage
+   9 → 12 of 38 ([[capacity.agents.s3-endgame-technique]]). The lesson it taught is about shape, not
+   about endgames: **its five material classes fired for zero players, and its one pooled claim did
+   all the work.** Later sections should lead with the aggregate and add subdivisions only where the
+   data proves it can carry them. S4 (opening outcomes) is next in the catalogue order.
 
 0. **P0 — Answers from people who are not the author.** ~40 of them, labelled by someone else. This
    is the only thing standing between the prober and real use, and it is **not a modelling problem**:

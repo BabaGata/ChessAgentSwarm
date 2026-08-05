@@ -38,6 +38,8 @@ QUANTITIES: dict[str, str] = {
     "long_think_error": "mistakes after a long think",
     "instant_move_error": "mistakes after an instant reply",
     "time_pressure_error": "mistakes when short of time",
+    "endgame_error": "mistakes in {subject} endgames",
+    "advantage_error": "mistakes made while you are winning",
 }
 
 # The finding as a sentence a person would say. Deliberately flat: no severity
@@ -48,32 +50,65 @@ STATEMENTS: dict[str, str] = {
     "long_think_error": "Your long thinks tend to end in a mistake.",
     "instant_move_error": "Moves you play instantly go wrong more often than they should.",
     "time_pressure_error": "Your play falls off when the clock is short.",
+    "endgame_error": "Your play falls off in {subject} endgames.",
+    "advantage_error": "You go wrong more often than most when you are already better.",
 }
 
+# Endgame material classes.
+ENDGAME_CLASSES: dict[str, str] = {
+    "pawn": "pawn",
+    "rook": "rook",
+    "minor": "minor-piece",
+    "rook_minor": "rook-and-minor",
+    "queen": "queen",
+}
 
-def subject_name(subject: str) -> str:
-    """A motif's name as a person would write it.
+# The pooled subject. It cannot share the class templates — substituting a name
+# into "{subject} endgames" gives "the endgames", which no one would say — so
+# the pooled claim gets its own wording rather than a word chosen to fit a slot.
+POOLED = "any"
 
-    Falls back to the key rather than inventing a spacing rule, so an unmapped
-    motif looks unfinished instead of looking like a word.
+POOLED_QUANTITIES: dict[str, str] = {"endgame_error": "mistakes in the endgame"}
+POOLED_STATEMENTS: dict[str, str] = {"endgame_error": "Your play falls off in the endgame."}
+
+
+def subject_name(subject: str, kind: str | None = None) -> str:
+    """A subject's name as a person would write it.
+
+    Which vocabulary applies depends on the claim: motif subjects are Lichess
+    theme keys, endgame subjects are material classes. Falls back to the key
+    rather than inventing a spacing rule, so an unmapped subject looks
+    unfinished instead of looking like a word someone chose.
     """
+    if kind == "endgame_error":
+        return ENDGAME_CLASSES.get(subject, subject)
     return MOTIF_NAMES.get(subject, subject)
 
 
 def quantity(finding: Finding) -> str:
     """The measured quantity, named for a person."""
-    template = QUANTITIES.get(finding.claim.kind)
+    kind, subject = finding.claim.kind, finding.claim.subject
+    if subject == POOLED and kind in POOLED_QUANTITIES:
+        return POOLED_QUANTITIES[kind]
+
+    name = subject_name(subject, kind)
+    template = QUANTITIES.get(kind)
     if template is None:
-        return f"{finding.claim.kind} rate ({subject_name(finding.claim.subject)})"
-    return template.format(subject=subject_name(finding.claim.subject))
+        return f"{kind} rate ({name})"
+    return template.format(subject=name)
 
 
 def statement(finding: Finding) -> str:
     """The finding as one sentence."""
-    template = STATEMENTS.get(finding.claim.kind)
+    kind, subject = finding.claim.kind, finding.claim.subject
+    if subject == POOLED and kind in POOLED_STATEMENTS:
+        return POOLED_STATEMENTS[kind]
+
+    name = subject_name(subject, kind)
+    template = STATEMENTS.get(kind)
     if template is None:
-        return f"{finding.claim.kind}: {subject_name(finding.claim.subject)}."
-    return template.format(subject=subject_name(finding.claim.subject))
+        return f"{kind}: {name}."
+    return template.format(subject=name)
 
 
 def move_number(ply: int) -> int:

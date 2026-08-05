@@ -58,8 +58,15 @@ check opponent threats.
 content-based coaching never reaches ([[domain.coaching]] § 2), and it is the one an LLM-only coach
 cannot do at all — it needs the data.
 
-### S3 · Endgame technique & conversion
+### S3 · Endgame technique & conversion — **built** ([[capacity.agents.s3-endgame-technique]])
 **Owns:** endgame errors by material type, conversion of winning positions, resilience in worse ones.
+
+> **Scope corrected on building.** *Conversion of winning positions is not measurable* under the
+> shared eligibility rule, and the rule is right: `diagnosable()` excludes anything beyond
+> `DECIDED_CP` because win probability compresses at the extremes (L-009), so errors in won positions
+> are both cheap to make and nearly invisible. S3 measures **advantage retention** instead — going
+> wrong while clearly better but not yet winning. Narrower, honestly named, and it answers the
+> coaching question one step earlier.
 **Diagnosed from:** phase-segmented error profile, win-probability trajectories, material
 classification at the point of simplification.
 **Prescribes:** endgame-tagged puzzles (`rookEndgame`, `pawnEndgame`, …) and the classical

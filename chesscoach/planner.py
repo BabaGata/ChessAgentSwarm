@@ -22,7 +22,7 @@ import math
 
 from chesscoach.arbiter import Priority
 from chesscoach.peers import PeerReference
-from chesscoach.phrasing import quantity, subject_name
+from chesscoach.phrasing import POOLED, quantity, subject_name
 from chesscoach.profile.models import Finding, Plan, PlanStep
 
 # Enough games that a rate measured over them means something. Matches the
@@ -248,7 +248,7 @@ def _action(finding: Finding) -> str:
     # you type into a puzzle filter. In ordinary prose it is an identifier they
     # cannot act on, so the readable name goes there instead.
     subject = finding.claim.subject
-    name = subject_name(subject)
+    name = subject_name(subject, finding.claim.kind)
     actions = {
         "missed_motif": (
             f"Drill `{subject}` puzzles, and solve to be right rather than fast — "
@@ -268,6 +268,19 @@ def _action(finding: Finding) -> str:
         ),
         "time_pressure_error": (
             "Spend less time in the opening so that the clock is not deciding your moves later."
+        ),
+        "endgame_error": (
+            f"Study {name} endgames — start with the basic winning and drawing methods "
+            "rather than with studies, and play out the positions you got wrong."
+            if subject != POOLED
+            else (
+                "Study endgames — start with the basic winning and drawing methods rather "
+                "than with studies, and play out the positions you got wrong."
+            )
+        ),
+        "advantage_error": (
+            "When you are clearly better, slow down rather than speed up: take the safe "
+            "line over the quick one, and check your opponent's reply before every move."
         ),
     }
     return actions.get(

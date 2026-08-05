@@ -24,6 +24,27 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 
 ---
 
+### L-022 — Subdivide only where the data can carry the subdivision
+**Date:** 2026-08-05 · **Cycle / mission step:** M4 (S3) · **Class:** technique
+**Context:** Building S3 for **coverage**, after E08 measured the swarm silent for 29 of 38 players
+([[capacity.agents.s3-endgame-technique]]).
+**Observation:** S3 emits one pooled claim (`endgame_error.any`) and five material classes. Across 38
+real players the pooled claim produced **every single finding**; **all five classes fired for
+nobody**. The design note had already argued that finer classes "would fire for nobody" and chose
+five deliberately coarse ones as the compromise — and five was still too many. The same shape shows
+up in S1, where [[mission.step-07-second-iteration]] recorded roughly three skewer opportunities per
+player and only two motifs ever reaching `focus`.
+**Lesson:** A subdivision is only worth making if each part can still clear the confidence gate, and
+that is a **property of the denominator, not of the taxonomy**. Chess vocabulary invites splitting —
+by motif, by material, by phase — and every split divides the evidence while the significance
+threshold stays put. The working rule for later sections: **lead with the aggregate**, which is what
+lets the section speak at all, and add subdivisions only where the data has been shown to carry them.
+The cost of getting it wrong is not a wrong answer, it is silence, which is much harder to notice.
+**Applied to:** `chesscoach/sections/s3_endgame_technique.py` (`endgame_error.any` as the
+load-bearing claim), and the P0 note in [[state]] directing later sections to the same shape.
+
+---
+
 ### L-021 — A metric passing is not the same as the output being good
 **Date:** 2026-08-05 · **Cycle / mission step:** M5 ([[mission.step-08-assess-prober]]) · **Class:** process
 **Context:** Assessing the explainer with the anti-pattern metrics from [[evaluation]].

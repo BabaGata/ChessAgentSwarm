@@ -82,12 +82,14 @@ def default_agents() -> tuple[SectionAgent, ...]:
 
     Adding a section here is the entire integration step — no wiring, no
     ordering, no agent aware of any other. That is the blackboard design's
-    central claim (ADR-0006), and adding S1 is the first test of it.
+    central claim (ADR-0006); S1 was its first test and S3 its second, both
+    one-line changes.
     """
     from chesscoach.sections.s1_tactical_gaps import S1TacticalGaps
     from chesscoach.sections.s2_decision_process import S2DecisionProcess
+    from chesscoach.sections.s3_endgame_technique import S3EndgameTechnique
 
-    return (S2DecisionProcess(), S1TacticalGaps())
+    return (S2DecisionProcess(), S1TacticalGaps(), S3EndgameTechnique())
 
 
 def summarise(result: DiagnosisResult) -> Iterable[str]:
