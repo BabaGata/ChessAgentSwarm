@@ -47,6 +47,14 @@ advance which parts of a section were real.
 **Applied to:** `chesscoach/sections/s5_pawn_structure.py` (`MIN_PEER_RATIO`), **D12** in
 [[open-questions]] for the policy-level fix, and § 9.1 of the S5 note as the pattern later sections
 should copy.
+**Fixed at the policy level the same day.** `focus` now requires the rate to clear its comparison by
+1.25× as well as the interval to exclude it — magnitude *and* significance
+([[architecture.confidence]]). The floor was **measured rather than picked**: all 40 findings the
+swarm currently asserts were checked and the smallest is 1.40, so it removes none of them and
+re-measurement confirmed zero change. Worth noting what that means — **the defect was real and
+latent**. It had never yet produced a bad finding, because no section had a denominator large enough
+until S5. A rule can be wrong for a long time before it is wrong *about anything*, and the thing that
+exposed it was building a section whose shape differed from all the previous ones.
 
 ---
 

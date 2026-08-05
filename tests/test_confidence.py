@@ -92,6 +92,58 @@ class TestPromotion:
         assert result.tier is ConfidenceTier.NONE
 
 
+class TestMagnitudeAsWellAsSignificance:
+    """`focus` reaches the player, so it must require an effect worth hearing.
+
+    Before FOCUS_MARGIN it required only that the interval exclude the
+    population rate — a pure significance test. That stayed harmless while every
+    claim carried ~100 opportunities, because at that size an effect becomes
+    significant at about the point it becomes worth mentioning. S5 arrived with
+    526 and the two came apart: 1.24x deviations, statistically solid and not
+    worth saying (L-023, D12).
+    """
+
+    def test_a_reliable_but_tiny_deviation_does_not_reach_the_player(self):
+        # A huge sample makes the interval tight enough to exclude the baseline
+        # while the effect stays trivial.
+        result = assign_tier(
+            counts(rate=0.056, baseline_rate=0.050, ci95=(0.052, 0.060), distinct_games=15)
+        )
+
+        assert result.tier is ConfidenceTier.WATCH
+        assert not result.is_assertable
+
+    def test_and_it_says_why(self):
+        result = assign_tier(
+            counts(rate=0.056, baseline_rate=0.050, ci95=(0.052, 0.060), distinct_games=15)
+        )
+
+        assert any("less than 1.25x" in reason for reason in result.reasons)
+
+    def test_a_deviation_worth_hearing_still_reaches_focus(self):
+        # The smallest ratio the swarm currently asserts on real players is
+        # 1.40, so the floor is set below every finding that exists today.
+        result = assign_tier(counts(rate=0.140, baseline_rate=0.100, ci95=(0.105, 0.190)))
+
+        assert result.is_assertable
+
+    def test_the_floor_sits_below_every_finding_the_swarm_currently_makes(self):
+        from chesscoach.confidence import FOCUS_MARGIN
+
+        assert FOCUS_MARGIN <= 1.40
+
+    def test_focus_is_easier_to_reach_than_priority(self):
+        # The margin is the same number, but focus applies it to the point
+        # estimate and priority to the pessimistic end of the interval. If that
+        # ordering ever inverted, priority would become unreachable.
+        from chesscoach.confidence import FOCUS_MARGIN, PRIORITY_MARGIN
+
+        stats = counts(rate=0.140, baseline_rate=0.100, ci95=(0.105, 0.190), distinct_games=10)
+
+        assert FOCUS_MARGIN <= PRIORITY_MARGIN
+        assert assign_tier(stats).tier is ConfidenceTier.FOCUS
+
+
 class TestReasons:
     def test_records_why_the_tier_was_reached(self):
         result = assign_tier(counts(distinct_games=8, games_with_data=30))

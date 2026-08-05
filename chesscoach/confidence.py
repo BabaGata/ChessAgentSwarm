@@ -30,13 +30,29 @@ FOCUS_GAMES_WITH_DATA = 20
 
 PRIORITY_DISTINCT_GAMES = 8
 
-# `focus` only needs the interval to clear the comparison rate at all. That is
-# too weak for the top tier: a claim whose lower bound sits a fraction above the
-# population rate is real but marginal, and measurement showed exactly how
-# fragile such claims are -- a 0.4 percentage point change in the reference
-# population flipped one from `priority` to nothing at all. To be called a
-# priority a claim must clear the comparison by a margin, not merely touch it.
+# To be called a priority a claim must clear the comparison by a margin, not
+# merely touch it. Measurement showed how fragile a bare-touch claim is -- a 0.4
+# percentage point change in the reference population flipped one from `priority`
+# to nothing at all.
 PRIORITY_MARGIN = 1.25
+
+# The same margin, required of `focus` too, but on the point estimate rather than
+# the interval's lower bound -- so `focus` means "big enough and reliably real"
+# and `priority` still means "big enough even at the pessimistic end".
+#
+# Without this, `focus` is a pure **significance** test: the interval must exclude
+# the population rate, with no floor on **magnitude**. That was harmless while
+# every claim carried ~100 opportunities per player, because at that sample size
+# an effect only becomes significant once it is also worth mentioning. S5 arrived
+# carrying **526**, and the two came apart: its pooled claim deviates by 1.24x at
+# the 90th percentile -- statistically solid, and nothing a coach would say out
+# loud (L-023, question D12).
+#
+# 1.25 is chosen to match PRIORITY_MARGIN rather than tuned, and it was checked
+# against every finding the swarm currently asserts: the **smallest** of the 40 is
+# 1.40, so this floor removes none of them. It exists to stop the next
+# large-denominator section, not to prune the present ones.
+FOCUS_MARGIN = 1.25
 
 
 @dataclass(frozen=True)
@@ -121,6 +137,8 @@ def _focus_blockers(stats: ClaimStats) -> list[str]:
         blockers.append(f"fewer than {FOCUS_GAMES_WITH_DATA} games with data")
     if stats.ci95[0] <= stats.baseline_rate:
         blockers.append("interval does not exclude the baseline rate")
+    if stats.rate < stats.baseline_rate * FOCUS_MARGIN:
+        blockers.append(f"clears the comparison by less than {FOCUS_MARGIN:g}x")
     if not stats.replicated:
         blockers.append("not replicated across a split of the player's games")
     return blockers

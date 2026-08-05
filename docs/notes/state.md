@@ -108,16 +108,17 @@ This is what actually moved this cycle.
 
 ## Next logical steps (priority order)
 
-0. **P0 — D12: does `focus` need a magnitude floor?** S5 exposed that the tier which reaches the
-   player is a significance test with no effect-size requirement, and it only stayed harmless while
-   every claim had ~100 opportunities (L-023). S5 patches itself with `MIN_PEER_RATIO`; the policy
-   is unfixed. Answering it means re-measuring S1–S4 coverage under the new rule, which is a cycle
-   of its own — and it should happen **before** more sections, because every section built under the
-   old rule may be asserting claims that would not survive the new one.
+0. **~~P0 — D12: does `focus` need a magnitude floor?~~ Done 2026-08-05.** Yes, and it has one:
+   `FOCUS_MARGIN = 1.25` on the point estimate, alongside the interval test. Chosen from the data —
+   the smallest ratio among the swarm's 40 real findings is 1.40 — so it **removed nothing**, and
+   re-measurement confirmed 19 advised / 13 kinds / 0.08 overlap unchanged. The defect was real and
+   *latent*: no section had a large enough denominator to trip it until S5 (L-023).
 
-0. **P1 — More sections.** S3/S4/S5 took coverage 9 → **19 of 38**. Next in catalogue order is S6
-   (squares and files); S7 (calculation) is the alternative and is the section most dependent on
-   probes, which now exist.
+0. **P0 — More sections.** S3/S4/S5 took coverage 9 → **19 of 38**, and **19 are still told nothing**.
+   Next in catalogue order is S6 (squares and files); S7 (calculation) is the alternative and is the
+   section most dependent on probes, which now exist. Copy S5's § 9.1: check the population spread
+   against the peer reference *before* shipping, because it costs one query and predicts which of a
+   section's claims can fire at all.
 
 0. **P0 — Answers from people who are not the author.** ~40 of them, labelled by someone else. This
    is the only thing standing between the prober and real use, and it is **not a modelling problem**:

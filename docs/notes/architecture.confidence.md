@@ -33,8 +33,25 @@ piece three times in one disastrous game does not have a pattern, they had a bad
 | To reach | Requires |
 |---|---|
 | `watch` | ≥ 3 distinct games · ≥ 10 games with data for that section |
-| `focus` | ≥ 5 distinct games · ≥ 20 games with data · rate CI excludes the peer rate · **replicated** on a held-out split |
-| `priority` | `focus` conditions · ≥ 8 distinct games · **and the interval clears the comparison rate by a margin (1.25×)**, not merely touching it |
+| `focus` | ≥ 5 distinct games · ≥ 20 games with data · rate CI excludes the peer rate · **rate clears it by 1.25×** · **replicated** on a held-out split |
+| `priority` | `focus` conditions · ≥ 8 distinct games · **and the interval clears the comparison rate by 1.25×**, not merely touching it |
+
+**Why `focus` needs a margin too** (added 2026-08-05, question D12). It originally required only that
+the interval *exclude* the peer rate — a test of **significance** with no floor on **magnitude**.
+That is equivalent to "worth telling someone" only at the sample size it was calibrated for: with
+~100 opportunities per player, an effect becomes significant at about the point it becomes worth
+mentioning. **S5 arrived carrying 526**, and the two came apart — its pooled claim deviates by 1.24×
+at the 90th percentile, statistically solid and not worth saying (L-023).
+
+The two margins use the same number and different statistics, which is what keeps the tiers ordered:
+`focus` applies it to the **point estimate**, `priority` to the **interval's lower bound**. So
+`focus` means *big enough and reliably real*; `priority` means *big enough even at the pessimistic
+end*.
+
+**The floor was measured, not chosen.** Every one of the 40 findings the swarm asserts across 38 real
+players was checked: the smallest ratio is **1.40**, so 1.25 removes none of them, and re-measuring
+end to end confirmed it — 19 players advised, 13 claim kinds, overlap 0.08, all unchanged. It exists
+to stop the *next* large-denominator section rather than to prune the present ones.
 
 **Why `priority` needs a margin.** It originally required only the distinct-game count, which meant a
 claim whose interval grazed the population rate printed at the strongest tier. Measurement settled

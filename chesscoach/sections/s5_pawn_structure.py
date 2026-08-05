@@ -59,13 +59,16 @@ SECTION = "S5"
 
 CONCEDES = "concedes_weakness"
 
-# How far above the peer rate a claim must sit before this section will assert
-# it, on top of everything the confidence policy already requires.
+# How far above the peer rate a claim must sit before **this section** will
+# assert it, on top of everything the confidence policy already requires.
 #
-# Needed because the policy's FOCUS tier is a **significance** test -- the
-# interval must exclude the peer rate -- with no floor on **magnitude**, and it
-# was calibrated against claims carrying ~100 opportunities per player. S5
-# carries 526, so an effect far too small to coach on still clears it.
+# The general problem this originally patched -- FOCUS testing significance with
+# no floor on magnitude -- is now fixed in the policy itself
+# (`confidence.FOCUS_MARGIN`, question D12). This stays, and is stricter, for a
+# reason that belongs to S5 alone: **E03 found no link between structural
+# features and this band's errors**, so unlike every other section a finding here
+# cannot claim to be costing the player anything. A claim that cannot say what it
+# costs should have to be larger before it takes up one of a player's two slots.
 #
 # Measured across the 38-player reference, p90/median spread:
 #
@@ -74,13 +77,10 @@ CONCEDES = "concedes_weakness"
 #     concedes_weakness.isolated  1.40      early_error.black     1.92
 #     concedes_weakness.backward  1.85      endgame_error.any     1.70
 #
-# Players concede structure at very nearly the same rate. Only `backward` varies
-# like the claims that are known to discriminate, so only `backward` can produce
-# a finding worth a player's attention. The others are measured, kept in the
-# peer reference, and never asserted.
-#
-# The general version of this -- FOCUS testing significance without magnitude --
-# is bigger than one section and is registered as D12 rather than fixed here.
+# Players concede structure at very nearly the same rate. `backward` varies like
+# the claims that are known to discriminate and fires regularly; `isolated`
+# reaches this bar only for outliers; `doubled` and the pooled `any` reach it for
+# nobody, and are measured, kept in the peer reference, and never asserted.
 MIN_PEER_RATIO = 1.5
 
 EVIDENCE_SAMPLE_SIZE = 4
