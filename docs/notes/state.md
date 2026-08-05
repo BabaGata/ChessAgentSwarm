@@ -52,7 +52,7 @@ need to know?"
 | D1 | V1 skill assessment | 0 | — | nothing built |
 | D2 | V2 knowledge assessment | **2** | **+2** | **the prober works end to end** — probe selection, move check, a local model classifying reasons at kappa 0.74 with zero false-ignorance (E07), `gap_type` written back. Not 3: the rubric's answer set is written and labelled by the author and the figure is in-sample, so it may not yet change a real player's finding |
 | D3 | V3 style profiling | 0 | — | operational definition drafted |
-| D4 | V4 gap detection | **4** | **+1** | **four sections, eleven claim kinds** (S3, S4 added). Coverage 9 → **16 of 38** advised, and mean advice overlap 0.24 → **0.09** — louder *and* more specific at once, which is the pairing that matters. S4's colour split fired where S3's material classes did not, confirming L-022's rule about denominators. Not 5: **22 of 38 are still told nothing**, and nothing yet covers pawn structure, calculation or attack |
+| D4 | V4 gap detection | **4** | — | **five sections, thirteen claim kinds** (S3, S4, S5). Coverage 9 → **19 of 38** advised, overlap 0.24 → **0.08** — louder and more specific together. Not 5: **19 of 38 are still told nothing**; nothing covers calculation or attack; and S5 ships with most of its claims suppressed because players concede structure at nearly identical rates (L-023) |
 | D5 | V5 prioritisation | **1** | **+1** | arbiter built: picks one or two from a multi-part profile, deterministically, with stated reasons. No time estimates or expected-gain reasoning yet |
 | D6 | V6 path planning | **2** | **+2** | plans built and persisted, every step carrying a machine-checkable progress sign and a derived check point. No time estimates — D5 is unresolved and inventing them was refused |
 | D7 | V7 progress tracking | **3** | **+1** | **restored, on evidence this time.** 57 predictions from 84 players with ~150-game histories; the constant is cross-validated at 2 *and* 5 folds with a fold spread of 0.011, and a held-out false-positive rate of **15 %** is stated in the output. Not 4: the test's **power is unmeasured** — no coached cohort exists, so nothing shows a real improvement could clear the bar (**D8**) |
@@ -108,13 +108,16 @@ This is what actually moved this cycle.
 
 ## Next logical steps (priority order)
 
-0. **P0 — More sections, choosing subdivisions by denominator.** S3 and S4 took coverage 9 → **16 of
-   38** and overlap 0.24 → **0.09**. The rule they established is worth carrying forward literally:
-   S3 split by material (five buckets, fired for nobody) and S4 split by colour (two buckets, fired
-   for seven players). **Next: S5 pawn structure** — but note it is Tier 2 and
-   [[domain.sections]] blocks Tier 2 on C6, which is resolved; the detectors from
-   [[experiments.e02-positional-detectors]] exist and the peer-deviation route is built. S7
-   calculation is the alternative and is the section most dependent on probes.
+0. **P0 — D12: does `focus` need a magnitude floor?** S5 exposed that the tier which reaches the
+   player is a significance test with no effect-size requirement, and it only stayed harmless while
+   every claim had ~100 opportunities (L-023). S5 patches itself with `MIN_PEER_RATIO`; the policy
+   is unfixed. Answering it means re-measuring S1–S4 coverage under the new rule, which is a cycle
+   of its own — and it should happen **before** more sections, because every section built under the
+   old rule may be asserting claims that would not survive the new one.
+
+0. **P1 — More sections.** S3/S4/S5 took coverage 9 → **19 of 38**. Next in catalogue order is S6
+   (squares and files); S7 (calculation) is the alternative and is the section most dependent on
+   probes, which now exist.
 
 0. **P0 — Answers from people who are not the author.** ~40 of them, labelled by someone else. This
    is the only thing standing between the prober and real use, and it is **not a modelling problem**:

@@ -99,11 +99,21 @@ Detection is proven; relevance-weighting (C6) is not. These sections are where t
 > themselves on **peer-deviation** grounds ("you concede this more than your rating peers") rather
 > than error-prediction grounds, because error prediction was tested and did not work.
 
-### S5 · Pawn-structure weaknesses
+### S5 · Pawn-structure weaknesses — **built** ([[capacity.agents.s5-pawn-structure]])
 **Owns:** backward, isolated, doubled and hanging pawns; passed pawns; which side of the structure
 the player is on and whether they handle it correctly.
 **Support** strong — detectors proven in [[experiments.e02-positional-detectors]].
-**Blocked on:** C6. Base rates are too high for presence to mean anything on its own.
+~~**Blocked on:** C6. Base rates are too high for presence to mean anything on its own.~~
+
+> **Unblocked by counting creation instead of presence.** The base-rate objection was correct and is
+> answered rather than ignored: having an isolated pawn is 96 % of games, so S5 counts weaknesses the
+> player's own move **creates** in their own camp. Presence is inherited from the opening and the
+> opponent; creation is a choice, and only choices are coachable.
+>
+> **The section carries a limitation none of the others do**, and it is E03's rather than a hedge:
+> it can say a player is unusual, not that it costs them anything. Every other section's subject is
+> itself a mistake; conceding a structure is not. Only three features are built (isolated, backward,
+> doubled) — passed pawns, hanging pawns, islands and majorities are all still absent.
 
 ### S6 · Squares, files and piece placement
 **Owns:** outposts, holes, open and semi-open files, the seventh rank, good/bad bishop.

@@ -24,6 +24,32 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 
 ---
 
+### L-023 — A big denominator turns a significance test into a rubber stamp
+**Date:** 2026-08-05 · **Cycle / mission step:** M4 (S5) · **Class:** technique
+**Context:** Building S5, whose claims carry ~526 opportunities per player against 92–232 for every
+other section ([[capacity.agents.s5-pawn-structure]]).
+**Observation:** The confidence policy's `focus` tier — the one that reaches the player — requires
+only that a claim's 95 % interval **excludes** the peer rate. That is a test of *significance*, with
+no floor on *magnitude*; the 1.25× `PRIORITY_MARGIN` applies to the tier above. The rule was
+calibrated when every claim had ~100 opportunities, where significance and a coachable effect arrive
+at roughly the same point. At 526 they come apart: S5's pooled claim deviates by **1.24× at the 90th
+percentile** — comfortably significant, and far too small to say out loud.
+**Lesson:** This is **L-022 inverted, and the pair is the real lesson**. Too small a denominator and
+a section goes silent; too large and it asserts things that are true, reliable and not worth hearing.
+A gate expressed as *"is this distinguishable from the population?"* is only equivalent to *"is this
+worth telling someone?"* at the sample size it was calibrated for, and every new section changes the
+sample size. **Check the population spread before shipping a section, not after** — S5's design note
+made that its § 9.1 and it took one query against the peer reference to answer.
+The corollary that made it usable rather than fatal: the spread **predicted which claims could
+fire**. `doubled` (1.20) and the pooled `any` (1.24) never fired for anybody; `isolated` (1.40) fired
+for two outliers; `backward` (1.85) fired five times. A cheap population-level check told me in
+advance which parts of a section were real.
+**Applied to:** `chesscoach/sections/s5_pawn_structure.py` (`MIN_PEER_RATIO`), **D12** in
+[[open-questions]] for the policy-level fix, and § 9.1 of the S5 note as the pattern later sections
+should copy.
+
+---
+
 ### L-022 — Subdivide only where the data can carry the subdivision
 **Date:** 2026-08-05 · **Cycle / mission step:** M4 (S3) · **Class:** technique
 **Context:** Building S3 for **coverage**, after E08 measured the swarm silent for 29 of 38 players

@@ -42,6 +42,7 @@ QUANTITIES: dict[str, str] = {
     "advantage_error": "mistakes made while you are winning",
     "early_error": "mistakes before move 15 {subject}",
     "opening_disadvantage": "games where you are already worse by move 15",
+    "concedes_weakness": "moves that leave you with {subject} pawns",
 }
 
 # The finding as a sentence a person would say. Deliberately flat: no severity
@@ -56,6 +57,16 @@ STATEMENTS: dict[str, str] = {
     "advantage_error": "You go wrong more often than most when you are already better.",
     "early_error": "You go wrong early {subject}.",
     "opening_disadvantage": "You come out of the opening worse more often than most.",
+    # Says what was measured and stops. E03 found no link between structural
+    # features and this band's errors, so anything implying cost -- "this is
+    # losing you games" -- would be a claim the evidence does not support.
+    "concedes_weakness": "You end up with {subject} pawns more often than players at your level.",
+}
+
+STRUCTURE_NAMES: dict[str, str] = {
+    "isolated": "isolated",
+    "backward": "backward",
+    "doubled": "doubled",
 }
 
 # Colours read as a phrase rather than a word, so the sentence works either way.
@@ -84,6 +95,10 @@ POOLED_STATEMENTS: dict[str, str] = {
     "endgame_error": "Your play falls off in the endgame.",
     "early_error": "You go wrong early, before the middlegame starts.",
     "opening_disadvantage": "You come out of the opening worse more often than most.",
+    "concedes_weakness": (
+        "Your moves leave weaknesses in your own pawn structure more often than "
+        "players at your level."
+    ),
 }
 
 
@@ -99,6 +114,8 @@ def subject_name(subject: str, kind: str | None = None) -> str:
         return ENDGAME_CLASSES.get(subject, subject)
     if kind == "early_error":
         return COLOURS.get(subject, subject)
+    if kind == "concedes_weakness":
+        return STRUCTURE_NAMES.get(subject, subject)
     return MOTIF_NAMES.get(subject, subject)
 
 

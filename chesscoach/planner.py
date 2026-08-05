@@ -292,6 +292,15 @@ def _action(finding: Finding) -> str:
             "for each colour and play only those for a while: the aim is familiar positions, "
             "not better theory."
         ),
+        # Deliberately asks a question rather than prescribing a fix. E03 found
+        # no link between structural features and this band's errors, so telling
+        # a player to stop conceding them would be advice this project cannot
+        # support -- and conceding structure on purpose is often correct.
+        "concedes_weakness": (
+            "In the cited positions, ask whether you chose the structure or simply "
+            "allowed it. Conceding a weakness for something concrete is fine; doing it "
+            "without noticing is the habit worth changing."
+        ),
     }
     return actions.get(
         finding.claim.kind,
