@@ -22,6 +22,7 @@ import math
 
 from chesscoach.arbiter import Priority
 from chesscoach.peers import PeerReference
+from chesscoach.phrasing import quantity
 from chesscoach.profile.models import Finding, Plan, PlanStep
 
 # Enough games that a rate measured over them means something. Matches the
@@ -214,12 +215,13 @@ def _progress_sign(finding: Finding, target: float, games: int, expected: float 
 
 
 def _quantity(finding: Finding) -> str:
-    """Plain name for the thing being measured."""
-    subject = finding.claim.subject
-    return {
-        "missed_motif": f"{subject} missed when available",
-        "allowed_motif": f"{subject} conceded when you go wrong",
-    }.get(finding.claim.kind, f"{finding.claim.kind} rate ({subject})")
+    """Plain name for the thing being measured, shared with the explainer.
+
+    Kept as a one-line indirection rather than inlined at the call site so the
+    reason it is shared stays visible: the report and the plan step must name
+    the same measurement identically or they read as two findings.
+    """
+    return quantity(finding)
 
 
 def _why(finding: Finding) -> str:

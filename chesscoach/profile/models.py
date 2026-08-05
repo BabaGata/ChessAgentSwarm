@@ -31,7 +31,7 @@ from enum import Enum
 # CorpusRef gains `game_ids`, so a later check knows which games are new. And
 # Plan gains `outcomes`, so a plan carries its own verdict -- a system that
 # quietly drops its failed predictions is unfalsifiable.
-SCHEMA_VERSION = 4
+SCHEMA_VERSION = 5
 
 _Z = 1.96  # 95% normal quantile, for Wilson intervals
 
@@ -65,6 +65,24 @@ class DeterminedBy(str, Enum):
 
     INFERRED = "inferred"
     PROBED = "probed"
+
+
+class ClassifierStatus(str, Enum):
+    """Why a probe's reason was or was not classified (schema v5).
+
+    Without this a stored `reason_matched: null` means either *we asked and the
+    answer was not usable* or *we never managed to ask* -- and a session run
+    against a model that was not running looks exactly like a session where the
+    player was vague. Found the hard way: Ollama stopped mid-session and every
+    probe recorded a clean, wrong-looking `unknown`.
+    """
+
+    ANSWERED = "answered"          # got yes or no
+    UNCLEAR = "unclear"            # responded, but not with a usable verdict
+    DECLINED = "declined"          # the player gave no reason to classify
+    NOT_CONSULTED = "not_consulted"  # the move was wrong; the reason was moot
+    NOT_CONFIGURED = "not_configured"  # no classifier available at all
+    UNAVAILABLE = "unavailable"    # we tried, and the backend could not be reached
 
 
 @dataclass(frozen=True)
@@ -280,6 +298,22 @@ class ProbeRecord:
     # change when a model is updated, and no previous component had that
     # problem, so the version is part of the record.
     classifier: str | None = None
+    # Why `reason_matched` is what it is. `None` means the record predates v5
+    # and the distinction was not captured -- honest, since we cannot recover it.
+    classifier_status: str | None = None
+
+    @property
+    def was_actually_asked(self) -> bool:
+        """Did a classifier really see this answer?
+
+        A `gap_type` derived from a probe that was never classified is not
+        evidence about the player, and anything reasoning over probe results
+        should be able to exclude those without re-deriving why.
+        """
+        return self.classifier_status in (
+            ClassifierStatus.ANSWERED.value,
+            ClassifierStatus.UNCLEAR.value,
+        )
 
     @property
     def overturns_knowledge_gap(self) -> bool:

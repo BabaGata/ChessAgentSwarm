@@ -82,6 +82,17 @@ DECLINING_PHRASES = (
 OLLAMA_URL = "http://localhost:11434"
 REQUEST_TIMEOUT_S = 60
 
+
+class ClassifierUnavailable(RuntimeError):
+    """The backend could not be reached.
+
+    Deliberately **not** the same thing as a verdict of "unclear". Conflating
+    them means a probe session run against a model that is not running is
+    indistinguishable, in the stored profile, from one where the player was
+    vague — and the second is evidence about the player while the first is
+    evidence about the infrastructure.
+    """
+
 # The whole prompt. It supplies the reason and asks one closed question about
 # the text; it never asks the model anything about chess it could get wrong in a
 # way that would matter.
@@ -159,9 +170,9 @@ class EmbeddingBaseline:
         return _cosine(answer_vector, reason_vector) >= self.threshold
 
     def _embed(self, text: str) -> list[float] | None:
+        """None only when the backend replied without an embedding; an
+        unreachable backend raises, so the two stay distinguishable."""
         payload = _post(f"{self.host}/api/embed", {"model": self.model, "input": text})
-        if payload is None:
-            return None
         embeddings = payload.get("embeddings") or []
         return embeddings[0] if embeddings else None
 
@@ -198,8 +209,6 @@ class OllamaClassifier:
                 "options": {"temperature": 0, "seed": 7, "num_predict": 8},
             },
         )
-        if payload is None:
-            return None
         return _verdict(payload.get("response", ""))
 
 
@@ -211,11 +220,15 @@ def _verdict(text: str) -> bool | None:
     return {"yes": True, "no": False}.get(word[0].strip(".,:!"), None)
 
 
-def _post(url: str, body: dict) -> dict | None:
-    """None on any failure: the caller records "could not tell", which is honest.
+def _post(url: str, body: dict) -> dict:
+    """Raise rather than return None when the backend cannot be reached.
 
-    A classifier that raises would take down a probe session over a model that
-    is not running, and the prober is specified to degrade rather than fail.
+    It used to return None, which the caller could not tell apart from a model
+    that replied "unclear" — so a session run against a stopped Ollama produced
+    a profile full of clean-looking `unknown` verdicts that were never actually
+    asked. The prober still degrades rather than fails: `interpret` catches this
+    and records `classifier_status: unavailable`, so the difference survives into
+    the profile instead of being flattened there.
     """
     request = urllib.request.Request(
         url,
@@ -225,8 +238,8 @@ def _post(url: str, body: dict) -> dict | None:
     try:
         with urllib.request.urlopen(request, timeout=REQUEST_TIMEOUT_S) as response:
             return json.loads(response.read())
-    except (urllib.error.URLError, TimeoutError, json.JSONDecodeError, OSError):
-        return None
+    except (urllib.error.URLError, TimeoutError, json.JSONDecodeError, OSError) as error:
+        raise ClassifierUnavailable(f"{url}: {error}") from error
 
 
 def _cosine(a: list[float], b: list[float]) -> float:

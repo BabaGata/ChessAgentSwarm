@@ -23,6 +23,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from chesscoach.classifiers import (  # noqa: E402
+    ClassifierUnavailable,
     EmbeddingBaseline,
     KeywordFloor,
     OllamaClassifier,
@@ -47,12 +48,22 @@ def cohens_kappa(pairs: list[tuple]) -> float:
     return (observed - expected) / (1 - expected) if expected != 1 else 1.0
 
 
-def evaluate(classifier, answers: list[dict]) -> dict:
+def evaluate(classifier, answers: list[dict]) -> dict | None:
+    """None when the backend is not reachable.
+
+    Scoring an unreachable model would report every answer as "cannot tell" and
+    quietly produce a kappa — a number about nothing. Better to say the model was
+    not running.
+    """
     started = time.perf_counter()
-    pairs = [
-        (item["label"], classifier.classify(item["answer"], item["expected"]))
-        for item in answers
-    ]
+    try:
+        pairs = [
+            (item["label"], classifier.classify(item["answer"], item["expected"]))
+            for item in answers
+        ]
+    except ClassifierUnavailable as error:
+        print(f"  {classifier.name:<38} UNREACHABLE — {error}")
+        return None
     elapsed = time.perf_counter() - started
 
     correct = sum(1 for gold, got in pairs if gold == got)
@@ -98,9 +109,15 @@ def main() -> int:
     results = []
     for classifier in classifiers:
         result = evaluate(classifier, answers)
+        if result is None:
+            continue
         results.append(result)
         print(f"  {result['name']:<38} {result['accuracy']:>6.0%} {result['kappa']:>7.2f} "
               f"{result['false_ignorance']:>10} {result['seconds_each']:>8.2f}")
+
+    if not results:
+        print("\nno classifier could be evaluated")
+        return 1
 
     if args.show_disagreements:
         for result in results:

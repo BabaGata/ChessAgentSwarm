@@ -46,7 +46,18 @@ from chesscoach.profile.models import (
 # from it is additive -- new optional fields, new enum members that old data
 # cannot contain. Anything that changes the meaning of an existing field needs a
 # real migration, not an entry.
-READABLE_SCHEMA_VERSIONS = frozenset({3, SCHEMA_VERSION})
+#
+#   v2 -> v3  added PlanStep.target_rate, CorpusRef.game_ids, Plan.outcomes
+#   v3 -> v4  added GapTypeHypothesis.FRAGILE and four ProbeRecord audit fields
+#   v4 -> v5  added ProbeRecord.classifier_status, so "the model was not running"
+#             stops being indistinguishable from "the player was vague"
+#
+# One honest consequence of admitting v2: its plan steps carry no `target_rate`,
+# so their progress signs describe a number the step does not hold and cannot be
+# checked. That is not corrupted data -- it is accurately "this plan predates
+# falsifiable targets", and the progress check already treats a missing target as
+# not measurable rather than as failure.
+READABLE_SCHEMA_VERSIONS = frozenset({2, 3, 4, SCHEMA_VERSION})
 
 
 def to_dict(profile: PlayerProfile) -> dict[str, Any]:
@@ -280,6 +291,7 @@ def _probe_to_dict(probe: ProbeRecord) -> dict[str, Any]:
         "move_correct": probe.move_correct,
         "reason_matched": probe.reason_matched,
         "classifier": probe.classifier,
+        "classifier_status": probe.classifier_status,
     }
 
 

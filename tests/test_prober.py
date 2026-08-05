@@ -13,8 +13,10 @@ from __future__ import annotations
 
 import pytest
 
+from chesscoach.classifiers import ClassifierUnavailable
 from chesscoach.profile.models import (
     Claim,
+    ClassifierStatus,
     Confidence,
     ConfidenceTier,
     DeterminedBy,
@@ -185,6 +187,7 @@ class TestTheModelBoundary:
         record = interpret(a_probe(), move="Bb5", reason="it pins the knight", classifier=None)
 
         assert record.inference == GapTypeHypothesis.UNKNOWN.value
+        assert record.classifier_status == ClassifierStatus.NOT_CONFIGURED.value
 
     def test_the_answer_is_stored_verbatim(self):
         # The player's words are the evidence; the classification interprets it.
@@ -200,6 +203,77 @@ class TestTheModelBoundary:
         )
 
         assert record.classifier == "stub/v1"
+
+
+class UnreachableClassifier:
+    name = "ollama/never-running"
+
+    def classify(self, answer: str, expected_reason: str) -> bool | None:
+        raise ClassifierUnavailable("http://localhost:1: refused")
+
+
+class TestWhyItCouldNotTell:
+    """Four different situations all produce `reason_matched: None`.
+
+    Found by running a real session against an Ollama that had stopped: every
+    probe recorded a tidy `unknown`, indistinguishable from a player who could
+    not explain themselves. One is evidence about the player, the other about
+    the infrastructure.
+    """
+
+    def test_an_unreachable_model_does_not_end_the_session(self):
+        record = interpret(
+            a_probe(), move="Bb5", reason="it pins the knight",
+            classifier=UnreachableClassifier(),
+        )
+
+        assert record.inference == GapTypeHypothesis.UNKNOWN.value
+
+    def test_but_it_is_recorded_as_unavailable(self):
+        record = interpret(
+            a_probe(), move="Bb5", reason="it pins the knight",
+            classifier=UnreachableClassifier(),
+        )
+
+        assert record.classifier_status == ClassifierStatus.UNAVAILABLE.value
+        assert not record.was_actually_asked
+
+    def test_a_vague_answer_is_recorded_as_unclear_not_unavailable(self):
+        record = interpret(
+            a_probe(), move="Bb5", reason="hard to say", classifier=StubClassifier(None)
+        )
+
+        assert record.classifier_status == ClassifierStatus.UNCLEAR.value
+        assert record.was_actually_asked
+
+    @pytest.mark.parametrize("reason", ["   ", "I don't know", "no idea", "intuition"])
+    def test_a_player_who_gave_no_reason_is_recorded_as_declining(self, reason):
+        # A worded refusal is a refusal, not a model that could not tell. Caught
+        # live: "I have no idea honestly" was landing as `unclear`.
+        record = interpret(a_probe(), move="Bb5", reason=reason, classifier=StubClassifier(True))
+
+        assert record.classifier_status == ClassifierStatus.DECLINED.value
+        assert not record.was_actually_asked
+
+    def test_a_declining_answer_never_reaches_the_model(self):
+        classifier = StubClassifier(True)
+
+        interpret(a_probe(), move="Bb5", reason="no idea", classifier=classifier)
+
+        assert classifier.calls == []
+
+    def test_a_wrong_move_records_that_the_reason_was_moot(self):
+        record = interpret(a_probe(), move="h3", reason="whatever", classifier=StubClassifier(True))
+
+        assert record.classifier_status == ClassifierStatus.NOT_CONSULTED.value
+
+    def test_a_real_verdict_is_recorded_as_answered(self):
+        record = interpret(
+            a_probe(), move="Bb5", reason="it pins the knight", classifier=StubClassifier(True)
+        )
+
+        assert record.classifier_status == ClassifierStatus.ANSWERED.value
+        assert record.was_actually_asked
 
 
 class TestApplyingToFindings:
@@ -259,8 +333,29 @@ class TestOverturning:
         assert not record.overturns_knowledge_gap
 
 
-@pytest.mark.parametrize("move", ["Bb5", "  Bb5  ", "bb5"])
-def test_move_matching_is_forgiving_of_spacing_and_case_but_not_of_content(move):
+@pytest.mark.parametrize(
+    "move",
+    [
+        "Bb5",
+        "  Bb5  ",
+        "bb5",
+        "﻿Bb5",  # byte-order mark, from a pasted or piped answer
+        "Bb5​",  # zero-width space
+        "﻿  Bb5\r\n",
+    ],
+)
+def test_move_matching_ignores_spacing_case_and_invisible_characters(move):
+    # Not hypothetical: a BOM survived str.strip() in the first real probe
+    # session and turned a correct move into a knowledge gap the player did not
+    # have. An invisible character must never cost someone a diagnosis.
     record = interpret(a_probe(), move=move, reason="pins it", classifier=StubClassifier(True))
 
+    assert record.move_correct is True
     assert record.inference != GapTypeHypothesis.KNOWLEDGE.value
+
+
+@pytest.mark.parametrize("move", ["Bb4", "Nf3", "B b5"])
+def test_a_different_move_is_still_a_different_move(move):
+    record = interpret(a_probe(), move=move, reason="pins it", classifier=StubClassifier(True))
+
+    assert record.inference == GapTypeHypothesis.KNOWLEDGE.value

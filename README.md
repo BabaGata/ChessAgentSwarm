@@ -43,16 +43,23 @@ chesscoach/
   arbiter.py      picks the one or two things worth working on
   planner.py      turns those into steps with falsifiable targets
   progress.py     goes back and checks whether the targets were met
+  prober.py       asks the player, and tells a knowledge gap from a skill gap
+  classifiers.py  the one place a language model acts — local, and ablated
+  explainer.py    the report a person reads. Templates, not generation
+  session.py      one session end to end, and the probe gate
   pipeline.py     engine/cache session and provenance
   cli.py          analyse · make-eval-set · check-eval-set · score-agent ·
-                  build-peer-reference · check-progress
-experiments/      e01–e05: the measurements that shaped the design, including
+                  build-peer-reference · check-progress · probe · report
+experiments/      e01–e07: the measurements that shaped the design, including
                   the negative ones
-tests/            314 tests
+tests/            440 tests
 ```
 
-Not built: the **prober** (V9, asking the player anything) and the **explainer** (V8, language fit
-for a person to read). Both are where the language models finally enter, and neither exists yet.
+The loop now runs end to end: **analyse → diagnose → prioritise → ask → plan → report → check.**
+
+The one thing it may not do is let a probe *change* a diagnosis. The classifier agrees with its
+labels at kappa 0.74, but those labels were written and applied by the author, so the gate stays
+shut until answers exist from someone else.
 
 ## Running it
 
@@ -83,7 +90,7 @@ The second command verifies the planted flaw is actually visible to the analysis
 anything is scored against it. A fixture nobody has checked is not a test.
 
 ```bash
-python -m pytest                              # 314 tests
+python -m pytest                              # 440 tests
 python -m pytest --cov=chesscoach             # 82% coverage
 ```
 
@@ -195,8 +202,15 @@ What is still *not* claimed is the other half — whether a genuinely coached pl
 target. No coached cohort exists, so the test's power is unknown. See
 `docs/notes/experiments.e05-natural-drift.md`.
 
-The other honest limitation: **nothing asks the player anything.** Probes, and phrasing fit for a
-person to read, do not exist.
+**Something now asks the player.** A probe puts one of their own positions back in front of them,
+untimed, and asks what they would play and why — which is the only way to tell *doesn't know the
+pattern* from *knew it and didn't see it*. The move is checked deterministically; a local 8B model
+does one job, deciding whether the player's sentence names the reason the detectors already found.
+It never suggests a move and is never asked to evaluate a position.
+
+Running it for real immediately found two defects a green test suite had not: a byte-order mark on
+pasted input turned a correct move into a knowledge gap, and a stopped model recorded as *the player
+was unclear* rather than *nobody asked*. Both lived exactly where real input arrives.
 
 See `docs/notes/architecture.peer-reference.md` and `docs/notes/learning.lessons.md`.
 

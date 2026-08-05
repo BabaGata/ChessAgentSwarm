@@ -13,6 +13,7 @@ from __future__ import annotations
 import pytest
 
 from chesscoach.classifiers import (
+    ClassifierUnavailable,
     EmbeddingBaseline,
     KeywordFloor,
     OllamaClassifier,
@@ -77,22 +78,34 @@ class TestVerdictParsing:
         assert _verdict(text) is None
 
 
-class TestDegradingWithoutAModel:
-    """The prober promises to degrade, not to fail. A model that is not running
-    must not take down a probe session."""
+class TestAnUnreachableBackendIsNotAVerdict:
+    """The classifier raises; the *prober* is where degradation happens.
 
-    def test_the_llm_classifier_returns_cannot_tell(self):
+    Returning None here would make "the model is not running" identical to "the
+    model said unclear", and a session run against a stopped Ollama would write
+    a profile full of clean-looking `unknown` verdicts that were never asked.
+    """
+
+    def test_the_llm_classifier_says_so(self):
         classifier = OllamaClassifier(host=UNREACHABLE)
 
-        assert classifier.classify("it pins the knight", "pin") is None
+        with pytest.raises(ClassifierUnavailable):
+            classifier.classify("it pins the knight", "pin")
 
-    def test_the_embedding_baseline_returns_cannot_tell(self):
+    def test_the_embedding_baseline_says_so(self):
         classifier = EmbeddingBaseline(host=UNREACHABLE)
 
-        assert classifier.classify("it pins the knight", "pin") is None
+        with pytest.raises(ClassifierUnavailable):
+            classifier.classify("it pins the knight", "pin")
 
-    def test_an_unknown_reason_is_not_guessed_at(self):
-        assert OllamaClassifier().classify("something", "notAMotif") is None
+    def test_the_error_names_the_host_so_it_can_be_diagnosed(self):
+        with pytest.raises(ClassifierUnavailable, match="localhost:1"):
+            OllamaClassifier(host=UNREACHABLE).classify("it pins the knight", "pin")
+
+    def test_an_unknown_reason_is_declined_before_any_request(self):
+        # No motif description, so there is nothing to compare against and no
+        # call to make. This must not look like an unreachable backend.
+        assert OllamaClassifier(host=UNREACHABLE).classify("something", "notAMotif") is None
 
 
 class TestClassifierIdentity:

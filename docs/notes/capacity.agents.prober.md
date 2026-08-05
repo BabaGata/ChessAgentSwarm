@@ -24,9 +24,19 @@ created: 1785456000000
 > error. The language model beat the embedding baseline 0.74 to 0.56, so it earned its cost rather
 > than being assumed to.
 >
+> **Runs end to end** — `cli probe` asks, records verbatim, classifies locally, writes to the
+> profile, and appends answers to a dataset so D10's corpus grows from use rather than from a
+> collection exercise.
+>
 > **Still not usable on a real player.** The answer set is constructed by me, labelled by me, and the
 > figure is in-sample — the refusal fix was made after seeing which items failed. § 4's gate stays
-> shut. What it needs is not a better model but ~40 answers from people who are not the author.
+> shut: `--apply` is off by default, so probe results are recorded without changing any `gap_type`.
+> What it needs is not a better model but ~40 answers from people who are not the author.
+>
+> **Two defects found by running it once for real**, both invisible to a passing test suite because
+> both lived where real input arrives: a byte-order mark turning a correct move into a knowledge gap,
+> and an unreachable model recording as *unclear* rather than as *unavailable* (L-020,
+> [[learning.risks]] I-01/I-02).
 
 ## Why this agent, now
 

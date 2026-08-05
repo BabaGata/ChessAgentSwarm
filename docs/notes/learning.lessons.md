@@ -24,6 +24,33 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 
 ---
 
+### L-020 — A failure that returns a legitimate value is invisible
+**Date:** 2026-08-04 · **Cycle / mission step:** M4 (session runner) · **Class:** technique
+**Context:** The first live probe session, run against a local model
+([[capacity.agents.prober]]).
+**Observation:** Every probe came back *unclear*, including an answer that plainly described a pin.
+The cause was that **Ollama had stopped** — and `_post` returned `None` on a connection failure,
+which is also the legitimate value for *the model replied but not usably*. The stored profile
+therefore could not distinguish **"we asked and the player was vague"** from **"we never managed to
+ask"**. One is evidence about the player; the other is evidence about the infrastructure. It took a
+direct call returning `yes` where the session returned `None` to notice at all, and even then the
+first hypothesis was that the model was flaky.
+**Lesson:** *Degrade rather than fail* is right, and it is not the whole rule. When a failure path
+returns a value the domain already uses, the failure stops being observable — the system looks like
+it is working and the data looks clean. **The degraded value has to be distinguishable from the
+legitimate one it resembles.** Here that is a status alongside the verdict, plus a warning on screen,
+plus `was_actually_asked` so anything reasoning over probes can exclude the ones never really asked.
+The general test: for every `None`/empty/default a component can return, ask *what else returns
+this, and would I be able to tell them apart afterwards?*
+Second-order point worth keeping: both defects in this cycle — this and a byte-order mark turning a
+correct move into a knowledge gap — were found by **running the thing for real once**, not by tests.
+The tests were passing throughout, because both bugs lived at the boundary where real input arrives.
+**Applied to:** `chesscoach/classifiers.py` (`ClassifierUnavailable`), `chesscoach/prober.py`
+(`ClassifierStatus`, refusal detection moved to the prober), `chesscoach/cli.py` (the warning),
+schema v5, and [[learning.risks]] I-01/I-02.
+
+---
+
 ### L-019 — Regression to the mean is a property of the sample, not of the population
 **Date:** 2026-08-03 · **Cycle / mission step:** M3 (deep-history rerun) · **Class:** technique
 **Context:** Re-running E05 on 84 players with ~150 games each, after L-018 identified sample size as

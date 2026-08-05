@@ -26,7 +26,9 @@ from dataclasses import dataclass, replace
 from typing import Protocol
 
 from chesscoach.arbiter import Priority
+from chesscoach.classifiers import ClassifierUnavailable, declines_to_answer
 from chesscoach.profile.models import (
+    ClassifierStatus,
     DeterminedBy,
     Evidence,
     Finding,
@@ -117,21 +119,27 @@ def interpret(
     at all for a failed probe.
     """
     if not move:
-        return _record(probe, move, reason, None, None, None, GapTypeHypothesis.UNKNOWN)
+        return _record(
+            probe, move, reason, None, None, None,
+            GapTypeHypothesis.UNKNOWN, ClassifierStatus.NOT_CONSULTED,
+        )
 
     if not _same_move(move, probe.engine_best):
         # Untimed, on their own game, with no clock: failing here is the
         # clearest evidence of a knowledge gap this system can obtain.
-        return _record(probe, move, reason, None, False, None, GapTypeHypothesis.KNOWLEDGE)
+        return _record(
+            probe, move, reason, None, False, None,
+            GapTypeHypothesis.KNOWLEDGE, ClassifierStatus.NOT_CONSULTED,
+        )
 
-    matched = _classify(classifier, reason, probe.expected_reason)
+    matched, status = _classify(classifier, reason, probe.expected_reason)
     hypothesis = {
         True: GapTypeHypothesis.SKILL,
         False: GapTypeHypothesis.FRAGILE,
         None: GapTypeHypothesis.UNKNOWN,
     }[matched]
     name = classifier.name if classifier is not None else None
-    return _record(probe, move, reason, name, True, matched, hypothesis)
+    return _record(probe, move, reason, name, True, matched, hypothesis, status)
 
 
 def apply_to_findings(
@@ -173,22 +181,57 @@ def _probe(finding: Finding, evidence: Evidence) -> Probe:
     )
 
 
+# Characters that carry no meaning and survive `str.strip()`, because Python
+# does not classify them as whitespace. A byte-order mark on the front of a
+# pasted or piped answer is invisible, and without this it turns a correct move
+# into a wrong one -- which manufactures a knowledge gap the player does not
+# have. Found exactly that way, in the first real probe session.
+INVISIBLE = "﻿​‌‍⁠"
+
+
 def _same_move(played: str, best: str) -> bool:
-    """Tolerant of spacing and case, never of content.
+    """Tolerant of spacing, case and invisible characters; never of content.
 
     Deliberately not a chess-aware comparison: `better_move` and the answer are
-    both SAN for the same position, and a looser match would start accepting
-    moves the engine did not name.
+    both notation for the same position, and a looser match would start
+    accepting moves the engine did not name.
     """
-    return played.strip().casefold() == best.strip().casefold()
+    return _normalise(played) == _normalise(best)
+
+
+def _normalise(move: str) -> str:
+    return move.strip(INVISIBLE + " \t\r\n").casefold()
 
 
 def _classify(
     classifier: ReasonClassifier | None, reason: str | None, expected: str
-) -> bool | None:
-    if classifier is None or not reason or not reason.strip():
-        return None
-    return classifier.classify(reason, expected)
+) -> tuple[bool | None, ClassifierStatus]:
+    """The verdict, and why it is that verdict.
+
+    The status is the point: all four cases below produce `None`, and without it
+    a profile cannot say whether the player was vague or the model was never
+    running. A probe session against a stopped backend used to look identical to
+    one where nobody could explain themselves.
+    """
+    if classifier is None:
+        return None, ClassifierStatus.NOT_CONFIGURED
+    if reason is None or declines_to_answer(reason):
+        # Checked here rather than left to the classifier so that "I don't know"
+        # is recorded as the player declining, not as the model failing to tell.
+        # Whether a reason was offered at all is a property of the utterance
+        # (E07), so it belongs with the inference table, not inside a model.
+        return None, ClassifierStatus.DECLINED
+
+    try:
+        matched = classifier.classify(reason, expected)
+    except ClassifierUnavailable:
+        # Degrade, do not fail: one unreachable model must not end a session the
+        # player is part way through. But say so in the record.
+        return None, ClassifierStatus.UNAVAILABLE
+
+    if matched is None:
+        return None, ClassifierStatus.UNCLEAR
+    return matched, ClassifierStatus.ANSWERED
 
 
 def _record(
@@ -199,6 +242,7 @@ def _record(
     move_correct: bool | None,
     reason_matched: bool | None,
     hypothesis: GapTypeHypothesis,
+    status: ClassifierStatus,
 ) -> ProbeRecord:
     return ProbeRecord(
         id=probe.id,
@@ -213,6 +257,7 @@ def _record(
         move_correct=move_correct,
         reason_matched=reason_matched,
         classifier=classifier_name,
+        classifier_status=status.value,
     )
 
 

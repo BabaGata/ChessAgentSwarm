@@ -22,7 +22,7 @@ run after diagnosis, and are the only place a language model is permitted.
 | **S2 decision process & clock behaviour** | section | **built, scored** | [[capacity.agents.s2-decision-process]] · found the planted weakness at 5.54× lift with 0 spurious findings; asserts one claim kind for 16 % of 38 real players |
 | **S1 tactical pattern gaps** | section | **built, assessed** | [[capacity.agents.s1-tactical-gaps]] · eight motif detectors; took the swarm from 1 claim kind to 6. Adding it was a one-line change, which tested ADR-0006's additivity claim |
 | **P prober** | player-facing | **core built; classifier and rubric outstanding** | [[capacity.agents.prober]] · the first agent containing a language model, and the only route to V2. Turns `gap_type: unknown` into knowledge / skill / fragile. The deterministic spine and the model seam exist; the model behind the seam and its validation do not |
-| **E explainer** | player-facing | not designed | V8. Blocked on nothing but priority; the report constraints already exist in [[architecture.interaction]] § 7 |
+| **E explainer** | player-facing | **built, deterministic** | `chesscoach/explainer.py` · templates, not a model — it cannot invent a reason the detectors never found, and it is the baseline a generated report has to beat. Enforces [[architecture.interaction]] § 7: one or two priorities, every claim cited to a game and move, what could not be assessed named, a gap type explained only when a probe established it |
 
 **Nine of eleven sections remain unbuilt** ([[domain.sections]]). That is deliberate: breadth of
 diagnosis was widened once (S1) and then paused, because a system that diagnoses eleven things and

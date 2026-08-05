@@ -27,7 +27,7 @@ from chesscoach.ingest.corpus import build_corpus
 from chesscoach.orchestrator import apply_to_profile, default_agents, diagnose, summarise
 from chesscoach.pipeline import CacheStats, engine_session, load_games
 from chesscoach.profile.io import load_profile, save_profile
-from chesscoach.profile.models import PlayerProfile, PlayerRef
+from chesscoach.profile.models import ClassifierStatus, PlayerProfile, PlayerRef
 from chesscoach.sections.base import SectionContext
 
 
@@ -580,7 +580,126 @@ def build_parser() -> argparse.ArgumentParser:
     progress.add_argument("--out", default=None, help="write the profile back with its outcomes")
     progress.set_defaults(handler=check_progress)
 
+    report = subcommands.add_parser("report", help="render a profile for a person to read")
+    report.add_argument("--profile", required=True)
+    report.add_argument("--out", default=None, help="write to a file instead of the terminal")
+    report.set_defaults(handler=write_report)
+
+    probe = subcommands.add_parser(
+        "probe", help="ask the player about their shortlisted weaknesses (V9)"
+    )
+    probe.add_argument("--profile", required=True, help="a profile that already has findings")
+    probe.add_argument("--out", required=True, help="where to write the profile with its probes")
+    probe.add_argument("--model", default=None, help="ollama model; omitted means no classifier")
+    probe.add_argument(
+        "--collect",
+        default=None,
+        help="append answers to this JSONL as unlabelled data for D10",
+    )
+    probe.add_argument(
+        "--apply",
+        action="store_true",
+        help="let probe results rewrite gap_type. Off by default: see D10",
+    )
+    probe.set_defaults(handler=run_probes)
+
     return parser
+
+
+def write_report(args: argparse.Namespace) -> int:
+    """Layer 8 — the profile as prose. Deterministic, so it is reviewable."""
+    from chesscoach.explainer import render
+
+    text = render(load_profile(args.profile))
+    if args.out:
+        Path(args.out).write_text(text + "\n", encoding="utf-8")
+        print(f"report   {args.out}")
+        return 0
+    print(text)
+    return 0
+
+
+def run_probes(args: argparse.Namespace) -> int:
+    """Ask the player about the shortlist, and record what they say.
+
+    Interactive by nature, so the logic lives in `chesscoach.session` where it
+    can be tested and only the prompting happens here.
+    """
+    from chesscoach.session import (
+        Answer,
+        append_to_answer_set,
+        apply_probes,
+        probes_for,
+        record_answers,
+    )
+
+    profile = load_profile(args.profile)
+    probes = probes_for(profile)
+    if not probes:
+        print("nothing to probe: no prioritised finding carries a position with a better move")
+        return 1
+
+    classifier = None
+    if args.model:
+        from chesscoach.classifiers import OllamaClassifier
+
+        classifier = OllamaClassifier(model=args.model)
+        print(f"classifier {classifier.name}")
+    else:
+        print("no --model given: answers are recorded, gap types stay unknown")
+
+    print(f"\n{len(probes)} position{'s' if len(probes) != 1 else ''}. "
+          "Take as long as you like — this is not timed, and there is no clock.\n")
+
+    answers = []
+    for index, probe in enumerate(probes, start=1):
+        print(f"--- {index}/{len(probes)} " + "-" * 52)
+        print(f"position  {probe.fen}")
+        print(f"from      your game {probe.game_id}, move {probe.ply // 2 + 1}")
+        print(f"\n{probe.asks}\n")
+        move = input("  your move    > ").strip()
+        reason = input("  why          > ").strip()
+        answers.append(Answer(probe_id=probe.id, move=move or None, reason=reason or None))
+        print()
+
+    records = record_answers(probes, tuple(answers), classifier)
+    profile = apply_probes(profile, records, apply=args.apply)
+    save_profile(profile, args.out)
+
+    print("=" * 60)
+    for record in records:
+        move = "right" if record.move_correct else "not the move"
+        why = _classifier_note(record)
+        print(f"  {record.finding_id}: {move}, reads as {record.inference}{why}")
+
+    if any(r.classifier_status == ClassifierStatus.UNAVAILABLE.value for r in records):
+        print(
+            "\nWARNING: the classifier could not be reached, so no reason was actually"
+            "\njudged. Those probes are recorded as unavailable rather than as the"
+            "\nplayer being unclear — check the model is running and ask again."
+        )
+
+    if not args.apply:
+        print("\nrecorded but not applied — gap types are unchanged (D10). "
+              "Pass --apply to let these rewrite the diagnosis.")
+
+    if args.collect:
+        written = append_to_answer_set(records, Path(args.collect))
+        print(f"collected {written} answer(s) -> {args.collect}")
+
+    print(f"profile  {args.out}")
+    return 0
+
+
+def _classifier_note(record) -> str:
+    """Say why a verdict is missing, when it is missing for a reason worth knowing."""
+    notes = {
+        ClassifierStatus.UNAVAILABLE.value: "  (classifier unreachable — not judged)",
+        ClassifierStatus.DECLINED.value: "  (no reason given)",
+        ClassifierStatus.UNCLEAR.value: "  (reason did not read either way)",
+        ClassifierStatus.NOT_CONFIGURED.value: "  (no --model, so reasons are not judged)",
+    }
+    return notes.get(record.classifier_status, "")
 
 
 def main(argv: list[str] | None = None) -> int:
