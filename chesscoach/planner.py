@@ -22,7 +22,7 @@ import math
 
 from chesscoach.arbiter import Priority
 from chesscoach.peers import PeerReference
-from chesscoach.phrasing import quantity
+from chesscoach.phrasing import quantity, subject_name
 from chesscoach.profile.models import Finding, Plan, PlanStep
 
 # Enough games that a rate measured over them means something. Matches the
@@ -244,7 +244,11 @@ def _action(finding: Finding) -> str:
     a change of routine rather than to content, because that is what a process
     gap needs (domain.coaching § 2).
     """
+    # The raw theme key is kept only where the player can *use* it — it is what
+    # you type into a puzzle filter. In ordinary prose it is an identifier they
+    # cannot act on, so the readable name goes there instead.
     subject = finding.claim.subject
+    name = subject_name(subject)
     actions = {
         "missed_motif": (
             f"Drill `{subject}` puzzles, and solve to be right rather than fast — "
@@ -252,7 +256,7 @@ def _action(finding: Finding) -> str:
         ),
         "allowed_motif": (
             "Before committing a move, ask what your opponent's best reply threatens; "
-            f"`{subject}` is what has been punishing you."
+            f"a {name} is what has been punishing you."
         ),
         "long_think_error": (
             "When a think runs long, stop and choose between your two best candidate moves "
@@ -268,5 +272,5 @@ def _action(finding: Finding) -> str:
     }
     return actions.get(
         finding.claim.kind,
-        f"Work on `{subject}`: review the cited games and note what you would play instead.",
+        f"Work on {name}: review the cited games and note what you would play instead.",
     )

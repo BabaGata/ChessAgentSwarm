@@ -23,6 +23,7 @@ An experiment with no consequence was not worth running.
 | E05 | does the planner's target mean anything without coaching? | done — **no: 92 % met by drift**; recalibrated to 15–23 %, and D9 showed the effect's size depends on sample depth | [[experiments.e05-natural-drift]] |
 | E06 | D8 — does the progress check have any *power*? | done — **suggestive, not established** (25 % vs 8 %, p = 0.12) | [[experiments.e06-progress-power]] |
 | E07 | which classifier may decide a player's gap type? | done — **8B local model, kappa 0.74, zero false-ignorance**; the real find was a design flaw, not a model | [[experiments.e07-reason-classification]] |
+| E08 | evaluation family D — is the swarm generic, overloaded, or ungrounded? | done — **none of those; it is silent**, for 29 of 38 players | [[experiments.e08-anti-patterns]] |
 
 ## Conventions
 

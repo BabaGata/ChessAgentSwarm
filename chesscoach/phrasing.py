@@ -14,6 +14,23 @@ from __future__ import annotations
 
 from chesscoach.profile.models import Finding
 
+# Motif subjects are CC0 Lichess theme keys, chosen deliberately so the same name
+# identifies a weakness and selects the training material. They are camelCase
+# identifiers, and a player has no idea what a `trappedPiece` is — so they are
+# translated on the way out and nowhere else. The key stays the key.
+MOTIF_NAMES: dict[str, str] = {
+    "fork": "fork",
+    "pin": "pin",
+    "skewer": "skewer",
+    "discoveredAttack": "discovered attack",
+    "hangingPiece": "hanging piece",
+    "trappedPiece": "trapped piece",
+    "backRankMate": "back-rank mate",
+    "capturingDefender": "capturing the defender",
+    "quietMove": "quiet move",
+    "defensiveMove": "defensive move",
+}
+
 # What is being counted, in the player's terms rather than the schema's.
 QUANTITIES: dict[str, str] = {
     "missed_motif": "{subject} missed when available",
@@ -34,20 +51,29 @@ STATEMENTS: dict[str, str] = {
 }
 
 
+def subject_name(subject: str) -> str:
+    """A motif's name as a person would write it.
+
+    Falls back to the key rather than inventing a spacing rule, so an unmapped
+    motif looks unfinished instead of looking like a word.
+    """
+    return MOTIF_NAMES.get(subject, subject)
+
+
 def quantity(finding: Finding) -> str:
     """The measured quantity, named for a person."""
     template = QUANTITIES.get(finding.claim.kind)
     if template is None:
-        return f"{finding.claim.kind} rate ({finding.claim.subject})"
-    return template.format(subject=finding.claim.subject)
+        return f"{finding.claim.kind} rate ({subject_name(finding.claim.subject)})"
+    return template.format(subject=subject_name(finding.claim.subject))
 
 
 def statement(finding: Finding) -> str:
     """The finding as one sentence."""
     template = STATEMENTS.get(finding.claim.kind)
     if template is None:
-        return f"{finding.claim.kind}: {finding.claim.subject}."
-    return template.format(subject=finding.claim.subject)
+        return f"{finding.claim.kind}: {subject_name(finding.claim.subject)}."
+    return template.format(subject=subject_name(finding.claim.subject))
 
 
 def move_number(ply: int) -> int:

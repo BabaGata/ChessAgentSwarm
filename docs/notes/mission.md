@@ -11,13 +11,14 @@ created: 1785254500000
 The mission is the **path**, not the destination. It exists to serve [[vision]]; if a step stops
 serving the vision, the step is rewritten — not obeyed out of inertia.
 
-**Active step:** M6/M7 — maintain and repeat. The next M4 iteration is **the prober**
-([[capacity.agents.prober]]) — not another section, and not more calibration.
+**Active step:** M6/M7 — maintain and repeat. The next M4 iteration is **a section (S3)**.
 
-Revised 2026-08-03 → [[decisions.0009-prober-before-breadth]]. The previous target, the rating-peer
-reference corpus, is built. The reason for choosing the prober over sections S3–S11 is that four
-scorecard dimensions sit at zero and all four need the player to be *asked* something, whereas more
-sections widen the column that is already strongest.
+The prober is built and assessed ([[mission.step-08-assess-prober]]), and that assessment expired
+the reason sections were deferred. [[decisions.0009-prober-before-breadth]] held that a swarm
+diagnosing eleven things it cannot ask about is worse than one diagnosing two that it can — true
+then, and the prober now exists, so every new claim kind is probeable. E08 then measured the cost of
+the deferral: **29 of 38 real players are told nothing at all.** Breadth is the binding constraint,
+on evidence rather than on preference.
 
 ## The steps
 
@@ -99,7 +100,7 @@ dedicated step is still needed.
 | M4 | **first agent done** | [[mission.step-04-first-agent]] → S2, scored against ground truth |
 | M5 | **done** | [[mission.step-05-assess-s2]] — information flow was broken and is fixed; two defects found by real players; peer corpus promoted to blocking |
 | M6 | recurring | [[mission.step-06-maintain]] — assessments logged per cycle, including what was left alone |
-| M7 | pending | |
+| M7 | **two iterations done** | iteration 2 → [[mission.step-07-second-iteration]] (S1); iteration 3 → [[mission.step-08-assess-prober]] (the prober and explainer, the first agents with a model in them). Next iteration: S3 |
 
 ## Review triggers
 

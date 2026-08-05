@@ -78,6 +78,22 @@ Both are recorded in the agent note and must be measured, not assumed (C1, C4).
 
 V9 directly; V2 via V9 — it is the only route to it. V8 is unblocked downstream.
 
+## Outcome — reason expired 2026-08-05
+
+**The deferral was right and is now over.** The prober was built, so the argument above — that
+sections widen a column the swarm cannot ask about — no longer applies: every claim kind is now
+probeable.
+
+[[experiments.e08-anti-patterns]] then measured what the deferral cost. Across 38 real players the
+swarm is **not generic** (pairwise overlap 0.24), **not overloaded** (never more than two
+priorities), and **fully grounded** (13/13) — but it is **silent for 29 of them**, on fourteen
+findings in total. Detected counts equal advised counts for every claim kind, so this is a detection
+problem, not a prioritisation one.
+
+The consequence the ADR did name has arrived exactly as written: *"a player whose real weakness is
+endgame technique will still be told about tactics or the clock, or nothing at all."* Mostly nothing
+at all. **Sections are next** → [[mission]].
+
 ## Revisit when
 
 - The prober's efficacy measure (agent note § 9) comes back negative — specifically if probing

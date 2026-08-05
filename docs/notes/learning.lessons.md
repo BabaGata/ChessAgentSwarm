@@ -24,6 +24,30 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 
 ---
 
+### L-021 — A metric passing is not the same as the output being good
+**Date:** 2026-08-05 · **Cycle / mission step:** M5 ([[mission.step-08-assess-prober]]) · **Class:** process
+**Context:** Assessing the explainer with the anti-pattern metrics from [[evaluation]].
+**Observation:** D4 groundedness scored **100 %** — every reported claim cited a specific game. On the
+*same output*, a player was being told *"it is often a `trappedPiece` that punishes you"*: a CC0
+Lichess theme key, camelCase, meaningless to a human. The metric was correct and the report was bad,
+because groundedness asks whether a claim is *cited*, not whether it is *readable*. I had scored D8
+explainability 3 on the strength of that report the cycle before.
+Separately, the same run nearly produced a wrong conclusion in the other direction: D2 flagged a claim
+made to 56 % of advised players as a probable base-rate artefact, when the real cause was that almost
+nothing else clears the confidence gate. One extra column — detected against advised — turned a
+"suppress this claim" conclusion into a "build more sections" one.
+**Lesson:** Metrics measure the property they define, and a green metric licenses no claim beyond it.
+Two habits follow. **Read the actual output** at least once per cycle in the form the user would see
+it; every defect this cycle found — theme keys in prose, a byte-order mark, a stopped model — came
+from looking rather than from a suite, and 429 tests were green throughout. And **a metric that can
+be explained by two mechanisms must report both**, in itself rather than in a note, because the
+reading happens months after the design and by someone with less context — often me.
+**Applied to:** `chesscoach/phrasing.py` (`subject_name`, and the theme key kept only where the
+player can act on it), `experiments/e08-anti-patterns/` (detected-vs-advised), [[evaluation]]'s D2
+entry, and D8 corrected in [[state]].
+
+---
+
 ### L-020 — A failure that returns a legitimate value is invisible
 **Date:** 2026-08-04 · **Cycle / mission step:** M4 (session runner) · **Class:** technique
 **Context:** The first live probe session, run against a local model

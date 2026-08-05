@@ -56,13 +56,13 @@ need to know?"
 | D5 | V5 prioritisation | **1** | **+1** | arbiter built: picks one or two from a multi-part profile, deterministically, with stated reasons. No time estimates or expected-gain reasoning yet |
 | D6 | V6 path planning | **2** | **+2** | plans built and persisted, every step carrying a machine-checkable progress sign and a derived check point. No time estimates — D5 is unresolved and inventing them was refused |
 | D7 | V7 progress tracking | **3** | **+1** | **restored, on evidence this time.** 57 predictions from 84 players with ~150-game histories; the constant is cross-validated at 2 *and* 5 folds with a fold spread of 0.011, and a held-out false-positive rate of **15 %** is stated in the output. Not 4: the test's **power is unmeasured** — no coached cohort exists, so nothing shows a real improvement could clear the bar (**D8**) |
-| D8 | V8 explainability | **3** | **+2** | **the report exists and is deterministic** (`chesscoach/explainer.py`, `cli report`) — one or two priorities, every claim citing specific games and moves, what could not be assessed named, and a gap type explained *only* when a probe established it. Templates rather than a model, so it cannot invent a reason the detectors never found — and it is the baseline a generated report must beat |
+| D8 | V8 explainability | **3** | — | the report exists, is deterministic, and is **13/13 grounded** on real players (E08 D4). **The 3 claimed last cycle was not earned**: reading a real report found Lichess theme keys in player-facing prose — *"a `trappedPiece` punishes you"* — which the groundedness metric scored 100 % on, because it only checks citation. Fixed (`phrasing.subject_name`), so the score now stands. Not 4: the report states measurements without explaining *why these one or two* were chosen over the rest, and the arbiter's reasoning is invisible |
 | D9 | C1–C4 cost profile | **2** | **+1** | **the language layer's cost is now measured, not assumed**: a local 8B model at 2.66 s per probe, so a six-probe session is ~16 s of local compute and **zero cash** (E07). Analysis and diagnosis were already free. Not 3: no full session has been run end to end, so the total is the sum of measured parts rather than a measurement |
-| D10 | Evaluation capability | **3** | **+1** | harness built *and used*; **both sides of the progress check are now measured** — false-positive rate (E05) and power (E06), the latter with its confound tested rather than conceded |
+| D10 | Evaluation capability | **4** | **+1** | both sides of the progress check measured (E05, E06), and the **anti-pattern family D is now built and run** (E08) — the metrics that were designed cycles ago and blocked on a language layer. They caught a self-flattering score and nearly caused a misreading, which is what an evaluation capability is for |
 | D11 | Process & documentation health | 4 | — | cycle held up under real work, including reversing its own mis-framed question |
 | D12 | V9 dialogue & active assessment | **2** | **+1** | **a session runs end to end** — `cli probe` asks, records verbatim, classifies locally, and writes probes to the profile. Answers are appended to a dataset as a by-product, so D10's corpus grows from use. Not 3: results do not change a diagnosis until D10 is resolved, and the context questions (interaction step 2) are unbuilt |
 
-**Total: 25 / 60.** It has gone 17 → 16 → 17 → 16 → 17 → 18 → 20 → 22 → 25, and every move was forced by a measurement:
+**Total: 26 / 60.** It has gone 17 → 16 → 17 → 16 → 17 → 18 → 20 → 22 → 25 → 26, and every move was forced by a measurement:
 down when E05 showed the verdicts meant nothing, up when the target rule was recalibrated, down
 again when cross-validation showed that calibration was itself optimistic, and up now that 57
 predictions can support what 13 could not, and again now that both sides of the progress check are
@@ -76,8 +76,13 @@ profiling. The empty column — everything requiring the player to be *asked* so
 to fill for the first time in the project's history, and the loop now runs end to end: analyse →
 diagnose → prioritise → **ask** → plan → **report** → check.
 
-The honest qualifier on all of it: **the probe cannot yet change a diagnosis** (D10), so the asking
-is real but not yet load-bearing.
+Two honest qualifiers. **The probe cannot yet change a diagnosis** (D10), so the asking is real but
+not yet load-bearing. And **the swarm is silent for 29 of 38 real players** (E08) — not wrong, not
+generic, not overloaded, just quiet. A coach with nothing to say to three players in four is still
+not much of a coach, and that is now the binding constraint rather than an impression.
+
+The +1 this cycle is D10 evaluation capability, and D8 stayed at 3 rather than rising: last cycle's
+3 was claimed before it was earned, and this cycle fixed the defect that made it unearned.
 
 The uncomfortable part of this cycle is not the score. Deepening the histories did not just add
 predictions, it **moved the effect being measured** — drift fell from +11.2 points to +4.8, and the
@@ -102,6 +107,13 @@ This is what actually moved this cycle.
 | Evaluation design | 4 | +1 | design space mapped; harness built and proven useful. Predictive-validity (A1) and anti-pattern (D) families still unbuilt |
 
 ## Next logical steps (priority order)
+
+0. **P0 — Build S3, and then more sections.** E08 measured the binding constraint: **29 of 38 players
+   are told nothing**, and only fourteen findings exist across all of them. Detected counts equal
+   advised counts for every claim kind, so this is not the arbiter being fussy — almost nothing
+   clears the gate. [[decisions.0009-prober-before-breadth]] deferred sections because a swarm that
+   diagnoses eleven things and cannot ask about any of them is worse than one that diagnoses two and
+   can; **the prober now exists, so that reason has expired.** Every new claim kind is probeable.
 
 0. **P0 — Answers from people who are not the author.** ~40 of them, labelled by someone else. This
    is the only thing standing between the prober and real use, and it is **not a modelling problem**:

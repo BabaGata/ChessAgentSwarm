@@ -120,7 +120,8 @@ an evaluation harness shaped by the agents. `chesscoach/evaluation/`:
 | scoring against ground truth | `scoring.py` | built — sensitivity *and* specificity, counting only findings a player would be shown |
 | fixture verification | `cli.py check-eval-set` | built — confirms a planted flaw is visible before anything is scored against it |
 | A1 held-out error prediction | — | next, once an agent emits findings |
-| D1–D5 anti-pattern metrics | — | needs the language layer to exist |
+| D1–D4 anti-pattern metrics | `experiments/e08-anti-patterns/` | **built and run** → [[experiments.e08-anti-patterns]]. Overlap 0.24, never more than two priorities, 13/13 grounded — and 29 of 38 players told nothing. **D2 must be read with detection counts**, or "told to 56 % of players" reads as a base-rate problem when it is a coverage one |
+| D5 coverage | — | **now the metric that matters.** What fraction of a player's actual errors can the swarm explain at all? "29 silent players" is a poor proxy for it |
 | C2 peer reference population | — | P3 in [[state]]; doubles as C6's remaining route |
 
 **Verified end to end:** 12 generated games, 142 planted mistakes, checked against the analysis core

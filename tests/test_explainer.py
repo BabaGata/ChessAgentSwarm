@@ -224,3 +224,40 @@ def test_each_claim_kind_reads_as_a_sentence(kind, expected):
     report = render(a_profile(a_finding(kind=kind)))
 
     assert expected in report
+
+
+class TestNoInternalIdentifiersReachThePlayer:
+    """Motif subjects are Lichess theme keys — camelCase identifiers chosen so
+    the same name selects the training material. A player does not know what a
+    `trappedPiece` is, so they are translated on the way out.
+
+    Caught by reading a real report, not by a test: D4 groundedness scored 100 %
+    on the same output because it only checks that a claim cites a game.
+    """
+
+    def test_the_finding_reads_in_english(self):
+        report = render(a_profile(a_finding(kind="allowed_motif", subject="trappedPiece")))
+
+        assert "a trapped piece that punishes you" in report
+
+    @pytest.mark.parametrize(
+        "subject,expected",
+        [
+            ("trappedPiece", "trapped piece"),
+            ("hangingPiece", "hanging piece"),
+            ("discoveredAttack", "discovered attack"),
+            ("backRankMate", "back-rank mate"),
+            ("capturingDefender", "capturing the defender"),
+        ],
+    )
+    def test_the_progress_sign_reads_in_english_too(self, subject, expected):
+        report = render(a_profile(a_finding(kind="missed_motif", subject=subject)))
+
+        assert expected in report.split("WHAT WOULD SHOW IT WORKED")[1]
+
+    def test_an_unmapped_subject_is_left_alone_rather_than_guessed_at(self):
+        # Better that a new motif looks unfinished than that a spacing rule
+        # invents a name for it.
+        report = render(a_profile(a_finding(subject="someNewMotif")))
+
+        assert "someNewMotif" in report

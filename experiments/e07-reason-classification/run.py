@@ -81,6 +81,36 @@ def evaluate(classifier, answers: list[dict]) -> dict | None:
     }
 
 
+def self_consistency(classifier, answers: list[dict], repeats: int) -> dict | None:
+    """Does the same answer get the same verdict every time?
+
+    `capacity.agents.prober` § 10 claims temperature 0 and a fixed seed make a
+    verdict reproducible, and `ProbeRecord.classifier` is recorded on that
+    basis — so a stored gap_type can supposedly be re-derived. That claim was
+    asserted and never measured. This measures it (§ 9 level 4).
+    """
+    try:
+        runs = [
+            [classifier.classify(item["answer"], item["expected"]) for item in answers]
+            for _ in range(repeats)
+        ]
+    except ClassifierUnavailable as error:
+        print(f"  {classifier.name:<38} UNREACHABLE — {error}")
+        return None
+
+    unstable = [
+        (answers[i]["answer"], sorted({str(run[i]) for run in runs}))
+        for i in range(len(answers))
+        if len({run[i] for run in runs}) > 1
+    ]
+    return {
+        "name": classifier.name,
+        "stable": len(answers) - len(unstable),
+        "total": len(answers),
+        "unstable": unstable,
+    }
+
+
 def _disagreements(answers: list[dict], pairs: list[tuple]) -> list[str]:
     return [
         f"      {item['answer'][:58]!r} -> {got} (labelled {gold})"
@@ -94,6 +124,12 @@ def main() -> int:
     parser.add_argument("--answers", type=Path, default=Path(__file__).parent / "answers.jsonl")
     parser.add_argument("--models", default="llama3.1:8b-instruct-q6_K,llama3.2:3b")
     parser.add_argument("--show-disagreements", action="store_true")
+    parser.add_argument(
+        "--repeat",
+        type=int,
+        default=0,
+        help="measure self-consistency instead of agreement: classify everything N times",
+    )
     args = parser.parse_args()
 
     answers = load(args.answers)
@@ -104,6 +140,18 @@ def main() -> int:
 
     classifiers = [KeywordFloor(), EmbeddingBaseline()]
     classifiers += [OllamaClassifier(model=m) for m in args.models.split(",") if m]
+
+    if args.repeat:
+        print(f"self-consistency over {args.repeat} runs\n")
+        for classifier in classifiers:
+            result = self_consistency(classifier, answers, args.repeat)
+            if result is None:
+                continue
+            share = result["stable"] / result["total"]
+            print(f"  {result['name']:<38} {result['stable']}/{result['total']} stable ({share:.0%})")
+            for answer, verdicts in result["unstable"][:5]:
+                print(f"      {answer[:52]!r} -> {verdicts}")
+        return 0
 
     print(f"  {'classifier':<38} {'acc':>6} {'kappa':>7} {'false-ign':>10} {'s/call':>8}")
     results = []
