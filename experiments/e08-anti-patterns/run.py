@@ -127,6 +127,30 @@ def detected_vs_advised(profiles: list[PlayerProfile]) -> list[tuple[str, int, i
     )
 
 
+def within_kind_redundancy(profiles: list[PlayerProfile]) -> dict:
+    """Is a player told the same thing twice, once pooled and once subdivided?
+
+    Sections that carry an aggregate claim plus subdivisions (S3's `any` plus
+    material classes, S4's `any` plus colours) can advise both for one player,
+    and "you go wrong early" alongside "you go wrong early as Black" has said
+    one thing twice. The arbiter prefers diversity **across** claim kinds, which
+    does not help within one.
+
+    Not covered by D1: overlap between *different* players can look healthy
+    while every individual report repeats itself.
+    """
+    offenders = []
+    for profile in profiles:
+        by_kind: dict[str, set[str]] = {}
+        for key in claim_keys(profile):
+            kind, subject = key.split(".")[0], key.split(".")[1]
+            by_kind.setdefault(kind, set()).add(subject)
+        for kind, subjects in by_kind.items():
+            if "any" in subjects and len(subjects) > 1:
+                offenders.append((profile.player.username, kind, sorted(subjects)))
+    return {"offenders": offenders, "players": len(profiles)}
+
+
 def groundedness(profiles: list[PlayerProfile]) -> dict:
     """D4. Every reported finding must cite a game, checked in the rendered text.
 
@@ -177,6 +201,14 @@ def main() -> int:
     for count, n in sorted(priority_counts(profiles).items()):
         flag = "  <-- over the limit" if count > MAX_PRIORITIES else ""
         print(f"      {count} priorities: {n} players{flag}")
+
+    redundancy = within_kind_redundancy(profiles)
+    print("\nD6  within-kind redundancy    (told the same thing pooled and subdivided)")
+    if redundancy["offenders"]:
+        for player, kind, subjects in redundancy["offenders"]:
+            print(f"      {player:<24} {kind}: {', '.join(subjects)}")
+    else:
+        print("      none")
 
     d4 = groundedness(profiles)
     print("\nD4  groundedness")

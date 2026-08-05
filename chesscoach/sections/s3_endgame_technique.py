@@ -45,7 +45,12 @@ from chesscoach.profile.models import (
     Measurement,
     wilson_interval,
 )
-from chesscoach.sections.base import SectionContext, SectionReport, diagnosable
+from chesscoach.sections.base import (
+    SectionContext,
+    SectionReport,
+    diagnosable,
+    drop_redundant_aggregates,
+)
 
 SECTION = "S3"
 
@@ -140,11 +145,13 @@ class S3EndgameTechnique:
                 notes=(f"only {counts.games_with_data} games with diagnosable moves",),
             )
 
-        findings = [
-            finding
-            for key in sorted(counts.tallies)
-            if (finding := _assess(key, counts, context))
-        ]
+        findings = drop_redundant_aggregates(
+            tuple(
+                finding
+                for key in sorted(counts.tallies)
+                if (finding := _assess(key, counts, context))
+            )
+        )
         # Said even when the advantage claim had plenty to work with, because
         # silence about endgames would otherwise read as "your endgames are
         # fine" when the truth is that few of the player's games produce a

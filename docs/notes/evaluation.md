@@ -121,7 +121,8 @@ an evaluation harness shaped by the agents. `chesscoach/evaluation/`:
 | fixture verification | `cli.py check-eval-set` | built — confirms a planted flaw is visible before anything is scored against it |
 | A1 held-out error prediction | — | next, once an agent emits findings |
 | D1–D4 anti-pattern metrics | `experiments/e08-anti-patterns/` | **built and run** → [[experiments.e08-anti-patterns]]. Overlap 0.24, never more than two priorities, 13/13 grounded — and 29 of 38 players told nothing. **D2 must be read with detection counts**, or "told to 56 % of players" reads as a base-rate problem when it is a coverage one |
-| D5 coverage | — | **now the metric that matters.** What fraction of a player's actual errors can the swarm explain at all? "29 silent players" is a poor proxy for it |
+| D5 coverage | — | **now the metric that matters.** What fraction of a player's actual errors can the swarm explain at all? The silent-player count is a poor proxy for it — it went 29 → 22 as S3 and S4 were added |
+| D6 within-kind redundancy *(new)* | `experiments/e08-anti-patterns/` | **built** — is a player told the same thing twice, once pooled and once subdivided? D1 cannot see this: overlap *between* players can look healthy while every individual report repeats itself. Caught 2 of 16 advised players on S4's first run |
 | C2 peer reference population | — | P3 in [[state]]; doubles as C6's remaining route |
 
 **Verified end to end:** 12 generated games, 142 planted mistakes, checked against the analysis core

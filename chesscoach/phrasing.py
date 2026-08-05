@@ -40,6 +40,8 @@ QUANTITIES: dict[str, str] = {
     "time_pressure_error": "mistakes when short of time",
     "endgame_error": "mistakes in {subject} endgames",
     "advantage_error": "mistakes made while you are winning",
+    "early_error": "mistakes before move 15 {subject}",
+    "opening_disadvantage": "games where you are already worse by move 15",
 }
 
 # The finding as a sentence a person would say. Deliberately flat: no severity
@@ -52,7 +54,12 @@ STATEMENTS: dict[str, str] = {
     "time_pressure_error": "Your play falls off when the clock is short.",
     "endgame_error": "Your play falls off in {subject} endgames.",
     "advantage_error": "You go wrong more often than most when you are already better.",
+    "early_error": "You go wrong early {subject}.",
+    "opening_disadvantage": "You come out of the opening worse more often than most.",
 }
+
+# Colours read as a phrase rather than a word, so the sentence works either way.
+COLOURS: dict[str, str] = {"white": "as White", "black": "as Black"}
 
 # Endgame material classes.
 ENDGAME_CLASSES: dict[str, str] = {
@@ -68,8 +75,16 @@ ENDGAME_CLASSES: dict[str, str] = {
 # the pooled claim gets its own wording rather than a word chosen to fit a slot.
 POOLED = "any"
 
-POOLED_QUANTITIES: dict[str, str] = {"endgame_error": "mistakes in the endgame"}
-POOLED_STATEMENTS: dict[str, str] = {"endgame_error": "Your play falls off in the endgame."}
+POOLED_QUANTITIES: dict[str, str] = {
+    "endgame_error": "mistakes in the endgame",
+    "early_error": "mistakes before move 15",
+    "opening_disadvantage": "games where you are already worse by move 15",
+}
+POOLED_STATEMENTS: dict[str, str] = {
+    "endgame_error": "Your play falls off in the endgame.",
+    "early_error": "You go wrong early, before the middlegame starts.",
+    "opening_disadvantage": "You come out of the opening worse more often than most.",
+}
 
 
 def subject_name(subject: str, kind: str | None = None) -> str:
@@ -82,6 +97,8 @@ def subject_name(subject: str, kind: str | None = None) -> str:
     """
     if kind == "endgame_error":
         return ENDGAME_CLASSES.get(subject, subject)
+    if kind == "early_error":
+        return COLOURS.get(subject, subject)
     return MOTIF_NAMES.get(subject, subject)
 
 

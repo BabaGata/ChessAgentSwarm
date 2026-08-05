@@ -42,6 +42,13 @@ lets the section speak at all, and add subdivisions only where the data has been
 The cost of getting it wrong is not a wrong answer, it is silence, which is much harder to notice.
 **Applied to:** `chesscoach/sections/s3_endgame_technique.py` (`endgame_error.any` as the
 load-bearing claim), and the P0 note in [[state]] directing later sections to the same shape.
+**Confirmed by S4, 2026-08-05.** The next section chose its subdivision by denominator instead of by
+chess taxonomy — **colour** (two buckets, half the games each) rather than opening name (a dozen
+buckets, two games each) — and it **fired for seven players** where S3's five material classes fired
+for none. Same lesson, applied at design time rather than discovered, and it worked the first time.
+The corollary S4 also found: once a subdivision *does* fire, the pooled claim becomes redundant for
+that player, so `drop_redundant_aggregates()` keeps the specific one
+([[capacity.agents.s4-opening-outcomes]] § 8).
 
 ---
 

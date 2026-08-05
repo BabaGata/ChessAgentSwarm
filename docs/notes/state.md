@@ -52,7 +52,7 @@ need to know?"
 | D1 | V1 skill assessment | 0 | — | nothing built |
 | D2 | V2 knowledge assessment | **2** | **+2** | **the prober works end to end** — probe selection, move check, a local model classifying reasons at kappa 0.74 with zero false-ignorance (E07), `gap_type` written back. Not 3: the rubric's answer set is written and labelled by the author and the figure is in-sample, so it may not yet change a real player's finding |
 | D3 | V3 style profiling | 0 | — | operational definition drafted |
-| D4 | V4 gap detection | **3** | — | **three sections, eight claim kinds** (S3 added). Coverage moved 9 → **12 of 38** players advised and mean advice overlap 0.24 → **0.14**, so the swarm is more specific as well as louder. Not 4: **26 of 38 are still told nothing**, and S3's five material classes fired for nobody — only its pooled claim works |
+| D4 | V4 gap detection | **4** | **+1** | **four sections, eleven claim kinds** (S3, S4 added). Coverage 9 → **16 of 38** advised, and mean advice overlap 0.24 → **0.09** — louder *and* more specific at once, which is the pairing that matters. S4's colour split fired where S3's material classes did not, confirming L-022's rule about denominators. Not 5: **22 of 38 are still told nothing**, and nothing yet covers pawn structure, calculation or attack |
 | D5 | V5 prioritisation | **1** | **+1** | arbiter built: picks one or two from a multi-part profile, deterministically, with stated reasons. No time estimates or expected-gain reasoning yet |
 | D6 | V6 path planning | **2** | **+2** | plans built and persisted, every step carrying a machine-checkable progress sign and a derived check point. No time estimates — D5 is unresolved and inventing them was refused |
 | D7 | V7 progress tracking | **3** | **+1** | **restored, on evidence this time.** 57 predictions from 84 players with ~150-game histories; the constant is cross-validated at 2 *and* 5 folds with a fold spread of 0.011, and a held-out false-positive rate of **15 %** is stated in the output. Not 4: the test's **power is unmeasured** — no coached cohort exists, so nothing shows a real improvement could clear the bar (**D8**) |
@@ -62,7 +62,7 @@ need to know?"
 | D11 | Process & documentation health | 4 | — | cycle held up under real work, including reversing its own mis-framed question |
 | D12 | V9 dialogue & active assessment | **2** | **+1** | **a session runs end to end** — `cli probe` asks, records verbatim, classifies locally, and writes probes to the profile. Answers are appended to a dataset as a by-product, so D10's corpus grows from use. Not 3: results do not change a diagnosis until D10 is resolved, and the context questions (interaction step 2) are unbuilt |
 
-**Total: 26 / 60.** It has gone 17 → 16 → 17 → 16 → 17 → 18 → 20 → 22 → 25 → 26, and every move was forced by a measurement:
+**Total: 27 / 60.** It has gone 17 → 16 → 17 → 16 → 17 → 18 → 20 → 22 → 25 → 26 → 27, and every move was forced by a measurement:
 down when E05 showed the verdicts meant nothing, up when the target rule was recalibrated, down
 again when cross-validation showed that calibration was itself optimistic, and up now that 57
 predictions can support what 13 could not, and again now that both sides of the progress check are
@@ -108,11 +108,13 @@ This is what actually moved this cycle.
 
 ## Next logical steps (priority order)
 
-0. **P0 — More sections, and pooled claims rather than fine ones.** S3 is built and moved coverage
-   9 → 12 of 38 ([[capacity.agents.s3-endgame-technique]]). The lesson it taught is about shape, not
-   about endgames: **its five material classes fired for zero players, and its one pooled claim did
-   all the work.** Later sections should lead with the aggregate and add subdivisions only where the
-   data proves it can carry them. S4 (opening outcomes) is next in the catalogue order.
+0. **P0 — More sections, choosing subdivisions by denominator.** S3 and S4 took coverage 9 → **16 of
+   38** and overlap 0.24 → **0.09**. The rule they established is worth carrying forward literally:
+   S3 split by material (five buckets, fired for nobody) and S4 split by colour (two buckets, fired
+   for seven players). **Next: S5 pawn structure** — but note it is Tier 2 and
+   [[domain.sections]] blocks Tier 2 on C6, which is resolved; the detectors from
+   [[experiments.e02-positional-detectors]] exist and the peer-deviation route is built. S7
+   calculation is the alternative and is the section most dependent on probes.
 
 0. **P0 — Answers from people who are not the author.** ~40 of them, labelled by someone else. This
    is the only thing standing between the prober and real use, and it is **not a modelling problem**:

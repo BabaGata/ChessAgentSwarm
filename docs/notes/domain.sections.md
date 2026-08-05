@@ -73,9 +73,15 @@ classification at the point of simplification.
 techniques Capablanca orders first.
 **Signal** high · **Support** strong (endgame theme tags; public-domain primary source) · **Band value** high
 
-### S4 · Opening repertoire outcomes
+### S4 · Opening repertoire outcomes — **built** ([[capacity.agents.s4-opening-outcomes]])
 **Owns:** not opening theory — opening *results*: where the player leaves book, which openings cost
 them, how often they are punished before move 15, which named traps they fall into.
+
+> **Scope corrected on building.** *Which openings cost them* is not answerable from 24-game
+> corpora — a dozen ECO codes gives every per-opening claim two games behind it, which L-022 records
+> as firing for nobody. S4 subdivides by **colour** instead, a real repertoire boundary with half the
+> data in each half, and defers per-opening claims to ~100+ game histories. Named traps are not
+> built: they need the CC0 trap dataset, and the claim would inherit the same denominator problem.
 **Diagnosed from:** ECO/opening headers, the CC0 `chess-openings` trap data, score-by-opening.
 **Signal** medium-high · **Support** strong · **Band value** medium
 **Why it belongs early:** it settles the contested "openings don't matter below 1800" claim

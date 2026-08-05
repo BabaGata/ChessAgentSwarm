@@ -88,8 +88,14 @@ def default_agents() -> tuple[SectionAgent, ...]:
     from chesscoach.sections.s1_tactical_gaps import S1TacticalGaps
     from chesscoach.sections.s2_decision_process import S2DecisionProcess
     from chesscoach.sections.s3_endgame_technique import S3EndgameTechnique
+    from chesscoach.sections.s4_opening_outcomes import S4OpeningOutcomes
 
-    return (S2DecisionProcess(), S1TacticalGaps(), S3EndgameTechnique())
+    return (
+        S2DecisionProcess(),
+        S1TacticalGaps(),
+        S3EndgameTechnique(),
+        S4OpeningOutcomes(),
+    )
 
 
 def summarise(result: DiagnosisResult) -> Iterable[str]:

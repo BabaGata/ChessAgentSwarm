@@ -42,6 +42,33 @@ def diagnosable(observations: tuple[Observation, ...]) -> tuple[Observation, ...
     )
 
 
+# The pooled subject a section uses when it needs a denominator big enough to
+# clear the confidence gate at all (L-022).
+POOLED_SUBJECT = "any"
+
+
+def drop_redundant_aggregates(findings: tuple[Finding, ...]) -> tuple[Finding, ...]:
+    """Keep the specific claim when both it and its pooled parent survive.
+
+    A section carrying an aggregate plus subdivisions can assert both for one
+    player, and "you go wrong early" next to "you go wrong early as Black" has
+    said one thing twice. The arbiter prefers diversity **across** claim kinds
+    and cannot see inside one.
+
+    The specific claim wins because it is strictly more useful: it names the
+    same problem and says where to look. Measured in E08 on real players --
+    2 of 16 advised players were getting the pair.
+    """
+    subdivided = {
+        f.claim.kind for f in findings if f.claim.subject != POOLED_SUBJECT
+    }
+    return tuple(
+        f
+        for f in findings
+        if not (f.claim.subject == POOLED_SUBJECT and f.claim.kind in subdivided)
+    )
+
+
 @dataclass(frozen=True)
 class SectionContext:
     """Everything a section agent is given. Read-only.

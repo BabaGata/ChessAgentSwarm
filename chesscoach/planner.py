@@ -282,6 +282,16 @@ def _action(finding: Finding) -> str:
             "When you are clearly better, slow down rather than speed up: take the safe "
             "line over the quick one, and check your opponent's reply before every move."
         ),
+        "early_error": (
+            "Play through your own first fifteen moves afterwards, without an engine, and "
+            "write down where you stopped knowing what you were doing — that move is the "
+            "edge of your repertoire and it is the one worth learning."
+        ),
+        "opening_disadvantage": (
+            "You are reaching playable middlegames less often than most. Pick one opening "
+            "for each colour and play only those for a while: the aim is familiar positions, "
+            "not better theory."
+        ),
     }
     return actions.get(
         finding.claim.kind,
