@@ -114,12 +114,13 @@ This is what actually moved this cycle.
    re-measurement confirmed 19 advised / 13 kinds / 0.08 overlap unchanged. The defect was real and
    *latent*: no section had a large enough denominator to trip it until S5 (L-023).
 
-0. **P0 — More sections, screened first.** S3–S6 took coverage 9 → **20 of 38**; **18 are still told
-   nothing**. Next is **S7 (calculation)**, which is also the section most dependent on probes — and
-   those now exist. **Screen candidates before writing the section** (E09's pattern): it is
-   engine-free, costs about a minute, and on S6 it cut three of five candidates and saved building
-   them. Carry L-024 in as a prior: frame a candidate as *what the opponent achieved*, not as *what
-   the position contains*.
+0. **P0 — More sections, screened first — and the screen is now two questions.**
+   **S7 was screened and not built** ([[experiments.e10-calculation-candidates]]): calculation does
+   not show up in game records, exactly as the catalogue warned. Next viable is **S8 (attack &
+   defence)**. Screen before writing (E09's pattern, which cut three of five S6 candidates for about
+   a minute's work), and ask both questions: *does it vary between players* (L-023) **and** *does it
+   survive dividing out the error rate* (L-025). Carry L-024 in as a prior: frame candidates as
+   *what the opponent achieved*, not *what the position contains*.
 
 0. **P1 — The binding constraint has moved.** It is no longer the peer comparison but
    `FOCUS_DISTINCT_GAMES = 5`: S6's claims are real and strongly discriminating (ratios 1.9–2.3) and

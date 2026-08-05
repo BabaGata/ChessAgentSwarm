@@ -129,9 +129,20 @@ the player is on and whether they handle it correctly.
 > knight — outposts turned out to be the strongest discriminator in the project. What is trivial is
 > everything phrased as a property of the player's own position (L-024).
 
-### S7 · Calculation quality
+### S7 · Calculation quality — **screened and not built** ([[experiments.e10-calculation-candidates]])
 **Owns:** the calculation skills distinct from pattern knowledge — finding quiet moves, finding
 defensive moves, depth of forcing sequences, breadth of candidate consideration.
+
+> **The warning in this entry was right, and is now measured.** The contrast that would isolate
+> calculation — erring more when the best move is quiet than when it is forcing — has a median of
+> **1.17** and players differ on it by a spread of **1.27**, the range of every failed candidate.
+> The one rate that does spread, `missed_quiet` at 1.56, correlates **+0.737** with `missed_forcing`:
+> the players who go wrong on quiet moves are the players who go wrong on forcing moves, so a claim
+> built on it would restate the overall error rate.
+>
+> **S7 becomes a consumer of V9 rather than a section.** A probe gives a position untimed and asks
+> for a move *and a reason*, which separates *did not see it* from *could not work it out*. No
+> arrangement of game records does that. Blocked on **D10**.
 **Support** partial — `quietMove` and `defensiveMove` themes give labelled material, but measuring a
 player's calculation *from games alone* is weak: a missed quiet move may be a knowledge gap, a skill
 gap, or a clock gap.

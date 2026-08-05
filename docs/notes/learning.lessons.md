@@ -24,6 +24,30 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 
 ---
 
+### L-025 — A claim that varies may still be a proxy for one you already have
+**Date:** 2026-08-05 · **Cycle / mission step:** M4 (S7 screened, not built) · **Class:** technique
+**Context:** Screening S7's calculation candidates before building it
+([[experiments.e10-calculation-candidates]]).
+**Observation:** `missed_quiet` — the error rate where the engine's move is quiet rather than forcing
+— spreads **1.56** between players, which is inside the range this project treats as promising. It
+was nearly built on. Its correlation with `missed_forcing` is **+0.737**: the players who go wrong on
+quiet moves are the players who go wrong on forcing moves. The spread is the general error rate, not
+calculation. And the contrast that would isolate calculation, `missed_quiet / missed_forcing`, has a
+median of 1.17 and a between-player spread of 1.27 — i.e. once the error rate is divided out, almost
+nothing remains.
+**Lesson:** E09 established *does this vary between players?* as the screen. **That is necessary and
+not sufficient.** A candidate can vary handsomely and still be a re-description of something the
+swarm already measures, which is worse than a claim that fails outright: it survives every check,
+adds a claim kind, raises the coverage number, and tells the player nothing new. The second question
+is **does it survive dividing out what we already know?** — a correlation against the base rate, or
+better, screen the *ratio* rather than the rate, because the ratio is the thing the section actually
+claims. This is L-014 one level up: there the denominator was wrong and the claim tracked the error
+rate; here the denominator is right and the claim tracks it anyway.
+**Applied to:** S7 not built; [[domain.sections]] records it as a consumer of V9 probes rather than a
+section; the two-question screen is now the pattern for S8 and beyond.
+
+---
+
 ### L-024 — What the opponent gets discriminates; what your position contains does not
 **Date:** 2026-08-05 · **Cycle / mission step:** M4 (S6) · **Class:** technique
 **Context:** Screening five candidate claims for S6 before building it
