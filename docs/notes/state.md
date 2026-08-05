@@ -52,7 +52,7 @@ need to know?"
 | D1 | V1 skill assessment | 0 | — | nothing built |
 | D2 | V2 knowledge assessment | **2** | **+2** | **the prober works end to end** — probe selection, move check, a local model classifying reasons at kappa 0.74 with zero false-ignorance (E07), `gap_type` written back. Not 3: the rubric's answer set is written and labelled by the author and the figure is in-sample, so it may not yet change a real player's finding |
 | D3 | V3 style profiling | 0 | — | operational definition drafted |
-| D4 | V4 gap detection | **4** | — | **six sections, fifteen claim kinds.** Coverage 9 → **20 of 38** advised, overlap 0.24 → **0.06** — louder and far more specific together. S6 is the first section whose claims were chosen by measurement before it was written, and the first with no dead claims (E09). Not 5: **18 of 38 are still told nothing**, calculation and attack are uncovered, and the binding constraint has moved from peer comparison to `FOCUS_DISTINCT_GAMES` — S6's events are real but rare |
+| D4 | V4 gap detection | **4** | — | **seven sections, sixteen claim kinds.** Coverage 9 → **20 of 38** advised, overlap 0.24 → **0.06**. But coverage has now **stalled**: S8 added a claim kind and reached nobody new, and S7 was screened and not built at all. Not 5: **18 of 38 are still told nothing**, and the catalogue's remaining sections look thinner than it claims — three consecutive screens returned one viable claim, none, and one |
 | D5 | V5 prioritisation | **1** | **+1** | arbiter built: picks one or two from a multi-part profile, deterministically, with stated reasons. No time estimates or expected-gain reasoning yet |
 | D6 | V6 path planning | **2** | **+2** | plans built and persisted, every step carrying a machine-checkable progress sign and a derived check point. No time estimates — D5 is unresolved and inventing them was refused |
 | D7 | V7 progress tracking | **3** | **+1** | **restored, on evidence this time.** 57 predictions from 84 players with ~150-game histories; the constant is cross-validated at 2 *and* 5 folds with a fold spread of 0.011, and a held-out false-positive rate of **15 %** is stated in the output. Not 4: the test's **power is unmeasured** — no coached cohort exists, so nothing shows a real improvement could clear the bar (**D8**) |
@@ -114,13 +114,17 @@ This is what actually moved this cycle.
    re-measurement confirmed 19 advised / 13 kinds / 0.08 overlap unchanged. The defect was real and
    *latent*: no section had a large enough denominator to trip it until S5 (L-023).
 
-0. **P0 — More sections, screened first — and the screen is now two questions.**
-   **S7 was screened and not built** ([[experiments.e10-calculation-candidates]]): calculation does
-   not show up in game records, exactly as the catalogue warned. Next viable is **S8 (attack &
-   defence)**. Screen before writing (E09's pattern, which cut three of five S6 candidates for about
-   a minute's work), and ask both questions: *does it vary between players* (L-023) **and** *does it
-   survive dividing out the error rate* (L-025). Carry L-024 in as a prior: frame candidates as
-   *what the opponent achieved*, not *what the position contains*.
+0. **P0 — Stop adding sections; the returns have gone.** Three consecutive screens produced two
+   viable claims (S6), none (S7), and one that reached nobody new (S8). Coverage has been stuck at
+   **20 of 38** across two sections. The catalogue's Tier 2/3 is thinner than it claims, and the
+   screening discipline is what revealed that — cheaply, before each build.
+
+   **The binding constraint is not breadth, it is `FOCUS_DISTINCT_GAMES = 5` on 24-game corpora.**
+   S6's claims discriminate strongly (1.9–2.3) and produced three findings because the events occur
+   in fewer than five separate games for most players. The lever is **deeper corpora**: the E05 deep
+   histories (150 games each, 84 players) already exist, and the peer reference is still built from
+   24-game ones. Rebuilding on those is engine time already largely paid for in the cache, and it
+   should move coverage more than another section would.
 
 0. **P1 — The binding constraint has moved.** It is no longer the peer comparison but
    `FOCUS_DISTINCT_GAMES = 5`: S6's claims are real and strongly discriminating (ratios 1.9–2.3) and

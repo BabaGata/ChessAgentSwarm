@@ -150,9 +150,21 @@ gap, or a clock gap.
 concept map had no slot for it. It is also the section most dependent on **V9 probes**, since
 calculation is best measured by asking.
 
-### S8 · Attack & defence
+### S8 · Attack & defence — **built, one claim** ([[capacity.agents.s8-attack-and-defence]])
 **Owns:** king attack and defence — attacking the castled king, pawn storms, sacrifice soundness,
 defensive resources, king safety concessions.
+
+> **One of the five topics is built** → [[experiments.e11-attack-candidates]]: how readily the player
+> lets a third attacker reach their king zone (spread 1.59, the weakest shipped). Attacking,
+> sacrifice soundness and pawn storms are untouched — the first two need material tracking the
+> observations do not carry.
+>
+> **It reached no new players.** Two findings, both for players already advised about something else.
+> Kept because it is cheap, correct and independent; its place is genuinely arguable.
+>
+> A screened-but-unbuilt candidate lives here too: **`shield_broken` spreads 1.62** — more than the
+> claim that shipped — and is the first counter-example to L-024. Not built because its causation is
+> ambiguous (advanced or traded off?) and its cost is unestablished.
 **Support** partial — `kingsideAttack`, `queensideAttack`, `exposedKing`, `sacrifice` themes exist;
 soundness needs the engine.
 

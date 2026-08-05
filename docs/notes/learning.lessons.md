@@ -73,6 +73,15 @@ thought to.
 **Applied to:** `chesscoach/squares.py` and `chesscoach/sections/s6_squares_and_files.py` (two claims
 rather than five), § 9.1 of [[capacity.agents.s6-squares-and-files]], and carried into S7/S8 as a
 design prior.
+**Counter-example found 2026-08-05, one section later.** E11 screened `shield_broken` — the player's
+castled king having lost its pawn cover, squarely a property of their own position — and it spreads
+**1.62**, slightly *more* than the opponent-achievement claim beside it. Holes (1.25) and bad bishops
+(1.27) did not; a bare king does. **So this is a useful prior and not a law.** One hypothesis, offered
+as such: a hole is one square among sixty-four while a broken shield is a property of *the square
+that decides games*, so grouping both as "position properties" may be the mistake — the rule might
+really be about **how close the property sits to the result**. Recorded rather than resolved, and the
+lesson is kept in its weaker form: prefer the opponent-achievement framing when a topic allows both,
+but screen the alternative rather than assuming it will fail.
 
 ---
 

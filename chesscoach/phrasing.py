@@ -44,6 +44,7 @@ QUANTITIES: dict[str, str] = {
     "opening_disadvantage": "games where you are already worse by move 15",
     "concedes_weakness": "moves that leave you with {subject} pawns",
     "allows_square": "moves that let your opponent establish {subject}",
+    "allows_pressure": "moves that let an attack build against your king",
 }
 
 # The finding as a sentence a person would say. Deliberately flat: no severity
@@ -63,6 +64,9 @@ STATEMENTS: dict[str, str] = {
     # losing you games" -- would be a claim the evidence does not support.
     "concedes_weakness": "You end up with {subject} pawns more often than players at your level.",
     "allows_square": "You let opponents establish {subject} more often than players at your level.",
+    "allows_pressure": (
+        "Attacks build against your king more readily than against players at your level."
+    ),
 }
 
 STRUCTURE_NAMES: dict[str, str] = {

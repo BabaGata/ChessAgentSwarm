@@ -306,6 +306,12 @@ def _action(finding: Finding) -> str:
             "come back. In the cited games, find the move where the square your opponent "
             "later occupied stopped being defensible."
         ),
+        "allows_pressure": (
+            "In the cited positions, count your opponent's pieces that can reach your king "
+            "and compare it with your own defenders. The move to find is the one before "
+            "they got a third attacker there — that is where the game turned, not the move "
+            "the attack landed on."
+        ),
     }
     return actions.get(
         finding.claim.kind,

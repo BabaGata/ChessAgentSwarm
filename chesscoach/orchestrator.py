@@ -91,6 +91,7 @@ def default_agents() -> tuple[SectionAgent, ...]:
     from chesscoach.sections.s4_opening_outcomes import S4OpeningOutcomes
     from chesscoach.sections.s5_pawn_structure import S5PawnStructure
     from chesscoach.sections.s6_squares_and_files import S6SquaresAndFiles
+    from chesscoach.sections.s8_attack_and_defence import S8AttackAndDefence
 
     return (
         S2DecisionProcess(),
@@ -99,6 +100,7 @@ def default_agents() -> tuple[SectionAgent, ...]:
         S4OpeningOutcomes(),
         S5PawnStructure(),
         S6SquaresAndFiles(),
+        S8AttackAndDefence(),
     )
 
 
