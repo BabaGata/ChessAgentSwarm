@@ -31,7 +31,7 @@ from enum import Enum
 # CorpusRef gains `game_ids`, so a later check knows which games are new. And
 # Plan gains `outcomes`, so a plan carries its own verdict -- a system that
 # quietly drops its failed predictions is unfalsifiable.
-SCHEMA_VERSION = 5
+SCHEMA_VERSION = 6
 
 _Z = 1.96  # 95% normal quantile, for Wilson intervals
 
@@ -409,6 +409,22 @@ class ProfileHistoryEntry:
 
 
 @dataclass(frozen=True)
+class Strength:
+    """What the player's own moves suggest about their standard (V1, schema v6).
+
+    Kept separate from `PlayerRef.band`, which is what they were *filed under*.
+    This is what the games say, and it carries its own error because a rating
+    estimate without one claims a precision the measurement does not have.
+    """
+
+    rating: int
+    typical_error: int
+    moves: int
+    method: str
+    extrapolated: bool = False
+
+
+@dataclass(frozen=True)
 class PlayerProfile:
     """The blackboard: everything the swarm knows about one player."""
 
@@ -418,6 +434,7 @@ class PlayerProfile:
     probes: tuple[ProbeRecord, ...] = ()
     context: PlayerContext | None = None
     plan: Plan | None = None
+    strength: Strength | None = None
     history: tuple[ProfileHistoryEntry, ...] = ()
     schema_version: int = SCHEMA_VERSION
 

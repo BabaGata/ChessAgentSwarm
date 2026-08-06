@@ -49,7 +49,7 @@ need to know?"
 
 | Dim | Vision item | Score | Δ | Evidence / why |
 |---|---|:--:|:--:|---|
-| D1 | V1 skill assessment | 0 | — | nothing built |
+| D1 | V1 skill assessment | **3** | **+3** | **built and cross-validated** → [[experiments.e13-strength-signal]]. Rating estimated from blunder rate alone at **±103 points held-out** (60 % within 100, 89 % within 200) against a naive baseline of 162, with the rating hidden from the estimator. Reported as a range, refuses below 200 moves, admits extrapolation. Not 4: **the vision asks for strength *and its variance*** and this gives every player the same population-level error bar regardless of how much evidence they brought — known to be wrong |
 | D2 | V2 knowledge assessment | **2** | **+2** | **the prober works end to end** — probe selection, move check, a local model classifying reasons at kappa 0.74 with zero false-ignorance (E07), `gap_type` written back. Not 3: the rubric's answer set is written and labelled by the author and the figure is in-sample, so it may not yet change a real player's finding |
 | D3 | V3 style profiling | 0 | — | operational definition drafted |
 | D4 | V4 gap detection | **5** | **+1** | **seven sections, and on 150-game histories the swarm advises 70 of 84 players (83 %)** with 27 distinct claim kinds and overlap 0.05 — louder, broader and more specific at once, and 113/113 grounded. The lever was corpus depth, not more sections: six sections moved coverage 24 → 53 %, depth alone moved it 53 → **83 %** (E12). Held back from a clean 5 by the honest caveat: **a real user brings 24 games, not 150**, and at that depth it is still 53 % |
@@ -62,7 +62,8 @@ need to know?"
 | D11 | Process & documentation health | 4 | — | cycle held up under real work, including reversing its own mis-framed question |
 | D12 | V9 dialogue & active assessment | **2** | **+1** | **a session runs end to end** — `cli probe` asks, records verbatim, classifies locally, and writes probes to the profile. Answers are appended to a dataset as a by-product, so D10's corpus grows from use. Not 3: results do not change a diagnosis until D10 is resolved, and the context questions (interaction step 2) are unbuilt |
 
-**Total: 29 / 60.** It has gone 17 → 16 → 17 → 16 → 17 → 18 → 20 → 22 → 25 → 26 → 27 → 28 → 29, and every move was forced by a measurement:
+**Total: 32 / 60.** It has gone 17 → 16 → 17 → 16 → 17 → 18 → 20 → 22 → 25 → 26 → 27 → 28 → 29 → 32,
+and every move was forced by a measurement:
 down when E05 showed the verdicts meant nothing, up when the target rule was recalibrated, down
 again when cross-validation showed that calibration was itself optimistic, and up now that 57
 predictions can support what 13 could not, and again now that both sides of the progress check are
@@ -119,11 +120,19 @@ This is what actually moved this cycle.
    0.05. Six sections had moved coverage 24 → 53 %; depth alone moved it further, in 45 minutes of
    mostly-cached engine time and with no new diagnostic capability (L-026).
 
-0. **P0 — V1 skill assessment.** The only vision capability still at flat zero that a game record can
-   support; V3 style has no operational definition yet and D1/D3 both need one. [[evaluation]]'s A2
-   (blind rating estimation) is free, large-N and self-validating — estimate strength with the rating
-   hidden and compare against the player's established one across the 84-player corpus. It is the
-   last big hole in *"assess the player"* before the system can be called complete.
+0. **~~P0 — V1 skill assessment.~~ Done 2026-08-06** → [[experiments.e13-strength-signal]]. Rating
+   estimated from blunder rate to **±103 points held-out**, reported as a range, with the rating
+   hidden from the estimator.
+
+0. **P0 — The context questions** ([[architecture.interaction]] step 2). Nothing asks the player what
+   they want or how much time they have, so a plan cannot be sized to them — every player gets the
+   same prescription regardless of whether they have two hours a week or ten. It is four questions
+   and the cheapest remaining hole in *"a complete functioning system"*. **V5 prioritisation is stuck
+   at 1 for the same reason**: without study time there is no per-unit-of-effort to reason about.
+
+0. **P1 — V3 style profiling**, the last capability at zero. It needs an operational definition
+   before it needs code — [[domain.coaching]] § 6 has the falsifiable version (measured tendency
+   versus measured performance) and nothing has been built on it.
 
 0. **P2 — Deferred by the author 2026-08-06: what to do about the 24-game user.** The swarm works on
    150-game histories and is silent for **47 %** of players at 24. That is a constraint on *who it

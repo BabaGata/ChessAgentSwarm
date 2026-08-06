@@ -37,6 +37,7 @@ chesscoach/
   sections/       the diagnostic agents — S1 tactical gaps, S2 decision process
   evaluation/     split-half replication, planted weaknesses, ground-truth scoring
   tactics.py      eight motif detectors, precision-gated by E04
+  strength.py     how strong the play looks, ±103 points, rating never shown to it
   confidence.py   when the swarm may assert a weakness
   peers.py        the rating-band reference population, leave-one-out
   orchestrator.py runs the agents, writes findings to the profile

@@ -39,6 +39,7 @@ from chesscoach.profile.models import (
     ProfileHistoryEntry,
     Provenance,
     StepOutcome,
+    Strength,
 )
 
 
@@ -51,13 +52,15 @@ from chesscoach.profile.models import (
 #   v3 -> v4  added GapTypeHypothesis.FRAGILE and four ProbeRecord audit fields
 #   v4 -> v5  added ProbeRecord.classifier_status, so "the model was not running"
 #             stops being indistinguishable from "the player was vague"
+#   v5 -> v6  added PlayerProfile.strength -- what the games say about the
+#             player's standard, as opposed to what they are filed under (V1)
 #
 # One honest consequence of admitting v2: its plan steps carry no `target_rate`,
 # so their progress signs describe a number the step does not hold and cannot be
 # checked. That is not corrupted data -- it is accurately "this plan predates
 # falsifiable targets", and the progress check already treats a missing target as
 # not measurable rather than as failure.
-READABLE_SCHEMA_VERSIONS = frozenset({2, 3, 4, SCHEMA_VERSION})
+READABLE_SCHEMA_VERSIONS = frozenset({2, 3, 4, 5, SCHEMA_VERSION})
 
 
 def to_dict(profile: PlayerProfile) -> dict[str, Any]:
@@ -78,6 +81,7 @@ def to_dict(profile: PlayerProfile) -> dict[str, Any]:
             "game_ids": list(profile.corpus.game_ids),
         },
         "context": _context_to_dict(profile.context),
+        "strength": _strength_to_dict(profile.strength),
         "findings": [_finding_to_dict(f) for f in profile.findings],
         "probes": [_probe_to_dict(p) for p in profile.probes],
         "plan": _plan_to_dict(profile.plan),
@@ -125,6 +129,7 @@ def from_dict(payload: dict[str, Any]) -> PlayerProfile:
             date_range=tuple(date_range) if date_range else None,
             game_ids=tuple(corpus.get("game_ids") or ()),
         ),
+        strength=_strength_from_dict(payload.get("strength")),
         findings=tuple(_finding_from_dict(f) for f in payload.get("findings") or ()),
         probes=tuple(_probe_from_dict(p) for p in payload.get("probes") or ()),
         context=_context_from_dict(payload.get("context")),
@@ -297,6 +302,22 @@ def _probe_to_dict(probe: ProbeRecord) -> dict[str, Any]:
 
 def _probe_from_dict(payload: dict[str, Any]) -> ProbeRecord:
     return ProbeRecord(**payload)
+
+
+def _strength_to_dict(strength: Strength | None) -> dict[str, Any] | None:
+    if strength is None:
+        return None
+    return {
+        "rating": strength.rating,
+        "typical_error": strength.typical_error,
+        "moves": strength.moves,
+        "method": strength.method,
+        "extrapolated": strength.extrapolated,
+    }
+
+
+def _strength_from_dict(payload: dict[str, Any] | None) -> Strength | None:
+    return Strength(**payload) if payload else None
 
 
 def _context_to_dict(context: PlayerContext | None) -> dict[str, Any] | None:

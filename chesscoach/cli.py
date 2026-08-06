@@ -674,6 +674,7 @@ def coach(args: argparse.Namespace) -> int:
         PlayerProfile(
             player=PlayerRef(source="lichess", username=args.player, band=args.band),
             corpus=corpus.to_ref(),
+            strength=_strength(observations, args.player),
         ),
         diagnose(context, default_agents()),
     )
@@ -689,6 +690,23 @@ def coach(args: argparse.Namespace) -> int:
     print("\n" + "=" * 68)
     print(f"profile  {out}")
     return 0
+
+
+def _strength(observations, username: str):
+    """V1, as a profile field rather than a finding — it is not a weakness."""
+    from chesscoach.profile.models import Strength
+    from chesscoach.strength import estimate
+
+    measured = estimate(observations, username)
+    if measured is None:
+        return None
+    return Strength(
+        rating=measured.rating,
+        typical_error=measured.typical_error,
+        moves=measured.moves,
+        method="blunder-rate-ols/e13",
+        extrapolated=measured.extrapolated,
+    )
 
 
 def _load_peers(args: argparse.Namespace):

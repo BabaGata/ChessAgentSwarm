@@ -28,6 +28,7 @@ An experiment with no consequence was not worth running.
 | E10 | can calculation quality be measured from game records? | done — **no**, and the section was not built as a result | [[experiments.e10-calculation-candidates]] |
 | E11 | which of S8's candidates survive both screening questions? | done — **one of four**, plus the first counter-example to L-024 | [[experiments.e11-attack-candidates]] |
 | E12 | is the coverage constraint breadth of sections or depth of corpus? | done — **depth, decisively**: 53 % → 83 % of players advised | [[experiments.e12-corpus-depth]] |
+| E13 | can playing strength be estimated from a player's own games? | done — **yes, ±103 points held-out** from blunder rate alone | [[experiments.e13-strength-signal]] |
 
 ## Conventions
 

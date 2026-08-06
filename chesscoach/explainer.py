@@ -82,7 +82,36 @@ def _header(profile: PlayerProfile) -> list[str]:
         f"Report for {profile.player.username}",
         f"{corpus.n_games} games{span}, rating band {profile.player.band or 'unspecified'}",
         "",
+    ] + _strength(profile)
+
+
+def _strength(profile: PlayerProfile) -> list[str]:
+    """What the moves suggest, always with the spread that qualifies it.
+
+    Never printed as a single number. Held-out error is ±103 points, so a bare
+    "you play like 1650" would claim a precision the measurement does not have,
+    and D1 is explicit that this project must not promise rating it cannot
+    evidence.
+    """
+    strength = profile.strength
+    if strength is None:
+        return []
+
+    low, high = strength.rating - strength.typical_error, strength.rating + strength.typical_error
+    lines = [
+        "HOW STRONG YOUR PLAY LOOKS",
+        "",
+        f"   About {strength.rating}, and most likely between {low} and {high}.",
+        f"   Judged from how often you blunder across {strength.moves} of your own moves,"
+        " and nothing else —",
+        "   not from your rating, which was never shown to it.",
     ]
+    if strength.extrapolated:
+        lines.append(
+            "   Your blunder rate is outside the range this was calibrated on, so treat"
+            " the number as a direction rather than a figure."
+        )
+    return lines + [""]
 
 
 def _reported(profile: PlayerProfile) -> list[Finding]:
