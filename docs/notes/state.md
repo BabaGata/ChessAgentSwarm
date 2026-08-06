@@ -143,7 +143,18 @@ This is what actually moved this cycle.
    *known* errors cost. Advice changed for **33 of 84 players**, claim kinds and sections unchanged,
    `advantage_error` 1 → 9 and `opening_disadvantage` 11 → 4. D5 2 → 3.
 
-0. **P0 — Evaluated 2026-08-06, awaiting the author's decision** →
+0. **P0 — The short-history plan is adopted and step 1 of 7 is built (2026-08-06)** →
+   [[design.short-history-prioritisation]] § The solution. Five layers — supply, estimation,
+   ranking, speaking, re-evaluation — sequenced so steps 1–4 need no new data and no architectural
+   commitment, and the cheap screen deciding step 5's shape comes before step 5.
+   **Step 1 done:** contaminated games excluded in `build_corpus` with the reasons counted and
+   disclosed in the report (schema v10). 583 games (5.1 %), 55 of 84 players affected, worst case
+   48.8 %. Coverage 70 → **69** advised and overlap 0.06 → **0.05**: it costs coverage and buys
+   correctness, and `advantage_error` fell from 9 advised to 7 — the predicted berserk bias,
+   confirmed, on the very claim E17 had flagged as over-selected.
+   **Next: step 2**, the blitz/rapid screen, which decides whether step 5 is one corpus or three.
+
+0. **Superseded — the evaluation that produced the plan above** →
    [[design.short-history-prioritisation]]. A proposal to set the minimum history at 20 games and
    rank by an importance score (rate + severity + recency + game length) instead of gating.
    Measured rather than argued: scoring **does** degrade gracefully where gating cliffs, severity is

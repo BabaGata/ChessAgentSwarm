@@ -363,8 +363,25 @@ def _not_assessed(profile: PlayerProfile) -> list[str]:
     return lines + [""]
 
 
+EXCLUSION_WORDING = {
+    "berserked": (
+        "{count} of your games were left out because you berserked them — with half "
+        "your clock, the mistakes are about the handicap rather than about you."
+    ),
+    "abandoned": "{count} of your games were left out because they were abandoned before a real game happened.",
+}
+
+
 def _limits(profile: PlayerProfile) -> list[str]:
     limits = list(LIMITS)
+
+    for reason, count in profile.corpus.excluded:
+        wording = EXCLUSION_WORDING.get(reason)
+        if wording and count:
+            # Said in the report rather than only in the corpus record: a player
+            # who brought 24 games and is being told about 21 can otherwise not
+            # tell that anything was dropped.
+            limits.insert(0, wording.format(count=count))
 
     if _priced_count(profile) > 1:
         # Two costs on the page invite the reader to add them, and the sum would

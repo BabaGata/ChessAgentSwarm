@@ -31,7 +31,7 @@ from enum import Enum
 # CorpusRef gains `game_ids`, so a later check knows which games are new. And
 # Plan gains `outcomes`, so a plan carries its own verdict -- a system that
 # quietly drops its failed predictions is unfalsifiable.
-SCHEMA_VERSION = 9
+SCHEMA_VERSION = 10
 
 _Z = 1.96  # 95% normal quantile, for Wilson intervals
 
@@ -413,6 +413,10 @@ class CorpusRef:
     date_range: tuple[str, str] | None = None
     # Recorded so a later progress check can tell which games are new.
     game_ids: tuple[str, ...] = ()
+    # (reason, count) for games the player brought that were not diagnosed
+    # (schema v10). Stored rather than silently dropped: a player analysed on 21
+    # of the 24 games they brought is owed the arithmetic.
+    excluded: tuple[tuple[str, int], ...] = ()
 
 
 @dataclass(frozen=True)

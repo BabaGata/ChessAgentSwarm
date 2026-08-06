@@ -32,9 +32,25 @@ class GameRecord:
     eco: str | None = None
     opening: str | None = None
     date: str | None = None
+    # How the game ended -- "Normal", "Time forfeit", "Abandoned". Read so the
+    # corpus can leave out games nobody actually played.
+    termination: str | None = None
+    # Arena chess: a player may halve their own clock for an extra point. It is
+    # recorded per side because only the player who did it was handicapped.
+    white_berserk: bool = False
+    black_berserk: bool = False
 
     def player_is_white(self, username: str) -> bool:
         return self.white.lower() == username.lower()
+
+    def berserked_by(self, username: str) -> bool:
+        """Did *this* player halve their own clock?
+
+        The opponent doing it does not contaminate the player's own decisions:
+        their clock was untouched, and dropping the game would discard evidence
+        to correct someone else's handicap.
+        """
+        return self.white_berserk if self.player_is_white(username) else self.black_berserk
 
     def involves(self, username: str) -> bool:
         return username.lower() in (self.white.lower(), self.black.lower())
@@ -95,7 +111,15 @@ def _to_record(game: chess.pgn.Game) -> GameRecord | None:
         eco=headers.get("ECO"),
         opening=headers.get("Opening"),
         date=headers.get("UTCDate") or headers.get("Date"),
+        termination=headers.get("Termination"),
+        white_berserk=_is_true(headers.get("WhiteBerserk")),
+        black_berserk=_is_true(headers.get("BlackBerserk")),
     )
+
+
+def _is_true(value: str | None) -> bool:
+    """Lichess writes `[WhiteBerserk "true"]`, and omits the tag otherwise."""
+    return (value or "").strip().lower() == "true"
 
 
 def _game_id(headers: chess.pgn.Headers) -> str:

@@ -67,7 +67,7 @@ from chesscoach.profile.models import (
 # checked. That is not corrupted data -- it is accurately "this plan predates
 # falsifiable targets", and the progress check already treats a missing target as
 # not measurable rather than as failure.
-READABLE_SCHEMA_VERSIONS = frozenset({2, 3, 4, 5, 6, 7, SCHEMA_VERSION})
+READABLE_SCHEMA_VERSIONS = frozenset({2, 3, 4, 5, 6, 7, 8, 9, SCHEMA_VERSION})
 
 
 def to_dict(profile: PlayerProfile) -> dict[str, Any]:
@@ -86,6 +86,7 @@ def to_dict(profile: PlayerProfile) -> dict[str, Any]:
             "time_controls": list(profile.corpus.time_controls),
             "date_range": list(profile.corpus.date_range) if profile.corpus.date_range else None,
             "game_ids": list(profile.corpus.game_ids),
+            "excluded": [[reason, count] for reason, count in profile.corpus.excluded],
         },
         "context": _context_to_dict(profile.context),
         "strength": _strength_to_dict(profile.strength),
@@ -144,6 +145,9 @@ def from_dict(payload: dict[str, Any]) -> PlayerProfile:
             time_controls=tuple(corpus.get("time_controls") or ()),
             date_range=tuple(date_range) if date_range else None,
             game_ids=tuple(corpus.get("game_ids") or ()),
+            # Absent before v10, where every game the player brought was
+            # analysed -- an empty tuple is the honest upgrade, not a guess.
+            excluded=tuple((reason, count) for reason, count in corpus.get("excluded") or ()),
         ),
         strength=_strength_from_dict(payload.get("strength")),
         style=tuple(StyleTendency(**t) for t in payload.get("style") or ()),

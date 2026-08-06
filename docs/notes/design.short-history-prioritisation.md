@@ -355,7 +355,7 @@ because it *spends* effective sample size where sample size is the binding const
 
 | # | Step | Done when | Risk |
 |--:|---|---|---|
-| 1 | Exclude berserked and abandoned games | E08 re-run; every prior measurement re-stated on clean data | none — pure subtraction |
+| 1 | ~~Exclude berserked and abandoned games~~ **done 2026-08-06** — see below | E08 re-run; every prior measurement re-stated on clean data | none — pure subtraction |
 | 2 | **Screen** the blitz/rapid gap (L-023, L-025): does it vary *between players*, or is it a constant of chess? | a number, and a decision between pooling with an offset and full stratification | the screen says "constant", and the automaticity hypothesis dies |
 | 3 | Peer-relative severity: rebuild the peer reference carrying cost per claim | concentration of the top claim falls well below 70 % (E17 re-run) | fixes a defect shipped in E15 |
 | 4 | Shrinkage replaces the gates | coverage at 24 games rises from 43 % silent; E08 D1/D2 unchanged or better | the prior is 84 players from one band |
@@ -366,6 +366,46 @@ because it *spends* effective sample size where sample size is the binding const
 Steps 1–4 need no new data and no architectural commitment. **Step 5 is the architectural one** and
 is the only place C1 is genuinely at risk, which is why step 2 comes before it: the screen is cheap
 and decides whether step 5 is one corpus or three.
+
+### Step 1 as built, 2026-08-06
+
+Exclusion lives in `build_corpus`, not at parse time, so the profile records **how many games were
+set aside and why** and the report tells the player (C5, schema v10).
+
+**The rule is per-side, which the first count was not.** Berserk is a property of one player: the
+earlier 8.0 % counted games where *either* side berserked. If the **opponent** berserked, the
+diagnosed player's clock was untouched and their decisions are still theirs, so the game stays.
+That refinement kept ~480 games that a naive rule would have discarded.
+
+| | |
+|---|--:|
+| games excluded | **583** of 11,418 (5.1 %) |
+| — berserked *by the diagnosed player* | 471 |
+| — abandoned | 112 |
+| players losing at least one game | **55 / 84** |
+| median share of a player's games lost | **1.3 %** |
+| **worst affected player** | **48.8 %** |
+
+Effect on what players are told, against the same run before cleaning:
+
+| | before | after |
+|---|--:|--:|
+| players advised | 70 | **69** |
+| mean pairwise overlap | 0.06 | **0.05** |
+| distinct claim kinds | 26 | 26 |
+| groundedness | 113/113 | 108/108 |
+| `advantage_error` advised | 9 | **7** |
+| `advantage_error` share of players (D2) | 13 % | **10 %** |
+
+**It costs coverage and buys correctness.** One player went silent and none gained. The
+`advantage_error` fall is the predicted bias confirmed: with half a clock a player throws away won
+positions, and those games were inflating exactly that claim — the one E17 had already flagged as
+over-selected.
+
+**Honest limitation:** for an arena-heavy player this makes the short-history problem *worse*. The
+worst affected player lost 48.8 % of their games. That is the correct call — half their record is
+half-clock chess and diagnosing it as ordinary play would be wrong — but it means step 1 pushes
+slightly against steps 4–6 rather than with them.
 
 ### What this does not fix
 
