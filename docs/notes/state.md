@@ -151,9 +151,17 @@ This is what actually moved this cycle.
    (6 % against 4 %) — but severity alone names the same weakness for **70 %** of players (E17), so
    **E15's raw-cost ranking needs to become peer-relative**; that is a defect in work shipped the
    same day. Recency has nothing to act on for the median player (a 20-game window spans 23 days)
-   and game length is inert on a corpus that is 74 % `600+0`. Cheapest real win found along the way:
-   **8.0 % of games are berserked and 2.2 % abandoned**, unfiltered, biasing exactly the
+   and starting clock is inert on a corpus that is 74 % `600+0`. Cheapest real win found along the
+   way: **8.0 % of games are berserked and 2.2 % abandoned**, unfiltered, biasing exactly the
    time-pressure signals under discussion.
+
+   **Follow-up, and the biggest finding of the two:** the starting-clock weight is inert *because
+   the fetch discards blitz*, and that filter costs a **median 82 % of a player's games** — measured
+   over the same 84 players, who are the rapid-inclined end of the band to begin with. The swarm
+   looks at roughly one game in five. That points at **admitting blitz stratified by time control**
+   — never blended, so E01's objection stands — as the largest available lever on the binding
+   constraint, with a cheap screen to run first: does a claim's blitz-versus-rapid gap vary *between
+   players*, or is it a constant of chess (L-023, L-025)?
 
 0. **P2 — Deferred by the author 2026-08-06: what to do about the 24-game user.** The swarm works on
    150-game histories and is silent for **43 %** of players at 24 (E16; E12 said 47 % on a different

@@ -81,26 +81,70 @@ One cost to state plainly: recency weighting **reduces effective sample size**, 
 statistically worse, not better, and buys accuracy about *who the player is now* with precision about
 *anything at all*.
 
-### Game length — do not adopt; use think-time instead
+### Starting clock — the weight is inert, and the reason it is inert is the real finding
 
-The corpus is already filtered to rated rapid and classical, and:
+*Clock at the start of the game — 10+0 against 3+2 — not number of moves.*
 
-- **73.9 % of games are `600+0`.** 121 distinct time controls exist, and one of them is three
-  quarters of the data.
-- **20 of 84 players play exactly one time control.** For them the weight is definitionally inert.
-- Median within-player spread is **2.7×** longest to shortest.
+**Within the corpus the weight would do almost nothing:**
 
-So the weight would be a no-op for a quarter of players and thin for most of the rest. It is also
-confounded: a player who occasionally plays 30+0 is playing a *different sample*, not the same games
-more slowly.
+- **73.9 % of games are `600+0`.** 121 distinct time controls exist and one of them is three quarters
+  of the data.
+- **20 of 84 players play exactly one time control.**
+- Median within-player spread is **2.7×**.
 
-**The intuition is right and there is a far better variable for it.** The argument is *"with less
-time, players make mistakes they would not otherwise make"* — that is a property of **the move**, not
-of the game. Seconds spent per move is present in **100 %** of games via `%clk`, is already extracted
-by the analysis core, and is already what S2 diagnoses on. Weighting a mistake by how long the player
-thought before making it captures the stated intuition with far more signal: a blunder after 45
-seconds of thought is evidence of a real gap; the same blunder after 2 seconds is evidence about
-attention.
+**But that is an artifact of the fetch, not a fact about players.** `PGN_PARAMS` requests
+`perfType=rapid,classical`, so blitz and bullet never arrive. A 3+2 game is blitz — 3×60 + 40×2 =
+260 s against Lichess's 480 s rapid threshold — and **the swarm has never seen one**. The proposal's
+intuition is therefore already implemented, and more strictly than proposed: fast games are not
+down-weighted, they are discarded.
+
+**What that costs, measured** (bulk `/api/users` over the same 84 players):
+
+| share of a player's record the swarm may look at | |
+|---|--:|
+| **median** | **18 %** |
+| under 25 % usable | 51 / 84 |
+| under 50 % usable | 69 / 84 |
+| over 90 % usable | 4 / 84 |
+
+**The filter discards roughly four games in five.** And the sample is biased *towards* rapid — these
+84 were selected for having ~150-game rapid histories — so a typical player in the band is likely
+worse, not better. Several have literally 0 % usable to two significant figures: one player has 45
+rapid games against 37,955 discarded.
+
+(The count of rapid games *available* per player is not reported here, because selection makes it
+meaningless — they were chosen for having many.)
+
+**This inverts the evaluation.** As a weight *inside* the rapid corpus, starting clock is inert. As
+the mechanism that would let the other 82 % of a player's chess be used at all, it is the most
+consequential idea in the proposal — and it lands directly on the binding constraint, since
+[[experiments.e16-shallow-corpus]] found the swarm goes quiet because events are too rare per corpus.
+
+**The objection is real and already recorded.** E01 and [[domain.signals]] found error rates are not
+comparable across time controls, which is why the filter exists. Blending blitz into a rapid-built
+peer reference would measure the clock rather than the player — L-019's mistake, where the control
+was as sample-dependent as the thing controlled.
+
+**Stratify rather than blend, then.** Build a peer reference per time-control class and compare
+blitz-to-blitz and rapid-to-rapid, never across. Then:
+
+- a claim that holds in **both** strata is a knowledge or skill gap;
+- a claim that holds **only in blitz** is a speed or automaticity finding, which is a different and
+  still useful thing to say;
+- a claim that holds **only in rapid** is close to nonsense and would flag a measurement bug.
+
+**And the gap between the strata may be a free diagnostic.** Under three minutes a player plays what
+is internalised; over ten they play what they can work out. The *difference* between a player's blitz
+and rapid rates on the same claim is therefore evidence about whether knowledge is present but not
+automatic — which is exactly the SKILL-versus-FRAGILE distinction the prober currently has to ask a
+player about. Untested, stated as a hypothesis, and cheap to test: compute both rates for the same
+claim on players who have both, and check whether the difference varies between players or is a
+constant of chess (the L-023 screen).
+
+**Think-time per move remains worth having and is a different lever.** Seconds spent on the move is
+in **100 %** of games via `%clk` and already extracted. It captures *"this player did not think here"*
+within a single time control; the starting clock captures *"this whole game gave nobody time to
+think"*. They are not substitutes.
 
 ### Score instead of gate — a false choice
 
@@ -225,6 +269,21 @@ From the live corpus (11,890 games), not from the documentation:
 
 `ECO` / `Opening` (96 %) are already used by S4.
 
+### G. Admit blitz, stratified by time control — the largest single lever found
+
+Raised by the starting-clock section above and recorded separately because it is not a weighting
+question. The swarm currently discards a median of **82 %** of a player's games.
+
+| | |
+|---|---|
+| **Pro** | Roughly **5× more evidence per player**, aimed squarely at E16's binding constraint — rarity of events per corpus |
+| **Pro** | Makes a 20-game rapid minimum far easier to meet, because it stops being rapid-only |
+| **Pro** | The blitz-versus-rapid gap may diagnose automaticity for free, where the prober now has to ask |
+| **Pro** | Nothing is blended, so the E01 objection is respected rather than overruled |
+| **Con** | A second peer reference per time-control class, and the engine cost of analysing ~5× the games — the first real challenge to C1/D9 in a while |
+| **Con** | Blitz mistakes are frequently not knowledge gaps, so claim kinds may need to declare which strata they are valid in |
+| **Con** | Bullet is probably still worthless and the boundary has to be drawn somewhere |
+
 ## Recommendation
 
 Not a decision — the author's call. In order of value per unit of work:
@@ -235,10 +294,14 @@ Not a decision — the author's call. In order of value per unit of work:
    dissolve most of the stated motivation for the 20-game minimum without changing any statistics.
 3. **Peer-relative severity.** E15's ranking is right in mechanism and too generic in quantity; this
    is the smallest change that fixes a defect already shipped.
-4. **A, shrinkage.** The principled answer to "flex with history length", and the one that makes a
-   20-game minimum defensible rather than aspirational.
-5. **Think-time weighting** in place of game-length weighting.
-6. Recency decay on calendar time — last, because it *costs* effective sample where sample is the
+4. **G, stratified blitz.** Biggest lever on the binding constraint and the biggest piece of work
+   here. Worth screening before building: does a claim's blitz rate and its rapid rate differ *per
+   player*, or by a constant (L-023, L-025)? That screen is cheap and decides whether G is one
+   corpus or two.
+5. **A, shrinkage.** The principled answer to "flex with history length", and what makes a 20-game
+   minimum defensible rather than aspirational.
+6. **Think-time weighting**, which is a different lever from starting clock rather than a substitute.
+7. Recency decay on calendar time — last, because it *costs* effective sample where sample is the
    binding constraint, and it only helps the quarter of players whose windows span months.
 
 **On the 20-game minimum specifically:** it is a defensible floor for *admission*, and it is not
