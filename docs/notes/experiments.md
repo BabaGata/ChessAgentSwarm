@@ -27,6 +27,7 @@ An experiment with no consequence was not worth running.
 | E09 | which of S6's candidate claims distinguish players at all? | done — **two of five**, and the split says what kind of claim works (L-024) | [[experiments.e09-square-candidates]] |
 | E10 | can calculation quality be measured from game records? | done — **no**, and the section was not built as a result | [[experiments.e10-calculation-candidates]] |
 | E11 | which of S8's candidates survive both screening questions? | done — **one of four**, plus the first counter-example to L-024 | [[experiments.e11-attack-candidates]] |
+| E12 | is the coverage constraint breadth of sections or depth of corpus? | done — **depth, decisively**: 53 % → 83 % of players advised | [[experiments.e12-corpus-depth]] |
 
 ## Conventions
 

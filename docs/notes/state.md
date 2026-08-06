@@ -52,7 +52,7 @@ need to know?"
 | D1 | V1 skill assessment | 0 | — | nothing built |
 | D2 | V2 knowledge assessment | **2** | **+2** | **the prober works end to end** — probe selection, move check, a local model classifying reasons at kappa 0.74 with zero false-ignorance (E07), `gap_type` written back. Not 3: the rubric's answer set is written and labelled by the author and the figure is in-sample, so it may not yet change a real player's finding |
 | D3 | V3 style profiling | 0 | — | operational definition drafted |
-| D4 | V4 gap detection | **4** | — | **seven sections, sixteen claim kinds.** Coverage 9 → **20 of 38** advised, overlap 0.24 → **0.06**. But coverage has now **stalled**: S8 added a claim kind and reached nobody new, and S7 was screened and not built at all. Not 5: **18 of 38 are still told nothing**, and the catalogue's remaining sections look thinner than it claims — three consecutive screens returned one viable claim, none, and one |
+| D4 | V4 gap detection | **5** | **+1** | **seven sections, and on 150-game histories the swarm advises 70 of 84 players (83 %)** with 27 distinct claim kinds and overlap 0.05 — louder, broader and more specific at once, and 113/113 grounded. The lever was corpus depth, not more sections: six sections moved coverage 24 → 53 %, depth alone moved it 53 → **83 %** (E12). Held back from a clean 5 by the honest caveat: **a real user brings 24 games, not 150**, and at that depth it is still 53 % |
 | D5 | V5 prioritisation | **1** | **+1** | arbiter built: picks one or two from a multi-part profile, deterministically, with stated reasons. No time estimates or expected-gain reasoning yet |
 | D6 | V6 path planning | **2** | **+2** | plans built and persisted, every step carrying a machine-checkable progress sign and a derived check point. No time estimates — D5 is unresolved and inventing them was refused |
 | D7 | V7 progress tracking | **3** | **+1** | **restored, on evidence this time.** 57 predictions from 84 players with ~150-game histories; the constant is cross-validated at 2 *and* 5 folds with a fold spread of 0.011, and a held-out false-positive rate of **15 %** is stated in the output. Not 4: the test's **power is unmeasured** — no coached cohort exists, so nothing shows a real improvement could clear the bar (**D8**) |
@@ -62,7 +62,7 @@ need to know?"
 | D11 | Process & documentation health | 4 | — | cycle held up under real work, including reversing its own mis-framed question |
 | D12 | V9 dialogue & active assessment | **2** | **+1** | **a session runs end to end** — `cli probe` asks, records verbatim, classifies locally, and writes probes to the profile. Answers are appended to a dataset as a by-product, so D10's corpus grows from use. Not 3: results do not change a diagnosis until D10 is resolved, and the context questions (interaction step 2) are unbuilt |
 
-**Total: 27 / 60.** It has gone 17 → 16 → 17 → 16 → 17 → 18 → 20 → 22 → 25 → 26 → 27, and every move was forced by a measurement:
+**Total: 28 / 60.** It has gone 17 → 16 → 17 → 16 → 17 → 18 → 20 → 22 → 25 → 26 → 27 → 28, and every move was forced by a measurement:
 down when E05 showed the verdicts meant nothing, up when the target rule was recalibrated, down
 again when cross-validation showed that calibration was itself optimistic, and up now that 57
 predictions can support what 13 could not, and again now that both sides of the progress check are
@@ -114,17 +114,24 @@ This is what actually moved this cycle.
    re-measurement confirmed 19 advised / 13 kinds / 0.08 overlap unchanged. The defect was real and
    *latent*: no section had a large enough denominator to trip it until S5 (L-023).
 
-0. **P0 — Stop adding sections; the returns have gone.** Three consecutive screens produced two
-   viable claims (S6), none (S7), and one that reached nobody new (S8). Coverage has been stuck at
-   **20 of 38** across two sections. The catalogue's Tier 2/3 is thinner than it claims, and the
-   screening discipline is what revealed that — cheaply, before each build.
+0. **~~P0 — Stop adding sections; rebuild on the deep histories.~~ Done 2026-08-06** →
+   [[experiments.e12-corpus-depth]]. Coverage **53 % → 83 %**, claim kinds 16 → 27, overlap 0.06 →
+   0.05. Six sections had moved coverage 24 → 53 %; depth alone moved it further, in 45 minutes of
+   mostly-cached engine time and with no new diagnostic capability (L-026).
 
-   **The binding constraint is not breadth, it is `FOCUS_DISTINCT_GAMES = 5` on 24-game corpora.**
-   S6's claims discriminate strongly (1.9–2.3) and produced three findings because the events occur
-   in fewer than five separate games for most players. The lever is **deeper corpora**: the E05 deep
-   histories (150 games each, 84 players) already exist, and the peer reference is still built from
-   24-game ones. Rebuilding on those is engine time already largely paid for in the cache, and it
-   should move coverage more than another section would.
+0. **P0 — What to do about the 24-game user.** The result above is also the project's most
+   uncomfortable: the swarm works well on 150-game histories and is silent for **47 %** of players at
+   24. That is a constraint on *who it can help*, not a solved problem, and it is now the honest
+   headline. Options, none costed yet: require a minimum history and say so; relax
+   `FOCUS_DISTINCT_GAMES` for shallow corpora and accept weaker claims; or pool a player's evidence
+   differently. **Deciding this is more valuable than another section.**
+
+0. **P1 — D12 reopens as a calibration question.** The magnitude floor was a safety net chosen to cut
+   nothing; on deep corpora the finding distribution is **truncated exactly at it** (minimum ratio
+   1.25, the floor). It now decides what the weakest advice sounds like — 11 advised findings sit
+   below 1.4, against 1 before. Left at 1.25 because the arbiter's two-priority cap filters the
+   weakest anyway, but the value should be revisited against real players rather than against the
+   finding distribution.
 
 0. **P1 — The binding constraint has moved.** It is no longer the peer comparison but
    `FOCUS_DISTINCT_GAMES = 5`: S6's claims are real and strongly discriminating (ratios 1.9–2.3) and

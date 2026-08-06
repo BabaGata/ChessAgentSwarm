@@ -142,6 +142,25 @@ The two facts are consistent and the combination is the lesson: a small referenc
 *estimating the population*, and inadequate for *judging a borderline player* — because the
 borderline is exactly where a small change in the reference decides the answer. See L-013.
 
+## Widened again to 84 players / 150-game histories (2026-08-06)
+
+Rebuilt from the E05 deep histories — **84 players, 11,890 games**, roughly **14× the evidence**
+→ [[experiments.e12-corpus-depth]]. It sharpened the qualifier above rather than overturning it.
+
+| | change from 38 → 84 players |
+|---|---|
+| the frequent claims (`long_think_error`, `early_error`, `concedes_weakness`, …) | **under ±5 %** |
+| **the infrequent ones** | `allowed_motif.backRankMate` **−53 %** · `missed_motif.capturingDefender` **+40 %** · `endgame_error.minor` **+33 %** · `allowed_motif.skewer` **−21 %** |
+
+**"Population rates converge fast" was measured on the frequent claims, and holds only for them.**
+Every section built since — S3 through S8 — leans on infrequent ones, where 38 players were *not*
+enough: a `backRankMate` peer rate that halves is the difference between a finding and silence for
+anyone near the boundary.
+
+So the reference is now built from the deep histories, and L-013's rule is restated with its scope:
+a small reference estimates a *common* rate well, a *rare* rate badly, and a borderline player not at
+all.
+
 ### Coverage, across 38 players
 
 | | |

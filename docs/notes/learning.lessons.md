@@ -24,6 +24,33 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 
 ---
 
+### L-026 — More evidence per player beat more things to look for, by a wide margin
+**Date:** 2026-08-06 · **Cycle / mission step:** M6 (deep rebuild) · **Class:** technique
+**Context:** Coverage had stalled at 20 of 38 players across two consecutive sections
+([[experiments.e12-corpus-depth]]).
+**Observation:** Six sections — S3 through S8, several cycles of design notes, screens, detectors and
+assessments — moved coverage from **24 % to 53 %** of players. Rebuilding the same swarm on 150-game
+histories instead of 24-game ones moved it from **53 % to 83 %**, in about forty-five minutes of
+mostly-cached engine time, with no new diagnostic capability whatsoever. Overlap *fell* at the same
+time (0.06 → 0.05), so the extra advice is more specific rather than more generic, and distinct claim
+kinds went 16 → 27 — claims that had never once cleared the confidence gate started clearing it.
+**Lesson:** When a system is silent, the instinct is that it does not know enough *kinds* of thing.
+Often it does not have enough *evidence* about the thing it already knows. The two are easy to
+confuse because adding a section feels like progress and is visible in the codebase, while adding
+games is invisible and feels like admin. The diagnostic is cheap and should be routine: **is the
+constraint the claim or the count?** Here it was `FOCUS_DISTINCT_GAMES = 5` — a weakness appearing in
+three of a player's games cannot clear a five-game floor however well a section measures it, and six
+sections' worth of work could not fix that because none of them changed the denominator.
+The uncomfortable corollary, which is the honest half: **a real user brings 24 games, not 150.** This
+did not make the swarm better at coaching; it made it better at coaching *people with long
+histories*. That is a constraint on who it can help, and it should be stated as one rather than
+banked as coverage.
+**Applied to:** the peer reference and working corpus both rebuilt on the deep histories, [[state]]'s
+P0 moved off "more sections", and D12 reopened as a calibration question now that the magnitude floor
+is what decides the weakest advice.
+
+---
+
 ### L-025 — A claim that varies may still be a proxy for one you already have
 **Date:** 2026-08-05 · **Cycle / mission step:** M4 (S7 screened, not built) · **Class:** technique
 **Context:** Screening S7's calculation candidates before building it
