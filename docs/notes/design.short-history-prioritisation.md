@@ -284,9 +284,104 @@ question. The swarm currently discards a median of **82 %** of a player's games.
 | **Con** | Blitz mistakes are frequently not knowledge gaps, so claim kinds may need to declare which strata they are valid in |
 | **Con** | Bullet is probably still worthless and the boundary has to be drawn somewhere |
 
+## The solution, as one design
+
+The options above are pieces. This is the shape they make together, and it follows from a single
+observation: **the swarm has been treating "how much evidence do I have" as a threshold question
+when it is an estimation question — while simultaneously discarding four fifths of the evidence
+available to it.** Those are independent failures, they multiply, and neither is fixed by weighting.
+
+Five layers, each independently useful (C6) and independently verifiable.
+
+### Layer 1 — Supply: stop discarding evidence
+
+| | |
+|---|---|
+| **Exclude contaminated games** | 8.0 % berserked, 2.2 % abandoned. Both are single tags |
+| **Admit blitz and bullet, stratified by speed class** | never blended; one peer reference per class |
+| **Accumulate the corpus across sessions** | diagnose on everything held, measure progress on the new window only |
+
+### Layer 2 — Estimation: a posterior, not a gate
+
+Replace the interval test and the distinct-game floors with **empirical-Bayes shrinkage**. The peer
+reference for the player's band *and speed class* supplies the prior; the player's own games update
+it, shrinking toward the population by an amount their sample size decides.
+
+Sample size then enters **continuously** rather than as a cliff, which is exactly the flexibility the
+proposal asked for — obtained without abandoning evidence discipline, because a 20-game claim simply
+shrinks most of the way back to the peer rate unless it is genuinely extreme. It is also the
+regression-to-the-mean correction (R-15) applied at estimation rather than patched afterwards.
+
+`MIN_GAMES_WITH_DATA` survives as a floor on speaking at all. `FOCUS_DISTINCT_GAMES`,
+`FOCUS_GAMES_WITH_DATA`, `FOCUS_MARGIN` and the interval test are subsumed.
+
+### Layer 3 — Ranking: peer-relative expected cost
+
+    score  =  posterior excess rate  ×  cost per instance  ×  opportunities per game
+
+*"The win probability you give away above what a player at your level gives away, per game."*
+
+This is the one quantity that answers both of E17's failures at once. It is severity-based, so it is
+**stable** at 20 games (65 %); it is peer-relative, so it should not name the same weakness for
+**70 %** of players the way raw cost does. Occurrence rate stays as an input to the estimate and
+stops being a ranking signal, which is what the measurement says it is worth.
+
+### Layer 4 — Speaking: graded, not gated
+
+Rank by the score, report one or two. Confidence becomes a property of the posterior rather than a
+tier lookup:
+
+- **established** — the credible interval excludes zero excess over peers;
+- **suspected** — the point estimate is high and the interval does not exclude zero;
+- **silent** — the posterior is indistinguishable from the prior, meaning the player's games say
+  nothing this population does not already say.
+
+E16 found every silent player holds a median of **7** patterns visible and unconfirmable. This is
+what lets those be spoken about without being overclaimed — and the progress check must then be able
+to test a *suspicion*, which is new work, not a free rename.
+
+### Layer 5 — Re-evaluation
+
+The original worry dissolves rather than being solved. **Diagnosis** runs on the accumulated corpus,
+so a returning player has *more* evidence than at first contact, not less. **Progress checking** runs
+on the new 20-game window alone and is a far easier statistical problem — one pre-specified claim
+against a pre-committed target, no search over 25 candidates — already measured at a 15 % held-out
+false-positive rate ([[experiments.e06-progress-power]]).
+
+Recency decay on calendar time applies to **diagnosis only**, with a long half-life, and is last
+because it *spends* effective sample size where sample size is the binding constraint.
+
+### Sequence, with what proves each step
+
+| # | Step | Done when | Risk |
+|--:|---|---|---|
+| 1 | Exclude berserked and abandoned games | E08 re-run; every prior measurement re-stated on clean data | none — pure subtraction |
+| 2 | **Screen** the blitz/rapid gap (L-023, L-025): does it vary *between players*, or is it a constant of chess? | a number, and a decision between pooling with an offset and full stratification | the screen says "constant", and the automaticity hypothesis dies |
+| 3 | Peer-relative severity: rebuild the peer reference carrying cost per claim | concentration of the top claim falls well below 70 % (E17 re-run) | fixes a defect shipped in E15 |
+| 4 | Shrinkage replaces the gates | coverage at 24 games rises from 43 % silent; E08 D1/D2 unchanged or better | the prior is 84 players from one band |
+| 5 | Admit blitz per step 2's answer | coverage at a **20-game rapid history** measured, not predicted | **C1/D9** — ~5× the games to analyse |
+| 6 | Accumulate the corpus across sessions | a second session on the same player uses both corpora | needs corpus identity the CLI lacks |
+| 7 | Recency decay on calendar time | drift measurable on the quarter of players whose windows span 90+ days | costs effective sample |
+
+Steps 1–4 need no new data and no architectural commitment. **Step 5 is the architectural one** and
+is the only place C1 is genuinely at risk, which is why step 2 comes before it: the screen is cheap
+and decides whether step 5 is one corpus or three.
+
+### What this does not fix
+
+- **E16's largest gate is rarity**, and shrinkage does not manufacture events. Only steps 1, 5 and 6
+  add events. If the screen kills step 5, claim pooling (option D) becomes necessary rather than
+  optional.
+- **Nothing here is about correctness.** Every measurement in E15–E17 is reproducibility and
+  specificity. That a stable, specific, peer-relative priority is the *right* thing to coach remains
+  untested, and success criterion 2 in [[vision]] is where that gets settled.
+- **A 20-game minimum is still a promise this design has to earn.** It becomes defensible at step 4
+  and measurable at step 5; until then it is an aspiration, and saying otherwise would be the same
+  overclaiming the gates exist to prevent.
+
 ## Recommendation
 
-Not a decision — the author's call. In order of value per unit of work:
+Ranked by value per unit of work, for reference — the sequence above is the actual plan:
 
 1. **F, data cleaning.** One in ten games is contaminating the exact signals under discussion. An
    afternoon, and it improves every measurement already taken.
