@@ -51,7 +51,7 @@ need to know?"
 |---|---|:--:|:--:|---|
 | D1 | V1 skill assessment | **3** | **+3** | **built and cross-validated** → [[experiments.e13-strength-signal]]. Rating estimated from blunder rate alone at **±103 points held-out** (60 % within 100, 89 % within 200) against a naive baseline of 162, with the rating hidden from the estimator. Reported as a range, refuses below 200 moves, admits extrapolation. Not 4: **the vision asks for strength *and its variance*** and this gives every player the same population-level error bar regardless of how much evidence they brought — known to be wrong |
 | D2 | V2 knowledge assessment | **2** | **+2** | **the prober works end to end** — probe selection, move check, a local model classifying reasons at kappa 0.74 with zero false-ignorance (E07), `gap_type` written back. Not 3: the rubric's answer set is written and labelled by the author and the figure is in-sample, so it may not yet change a real player's finding |
-| D3 | V3 style profiling | 0 | — | operational definition drafted |
+| D3 | V3 style profiling | **2** | **+2** | **built, and half of it deliberately refused** → [[experiments.e14-style-dimensions]]. One measured tendency — how much of a player's game is spent with the queens off — that varies between players (1.40) and is **independent of strength** (r = −0.069). Four of six candidates turned out to be strength wearing a style label. Not 3: **the performance half does not survive** — everyone errs ~20 % less with queens off and players barely differ, so the report says what a player tends to do and refuses to say whether it suits them |
 | D4 | V4 gap detection | **5** | **+1** | **seven sections, and on 150-game histories the swarm advises 70 of 84 players (83 %)** with 27 distinct claim kinds and overlap 0.05 — louder, broader and more specific at once, and 113/113 grounded. The lever was corpus depth, not more sections: six sections moved coverage 24 → 53 %, depth alone moved it 53 → **83 %** (E12). Held back from a clean 5 by the honest caveat: **a real user brings 24 games, not 150**, and at that depth it is still 53 % |
 | D5 | V5 prioritisation | **2** | **+1** | the arbiter picks one or two deterministically with stated reasons, and **the count is now sized to the player**: under `FOCUSED_EFFORT_HOURS` the plan carries one thing rather than two, from the context questions. Not 3: still no *expected-gain* reasoning — the swarm chooses by how unusual a weakness is, not by what fixing it would be worth, and D5's time estimates remain refused for want of evidence |
 | D6 | V6 path planning | **2** | **+2** | plans built and persisted, every step carrying a machine-checkable progress sign and a derived check point. No time estimates — D5 is unresolved and inventing them was refused |
@@ -62,8 +62,9 @@ need to know?"
 | D11 | Process & documentation health | 4 | — | cycle held up under real work, including reversing its own mis-framed question |
 | D12 | V9 dialogue & active assessment | **3** | **+1** | **the whole interaction exists**: four context questions before the analysis, probes after it, both feeding the profile, and probe results now reaching the diagnosis inside a coaching session. Answers accumulate as a dataset by-product. Not 4: the classifier's rubric is still the author's own (D10), and the dialogue is four fixed questions rather than anything adaptive |
 
-**Total: 34 / 60.** It has gone 17 → 16 → 17 → 16 → 17 → 18 → 20 → 22 → 25 → 26 → 27 → 28 → 29 → 32
-→ 34, and every move was forced by a measurement:
+**Total: 36 / 60**, and **no dimension is at zero for the first time.** It has gone 17 → 16 → 17 → 16
+→ 17 → 18 → 20 → 22 → 25 → 26 → 27 → 28 → 29 → 32 → 34 → 36, and every move was forced by a
+measurement:
 down when E05 showed the verdicts meant nothing, up when the target rule was recalibrated, down
 again when cross-validation showed that calibration was itself optimistic, and up now that 57
 predictions can support what 13 could not, and again now that both sides of the progress check are
@@ -128,9 +129,14 @@ This is what actually moved this cycle.
    skippable. Study time sizes the plan; the rest make the report honest, and `plays_elsewhere` turns
    an inherited blind spot into a stated one. D5 1 → 2, D12 2 → 3.
 
-0. **P1 — V3 style profiling**, the last capability at zero. It needs an operational definition
-   before it needs code — [[domain.coaching]] § 6 has the falsifiable version (measured tendency
-   versus measured performance) and nothing has been built on it.
+0. **~~P1 — V3 style profiling.~~ Done 2026-08-06** → [[experiments.e14-style-dimensions]]. One
+   tendency of six candidates; four were strength wearing a style label, and the performance half is
+   refused because players barely differ on it. **No scorecard dimension is at zero any more.**
+
+0. **P1 — Expected-gain reasoning (D5).** The swarm picks priorities by how *unusual* a weakness is,
+   not by what fixing it would be *worth*. That is the last structural gap in V5, and it is hard
+   honestly: it needs a link between closing a gap and gaining points, which E03 looked for in one
+   form and did not find. Worth attempting only with the link stated as the open question it is.
 
 0. **P2 — Deferred by the author 2026-08-06: what to do about the 24-game user.** The swarm works on
    150-game histories and is silent for **47 %** of players at 24. That is a constraint on *who it

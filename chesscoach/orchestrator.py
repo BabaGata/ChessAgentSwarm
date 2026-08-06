@@ -92,6 +92,7 @@ def default_agents() -> tuple[SectionAgent, ...]:
     from chesscoach.sections.s5_pawn_structure import S5PawnStructure
     from chesscoach.sections.s6_squares_and_files import S6SquaresAndFiles
     from chesscoach.sections.s8_attack_and_defence import S8AttackAndDefence
+    from chesscoach.style import S10StyleTendencies
 
     return (
         S2DecisionProcess(),
@@ -101,6 +102,11 @@ def default_agents() -> tuple[SectionAgent, ...]:
         S5PawnStructure(),
         S6SquaresAndFiles(),
         S8AttackAndDefence(),
+        # Measures and never asserts. It is here so its tendency reaches the peer
+        # reference -- a preference means nothing without a population to be
+        # unusual against -- and nowhere near the arbiter, because a tendency is
+        # not a weakness and must not compete for a player's two priorities.
+        S10StyleTendencies(),
     )
 
 

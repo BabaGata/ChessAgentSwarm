@@ -31,7 +31,7 @@ from enum import Enum
 # CorpusRef gains `game_ids`, so a later check knows which games are new. And
 # Plan gains `outcomes`, so a plan carries its own verdict -- a system that
 # quietly drops its failed predictions is unfalsifiable.
-SCHEMA_VERSION = 7
+SCHEMA_VERSION = 8
 
 _Z = 1.96  # 95% normal quantile, for Wilson intervals
 
@@ -433,6 +433,23 @@ class Strength:
 
 
 @dataclass(frozen=True)
+class StyleTendency:
+    """One measured way this player differs, with no judgement attached (v8).
+
+    Deliberately **not** a Finding. A tendency is not a weakness, and putting it
+    through the findings machinery would set it competing for one of the
+    player's two priorities — the wrong shape entirely for "this is how you
+    play". It also carries no verdict on whether the tendency *suits* them,
+    because E14 measured that and found players barely differ.
+    """
+
+    name: str
+    share: float
+    peer_share: float
+    moves: int
+
+
+@dataclass(frozen=True)
 class PlayerProfile:
     """The blackboard: everything the swarm knows about one player."""
 
@@ -443,6 +460,7 @@ class PlayerProfile:
     context: PlayerContext | None = None
     plan: Plan | None = None
     strength: Strength | None = None
+    style: tuple[StyleTendency, ...] = ()
     history: tuple[ProfileHistoryEntry, ...] = ()
     schema_version: int = SCHEMA_VERSION
 

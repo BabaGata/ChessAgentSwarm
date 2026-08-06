@@ -178,9 +178,19 @@ nonsense, so they should be attempted only once the evidence pipeline can hold t
 Requires knowing what the opponent intended and whether it was prevented. Engine-assisted proxy:
 did the move reduce the opponent's best available continuation? **Signal** low-medium · **Support** none
 
-### S10 · Style & repertoire fit
+### S10 · Style & repertoire fit — **half built** ([[experiments.e14-style-dimensions]])
 Measured tendency versus measured performance, per [[domain.coaching]] § 6 — the falsifiable version
 of "style". **Signal** medium · **Support** partial · Needs enough games per player.
+
+> **The tendency half is built; the fit half is refused.** Six candidates were screened against two
+> bars — vary between players, *and* be uncorrelated with rating. Four failed the second: captures,
+> checks, game length and material kept on all track strength at 0.47–0.56, so they are skill wearing
+> a style label (L-027). One survives: queenless share, spread 1.40 at r = −0.069.
+>
+> **Repertoire fit is not supported by the evidence.** Every player errs about 20 % less with the
+> queens off and they barely differ in how much, so *"this style suits you"* would be invented. `S10`
+> therefore measures and never asserts — it exists in the swarm only so its tendency reaches the peer
+> reference, and it emits no findings at all.
 
 ### S11 · Practical & psychological
 Tilt after losses, collapse in won positions, resilience. Partially visible in result sequences,

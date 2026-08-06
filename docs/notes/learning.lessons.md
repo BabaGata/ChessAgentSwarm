@@ -24,6 +24,31 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 
 ---
 
+### L-027 — A trait that rises with skill is not a trait
+**Date:** 2026-08-06 · **Cycle / mission step:** M6 (V3) · **Class:** technique
+**Context:** Screening six candidate style dimensions before building V3
+([[experiments.e14-style-dimensions]]).
+**Observation:** Four of the six correlated with rating at **0.47–0.56**: capture share, check share,
+game length, material kept on. Weaker players capture more, check more and finish sooner. Only two
+were independent of strength, and the best of them — how much of a game is spent with the queens off
+— sits at **r = −0.069**. A style profiler screening on variation alone would have passed all six and
+told a 1200 *"you are an aggressive attacking player"* while measuring *"you are weaker"*.
+**Lesson:** Whenever a system already measures one thing well, every *new* thing it measures must be
+checked against it, or the new measurement will quietly re-describe the old one in more flattering
+words. This is L-025 with the confound named: there the proxy was the error rate, here it is skill,
+and the general form is **"what does this correlate with that I already know?"** Style is unusually
+exposed to it because the vocabulary is evaluative — "aggressive", "solid", "impatient" — so a
+correlation with strength arrives pre-loaded with a personality story that sounds like insight.
+[[domain.coaching]] § 6 anticipated this and said to demand measured tendency *and* measured
+performance rather than a label; the screen is what turned that instruction into a test.
+The other half is worth as much: **the performance half failed.** Everyone errs about 20 % less with
+the queens off and players barely differ, so *"and it suits you"* is unsupportable. It shipped as a
+tendency with the verdict explicitly withheld, which is a smaller product and the only honest one.
+**Applied to:** `chesscoach/style.py` (one dimension of six, no fit verdict), the two-bar screen in
+[[experiments.e14-style-dimensions]], and D3 scored 2 rather than 3 for exactly the missing half.
+
+---
+
 ### L-026 — More evidence per player beat more things to look for, by a wide margin
 **Date:** 2026-08-06 · **Cycle / mission step:** M6 (deep rebuild) · **Class:** technique
 **Context:** Coverage had stalled at 20 of 38 players across two consecutive sections

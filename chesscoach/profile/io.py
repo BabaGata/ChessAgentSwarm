@@ -40,6 +40,7 @@ from chesscoach.profile.models import (
     Provenance,
     StepOutcome,
     Strength,
+    StyleTendency,
 )
 
 
@@ -56,13 +57,15 @@ from chesscoach.profile.models import (
 #             player's standard, as opposed to what they are filed under (V1)
 #   v6 -> v7  added PlayerContext.already_tried and .plays_elsewhere, the two
 #             context questions the schema did not have a home for
+#   v7 -> v8  added PlayerProfile.style -- measured tendencies, which are not
+#             findings and must not compete for a player's two priorities (V3)
 #
 # One honest consequence of admitting v2: its plan steps carry no `target_rate`,
 # so their progress signs describe a number the step does not hold and cannot be
 # checked. That is not corrupted data -- it is accurately "this plan predates
 # falsifiable targets", and the progress check already treats a missing target as
 # not measurable rather than as failure.
-READABLE_SCHEMA_VERSIONS = frozenset({2, 3, 4, 5, 6, SCHEMA_VERSION})
+READABLE_SCHEMA_VERSIONS = frozenset({2, 3, 4, 5, 6, 7, SCHEMA_VERSION})
 
 
 def to_dict(profile: PlayerProfile) -> dict[str, Any]:
@@ -84,6 +87,15 @@ def to_dict(profile: PlayerProfile) -> dict[str, Any]:
         },
         "context": _context_to_dict(profile.context),
         "strength": _strength_to_dict(profile.strength),
+        "style": [
+            {
+                "name": t.name,
+                "share": t.share,
+                "peer_share": t.peer_share,
+                "moves": t.moves,
+            }
+            for t in profile.style
+        ],
         "findings": [_finding_to_dict(f) for f in profile.findings],
         "probes": [_probe_to_dict(p) for p in profile.probes],
         "plan": _plan_to_dict(profile.plan),
@@ -132,6 +144,7 @@ def from_dict(payload: dict[str, Any]) -> PlayerProfile:
             game_ids=tuple(corpus.get("game_ids") or ()),
         ),
         strength=_strength_from_dict(payload.get("strength")),
+        style=tuple(StyleTendency(**t) for t in payload.get("style") or ()),
         findings=tuple(_finding_from_dict(f) for f in payload.get("findings") or ()),
         probes=tuple(_probe_from_dict(p) for p in payload.get("probes") or ()),
         context=_context_from_dict(payload.get("context")),

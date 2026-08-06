@@ -38,6 +38,7 @@ chesscoach/
   evaluation/     split-half replication, planted weaknesses, ground-truth scoring
   tactics.py      eight motif detectors, precision-gated by E04
   strength.py     how strong the play looks, ±103 points, rating never shown to it
+  style.py        how they play, as distinct from how well — and no verdict on it
   context.py      the four questions games cannot answer; study time sizes the plan
   humaninput.py   cleaning what a person typed, before anything reads it
   confidence.py   when the swarm may assert a weakness
@@ -55,7 +56,7 @@ chesscoach/
                   build-peer-reference · make-eval-set · check-eval-set · score-agent
 experiments/      e01–e07: the measurements that shaped the design, including
                   the negative ones
-tests/            668 tests
+tests/            688 tests
 ```
 
 The loop runs end to end in **one command**: fetch → analyse → diagnose → prioritise → ask → plan
@@ -107,7 +108,7 @@ The second command verifies the planted flaw is actually visible to the analysis
 anything is scored against it. A fixture nobody has checked is not a test.
 
 ```bash
-python -m pytest                              # 668 tests
+python -m pytest                              # 688 tests
 python -m pytest --cov=chesscoach             # 82% coverage
 ```
 

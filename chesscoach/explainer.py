@@ -70,6 +70,7 @@ def render(profile: PlayerProfile) -> str:
     return "\n".join(
         _header(profile)
         + _what_you_said(profile)
+        + _how_you_play(profile)
         + _findings_section(profile)
         + _plan_section(profile)
         + _not_assessed(profile)
@@ -144,6 +145,52 @@ def _strength(profile: PlayerProfile) -> list[str]:
             " the number as a direction rather than a figure."
         )
     return lines + [""]
+
+
+TENDENCY_PHRASING = {
+    "plays_queenless": "spend {share:.0%} of your moves with the queens off, against {peer:.0%}"
+    " for players at your level",
+}
+
+
+def _how_you_play(profile: PlayerProfile) -> list[str]:
+    """Tendencies, stated flatly and with no verdict attached.
+
+    Kept away from WHAT STANDS OUT on purpose: those are weaknesses with a plan
+    behind them, and this is not one. **It also stops short of saying whether the
+    tendency suits the player**, which is the half a reader most wants — E14
+    measured it and found every player errs about 20 % less with the queens off,
+    differing by too little to tell one from another. Saying "and it suits you"
+    would be the personality label domain.coaching § 6 warns against.
+    """
+    notable = [t for t in profile.style if _notable(t)]
+    if not notable:
+        return []
+
+    lines = ["HOW YOU PLAY", ""]
+    for tendency in notable:
+        template = TENDENCY_PHRASING.get(tendency.name)
+        if template is None:
+            continue
+        lines.append(
+            "   You " + template.format(share=tendency.share, peer=tendency.peer_share) + "."
+        )
+    return lines + [
+        "",
+        "   That is a preference, not a strength or a weakness. Nothing here says whether",
+        "   it suits you — players differ in what they steer towards and barely differ in",
+        "   how much it helps them, so any answer would be invented.",
+        "",
+    ]
+
+
+def _notable(tendency) -> bool:
+    from chesscoach.style import NOTABLE_RATIO
+
+    if not tendency.peer_share:
+        return False
+    ratio = tendency.share / tendency.peer_share
+    return ratio >= NOTABLE_RATIO or ratio <= 1 / NOTABLE_RATIO
 
 
 def _reported(profile: PlayerProfile) -> list[Finding]:
