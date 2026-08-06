@@ -30,27 +30,38 @@ RATE_LIMIT_BACKOFF_S = 60
 MAX_RETRIES = 3
 REQUEST_TIMEOUT_S = 120
 
-PGN_PARAMS = (
-    "perfType=rapid,classical"
-    "&rated=true"
-    "&clocks=true"
-    "&opening=true"
-    "&division=true"
-)
+# What the swarm diagnoses on by default. Bullet and blitz are excluded because
+# error rates are not comparable across time controls (E01, `domain.signals`) and
+# a blended profile measures the clock rather than the player.
+#
+# That default costs a **median 82 %** of a player's games, which is why the
+# parameter exists at all: E19 screens whether the excluded speeds can be
+# admitted as their own stratum rather than blended or discarded.
+DIAGNOSTIC_PERF_TYPES = ("rapid", "classical")
+
+PGN_PARAMS = "rated=true&clocks=true&opening=true&division=true"
+
+
+def _params(perf_types: tuple[str, ...]) -> str:
+    return f"perfType={','.join(perf_types)}&{PGN_PARAMS}"
 
 
 class LichessUnavailable(RuntimeError):
     """The API could not be reached, or refused. Distinct from "no games"."""
 
 
-def fetch_games_pgn(username: str, max_games: int) -> str:
-    """A player's most recent rated rapid and classical games, as PGN.
+def fetch_games_pgn(
+    username: str, max_games: int, perf_types: tuple[str, ...] = DIAGNOSTIC_PERF_TYPES
+) -> str:
+    """A player's most recent rated games at the given speeds, as PGN.
 
-    Bullet and blitz are excluded deliberately: E01 and `domain.signals` both
-    found that error rates are not comparable across time controls, and a
-    profile mixing them measures the clock rather than the player.
+    The default is what the swarm diagnoses on; anything else is a caller
+    deliberately asking for a different stratum, never a blend. Mixing speeds
+    into one corpus is the thing `DIAGNOSTIC_PERF_TYPES` exists to prevent.
     """
-    url = f"{API}/games/user/{username}?max={max_games}&{PGN_PARAMS}"
+    if not perf_types:
+        raise ValueError("at least one perf type is required")
+    url = f"{API}/games/user/{username}?max={max_games}&{_params(perf_types)}"
     return _get(url, accept="application/x-chess-pgn").decode("utf-8", errors="replace")
 
 

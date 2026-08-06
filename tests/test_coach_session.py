@@ -179,6 +179,29 @@ class TestFetching:
         assert "max=25" in seen["url"]
         assert "clocks=true" in seen["url"]
 
+    def test_another_speed_can_be_asked_for_deliberately(self, monkeypatch):
+        # E19 needs blitz as its own stratum. Asking is allowed; blending is
+        # what the default exists to prevent, and that is the caller's choice
+        # to make explicitly rather than by omission.
+        seen = {}
+
+        monkeypatch.setattr(
+            "chesscoach.ingest.lichess._get",
+            lambda url, accept="application/json": (seen.update(url=url), b"")[1],
+        )
+        fetch_games_pgn("alice", 25, perf_types=("blitz",))
+
+        assert "perfType=blitz" in seen["url"]
+        assert "clocks=true" in seen["url"]
+
+    def test_asking_for_no_speed_at_all_is_refused(self, monkeypatch):
+        # An empty tuple would silently fetch every speed there is, which is the
+        # one thing this parameter must never do by accident.
+        import pytest
+
+        with pytest.raises(ValueError):
+            fetch_games_pgn("alice", 25, perf_types=())
+
 
 class TestTheCommandRefusesToGuess:
     def test_without_a_reference_population_it_stops(self, capsys):
