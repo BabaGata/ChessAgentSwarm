@@ -597,6 +597,11 @@ def build_parser() -> argparse.ArgumentParser:
     session.add_argument("--probe", action="store_true", help="ask about the shortlist (V9)")
     session.add_argument("--model", default=None, help="ollama model for reading probe answers")
     session.add_argument("--collect", default=None, help="append probe answers to this JSONL")
+    session.add_argument(
+        "--no-questions",
+        action="store_true",
+        help="skip the four context questions (they size the plan, so the default is to ask)",
+    )
     session.set_defaults(handler=coach)
 
     report = subcommands.add_parser("report", help="render a profile for a person to read")
@@ -659,6 +664,11 @@ def coach(args: argparse.Namespace) -> int:
     if peers is None:
         return 1
 
+    # Asked before the engine runs, not after. Analysis takes minutes, and
+    # someone who has just answered four questions waits more willingly than
+    # someone who has been watching a progress bar.
+    player_context = None if args.no_questions else ask_context()
+
     with engine_session(args.engine, args.depth, args.cache) as session:
         print(f"engine   {session.analyser.engine_name}\nanalysing {corpus.n_games} games...",
               flush=True)
@@ -675,6 +685,7 @@ def coach(args: argparse.Namespace) -> int:
             player=PlayerRef(source="lichess", username=args.player, band=args.band),
             corpus=corpus.to_ref(),
             strength=_strength(observations, args.player),
+            context=player_context,
         ),
         diagnose(context, default_agents()),
     )
@@ -730,9 +741,23 @@ def _load_peers(args: argparse.Namespace):
     return peers
 
 
+def ask_context():
+    """Step 2 of the session flow, wrapped so the CLI stays thin."""
+    from chesscoach.context import ask
+
+    return ask()
+
+
 def _planned(profile, peers, args):
-    """Attach a plan, if anything reached the confidence to be worth one."""
-    selection = select_priorities(profile.findings)
+    """Attach a plan, sized to the time the player said they have.
+
+    This is the whole reason the context questions exist: two priorities for
+    someone with half an hour a week is a plan that fails and teaches them the
+    system does not know them (architecture.interaction step 2).
+    """
+    from chesscoach.context import priorities_for
+
+    selection = select_priorities(profile.findings, limit=priorities_for(profile.context))
     return replace(
         profile,
         plan=build_plan(

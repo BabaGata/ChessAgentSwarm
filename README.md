@@ -38,6 +38,8 @@ chesscoach/
   evaluation/     split-half replication, planted weaknesses, ground-truth scoring
   tactics.py      eight motif detectors, precision-gated by E04
   strength.py     how strong the play looks, ±103 points, rating never shown to it
+  context.py      the four questions games cannot answer; study time sizes the plan
+  humaninput.py   cleaning what a person typed, before anything reads it
   confidence.py   when the swarm may assert a weakness
   peers.py        the rating-band reference population, leave-one-out
   orchestrator.py runs the agents, writes findings to the profile
@@ -53,7 +55,7 @@ chesscoach/
                   build-peer-reference · make-eval-set · check-eval-set · score-agent
 experiments/      e01–e07: the measurements that shaped the design, including
                   the negative ones
-tests/            617 tests
+tests/            668 tests
 ```
 
 The loop runs end to end in **one command**: fetch → analyse → diagnose → prioritise → ask → plan
@@ -76,8 +78,10 @@ python -m chesscoach.cli coach \
     --cache eval-cache.db
 ```
 
-That is the whole thing: it fetches the player's rated rapid and classical games,
-analyses them, diagnoses, picks one or two priorities, plans, and prints a report.
+That is the whole thing: it asks four questions games cannot answer, fetches the
+player's rated rapid and classical games, analyses them, diagnoses, picks one or
+two priorities, plans, and prints a report. Say you have an hour a week and the
+plan comes back with one thing in it, not two.
 **7.6 seconds for 60 games on a warm cache**; about two minutes for a player the
 engine has never seen. Zero cash.
 
@@ -103,7 +107,7 @@ The second command verifies the planted flaw is actually visible to the analysis
 anything is scored against it. A fixture nobody has checked is not a test.
 
 ```bash
-python -m pytest                              # 617 tests
+python -m pytest                              # 668 tests
 python -m pytest --cov=chesscoach             # 82% coverage
 ```
 

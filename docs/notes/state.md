@@ -53,17 +53,17 @@ need to know?"
 | D2 | V2 knowledge assessment | **2** | **+2** | **the prober works end to end** — probe selection, move check, a local model classifying reasons at kappa 0.74 with zero false-ignorance (E07), `gap_type` written back. Not 3: the rubric's answer set is written and labelled by the author and the figure is in-sample, so it may not yet change a real player's finding |
 | D3 | V3 style profiling | 0 | — | operational definition drafted |
 | D4 | V4 gap detection | **5** | **+1** | **seven sections, and on 150-game histories the swarm advises 70 of 84 players (83 %)** with 27 distinct claim kinds and overlap 0.05 — louder, broader and more specific at once, and 113/113 grounded. The lever was corpus depth, not more sections: six sections moved coverage 24 → 53 %, depth alone moved it 53 → **83 %** (E12). Held back from a clean 5 by the honest caveat: **a real user brings 24 games, not 150**, and at that depth it is still 53 % |
-| D5 | V5 prioritisation | **1** | **+1** | arbiter built: picks one or two from a multi-part profile, deterministically, with stated reasons. No time estimates or expected-gain reasoning yet |
+| D5 | V5 prioritisation | **2** | **+1** | the arbiter picks one or two deterministically with stated reasons, and **the count is now sized to the player**: under `FOCUSED_EFFORT_HOURS` the plan carries one thing rather than two, from the context questions. Not 3: still no *expected-gain* reasoning — the swarm chooses by how unusual a weakness is, not by what fixing it would be worth, and D5's time estimates remain refused for want of evidence |
 | D6 | V6 path planning | **2** | **+2** | plans built and persisted, every step carrying a machine-checkable progress sign and a derived check point. No time estimates — D5 is unresolved and inventing them was refused |
 | D7 | V7 progress tracking | **3** | **+1** | **restored, on evidence this time.** 57 predictions from 84 players with ~150-game histories; the constant is cross-validated at 2 *and* 5 folds with a fold spread of 0.011, and a held-out false-positive rate of **15 %** is stated in the output. Not 4: the test's **power is unmeasured** — no coached cohort exists, so nothing shows a real improvement could clear the bar (**D8**) |
 | D8 | V8 explainability | **3** | — | the report exists, is deterministic, and is **13/13 grounded** on real players (E08 D4). **The 3 claimed last cycle was not earned**: reading a real report found Lichess theme keys in player-facing prose — *"a `trappedPiece` punishes you"* — which the groundedness metric scored 100 % on, because it only checks citation. Fixed (`phrasing.subject_name`), so the score now stands. Not 4: the report states measurements without explaining *why these one or two* were chosen over the rest, and the arbiter's reasoning is invisible |
 | D9 | C1–C4 cost profile | **3** | **+1** | **a whole session has now been run end to end and timed.** `cli coach` takes a username and produces a report: **7.6 s** for 60 games on a warm cache, and for a fresh player the cost is dominated by engine analysis — E01's 89 s per 50 games at depth 15, so roughly two minutes. Probes add ~2.7 s each (E07). **Zero cash throughout.** Not 4: the figure is one player on one machine, and no cold-cache session has been timed cleanly |
 | D10 | Evaluation capability | **4** | **+1** | both sides of the progress check measured (E05, E06), and the **anti-pattern family D is now built and run** (E08) — the metrics that were designed cycles ago and blocked on a language layer. They caught a self-flattering score and nearly caused a misreading, which is what an evaluation capability is for |
 | D11 | Process & documentation health | 4 | — | cycle held up under real work, including reversing its own mis-framed question |
-| D12 | V9 dialogue & active assessment | **2** | **+1** | **a session runs end to end** — `cli probe` asks, records verbatim, classifies locally, and writes probes to the profile. Answers are appended to a dataset as a by-product, so D10's corpus grows from use. Not 3: results do not change a diagnosis until D10 is resolved, and the context questions (interaction step 2) are unbuilt |
+| D12 | V9 dialogue & active assessment | **3** | **+1** | **the whole interaction exists**: four context questions before the analysis, probes after it, both feeding the profile, and probe results now reaching the diagnosis inside a coaching session. Answers accumulate as a dataset by-product. Not 4: the classifier's rubric is still the author's own (D10), and the dialogue is four fixed questions rather than anything adaptive |
 
-**Total: 32 / 60.** It has gone 17 → 16 → 17 → 16 → 17 → 18 → 20 → 22 → 25 → 26 → 27 → 28 → 29 → 32,
-and every move was forced by a measurement:
+**Total: 34 / 60.** It has gone 17 → 16 → 17 → 16 → 17 → 18 → 20 → 22 → 25 → 26 → 27 → 28 → 29 → 32
+→ 34, and every move was forced by a measurement:
 down when E05 showed the verdicts meant nothing, up when the target rule was recalibrated, down
 again when cross-validation showed that calibration was itself optimistic, and up now that 57
 predictions can support what 13 could not, and again now that both sides of the progress check are
@@ -124,11 +124,9 @@ This is what actually moved this cycle.
    estimated from blunder rate to **±103 points held-out**, reported as a range, with the rating
    hidden from the estimator.
 
-0. **P0 — The context questions** ([[architecture.interaction]] step 2). Nothing asks the player what
-   they want or how much time they have, so a plan cannot be sized to them — every player gets the
-   same prescription regardless of whether they have two hours a week or ten. It is four questions
-   and the cheapest remaining hole in *"a complete functioning system"*. **V5 prioritisation is stuck
-   at 1 for the same reason**: without study time there is no per-unit-of-effort to reason about.
+0. **~~P0 — The context questions.~~ Done 2026-08-06.** Four questions before the analysis, every one
+   skippable. Study time sizes the plan; the rest make the report honest, and `plays_elsewhere` turns
+   an inherited blind spot into a stated one. D5 1 → 2, D12 2 → 3.
 
 0. **P1 — V3 style profiling**, the last capability at zero. It needs an operational definition
    before it needs code — [[domain.coaching]] § 6 has the falsifiable version (measured tendency

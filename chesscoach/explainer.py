@@ -23,6 +23,7 @@ The constraints in § 7 are enforced here rather than trusted:
 
 from __future__ import annotations
 
+from chesscoach.context import FOCUSED_EFFORT_HOURS
 from chesscoach.phrasing import move_number, quantity, statement
 from chesscoach.profile.models import (
     DeterminedBy,
@@ -68,11 +69,42 @@ def render(profile: PlayerProfile) -> str:
     """The whole report, as text."""
     return "\n".join(
         _header(profile)
+        + _what_you_said(profile)
         + _findings_section(profile)
         + _plan_section(profile)
         + _not_assessed(profile)
-        + _limits()
+        + _limits(profile)
     )
+
+
+def _what_you_said(profile: PlayerProfile) -> list[str]:
+    """Read the player's own answers back to them.
+
+    Not decoration. A report that never mentions what someone just told it reads
+    as a form that was filled in and filed, and the point of asking was to plan
+    for *this* person. Their words are quoted rather than paraphrased — nothing
+    here interprets them, and pretending otherwise would need a model that could
+    misread a goal and then quietly plan for the wrong person.
+    """
+    context = profile.context
+    if context is None:
+        return []
+
+    lines = ["WHAT YOU TOLD ME", ""]
+    if context.goals:
+        lines.append(f"   You want    {context.goals}")
+    if context.weekly_study_hours is not None:
+        hours = context.weekly_study_hours
+        sized = (
+            "so this plan has one thing in it, not two"
+            if hours < FOCUSED_EFFORT_HOURS
+            else "enough for two things at once"
+        )
+        unit = "hour" if hours == 1 else "hours"
+        lines.append(f"   Time        {hours:g} {unit} a week — {sized}")
+    if context.already_tried:
+        lines.append(f"   Tried       {context.already_tried}")
+    return lines + [""]
 
 
 def _header(profile: PlayerProfile) -> list[str]:
@@ -264,5 +296,16 @@ def _not_assessed(profile: PlayerProfile) -> list[str]:
     return lines + [""]
 
 
-def _limits() -> list[str]:
-    return ["WHAT THIS DOES NOT KNOW", ""] + [f" - {limit}" for limit in LIMITS]
+def _limits(profile: PlayerProfile) -> list[str]:
+    limits = list(LIMITS)
+    elsewhere = profile.context.plays_elsewhere if profile.context else None
+    if elsewhere:
+        # The player named a blind spot. Repeating it here is the difference
+        # between a limitation they stated and one the report has quietly
+        # inherited without saying so.
+        limits.insert(
+            0,
+            f"You said you also play here: {elsewhere}. None of those games are in "
+            "this, so anything that only happens there is invisible to all of it.",
+        )
+    return ["WHAT THIS DOES NOT KNOW", ""] + [f" - {limit}" for limit in limits]

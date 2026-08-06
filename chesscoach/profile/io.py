@@ -54,13 +54,15 @@ from chesscoach.profile.models import (
 #             stops being indistinguishable from "the player was vague"
 #   v5 -> v6  added PlayerProfile.strength -- what the games say about the
 #             player's standard, as opposed to what they are filed under (V1)
+#   v6 -> v7  added PlayerContext.already_tried and .plays_elsewhere, the two
+#             context questions the schema did not have a home for
 #
 # One honest consequence of admitting v2: its plan steps carry no `target_rate`,
 # so their progress signs describe a number the step does not hold and cannot be
 # checked. That is not corrupted data -- it is accurately "this plan predates
 # falsifiable targets", and the progress check already treats a missing target as
 # not measurable rather than as failure.
-READABLE_SCHEMA_VERSIONS = frozenset({2, 3, 4, 5, SCHEMA_VERSION})
+READABLE_SCHEMA_VERSIONS = frozenset({2, 3, 4, 5, 6, SCHEMA_VERSION})
 
 
 def to_dict(profile: PlayerProfile) -> dict[str, Any]:
@@ -327,6 +329,8 @@ def _context_to_dict(context: PlayerContext | None) -> dict[str, Any] | None:
         "goals": context.goals,
         "weekly_study_hours": context.weekly_study_hours,
         "self_reported_weaknesses": list(context.self_reported_weaknesses),
+        "already_tried": context.already_tried,
+        "plays_elsewhere": context.plays_elsewhere,
     }
 
 
@@ -337,6 +341,8 @@ def _context_from_dict(payload: dict[str, Any] | None) -> PlayerContext | None:
         goals=payload.get("goals"),
         weekly_study_hours=payload.get("weekly_study_hours"),
         self_reported_weaknesses=tuple(payload.get("self_reported_weaknesses") or ()),
+        already_tried=payload.get("already_tried"),
+        plays_elsewhere=payload.get("plays_elsewhere"),
     )
 
 

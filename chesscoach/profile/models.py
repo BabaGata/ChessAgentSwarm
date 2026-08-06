@@ -31,7 +31,7 @@ from enum import Enum
 # CorpusRef gains `game_ids`, so a later check knows which games are new. And
 # Plan gains `outcomes`, so a plan carries its own verdict -- a system that
 # quietly drops its failed predictions is unfalsifiable.
-SCHEMA_VERSION = 6
+SCHEMA_VERSION = 7
 
 _Z = 1.96  # 95% normal quantile, for Wilson intervals
 
@@ -394,11 +394,19 @@ class CorpusRef:
 
 @dataclass(frozen=True)
 class PlayerContext:
-    """What only the player can tell us. See architecture.interaction step 2."""
+    """What only the player can tell us. See architecture.interaction step 2.
+
+    Four things no amount of analysis reveals (domain.signals § 3). Only
+    `weekly_study_hours` changes what the swarm decides; the rest change what the
+    report can honestly say, which is a smaller job and still worth doing —
+    `plays_elsewhere` in particular turns a silent blind spot into a stated one.
+    """
 
     goals: str | None = None
     weekly_study_hours: float | None = None
     self_reported_weaknesses: tuple[str, ...] = ()
+    already_tried: str | None = None
+    plays_elsewhere: str | None = None
 
 
 @dataclass(frozen=True)

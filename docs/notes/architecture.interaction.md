@@ -49,6 +49,22 @@ they have already tried, and whether they play anywhere the games are not visibl
 The weekly-time answer is load-bearing: a plan that assumes six hours for a player with two is a
 plan that fails and teaches the player the system does not know them.
 
+> **Built** as `chesscoach/context.py`, asked by `cli coach` **before** the engine runs — analysis
+> takes minutes, and someone who has just answered four questions waits more willingly than someone
+> watching a progress bar. Every question is skippable.
+>
+> **Only the time answer changes a decision**, and that is deliberate. Under
+> `FOCUSED_EFFORT_HOURS` the plan carries **one** priority instead of two. The threshold is a stated
+> convention rather than a measurement — nothing in this project links study hours to outcomes — and
+> it errs toward fewer, which is the direction § 4 of [[domain.coaching]] argues for anyway.
+>
+> **The other three change what the report can honestly say**, which is a smaller job and still worth
+> doing. Goals and what-was-already-tried are quoted back verbatim, never interpreted: reading them
+> would need a model, and a model that misread a goal would quietly plan for the wrong person.
+> **`plays_elsewhere` is the one that earns its place** — it turns a blind spot the report had
+> silently inherited into one it states: *"You said you also play over the board at your club. None
+> of those games are in this."*
+
 ## Step 5 — Probes
 
 The core mechanism. A probe presents a position and asks for a **move and the reason for it**.

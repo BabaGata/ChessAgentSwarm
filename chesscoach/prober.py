@@ -27,6 +27,7 @@ from typing import Protocol
 
 from chesscoach.arbiter import Priority
 from chesscoach.classifiers import ClassifierUnavailable, declines_to_answer
+from chesscoach.humaninput import clean
 from chesscoach.profile.models import (
     ClassifierStatus,
     DeterminedBy,
@@ -181,26 +182,18 @@ def _probe(finding: Finding, evidence: Evidence) -> Probe:
     )
 
 
-# Characters that carry no meaning and survive `str.strip()`, because Python
-# does not classify them as whitespace. A byte-order mark on the front of a
-# pasted or piped answer is invisible, and without this it turns a correct move
-# into a wrong one -- which manufactures a knowledge gap the player does not
-# have. Found exactly that way, in the first real probe session.
-INVISIBLE = "﻿​‌‍⁠"
-
-
 def _same_move(played: str, best: str) -> bool:
     """Tolerant of spacing, case and invisible characters; never of content.
 
     Deliberately not a chess-aware comparison: `better_move` and the answer are
     both notation for the same position, and a looser match would start
     accepting moves the engine did not name.
+
+    The invisible-character part is not hypothetical: a byte-order mark on a
+    pasted answer once turned a correct move into a knowledge gap the player did
+    not have (`chesscoach.humaninput`).
     """
-    return _normalise(played) == _normalise(best)
-
-
-def _normalise(move: str) -> str:
-    return move.strip(INVISIBLE + " \t\r\n").casefold()
+    return clean(played).casefold() == clean(best).casefold()
 
 
 def _classify(
