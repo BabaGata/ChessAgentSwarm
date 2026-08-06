@@ -580,6 +580,25 @@ def build_parser() -> argparse.ArgumentParser:
     progress.add_argument("--out", default=None, help="write the profile back with its outcomes")
     progress.set_defaults(handler=check_progress)
 
+    session = subcommands.add_parser(
+        "coach", help="one session: fetch a player's games and produce a coaching report"
+    )
+    session.add_argument("--player", required=True, help="a Lichess username")
+    session.add_argument("--engine", required=True)
+    session.add_argument("--peers", required=True, help="the reference population")
+    session.add_argument("--out", default=None, help="where to write the profile")
+    session.add_argument("--games", type=int, default=60, help="how many recent games to fetch")
+    session.add_argument("--pgn", default=None, help="use these games instead of fetching")
+    session.add_argument("--cache", default=None)
+    session.add_argument("--depth", type=int, default=DEFAULT_DEPTH)
+    session.add_argument("--workers", type=int, default=None)
+    session.add_argument("--band", default="1400-1800")
+    session.add_argument("--time-control", default="rapid")
+    session.add_argument("--probe", action="store_true", help="ask about the shortlist (V9)")
+    session.add_argument("--model", default=None, help="ollama model for reading probe answers")
+    session.add_argument("--collect", default=None, help="append probe answers to this JSONL")
+    session.set_defaults(handler=coach)
+
     report = subcommands.add_parser("report", help="render a profile for a person to read")
     report.add_argument("--profile", required=True)
     report.add_argument("--out", default=None, help="write to a file instead of the terminal")
@@ -604,6 +623,163 @@ def build_parser() -> argparse.ArgumentParser:
     probe.set_defaults(handler=run_probes)
 
     return parser
+
+
+def coach(args: argparse.Namespace) -> int:
+    """One coaching session, from a username to something a person can read.
+
+    Implements the session flow in architecture.interaction § 1. Every stage
+    already existed and was tested; what did not exist was a way to run them as
+    one thing, which meant "using the swarm" started with a script in an
+    experiments directory.
+    """
+    from chesscoach.explainer import render
+    from chesscoach.ingest.lichess import LichessUnavailable, fetch_games_pgn
+    from chesscoach.ingest.pgn import parse_pgn_text
+
+    print(f"player   {args.player}")
+    if args.pgn:
+        games = load_games(args.pgn)
+        print(f"games    {len(games)} from {args.pgn}")
+    else:
+        print(f"fetching up to {args.games} rated rapid/classical games...", flush=True)
+        try:
+            games = parse_pgn_text(fetch_games_pgn(args.player, args.games))
+        except LichessUnavailable as error:
+            print(f"could not fetch games: {error}")
+            return 1
+        print(f"games    {len(games)}")
+
+    corpus = build_corpus(args.player, games)
+    if corpus.n_games == 0:
+        print(f"no rated rapid or classical games found for {args.player!r}")
+        return 1
+
+    peers = _load_peers(args)
+    if peers is None:
+        return 1
+
+    with engine_session(args.engine, args.depth, args.cache) as session:
+        print(f"engine   {session.analyser.engine_name}\nanalysing {corpus.n_games} games...",
+              flush=True)
+        _prefetch(session, games, args)
+        observations = analyse_corpus(corpus, games, session.analyser)
+        provenance = session.provenance(corpus.corpus_id)
+
+    context = SectionContext(
+        observations, corpus, provenance,
+        band=args.band, time_control=args.time_control, peers=peers,
+    )
+    profile = apply_to_profile(
+        PlayerProfile(
+            player=PlayerRef(source="lichess", username=args.player, band=args.band),
+            corpus=corpus.to_ref(),
+        ),
+        diagnose(context, default_agents()),
+    )
+    profile = _planned(profile, peers, args)
+
+    if args.probe:
+        profile = _probe_interactively(profile, peers, args)
+
+    out = args.out or f"{args.player}-profile.json"
+    save_profile(profile, out)
+    print("\n" + "=" * 68 + "\n")
+    print(render(profile))
+    print("\n" + "=" * 68)
+    print(f"profile  {out}")
+    return 0
+
+
+def _load_peers(args: argparse.Namespace):
+    """The reference population, and the depth check that makes it comparable."""
+    from chesscoach.peers import PeerReference
+
+    if not args.peers:
+        print(
+            "no --peers given: without a reference population nothing can be called "
+            "unusual, and the swarm will stay silent. Build one with build-peer-reference."
+        )
+        return None
+
+    peers = PeerReference.load(args.peers)
+    if peers.depth != args.depth:
+        print(
+            f"peer reference was built at depth {peers.depth}, analysis is at {args.depth}; "
+            "rates are not comparable across depths (E01)"
+        )
+        return None
+    return peers
+
+
+def _planned(profile, peers, args):
+    """Attach a plan, if anything reached the confidence to be worth one."""
+    selection = select_priorities(profile.findings)
+    return replace(
+        profile,
+        plan=build_plan(
+            selection.priorities,
+            created=date.today().isoformat(),
+            peers=peers,
+            band=args.band,
+            time_control=args.time_control,
+            player=args.player,
+        ),
+    )
+
+
+def _probe_interactively(profile, peers, args):
+    """Ask about the shortlist, then re-plan in case a probe changed it."""
+    from chesscoach.session import (
+        Answer,
+        append_to_answer_set,
+        apply_probes,
+        probes_for,
+        record_answers,
+    )
+
+    probes = probes_for(profile)
+    if not probes:
+        print("\nnothing to probe: no prioritised finding carries a position to ask about")
+        return profile
+
+    classifier = None
+    if args.model:
+        from chesscoach.classifiers import OllamaClassifier
+
+        classifier = OllamaClassifier(model=args.model)
+
+    print(f"\n{len(probes)} position{'s' if len(probes) != 1 else ''}. Untimed — there is no "
+          "clock here, and a wrong answer is more useful than a rushed one.\n")
+
+    answers = []
+    for index, probe in enumerate(probes, start=1):
+        print(f"--- {index}/{len(probes)} " + "-" * 52)
+        print(f"position  {probe.fen}")
+        print(f"from      your game {probe.game_id}, move {probe.ply // 2 + 1}")
+        print(f"\n{probe.asks}\n")
+        move = input("  your move    > ").strip()
+        reason = input("  why          > ").strip()
+        answers.append(Answer(probe_id=probe.id, move=move or None, reason=reason or None))
+        print()
+
+    records = record_answers(probes, tuple(answers), classifier)
+    for record in records:
+        print(f"  {record.finding_id}: {'right' if record.move_correct else 'not the move'}"
+              f"{_classifier_note(record)}")
+    if any(r.classifier_status == ClassifierStatus.UNAVAILABLE.value for r in records):
+        print("\nWARNING: the classifier could not be reached, so no reason was judged.")
+
+    if args.collect:
+        written = append_to_answer_set(records, Path(args.collect))
+        print(f"collected {written} answer(s) -> {args.collect}")
+
+    # Probe results are applied here, unlike the standalone `probe` command.
+    # D10 is unresolved -- the classifier's agreement rests on answers written
+    # and labelled by this project's author -- so the report states where a gap
+    # type came from rather than the system pretending it did not.
+    profile = apply_probes(profile, records, apply=True)
+    return _planned(profile, peers, args)
 
 
 def write_report(args: argparse.Namespace) -> int:

@@ -138,6 +138,19 @@ class TestEvidence:
         assert "you played h3" in report
         assert "Bb5 was better" in report
 
+    def test_it_does_not_offer_the_move_the_player_already_made(self):
+        # Seen in a live session: "you played c8e6 (c8e6 was better)". A claim
+        # can cite a position where the player found the best move, because the
+        # claim is about the position rather than the move.
+        from dataclasses import replace
+
+        finding = a_finding()
+        same = replace(finding.evidence[0], move_played="Bb5", better_move="Bb5")
+        report = render(a_profile(replace(finding, evidence=(same,))))
+
+        assert "you played Bb5" in report
+        assert "was better" not in report
+
     def test_it_compares_with_peers_rather_than_asserting_badness(self):
         report = render(a_profile(a_finding()))
 

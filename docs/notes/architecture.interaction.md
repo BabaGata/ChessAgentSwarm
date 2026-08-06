@@ -31,6 +31,15 @@ not a presentation layer.
 the *conversation* is how assessment happens. The report is what the player returns to; the dialogue
 is what makes the report about them.
 
+> **Built as `cli coach`** (2026-08-06). Steps 1 and 3–7 run from one command — a username in, a
+> report out, 7.6 s for 60 games on a warm cache. Step 5 runs with `--probe`, and **its results now
+> reach the diagnosis**: the standalone `probe` command still records without applying (D10's gate),
+> but a coaching session applies them and the report states the provenance instead, so V9 is part of
+> the system rather than a demonstration beside it.
+>
+> **Step 2, the context questions, is still unbuilt** — nothing asks what the player wants or how
+> much time they have, so the plan cannot yet be sized to them.
+
 ## Step 2 — Context questions
 
 Four questions, not a form. They cover what no amount of analysis can reveal

@@ -242,11 +242,13 @@ def _assess(key: str, counts: _Counts, context: SectionContext) -> Finding | Non
         confidence=Confidence(
             tier=decision.tier, replicated=stats.replicated, reasons=decision.reasons
         ),
-        evidence=_sample_evidence(tally, f"{SECTION}.{key}:{context.corpus.corpus_id}"),
+        evidence=_sample_evidence(
+            tally, f"{SECTION}.{key}:{context.corpus.corpus_id}", kind == EARLY_ERROR
+        ),
     )
 
 
-def _sample_evidence(tally: _Tally, seed: str) -> tuple[Evidence, ...]:
+def _sample_evidence(tally: _Tally, seed: str, with_better_move: bool) -> tuple[Evidence, ...]:
     """One example per game first, then fill. Seeded, so a profile reproduces.
 
     Spreading across games matters for how a claim reads: three examples from
@@ -273,7 +275,11 @@ def _sample_evidence(tally: _Tally, seed: str) -> tuple[Evidence, ...]:
             ply=observation.ply,
             fen=observation.fen_before,
             move_played=observation.move_played,
-            better_move=observation.best_move,
+            # Only where the claim is about a *mistake*. `opening_disadvantage`
+            # says the player was already worse by move 15, and the position it
+            # cites is simply the last one in the window -- often a perfectly
+            # good move, which printed as "you played c8e6 (c8e6 was better)".
+            better_move=observation.best_move if with_better_move else None,
             loss_wp=round(observation.loss_wp, 4),
         )
         for observation in chosen

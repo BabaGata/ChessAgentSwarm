@@ -146,22 +146,52 @@ def _finding(index: int, finding: Finding, probes: tuple[ProbeRecord, ...]) -> l
 
     for evidence in finding.evidence[:EVIDENCE_SHOWN]:
         played = f", you played {evidence.move_played}" if evidence.move_played else ""
-        better = f" ({evidence.better_move} was better)" if evidence.better_move else ""
+        # Never "you played c8e6 (c8e6 was better)". A section can legitimately
+        # cite a position where the player found the best move — the claim may be
+        # about the position rather than the move — and the alternative is only
+        # worth printing when it is genuinely an alternative.
+        better = (
+            f" ({evidence.better_move} was better)"
+            if evidence.better_move and evidence.better_move != evidence.move_played
+            else ""
+        )
         lines.append(f"   For example game {evidence.game_id}, move {move_number(evidence.ply)}"
                      f"{played}{better}")
 
-    meaning = _gap_meaning(finding, probes)
-    if meaning:
-        lines += ["", f"   {meaning}"]
+    for line in _gap_meaning(finding, probes):
+        lines += ["", f"   {line}"]
     return lines + [""]
 
 
-def _gap_meaning(finding: Finding, probes: tuple[ProbeRecord, ...]) -> str | None:
-    """Only said when a probe established it. An inferred gap type is a guess,
-    and dressing a guess in an explanation is how a report stops being honest."""
+def _gap_meaning(finding: Finding, probes: tuple[ProbeRecord, ...]) -> list[str]:
+    """Only said when a probe established it, and never without its provenance.
+
+    An inferred gap type is a guess, and dressing a guess in an explanation is
+    how a report stops being honest. A *probed* one is better evidence and still
+    thin: one position, read by a classifier whose agreement was measured against
+    a rubric its own author wrote (D10). The reader is told both things, because
+    a sentence like "the pattern is there" carries more authority than one probe
+    can support.
+    """
     if finding.gap_type.determined_by is not DeterminedBy.PROBED:
-        return None
-    return GAP_MEANING.get(finding.gap_type.hypothesis.value)
+        return []
+
+    meaning = GAP_MEANING.get(finding.gap_type.hypothesis.value)
+    if meaning is None:
+        return []
+
+    asked = sum(1 for p in probes if p.finding_id == finding.id)
+    judged = any(
+        p.finding_id == finding.id and p.was_actually_asked for p in probes
+    )
+    provenance = (
+        f"(From {asked} question{'s' if asked != 1 else ''} you answered"
+        + (", read by a local model that agrees with its own rubric about three times in four."
+           if judged
+           else ", where the move was checked but the reason was not read.")
+        + " Worth weighing accordingly.)"
+    )
+    return [meaning, provenance]
 
 
 def _plan_section(profile: PlayerProfile) -> list[str]:

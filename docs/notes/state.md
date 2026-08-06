@@ -57,12 +57,12 @@ need to know?"
 | D6 | V6 path planning | **2** | **+2** | plans built and persisted, every step carrying a machine-checkable progress sign and a derived check point. No time estimates — D5 is unresolved and inventing them was refused |
 | D7 | V7 progress tracking | **3** | **+1** | **restored, on evidence this time.** 57 predictions from 84 players with ~150-game histories; the constant is cross-validated at 2 *and* 5 folds with a fold spread of 0.011, and a held-out false-positive rate of **15 %** is stated in the output. Not 4: the test's **power is unmeasured** — no coached cohort exists, so nothing shows a real improvement could clear the bar (**D8**) |
 | D8 | V8 explainability | **3** | — | the report exists, is deterministic, and is **13/13 grounded** on real players (E08 D4). **The 3 claimed last cycle was not earned**: reading a real report found Lichess theme keys in player-facing prose — *"a `trappedPiece` punishes you"* — which the groundedness metric scored 100 % on, because it only checks citation. Fixed (`phrasing.subject_name`), so the score now stands. Not 4: the report states measurements without explaining *why these one or two* were chosen over the rest, and the arbiter's reasoning is invisible |
-| D9 | C1–C4 cost profile | **2** | **+1** | **the language layer's cost is now measured, not assumed**: a local 8B model at 2.66 s per probe, so a six-probe session is ~16 s of local compute and **zero cash** (E07). Analysis and diagnosis were already free. Not 3: no full session has been run end to end, so the total is the sum of measured parts rather than a measurement |
+| D9 | C1–C4 cost profile | **3** | **+1** | **a whole session has now been run end to end and timed.** `cli coach` takes a username and produces a report: **7.6 s** for 60 games on a warm cache, and for a fresh player the cost is dominated by engine analysis — E01's 89 s per 50 games at depth 15, so roughly two minutes. Probes add ~2.7 s each (E07). **Zero cash throughout.** Not 4: the figure is one player on one machine, and no cold-cache session has been timed cleanly |
 | D10 | Evaluation capability | **4** | **+1** | both sides of the progress check measured (E05, E06), and the **anti-pattern family D is now built and run** (E08) — the metrics that were designed cycles ago and blocked on a language layer. They caught a self-flattering score and nearly caused a misreading, which is what an evaluation capability is for |
 | D11 | Process & documentation health | 4 | — | cycle held up under real work, including reversing its own mis-framed question |
 | D12 | V9 dialogue & active assessment | **2** | **+1** | **a session runs end to end** — `cli probe` asks, records verbatim, classifies locally, and writes probes to the profile. Answers are appended to a dataset as a by-product, so D10's corpus grows from use. Not 3: results do not change a diagnosis until D10 is resolved, and the context questions (interaction step 2) are unbuilt |
 
-**Total: 28 / 60.** It has gone 17 → 16 → 17 → 16 → 17 → 18 → 20 → 22 → 25 → 26 → 27 → 28, and every move was forced by a measurement:
+**Total: 29 / 60.** It has gone 17 → 16 → 17 → 16 → 17 → 18 → 20 → 22 → 25 → 26 → 27 → 28 → 29, and every move was forced by a measurement:
 down when E05 showed the verdicts meant nothing, up when the target rule was recalibrated, down
 again when cross-validation showed that calibration was itself optimistic, and up now that 57
 predictions can support what 13 could not, and again now that both sides of the progress check are
@@ -119,12 +119,17 @@ This is what actually moved this cycle.
    0.05. Six sections had moved coverage 24 → 53 %; depth alone moved it further, in 45 minutes of
    mostly-cached engine time and with no new diagnostic capability (L-026).
 
-0. **P0 — What to do about the 24-game user.** The result above is also the project's most
-   uncomfortable: the swarm works well on 150-game histories and is silent for **47 %** of players at
-   24. That is a constraint on *who it can help*, not a solved problem, and it is now the honest
-   headline. Options, none costed yet: require a minimum history and say so; relax
-   `FOCUS_DISTINCT_GAMES` for shallow corpora and accept weaker claims; or pool a player's evidence
-   differently. **Deciding this is more valuable than another section.**
+0. **P0 — V1 skill assessment.** The only vision capability still at flat zero that a game record can
+   support; V3 style has no operational definition yet and D1/D3 both need one. [[evaluation]]'s A2
+   (blind rating estimation) is free, large-N and self-validating — estimate strength with the rating
+   hidden and compare against the player's established one across the 84-player corpus. It is the
+   last big hole in *"assess the player"* before the system can be called complete.
+
+0. **P2 — Deferred by the author 2026-08-06: what to do about the 24-game user.** The swarm works on
+   150-game histories and is silent for **47 %** of players at 24. That is a constraint on *who it
+   can help*, and it is deliberately parked until the system is complete rather than solved now.
+   Options when it is picked up: require a minimum history and say so; relax
+   `FOCUS_DISTINCT_GAMES` for shallow corpora and accept weaker claims; or pool evidence differently.
 
 0. **P1 — D12 reopens as a calibration question.** The magnitude floor was a safety net chosen to cut
    nothing; on deep corpora the finding distribution is **truncated exactly at it** (minimum ratio

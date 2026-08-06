@@ -31,7 +31,7 @@ afterwards is one shaped by the agents.
 
 ```
 chesscoach/
-  ingest/         PGN parsing, corpus identity
+  ingest/         Lichess fetching, PGN parsing, corpus identity
   analysis/       engine, evaluation cache, error labels, observations, parallel prefetch
   profile/        the player profile — models and persistence
   sections/       the diagnostic agents — S1 tactical gaps, S2 decision process
@@ -48,14 +48,16 @@ chesscoach/
   explainer.py    the report a person reads. Templates, not generation
   session.py      one session end to end, and the probe gate
   pipeline.py     engine/cache session and provenance
-  cli.py          analyse · make-eval-set · check-eval-set · score-agent ·
-                  build-peer-reference · check-progress · probe · report
+  cli.py          coach · analyse · probe · report · check-progress ·
+                  build-peer-reference · make-eval-set · check-eval-set · score-agent
 experiments/      e01–e07: the measurements that shaped the design, including
                   the negative ones
-tests/            440 tests
+tests/            617 tests
 ```
 
-The loop now runs end to end: **analyse → diagnose → prioritise → ask → plan → report → check.**
+The loop runs end to end in **one command**: fetch → analyse → diagnose → prioritise → ask → plan
+→ report, with `check-progress` returning to it later. Until recently every stage existed and none of
+them were joined up, which made this a toolkit rather than a system.
 
 The one thing it may not do is let a probe *change* a diagnosis. The classifier agrees with its
 labels at kappa 0.74, but those labels were written and applied by the author, so the gate stays
@@ -66,14 +68,24 @@ shut until answers exist from someone else.
 ```bash
 pip install -e ".[dev]"
 
-python -m chesscoach.cli analyse \
-    --pgn games/ --player alice \
+python -m chesscoach.cli coach \
+    --player <lichess-username> \
     --engine /path/to/stockfish \
-    --out alice-profile.json \
+    --peers peers.json \
     --cache eval-cache.db
 ```
 
-Needs a local Stockfish binary. Everything else is free and offline.
+That is the whole thing: it fetches the player's rated rapid and classical games,
+analyses them, diagnoses, picks one or two priorities, plans, and prints a report.
+**7.6 seconds for 60 games on a warm cache**; about two minutes for a player the
+engine has never seen. Zero cash.
+
+Add `--probe --model llama3.1:8b-instruct-q6_K` to be asked about your own
+positions first, which is what turns *"you miss pins"* into *"you know what a pin
+is and did not see this one"*.
+
+Needs a local Stockfish binary and a peer reference (`build-peer-reference`).
+Everything else is free and offline.
 
 Generating an evaluation set whose weakness is known by construction:
 
@@ -90,7 +102,7 @@ The second command verifies the planted flaw is actually visible to the analysis
 anything is scored against it. A fixture nobody has checked is not a test.
 
 ```bash
-python -m pytest                              # 440 tests
+python -m pytest                              # 617 tests
 python -m pytest --cov=chesscoach             # 82% coverage
 ```
 
