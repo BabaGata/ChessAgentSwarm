@@ -82,8 +82,10 @@ several of the mechanisms are weaker than the vision asks for, which is what the
 
 Two honest qualifiers. **The prober's rubric is still the author's own** (D10), so the asking is
 load-bearing but validated in-sample. And **the swarm is silent for 14 of 84 players on deep
-histories, and for 47 % at the 24 games a real user actually brings** (E12) — not wrong, not generic,
-not overloaded, just quiet. That is the binding constraint, and it is deliberately parked (P2).
+histories, and for 43 % at the 24 games a real user actually brings** ([[experiments.e16-shallow-corpus]])
+— not wrong, not generic, not overloaded, just quiet. Every one of those silent players has a median
+of **7** patterns the swarm can see and cannot confirm, so the silence is a measurement limit rather
+than a verdict. That is the binding constraint, and it is deliberately parked (P2).
 
 The +1 this cycle is D5 prioritisation, and it closed the last structural gap in the vision.
 
@@ -142,10 +144,14 @@ This is what actually moved this cycle.
    `advantage_error` 1 → 9 and `opening_disadvantage` 11 → 4. D5 2 → 3.
 
 0. **P2 — Deferred by the author 2026-08-06: what to do about the 24-game user.** The swarm works on
-   150-game histories and is silent for **47 %** of players at 24. That is a constraint on *who it
-   can help*, and it is deliberately parked until the system is complete rather than solved now.
-   Options when it is picked up: require a minimum history and say so; relax
-   `FOCUS_DISTINCT_GAMES` for shallow corpora and accept weaker claims; or pool evidence differently.
+   150-game histories and is silent for **43 %** of players at 24 (E16; E12 said 47 % on a different
+   population). That is a constraint on *who it can help*, and it is deliberately parked until the
+   system is complete rather than solved now. **E16 narrows the options**: every silent player has a
+   median of **7** real patterns the corpus cannot confirm, so there is something to say and not
+   enough evidence to say it. Relaxing `FOCUS_DISTINCT_GAMES` is now ruled out — it is 3 % of the
+   problem. What remains: require a minimum history and say so; pool evidence across related claims
+   to raise events per corpus; or report the unconfirmable patterns explicitly as *"suspected, not
+   established"*, which is a change to the confidence vocabulary rather than to its thresholds.
 
 0. **P1 — D12 reopens as a calibration question.** The magnitude floor was a safety net chosen to cut
    nothing; on deep corpora the finding distribution is **truncated exactly at it** (minimum ratio
@@ -154,11 +160,14 @@ This is what actually moved this cycle.
    weakest anyway, but the value should be revisited against real players rather than against the
    finding distribution.
 
-0. **P1 — The binding constraint has moved.** It is no longer the peer comparison but
-   `FOCUS_DISTINCT_GAMES = 5`: S6's claims are real and strongly discriminating (ratios 1.9–2.3) and
-   still produced only three findings, because the events occur in fewer than five separate games for
-   most players. More sections will keep hitting this. The lever is **deeper corpora** — the E05 deep
-   histories (150 games each) already exist and the peer reference is still built from 24-game ones.
+0. **~~P1 — The binding constraint is `FOCUS_DISTINCT_GAMES = 5`.~~ Measured and wrong. Corrected
+   2026-08-06** → [[experiments.e16-shallow-corpus]]. That was generalised from S6's experience
+   without a census. Instrumenting every gate at 24 games: among silent players, the sole blocker was
+   **the event occurring in fewer than 3 games (83 claims)** or **the interval failing to exclude the
+   baseline (69)** — 96 % between them. `FOCUS_DISTINCT_GAMES` accounted for **5 claims, 3 %**.
+   Moving that threshold would move almost none of the problem. The lever is **events per corpus**,
+   which means games or better-pooled evidence — not looser thresholds, since the two gates that
+   actually bind are the ones stopping the swarm inventing patterns from three data points.
 
 0. **P0 — Answers from people who are not the author.** ~40 of them, labelled by someone else. This
    is the only thing standing between the prober and real use, and it is **not a modelling problem**:

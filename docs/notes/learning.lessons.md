@@ -24,6 +24,25 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 
 ---
 
+### L-029 — The constraint you can name is rarely the one that binds
+**Date:** 2026-08-06 · **Cycle / mission step:** M6 · **Class:** process
+**Context:** Being asked *why* the swarm is silent for nearly half of players at 24 games — a figure
+[[state]] had been quoting for several cycles with a stated cause.
+**Observation:** The cause on record was `FOCUS_DISTINCT_GAMES = 5`, generalised from S6, where the
+threshold had visibly bitten. Instrumenting all five gates and counting
+([[experiments.e16-shallow-corpus]]) put it at **5 of 158 sole-gate blocks — 3 %**. What actually
+binds is the event occurring in fewer than three games at all (83) and the interval failing to
+exclude the baseline (69). The named threshold was real, memorable, and almost irrelevant; it was
+promoted to *the* explanation because it was the one that had been watched closely.
+**Lesson:** A number that gets quoted — a coverage gap, a latency, a failure rate — attracts a cause
+from whatever was being examined when it was first noticed, and then the cause is repeated as if it
+had been measured. **Before acting on a bottleneck, count every candidate, not just the one with a
+name.** The census is usually cheap next to the fix it would have justified: here it was one script
+against a warm cache, and it ruled out the change that was about to be made.
+**Applied to:** [[state]] P1 and P2 (both rewritten), [[experiments.e16-shallow-corpus]].
+
+---
+
 ### L-028 — A failed experiment answers its question, not the neighbouring one
 **Date:** 2026-08-06 · **Cycle / mission step:** M6 (V5) · **Class:** process
 **Context:** Building expected-gain reasoning ([[experiments.e15-expected-gain]]), which two

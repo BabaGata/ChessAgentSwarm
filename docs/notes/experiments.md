@@ -31,6 +31,7 @@ An experiment with no consequence was not worth running.
 | E13 | can playing strength be estimated from a player's own games? | done — **yes, ±103 points held-out** from blunder rate alone | [[experiments.e13-strength-signal]] |
 | E14 | is there a style to measure, or only strength wearing a label? | done — **four of six were strength**; one tendency ships, the fit half is refused | [[experiments.e14-style-dimensions]] |
 | E15 | can priorities be ranked by what a weakness costs rather than how unusual it is? | done — **yes, by accounting rather than prediction**; advice changed for 33 of 84 players | [[experiments.e15-expected-gain]] |
+| E16 | why is the swarm silent for half of players at 24 games? | done — **rarity and interval width, 96 %**; the recorded cause `FOCUS_DISTINCT_GAMES` is 3 % | [[experiments.e16-shallow-corpus]] |
 
 ## Conventions
 
