@@ -33,6 +33,7 @@ An experiment with no consequence was not worth running.
 | E15 | can priorities be ranked by what a weakness costs rather than how unusual it is? | done — **yes, by accounting rather than prediction**; advice changed for 33 of 84 players | [[experiments.e15-expected-gain]] |
 | E16 | why is the swarm silent for half of players at 24 games? | done — **rarity and interval width, 96 %**; the recorded cause `FOCUS_DISTINCT_GAMES` is 3 % | [[experiments.e16-shallow-corpus]] |
 | E17 | can a weakness ranking be trusted at 20 games? | done — **severity yes (65 %), rate no (6 % vs 4 % chance)**; but severity tells 70 % of players the same thing | [[experiments.e17-ranking-stability]] |
+| E18 | is there a coachable finding in the games step 1 excludes? | done — **the berserk habit no (1.04× cost), the time-budget chain yes (1.91×)**; the latter built into S2 | [[experiments.e18-excluded-as-finding]] |
 
 ## Conventions
 

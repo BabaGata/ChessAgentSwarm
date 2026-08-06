@@ -152,6 +152,13 @@ This is what actually moved this cycle.
    48.8 %. Coverage 70 → **69** advised and overlap 0.06 → **0.05**: it costs coverage and buys
    correctness, and `advantage_error` fell from 9 advised to 7 — the predicted berserk bias,
    confirmed, on the very claim E17 had flagged as over-selected.
+   **Step 1b done** → [[experiments.e18-excluded-as-finding]], from the author's objection that
+   excluding games throws away a finding. Right, and it splits: the **berserk habit** fails the cost
+   screen (error rate only **1.04×** the player's own normal games — the habit varies, the harm does
+   not) and is **disclosed rather than diagnosed**; the **time-budget chain** — clock spent early,
+   mistakes twenty moves later — screens at **1.91×**, the best spread in the project, independent
+   of `time_pressure_error` at **+0.204**, and is built as S2's fourth condition. 27 claim kinds now,
+   2 players advised on it.
    **Next: step 2**, the blitz/rapid screen, which decides whether step 5 is one corpus or three.
 
 0. **Superseded — the evaluation that produced the plan above** →

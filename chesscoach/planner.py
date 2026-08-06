@@ -269,6 +269,14 @@ def _action(finding: Finding) -> str:
         "time_pressure_error": (
             "Spend less time in the opening so that the clock is not deciding your moves later."
         ),
+        # Names a checkable budget rather than "manage your time better", and
+        # aims at the early moves, because that is where the measurement says the
+        # damage is done even though it shows up twenty moves afterwards.
+        "time_budget_error": (
+            "Give yourself a clock target for move 15 — half your starting time still "
+            "on it — and when you are behind that target, take the sound move over the "
+            "best one until you are back on it."
+        ),
         "endgame_error": (
             f"Study {name} endgames — start with the basic winning and drawing methods "
             "rather than with studies, and play out the positions you got wrong."

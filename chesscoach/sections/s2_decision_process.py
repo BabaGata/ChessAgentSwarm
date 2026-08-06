@@ -46,6 +46,20 @@ TIME_PRESSURE_SECONDS = 60.0
 INSTANT_MOVE_SECONDS = 2.0
 LONG_THINK_MULTIPLE = 3.0
 
+# Time spent early is a budget, and spending it does not hurt on the move it is
+# spent -- it hurts later, when there is nothing left. E18 screened this at a
+# **1.91x** p90/median spread, above `long_think_error` (1.60) and
+# `allows_king_pressure` (1.59), and correlated only **+0.204** with
+# `time_pressure_error`, so it is not that claim under another name.
+#
+# Move 15, matching where S4 stops calling a mistake an opening mistake, so the
+# two sections agree on where the opening ends.
+OVERSPEND_BUDGET_PLY = 30
+
+# More than half the clock gone by then. Provisional, and chosen before the
+# spread was measured rather than tuned until the spread looked good.
+OVERSPEND_SHARE = 0.5
+
 # Evidence is sampled, not selected: showing the worst examples produces a coach
 # who exaggerates and evidence unrepresentative of its own claim.
 EVIDENCE_SAMPLE_SIZE = 4
@@ -59,6 +73,14 @@ class Condition:
     subject: str
     applies: Callable[[Observation], bool]
     describe: Callable[[Observation], str]
+    baseline_applies: Callable[[Observation], bool] | None = None
+    """What to compare against, when "everything else" is the wrong contrast.
+
+    Defaults to the complement of `applies`, which is right for a condition that
+    can occur on any move. It is wrong for one restricted to a phase: comparing
+    late-and-rushed moves against *all* other moves would fold the opening into
+    the baseline and measure the phase as much as the clock.
+    """
     selection_confounded: bool = False
     """True when the condition is *selected by* the same thing that causes the error.
 
@@ -156,8 +178,9 @@ class S2DecisionProcess:
 
         Returns the finding, if any, and a note explaining anything withheld.
         """
+        is_baseline = condition.baseline_applies or (lambda o: not condition.applies(o))
         inside = tuple(o for o in observations if condition.applies(o))
-        outside = tuple(o for o in observations if not condition.applies(o))
+        outside = tuple(o for o in observations if is_baseline(o))
         if not inside:
             return None, None
 
@@ -239,6 +262,35 @@ class S2DecisionProcess:
         return split_half_check(by_game.keys(), measure, reference_rate=baseline).replicated
 
 
+def _overspent_games(observations: tuple[Observation, ...]) -> frozenset[str]:
+    """Games where most of the clock was gone before the middlegame began.
+
+    The starting clock is taken as the **highest reading seen in the game**,
+    because a section only ever sees observations -- never the PGN's TimeControl
+    tag. That keeps the measure relative, so a 300-second game burned to 100 is
+    overspending exactly as a 600-second one burned to 200 is.
+
+    A game with no late moves is not judged: nothing was spent *on* anything.
+    """
+    by_game: dict[str, list[Observation]] = {}
+    for observation in observations:
+        if observation.clock_after is not None:
+            by_game.setdefault(observation.game_id, []).append(observation)
+
+    overspent = set()
+    for game_id, moves in by_game.items():
+        early = [o for o in moves if o.ply <= OVERSPEND_BUDGET_PLY]
+        if not early or not any(o.ply > OVERSPEND_BUDGET_PLY for o in moves):
+            continue
+        start = max(o.clock_after for o in moves)
+        if start <= 0:
+            continue
+        remaining = min(o.clock_after for o in early)
+        if remaining / start < (1 - OVERSPEND_SHARE):
+            overspent.add(game_id)
+    return frozenset(overspent)
+
+
 def _conditions(observations: tuple[Observation, ...]) -> tuple[Condition, ...]:
     """The circumstances S2 knows how to look for.
 
@@ -248,6 +300,7 @@ def _conditions(observations: tuple[Observation, ...]) -> tuple[Condition, ...]:
     think_times = [o.seconds_spent for o in observations if o.seconds_spent is not None]
     median_think = statistics.median(think_times) if think_times else 0.0
     long_think_seconds = max(median_think * LONG_THINK_MULTIPLE, 1.0)
+    overspent = _overspent_games(observations)
 
     return (
         Condition(
@@ -268,6 +321,25 @@ def _conditions(observations: tuple[Observation, ...]) -> tuple[Condition, ...]:
             applies=lambda o: (o.seconds_spent or 0.0) >= long_think_seconds,
             describe=lambda o: f"{o.seconds_spent:.0f}s spent, then a mistake",
             selection_confounded=True,
+        ),
+        # Deliberately **not** marked selection_confounded, unlike the long think
+        # above. A hard position causes both a long think and an error on that
+        # move, which is why that one is withheld. Here the magnitudes vary
+        # strongly between players -- 1.18 median against 3.36 max -- and that
+        # is the signature of a player property rather than a base rate, which
+        # is precisely the test that caught L-011 in M5.
+        Condition(
+            kind="time_budget_error",
+            subject="after_overspending",
+            applies=lambda o: o.ply > OVERSPEND_BUDGET_PLY and o.game_id in overspent,
+            baseline_applies=lambda o: (
+                o.ply > OVERSPEND_BUDGET_PLY and o.game_id not in overspent
+            ),
+            describe=lambda o: (
+                f"{o.clock_after:.0f}s left, in a game where the clock went early"
+                if o.clock_after is not None
+                else "played in a game where the clock went early"
+            ),
         ),
     )
 

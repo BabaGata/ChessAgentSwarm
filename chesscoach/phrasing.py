@@ -38,6 +38,7 @@ QUANTITIES: dict[str, str] = {
     "long_think_error": "mistakes after a long think",
     "instant_move_error": "mistakes after an instant reply",
     "time_pressure_error": "mistakes when short of time",
+    "time_budget_error": "mistakes after move 15 in games where the clock went early",
     "endgame_error": "mistakes in {subject} endgames",
     "advantage_error": "mistakes made while you are winning",
     "early_error": "mistakes before move 15 {subject}",
@@ -55,6 +56,13 @@ STATEMENTS: dict[str, str] = {
     "long_think_error": "Your long thinks tend to end in a mistake.",
     "instant_move_error": "Moves you play instantly go wrong more often than they should.",
     "time_pressure_error": "Your play falls off when the clock is short.",
+    # Says where the cost lands rather than where it was incurred: the long think
+    # itself is not the mistake, and telling a player to think less would be the
+    # wrong advice drawn from the right measurement.
+    "time_budget_error": (
+        "When you use up most of your clock before move 15, the rest of that game "
+        "goes worse — the cost of a long think lands later, not on the move itself."
+    ),
     "endgame_error": "Your play falls off in {subject} endgames.",
     "advantage_error": "You go wrong more often than most when you are already better.",
     "early_error": "You go wrong early {subject}.",
