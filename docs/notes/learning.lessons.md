@@ -45,6 +45,30 @@ a stated defect in [[experiments.e15-expected-gain]] — raw cost must become pe
 
 ---
 
+### L-031 — A correlation means nothing without its own reliability ceiling
+**Date:** 2026-08-06 · **Cycle / mission step:** M6 · **Class:** technique
+**Context:** Screening whether blitz games can join the diagnostic corpus
+([[experiments.e19-blitz-stratum]]).
+**Observation:** Blitz error rates correlated with rapid ones at a median **r = +0.17**. Read
+straight, that says the two speeds measure different things and the corpora must be kept apart —
+an architecture of three corpora and three peer references. The control changed the answer
+completely: splitting *rapid* into two disjoint windows of the same size and correlating it with
+**itself** gave **r = +0.19**. Blitz predicts rapid as well as rapid does. The low figure was
+attenuation from measurement noise, and the tell had been visible all along — r tracked each claim's
+**denominator** (+0.67 for `early_error`, which occurs every game; +0.02 for `allowed_motif.fork`,
+which does not) rather than anything about speed.
+**Lesson:** A correlation between two noisy measurements is bounded by their reliability, so "r is
+low" and "these measure different things" are different claims and only the second is interesting.
+**Never interpret a correlation without measuring what the same data correlates with itself at the
+same sample size.** The same control applies to any spread or ratio statistic — here the per-player
+gap "varied" 2.39× against a noise floor of 2.08×, which is also nearly nothing. This is L-019's
+rule — a control must be as sample-dependent as the thing it controls — applied to correlation
+rather than to a drift constant.
+**Applied to:** [[experiments.e19-blitz-stratum]], [[design.short-history-prioritisation]] step 5,
+which becomes one pooled corpus instead of three.
+
+---
+
 ### L-029 — The constraint you can name is rarely the one that binds
 **Date:** 2026-08-06 · **Cycle / mission step:** M6 · **Class:** process
 **Context:** Being asked *why* the swarm is silent for nearly half of players at 24 games — a figure

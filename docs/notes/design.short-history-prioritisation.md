@@ -269,7 +269,16 @@ From the live corpus (11,890 games), not from the documentation:
 
 `ECO` / `Opening` (96 %) are already used by S4.
 
-### G. Admit blitz, stratified by time control — the largest single lever found
+### G. Admit blitz — the largest single lever found
+
+> **Resolved 2026-08-06 by [[experiments.e19-blitz-stratum]], and it is cheaper than written below.**
+> Blitz predicts a player's rapid behaviour as well as rapid itself does — 93 % of the reliability
+> ceiling — so no second and third corpus is needed. The shape is **pool the evidence, stratify the
+> baseline**: one corpus containing every speed, so opportunities per claim rise ~5×, with the peer
+> comparison kept per-speed so a 1.06× offset cannot bias a player whose speed mix differs from the
+> population's. E01's objection is honoured rather than overruled — rates are still never blended
+> across speeds *for comparison*; what pools is the evidence, which is not what E01 was about.
+> The rest of this section is kept as the reasoning that led to the screen.
 
 Raised by the starting-clock section above and recorded separately because it is not a weighting
 question. The swarm currently discards a median of **82 %** of a player's games.
@@ -356,10 +365,10 @@ because it *spends* effective sample size where sample size is the binding const
 | # | Step | Done when | Risk |
 |--:|---|---|---|
 | 1 | ~~Exclude berserked and abandoned games~~ **done 2026-08-06** — see below | E08 re-run; every prior measurement re-stated on clean data | none — pure subtraction |
-| 2 | **Screen** the blitz/rapid gap (L-023, L-025): does it vary *between players*, or is it a constant of chess? | a number, and a decision between pooling with an offset and full stratification | the screen says "constant", and the automaticity hypothesis dies |
+| 2 | ~~**Screen** the blitz/rapid gap~~ **done 2026-08-06 → [[experiments.e19-blitz-stratum]]. Answer: POOL.** Blitz recovers **93 %** of the ceiling rapid reaches against itself, so the speeds measure the same thing | — | the automaticity hypothesis did die, exactly as this row anticipated |
 | 3 | Peer-relative severity: rebuild the peer reference carrying cost per claim | concentration of the top claim falls well below 70 % (E17 re-run) | fixes a defect shipped in E15 |
 | 4 | Shrinkage replaces the gates | coverage at 24 games rises from 43 % silent; E08 D1/D2 unchanged or better | the prior is 84 players from one band |
-| 5 | Admit blitz per step 2's answer | coverage at a **20-game rapid history** measured, not predicted | **C1/D9** — ~5× the games to analyse |
+| 5 | Admit blitz — **pooled**, per E19 | coverage at a **20-game rapid history** measured, not predicted | **C1/D9** — ~5× the games to analyse |
 | 6 | Accumulate the corpus across sessions | a second session on the same player uses both corpora | needs corpus identity the CLI lacks |
 | 7 | Recency decay on calendar time | drift measurable on the quarter of players whose windows span 90+ days | costs effective sample |
 

@@ -112,7 +112,17 @@ def main() -> int:
 
     gaps: dict[str, list[float]] = collections.defaultdict(list)
     paired: dict[str, list[tuple[float, float]]] = collections.defaultdict(list)
+    # The control that decides everything. A low blitz~rapid correlation means
+    # nothing on its own: at ~45 games these rates are noisy, and noise
+    # attenuates any correlation towards zero. The only interpretable question is
+    # whether blitz predicts rapid **worse than rapid predicts itself** at the
+    # same sample size -- so rapid is split into two disjoint windows and
+    # correlated with itself as a ceiling.
+    control: dict[str, list[tuple[float, float]]] = collections.defaultdict(list)
     matched_sizes: list[int] = []
+    # A player's blitz rating is often not their rapid rating, so the two strata
+    # may face different opposition. Free to check, from the PGN tags.
+    own_elo: dict[str, list[float]] = {"blitz": [], "rapid": []}
 
     with engine_session(args.engine, args.depth, args.cache) as session:
         for index, path in enumerate(sorted(args.rapid.glob("*.pgn")), start=1):
@@ -126,19 +136,30 @@ def main() -> int:
                 (g for g in parse_pgn_file(path) if g.involves(player)),
                 key=lambda g: (g.date or "", g.game_id),
             )
-            n = min(len(blitz_games), len(rapid_games))
+            # Two disjoint rapid windows are needed for the control, so the
+            # matched size is capped at half the rapid history.
+            n = min(len(blitz_games), len(rapid_games) // 2)
             if n < MIN_GAMES:
                 print(f"  {index:>3} {player}: only {n} matched games", flush=True)
                 continue
 
-            # Matched counts: the most recent n of each, so neither sample size
-            # nor recency differs between the strata being compared.
+            # Matched counts throughout: neither sample size nor recency differs
+            # between any two strata being compared.
             blitz_games = blitz_games[-n:]
-            rapid_games = rapid_games[-n:]
+            recent_rapid = rapid_games[-n:]
+            earlier_rapid = rapid_games[-2 * n:-n]
             matched_sizes.append(n)
 
+            for label, games in (("blitz", blitz_games), ("rapid", recent_rapid)):
+                elos = [g.white_elo if g.player_is_white(player) else g.black_elo
+                        for g in games]
+                known = [e for e in elos if e]
+                if known:
+                    own_elo[label].append(statistics.mean(known))
+
             in_blitz = rates(player, blitz_games, session, peers, args)
-            in_rapid = rates(player, rapid_games, session, peers, args)
+            in_rapid = rates(player, recent_rapid, session, peers, args)
+            in_earlier = rates(player, earlier_rapid, session, peers, args)
 
             shared = 0
             for key in set(in_blitz) & set(in_rapid):
@@ -146,15 +167,29 @@ def main() -> int:
                     gaps[key].append(in_blitz[key] / in_rapid[key])
                     paired[key].append((in_blitz[key], in_rapid[key]))
                     shared += 1
+            for key in set(in_earlier) & set(in_rapid):
+                if in_rapid[key] > 0 and in_earlier[key] > 0:
+                    control[key].append((in_earlier[key], in_rapid[key]))
             print(f"  {index:>3} {player}: {n} games each, {shared} claims in both", flush=True)
 
     print(f"\n{'=' * 84}")
     print(f"{len(matched_sizes)} players, median {statistics.median(matched_sizes):.0f} "
           f"games per stratum\n")
-    print(f"{'claim':<38}{'players':>8}{'median':>9}{'spread':>9}{'corr':>8}")
-    print(f"{'':<38}{'':>8}{'gap':>9}{'p90/med':>9}{'b~r':>8}")
+    def corr_of(pairs):
+        if len(pairs) < MIN_PLAYERS:
+            return float("nan")
+        try:
+            return statistics.correlation([a for a, _ in pairs], [b for _, b in pairs])
+        except statistics.StatisticsError:
+            return float("nan")
+
+    print(f"{'claim':<38}{'players':>8}{'gap':>7}{'spread':>8}"
+          f"{'blitz':>8}{'rapid':>8}{'ratio':>7}")
+    print(f"{'':<38}{'':>8}{'med':>7}{'p90/med':>8}"
+          f"{'~rapid':>8}{'~rapid':>8}{'':>7}")
 
     summary = []
+    control_spreads: list[float] = []
     for key, values in sorted(gaps.items()):
         if len(values) < MIN_PLAYERS:
             continue
@@ -162,28 +197,51 @@ def main() -> int:
         median = statistics.median(ordered)
         p90 = ordered[9 * len(ordered) // 10]
         spread = p90 / median if median else float("nan")
-        blitz_side = [b for b, _ in paired[key]]
-        rapid_side = [r for _, r in paired[key]]
-        try:
-            corr = statistics.correlation(blitz_side, rapid_side)
-        except statistics.StatisticsError:
-            corr = float("nan")
-        summary.append((spread, key, len(values), median, corr))
-        print(f"{key:<38}{len(values):>8}{median:>9.2f}{spread:>9.2f}{corr:>8.2f}")
+        cross, ceiling = corr_of(paired[key]), corr_of(control[key])
+        # The gap spread needs the same control as the correlation did. A ratio
+        # of two noisy rates is itself very noisy, so "the gap varies 2.4x
+        # between players" means nothing until rapid's ratio against *itself* is
+        # measured the same way.
+        same_speed = sorted(a / b for a, b in control[key] if b > 0)
+        if len(same_speed) >= MIN_PLAYERS:
+            same_median = statistics.median(same_speed)
+            if same_median:
+                control_spreads.append(
+                    same_speed[9 * len(same_speed) // 10] / same_median
+                )
+        # How much of rapid's own self-agreement does blitz recover? 1.0 means
+        # blitz is as good a predictor of rapid as rapid itself is.
+        share = cross / ceiling if ceiling == ceiling and ceiling > 0.05 else float("nan")
+        summary.append((key, len(values), median, spread, cross, ceiling, share))
+        print(f"{key:<38}{len(values):>8}{median:>7.2f}{spread:>8.2f}"
+              f"{cross:>8.2f}{ceiling:>8.2f}"
+              + (f"{share:>7.2f}" if share == share else f"{'-':>7}"))
 
     if summary:
-        spreads = [s for s, *_ in summary]
-        medians = [m for *_, m, _ in summary]
-        corrs = [c for *_, c in summary if c == c]
+        medians = [m for _, _, m, *_ in summary]
+        spreads = [s for _, _, _, s, *_ in summary]
+        crosses = [c for *_, c, _, _ in summary if c == c]
+        ceilings = [c for *_, c, _ in summary if c == c]
+        shares = [s for *_, s in summary if s == s]
         print(f"\nacross {len(summary)} claims:")
-        print(f"  gap between speeds        median {statistics.median(medians):.2f}x   "
+        print(f"  gap between speeds          median {statistics.median(medians):.2f}x   "
               f"range {min(medians):.2f}-{max(medians):.2f}x")
-        print(f"  how much that gap VARIES  median spread {statistics.median(spreads):.2f}x   "
-              f"max {max(spreads):.2f}x")
-        if corrs:
-            print(f"  blitz rate ~ rapid rate   median r {statistics.median(corrs):+.2f}")
-        print("\n  a constant gap with high r  -> pool with a per-speed offset")
-        print("  a varying gap or low r      -> stratify, and the gap is diagnostic")
+        print(f"  how much that gap VARIES    median spread {statistics.median(spreads):.2f}x")
+        if control_spreads:
+            print(f"  the same, rapid vs ITSELF   median spread "
+                  f"{statistics.median(control_spreads):.2f}x"
+                  "   <- what noise alone produces")
+        print(f"  blitz predicts rapid        median r {statistics.median(crosses):+.2f}")
+        print(f"  rapid predicts ITSELF       median r {statistics.median(ceilings):+.2f}"
+              "   <- the ceiling noise allows")
+        if shares:
+            print(f"  share of the ceiling blitz recovers   "
+                  f"median {statistics.median(shares):.0%}")
+        for label, values in own_elo.items():
+            if values:
+                print(f"  mean own rating, {label:<7} {statistics.mean(values):>7.0f}")
+        print("\n  blitz ~= the ceiling  -> the speeds are interchangeable; POOL")
+        print("  blitz << the ceiling  -> blitz measures something else; STRATIFY")
     return 0
 
 

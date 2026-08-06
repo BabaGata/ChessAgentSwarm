@@ -159,7 +159,15 @@ This is what actually moved this cycle.
    mistakes twenty moves later — screens at **1.91×**, the best spread in the project, independent
    of `time_pressure_error` at **+0.204**, and is built as S2's fourth condition. 27 claim kinds now,
    2 players advised on it.
-   **Next: step 2**, the blitz/rapid screen, which decides whether step 5 is one corpus or three.
+   **Step 2 done** → [[experiments.e19-blitz-stratum]]. **Answer: pool.** Blitz predicts a player's
+   rapid behaviour as well as rapid predicts itself — **93 % of the reliability ceiling** — so step 5
+   is one corpus with per-speed baselines, not three corpora with three references. It nearly went
+   the other way: the raw blitz~rapid correlation is **+0.17**, which reads as "different construct"
+   until rapid is correlated with *itself* at the same sample size and returns **+0.19** (L-031).
+   The automaticity hypothesis is **refuted** — the gap's between-player variation is 2.39× against a
+   2.08× noise floor.
+   **Next: step 3**, peer-relative severity — the smallest change that fixes a defect already
+   shipped in E15.
 
 0. **Superseded — the evaluation that produced the plan above** →
    [[design.short-history-prioritisation]]. A proposal to set the minimum history at 20 games and
