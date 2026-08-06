@@ -207,6 +207,9 @@ class S2DecisionProcess:
                 baseline_rate=round(baseline, 4),
                 peer_rate=round(peer_rate, 4) if peer_rate is not None else None,
                 ci95=stats.ci95,
+                # Every instance is an error, so what was lost on them is what
+                # the habit costs (D5).
+                cost_wp=round(sum(o.loss_wp for o in errors), 2),
             ),
             provenance=context.provenance,
             confidence=Confidence(

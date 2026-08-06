@@ -29,6 +29,11 @@ from chesscoach.profile.models import ConfidenceTier, Finding
 # One or two. Not a knob.
 MAX_PRIORITIES = 2
 
+# Below this a cost is real and not worth reordering anything for -- a fraction
+# of a win-probability point per game is noise in the measurement, not a reason
+# to prefer one weakness over another.
+NEGLIGIBLE_COST_PER_GAME = 0.25
+
 # Only these reach a player at all (architecture.confidence).
 ASSERTABLE = (ConfidenceTier.FOCUS, ConfidenceTier.PRIORITY)
 
@@ -75,9 +80,24 @@ def select_priorities(
 
 
 def _sort_key(finding: Finding) -> tuple:
-    """Strength of evidence first, then how unusual, then breadth. Ties by id."""
+    """Strength of evidence, then **what it costs**, then how unusual (D5).
+
+    Cost outranks unusualness, and a claim that can state a cost outranks one
+    that cannot. That is deliberate: *"this is costing you four points of win
+    probability a game"* is a reason to spend a month on something, while *"you
+    do this 1.8x more than your peers"* is only a reason to find it interesting.
+
+    A claim whose instances are not mistakes -- conceding a structure, letting a
+    rook reach the seventh -- has no cost to state, and sorts below every claim
+    that has one. S5's design note argued for exactly that before any of this
+    was measurable: a claim that cannot say what it costs should have to work
+    harder for one of a player's two slots.
+    """
+    cost = finding.measurement.cost_per_game
     return (
         _TIER_RANK.get(finding.confidence.tier, 9),
+        0 if cost is not None else 1,
+        -(cost or 0.0),
         -_unusualness(finding),
         -finding.measurement.distinct_games,
         finding.id,
@@ -137,6 +157,15 @@ def _reasons(finding: Finding) -> tuple[str, ...]:
         reasons.append(
             f"{measurement.lift_vs_baseline:.1f}x this player's own rate elsewhere"
         )
+
+    cost = measurement.cost_per_game
+    if cost is not None and cost >= NEGLIGIBLE_COST_PER_GAME:
+        reasons.append(f"costing about {cost:.1f} points of win probability a game")
+    elif cost is None:
+        # Said plainly rather than left as an absence: this claim lost to any
+        # rival that could price itself, and the reader deserves to know that is
+        # why.
+        reasons.append("no measurable cost — its instances are choices, not mistakes")
 
     reasons.append(
         f"seen in {measurement.distinct_games} of {measurement.games_with_data} games"

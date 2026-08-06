@@ -68,6 +68,7 @@ class _Tally:
     opportunities: int = 0
     games_hit: set[str] = field(default_factory=set)
     examples: list[Observation] = field(default_factory=list)
+    cost_wp: float = 0.0
 
 
 @dataclass
@@ -173,6 +174,7 @@ def _tally(tallies: dict[str, _Tally], key: str, observation: Observation) -> No
     tally.instances += 1
     tally.games_hit.add(observation.game_id)
     tally.examples.append(observation)
+    tally.cost_wp += observation.loss_wp
 
 
 def _colour(observation: Observation) -> str:
@@ -231,6 +233,11 @@ def _assess(key: str, counts: _Counts, context: SectionContext) -> Finding | Non
             baseline_rate=round(peer_rate, 4),
             peer_rate=round(peer_rate, 4),
             ci95=stats.ci95,
+            # Only `early_error` counts mistakes. `opening_disadvantage` counts
+            # games the player was already worse in by move 15, which is an
+            # outcome rather than a move that lost something — so it has no
+            # measurable cost and must not be given one.
+            cost_wp=round(tally.cost_wp, 2) if kind == EARLY_ERROR else None,
         ),
         provenance=context.provenance,
         # "Does not know this opening" and "knows it and went wrong" need

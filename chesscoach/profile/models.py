@@ -31,7 +31,7 @@ from enum import Enum
 # CorpusRef gains `game_ids`, so a later check knows which games are new. And
 # Plan gains `outcomes`, so a plan carries its own verdict -- a system that
 # quietly drops its failed predictions is unfalsifiable.
-SCHEMA_VERSION = 8
+SCHEMA_VERSION = 9
 
 _Z = 1.96  # 95% normal quantile, for Wilson intervals
 
@@ -146,6 +146,12 @@ class Measurement:
     peer_rate: float | None = None
     baseline_rate: float | None = None
     ci95: tuple[float, float] | None = None
+    # Total win probability given away on this claim's instances, in percentage
+    # points (schema v9). **None where the instances are not mistakes** —
+    # conceding a structure or letting a rook reach the seventh is a choice, not
+    # a move that lost anything measurable, and putting a number on it would
+    # invent the very cost E03 failed to find.
+    cost_wp: float | None = None
 
     def __post_init__(self) -> None:
         if not 0.0 <= self.rate <= 1.0:
@@ -160,6 +166,23 @@ class Measurement:
             object.__setattr__(
                 self, "ci95", wilson_interval(self.distinct_games, self.games_with_data)
             )
+
+    @property
+    def cost_per_game(self) -> float | None:
+        """Win probability lost to this, per game the claim could arise in.
+
+        The unit a player can weigh: "this is costing you four points of win
+        probability a game" is a reason to work on something; "you do this 1.8x
+        more than your peers" is only a reason to find it interesting.
+
+        An **upper bound on what is recoverable**, not a promise. Stopping these
+        mistakes does not mean playing perfectly instead — some of the loss would
+        reappear as a different mistake — and no measurement here separates the
+        two.
+        """
+        if self.cost_wp is None or not self.games_with_data:
+            return None
+        return self.cost_wp / self.games_with_data
 
     @property
     def lift_vs_peer(self) -> float | None:

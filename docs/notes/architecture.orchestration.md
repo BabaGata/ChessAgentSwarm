@@ -86,10 +86,21 @@ than quietly taken:
 - **A diversity preference was added**: the second slot prefers a different subject, because missing
   pins and conceding pins are one thing to work on rather than two.
 
-Ranking is therefore tier → unusualness (peer lift where available) → breadth of evidence → id.
+Ranking is therefore tier → **can it state a cost** → **the cost** → unusualness (peer lift where
+available) → breadth of evidence → id.
+
 Tier comes first deliberately: on real data a `focus` finding at 3.1× peers ranks *below* a
 `priority` finding at 2.6×, because strength of evidence should outrank apparent size — the same
-principle as `PRIORITY_MARGIN` in [[architecture.confidence]].
+principle as `PRIORITY_MARGIN` in [[architecture.confidence]]. A large number should not be able to
+buy past weak evidence.
+
+**Item 4 of the list above — expected gain — was built in E15** and sits directly under the tier.
+`Measurement.cost_wp` holds the win probability given away on a claim's own instances, and
+`cost_per_game` normalises it. It is *not* gain per study **hour**: nothing measures how long a
+remedy takes ([[open-questions]] D5), and the study-time answer sizes the plan instead of dividing
+the cost. A claim whose instances are not mistakes has no cost and ranks below every claim that has
+one — a policy choice, argued for in the S5 design note before it was measurable, and the reason the
+positional sections lose slots they previously won. See [[experiments.e15-expected-gain]].
 
 ## Ablation as a first-class property
 

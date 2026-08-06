@@ -24,6 +24,26 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 
 ---
 
+### L-028 — A failed experiment answers its question, not the neighbouring one
+**Date:** 2026-08-06 · **Cycle / mission step:** M6 (V5) · **Class:** process
+**Context:** Building expected-gain reasoning ([[experiments.e15-expected-gain]]), which two
+scorecard cycles had recorded as blocked.
+**Observation:** [[experiments.e03-relevance-weighting]] looked for a link between a position feature
+and errors and did not find one. From then on [[state]] carried *"no expected-gain reasoning"* with
+E03 as the reason, and the next two cycles repeated it without re-examining it. The two questions are
+not the same one: E03 asked whether a feature **predicts** mistakes — a model that must generalise —
+while prioritisation only needs to know, for instances **already identified** as mistakes, how much
+was given away on exactly those moves. That is a sum over `loss_wp`, which every observation had been
+carrying since M3. The work took one cycle and changed the advice for 33 of 84 players.
+**Lesson:** A null result bounds the question that was asked, and nothing else. When a negative
+experiment starts being cited as a reason *not to attempt* something, write down the question it
+actually asked next to the question now being refused — if they differ in kind (**predicting** versus
+**accounting**, causal versus descriptive), the block is inherited rather than measured. The
+tell is a limitation that survives several cycles unchanged while being restated in the same words.
+**Applied to:** [[experiments.e15-expected-gain]], `chesscoach/arbiter.py` ordering, [[state]] D5.
+
+---
+
 ### L-027 — A trait that rises with skill is not a trait
 **Date:** 2026-08-06 · **Cycle / mission step:** M6 (V3) · **Class:** technique
 **Context:** Screening six candidate style dimensions before building V3

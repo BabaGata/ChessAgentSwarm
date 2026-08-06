@@ -23,6 +23,7 @@ The constraints in § 7 are enforced here rather than trusted:
 
 from __future__ import annotations
 
+from chesscoach.arbiter import NEGLIGIBLE_COST_PER_GAME
 from chesscoach.context import FOCUSED_EFFORT_HOURS
 from chesscoach.phrasing import move_number, quantity, statement
 from chesscoach.profile.models import (
@@ -212,6 +213,15 @@ def _reported(profile: PlayerProfile) -> list[Finding]:
     return [by_id[step.finding_id] for step in profile.plan.steps if step.finding_id in by_id]
 
 
+def _priced_count(profile: PlayerProfile) -> int:
+    """How many reported findings actually printed a cost."""
+    return sum(
+        1
+        for finding in _reported(profile)
+        if (finding.measurement.cost_per_game or 0.0) >= NEGLIGIBLE_COST_PER_GAME
+    )
+
+
 def _findings_section(profile: PlayerProfile) -> list[str]:
     reported = _reported(profile)
     if not reported:
@@ -251,6 +261,16 @@ def _finding(index: int, finding: Finding, probes: tuple[ProbeRecord, ...]) -> l
     lines.append(
         f"   Seen in     {measurement.distinct_games} of {measurement.games_with_data} games"
     )
+
+    # The line that answers "why should I care?", where it can be answered.
+    cost = measurement.cost_per_game
+    if cost is not None and cost >= NEGLIGIBLE_COST_PER_GAME:
+        lines.append(
+            f"   Costing you about {cost:.1f} points of win probability a game — that is what"
+        )
+        lines.append(
+            "   these moves gave away, and the most you could get back by stopping them."
+        )
 
     for evidence in finding.evidence[:EVIDENCE_SHOWN]:
         played = f", you played {evidence.move_played}" if evidence.move_played else ""
@@ -345,6 +365,17 @@ def _not_assessed(profile: PlayerProfile) -> list[str]:
 
 def _limits(profile: PlayerProfile) -> list[str]:
     limits = list(LIMITS)
+
+    if _priced_count(profile) > 1:
+        # Two costs on the page invite the reader to add them, and the sum would
+        # be wrong: one blunder under time pressure in a rook endgame is an
+        # instance of both claims. The numbers rank against each other; they do
+        # not accumulate (E15).
+        limits.append(
+            "The two costs above should not be added together — a single mistake can "
+            "belong to both patterns, so the totals overlap by an unknown amount."
+        )
+
     elsewhere = profile.context.plays_elsewhere if profile.context else None
     if elsewhere:
         # The player named a blind spot. Repeating it here is the difference

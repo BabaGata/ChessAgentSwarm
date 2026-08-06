@@ -53,7 +53,7 @@ need to know?"
 | D2 | V2 knowledge assessment | **2** | **+2** | **the prober works end to end** — probe selection, move check, a local model classifying reasons at kappa 0.74 with zero false-ignorance (E07), `gap_type` written back. Not 3: the rubric's answer set is written and labelled by the author and the figure is in-sample, so it may not yet change a real player's finding |
 | D3 | V3 style profiling | **2** | **+2** | **built, and half of it deliberately refused** → [[experiments.e14-style-dimensions]]. One measured tendency — how much of a player's game is spent with the queens off — that varies between players (1.40) and is **independent of strength** (r = −0.069). Four of six candidates turned out to be strength wearing a style label. Not 3: **the performance half does not survive** — everyone errs ~20 % less with queens off and players barely differ, so the report says what a player tends to do and refuses to say whether it suits them |
 | D4 | V4 gap detection | **5** | **+1** | **seven sections, and on 150-game histories the swarm advises 70 of 84 players (83 %)** with 27 distinct claim kinds and overlap 0.05 — louder, broader and more specific at once, and 113/113 grounded. The lever was corpus depth, not more sections: six sections moved coverage 24 → 53 %, depth alone moved it 53 → **83 %** (E12). Held back from a clean 5 by the honest caveat: **a real user brings 24 games, not 150**, and at that depth it is still 53 % |
-| D5 | V5 prioritisation | **2** | **+1** | the arbiter picks one or two deterministically with stated reasons, and **the count is now sized to the player**: under `FOCUSED_EFFORT_HOURS` the plan carries one thing rather than two, from the context questions. Not 3: still no *expected-gain* reasoning — the swarm chooses by how unusual a weakness is, not by what fixing it would be worth, and D5's time estimates remain refused for want of evidence |
+| D5 | V5 prioritisation | **3** | **+1** | **the swarm now ranks by what a weakness costs** → [[experiments.e15-expected-gain]]. Every claim whose instances are mistakes carries the win probability given away on exactly those moves, and the arbiter orders confidence → can it state a cost → the cost → how unusual. It **changed the advice for 33 of 84 players** without collapsing it (11 claim kinds and 7 sections before and after). Not 4: it is an **accounting** cost, not a forecast — nothing shows a player who fixes the priciest weakness gains more than one who fixes another, and the four positional sections cannot price themselves at all, so they now lose slots by policy rather than by measurement |
 | D6 | V6 path planning | **2** | **+2** | plans built and persisted, every step carrying a machine-checkable progress sign and a derived check point. No time estimates — D5 is unresolved and inventing them was refused |
 | D7 | V7 progress tracking | **3** | **+1** | **restored, on evidence this time.** 57 predictions from 84 players with ~150-game histories; the constant is cross-validated at 2 *and* 5 folds with a fold spread of 0.011, and a held-out false-positive rate of **15 %** is stated in the output. Not 4: the test's **power is unmeasured** — no coached cohort exists, so nothing shows a real improvement could clear the bar (**D8**) |
 | D8 | V8 explainability | **3** | — | the report exists, is deterministic, and is **13/13 grounded** on real players (E08 D4). **The 3 claimed last cycle was not earned**: reading a real report found Lichess theme keys in player-facing prose — *"a `trappedPiece` punishes you"* — which the groundedness metric scored 100 % on, because it only checks citation. Fixed (`phrasing.subject_name`), so the score now stands. Not 4: the report states measurements without explaining *why these one or two* were chosen over the rest, and the arbiter's reasoning is invisible |
@@ -62,8 +62,8 @@ need to know?"
 | D11 | Process & documentation health | 4 | — | cycle held up under real work, including reversing its own mis-framed question |
 | D12 | V9 dialogue & active assessment | **3** | **+1** | **the whole interaction exists**: four context questions before the analysis, probes after it, both feeding the profile, and probe results now reaching the diagnosis inside a coaching session. Answers accumulate as a dataset by-product. Not 4: the classifier's rubric is still the author's own (D10), and the dialogue is four fixed questions rather than anything adaptive |
 
-**Total: 36 / 60**, and **no dimension is at zero for the first time.** It has gone 17 → 16 → 17 → 16
-→ 17 → 18 → 20 → 22 → 25 → 26 → 27 → 28 → 29 → 32 → 34 → 36, and every move was forced by a
+**Total: 37 / 60**, and **no dimension is at zero.** It has gone 17 → 16 → 17 → 16
+→ 17 → 18 → 20 → 22 → 25 → 26 → 27 → 28 → 29 → 32 → 34 → 36 → 37, and every move was forced by a
 measurement:
 down when E05 showed the verdicts meant nothing, up when the target rule was recalibrated, down
 again when cross-validation showed that calibration was itself optimistic, and up now that 57
@@ -73,27 +73,30 @@ measured rather than one. A scorecard that only went up would not be measuring a
 The loop is closed — diagnose, prioritise, predict, check — and the prediction is now both demanding
 and **quantified**: about 15 % of untreated players meet it, held out rather than in-sample.
 
-**Two of twelve dimensions remain at zero**, down from four: D1 skill assessment and D3 style
-profiling. The empty column — everything requiring the player to be *asked* something — has started
-to fill for the first time in the project's history, and the loop now runs end to end: analyse →
+**No dimension is at zero**, down from four earlier in the project. The empty column — everything
+requiring the player to be *asked* something — has filled, and the loop runs end to end: analyse →
 diagnose → prioritise → **ask** → plan → **report** → check.
 
-Two honest qualifiers. **The probe cannot yet change a diagnosis** (D10), so the asking is real but
-not yet load-bearing. And **the swarm is silent for 29 of 38 real players** (E08) — not wrong, not
-generic, not overloaded, just quiet. A coach with nothing to say to three players in four is still
-not much of a coach, and that is now the binding constraint rather than an impression.
+**V1–V8 are now all built.** Nothing in the vision is missing a mechanism; what remains is that
+several of the mechanisms are weaker than the vision asks for, which is what the scores say.
 
-The +1 this cycle is D10 evaluation capability, and D8 stayed at 3 rather than rising: last cycle's
-3 was claimed before it was earned, and this cycle fixed the defect that made it unearned.
+Two honest qualifiers. **The prober's rubric is still the author's own** (D10), so the asking is
+load-bearing but validated in-sample. And **the swarm is silent for 14 of 84 players on deep
+histories, and for 47 % at the 24 games a real user actually brings** (E12) — not wrong, not generic,
+not overloaded, just quiet. That is the binding constraint, and it is deliberately parked (P2).
 
-The uncomfortable part of this cycle is not the score. Deepening the histories did not just add
-predictions, it **moved the effect being measured** — drift fell from +11.2 points to +4.8, and the
-old constant turned out to be unmeetable rather than conservative (1 of 52). The control was as
-sample-dependent as the thing it controlled for (L-019).
+The +1 this cycle is D5 prioritisation, and it closed the last structural gap in the vision.
 
-What changed this cycle is smaller than it sounds and more important than it looks: the system can
-now distinguish *"you do this"* from *"players at your level do this"*, which is the difference
-between a description and a diagnosis.
+The uncomfortable part of this cycle is not the score. Expected-gain reasoning had been treated as
+blocked ever since E03 failed to link a feature to errors — for two scorecard cycles the note read
+*"no expected-gain reasoning"* as though the measurement had settled it. It had not. E03 asked a
+**predictive** question and this asks an **accounting** one, and the second was a sum over evidence
+the profile had been carrying the whole time (L-028). A failed experiment had been quietly promoted
+into a boundary.
+
+What changed is smaller than it sounds and more important than it looks: the swarm can now say *"this
+is costing you four points a game"* instead of *"you do this 1.8× more than your peers"* — the
+difference between something interesting and a reason to spend a month on it.
 
 ## Capacity readiness
 
@@ -133,10 +136,10 @@ This is what actually moved this cycle.
    tendency of six candidates; four were strength wearing a style label, and the performance half is
    refused because players barely differ on it. **No scorecard dimension is at zero any more.**
 
-0. **P1 — Expected-gain reasoning (D5).** The swarm picks priorities by how *unusual* a weakness is,
-   not by what fixing it would be *worth*. That is the last structural gap in V5, and it is hard
-   honestly: it needs a link between closing a gap and gaining points, which E03 looked for in one
-   form and did not find. Worth attempting only with the link stated as the open question it is.
+0. **~~P1 — Expected-gain reasoning (D5).~~ Done 2026-08-06** → [[experiments.e15-expected-gain]].
+   Not blocked by E03 after all: that asked whether a feature *predicts* errors, this sums what the
+   *known* errors cost. Advice changed for **33 of 84 players**, claim kinds and sections unchanged,
+   `advantage_error` 1 → 9 and `opening_disadvantage` 11 → 4. D5 2 → 3.
 
 0. **P2 — Deferred by the author 2026-08-06: what to do about the 24-game user.** The swarm works on
    150-game histories and is silent for **47 %** of players at 24. That is a constraint on *who it

@@ -59,6 +59,8 @@ from chesscoach.profile.models import (
 #             context questions the schema did not have a home for
 #   v7 -> v8  added PlayerProfile.style -- measured tendencies, which are not
 #             findings and must not compete for a player's two priorities (V3)
+#   v8 -> v9  added Measurement.cost_wp -- what a claim actually costs, where its
+#             instances are mistakes and the question can be answered (D5)
 #
 # One honest consequence of admitting v2: its plan steps carry no `target_rate`,
 # so their progress signs describe a number the step does not hold and cannot be
@@ -192,6 +194,8 @@ def _finding_to_dict(finding: Finding) -> dict[str, Any]:
             "peer_rate": finding.measurement.peer_rate,
             "baseline_rate": finding.measurement.baseline_rate,
             "ci95": list(finding.measurement.ci95) if finding.measurement.ci95 else None,
+            "cost_wp": finding.measurement.cost_wp,
+            "cost_per_game": finding.measurement.cost_per_game,
             "lift_vs_peer": finding.measurement.lift_vs_peer,
             "lift_vs_baseline": finding.measurement.lift_vs_baseline,
         },
@@ -254,6 +258,7 @@ def _finding_from_dict(payload: dict[str, Any]) -> Finding:
             peer_rate=measurement.get("peer_rate"),
             baseline_rate=measurement.get("baseline_rate"),
             ci95=tuple(ci95) if ci95 else None,
+            cost_wp=measurement.get("cost_wp"),
         ),
         provenance=Provenance(
             engine=provenance["engine"],

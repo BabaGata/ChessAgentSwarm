@@ -133,7 +133,13 @@ Two further things fell out of widening that population from 7 players to 38:
   *margin*, not merely to touch it.
 
 The arbiter then picks **one or two** of those to work on — because a coach who lists nine weaknesses
-has given you none — and the planner turns each into a step with a check attached:
+has given you none. It picks them by **what they cost**: every claim whose instances are mistakes
+carries the win probability given away on exactly those moves, so the ranking is *"this is costing
+you four points a game"* rather than *"you do this 1.8× more than your peers"*. Claims whose
+instances are choices rather than mistakes — conceding a structure, letting a rook reach the seventh
+— have no cost to state and say so instead of guessing one.
+
+The planner then turns each into a step with a check attached:
 
 ```
 1. missed_motif (pin)

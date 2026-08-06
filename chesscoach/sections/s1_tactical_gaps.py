@@ -67,6 +67,9 @@ class _Tally:
     opportunities: int = 0
     games_hit: set[str] = field(default_factory=set)
     examples: list[Observation] = field(default_factory=list)
+    # Win probability given away on the instances. Summed over *every* instance,
+    # not the sampled evidence, because this is what the claim costs (D5).
+    cost_wp: float = 0.0
     better_moves: dict[tuple[str, int], str] = field(default_factory=dict)
 
 
@@ -171,6 +174,7 @@ def _count_available(
             missed.instances += 1
             missed.games_hit.add(observation.game_id)
             missed.examples.append(observation)
+            missed.cost_wp += observation.loss_wp
             missed.better_moves[_ref(observation)] = best.uci()
         elif observation.played_best:
             executed.instances += 1
@@ -200,6 +204,9 @@ def _count_allowed(
         tally.instances += 1
         tally.games_hit.add(observation.game_id)
         tally.examples.append(observation)
+        # The player's own move is what conceded it, so the loss on that move is
+        # what the concession cost.
+        tally.cost_wp += observation.loss_wp
         tally.better_moves[_ref(observation)] = punishment.uci()
 
 
@@ -246,6 +253,7 @@ def _assess(key: str, counts: _Counts, context: SectionContext) -> Finding | Non
             baseline_rate=round(baseline, 4),
             peer_rate=round(peer_rate, 4) if peer_rate is not None else None,
             ci95=stats.ci95,
+            cost_wp=round(tally.cost_wp, 2),
         ),
         provenance=context.provenance,
         confidence=Confidence(

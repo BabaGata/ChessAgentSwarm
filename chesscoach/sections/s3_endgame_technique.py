@@ -76,6 +76,9 @@ class _Tally:
     opportunities: int = 0
     games_hit: set[str] = field(default_factory=set)
     examples: list[Observation] = field(default_factory=list)
+    # Every instance here is a mistake, so the win probability lost on them is
+    # what the claim costs (D5).
+    cost_wp: float = 0.0
 
 
 @dataclass
@@ -208,6 +211,7 @@ def _tally(tallies: dict[str, _Tally], key: str, observation: Observation) -> No
     tally.instances += 1
     tally.games_hit.add(observation.game_id)
     tally.examples.append(observation)
+    tally.cost_wp += observation.loss_wp
 
 
 def _is_clearly_better(observation: Observation) -> bool:
@@ -268,6 +272,7 @@ def _assess(key: str, counts: _Counts, context: SectionContext) -> Finding | Non
             baseline_rate=round(peer_rate, 4),
             peer_rate=round(peer_rate, 4),
             ci95=stats.ci95,
+            cost_wp=round(tally.cost_wp, 2),
         ),
         provenance=context.provenance,
         confidence=Confidence(
