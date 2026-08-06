@@ -24,6 +24,27 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 
 ---
 
+### L-030 — Stability and specificity trade against each other, and one metric hides the other
+**Date:** 2026-08-06 · **Cycle / mission step:** M6 · **Class:** technique
+**Context:** Testing whether weakness rankings can be trusted on 20-game histories
+([[experiments.e17-ranking-stability]]).
+**Observation:** Two ranking signals were compared across disjoint windows of the same player.
+Deviation-from-peers agreed with itself **6 %** of the time against a 4 % chance baseline — real
+ordering, real noise. Severity agreed **65 %** of the time, which looked like a clear win until the
+second measurement: severity names the same claim for **70 %** of players, from a vocabulary of six.
+It is stable *because* it is nearly a constant. Had only the agreement figure been computed, a
+signal that turns the coach into one who says the same thing to seven players in ten would have
+looked like the best result in the project.
+**Lesson:** Reproducibility and discriminating power are separate axes, and a measurement of one
+reads as success while the other fails silently. **Any ranking or scoring change must report
+agreement *and* concentration together** — how often it says the same thing twice, and how often it
+says the same thing to everybody. The general form: an estimator can buy variance reduction with
+bias, and a stability metric is blind to exactly that trade.
+**Applied to:** [[experiments.e17-ranking-stability]], [[design.short-history-prioritisation]], and
+a stated defect in [[experiments.e15-expected-gain]] — raw cost must become peer-relative cost.
+
+---
+
 ### L-029 — The constraint you can name is rarely the one that binds
 **Date:** 2026-08-06 · **Cycle / mission step:** M6 · **Class:** process
 **Context:** Being asked *why* the swarm is silent for nearly half of players at 24 games — a figure

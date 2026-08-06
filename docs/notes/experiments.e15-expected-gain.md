@@ -97,6 +97,19 @@ The movements are the intended ones:
 `advantage_error` rising and `opening_disadvantage` falling is the whole change in miniature: the
 first is a mistake with a measurable price, the second is a result.
 
+## Correction, same day — the cost must become peer-relative
+
+[[experiments.e17-ranking-stability]] measured this ranking against a second window of the same
+players and found the mechanism sound and the **quantity too generic**: ranking by raw cost names
+`advantage_error` as the top claim for **70 %** of players, from a vocabulary of six. Costly is not
+the same as *unusually* costly, and `advantage_error` rising from 1 advised slot to 9 — recorded
+below as the intended effect — does not stop where it was assumed to.
+
+This is the mistake L-012 recorded for rates, repeated for costs: a quantity compared against nothing
+describes the rating band rather than the player. The fix is the one the peer reference exists to
+apply — *"this costs you 25 points a game where players at your level lose 9"* — and it needs the
+reference rebuilt carrying cost per claim, which it does not currently hold. Stated, not yet built.
+
 ## Honest limitations
 
 - **It is a ceiling, not a forecast.** The report says *"the most you could get back by stopping

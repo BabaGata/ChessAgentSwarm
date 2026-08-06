@@ -143,6 +143,18 @@ This is what actually moved this cycle.
    *known* errors cost. Advice changed for **33 of 84 players**, claim kinds and sections unchanged,
    `advantage_error` 1 → 9 and `opening_disadvantage` 11 → 4. D5 2 → 3.
 
+0. **P0 — Evaluated 2026-08-06, awaiting the author's decision** →
+   [[design.short-history-prioritisation]]. A proposal to set the minimum history at 20 games and
+   rank by an importance score (rate + severity + recency + game length) instead of gating.
+   Measured rather than argued: scoring **does** degrade gracefully where gating cliffs, severity is
+   the strong ingredient (**65 %** stable at 20 games) and occurrence rate ranks **at chance**
+   (6 % against 4 %) — but severity alone names the same weakness for **70 %** of players (E17), so
+   **E15's raw-cost ranking needs to become peer-relative**; that is a defect in work shipped the
+   same day. Recency has nothing to act on for the median player (a 20-game window spans 23 days)
+   and game length is inert on a corpus that is 74 % `600+0`. Cheapest real win found along the way:
+   **8.0 % of games are berserked and 2.2 % abandoned**, unfiltered, biasing exactly the
+   time-pressure signals under discussion.
+
 0. **P2 — Deferred by the author 2026-08-06: what to do about the 24-game user.** The swarm works on
    150-game histories and is silent for **43 %** of players at 24 (E16; E12 said 47 % on a different
    population). That is a constraint on *who it can help*, and it is deliberately parked until the

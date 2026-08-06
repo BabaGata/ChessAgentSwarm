@@ -32,6 +32,7 @@ An experiment with no consequence was not worth running.
 | E14 | is there a style to measure, or only strength wearing a label? | done — **four of six were strength**; one tendency ships, the fit half is refused | [[experiments.e14-style-dimensions]] |
 | E15 | can priorities be ranked by what a weakness costs rather than how unusual it is? | done — **yes, by accounting rather than prediction**; advice changed for 33 of 84 players | [[experiments.e15-expected-gain]] |
 | E16 | why is the swarm silent for half of players at 24 games? | done — **rarity and interval width, 96 %**; the recorded cause `FOCUS_DISTINCT_GAMES` is 3 % | [[experiments.e16-shallow-corpus]] |
+| E17 | can a weakness ranking be trusted at 20 games? | done — **severity yes (65 %), rate no (6 % vs 4 % chance)**; but severity tells 70 % of players the same thing | [[experiments.e17-ranking-stability]] |
 
 ## Conventions
 
