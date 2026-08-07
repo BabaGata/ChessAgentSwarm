@@ -379,7 +379,7 @@ because it *spends* effective sample size where sample size is the binding const
 | 4 | ~~Shrinkage replaces the gates~~ **WITHDRAWN 2026-08-06 → [[experiments.e20-shrinkage]]** | built and measured: it **halves** coverage at 24 games (50 % → 26 % spoken to) against its own control | the prediction was simply wrong |
 | 5 | ~~Admit blitz — **pooled**~~ **done 2026-08-06 → [[experiments.e21-pooled-speeds]]** | measured: **50 % → 79 %** of players advised at 24 rapid games, claim kinds 20 → 25, overlap 0.08 → 0.09 | **C1/D9** — ~5× the games, and D9's cost figure is now optimistic |
 | 6 | ~~Accumulate the corpus across sessions~~ **done 2026-08-06 → [[experiments.e22-accumulating-corpus]]** | `coach --previous` grows the window instead of sliding it; a 197-game pooled session costs **2.2 s** warm | ~~needs corpus identity the CLI lacks~~ **it did not**: Lichess is the archive, so this was a request-size problem, not a storage one |
-| 7 | Recency decay on calendar time | drift measurable on the quarter of players whose windows span 90+ days | costs effective sample |
+| 7 | ~~Recency decay on calendar time~~ **REFUSED 2026-08-06 → [[experiments.e23-recency]]** | screened first: games **over a year old** predict recent play about as well as games two months old (r +0.23 against +0.29, ceiling +0.19) | it would have spent effective sample size — the binding constraint — for no measured gain |
 
 Steps 1–4 need no new data and no architectural commitment. **Step 5 is the architectural one** and
 is the only place C1 is genuinely at risk, which is why step 2 comes before it: the screen is cheap

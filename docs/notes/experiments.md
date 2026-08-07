@@ -38,6 +38,7 @@ An experiment with no consequence was not worth running.
 | E20 | does a shrunk posterior let the swarm speak to more players? | done — **no, the reverse**: 50 % spoken to becomes 26 %. Step 4 withdrawn | [[experiments.e20-shrinkage]] |
 | E21 | does pooling a player's other speeds fix the shallow-history silence? | done — **yes, decisively**: 50 % → **79 %** advised at 24 games, with more claim kinds and unchanged overlap | [[experiments.e21-pooled-speeds]] |
 | E22 | what does it take to make a returning player's corpus grow? | done — **a bigger request, not a game store**. A 197-game pooled session costs 2.2 s warm | [[experiments.e22-accumulating-corpus]] |
+| E23 | should old games be discounted? | done — **no**: games over a year old predict recent play as well as recent ones. Step 7 refused | [[experiments.e23-recency]] |
 
 ## Conventions
 

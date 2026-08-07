@@ -199,11 +199,33 @@ This is what actually moved this cycle.
    layer predated the plan proposing it. Measured warm: a **197-game pooled session costs 2.2 s**,
    2.9× the games for 1.6× the time, because a returning player's old games are exactly the ones
    already in the cache.
-   **Six of seven steps are closed** (step 4 withdrawn on evidence). **Next: step 7**, recency decay
-   on calendar time — now more necessary than when it was ranked last, since a 300-game accumulated
-   corpus can reach back years and every game in it currently counts the same.
-   **And D9 needs re-timing:** its session cost predates blitz, and a fresh player now brings up to
-   5× the games. That figure should not be quoted until it is measured again.
+   **Step 7 refused on evidence** → [[experiments.e23-recency]]. Screened before building: games
+   **over a year old** predict a player's recent claim rates about as well as games two months old
+   (r +0.23 against +0.29, ceiling +0.19). Decay would have spent effective sample size — the
+   binding constraint — for no measured gain. L-034: improvement changes a player's *level*, not the
+   *shape* of their weaknesses, which is also why diagnosis against a peer population does not need
+   to discount old games.
+
+   **The plan is closed. Seven steps: four built, one withdrawn, one refused, one found already
+   done.**
+
+   | | |
+   |---|---|
+   | 1 exclude contaminated games | built — 583 games, coverage −1, correctness + |
+   | 1b the time-budget claim | built — 1.91× spread, S2's fourth condition |
+   | 2 blitz/rapid screen | **pool**, 93 % of the reliability ceiling |
+   | 3 peer-relative severity | built — `advantage_error` 7 → 4 advised |
+   | 4 shrinkage | **withdrawn** — halved coverage (E20) |
+   | 5 pool the speeds | built — **50 % → 79 %** advised at 24 games |
+   | 6 accumulate the corpus | built — and needed no game store |
+   | 7 recency decay | **refused** — old games still describe the player |
+
+   **The headline: a 24-game history now gets 79 % of players advised, against 50 % before, with
+   more claim kinds and unchanged overlap.** Every gain came from the supply side; every attempt at
+   the policy end failed.
+
+   **Outstanding: D9 needs re-timing.** Its session cost predates blitz, and a fresh player now
+   brings up to 5× the games. That figure should not be quoted until it is measured again.
 
 0. **Superseded — the evaluation that produced the plan above** →
    [[design.short-history-prioritisation]]. A proposal to set the minimum history at 20 games and

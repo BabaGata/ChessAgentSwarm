@@ -45,6 +45,26 @@ a stated defect in [[experiments.e15-expected-gain]] — raw cost must become pe
 
 ---
 
+### L-034 — Improvement changes a player's level, not the shape of their weaknesses
+**Date:** 2026-08-06 · **Cycle / mission step:** M6 · **Class:** domain
+**Context:** Screening whether old games should be discounted before building recency decay
+([[experiments.e23-recency]]).
+**Observation:** Games from **over a year ago** predict a player's recent claim rates about as well
+as games from two months ago — r +0.23 against +0.29, with the reliability ceiling at +0.19. This
+sits beside E05, which measured genuine drift of about +4.8 rating points over 150 games, and does
+not contradict it: drift is a change in **level**, and these correlations are about **shape** —
+whether the pattern of what a player is relatively bad at persists. It does.
+**Lesson:** A player's weakness *profile* is far more stable than their strength. Two consequences.
+Diagnosis does not need to discount old games, because every claim is measured against a peer
+population and a uniform improvement moves the player and their comparison together. And the
+**progress check cannot rely on a weakness fading by itself** — if the shape persists across years,
+an untreated claim will still be there at re-measurement, which makes the check's 15 % held-out
+false-positive rate (E06) more credible rather than less.
+**Applied to:** [[experiments.e23-recency]], step 7 of [[design.short-history-prioritisation]]
+refused, and the reasoning behind R-15's calibration.
+
+---
+
 ### L-033 — A better estimator is not a more generous one
 **Date:** 2026-08-06 · **Cycle / mission step:** M6 · **Class:** technique
 **Context:** Step 4 of [[design.short-history-prioritisation]], which proposed replacing the
