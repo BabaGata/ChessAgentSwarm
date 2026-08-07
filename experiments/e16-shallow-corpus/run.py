@@ -138,6 +138,14 @@ def main() -> int:
     parser.add_argument("--cache", required=True)
     parser.add_argument("--peers", required=True)
     parser.add_argument("--games", type=int, default=24)
+    parser.add_argument(
+        "--no-prior",
+        action="store_true",
+        help="withhold the population prior, reproducing the pre-step-4 policy. "
+        "The control: comparing today's silence against a figure measured before "
+        "the corpus was cleaned and the reference rebuilt would attribute all "
+        "three changes to whichever one is being examined.",
+    )
     parser.add_argument("--depth", type=int, default=15)
     parser.add_argument("--workers", type=int, default=8)
     args = parser.parse_args()
@@ -146,6 +154,12 @@ def main() -> int:
     paths = sorted(args.pgn.glob("*.pgn"))
     recorder = Recorder()
     recorder.install()
+
+    if args.no_prior:
+        # Everything else identical -- same games, same reference, same peer
+        # rates -- so the difference is the posterior and nothing else.
+        SectionContext.prior_for = lambda self, claim_key: None
+        print("prior withheld: pre-step-4 policy\n", flush=True)
 
     print(f"{len(paths)} players, truncated to the most recent {args.games} games\n", flush=True)
 

@@ -45,6 +45,31 @@ a stated defect in [[experiments.e15-expected-gain]] — raw cost must become pe
 
 ---
 
+### L-033 — A better estimator is not a more generous one
+**Date:** 2026-08-06 · **Cycle / mission step:** M6 · **Class:** technique
+**Context:** Step 4 of [[design.short-history-prioritisation]], which proposed replacing the
+confidence gates with a posterior shrunk toward the peer population
+([[experiments.e20-shrinkage]]).
+**Observation:** The plan reasoned that a threshold test fails *abruptly* at short histories while a
+posterior bends, so replacing the cliff would let the swarm speak to more players. Measured against
+its own control — same games, same reference, prior withheld — it did the reverse: **50 % of players
+spoken to became 26 %**. A Wilson bound is computed from the player's own games alone; a shrunk
+posterior pulls that toward the population, so it is strictly *more* conservative. The 69 claims E16
+found blocked by the interval test were not victims of a sharp threshold, they were claims the
+evidence does not support, and the better estimator agreed more strongly.
+**Lesson:** Replacing a crude statistic with a principled one changes *how* a system is wrong, not
+*how often* it says yes, and the direction is usually toward saying less. **Never adopt an estimator
+on the argument that it will loosen a constraint** — that is an argument about a threshold, and
+thresholds are the thing being replaced. Where the real problem is quantity of evidence, no
+estimator fixes it; only more evidence does. The tell here was already written in the design note's
+own limitations — *"shrinkage does not manufacture events"* — one paragraph away from the plan that
+assumed it would.
+**Applied to:** [[experiments.e20-shrinkage]], step 4 withdrawn from
+[[design.short-history-prioritisation]], `chesscoach/confidence.py` reverted with the reason recorded
+in `ClaimStats`.
+
+---
+
 ### L-032 — A number measured under an experimental condition does not describe the shipped system
 **Date:** 2026-08-06 · **Cycle / mission step:** M6 · **Class:** process
 **Context:** Step 3 of [[design.short-history-prioritisation]], whose definition of done was

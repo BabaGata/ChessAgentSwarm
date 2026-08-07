@@ -57,7 +57,15 @@ FOCUS_MARGIN = 1.25
 
 @dataclass(frozen=True)
 class ClaimStats:
-    """What the confidence policy needs to know about a candidate claim."""
+    """What the confidence policy needs to know about a candidate claim.
+
+    Deliberately **not** carrying a population prior. Replacing the interval test
+    with a posterior shrunk toward the peer population was built and measured in
+    E20: it **halved** coverage at 24 games rather than raising it, because a
+    Wilson bound computed from the player's own games is more permissive than a
+    properly shrunk estimate. The shrinkage machinery survives in
+    `chesscoach.shrinkage`, where the peer reference uses it; the gate does not.
+    """
 
     distinct_games: int
     games_with_data: int
@@ -129,7 +137,13 @@ def assign_tier(stats: ClaimStats) -> TierDecision:
 
 
 def _focus_blockers(stats: ClaimStats) -> list[str]:
-    """Everything standing between this claim and being shown to the player."""
+    """Everything standing between this claim and being shown to the player.
+
+    The distinct-game floors stay. They are not a sample-size test -- the
+    posterior is -- they guard against **clustering**: three pieces hung in one
+    disastrous game is not a pattern, however many opportunities the corpus
+    holds, and no amount of shrinkage notices that.
+    """
     blockers: list[str] = []
     if stats.distinct_games < FOCUS_DISTINCT_GAMES:
         blockers.append(f"fewer than {FOCUS_DISTINCT_GAMES} distinct games")

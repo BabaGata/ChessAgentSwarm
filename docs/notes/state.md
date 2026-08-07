@@ -175,8 +175,17 @@ This is what actually moved this cycle.
    states what is recoverable — *"costing you 24.3 a game; players at your level lose 10.5, so
    roughly 13.8 is what fixing this could get back."* Still unverified: whether peer-relative
    severity keeps severity's 65 % stability gate-free.
-   **Next: step 4**, shrinkage — the change that makes a 20-game minimum defensible rather than
-   aspirational, and the one E16/E18 both point at as the binding constraint.
+   **Step 4 built, measured and WITHDRAWN** → [[experiments.e20-shrinkage]]. Replacing the interval
+   test with a posterior shrunk toward the peers **halves** coverage at 24 games — 50 % of players
+   spoken to becomes **26 %** against its own control — and costs on the deep corpus too (69 → 57
+   advised). A Wilson bound uses the player's own games; a shrunk posterior pulls toward the
+   population and is therefore *more* conservative, not less (L-033). Reverted. Kept:
+   `chesscoach/shrinkage.py` with 29 tests, now the single shrinkage formula in the system since
+   `expected_rate` calls it instead of doing the update by hand.
+   **A 20-game minimum has lost the mechanism that was to justify it** and is an aspiration again.
+   **Next: step 5 or 6 — the supply side.** Three attempts to fix coverage at the policy end have
+   now failed (D12's floor, peer-relative cost, shrinkage), and E16 said from the start that the
+   binding constraint is events per corpus. That pattern is worth trusting.
 
 0. **Superseded — the evaluation that produced the plan above** →
    [[design.short-history-prioritisation]]. A proposal to set the minimum history at 20 games and

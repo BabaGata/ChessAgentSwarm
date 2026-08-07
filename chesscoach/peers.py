@@ -22,6 +22,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from chesscoach.profile.models import wilson_interval
+from chesscoach.shrinkage import posterior
 
 SCHEMA_VERSION = 2
 
@@ -152,6 +153,28 @@ class PeerReference:
         games = sum(c.games_with_data for c in contributions)
         return sum(c.cost_wp for c in contributions) / games if games else None
 
+    def prior_for(
+        self,
+        band: str,
+        time_control: str,
+        claim_key: str,
+        excluding: str | None = None,
+    ) -> tuple[float, float] | None:
+        """The population rate and how hard it should pull, or None if unknown.
+
+        The two numbers a posterior needs. Returned together because using one
+        without the other -- a population rate with a guessed strength -- is how
+        a shrinkage estimate quietly becomes an opinion.
+        """
+        contributions = self._contributions(band, time_control, claim_key, excluding)
+        if not contributions:
+            return None
+        opportunities = sum(c.opportunities for c in contributions)
+        if opportunities == 0:
+            return None
+        rate = sum(c.instances for c in contributions) / opportunities
+        return rate, prior_strength(contributions)
+
     def expected_rate(
         self,
         band: str,
@@ -175,17 +198,15 @@ class PeerReference:
         if opportunities <= 0:
             return None
 
-        contributions = self._contributions(band, time_control, claim_key, excluding)
-        if not contributions:
+        found = self.prior_for(band, time_control, claim_key, excluding)
+        if found is None:
             return None
 
-        total_opportunities = sum(c.opportunities for c in contributions)
-        if total_opportunities == 0:
-            return None
-
-        population = sum(c.instances for c in contributions) / total_opportunities
-        strength = prior_strength(contributions)
-        return (instances + strength * population) / (opportunities + strength)
+        population, strength = found
+        # One shrinkage formula in the system rather than two. `chesscoach.
+        # shrinkage` holds the distribution this is the mean of, so a caller who
+        # needs the uncertainty as well as the estimate gets a consistent answer.
+        return posterior(instances, opportunities, population, strength).mean
 
     def _contributions(
         self, band: str, time_control: str, claim_key: str, excluding: str | None

@@ -310,7 +310,16 @@ Five layers, each independently useful (C6) and independently verifiable.
 | **Admit blitz and bullet, stratified by speed class** | never blended; one peer reference per class |
 | **Accumulate the corpus across sessions** | diagnose on everything held, measure progress on the new window only |
 
-### Layer 2 — Estimation: a posterior, not a gate
+### Layer 2 — Estimation: a posterior, not a gate — **REFUTED**
+
+> **Withdrawn 2026-08-06 by [[experiments.e20-shrinkage]].** Built, measured against its own control,
+> and reverted: it **halves** coverage at 24 games (50 % → 26 % of players spoken to) and costs on the
+> deep corpus too (69 → 57 advised). The reasoning below mistook a *cliff* for a calibration problem
+> when it was a quantity-of-evidence problem. A Wilson bound uses the player's games alone; a shrunk
+> posterior pulls toward the population, so it is **more** conservative, not less. Shrinkage cannot
+> manufacture confidence the evidence does not contain — which this note's own limitations section
+> already said, in the words *"shrinkage does not manufacture events"*, and which was then not
+> believed. The reasoning is kept below because it is what a plausible wrong idea looks like.
 
 Replace the interval test and the distinct-game floors with **empirical-Bayes shrinkage**. The peer
 reference for the player's band *and speed class* supplies the prior; the player's own games update
@@ -367,7 +376,7 @@ because it *spends* effective sample size where sample size is the binding const
 | 1 | ~~Exclude berserked and abandoned games~~ **done 2026-08-06** — see below | E08 re-run; every prior measurement re-stated on clean data | none — pure subtraction |
 | 2 | ~~**Screen** the blitz/rapid gap~~ **done 2026-08-06 → [[experiments.e19-blitz-stratum]]. Answer: POOL.** Blitz recovers **93 %** of the ceiling rapid reaches against itself, so the speeds measure the same thing | — | the automaticity hypothesis did die, exactly as this row anticipated |
 | 3 | ~~Peer-relative severity~~ **done 2026-08-06 — see below** | ~~concentration falls well below 70 %~~ **the target was misread**; see below | fixes a defect shipped in E15 |
-| 4 | Shrinkage replaces the gates | coverage at 24 games rises from 43 % silent; E08 D1/D2 unchanged or better | the prior is 84 players from one band |
+| 4 | ~~Shrinkage replaces the gates~~ **WITHDRAWN 2026-08-06 → [[experiments.e20-shrinkage]]** | built and measured: it **halves** coverage at 24 games (50 % → 26 % spoken to) against its own control | the prediction was simply wrong |
 | 5 | Admit blitz — **pooled**, per E19 | coverage at a **20-game rapid history** measured, not predicted | **C1/D9** — ~5× the games to analyse |
 | 6 | Accumulate the corpus across sessions | a second session on the same player uses both corpora | needs corpus identity the CLI lacks |
 | 7 | Recency decay on calendar time | drift measurable on the quarter of players whose windows span 90+ days | costs effective sample |

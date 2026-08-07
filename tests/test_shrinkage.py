@@ -1,121 +1,152 @@
-"""Estimating what a player's rate really is, before predicting anything about it.
+"""Step 4 — how sure are we, given how little we have?
 
-E05 measured that 92% of the planner's targets were met with no intervention,
-because a finding is selected for being extreme and extremes regress. The fix is
-to stop treating the selected value as the truth: shrink it toward the
-population in proportion to how little data supports it.
+Spec: docs/notes/design.short-history-prioritisation.md § layer 2
 
-The prior's strength is estimated from the peer reference itself, which already
-stores each player's contribution — so how much to shrink is measured rather
-than guessed.
+The confidence policy asks a threshold question — does the interval clear the
+baseline, are there five distinct games — and E16 measured what that costs: at 24
+games the swarm is silent for 43 % of players, and **96 %** of that silence is two
+gates that are really one complaint, *"too little evidence"*, expressed as cliffs.
+
+A posterior expresses the same complaint continuously. The peer reference already
+supplies the prior (`prior_strength`, a method-of-moments beta-binomial); what is
+missing is the uncertainty around the shrunk estimate, which is what decides
+whether a claim may be asserted, merely suspected, or left unsaid.
+
+Exact rather than approximate: the regularised incomplete beta function by
+continued fraction, in the spirit of the hand-written Fisher exact test already
+here. A normal approximation would be wrong in exactly the case that matters —
+few observations, where the posterior is skewed.
 """
 
 from __future__ import annotations
 
+import math
+
 import pytest
 
-from chesscoach.peers import ConditionMeasurement, build_reference
-
-KEY = "missed_motif.pin.own"
+from chesscoach.shrinkage import Posterior, betainc, posterior
 
 
-def reference_from(rates_and_sizes, band="1400-1800", time_control="rapid"):
-    return build_reference(
-        [
-            (
-                f"peer{index}",
-                (
-                    ConditionMeasurement(
-                        claim_key=KEY,
-                        instances=round(rate * size),
-                        opportunities=size,
-                        distinct_games=5,
-                        games_with_data=30,
-                    ),
-                ),
-            )
-            for index, (rate, size) in enumerate(rates_and_sizes)
-        ],
-        band=band,
-        time_control=time_control,
-        depth=15,
-    )
+class TestTheIncompleteBeta:
+    """Checked against identities rather than a table, so it needs no external source."""
+
+    @pytest.mark.parametrize("x", [0.01, 0.25, 0.5, 0.75, 0.99])
+    def test_uniform_case_is_the_identity(self, x):
+        # I_x(1,1) = x
+        assert betainc(1.0, 1.0, x) == pytest.approx(x, abs=1e-12)
+
+    @pytest.mark.parametrize("x,a", [(0.3, 2.0), (0.7, 5.0), (0.5, 0.5)])
+    def test_beta_of_one_is_a_power(self, x, a):
+        # I_x(a,1) = x**a
+        assert betainc(a, 1.0, x) == pytest.approx(x**a, rel=1e-10)
+
+    @pytest.mark.parametrize("x,b", [(0.3, 2.0), (0.7, 5.0), (0.5, 0.5)])
+    def test_alpha_of_one_is_the_complement(self, x, b):
+        # I_x(1,b) = 1 - (1-x)**b
+        assert betainc(1.0, b, x) == pytest.approx(1 - (1 - x) ** b, rel=1e-10)
+
+    @pytest.mark.parametrize("a,b,x", [(2.0, 3.0, 0.4), (7.5, 2.5, 0.8), (30.0, 70.0, 0.31)])
+    def test_the_symmetry_identity_holds(self, a, b, x):
+        # I_x(a,b) = 1 - I_{1-x}(b,a)
+        assert betainc(a, b, x) == pytest.approx(1 - betainc(b, a, 1 - x), abs=1e-12)
+
+    def test_a_symmetric_beta_has_half_its_mass_below_the_middle(self):
+        assert betainc(8.0, 8.0, 0.5) == pytest.approx(0.5, abs=1e-12)
+
+    def test_it_is_bounded(self):
+        assert betainc(3.0, 4.0, 0.0) == 0.0
+        assert betainc(3.0, 4.0, 1.0) == 1.0
+
+    def test_it_survives_the_large_counts_a_deep_corpus_produces(self):
+        # 250,000 opportunities is a real figure from the peer reference; a naive
+        # implementation overflows on the gamma functions here.
+        value = betainc(50_000.0, 200_000.0, 0.2)
+
+        assert 0.0 <= value <= 1.0
+        assert math.isfinite(value)
 
 
-def spread_peers():
-    """Peers whose rates genuinely differ: a weak prior, so shrink little."""
-    return reference_from([(0.05, 200), (0.20, 200), (0.35, 200), (0.50, 200), (0.10, 200)])
+class TestTheShrunkEstimate:
+    def test_no_evidence_leaves_the_player_at_the_population(self):
+        belief = posterior(instances=0, opportunities=0, population_rate=0.2, strength=50.0)
 
+        assert belief.mean == pytest.approx(0.2)
 
-def uniform_peers():
-    """Peers who all behave alike: a strong prior, so shrink hard."""
-    return reference_from([(0.20, 200), (0.21, 200), (0.19, 200), (0.20, 200), (0.21, 200)])
+    def test_a_little_evidence_moves_it_a_little(self):
+        # 4 in 10 looks like 40%, but against a 20% population and 50
+        # pseudo-observations it is barely evidence at all.
+        belief = posterior(instances=4, opportunities=10, population_rate=0.2, strength=50.0)
 
+        assert 0.20 < belief.mean < 0.25
 
-class TestExpectedRate:
-    def test_a_small_sample_is_pulled_towards_the_population(self):
-        peers = uniform_peers()
+    def test_a_lot_of_evidence_moves_it_a_lot(self):
+        belief = posterior(instances=400, opportunities=1000, population_rate=0.2, strength=50.0)
 
-        expected = peers.expected_rate("1400-1800", "rapid", KEY, instances=3, opportunities=4)
+        assert belief.mean > 0.38
 
-        assert expected < 0.75  # the raw rate
-        assert expected == pytest.approx(0.20, abs=0.08)
+    def test_the_estimate_matches_the_reference_shrinkage(self):
+        # Must agree with PeerReference.expected_rate, which the progress check
+        # already relies on. Two shrinkage formulas in one system would be a bug
+        # waiting for someone to notice the predictions disagree.
+        instances, opportunities, population, strength = 30, 200, 0.2, 50.0
+        expected = (instances + strength * population) / (opportunities + strength)
 
-    def test_a_large_sample_is_left_close_to_what_was_observed(self):
-        peers = uniform_peers()
-
-        expected = peers.expected_rate(
-            "1400-1800", "rapid", KEY, instances=1500, opportunities=2000
+        assert posterior(instances, opportunities, population, strength).mean == pytest.approx(
+            expected
         )
 
-        assert expected == pytest.approx(0.75, abs=0.05)
 
-    def test_peers_who_differ_widely_justify_less_shrinkage(self):
-        wide = spread_peers().expected_rate(
-            "1400-1800", "rapid", KEY, instances=30, opportunities=40
-        )
-        narrow = uniform_peers().expected_rate(
-            "1400-1800", "rapid", KEY, instances=30, opportunities=40
-        )
+class TestHowSure:
+    def test_thin_evidence_is_not_convincing(self):
+        # Two occurrences where the population expects one. This is the case the
+        # distinct-games floor existed to block, and the posterior blocks it
+        # without a threshold: it simply is not sure.
+        belief = posterior(instances=2, opportunities=20, population_rate=0.05, strength=50.0)
 
-        assert wide > narrow
+        assert belief.probability_above(0.05) < 0.9
 
-    def test_returns_none_without_a_population_to_shrink_towards(self):
-        peers = uniform_peers()
+    def test_the_same_rate_on_much_more_evidence_is_convincing(self):
+        belief = posterior(instances=100, opportunities=1000, population_rate=0.05, strength=50.0)
 
-        assert peers.expected_rate("other-band", "rapid", KEY, 10, 20) is None
+        assert belief.probability_above(0.05) > 0.99
 
-    def test_excludes_the_player_from_their_own_population(self):
-        peers = uniform_peers()
+    def test_being_at_the_population_is_a_coin_flip(self):
+        belief = posterior(instances=20, opportunities=100, population_rate=0.2, strength=50.0)
 
-        with_all = peers.expected_rate("1400-1800", "rapid", KEY, 10, 20)
-        without_one = peers.expected_rate(
-            "1400-1800", "rapid", KEY, 10, 20, excluding="peer0"
-        )
+        assert belief.probability_above(0.2) == pytest.approx(0.5, abs=0.05)
 
-        assert with_all is not None and without_one is not None
+    def test_being_below_the_population_is_unconvincing(self):
+        belief = posterior(instances=5, opportunities=100, population_rate=0.2, strength=50.0)
 
-    def test_no_opportunities_means_no_estimate(self):
-        assert uniform_peers().expected_rate("1400-1800", "rapid", KEY, 0, 0) is None
+        assert belief.probability_above(0.2) < 0.05
 
 
-class TestPriorStrength:
-    def test_uniform_peers_give_a_stronger_prior_than_varied_ones(self):
-        from chesscoach.peers import prior_strength
+class TestTheInterval:
+    def test_it_brackets_the_estimate(self):
+        belief = posterior(instances=40, opportunities=200, population_rate=0.1, strength=50.0)
+        low, high = belief.interval()
 
-        uniform = prior_strength(uniform_peers().cells[f"1400-1800|rapid|{KEY}"])
-        varied = prior_strength(spread_peers().cells[f"1400-1800|rapid|{KEY}"])
+        assert low < belief.mean < high
 
-        assert uniform > varied
+    def test_more_evidence_narrows_it(self):
+        thin = posterior(instances=4, opportunities=20, population_rate=0.1, strength=50.0)
+        thick = posterior(instances=400, opportunities=2000, population_rate=0.1, strength=50.0)
 
-    def test_too_few_peers_falls_back_to_a_default(self):
-        from chesscoach.peers import DEFAULT_PRIOR_STRENGTH, prior_strength
+        def width(b: Posterior) -> float:
+            low, high = b.interval()
+            return high - low
 
-        one_peer = reference_from([(0.2, 100)])
+        assert width(thick) < width(thin) / 3
 
-        assert prior_strength(one_peer.cells[f"1400-1800|rapid|{KEY}"]) == DEFAULT_PRIOR_STRENGTH
+    def test_it_stays_inside_the_unit_interval(self):
+        low, high = posterior(0, 5, population_rate=0.001, strength=50.0).interval()
 
-    def test_is_never_negative(self):
-        from chesscoach.peers import prior_strength
+        assert 0.0 <= low <= high <= 1.0
 
-        assert prior_strength(spread_peers().cells[f"1400-1800|rapid|{KEY}"]) > 0
+
+def test_a_population_that_never_does_it_is_handled():
+    # A claim with a zero population rate would make the prior degenerate.
+    belief = posterior(instances=1, opportunities=10, population_rate=0.0, strength=50.0)
+
+    assert 0.0 <= belief.mean <= 1.0
+    assert math.isfinite(belief.probability_above(0.0))
