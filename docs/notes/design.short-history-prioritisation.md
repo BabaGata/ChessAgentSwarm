@@ -377,7 +377,7 @@ because it *spends* effective sample size where sample size is the binding const
 | 2 | ~~**Screen** the blitz/rapid gap~~ **done 2026-08-06 → [[experiments.e19-blitz-stratum]]. Answer: POOL.** Blitz recovers **93 %** of the ceiling rapid reaches against itself, so the speeds measure the same thing | — | the automaticity hypothesis did die, exactly as this row anticipated |
 | 3 | ~~Peer-relative severity~~ **done 2026-08-06 — see below** | ~~concentration falls well below 70 %~~ **the target was misread**; see below | fixes a defect shipped in E15 |
 | 4 | ~~Shrinkage replaces the gates~~ **WITHDRAWN 2026-08-06 → [[experiments.e20-shrinkage]]** | built and measured: it **halves** coverage at 24 games (50 % → 26 % spoken to) against its own control | the prediction was simply wrong |
-| 5 | Admit blitz — **pooled**, per E19 | coverage at a **20-game rapid history** measured, not predicted | **C1/D9** — ~5× the games to analyse |
+| 5 | ~~Admit blitz — **pooled**~~ **done 2026-08-06 → [[experiments.e21-pooled-speeds]]** | measured: **50 % → 79 %** of players advised at 24 rapid games, claim kinds 20 → 25, overlap 0.08 → 0.09 | **C1/D9** — ~5× the games, and D9's cost figure is now optimistic |
 | 6 | Accumulate the corpus across sessions | a second session on the same player uses both corpora | needs corpus identity the CLI lacks |
 | 7 | Recency decay on calendar time | drift measurable on the quarter of players whose windows span 90+ days | costs effective sample |
 

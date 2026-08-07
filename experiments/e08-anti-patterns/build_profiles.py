@@ -43,6 +43,14 @@ def main() -> int:
     parser.add_argument("--cache", required=True)
     parser.add_argument("--peers", required=True)
     parser.add_argument("--out", required=True, type=Path)
+    parser.add_argument(
+        "--also", type=Path, default=None,
+        help="a second directory of PGNs per player, pooled into the same corpus",
+    )
+    parser.add_argument(
+        "--games", type=int, default=None,
+        help="truncate the primary directory to this many most-recent games",
+    )
     parser.add_argument("--depth", type=int, default=15)
     parser.add_argument("--workers", type=int, default=10)
     args = parser.parse_args()
@@ -56,6 +64,12 @@ def main() -> int:
         for index, path in enumerate(paths, start=1):
             player = path.stem
             games = parse_pgn_file(path)
+            if args.games:
+                games = tuple(
+                    sorted(games, key=lambda g: (g.date or "", g.game_id))[-args.games:]
+                )
+            if args.also and (extra := args.also / f"{player}.pgn").exists():
+                games = tuple(games) + parse_pgn_file(extra)
             corpus = build_corpus(player, games)
             if corpus.n_games == 0:
                 print(f"  {index:>3}/{len(paths)} {player}: no games", flush=True)

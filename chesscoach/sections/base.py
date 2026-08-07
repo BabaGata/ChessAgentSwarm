@@ -90,14 +90,51 @@ class SectionContext:
         username = self.corpus.username.lower()
         return tuple(o for o in self.observations if o.mover.lower() == username)
 
+    def _strata(self) -> tuple[tuple[str, float], ...]:
+        """The speeds to compare against, and how much each counts.
+
+        The player's own mix where their games say what it is, and the stated
+        time control otherwise -- which is every hand-built fixture, and the
+        behaviour before speeds were pooled.
+        """
+        if self.corpus.speed_mix:
+            return self.corpus.speed_mix
+        return ((self.time_control, 1.0),) if self.time_control else ()
+
+    def _mixed(self, lookup) -> float | None:
+        """Combine a per-speed population figure over this player's speed mix.
+
+        Direct standardisation. Pooling a blitz-heavy player's games into one
+        rate and comparing it against a rapid population would measure the clock
+        rather than the player (E01); rebuilding the baseline for **the mix they
+        actually play** compares like with like while still using every game.
+
+        Speeds the population has never played are skipped and their weight
+        redistributed, so one unfamiliar game does not silence a claim.
+        """
+        if self.peers is None or self.band is None:
+            return None
+
+        total = 0.0
+        weighted = 0.0
+        for speed, share in self._strata():
+            value = lookup(speed)
+            if value is None:
+                continue
+            weighted += share * value
+            total += share
+        return weighted / total if total else None
+
     def peer_rate(self, claim_key: str) -> float | None:
         """Population rate for a claim, with this player left out of it."""
-        if self.peers is None or self.band is None or self.time_control is None:
-            return None
-        stats = self.peers.lookup(
-            self.band, self.time_control, claim_key, excluding=self.corpus.username
-        )
-        return stats.rate if stats else None
+
+        def at(speed: str) -> float | None:
+            stats = self.peers.lookup(
+                self.band, speed, claim_key, excluding=self.corpus.username
+            )
+            return stats.rate if stats else None
+
+        return self._mixed(at)
 
     def peer_cost_per_game(self, claim_key: str) -> float | None:
         """What this claim costs the population per game, this player excluded.
@@ -106,10 +143,10 @@ class SectionContext:
         not knowing it is costly **for this player in particular**, and ranking
         on the first named one weakness to 70 % of players (E17).
         """
-        if self.peers is None or self.band is None or self.time_control is None:
-            return None
-        return self.peers.cost_per_game(
-            self.band, self.time_control, claim_key, excluding=self.corpus.username
+        return self._mixed(
+            lambda speed: self.peers.cost_per_game(
+                self.band, speed, claim_key, excluding=self.corpus.username
+            )
         )
 
 

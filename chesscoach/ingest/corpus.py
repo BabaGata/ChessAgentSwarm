@@ -14,10 +14,12 @@ player who brought 24 games and was analysed on 21 can be told that (C5).
 from __future__ import annotations
 
 import hashlib
+from collections import Counter
 from dataclasses import dataclass
 
 from chesscoach.ingest.pgn import GameRecord
 from chesscoach.profile.models import CorpusRef
+from chesscoach.speed import speed_class
 
 # The player halved their own clock for an extra arena point. Their errors there
 # are a self-inflicted time handicap, and S2's whole subject is time pressure --
@@ -42,6 +44,12 @@ class Corpus:
     date_range: tuple[str, str] | None = None
     # (reason, count) for games set aside, in a stable order.
     excluded: tuple[tuple[str, int], ...] = ()
+    # (speed class, share of games) for the speeds actually played, ordered so a
+    # corpus is reproducible. Empty when no game carries a readable control --
+    # which is the state of every hand-built test fixture, and must stay
+    # harmless. See `speed.py` and E19: evidence pools across speeds, comparisons
+    # do not, so every comparison needs to know the mix it is looking at.
+    speed_mix: tuple[tuple[str, float], ...] = ()
 
     @property
     def n_games(self) -> int:
@@ -95,6 +103,12 @@ def build_corpus(username: str, games: tuple[GameRecord, ...] | list[GameRecord]
     dates = sorted(g.date for g in own if g.date)
     date_range = (dates[0], dates[-1]) if dates else None
 
+    speeds = [speed for g in own if (speed := speed_class(g.time_control))]
+    counts = Counter(speeds)
+    speed_mix = tuple(
+        (speed, count / len(speeds)) for speed, count in sorted(counts.items())
+    )
+
     return Corpus(
         username=username,
         corpus_id=_corpus_id(username, game_ids),
@@ -102,6 +116,7 @@ def build_corpus(username: str, games: tuple[GameRecord, ...] | list[GameRecord]
         time_controls=time_controls,
         date_range=date_range,
         excluded=tuple(sorted(dropped.items())),
+        speed_mix=speed_mix,
     )
 
 

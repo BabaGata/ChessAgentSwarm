@@ -30,14 +30,24 @@ RATE_LIMIT_BACKOFF_S = 60
 MAX_RETRIES = 3
 REQUEST_TIMEOUT_S = 120
 
-# What the swarm diagnoses on by default. Bullet and blitz are excluded because
-# error rates are not comparable across time controls (E01, `domain.signals`) and
-# a blended profile measures the clock rather than the player.
+# What the swarm diagnoses on.
 #
-# That default costs a **median 82 %** of a player's games, which is why the
-# parameter exists at all: E19 screens whether the excluded speeds can be
-# admitted as their own stratum rather than blended or discarded.
-DIAGNOSTIC_PERF_TYPES = ("rapid", "classical")
+# Blitz was excluded until E19, on the grounds that error rates are not
+# comparable across time controls (E01, `domain.signals`). That reasoning was
+# right about **comparison** and was being used to justify **discarding**, which
+# cost a median 82 % of a player's games.
+#
+# E19 measured the difference: blitz predicts a player's rapid behaviour as well
+# as rapid predicts itself -- 93 % of the reliability ceiling -- so the evidence
+# is about the same player. It is now pooled, while the *baseline* stays
+# per-speed and is rebuilt for each player's own mix (`SectionContext._mixed`),
+# so E01's rule is kept rather than overruled. On a 24-game history this took the
+# swarm from advising 50 % of players to **79 %**, with overlap unchanged.
+#
+# **Bullet is still excluded, and deliberately.** E19 tested blitz and nothing
+# faster. Somewhere below blitz "the same player, hurrying" becomes a different
+# game, and that boundary is unmeasured -- so it stays where the evidence stops.
+DIAGNOSTIC_PERF_TYPES = ("rapid", "classical", "blitz")
 
 PGN_PARAMS = "rated=true&clocks=true&opening=true&division=true"
 

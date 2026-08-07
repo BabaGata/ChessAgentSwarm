@@ -183,9 +183,15 @@ This is what actually moved this cycle.
    `chesscoach/shrinkage.py` with 29 tests, now the single shrinkage formula in the system since
    `expected_rate` calls it instead of doing the update by hand.
    **A 20-game minimum has lost the mechanism that was to justify it** and is an aspiration again.
-   **Next: step 5 or 6 — the supply side.** Three attempts to fix coverage at the policy end have
-   now failed (D12's floor, peer-relative cost, shrinkage), and E16 said from the start that the
-   binding constraint is events per corpus. That pattern is worth trusting.
+   **Step 5 done, and it is the one that worked** → [[experiments.e21-pooled-speeds]]. Blitz is
+   pooled into the corpus while the baseline stays per-speed, rebuilt for each player's own speed mix
+   by direct standardisation, so E01's rule is kept rather than overruled. At **24 rapid games**:
+   players advised **50 % → 79 %**, distinct claim kinds 20 → 25, overlap 0.08 → 0.09, groundedness
+   113/113. More players *and* more claim variety, which is the opposite of buying coverage with
+   generic output. **Three failures at the policy end and one success at the supply end** is now the
+   strongest evidence in the project for where the constraint lives.
+   **Next: step 6**, accumulating the corpus across sessions — the last supply-side lever, and the
+   one that makes a returning player's second assessment richer than their first rather than thinner.
 
 0. **Superseded — the evaluation that produced the plan above** →
    [[design.short-history-prioritisation]]. A proposal to set the minimum history at 20 games and

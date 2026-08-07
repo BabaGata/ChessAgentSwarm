@@ -163,9 +163,11 @@ class TestFetching:
         with pytest.raises(LichessUnavailable, match="HTTP 429"):
             fetch_games_pgn("alice", 10)
 
-    def test_it_asks_only_for_the_time_controls_the_swarm_can_compare(self, monkeypatch):
-        # Mixing bullet into a profile measures the clock, not the player
-        # (E01, domain.signals).
+    def test_it_asks_for_the_speeds_the_swarm_can_pool(self, monkeypatch):
+        # Blitz joined the corpus in E19: it predicts a player's rapid behaviour
+        # as well as rapid predicts itself, and pooling it took coverage on a
+        # 24-game history from 50 % of players to 79 %. Bullet stays out because
+        # nothing faster than blitz has been measured.
         seen = {}
 
         def capture(url, accept="application/json"):
@@ -175,7 +177,8 @@ class TestFetching:
         monkeypatch.setattr("chesscoach.ingest.lichess._get", capture)
         fetch_games_pgn("alice", 25)
 
-        assert "perfType=rapid,classical" in seen["url"]
+        assert "perfType=rapid,classical,blitz" in seen["url"]
+        assert "bullet" not in seen["url"]
         assert "max=25" in seen["url"]
         assert "clocks=true" in seen["url"]
 

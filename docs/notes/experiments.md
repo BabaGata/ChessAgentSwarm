@@ -36,6 +36,7 @@ An experiment with no consequence was not worth running.
 | E18 | is there a coachable finding in the games step 1 excludes? | done — **the berserk habit no (1.04× cost), the time-budget chain yes (1.91×)**; the latter built into S2 | [[experiments.e18-excluded-as-finding]] |
 | E19 | is blitz a second stratum, or the same player faster? | done — **the same player: 93 % of the reliability ceiling**. Pool the evidence, stratify the baseline | [[experiments.e19-blitz-stratum]] |
 | E20 | does a shrunk posterior let the swarm speak to more players? | done — **no, the reverse**: 50 % spoken to becomes 26 %. Step 4 withdrawn | [[experiments.e20-shrinkage]] |
+| E21 | does pooling a player's other speeds fix the shallow-history silence? | done — **yes, decisively**: 50 % → **79 %** advised at 24 games, with more claim kinds and unchanged overlap | [[experiments.e21-pooled-speeds]] |
 
 ## Conventions
 

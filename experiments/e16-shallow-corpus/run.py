@@ -139,6 +139,14 @@ def main() -> int:
     parser.add_argument("--peers", required=True)
     parser.add_argument("--games", type=int, default=24)
     parser.add_argument(
+        "--also",
+        type=Path,
+        default=None,
+        help="a second directory of PGNs per player, pooled into the same corpus. "
+        "Step 5: the shallow-history case is a player with few games at ONE speed, "
+        "and this asks whether their other speeds make the swarm able to speak.",
+    )
+    parser.add_argument(
         "--no-prior",
         action="store_true",
         help="withhold the population prior, reproducing the pre-step-4 policy. "
@@ -183,6 +191,14 @@ def main() -> int:
             # Most recent N, by date where the PGN carries one.
             ordered = sorted(games, key=lambda g: (g.date or "", g.game_id))
             games = tuple(ordered[-args.games:])
+
+            if args.also:
+                # The truncation applies only to the primary speed, because the
+                # question is what a player's *other* games add to a thin history
+                # at the speed the swarm currently looks at.
+                extra = args.also / f"{player}.pgn"
+                if extra.exists():
+                    games = games + parse_pgn_file(extra)
 
             corpus = build_corpus(player, games)
             if corpus.n_games == 0:

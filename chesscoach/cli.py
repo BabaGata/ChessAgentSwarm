@@ -468,6 +468,18 @@ def build_peer_reference(args: argparse.Namespace) -> int:
     reference = build_reference(
         collected, band=args.band, time_control=args.time_control, depth=args.depth
     )
+
+    if args.merge_with:
+        # A reference has to span every speed a player might bring, because the
+        # comparison is per-speed even though the evidence pools (E19). Cells are
+        # keyed by time control, so merging adds strata rather than blending
+        # them -- and `merged_with` refuses to mix analysis depths.
+        from chesscoach.peers import PeerReference
+
+        existing = PeerReference.load(args.merge_with)
+        reference = existing.merged_with(reference)
+        print(f"merged into {args.merge_with}")
+
     reference.save(args.out)
 
     print(f"\nplayers  {len(collected)}")
@@ -561,7 +573,16 @@ def build_parser() -> argparse.ArgumentParser:
     peers.add_argument("--engine", required=True)
     peers.add_argument("--out", required=True)
     peers.add_argument("--band", default="1400-1800")
-    peers.add_argument("--time-control", default="rapid")
+    peers.add_argument(
+        "--time-control",
+        default="rapid",
+        help="the speed these PGNs were played at; becomes the stratum they are stored under",
+    )
+    peers.add_argument(
+        "--merge-with",
+        default=None,
+        help="an existing reference to add these strata to, rather than replacing it",
+    )
     peers.add_argument("--depth", type=int, default=DEFAULT_DEPTH)
     peers.add_argument("--cache", default=None)
     peers.add_argument("--workers", type=int, default=None, help="parallel engines for prefetch")
