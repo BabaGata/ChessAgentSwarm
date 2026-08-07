@@ -166,8 +166,17 @@ This is what actually moved this cycle.
    until rapid is correlated with *itself* at the same sample size and returns **+0.19** (L-031).
    The automaticity hypothesis is **refuted** — the gap's between-player variation is 2.39× against a
    2.08× noise floor.
-   **Next: step 3**, peer-relative severity — the smallest change that fixes a defect already
-   shipped in E15.
+   **Step 3 done.** The peer reference now carries cost per claim (peer schema v2, v1 still
+   readable), `Measurement.peer_cost_per_game` and `excess_cost_per_game` exist (profile schema v11),
+   and the arbiter ranks by the **excess** over peers rather than the raw cost. `advantage_error`
+   lost 43 % of its advised slots (7 → 4). **Its definition of done was wrong**: E17's 70 %
+   concentration was measured with the gates *forced open*, and production concentration was already
+   13 % (L-032). The larger gain is in the report, which used to promise the whole cost back and now
+   states what is recoverable — *"costing you 24.3 a game; players at your level lose 10.5, so
+   roughly 13.8 is what fixing this could get back."* Still unverified: whether peer-relative
+   severity keeps severity's 65 % stability gate-free.
+   **Next: step 4**, shrinkage — the change that makes a 20-game minimum defensible rather than
+   aspirational, and the one E16/E18 both point at as the binding constraint.
 
 0. **Superseded — the evaluation that produced the plan above** →
    [[design.short-history-prioritisation]]. A proposal to set the minimum history at 20 games and

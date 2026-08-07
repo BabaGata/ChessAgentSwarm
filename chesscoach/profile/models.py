@@ -31,7 +31,7 @@ from enum import Enum
 # CorpusRef gains `game_ids`, so a later check knows which games are new. And
 # Plan gains `outcomes`, so a plan carries its own verdict -- a system that
 # quietly drops its failed predictions is unfalsifiable.
-SCHEMA_VERSION = 10
+SCHEMA_VERSION = 11
 
 _Z = 1.96  # 95% normal quantile, for Wilson intervals
 
@@ -152,6 +152,10 @@ class Measurement:
     # a move that lost anything measurable, and putting a number on it would
     # invent the very cost E03 failed to find.
     cost_wp: float | None = None
+    # What the same claim costs a player at this level, per game (schema v11).
+    # None when no reference population can price it, which is also the honest
+    # state for every profile written before v11.
+    peer_cost_per_game: float | None = None
 
     def __post_init__(self) -> None:
         if not 0.0 <= self.rate <= 1.0:
@@ -166,6 +170,24 @@ class Measurement:
             object.__setattr__(
                 self, "ci95", wilson_interval(self.distinct_games, self.games_with_data)
             )
+
+    @property
+    def excess_cost_per_game(self) -> float | None:
+        """What is actually recoverable: the cost above the population's.
+
+        Playing this perfectly is not on offer. Playing it the way peers at the
+        same level do is, so the **difference** is what a plan can honestly
+        promise -- and ranking by it stops a claim that is expensive for
+        everybody from being named to 70 % of players, which is what ranking by
+        raw cost did (E17, step 3 of design.short-history-prioritisation).
+
+        Never negative: being better than your peers at something is not a gain
+        waiting to be collected.
+        """
+        own = self.cost_per_game
+        if own is None or self.peer_cost_per_game is None:
+            return None
+        return max(0.0, own - self.peer_cost_per_game)
 
     @property
     def cost_per_game(self) -> float | None:

@@ -45,6 +45,29 @@ a stated defect in [[experiments.e15-expected-gain]] — raw cost must become pe
 
 ---
 
+### L-032 — A number measured under an experimental condition does not describe the shipped system
+**Date:** 2026-08-06 · **Cycle / mission step:** M6 · **Class:** process
+**Context:** Step 3 of [[design.short-history-prioritisation]], whose definition of done was
+*"top-claim concentration falls well below 70 %"*.
+**Observation:** The 70 % came from [[experiments.e17-ranking-stability]], which forced the
+confidence gates **open** — correct there, because it was screening a proposal to remove them. It
+was then written into a definition of done for the **current** system, where the gates filter first
+and the arbiter only ranks a handful of already-qualified claims. Production concentration was
+**13 %** before the change and 14 % after. The step was built against a target that had never
+described the thing being changed, and the real effect had to be found elsewhere —
+`advantage_error` losing 43 % of its advised slots, and the report no longer promising the whole
+cost as recoverable.
+**Lesson:** An experiment's numbers carry its **conditions**, and screens in this project routinely
+disable a gate, force a tier, or pool a stratum to see what is underneath. Any figure lifted from one
+into a target, threshold or acceptance criterion must first be re-derived under the conditions that
+actually ship — or the work gets aimed at a quantity nobody will ever observe. The tell is a
+definition of done quoting a number from a note that says "forced", "pooled" or "ignoring" in its
+method.
+**Applied to:** [[design.short-history-prioritisation]] step 3, whose stated target is corrected in
+place rather than quietly replaced.
+
+---
+
 ### L-031 — A correlation means nothing without its own reliability ceiling
 **Date:** 2026-08-06 · **Cycle / mission step:** M6 · **Class:** technique
 **Context:** Screening whether blitz games can join the diagnostic corpus

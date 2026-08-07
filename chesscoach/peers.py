@@ -23,7 +23,10 @@ from pathlib import Path
 
 from chesscoach.profile.models import wilson_interval
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
+
+# v1 carried rates only. It still loads, and simply has no costs to offer.
+READABLE_SCHEMA_VERSIONS = frozenset({1, SCHEMA_VERSION})
 
 # Pseudo-observations of prior weight used when there are too few peers to
 # estimate one. Deliberately substantial: with a thin population, an extreme
@@ -47,6 +50,12 @@ class ConditionMeasurement:
     opportunities: int
     distinct_games: int
     games_with_data: int
+    # Win probability given away on this claim's instances. **None where the
+    # instances are not mistakes** -- conceding a structure is a choice, not a
+    # move that lost anything measurable. Populated so the population can be
+    # asked what a claim costs *everyone*, which is what turns a raw cost into
+    # a recoverable one (step 3).
+    cost_wp: float | None = None
 
     @property
     def rate(self) -> float | None:
@@ -77,6 +86,10 @@ class _Contribution:
     player: str
     instances: int
     opportunities: int
+    # Both None for a claim that cannot price itself, and for every reference
+    # written before schema 2.
+    cost_wp: float | None = None
+    games_with_data: int = 0
 
 
 @dataclass(frozen=True)
@@ -113,6 +126,31 @@ class PeerReference:
             n_moves=opportunities,
             instances=instances,
         )
+
+    def cost_per_game(
+        self,
+        band: str,
+        time_control: str,
+        claim_key: str,
+        excluding: str | None = None,
+    ) -> float | None:
+        """What this claim costs a player at this level, per game.
+
+        The denominator counts **only players who could price the claim**.
+        Treating a missing cost as zero would understate the population and
+        inflate every player's excess against it — the arithmetic version of
+        assuming everyone else is fine.
+        """
+        contributions = [
+            c
+            for c in self._contributions(band, time_control, claim_key, excluding)
+            if c.cost_wp is not None and c.games_with_data > 0
+        ]
+        if not contributions:
+            return None
+
+        games = sum(c.games_with_data for c in contributions)
+        return sum(c.cost_wp for c in contributions) / games if games else None
 
     def expected_rate(
         self,
@@ -178,7 +216,13 @@ class PeerReference:
             "depth": self.depth,
             "cells": {
                 key: [
-                    {"player": c.player, "instances": c.instances, "opportunities": c.opportunities}
+                    {
+                        "player": c.player,
+                        "instances": c.instances,
+                        "opportunities": c.opportunities,
+                        "cost_wp": c.cost_wp,
+                        "games_with_data": c.games_with_data,
+                    }
                     for c in contributions
                 ]
                 for key, contributions in self.cells.items()
@@ -190,15 +234,24 @@ class PeerReference:
     def load(cls, path: Path | str) -> PeerReference:
         payload = json.loads(Path(path).read_text(encoding="utf-8"))
         version = payload.get("schema_version")
-        if version != SCHEMA_VERSION:
-            raise ValueError(f"unsupported peer reference schema_version {version!r}")
+        if version not in READABLE_SCHEMA_VERSIONS:
+            raise ValueError(
+                f"unsupported peer reference schema_version {version!r}, "
+                f"readable: {sorted(READABLE_SCHEMA_VERSIONS)}"
+            )
 
         return cls(
             depth=payload["depth"],
             cells={
                 key: tuple(
                     _Contribution(
-                        player=c["player"], instances=c["instances"], opportunities=c["opportunities"]
+                        player=c["player"],
+                        instances=c["instances"],
+                        opportunities=c["opportunities"],
+                        # Absent in v1, where costs were not recorded at all. An
+                        # honest None, never a zero that would read as "free".
+                        cost_wp=c.get("cost_wp"),
+                        games_with_data=c.get("games_with_data", 0),
                     )
                     for c in contributions
                 )
@@ -264,6 +317,8 @@ def build_reference(
                     player=player,
                     instances=measurement.instances,
                     opportunities=measurement.opportunities,
+                    cost_wp=measurement.cost_wp,
+                    games_with_data=measurement.games_with_data,
                 ),
             )
 

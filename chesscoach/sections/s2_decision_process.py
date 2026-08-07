@@ -124,6 +124,9 @@ class S2DecisionProcess:
                     opportunities=len(inside),
                     distinct_games=len({o.game_id for o in errors}),
                     games_with_data=games_with_data,
+                    # Every instance is an error, so what was lost on them is
+                    # what the habit costs the population too (step 3).
+                    cost_wp=round(sum(o.loss_wp for o in errors), 2),
                 )
             )
         return tuple(measurements)
@@ -233,6 +236,7 @@ class S2DecisionProcess:
                 # Every instance is an error, so what was lost on them is what
                 # the habit costs (D5).
                 cost_wp=round(sum(o.loss_wp for o in errors), 2),
+                peer_cost_per_game=context.peer_cost_per_game(claim.key()),
             ),
             provenance=context.provenance,
             confidence=Confidence(

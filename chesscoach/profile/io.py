@@ -61,13 +61,17 @@ from chesscoach.profile.models import (
 #             findings and must not compete for a player's two priorities (V3)
 #   v8 -> v9  added Measurement.cost_wp -- what a claim actually costs, where its
 #             instances are mistakes and the question can be answered (D5)
+#   v9 -> v10 added CorpusRef.excluded -- games the player brought that were not
+#             diagnosed, and why, so the report can say so
+#  v10 -> v11 added Measurement.peer_cost_per_game -- what the same claim costs a
+#             player at this level, which turns a raw cost into a recoverable one
 #
 # One honest consequence of admitting v2: its plan steps carry no `target_rate`,
 # so their progress signs describe a number the step does not hold and cannot be
 # checked. That is not corrupted data -- it is accurately "this plan predates
 # falsifiable targets", and the progress check already treats a missing target as
 # not measurable rather than as failure.
-READABLE_SCHEMA_VERSIONS = frozenset({2, 3, 4, 5, 6, 7, 8, 9, SCHEMA_VERSION})
+READABLE_SCHEMA_VERSIONS = frozenset({2, 3, 4, 5, 6, 7, 8, 9, 10, SCHEMA_VERSION})
 
 
 def to_dict(profile: PlayerProfile) -> dict[str, Any]:
@@ -200,6 +204,8 @@ def _finding_to_dict(finding: Finding) -> dict[str, Any]:
             "ci95": list(finding.measurement.ci95) if finding.measurement.ci95 else None,
             "cost_wp": finding.measurement.cost_wp,
             "cost_per_game": finding.measurement.cost_per_game,
+            "peer_cost_per_game": finding.measurement.peer_cost_per_game,
+            "excess_cost_per_game": finding.measurement.excess_cost_per_game,
             "lift_vs_peer": finding.measurement.lift_vs_peer,
             "lift_vs_baseline": finding.measurement.lift_vs_baseline,
         },
@@ -263,6 +269,7 @@ def _finding_from_dict(payload: dict[str, Any]) -> Finding:
             baseline_rate=measurement.get("baseline_rate"),
             ci95=tuple(ci95) if ci95 else None,
             cost_wp=measurement.get("cost_wp"),
+            peer_cost_per_game=measurement.get("peer_cost_per_game"),
         ),
         provenance=Provenance(
             engine=provenance["engine"],

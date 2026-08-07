@@ -93,7 +93,7 @@ def _sort_key(finding: Finding) -> tuple:
     was measurable: a claim that cannot say what it costs should have to work
     harder for one of a player's two slots.
     """
-    cost = finding.measurement.cost_per_game
+    cost = _recoverable(finding)
     return (
         _TIER_RANK.get(finding.confidence.tier, 9),
         0 if cost is not None else 1,
@@ -102,6 +102,20 @@ def _sort_key(finding: Finding) -> tuple:
         -finding.measurement.distinct_games,
         finding.id,
     )
+
+
+def _recoverable(finding: Finding) -> float | None:
+    """What working on this could actually get back, per game.
+
+    The **excess** over peers where a population can price the claim, and the
+    raw cost where it cannot. Falling back keeps a claim rankable rather than
+    dropping it to the bottom for want of a reference it never had — the same
+    reasoning as `_unusualness` falling back to the player's own baseline, and
+    weaker in the same way.
+    """
+    measurement = finding.measurement
+    excess = measurement.excess_cost_per_game
+    return excess if excess is not None else measurement.cost_per_game
 
 
 def _unusualness(finding: Finding) -> float:
@@ -158,9 +172,15 @@ def _reasons(finding: Finding) -> tuple[str, ...]:
             f"{measurement.lift_vs_baseline:.1f}x this player's own rate elsewhere"
         )
 
-    cost = measurement.cost_per_game
+    cost = _recoverable(finding)
     if cost is not None and cost >= NEGLIGIBLE_COST_PER_GAME:
-        reasons.append(f"costing about {cost:.1f} points of win probability a game")
+        if measurement.excess_cost_per_game is not None:
+            reasons.append(
+                f"costing about {cost:.1f} points of win probability a game more than "
+                f"players at this level lose to it"
+            )
+        else:
+            reasons.append(f"costing about {cost:.1f} points of win probability a game")
     elif cost is None:
         # Said plainly rather than left as an absence: this claim lost to any
         # rival that could price itself, and the reader deserves to know that is

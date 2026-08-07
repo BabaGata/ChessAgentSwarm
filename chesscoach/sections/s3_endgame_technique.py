@@ -134,6 +134,7 @@ class S3EndgameTechnique:
                 opportunities=tally.opportunities,
                 distinct_games=len(tally.games_hit),
                 games_with_data=counts.games_with_data,
+                cost_wp=round(tally.cost_wp, 2),
             )
             for key, tally in sorted(counts.tallies.items())
         )
@@ -273,6 +274,7 @@ def _assess(key: str, counts: _Counts, context: SectionContext) -> Finding | Non
             peer_rate=round(peer_rate, 4),
             ci95=stats.ci95,
             cost_wp=round(tally.cost_wp, 2),
+            peer_cost_per_game=context.peer_cost_per_game(key),
         ),
         provenance=context.provenance,
         confidence=Confidence(

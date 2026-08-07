@@ -366,7 +366,7 @@ because it *spends* effective sample size where sample size is the binding const
 |--:|---|---|---|
 | 1 | ~~Exclude berserked and abandoned games~~ **done 2026-08-06** — see below | E08 re-run; every prior measurement re-stated on clean data | none — pure subtraction |
 | 2 | ~~**Screen** the blitz/rapid gap~~ **done 2026-08-06 → [[experiments.e19-blitz-stratum]]. Answer: POOL.** Blitz recovers **93 %** of the ceiling rapid reaches against itself, so the speeds measure the same thing | — | the automaticity hypothesis did die, exactly as this row anticipated |
-| 3 | Peer-relative severity: rebuild the peer reference carrying cost per claim | concentration of the top claim falls well below 70 % (E17 re-run) | fixes a defect shipped in E15 |
+| 3 | ~~Peer-relative severity~~ **done 2026-08-06 — see below** | ~~concentration falls well below 70 %~~ **the target was misread**; see below | fixes a defect shipped in E15 |
 | 4 | Shrinkage replaces the gates | coverage at 24 games rises from 43 % silent; E08 D1/D2 unchanged or better | the prior is 84 players from one band |
 | 5 | Admit blitz — **pooled**, per E19 | coverage at a **20-game rapid history** measured, not predicted | **C1/D9** — ~5× the games to analyse |
 | 6 | Accumulate the corpus across sessions | a second session on the same player uses both corpora | needs corpus identity the CLI lacks |
@@ -415,6 +415,50 @@ over-selected.
 worst affected player lost 48.8 % of their games. That is the correct call — half their record is
 half-clock chess and diagnosing it as ordinary play would be wrong — but it means step 1 pushes
 slightly against steps 4–6 rather than with them.
+
+### Step 3 as built, 2026-08-06
+
+`ConditionMeasurement.cost_wp` and `_Contribution.cost_wp` so the reference can be asked what a claim
+costs **everyone** (peer schema v2, v1 still readable and simply has no costs);
+`Measurement.peer_cost_per_game` and an `excess_cost_per_game` property (profile schema v11); the
+arbiter ranks by the excess, falling back to raw cost where no population can price the claim.
+
+Populated where the instances are mistakes — S1, S2, S3 and S4's `early_error` — and left `None`
+elsewhere, matching the rule E15 set. Players who cannot price a claim are **excluded from the
+population denominator** rather than counted as zero, which would understate the population and
+inflate everyone's excess against it.
+
+**The definition of done above was wrong, and noticing that is most of what this step taught.**
+E17's *"severity names the same claim for 70 % of players"* was measured **with the confidence gates
+forced open**, which was correct for screening a proposal that removes them — and it does not
+describe the shipped system, where the gates filter first and the arbiter only ever ranks a handful
+of already-qualified claims. Measured in production, top-claim concentration was **13 %** before this
+change, not 70 %. The target was a number from one experimental condition applied to another (L-032).
+
+What actually changed, on 84 rebuilt profiles:
+
+| | before | after |
+|---|--:|--:|
+| **`advantage_error` advised** | **7** | **4** |
+| `early_error` advised | 20 | 24 |
+| top-claim concentration | 13 % | 14 % |
+| distinct top claims | 24 | 23 |
+| players advised | 69 | 69 |
+
+The intended effect happened — the expensive-for-everybody claim lost 43 % of its slots — at a much
+smaller scale than the 70 % figure implied, because the gates were already doing most of that work.
+
+**The larger gain is in the report, not the ranking.** It used to promise the whole cost back:
+
+> Costing you about 24.3 points of win probability a game. **Players at your level lose about 10.5 to
+> the same thing, so roughly 13.8 a game is what fixing this could get back.**
+
+Before this, that finding claimed 24.3 was recoverable. Playing it perfectly was never on offer;
+playing it the way peers do is, and 13.8 is what a plan can honestly promise.
+
+**Not verified:** whether peer-relative severity keeps severity's 65 % stability while losing its
+concentration, which needs E17 re-run gate-free against the new reference. That run was not made, so
+the claim stands as designed-for rather than demonstrated.
 
 ### What this does not fix
 

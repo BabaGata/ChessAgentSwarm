@@ -94,6 +94,11 @@ class S4OpeningOutcomes:
                 opportunities=tally.opportunities,
                 distinct_games=len(tally.games_hit),
                 games_with_data=counts.games_with_data,
+                # Only `early_error` prices itself. `opening_disadvantage`
+                # counts outcomes, not mistakes, and has no cost to pool.
+                cost_wp=(
+                    round(tally.cost_wp, 2) if key.startswith(f"{EARLY_ERROR}.") else None
+                ),
             )
             for key, tally in sorted(counts.tallies.items())
         )
@@ -238,6 +243,9 @@ def _assess(key: str, counts: _Counts, context: SectionContext) -> Finding | Non
             # outcome rather than a move that lost something — so it has no
             # measurable cost and must not be given one.
             cost_wp=round(tally.cost_wp, 2) if kind == EARLY_ERROR else None,
+            peer_cost_per_game=(
+                context.peer_cost_per_game(key) if kind == EARLY_ERROR else None
+            ),
         ),
         provenance=context.provenance,
         # "Does not know this opening" and "knows it and went wrong" need

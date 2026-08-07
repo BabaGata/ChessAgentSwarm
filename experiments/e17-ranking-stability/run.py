@@ -57,6 +57,10 @@ SCORES = {
     "severity": lambda m: (m.cost_per_game or 0.0),
     "deviation x severity": lambda m: (m.lift_vs_peer or m.lift_vs_baseline or 1.0)
     * (m.cost_per_game or 0.0),
+    # Step 3. The question it has to answer is whether making severity
+    # peer-relative keeps its stability (65 %) while losing its concentration
+    # (70 % of players hearing the same claim). Either alone is easy.
+    "peer-relative severity": lambda m: (m.excess_cost_per_game or 0.0),
 }
 
 

@@ -264,13 +264,22 @@ def _finding(index: int, finding: Finding, probes: tuple[ProbeRecord, ...]) -> l
 
     # The line that answers "why should I care?", where it can be answered.
     cost = measurement.cost_per_game
+    excess = measurement.excess_cost_per_game
     if cost is not None and cost >= NEGLIGIBLE_COST_PER_GAME:
-        lines.append(
-            f"   Costing you about {cost:.1f} points of win probability a game — that is what"
-        )
-        lines.append(
-            "   these moves gave away, and the most you could get back by stopping them."
-        )
+        lines.append(f"   Costing you about {cost:.1f} points of win probability a game.")
+        if excess is not None and measurement.peer_cost_per_game is not None:
+            # The honest ceiling is the *excess*, not the whole cost. Playing
+            # this perfectly is not on offer; playing it the way players at the
+            # same level do is, so that difference is what a plan can promise.
+            lines.append(
+                f"   Players at your level lose about "
+                f"{measurement.peer_cost_per_game:.1f} to the same thing, so roughly"
+            )
+            lines.append(f"   {excess:.1f} a game is what fixing this could get back.")
+        else:
+            lines.append(
+                "   That is what these moves gave away, and the most you could get back."
+            )
 
     for evidence in finding.evidence[:EVIDENCE_SHOWN]:
         played = f", you played {evidence.move_played}" if evidence.move_played else ""

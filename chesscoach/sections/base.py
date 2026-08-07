@@ -99,6 +99,19 @@ class SectionContext:
         )
         return stats.rate if stats else None
 
+    def peer_cost_per_game(self, claim_key: str) -> float | None:
+        """What this claim costs the population per game, this player excluded.
+
+        The other half of the peer comparison: knowing a claim is *costly* is
+        not knowing it is costly **for this player in particular**, and ranking
+        on the first named one weakness to 70 % of players (E17).
+        """
+        if self.peers is None or self.band is None or self.time_control is None:
+            return None
+        return self.peers.cost_per_game(
+            self.band, self.time_control, claim_key, excluding=self.corpus.username
+        )
+
 
 @dataclass(frozen=True)
 class SectionReport:
