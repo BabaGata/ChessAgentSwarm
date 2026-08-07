@@ -95,6 +95,36 @@ Not "rank by raw cost" — E17 measured where that leads. The shape that fits th
    support.
 3. **Only claims passing the divided-gradient test appear** — five today, not twenty-seven.
 
+## Built, 2026-08-07
+
+`chesscoach/band.py` holds the five screened claims with the correlation that admitted each one;
+`PlayerProfile.band_notes` stores them (schema v12); the explainer prints a separate section. The
+cost is looked up **live** from the reference through `peer_cost_per_game`, so it inherits the
+per-speed mix-matching — a blitz-heavy player's band is a blitz-heavy band.
+
+Capped at three, for the same reason the arbiter caps priorities at two: a list long enough to be
+comprehensive is short enough to be ignored.
+
+On a real 24-game report:
+
+```
+WHAT YOUR WHOLE LEVEL LOSES MOST TO
+
+ - Players at your level lose about 20.3 points of win probability a game to moves
+   played in under two seconds.
+ - Players at your level lose about 10.8 points ... to mistakes before move 15 with Black.
+ - Players at your level lose about 10.2 points ... to mistakes before move 15 with White.
+
+   These are not findings about you — they are what the whole rating band
+   loses most to, and the stronger players in it lose less. Your own one or
+   two priorities above are the ones that are unusual for you specifically.
+```
+
+**Nothing about the diagnosis moved**, which is the point. Re-running the anti-pattern family on the
+same 84 profiles: 66 advised, 25 claim kinds, overlap 0.09, groundedness 113/113, never more than two
+priorities — identical to the run without band notes. They are not findings, the arbiter never sees
+them, and they cannot displace a personal priority.
+
 ## Honest limitations
 
 - **One band.** The gradient is measured *within* 1400–1800, where the rating range is narrow and the

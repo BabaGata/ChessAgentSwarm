@@ -57,6 +57,8 @@ GAP_MEANING: dict[str, str] = {
     ),
 }
 
+BAND_HEADING = "WHAT YOUR WHOLE LEVEL LOSES MOST TO"
+
 LIMITS = (
     "This is measured from your own games and nothing else — it says what happened, "
     "not why, except where a probe asked you directly.",
@@ -74,6 +76,7 @@ def render(profile: PlayerProfile) -> str:
         + _how_you_play(profile)
         + _findings_section(profile)
         + _plan_section(profile)
+        + _band_section(profile)
         + _not_assessed(profile)
         + _limits(profile)
     )
@@ -354,6 +357,38 @@ def _plan_section(profile: PlayerProfile) -> list[str]:
                 f"over your next {step.check_after_games} games"
             )
     return lines + [""]
+
+
+def _band_section(profile: PlayerProfile) -> list[str]:
+    """What the player's whole level loses points to.
+
+    Kept apart from the findings on purpose, and worded as a statement about a
+    population rather than about this player. The peer comparison that makes the
+    priorities a diagnosis is blind to anything everyone shares (E17), and
+    `instant_move_error` -- the most expensive claim measured anywhere in this
+    project at 16.1 points a game -- is advised to nobody because of it.
+
+    Saying it here rather than promoting it into the plan keeps both properties:
+    the player learns the expensive thing, and their one or two priorities stay
+    about **them**.
+    """
+    if not profile.band_notes:
+        return []
+
+    lines = [BAND_HEADING, ""]
+    for note in profile.band_notes:
+        lines.append(
+            f" - Players at your level lose about {note.cost_per_game:.1f} points of "
+            f"win probability a game to {note.wording}."
+        )
+    lines += [
+        "",
+        "   These are not findings about you — they are what the whole rating band",
+        "   loses most to, and the stronger players in it lose less. Your own one or",
+        "   two priorities above are the ones that are unusual for you specifically.",
+        "",
+    ]
+    return lines
 
 
 def _not_assessed(profile: PlayerProfile) -> list[str]:

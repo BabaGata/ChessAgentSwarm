@@ -224,7 +224,18 @@ This is what actually moved this cycle.
    more claim kinds and unchanged overlap.** Every gain came from the supply side; every attempt at
    the policy end failed.
 
-   **~~Outstanding: D9 needs re-timing.~~ Done 2026-08-06**, and the worry behind it was misplaced.
+0. **A band-level section, from the author's objection to peer-relative severity** →
+   [[experiments.e25-shared-weaknesses]]. A weakness *everyone* at the level shares has almost no
+   excess over peers, so it sinks and is never said — and `instant_move_error`, at **16.1 points of
+   win probability a game, the most expensive claim measured anywhere in this project**, was advised
+   to nobody for exactly that reason. E25 screened which shared claims are worth saying anyway:
+   the median claim's correlation with rating is **−0.42**, but only **+0.15** once the player's
+   overall error rate is divided out, so nearly all apparent learning is just general improvement.
+   **Five of 27 survive** and only those appear, in a separate section worded as a statement about a
+   population, capped at three, never becoming findings. The anti-pattern family is **identical**
+   before and after — 66 advised, 25 kinds, overlap 0.09, 113/113 grounded.
+
+0. **~~Outstanding: D9 needs re-timing.~~ Done 2026-08-06**, and the worry behind it was misplaced.
    Pooling speeds does **not** multiply a session's cost: `--games 60` still fetches 60 games, it
    changes *which* 60, and only `--previous` raises the count. Measured against an empty cache —
    a new player costs **~81 s** (5 s fetch, 76 s engine) and a returning one **1.5–3 s** plus

@@ -692,6 +692,7 @@ def coach(args: argparse.Namespace) -> int:
     one thing, which meant "using the swarm" started with a script in an
     experiments directory.
     """
+    from chesscoach.band import notes_for
     from chesscoach.explainer import render
     from chesscoach.ingest.lichess import LichessUnavailable, fetch_games_pgn
     from chesscoach.ingest.pgn import parse_pgn_text
@@ -746,6 +747,7 @@ def coach(args: argparse.Namespace) -> int:
             corpus=corpus.to_ref(),
             strength=_strength(observations, args.player),
             style=_style(observations, args, peers),
+            band_notes=notes_for(context),
             context=player_context,
         ),
         diagnose(context, default_agents()),

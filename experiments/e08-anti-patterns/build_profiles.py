@@ -22,6 +22,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from chesscoach.analysis.core import analyse_corpus  # noqa: E402
 from chesscoach.analysis.parallel import prefetch  # noqa: E402
 from chesscoach.arbiter import select_priorities  # noqa: E402
+from chesscoach.band import notes_for  # noqa: E402
 from chesscoach.ingest.corpus import build_corpus  # noqa: E402
 from chesscoach.ingest.pgn import parse_pgn_file  # noqa: E402
 from chesscoach.orchestrator import apply_to_profile, default_agents, diagnose  # noqa: E402
@@ -91,6 +92,9 @@ def main() -> int:
                 PlayerProfile(
                     player=PlayerRef(source="lichess", username=player, band=BAND),
                     corpus=corpus.to_ref(),
+                    # As the session does, so the anti-pattern metrics see the
+                    # same report a player would.
+                    band_notes=notes_for(context),
                 ),
                 diagnose(context, default_agents()),
             )

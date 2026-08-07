@@ -31,7 +31,7 @@ from enum import Enum
 # CorpusRef gains `game_ids`, so a later check knows which games are new. And
 # Plan gains `outcomes`, so a plan carries its own verdict -- a system that
 # quietly drops its failed predictions is unfalsifiable.
-SCHEMA_VERSION = 11
+SCHEMA_VERSION = 12
 
 _Z = 1.96  # 95% normal quantile, for Wilson intervals
 
@@ -426,6 +426,25 @@ class PlayerRef:
 
 
 @dataclass(frozen=True)
+class BandNote:
+    """Something the player's whole rating band loses points to (schema v12).
+
+    **Not a finding, and deliberately not one.** It is a statement about a
+    population, screened in E25 for being something this band demonstrably learns
+    to fix rather than grows out of. It never competes for the player's one or
+    two priorities, because nothing here is a `Finding` for the arbiter to rank.
+    """
+
+    claim_key: str
+    cost_per_game: float
+    """What the **population** loses to it per game, not what this player does."""
+    learnable_r: float
+    """The E25 gradient after general skill is divided out. Kept so a reader can
+    see why this claim was admitted and twenty-two others were not."""
+    wording: str
+
+
+@dataclass(frozen=True)
 class CorpusRef:
     """Exactly which games produced the findings."""
 
@@ -510,6 +529,10 @@ class PlayerProfile:
     plan: Plan | None = None
     strength: Strength | None = None
     style: tuple[StyleTendency, ...] = ()
+    # Statements about the player's band, not about the player. Stored beside
+    # `style` for the same reason: measured, worth saying, and must not compete
+    # with findings for a priority slot.
+    band_notes: tuple[BandNote, ...] = ()
     history: tuple[ProfileHistoryEntry, ...] = ()
     schema_version: int = SCHEMA_VERSION
 

@@ -19,6 +19,7 @@ from typing import Any
 
 from chesscoach.profile.models import (
     SCHEMA_VERSION,
+    BandNote,
     Claim,
     Confidence,
     ConfidenceTier,
@@ -65,13 +66,16 @@ from chesscoach.profile.models import (
 #             diagnosed, and why, so the report can say so
 #  v10 -> v11 added Measurement.peer_cost_per_game -- what the same claim costs a
 #             player at this level, which turns a raw cost into a recoverable one
+#  v11 -> v12 added PlayerProfile.band_notes -- what the player's whole band loses
+#             points to. Statements about a population, not findings, and they
+#             never compete for a priority slot (E25)
 #
 # One honest consequence of admitting v2: its plan steps carry no `target_rate`,
 # so their progress signs describe a number the step does not hold and cannot be
 # checked. That is not corrupted data -- it is accurately "this plan predates
 # falsifiable targets", and the progress check already treats a missing target as
 # not measurable rather than as failure.
-READABLE_SCHEMA_VERSIONS = frozenset({2, 3, 4, 5, 6, 7, 8, 9, 10, SCHEMA_VERSION})
+READABLE_SCHEMA_VERSIONS = frozenset({2, 3, 4, 5, 6, 7, 8, 9, 10, 11, SCHEMA_VERSION})
 
 
 def to_dict(profile: PlayerProfile) -> dict[str, Any]:
@@ -102,6 +106,15 @@ def to_dict(profile: PlayerProfile) -> dict[str, Any]:
                 "moves": t.moves,
             }
             for t in profile.style
+        ],
+        "band_notes": [
+            {
+                "claim_key": n.claim_key,
+                "cost_per_game": n.cost_per_game,
+                "learnable_r": n.learnable_r,
+                "wording": n.wording,
+            }
+            for n in profile.band_notes
         ],
         "findings": [_finding_to_dict(f) for f in profile.findings],
         "probes": [_probe_to_dict(p) for p in profile.probes],
@@ -155,6 +168,8 @@ def from_dict(payload: dict[str, Any]) -> PlayerProfile:
         ),
         strength=_strength_from_dict(payload.get("strength")),
         style=tuple(StyleTendency(**t) for t in payload.get("style") or ()),
+        # Absent before v12, where the band was never described to a player.
+        band_notes=tuple(BandNote(**n) for n in payload.get("band_notes") or ()),
         findings=tuple(_finding_from_dict(f) for f in payload.get("findings") or ()),
         probes=tuple(_probe_from_dict(p) for p in payload.get("probes") or ()),
         context=_context_from_dict(payload.get("context")),
