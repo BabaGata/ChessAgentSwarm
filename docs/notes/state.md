@@ -57,14 +57,14 @@ need to know?"
 | D6 | V6 path planning | **2** | **+2** | plans built and persisted, every step carrying a machine-checkable progress sign and a derived check point. No time estimates — D5 is unresolved and inventing them was refused |
 | D7 | V7 progress tracking | **3** | **+1** | **restored, on evidence this time.** 57 predictions from 84 players with ~150-game histories; the constant is cross-validated at 2 *and* 5 folds with a fold spread of 0.011, and a held-out false-positive rate of **15 %** is stated in the output. Not 4: the test's **power is unmeasured** — no coached cohort exists, so nothing shows a real improvement could clear the bar (**D8**) |
 | D8 | V8 explainability | **3** | — | the report exists, is deterministic, and is **13/13 grounded** on real players (E08 D4). **The 3 claimed last cycle was not earned**: reading a real report found Lichess theme keys in player-facing prose — *"a `trappedPiece` punishes you"* — which the groundedness metric scored 100 % on, because it only checks citation. Fixed (`phrasing.subject_name`), so the score now stands. Not 4: the report states measurements without explaining *why these one or two* were chosen over the rest, and the arbiter's reasoning is invisible |
-| D9 | C1–C4 cost profile | **3** | **+1** | **a whole session has now been run end to end and timed.** `cli coach` takes a username and produces a report: **7.6 s** for 60 games on a warm cache, and for a fresh player the cost is dominated by engine analysis — E01's 89 s per 50 games at depth 15, so roughly two minutes. Probes add ~2.7 s each (E07). **Zero cash throughout.** Not 4: the figure is one player on one machine, and no cold-cache session has been timed cleanly |
+| D9 | C1–C4 cost profile | **4** | **+1** | **re-timed 2026-08-06 against a genuinely empty cache**, which is what the previous 3 was missing. A new player, 60 pooled games: **5 s fetch + 76 s analysis ≈ 81 s**, of which 98 % is the engine. The same player again: **1.5 s**. A deep 197-game pooled corpus: **232 s cold, 2.9 s warm**. Cold scales at **~1.2 s per game**, so the 300-game accumulation ceiling is ~6 min for someone starting from nothing. Probes add ~2.7 s each (E07). **Zero cash throughout.** **A correction:** pooling speeds was expected to multiply session cost ~5× and does not — `--games 60` still fetches 60 games, it changes *which* 60, and only `--previous` raises the count. Not 5: one player on one machine, and the 300-game ceiling is extrapolated from 197 rather than measured |
 | D10 | Evaluation capability | **4** | **+1** | both sides of the progress check measured (E05, E06), and the **anti-pattern family D is now built and run** (E08) — the metrics that were designed cycles ago and blocked on a language layer. They caught a self-flattering score and nearly caused a misreading, which is what an evaluation capability is for |
 | D11 | Process & documentation health | 4 | — | cycle held up under real work, including reversing its own mis-framed question |
 | D12 | V9 dialogue & active assessment | **3** | **+1** | **the whole interaction exists**: four context questions before the analysis, probes after it, both feeding the profile, and probe results now reaching the diagnosis inside a coaching session. Answers accumulate as a dataset by-product. Not 4: the classifier's rubric is still the author's own (D10), and the dialogue is four fixed questions rather than anything adaptive |
 
-**Total: 37 / 60**, and **no dimension is at zero.** It has gone 17 → 16 → 17 → 16
-→ 17 → 18 → 20 → 22 → 25 → 26 → 27 → 28 → 29 → 32 → 34 → 36 → 37, and every move was forced by a
-measurement:
+**Total: 38 / 60**, and **no dimension is at zero.** It has gone 17 → 16 → 17 → 16
+→ 17 → 18 → 20 → 22 → 25 → 26 → 27 → 28 → 29 → 32 → 34 → 36 → 37 → 38, and every move was forced by
+a measurement:
 down when E05 showed the verdicts meant nothing, up when the target rule was recalibrated, down
 again when cross-validation showed that calibration was itself optimistic, and up now that 57
 predictions can support what 13 could not, and again now that both sides of the progress check are
@@ -224,8 +224,11 @@ This is what actually moved this cycle.
    more claim kinds and unchanged overlap.** Every gain came from the supply side; every attempt at
    the policy end failed.
 
-   **Outstanding: D9 needs re-timing.** Its session cost predates blitz, and a fresh player now
-   brings up to 5× the games. That figure should not be quoted until it is measured again.
+   **~~Outstanding: D9 needs re-timing.~~ Done 2026-08-06**, and the worry behind it was misplaced.
+   Pooling speeds does **not** multiply a session's cost: `--games 60` still fetches 60 games, it
+   changes *which* 60, and only `--previous` raises the count. Measured against an empty cache —
+   a new player costs **~81 s** (5 s fetch, 76 s engine) and a returning one **1.5–3 s** plus
+   whatever they have played since, at ~1.2 s per new game. D9 3 → 4.
 
 0. **Superseded — the evaluation that produced the plan above** →
    [[design.short-history-prioritisation]]. A proposal to set the minimum history at 20 games and
