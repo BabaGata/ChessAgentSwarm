@@ -190,8 +190,20 @@ This is what actually moved this cycle.
    113/113. More players *and* more claim variety, which is the opposite of buying coverage with
    generic output. **Three failures at the policy end and one success at the supply end** is now the
    strongest evidence in the project for where the constraint lives.
-   **Next: step 6**, accumulating the corpus across sessions — the last supply-side lever, and the
-   one that makes a returning player's second assessment richer than their first rather than thinner.
+   **Step 6 done** → [[experiments.e22-accumulating-corpus]], and smaller than the plan implied. The
+   corpus was **sliding**: at a fixed window twenty new games pushed twenty old ones out, so a
+   returning player was diagnosed on no more evidence than the first time. `coach --previous` now
+   grows the window to cover the old corpus plus the new games, capped at 300 for C1. **No game
+   store was needed** — Lichess is the archive, so this was a request-size problem, not a storage
+   one; and `check-progress` already measured over the new games only, so the harder half of that
+   layer predated the plan proposing it. Measured warm: a **197-game pooled session costs 2.2 s**,
+   2.9× the games for 1.6× the time, because a returning player's old games are exactly the ones
+   already in the cache.
+   **Six of seven steps are closed** (step 4 withdrawn on evidence). **Next: step 7**, recency decay
+   on calendar time — now more necessary than when it was ranked last, since a 300-game accumulated
+   corpus can reach back years and every game in it currently counts the same.
+   **And D9 needs re-timing:** its session cost predates blitz, and a fresh player now brings up to
+   5× the games. That figure should not be quoted until it is measured again.
 
 0. **Superseded — the evaluation that produced the plan above** →
    [[design.short-history-prioritisation]]. A proposal to set the minimum history at 20 games and

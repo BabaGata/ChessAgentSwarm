@@ -349,6 +349,32 @@ def score_agent(args: argparse.Namespace) -> int:
     return 0 if card.detected and card.spurious_count == 0 else 1
 
 
+# A ceiling on the accumulated window. Without one, a player with four thousand
+# games would trigger a four-thousand-game analysis on their second visit, and C1
+# is a constraint rather than an aspiration. Deep enough that the corpus is no
+# longer what limits the diagnosis: E12 measured 150-game histories advising 83 %
+# of players.
+MAX_ACCUMULATED_GAMES = 300
+
+
+def games_to_fetch(window: int, previous: PlayerProfile | None) -> int:
+    """How many games to ask Lichess for, given what was analysed last time.
+
+    At a fixed window the corpus **slides**: twenty new games push the twenty
+    oldest out, and a player who returns after a month is diagnosed on no more
+    evidence than before, having played more chess in between. Asking for their
+    previous corpus *plus* the window means the second assessment is strictly
+    better informed than the first, which is what makes coming back worth it.
+
+    No local game store is needed for this, and the plan was wrong to imply one:
+    **Lichess is the archive**, complete and free. Only the size of the request
+    had to change.
+    """
+    if previous is None or previous.corpus.n_games <= 0:
+        return window
+    return min(previous.corpus.n_games + window, MAX_ACCUMULATED_GAMES)
+
+
 def check_progress(args: argparse.Namespace) -> int:
     """Go back and find out whether the plan's predictions came true.
 
@@ -609,6 +635,13 @@ def build_parser() -> argparse.ArgumentParser:
     session.add_argument("--peers", required=True, help="the reference population")
     session.add_argument("--out", default=None, help="where to write the profile")
     session.add_argument("--games", type=int, default=60, help="how many recent games to fetch")
+    session.add_argument(
+        "--previous",
+        default=None,
+        help="a profile from an earlier session. The corpus then grows to cover it "
+        "plus the new games, instead of sliding forward and forgetting as much as "
+        "it learns. Already-analysed games are free, the engine cache holds them",
+    )
     session.add_argument("--pgn", default=None, help="use these games instead of fetching")
     session.add_argument("--cache", default=None)
     session.add_argument("--depth", type=int, default=DEFAULT_DEPTH)
@@ -664,13 +697,19 @@ def coach(args: argparse.Namespace) -> int:
     from chesscoach.ingest.pgn import parse_pgn_text
 
     print(f"player   {args.player}")
+
+    previous = load_profile(args.previous) if args.previous else None
+    if previous is not None:
+        print(f"previous {previous.corpus.n_games} games, {previous.plan and len(previous.plan.steps) or 0} steps")
+
     if args.pgn:
         games = load_games(args.pgn)
         print(f"games    {len(games)} from {args.pgn}")
     else:
-        print(f"fetching up to {args.games} rated rapid/classical games...", flush=True)
+        wanted = games_to_fetch(args.games, previous)
+        print(f"fetching up to {wanted} rated games...", flush=True)
         try:
-            games = parse_pgn_text(fetch_games_pgn(args.player, args.games))
+            games = parse_pgn_text(fetch_games_pgn(args.player, wanted))
         except LichessUnavailable as error:
             print(f"could not fetch games: {error}")
             return 1
