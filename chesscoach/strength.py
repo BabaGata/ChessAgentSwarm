@@ -27,23 +27,50 @@ from chesscoach.analysis.labels import ErrorLabel
 from chesscoach.analysis.observations import Observation
 from chesscoach.sections.base import diagnosable
 
-# Fitted on all 84 players of the E13 corpus. Refit with
-# `experiments/e13-strength-signal/run.py`, which prints these two numbers and
-# the held-out error that qualifies them.
-INTERCEPT = 2053.1
-SLOPE = -19858.6
+@dataclass(frozen=True)
+class _Fit:
+    """One speed's line, and the held-out error that qualifies it."""
 
-# Held-out mean absolute error, 5-fold by player. Reported *with* every estimate.
-TYPICAL_ERROR = 103
+    intercept: float
+    slope: float
+    typical_error: int
+    fitted_range: tuple[float, float]
 
-# The blunder rates the fit was made over. Beyond them the line is extrapolating
-# and says so, because a linear fit outside its range is a guess with a decimal
-# point on it.
-FITTED_RANGE = (0.0083, 0.0717)
+    def rating(self, blunder_rate: float) -> int:
+        return round(self.intercept + self.slope * blunder_rate)
+
+    def extrapolating(self, blunder_rate: float) -> bool:
+        low, high = self.fitted_range
+        return not low <= blunder_rate <= high
+
+
+# Fitted on the 84-player E13 corpus, whose games were rapid and classical, so
+# the same line serves both. Refit with `experiments/e13-strength-signal/run.py`.
+RAPID_FIT = _Fit(
+    intercept=2053.1, slope=-19858.6, typical_error=103, fitted_range=(0.0083, 0.0717)
+)
+
+# Refit on the same 84 players' blitz games after step 5 admitted them, because
+# applying a rapid line to a blitz corpus was extrapolation the report did not
+# admit to (I-04). **Blitz is genuinely harder to read**: held-out error 123
+# against rapid's 103, and the line is much flatter -- blunder rate discriminates
+# less when everyone is rushing. Still well clear of the 141 that guessing the
+# median scores, which is the bar a feature has to beat to be an estimator at all.
+BLITZ_FIT = _Fit(
+    intercept=1841.3, slope=-12045.1, typical_error=123, fitted_range=(0.0090, 0.0607)
+)
+
+# Speeds with a fit. Bullet has none and is not fetched; if one ever arrives, no
+# estimate is the honest answer rather than the nearest line.
+FITS: dict[str, _Fit] = {
+    "classical": RAPID_FIT,
+    "rapid": RAPID_FIT,
+    "blitz": BLITZ_FIT,
+}
 
 # Below this the rate is too noisy to turn into a rating. One blunder in 80 moves
 # and one in 90 are the same player; the arithmetic would put 250 points between
-# them.
+# them. Counted **within one speed**, not across the corpus -- see `estimate`.
 MIN_MOVES = 200
 
 
@@ -56,6 +83,7 @@ class StrengthEstimate:
     moves: int
     blunder_rate: float
     extrapolated: bool
+    speed: str
 
     @property
     def range(self) -> tuple[int, int]:
@@ -63,21 +91,49 @@ class StrengthEstimate:
         return self.rating - self.typical_error, self.rating + self.typical_error
 
 
-def estimate(observations: tuple[Observation, ...], username: str) -> StrengthEstimate | None:
-    """None when there are too few moves to say anything, which is a real answer."""
+def estimate(
+    observations: tuple[Observation, ...],
+    username: str,
+    speeds: dict[str, str] | None = None,
+) -> StrengthEstimate | None:
+    """The player's standard **at one speed**, or None if no speed carries enough.
+
+    `speeds` maps game id to speed class. Without it every move is treated as
+    rapid, which is what the corpus was before step 5 pooled the speeds.
+
+    **Deliberately one speed rather than a blend.** A player with half their
+    games at each has *two* ratings roughly 80 points apart (E19), so a blended
+    number estimates a quantity that does not exist. The dominant speed is used
+    and named, and `MIN_MOVES` applies within it -- which is stricter than
+    before, and silences a genuinely mixed player with a thin corpus rather than
+    handing them an average of two scales.
+    """
     mine = diagnosable(
         tuple(o for o in observations if o.mover.lower() == username.lower())
     )
-    if len(mine) < MIN_MOVES:
+    if not mine:
         return None
 
-    blunders = sum(1 for o in mine if o.label is ErrorLabel.BLUNDER)
-    rate = blunders / len(mine)
+    by_speed: dict[str, list[Observation]] = {}
+    for observation in mine:
+        speed = (speeds or {}).get(observation.game_id, "rapid")
+        if speed in FITS:
+            by_speed.setdefault(speed, []).append(observation)
+    if not by_speed:
+        return None
+
+    speed, moves = max(by_speed.items(), key=lambda pair: (len(pair[1]), pair[0]))
+    if len(moves) < MIN_MOVES:
+        return None
+
+    fit = FITS[speed]
+    rate = sum(1 for o in moves if o.label is ErrorLabel.BLUNDER) / len(moves)
 
     return StrengthEstimate(
-        rating=round(INTERCEPT + SLOPE * rate),
-        typical_error=TYPICAL_ERROR,
-        moves=len(mine),
+        rating=fit.rating(rate),
+        typical_error=fit.typical_error,
+        moves=len(moves),
         blunder_rate=round(rate, 5),
-        extrapolated=not FITTED_RANGE[0] <= rate <= FITTED_RANGE[1],
+        extrapolated=fit.extrapolating(rate),
+        speed=speed,
     )

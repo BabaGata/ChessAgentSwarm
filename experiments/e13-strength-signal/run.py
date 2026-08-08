@@ -80,6 +80,12 @@ def main() -> int:
     parser.add_argument("--engine", required=True)
     parser.add_argument("--cache", required=True)
     parser.add_argument("--depth", type=int, default=15)
+    parser.add_argument(
+        "--fit",
+        choices=FEATURES,
+        default=None,
+        help="print the full-sample fit for this feature instead of the best one",
+    )
     args = parser.parse_args()
 
     rows: list[tuple[str, float, dict[str, float]]] = []
@@ -126,7 +132,7 @@ def main() -> int:
         print(f"{name:<16} {statistics.median(values):>9.4f} "
               f"{statistics.stdev(values):>9.4f} {r:>18.3f}")
 
-    _fit_and_evaluate(rows)
+    _fit_and_evaluate(rows, wanted=args.fit)
     return 0
 
 
@@ -146,7 +152,7 @@ def _ols1(xs: list[float], ys: list[float]) -> tuple[float, float]:
     return slope, mean_y - slope * mean_x
 
 
-def _fit_and_evaluate(rows, folds: int = 5) -> None:
+def _fit_and_evaluate(rows, folds: int = 5, wanted: str | None = None) -> None:
     """Cross-validated, because an in-sample fit is not an estimator.
 
     L-018 is the reason this is not optional: a constant read off the same data
@@ -182,19 +188,27 @@ def _fit_and_evaluate(rows, folds: int = 5) -> None:
 
     # Coefficients for whatever ships: fitted on everything, since the
     # cross-validation above is what establishes the error, not the fit.
-    best = min(
-        FEATURES,
-        key=lambda name: statistics.mean(
-            abs(
-                _ols1(
-                    [f[name] for _, _, f in rows], [r for _, r, _ in rows]
-                )[1]
-                + _ols1([f[name] for _, _, f in rows], [r for _, r, _ in rows])[0] * f[name]
-                - r
-            )
-            for _, r, f in rows
-        ),
-    )
+    #
+    # `wanted` lets a caller ask for a *named* feature rather than the winner.
+    # Refitting for blitz needed exactly that: `blunder_rate` and `mean_loss_wp`
+    # finish within noise of each other there, and matching the feature the rapid
+    # model already ships is worth more than three points of MAE.
+    if wanted:
+        best = wanted
+    else:
+        best = min(
+            FEATURES,
+            key=lambda name: statistics.mean(
+                abs(
+                    _ols1(
+                        [f[name] for _, _, f in rows], [r for _, r, _ in rows]
+                    )[1]
+                    + _ols1([f[name] for _, _, f in rows], [r for _, r, _ in rows])[0] * f[name]
+                    - r
+                )
+                for _, r, f in rows
+            ),
+        )
     xs = [f[best] for _, _, f in rows]
     slope, intercept = _ols1(xs, [r for _, r, _ in rows])
     residuals = sorted(abs(intercept + slope * x - r) for (_, r, _), x in zip(rows, xs))

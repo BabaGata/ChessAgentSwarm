@@ -167,10 +167,10 @@ class TestItIsNotAFinding:
         assert BAND_HEADING not in render(profile)
 
 
-class TestTheStrengthEstimateKnowsItsRange:
-    """E13 fitted the rating estimate on rapid games. Faster is extrapolation."""
+class TestTheEstimateNamesItsSpeed:
+    """A player with games at two speeds has two ratings ~80 points apart (E19)."""
 
-    def profile_with(self, controls: tuple[str, ...]):
+    def profile_with(self, speed: str | None, typical_error: int = 103):
         from chesscoach.profile.models import (
             CorpusRef,
             PlayerProfile,
@@ -180,39 +180,37 @@ class TestTheStrengthEstimateKnowsItsRange:
 
         return PlayerProfile(
             player=PlayerRef(source="lichess", username="alice", band="1400-1800"),
-            corpus=CorpusRef(corpus_id="c1", n_games=59, time_controls=controls),
+            corpus=CorpusRef(corpus_id="c1", n_games=59),
             strength=Strength(
-                rating=1645, typical_error=103, moves=1411, method="blunder_rate"
+                rating=1645,
+                typical_error=typical_error,
+                moves=1411,
+                method="blunder_rate",
+                speed=speed,
             ),
         )
 
-    def test_an_all_blitz_corpus_is_flagged(self):
+    def test_the_report_says_which_standard_it_means(self):
         from chesscoach.explainer import render
 
-        report = render(self.profile_with(("180+0", "180+2", "300+0")))
+        assert "your blitz standard" in render(self.profile_with("blitz"))
 
-        assert "all faster than rapid" in report
-
-    def test_a_rapid_corpus_is_not(self):
+    def test_a_blitz_estimate_admits_it_is_the_weaker_reading(self):
         from chesscoach.explainer import render
 
-        assert "all faster than rapid" not in render(self.profile_with(("600+0",)))
+        assert "less accurate" in render(self.profile_with("blitz", typical_error=123))
 
-    def test_a_mixed_corpus_says_nothing_rather_than_over_warning(self):
+    def test_a_rapid_estimate_carries_no_such_warning(self):
         from chesscoach.explainer import render
 
-        report = render(self.profile_with(("600+0", "180+2")))
+        assert "less accurate" not in render(self.profile_with("rapid"))
 
-        assert "all faster than rapid" not in report
-
-    def test_a_corpus_with_no_strength_estimate_has_nothing_to_qualify(self):
-        from dataclasses import replace
-
+    def test_an_estimate_with_no_speed_says_nothing_about_one(self):
         from chesscoach.explainer import render
 
-        bare = replace(self.profile_with(("180+0",)), strength=None)
+        report = render(self.profile_with(None))
 
-        assert "all faster than rapid" not in render(bare)
+        assert "standard —" not in report and "less accurate" not in report
 
 
 def test_notes_survive_a_round_trip():

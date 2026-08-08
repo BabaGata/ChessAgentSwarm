@@ -13,14 +13,14 @@ import pytest
 
 from chesscoach.analysis.labels import ErrorLabel
 from chesscoach.analysis.observations import Observation
-from chesscoach.strength import (
-    FITTED_RANGE,
-    INTERCEPT,
-    MIN_MOVES,
-    SLOPE,
-    TYPICAL_ERROR,
-    estimate,
-)
+from chesscoach.strength import MIN_MOVES, RAPID_FIT, estimate
+
+# An unlabelled corpus is read against the rapid line, which is what these tests
+# describe. The constants moved onto a per-speed fit when blitz was refitted.
+INTERCEPT = RAPID_FIT.intercept
+SLOPE = RAPID_FIT.slope
+TYPICAL_ERROR = RAPID_FIT.typical_error
+FITTED_RANGE = RAPID_FIT.fitted_range
 
 FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 

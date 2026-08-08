@@ -31,7 +31,7 @@ from enum import Enum
 # CorpusRef gains `game_ids`, so a later check knows which games are new. And
 # Plan gains `outcomes`, so a plan carries its own verdict -- a system that
 # quietly drops its failed predictions is unfalsifiable.
-SCHEMA_VERSION = 12
+SCHEMA_VERSION = 13
 
 _Z = 1.96  # 95% normal quantile, for Wilson intervals
 
@@ -498,6 +498,10 @@ class Strength:
     moves: int
     method: str
     extrapolated: bool = False
+    # Which speed the estimate is for (schema v13). A player with games at two
+    # speeds has two ratings about 80 points apart (E19), so an estimate that
+    # does not name its speed is describing a quantity that does not exist.
+    speed: str | None = None
 
 
 @dataclass(frozen=True)

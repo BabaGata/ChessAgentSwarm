@@ -1,4 +1,4 @@
-﻿"""Command line entry point for the analysis pipeline.
+"""Command line entry point for the analysis pipeline.
 
     python -m chesscoach.cli analyse --pgn DIR --player NAME --engine PATH --out profile.json
 
@@ -745,7 +745,7 @@ def coach(args: argparse.Namespace) -> int:
         PlayerProfile(
             player=PlayerRef(source="lichess", username=args.player, band=args.band),
             corpus=corpus.to_ref(),
-            strength=_strength(observations, args.player),
+            strength=_strength(observations, args.player, games),
             style=_style(observations, args, peers, corpus),
             band_notes=notes_for(context),
             context=player_context,
@@ -766,12 +766,18 @@ def coach(args: argparse.Namespace) -> int:
     return 0
 
 
-def _strength(observations, username: str):
-    """V1, as a profile field rather than a finding — it is not a weakness."""
+def _strength(observations, username: str, games=()):
+    """V1, as a profile field rather than a finding — it is not a weakness.
+
+    `games` supplies each game's speed, because the estimate is per speed: a
+    blitz corpus is read against the blitz fit and says so.
+    """
     from chesscoach.profile.models import Strength
+    from chesscoach.speed import speed_class
     from chesscoach.strength import estimate
 
-    measured = estimate(observations, username)
+    speeds = {g.game_id: speed_class(g.time_control) for g in games}
+    measured = estimate(observations, username, speeds)
     if measured is None:
         return None
     return Strength(
@@ -780,6 +786,7 @@ def _strength(observations, username: str):
         moves=measured.moves,
         method="blunder-rate-ols/e13",
         extrapolated=measured.extrapolated,
+        speed=measured.speed,
     )
 
 

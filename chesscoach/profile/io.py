@@ -69,13 +69,15 @@ from chesscoach.profile.models import (
 #  v11 -> v12 added PlayerProfile.band_notes -- what the player's whole band loses
 #             points to. Statements about a population, not findings, and they
 #             never compete for a priority slot (E25)
+#  v12 -> v13 added Strength.speed -- a player with games at two speeds has two
+#             ratings ~80 points apart, so an estimate must name which one
 #
 # One honest consequence of admitting v2: its plan steps carry no `target_rate`,
 # so their progress signs describe a number the step does not hold and cannot be
 # checked. That is not corrupted data -- it is accurately "this plan predates
 # falsifiable targets", and the progress check already treats a missing target as
 # not measurable rather than as failure.
-READABLE_SCHEMA_VERSIONS = frozenset({2, 3, 4, 5, 6, 7, 8, 9, 10, 11, SCHEMA_VERSION})
+READABLE_SCHEMA_VERSIONS = frozenset({2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, SCHEMA_VERSION})
 
 
 def to_dict(profile: PlayerProfile) -> dict[str, Any]:
@@ -359,6 +361,7 @@ def _strength_to_dict(strength: Strength | None) -> dict[str, Any] | None:
         "moves": strength.moves,
         "method": strength.method,
         "extrapolated": strength.extrapolated,
+        "speed": strength.speed,
     }
 
 

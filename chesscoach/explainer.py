@@ -59,24 +59,6 @@ GAP_MEANING: dict[str, str] = {
 
 BAND_HEADING = "WHAT YOUR WHOLE LEVEL LOSES MOST TO"
 
-# Speeds the strength estimate was **not** fitted on. E13 built it from rapid
-# games; nothing establishes that the same blunder rate means the same rating
-# three minutes at a time.
-_FASTER_THAN_RAPID = frozenset({"blitz", "bullet", "ultraBullet"})
-
-
-def _all_faster_than_rapid(profile: PlayerProfile) -> bool:
-    """Is every game in this corpus quicker than the estimator was built for?
-
-    Deliberately conservative -- it fires only when *no* game is rapid or
-    slower, so a mixed corpus says nothing rather than over-warning. The corpus
-    stores time controls rather than speeds, so they are classified here.
-    """
-    from chesscoach.speed import speed_class
-
-    speeds = {speed_class(control) for control in profile.corpus.time_controls}
-    speeds.discard(None)
-    return bool(speeds) and speeds <= _FASTER_THAN_RAPID
 
 LIMITS = (
     "This is measured from your own games and nothing else — it says what happened, "
@@ -158,10 +140,18 @@ def _strength(profile: PlayerProfile) -> list[str]:
         "HOW STRONG YOUR PLAY LOOKS",
         "",
         f"   About {strength.rating}, and most likely between {low} and {high}.",
-        f"   Judged from how often you blunder across {strength.moves} of your own moves,"
-        " and nothing else —",
+        f"   Judged from how often you blunder across {strength.moves} of your own"
+        f"{' ' + strength.speed if strength.speed else ''} moves, and nothing else —",
         "   not from your rating, which was never shown to it.",
     ]
+    if strength.speed:
+        # A player with games at two speeds has two ratings about 80 points
+        # apart (E19), so an unlabelled number describes a quantity that does
+        # not exist. The estimate is for one speed and names it.
+        lines.append(
+            f"   This is your {strength.speed} standard — the speed most of these games "
+            "were played at."
+        )
     if strength.extrapolated:
         lines.append(
             "   Your blunder rate is outside the range this was calibrated on, so treat"
@@ -438,15 +428,14 @@ EXCLUSION_WORDING = {
 def _limits(profile: PlayerProfile) -> list[str]:
     limits = list(LIMITS)
 
-    if profile.strength is not None and _all_faster_than_rapid(profile):
-        # E13 fitted the rating estimate on rapid games. Applying it to a corpus
-        # that is entirely faster is extrapolation, and the estimate is a
-        # headline number a player will anchor on -- found by running a live
-        # session on a player whose recent games were all blitz.
+    if profile.strength is not None and profile.strength.speed == "blitz":
+        # Superseded the warning that stood here while blitz had no fit of its
+        # own (I-04). It has one now, and it is honestly worse: held-out error
+        # 123 against rapid's 103, because blunder rate discriminates less when
+        # everyone is rushing. Saying which is better beats warning about neither.
         limits.append(
-            "Your games here are all faster than rapid, and the rating estimate above "
-            "was built from rapid games — so treat it as a rough guide rather than a "
-            "measurement of your standard."
+            "The rating estimate is read from blitz games, where it is less accurate "
+            "than from slower ones — blunders are commoner and separate players less."
         )
 
     for reason, count in profile.corpus.excluded:

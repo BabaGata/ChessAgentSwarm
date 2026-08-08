@@ -69,6 +69,42 @@ A live session on `Gaurishb` estimated **1391** against an actual **1406**. That
 is *not* evidence — he is inside the fitting corpus. The held-out 103 is the number that means
 something.
 
+## The blitz refit, 2026-08-08
+
+Step 5 pooled blitz into the corpus, and a live session then reported *"About 1645"* for a player
+whose 59 games were **all blitz** — the rapid line applied to a blitz corpus, unadmitted (I-04).
+Refit on the same 84 players' blitz games, identical method:
+
+| | line | held out | within 100 | within 200 |
+|---|---|--:|--:|--:|
+| **rapid / classical** | `2053.1 − 19858.6 × blunder_rate` | **±103** | 60 % | 89 % |
+| **blitz** | `1841.3 − 12045.1 × blunder_rate` | **±123** | 63 % | 78 % |
+| guess the median (blitz) | — | 141 | — | — |
+
+**Blitz is genuinely harder to read.** The line is much flatter — blunder rate separates players less
+when everyone is rushing — and the error is 20 points wider. It still beats guessing the median by a
+clear margin, which is the bar a feature has to clear to be an estimator at all.
+
+`blunder_rate` and `mean_loss_wp` finish within noise of each other on blitz (123 against 120), and
+`blunder_rate` ships because matching the feature the rapid model already uses is worth more than
+three points of MAE.
+
+**One speed, never a blend.** A player with games at both has two ratings about 80 points apart
+(E19), so averaging them estimates a quantity that does not exist. The dominant speed is used, named
+in the report, and `MIN_MOVES` now applies *within* it — stricter than before, and it silences a
+genuinely split player with a thin corpus rather than handing them an average of two scales.
+
+### A single-player check that went the wrong way
+
+The live player's estimate moved 1645 → **1594**. Their actual blitz rating is **~1783**, so the
+refit moved *further* from the truth for them — error 138 → 189.
+
+Recorded rather than buried. One player is not evidence against a fit cross-validated on 81, and 189
+sits inside the tail the ±123 describes. It is also explicable: this player's blitz rating (1783) is
+*above* their rapid one (1690), the opposite of the population trend, and the blitz line's lower
+intercept encodes exactly that trend. An estimator fitted to a population will be worst on the
+players who least resemble it, and this is what that looks like.
+
 ## Honest limitations
 
 - **One feature, one fit, one band-ish population.** 84 players discovered the same way, at one time

@@ -231,7 +231,16 @@ This is what actually moved this cycle.
    from months earlier. Two defects the corpus could never have surfaced, because every corpus player
    has a rapid history (I-03, I-04): style compared an all-blitz player against the **rapid**
    population, and the report stated a rating estimate fitted on rapid games without qualifying it.
-   Both fixed; **the rating refit for blitz is not done** and is now a stated limit on D1.
+   Both fixed, and **the blitz refit is now done too** → [[experiments.e13-strength-signal]] § blitz:
+   `1841.3 − 12045.1 × blunder_rate`, held out **±123** against rapid's ±103. Blitz is genuinely
+   harder to read — a much flatter line, because blunder rate separates players less when everyone is
+   rushing — and it still beats guessing the median (141) clearly. The estimate is **per speed and
+   names its speed**, and `MIN_MOVES` applies within that speed, so a genuinely split player is
+   refused rather than handed an average of two rating scales that sit ~80 points apart.
+   The live player's estimate moved 1645 → **1594** against an actual blitz rating of ~1783 — so the
+   refit went the *wrong way for them*, which is recorded rather than buried: one player is not
+   evidence against a fit cross-validated on 81, and their blitz rating sits *above* their rapid one,
+   the opposite of the population trend the line encodes.
 
 0. **A band-level section, from the author's objection to peer-relative severity** →
    [[experiments.e25-shared-weaknesses]]. A weakness *everyone* at the level shares has almost no
