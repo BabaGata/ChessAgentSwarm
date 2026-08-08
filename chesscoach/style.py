@@ -118,22 +118,57 @@ def _key() -> str:
 
 
 def describe(
-    observations: tuple[Observation, ...], username: str, peers, band: str, time_control: str
+    observations: tuple[Observation, ...],
+    username: str,
+    peers,
+    band: str,
+    time_control: str,
+    speed_mix: tuple[tuple[str, float], ...] = (),
 ) -> Tendency | None:
-    """The player's tendency against the population, or None if unmeasurable."""
+    """The player's tendency against the population, or None if unmeasurable.
+
+    `speed_mix` is the share of the player's games at each speed. Supplying it
+    rebuilds the comparison for the speeds they actually play, exactly as
+    `SectionContext` does for findings.
+
+    Found by running a live session: a player whose recent games were **entirely
+    blitz** had their queenless share compared against the *rapid* population,
+    because this function looked up one stated time control rather than the mix.
+    Style does not go through `SectionContext`, so step 5 fixed the findings and
+    left this behind.
+    """
     mine = diagnosable(
         tuple(o for o in observations if o.mover.lower() == username.lower())
     )
     if len(mine) < MIN_MOVES or peers is None:
         return None
 
-    stats = peers.lookup(band, time_control, _key(), excluding=username)
-    if stats is None or not stats.rate:
+    peer_share = _population_share(peers, band, time_control, speed_mix, username)
+    if not peer_share:
         return None
 
     return Tendency(
         name=TENDENCY,
         share=sum(1 for o in mine if queens_off(o.fen_before)) / len(mine),
-        peer_share=stats.rate,
+        peer_share=peer_share,
         moves=len(mine),
     )
+
+
+def _population_share(peers, band: str, time_control: str, speed_mix, username: str):
+    """The population's share, weighted over the speeds this player plays.
+
+    Speeds the population has never played are skipped and their weight
+    redistributed, so one unfamiliar game does not silence the tendency.
+    """
+    strata = speed_mix or ((time_control, 1.0),)
+
+    weighted = 0.0
+    total = 0.0
+    for speed, share in strata:
+        stats = peers.lookup(band, speed, _key(), excluding=username)
+        if stats is None or not stats.rate:
+            continue
+        weighted += share * stats.rate
+        total += share
+    return weighted / total if total else None

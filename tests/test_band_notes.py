@@ -167,6 +167,54 @@ class TestItIsNotAFinding:
         assert BAND_HEADING not in render(profile)
 
 
+class TestTheStrengthEstimateKnowsItsRange:
+    """E13 fitted the rating estimate on rapid games. Faster is extrapolation."""
+
+    def profile_with(self, controls: tuple[str, ...]):
+        from chesscoach.profile.models import (
+            CorpusRef,
+            PlayerProfile,
+            PlayerRef,
+            Strength,
+        )
+
+        return PlayerProfile(
+            player=PlayerRef(source="lichess", username="alice", band="1400-1800"),
+            corpus=CorpusRef(corpus_id="c1", n_games=59, time_controls=controls),
+            strength=Strength(
+                rating=1645, typical_error=103, moves=1411, method="blunder_rate"
+            ),
+        )
+
+    def test_an_all_blitz_corpus_is_flagged(self):
+        from chesscoach.explainer import render
+
+        report = render(self.profile_with(("180+0", "180+2", "300+0")))
+
+        assert "all faster than rapid" in report
+
+    def test_a_rapid_corpus_is_not(self):
+        from chesscoach.explainer import render
+
+        assert "all faster than rapid" not in render(self.profile_with(("600+0",)))
+
+    def test_a_mixed_corpus_says_nothing_rather_than_over_warning(self):
+        from chesscoach.explainer import render
+
+        report = render(self.profile_with(("600+0", "180+2")))
+
+        assert "all faster than rapid" not in report
+
+    def test_a_corpus_with_no_strength_estimate_has_nothing_to_qualify(self):
+        from dataclasses import replace
+
+        from chesscoach.explainer import render
+
+        bare = replace(self.profile_with(("180+0",)), strength=None)
+
+        assert "all faster than rapid" not in render(bare)
+
+
 def test_notes_survive_a_round_trip():
     from chesscoach.profile.io import from_dict, to_dict
     from chesscoach.profile.models import CorpusRef, PlayerProfile, PlayerRef

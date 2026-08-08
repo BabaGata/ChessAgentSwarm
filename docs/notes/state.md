@@ -224,6 +224,15 @@ This is what actually moved this cycle.
    more claim kinds and unchanged overlap.** Every gain came from the supply side; every attempt at
    the policy end failed.
 
+0. **A live end-to-end session, 2026-08-08, and it found two defects.** `cli coach` run on a real
+   player from a live fetch: 59 games, four context questions, strength, style, one finding, a plan,
+   band notes, report — exit 0. **The player's 59 most recent games were entirely blitz**, which is
+   step 5 working exactly as intended: before it they would have been diagnosed on stale rapid games
+   from months earlier. Two defects the corpus could never have surfaced, because every corpus player
+   has a rapid history (I-03, I-04): style compared an all-blitz player against the **rapid**
+   population, and the report stated a rating estimate fitted on rapid games without qualifying it.
+   Both fixed; **the rating refit for blitz is not done** and is now a stated limit on D1.
+
 0. **A band-level section, from the author's objection to peer-relative severity** →
    [[experiments.e25-shared-weaknesses]]. A weakness *everyone* at the level shares has almost no
    excess over peers, so it sinks and is never said — and `instant_move_error`, at **16.1 points of

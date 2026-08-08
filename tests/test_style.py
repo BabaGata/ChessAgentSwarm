@@ -158,6 +158,62 @@ class TestDescribing:
         # A share with nothing to compare it to is not a tendency.
         assert describe(moves(400, 200), "alice", None, "1400-1800", "rapid") is None
 
+    def test_the_comparison_follows_the_speeds_the_player_actually_plays(self):
+        # Found in a live session: a player whose recent games were entirely
+        # blitz had their queenless share compared against the *rapid*
+        # population, because this looked up one stated time control. Style does
+        # not go through SectionContext, so step 5 fixed the findings and left
+        # this behind.
+        from chesscoach.peers import ConditionMeasurement, build_reference
+        from chesscoach.style import _key
+
+        def population(rate: float, speed: str):
+            entry = (
+                ConditionMeasurement(
+                    claim_key=_key(), instances=int(rate * 1000), opportunities=1000,
+                    distinct_games=10, games_with_data=40,
+                ),
+            )
+            return build_reference(
+                [("bob", entry), ("carol", entry)],
+                band="1400-1800", time_control=speed, depth=15,
+            )
+
+        both = population(0.29, "rapid").merged_with(population(0.09, "blitz"))
+
+        all_blitz = describe(
+            moves(400, 40), "alice", both, "1400-1800", "rapid", (("blitz", 1.0),)
+        )
+
+        assert all_blitz.peer_share == pytest.approx(0.09, abs=0.01)
+        # ...and not the 0.29 the rapid population would have supplied.
+        assert not all_blitz.notable
+
+    def test_a_mixed_player_gets_a_mixed_comparison(self):
+        from chesscoach.peers import ConditionMeasurement, build_reference
+        from chesscoach.style import _key
+
+        def population(rate: float, speed: str):
+            entry = (
+                ConditionMeasurement(
+                    claim_key=_key(), instances=int(rate * 1000), opportunities=1000,
+                    distinct_games=10, games_with_data=40,
+                ),
+            )
+            return build_reference(
+                [("bob", entry), ("carol", entry)],
+                band="1400-1800", time_control=speed, depth=15,
+            )
+
+        both = population(0.30, "rapid").merged_with(population(0.10, "blitz"))
+
+        mixed = describe(
+            moves(400, 80), "alice", both, "1400-1800", "rapid",
+            (("blitz", 0.5), ("rapid", 0.5)),
+        )
+
+        assert mixed.peer_share == pytest.approx(0.20, abs=0.01)
+
     def test_only_the_players_own_moves(self):
         mixed = moves(400, 200) + moves(400, 400, mover="bob")
 

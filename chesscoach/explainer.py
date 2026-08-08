@@ -59,6 +59,25 @@ GAP_MEANING: dict[str, str] = {
 
 BAND_HEADING = "WHAT YOUR WHOLE LEVEL LOSES MOST TO"
 
+# Speeds the strength estimate was **not** fitted on. E13 built it from rapid
+# games; nothing establishes that the same blunder rate means the same rating
+# three minutes at a time.
+_FASTER_THAN_RAPID = frozenset({"blitz", "bullet", "ultraBullet"})
+
+
+def _all_faster_than_rapid(profile: PlayerProfile) -> bool:
+    """Is every game in this corpus quicker than the estimator was built for?
+
+    Deliberately conservative -- it fires only when *no* game is rapid or
+    slower, so a mixed corpus says nothing rather than over-warning. The corpus
+    stores time controls rather than speeds, so they are classified here.
+    """
+    from chesscoach.speed import speed_class
+
+    speeds = {speed_class(control) for control in profile.corpus.time_controls}
+    speeds.discard(None)
+    return bool(speeds) and speeds <= _FASTER_THAN_RAPID
+
 LIMITS = (
     "This is measured from your own games and nothing else — it says what happened, "
     "not why, except where a probe asked you directly.",
@@ -418,6 +437,17 @@ EXCLUSION_WORDING = {
 
 def _limits(profile: PlayerProfile) -> list[str]:
     limits = list(LIMITS)
+
+    if profile.strength is not None and _all_faster_than_rapid(profile):
+        # E13 fitted the rating estimate on rapid games. Applying it to a corpus
+        # that is entirely faster is extrapolation, and the estimate is a
+        # headline number a player will anchor on -- found by running a live
+        # session on a player whose recent games were all blitz.
+        limits.append(
+            "Your games here are all faster than rapid, and the rating estimate above "
+            "was built from rapid games — so treat it as a rough guide rather than a "
+            "measurement of your standard."
+        )
 
     for reason, count in profile.corpus.excluded:
         wording = EXCLUSION_WORDING.get(reason)

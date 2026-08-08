@@ -1,4 +1,4 @@
-"""Command line entry point for the analysis pipeline.
+﻿"""Command line entry point for the analysis pipeline.
 
     python -m chesscoach.cli analyse --pgn DIR --player NAME --engine PATH --out profile.json
 
@@ -746,7 +746,7 @@ def coach(args: argparse.Namespace) -> int:
             player=PlayerRef(source="lichess", username=args.player, band=args.band),
             corpus=corpus.to_ref(),
             strength=_strength(observations, args.player),
-            style=_style(observations, args, peers),
+            style=_style(observations, args, peers, corpus),
             band_notes=notes_for(context),
             context=player_context,
         ),
@@ -804,12 +804,14 @@ def _load_peers(args: argparse.Namespace):
     return peers
 
 
-def _style(observations, args, peers) -> tuple:
+def _style(observations, args, peers, corpus) -> tuple:
     """V3 — how the player plays, never as a finding."""
     from chesscoach.profile.models import StyleTendency
     from chesscoach.style import describe
 
-    tendency = describe(observations, args.player, peers, args.band, args.time_control)
+    tendency = describe(
+        observations, args.player, peers, args.band, args.time_control, corpus.speed_mix
+    )
     if tendency is None:
         return ()
     return (
