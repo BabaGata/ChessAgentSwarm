@@ -45,6 +45,26 @@ a stated defect in [[experiments.e15-expected-gain]] — raw cost must become pe
 
 ---
 
+### L-035 — For a proportion, breadth is cheaper than depth of coverage
+**Date:** 2026-08-08 · **Cycle / mission step:** M6 · **Class:** technique
+**Context:** Checking whether depth-15 error labels survive a depth-22 engine
+([[experiments.e26-depth-robustness]]).
+**Observation:** The first design re-analysed **every** move of one player's corpus at depth 22, to
+compare claim rates directly. Measured at **53 minutes per player**, which put a usable sample of
+eight players at seven hours. The quantity actually being estimated is a **proportion** — what share
+of labels survive — and a proportion's precision comes from the *number of observations*, not from
+covering any one subject completely. Redesigned as 40 sampled moves from each of 30 players: 1,200
+moves for **32.5 minutes**, giving a tighter estimate *and* generality across players that no
+single-player run could have.
+**Lesson:** When the answer is a rate or a share, spend the budget on **more units sampled**, not on
+exhausting fewer. Exhaustiveness is worth paying for only when the question is about a *particular*
+subject — "did this player's findings survive" — rather than about the system. The tell is a design
+that computes something completely for one case and then wants to generalise from it.
+**Applied to:** [[experiments.e26-depth-robustness]]; the same reasoning applies to any future
+robustness or agreement check, including the expert review that criterion 3 needs.
+
+---
+
 ### L-034 — Improvement changes a player's level, not the shape of their weaknesses
 **Date:** 2026-08-06 · **Cycle / mission step:** M6 · **Class:** domain
 **Context:** Screening whether old games should be discounted before building recency decay

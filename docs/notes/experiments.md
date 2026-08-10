@@ -40,6 +40,7 @@ An experiment with no consequence was not worth running.
 | E22 | what does it take to make a returning player's corpus grow? | done — **a bigger request, not a game store**. A 197-game pooled session costs 2.2 s warm | [[experiments.e22-accumulating-corpus]] |
 | E23 | should old games be discounted? | done — **no**: games over a year old predict recent play as well as recent ones. Step 7 refused | [[experiments.e23-recency]] |
 | E25 | is a weakness the whole band shares still worth coaching? | done — **for 5 claims of 27**, including the most expensive one measured (`instant_move_error`, 16.1/game), which is advised to nobody | [[experiments.e25-shared-weaknesses]] |
+| E26 | do the findings survive a much deeper engine? | done — **90 % of errors and 97 % of blunders survive depth 22**, implied rate ratio 1.05. The soft spot is the suggested better move at 78 % | [[experiments.e26-depth-robustness]] |
 
 ## Conventions
 

@@ -63,7 +63,7 @@ need to know?"
 | D7 | V7 progress tracking | **3** | **+1** | **restored, on evidence this time.** 57 predictions from 84 players with ~150-game histories; the constant is cross-validated at 2 *and* 5 folds with a fold spread of 0.011, and a held-out false-positive rate of **15 %** is stated in the output. Not 4: the test's **power is unmeasured** — no coached cohort exists, so nothing shows a real improvement could clear the bar (**D8**) |
 | D8 | V8 explainability | **3** | — | the report exists, is deterministic, and is **13/13 grounded** on real players (E08 D4). **The 3 claimed last cycle was not earned**: reading a real report found Lichess theme keys in player-facing prose — *"a `trappedPiece` punishes you"* — which the groundedness metric scored 100 % on, because it only checks citation. Fixed (`phrasing.subject_name`), so the score now stands. Not 4: the report states measurements without explaining *why these one or two* were chosen over the rest, and the arbiter's reasoning is invisible |
 | D9 | C1–C4 cost profile | **4** | **+1** | **re-timed 2026-08-06 against a genuinely empty cache**, which is what the previous 3 was missing. A new player, 60 pooled games: **5 s fetch + 76 s analysis ≈ 81 s**, of which 98 % is the engine. The same player again: **1.5 s**. A deep 197-game pooled corpus: **232 s cold, 2.9 s warm**. Cold scales at **~1.2 s per game**, so the 300-game accumulation ceiling is ~6 min for someone starting from nothing. Probes add ~2.7 s each (E07). **Zero cash throughout.** **A correction:** pooling speeds was expected to multiply session cost ~5× and does not — `--games 60` still fetches 60 games, it changes *which* 60, and only `--previous` raises the count. Not 5: one player on one machine, and the 300-game ceiling is extrapolated from 197 rather than measured |
-| D10 | Evaluation capability | **4** | **+1** | both sides of the progress check measured (E05, E06), and the **anti-pattern family D is now built and run** (E08) — the metrics that were designed cycles ago and blocked on a language layer. They caught a self-flattering score and nearly caused a misreading, which is what an evaluation capability is for |
+| D10 | Evaluation capability | **4** | — | both sides of the progress check measured (E05, E06), the **anti-pattern family D** built and run (E08), and now the **largest untested assumption in the project has been tested**: 90 % of moves called an error at depth 15 are still errors at depth 22, blunders 97 %, implied rate ratio **1.05** ([[experiments.e26-depth-robustness]]). Not 5: every measure so far is internal — reproducibility, specificity, coverage, cost, and now depth-robustness. **Nothing yet compares the swarm against a judgement from outside it**, which is what criteria 2 and 3 ask for and what a human is needed for |
 | D11 | Process & documentation health | **3** | **−1** | **down, and the reason is this table.** The cycle kept working — E20 was withdrawn on evidence, step 7 refused before it was built, three lessons recorded about misreading our own measurements. But across seven steps of the short-history plan the **scorecard rows went stale while the narrative below them was updated every cycle**: D4 still claimed 53 % coverage after pooling took it to 79 %, D5 still described raw cost, and *"What exists"* carried `Any agent | no` beneath seven built sections. The rule says close no cycle without updating [[state]]; it was honoured in the part that reads like prose and not in the part that reads like a score. Reconciled 2026-08-08 |
 | D12 | V9 dialogue & active assessment | **3** | **+1** | **the whole interaction exists**: four context questions before the analysis, probes after it, both feeding the profile, and probe results now reaching the diagnosis inside a coaching session. Answers accumulate as a dataset by-product. Not 4: the classifier's rubric is still the author's own (D10), and the dialogue is four fixed questions rather than anything adaptive |
 
@@ -96,11 +96,21 @@ the product: the work was sound and the record of it was not.
 
 **And the gap that now dominates everything is external validity.** Of the six success criteria in
 [[vision]], three are measured — the strength estimate against real ratings, the cost, and
-reproducibility from this vault. **Three are not measured at all**: whether the weaknesses the swarm
-names match what a strong independent reviewer would name (criterion 2), whether the path reads as
-reasonable and specific to a strong player (criterion 3), and whether following it beats a control
-(criterion 4). Everything measured to date is reproducibility, specificity, coverage and cost — all
-of which a confidently wrong system would also pass.
+reproducibility from this vault. **Three are not**: whether the weaknesses the swarm names match what
+a strong independent reviewer would name (criterion 2), whether the path reads as reasonable and
+specific to a strong player (criterion 3), and whether following it beats a control (criterion 4).
+
+**Criterion 2 now has its first evidence**, and it is favourable:
+[[experiments.e26-depth-robustness]] re-labelled 1,200 sampled moves at depth 22 and **90 % of the
+errors survived, 97 % of blunders, with an implied rate ratio of 1.05**. That is engine against
+engine — it establishes the *foundation* is not an artefact of the depth setting, and it cannot say
+whether hanging pieces and early errors are the right way to describe a player. Only a person can.
+The one number it did dent is the report's suggested alternative move, still the engine's choice
+**78 %** of the time.
+
+So the honest position: everything measurable without a human has now been measured. **Criterion 3 —
+a strong player reading a dozen reports — is the gate, and it is the one thing on this list that
+cannot be done alone.**
 
 The uncomfortable part of this cycle is not the score. Expected-gain reasoning had been treated as
 blocked ever since E03 failed to link a feature to errors — for two scorecard cycles the note read
