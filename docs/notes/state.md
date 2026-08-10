@@ -105,8 +105,11 @@ specific to a strong player (criterion 3), and whether following it beats a cont
 errors survived, 97 % of blunders, with an implied rate ratio of 1.05**. That is engine against
 engine — it establishes the *foundation* is not an artefact of the depth setting, and it cannot say
 whether hanging pieces and early errors are the right way to describe a player. Only a person can.
-The one number it did dent is the report's suggested alternative move, still the engine's choice
-**78 %** of the time.
+The one number that looked like a dent — the report's suggested move still being the engine's top
+choice only **78 %** of the time — was chased down and is not one: on every sampled move where the
+report offers an alternative, **169 of 169**, that alternative still beats what the player actually
+played, by a median of **17.8 win-probability points**. The report never claimed the move was
+optimal, only that it was better, and that claim holds.
 
 So the honest position: everything measurable without a human has now been measured. **Criterion 3 —
 a strong player reading a dozen reports — is the gate, and it is the one thing on this list that

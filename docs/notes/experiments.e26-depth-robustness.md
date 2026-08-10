@@ -62,17 +62,37 @@ should be expected to do: 17 inaccuracies went clean, 26 clean moves became inac
 two nearly cancel. That cancellation is why the implied rate ratio is **1.05** — a claim's rate, and
 therefore the peer comparison that turns it into a finding, barely moves.
 
-## Result — the weak spot is the suggested move, not the diagnosis
+## Result — the suggested move looked like a weak spot and is not
 
-> **the better move the player was shown is still best: 78 %**
+> **the better move the player was shown is still the engine's top choice: 78 %**
 
-The report says *"you played `f6e6` (`h3e6` was better)"*. In roughly one case in five, depth 22
-prefers a different move.
+In roughly one case in five, depth 22 prefers a different move. That figure is easy to overread, and
+the follow-up shows it should not be read as a defect at all — because **the report never claims the
+shown move is optimal**. It claims it was better than what happened:
 
-Stated carefully, because it is easy to overread: **"no longer the engine's top choice" is not
-"wrong"**. The played move is still an error 90 % of the time, so the criticism stands; what is less
-stable is the specific alternative offered alongside it. Whether the shown move is still *better than
-what was played* — a much weaker and more relevant bar — was not measured, and should be.
+> For example game 3YS085d3, move 40, you played `f6e6` (`h3e6` was better)
+
+So the bar that matters is the weaker one. Measured directly, on the 169 sampled moves where the
+report would offer an alternative (`better_move.py`, 338 positions, 2.7 minutes):
+
+| at depth 22 | |
+|---|--:|
+| **the shown move still beats the move played** | **169 / 169 — 100 %** |
+| the two are within 1 win-probability point | 0 |
+| **the shown move is worse** | **0** |
+
+| win probability the shown move gains | |
+|---|--:|
+| median | **17.8** |
+| p10 / p90 | 9.6 / 37.8 |
+
+**Not one regression.** With n = 169 and zero failures, the rule of three puts the true rate of
+"we showed you something worse than you played" **under about 2 %**, which is the honest way to
+state a clean sweep.
+
+So the 78 % measures the alternative slipping from first to second best — sound advice either way —
+and the claim the report actually makes holds in every case sampled, by a wide margin: the typical
+suggestion is worth nearly 18 points of win probability over what the player did.
 
 ## Consequences
 
@@ -81,8 +101,9 @@ what was played* — a much weaker and more relevant bar — was not measured, a
 2. **Rates are depth-stable at 1.05**, so findings are not an artefact of the depth setting, and
    depth 15 remains the right operating point under C1 — depth 22 costs ~40× more for a 5 % shift in
    a rate that is then compared against a population measured the same way.
-3. **The evidence line is the part to improve**, not the claim. The cheap fix is to check the offered
-   move still beats the played move rather than requiring it to be the engine's favourite.
+3. **The evidence lines hold too.** The concern the 78 % raised was measured and dismissed: every
+   suggestion sampled still beats what the player played, by a median of 17.8 win-probability points.
+   Nothing to fix.
 
 ## Honest limitations
 
@@ -93,6 +114,9 @@ what was played* — a much weaker and more relevant bar — was not measured, a
 - **Sampling was uniform over the player's diagnosable moves**, so severe and trivial positions are
   represented in proportion. A sample weighted toward the positions reports actually cite would test
   the player-facing claims more directly and was not done.
+- **The 100 % is on 169 moves**, which bounds the failure rate under ~2 % rather than establishing
+  zero. It also only covers moves the swarm *labelled* as errors — a suggestion attached to a move
+  that depth 22 thinks was fine is a different question, and one the 90 % figure already speaks to.
 - **This is engine-against-engine.** It cannot detect an error the engine makes at both depths, and
   it says nothing about whether the *claim kinds* — hanging pieces, early errors, time budget — are
   the right way to describe a player. Criterion 2 needs a human for that.
