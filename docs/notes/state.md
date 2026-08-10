@@ -8,10 +8,10 @@ created: 1785254500000
 
 # State
 
-**Snapshot date:** 2026-08-03
+**Snapshot date:** 2026-08-08
 **Active mission step:** **M6/M7** — maintain, then repeat M4 with the next capability
-([[mission.step-05-assess-s2]] done)
-**Last commit:** `chore(M3): deeper histories for more players, and a run that survives a crash`
+**Last commit:** `feat(M6): refit the strength estimate for blitz, and make it name its speed`
+**Scale:** 8,100 lines in `chesscoach/`, 849 tests at 85 % coverage, 25 experiments, 83 vault notes
 
 Rewritten at the end of every cycle. The honest answer to "if someone joined today, what would they
 need to know?"
@@ -37,34 +37,39 @@ need to know?"
 | **S1 tactical gaps** | **built, assessed** | eight motif detectors, precision-gated by E04; took the swarm from 1 claim kind to **6** → [[mission.step-07-second-iteration]] |
 | Orchestration | **built** | `chesscoach/orchestrator.py` — fan-out, failure isolation, section-scoped replacement. Findings now reach the profile |
 | Shared pipeline | **built** | `chesscoach/pipeline.py` — engine/cache session and provenance, extracted in M6 from three copies |
-| Peer reference corpus | **built and widened** | `chesscoach/peers.py` — **38 players, ~820 games**, band 1400–1800 rapid, depth 15, leave-one-out. Population rates converged (17.7 % → 17.8 %); borderline verdicts did not (L-013) |
+| Peer reference corpus | **built, widened, stratified** | `chesscoach/peers.py` — **84 players**, band 1400–1800, **rapid *and* blitz strata** (schema v2), carrying per-claim **rates and costs**, depth 15, leave-one-out |
 | Parallel analysis | **built** | `chesscoach/analysis/parallel.py` — corpus-wide dedup + prefetch. ~3× on a cold cache, measured |
-| Confidence policy | **enforced at runtime** | `chesscoach/confidence.py` — tiers, distinct-game counts, split-half replication as a promotion requirement |
-| Production code | **yes, first** | design note existed first, so the guardrail held |
-| Any agent | no | M4 |
-| Evaluation harness | no | designed in M3 |
-| Production code | none | only experiment harnesses, which are measurement tools |
+| Confidence policy | **enforced at runtime** | `chesscoach/confidence.py` — tiers, distinct-game counts, split-half replication as a promotion requirement. Shrinkage was tried here and **reverted** (E20) |
+| **Sections S3–S6, S8** | **built, each screened first** | endgame technique, opening outcomes, pawn structure, squares and files, attack and defence. **Seven sections total**; S7 screened and deliberately not built |
+| **Arbiter + planner** | **built** | one or two priorities, ranked by peer-relative recoverable cost; every step carries a falsifiable target and a check point |
+| **Explainer** | **built** | the report a person reads: strength, style, findings with cited positions, plan, band notes, limits |
+| **Prober (V9)** | **built** | probe selection, move check, a local model classifying reasons at kappa 0.74, `gap_type` written back |
+| **V1 strength / V3 style** | **built, per speed** | two fitted lines (rapid ±103, blitz ±123); one style tendency, mix-matched to the player's speeds |
+| **Band-level notes** | **built** | what the whole rating band loses most to — five screened claims, never competing for a priority (E25) |
+| **Speed pooling** | **built** | blitz joins the corpus; the baseline stays per-speed by direct standardisation. 24-game coverage 50 % → **79 %** |
+| **Corpus hygiene** | **built** | berserked and abandoned games excluded, counted, and disclosed to the player |
+| **One-command session** | **built** | `cli coach` — username in, report out; verified end to end on a live player, deterministic across runs |
 
 ## Distance to vision
 
 | Dim | Vision item | Score | Δ | Evidence / why |
 |---|---|:--:|:--:|---|
-| D1 | V1 skill assessment | **3** | **+3** | **built and cross-validated** → [[experiments.e13-strength-signal]]. Rating estimated from blunder rate alone at **±103 points held-out** (60 % within 100, 89 % within 200) against a naive baseline of 162, with the rating hidden from the estimator. Reported as a range, refuses below 200 moves, admits extrapolation. Not 4: **the vision asks for strength *and its variance*** and this gives every player the same population-level error bar regardless of how much evidence they brought — known to be wrong |
+| D1 | V1 skill assessment | **3** | — | **built, cross-validated, and now fitted per speed** → [[experiments.e13-strength-signal]]. Rating from blunder rate alone, with the rating hidden from the estimator: **rapid ±103** held out, **blitz ±123** (a flatter line — blunders separate players less when everyone rushes), against a blitz baseline of 141. Reported as a range, **names which speed it means**, refuses below 200 moves *within* that speed rather than blending two rating scales, admits extrapolation. Not 4: **the vision asks for strength *and its variance*** and every player still gets the same population-level error bar regardless of how much evidence they brought |
 | D2 | V2 knowledge assessment | **2** | **+2** | **the prober works end to end** — probe selection, move check, a local model classifying reasons at kappa 0.74 with zero false-ignorance (E07), `gap_type` written back. Not 3: the rubric's answer set is written and labelled by the author and the figure is in-sample, so it may not yet change a real player's finding |
-| D3 | V3 style profiling | **2** | **+2** | **built, and half of it deliberately refused** → [[experiments.e14-style-dimensions]]. One measured tendency — how much of a player's game is spent with the queens off — that varies between players (1.40) and is **independent of strength** (r = −0.069). Four of six candidates turned out to be strength wearing a style label. Not 3: **the performance half does not survive** — everyone errs ~20 % less with queens off and players barely differ, so the report says what a player tends to do and refuses to say whether it suits them |
-| D4 | V4 gap detection | **5** | **+1** | **seven sections, and on 150-game histories the swarm advises 70 of 84 players (83 %)** with 27 distinct claim kinds and overlap 0.05 — louder, broader and more specific at once, and 113/113 grounded. The lever was corpus depth, not more sections: six sections moved coverage 24 → 53 %, depth alone moved it 53 → **83 %** (E12). Held back from a clean 5 by the honest caveat: **a real user brings 24 games, not 150**, and at that depth it is still 53 % |
-| D5 | V5 prioritisation | **3** | **+1** | **the swarm now ranks by what a weakness costs** → [[experiments.e15-expected-gain]]. Every claim whose instances are mistakes carries the win probability given away on exactly those moves, and the arbiter orders confidence → can it state a cost → the cost → how unusual. It **changed the advice for 33 of 84 players** without collapsing it (11 claim kinds and 7 sections before and after). Not 4: it is an **accounting** cost, not a forecast — nothing shows a player who fixes the priciest weakness gains more than one who fixes another, and the four positional sections cannot price themselves at all, so they now lose slots by policy rather than by measurement |
+| D3 | V3 style profiling | **2** | — | **built, half deliberately refused, and now compared against the right population** → [[experiments.e14-style-dimensions]]. One measured tendency — how much of a game is spent with the queens off — that varies between players (1.40) and is **independent of strength** (r = −0.069). Four of six candidates were strength wearing a style label. A live session found it comparing an all-blitz player against the *rapid* population (I-03); it is now mix-matched like every other comparison. Not 3: **the performance half does not survive** — everyone errs ~20 % less with queens off and players barely differ, so the report says what a player tends to do and refuses to say whether it suits them |
+| D4 | V4 gap detection | **5** | — | **seven sections, and the shallow-corpus caveat that held this back is gone.** On 150-game histories 70 of 84 players advised (83 %); on the **24 games a real user brings, 50 % → 79 %** once the player's other speeds are pooled in, with claim kinds 20 → 25 and overlap unchanged at 0.09 ([[experiments.e21-pooled-speeds]]). Groundedness 113/113. The lever was never more sections: six sections moved coverage 24 → 53 %, corpus depth and then speed pooling did the rest |
+| D5 | V5 prioritisation | **3** | — | **ranks by what a weakness costs *above what it costs peers*** → [[experiments.e15-expected-gain]], corrected by [[experiments.e17-ranking-stability]]. Raw cost named one claim to 70 % of players; the excess over the population is what a plan can honestly promise, and the report states all three numbers. Occurrence rate is kept as a gate and **demoted as a ranking signal**, because it ranks at chance (6 % against 4 %). A band-level section now carries the expensive weaknesses everyone shares, which peer-relative ranking is blind to by construction (E25). Not 4: it is an **accounting** cost, not a forecast — nothing shows fixing the priciest weakness gains more than fixing another — and the vision asks for gain *per unit of study time*, which needs D5's unresolved question about how long anything takes |
 | D6 | V6 path planning | **2** | **+2** | plans built and persisted, every step carrying a machine-checkable progress sign and a derived check point. No time estimates — D5 is unresolved and inventing them was refused |
 | D7 | V7 progress tracking | **3** | **+1** | **restored, on evidence this time.** 57 predictions from 84 players with ~150-game histories; the constant is cross-validated at 2 *and* 5 folds with a fold spread of 0.011, and a held-out false-positive rate of **15 %** is stated in the output. Not 4: the test's **power is unmeasured** — no coached cohort exists, so nothing shows a real improvement could clear the bar (**D8**) |
 | D8 | V8 explainability | **3** | — | the report exists, is deterministic, and is **13/13 grounded** on real players (E08 D4). **The 3 claimed last cycle was not earned**: reading a real report found Lichess theme keys in player-facing prose — *"a `trappedPiece` punishes you"* — which the groundedness metric scored 100 % on, because it only checks citation. Fixed (`phrasing.subject_name`), so the score now stands. Not 4: the report states measurements without explaining *why these one or two* were chosen over the rest, and the arbiter's reasoning is invisible |
 | D9 | C1–C4 cost profile | **4** | **+1** | **re-timed 2026-08-06 against a genuinely empty cache**, which is what the previous 3 was missing. A new player, 60 pooled games: **5 s fetch + 76 s analysis ≈ 81 s**, of which 98 % is the engine. The same player again: **1.5 s**. A deep 197-game pooled corpus: **232 s cold, 2.9 s warm**. Cold scales at **~1.2 s per game**, so the 300-game accumulation ceiling is ~6 min for someone starting from nothing. Probes add ~2.7 s each (E07). **Zero cash throughout.** **A correction:** pooling speeds was expected to multiply session cost ~5× and does not — `--games 60` still fetches 60 games, it changes *which* 60, and only `--previous` raises the count. Not 5: one player on one machine, and the 300-game ceiling is extrapolated from 197 rather than measured |
 | D10 | Evaluation capability | **4** | **+1** | both sides of the progress check measured (E05, E06), and the **anti-pattern family D is now built and run** (E08) — the metrics that were designed cycles ago and blocked on a language layer. They caught a self-flattering score and nearly caused a misreading, which is what an evaluation capability is for |
-| D11 | Process & documentation health | 4 | — | cycle held up under real work, including reversing its own mis-framed question |
+| D11 | Process & documentation health | **3** | **−1** | **down, and the reason is this table.** The cycle kept working — E20 was withdrawn on evidence, step 7 refused before it was built, three lessons recorded about misreading our own measurements. But across seven steps of the short-history plan the **scorecard rows went stale while the narrative below them was updated every cycle**: D4 still claimed 53 % coverage after pooling took it to 79 %, D5 still described raw cost, and *"What exists"* carried `Any agent | no` beneath seven built sections. The rule says close no cycle without updating [[state]]; it was honoured in the part that reads like prose and not in the part that reads like a score. Reconciled 2026-08-08 |
 | D12 | V9 dialogue & active assessment | **3** | **+1** | **the whole interaction exists**: four context questions before the analysis, probes after it, both feeding the profile, and probe results now reaching the diagnosis inside a coaching session. Answers accumulate as a dataset by-product. Not 4: the classifier's rubric is still the author's own (D10), and the dialogue is four fixed questions rather than anything adaptive |
 
-**Total: 38 / 60**, and **no dimension is at zero.** It has gone 17 → 16 → 17 → 16
-→ 17 → 18 → 20 → 22 → 25 → 26 → 27 → 28 → 29 → 32 → 34 → 36 → 37 → 38, and every move was forced by
-a measurement:
+**Total: 37 / 60**, and **no dimension is at zero.** It has gone 17 → 16 → 17 → 16
+→ 17 → 18 → 20 → 22 → 25 → 26 → 27 → 28 → 29 → 32 → 34 → 36 → 37 → 38 → **37**, and every move was
+forced by a measurement:
 down when E05 showed the verdicts meant nothing, up when the target rule was recalibrated, down
 again when cross-validation showed that calibration was itself optimistic, and up now that 57
 predictions can support what 13 could not, and again now that both sides of the progress check are
@@ -81,13 +86,21 @@ diagnose → prioritise → **ask** → plan → **report** → check.
 several of the mechanisms are weaker than the vision asks for, which is what the scores say.
 
 Two honest qualifiers. **The prober's rubric is still the author's own** (D10), so the asking is
-load-bearing but validated in-sample. And **the swarm is silent for 14 of 84 players on deep
-histories, and for 43 % at the 24 games a real user actually brings** ([[experiments.e16-shallow-corpus]])
-— not wrong, not generic, not overloaded, just quiet. Every one of those silent players has a median
-of **7** patterns the swarm can see and cannot confirm, so the silence is a measurement limit rather
-than a verdict. That is the binding constraint, and it is deliberately parked (P2).
+load-bearing but validated in-sample. And **the swarm is still silent for about a fifth of players
+at 24 games** — down from 43 % once their other speeds are pooled in
+([[experiments.e21-pooled-speeds]]), and every silent player has patterns the swarm can see and
+cannot confirm, so the silence is a measurement limit rather than a verdict.
 
-The +1 this cycle is D5 prioritisation, and it closed the last structural gap in the vision.
+**The move this cycle is D11 down one**, which is the whole point of scoring the process alongside
+the product: the work was sound and the record of it was not.
+
+**And the gap that now dominates everything is external validity.** Of the six success criteria in
+[[vision]], three are measured — the strength estimate against real ratings, the cost, and
+reproducibility from this vault. **Three are not measured at all**: whether the weaknesses the swarm
+names match what a strong independent reviewer would name (criterion 2), whether the path reads as
+reasonable and specific to a strong player (criterion 3), and whether following it beats a control
+(criterion 4). Everything measured to date is reproducibility, specificity, coverage and cost — all
+of which a confidently wrong system would also pass.
 
 The uncomfortable part of this cycle is not the score. Expected-gain reasoning had been treated as
 blocked ever since E03 failed to link a feature to errors — for two scorecard cycles the note read
