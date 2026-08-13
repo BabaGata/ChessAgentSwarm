@@ -29,7 +29,13 @@ from chesscoach.sections.base import diagnosable
 
 @dataclass(frozen=True)
 class _Fit:
-    """One speed's line, and the held-out error that qualifies it."""
+    """One speed's line, and the error that qualifies it.
+
+    `typical_error` is what the report promises the player, so it must be the
+    most pessimistic honest figure available -- and after E27 that means the
+    error measured on **players the line was never fitted on**, not the
+    cross-validated figure from inside the fitting corpus.
+    """
 
     intercept: float
     slope: float
@@ -52,13 +58,29 @@ RAPID_FIT = _Fit(
 
 # Refit on the same 84 players' blitz games after step 5 admitted them, because
 # applying a rapid line to a blitz corpus was extrapolation the report did not
-# admit to (I-04). **Blitz is genuinely harder to read**: held-out error 123
-# against rapid's 103, and the line is much flatter -- blunder rate discriminates
-# less when everyone is rushing. Still well clear of the 141 that guessing the
-# median scores, which is the bar a feature has to beat to be an estimator at all.
+# admit to (I-04).
+#
+# **E27 then tested it on 30 players fetched after every constant was frozen, and
+# it did badly.** Cross-validated inside the fitting corpus it scored 123; on
+# strangers it scores **150**, against 157 for guessing the median. It ranks
+# players well (r = +0.83) and its *scale* is compressed 1.5x -- estimates spread
+# 115 points where the players spread 210 -- so strong players are read as much
+# weaker than they are. That is slope attenuation, and the honest reading is that
+# the blitz line barely earns its place.
+#
+# The line is **left alone** rather than rescaled on the held-out players: fitting
+# to the set that measures you is exactly the error L-018 records. What is
+# corrected is the promise -- `typical_error` now carries the figure measured on
+# strangers, and the report says the reading is rough.
 BLITZ_FIT = _Fit(
-    intercept=1841.3, slope=-12045.1, typical_error=123, fitted_range=(0.0090, 0.0607)
+    intercept=1841.3, slope=-12045.1, typical_error=150, fitted_range=(0.0090, 0.0607)
 )
+
+# Held-out mean signed error, blitz, from E27: the estimate reads a stranger as
+# this many points weaker than they are. Stated in the report rather than
+# silently corrected, because correcting it needs a refit on a wider sample and
+# not an offset read off the test set.
+BLITZ_BIAS = -88
 
 # Speeds with a fit. Bullet has none and is not fetched; if one ever arrives, no
 # estimate is the honest answer rather than the nearest line.

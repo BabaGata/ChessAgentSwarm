@@ -196,14 +196,20 @@ class TestTheEstimateNamesItsSpeed:
         assert "your blitz standard" in render(self.profile_with("blitz"))
 
     def test_a_blitz_estimate_admits_it_is_the_weaker_reading(self):
+        # E27 measured this on strangers: out by ~150 points, biased low, worst
+        # for strong players. A player anchoring on the number is owed all three.
         from chesscoach.explainer import render
 
-        assert "less accurate" in render(self.profile_with("blitz", typical_error=123))
+        report = render(self.profile_with("blitz", typical_error=150))
+
+        assert "rough" in report
+        assert "150" in report
+        assert "weaker than they are" in report
 
     def test_a_rapid_estimate_carries_no_such_warning(self):
         from chesscoach.explainer import render
 
-        assert "less accurate" not in render(self.profile_with("rapid"))
+        assert "ballpark" not in render(self.profile_with("rapid"))
 
     def test_an_estimate_with_no_speed_says_nothing_about_one(self):
         from chesscoach.explainer import render

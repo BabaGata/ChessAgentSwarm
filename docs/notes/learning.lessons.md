@@ -45,6 +45,29 @@ a stated defect in [[experiments.e15-expected-gain]] — raw cost must become pe
 
 ---
 
+### L-036 — Cross-validation inside a selected sample is not out-of-sample validation
+**Date:** 2026-08-10 · **Cycle / mission step:** M6 · **Class:** technique
+**Context:** Running the whole pipeline on 30 players fetched after every constant was frozen
+([[experiments.e27-held-out]]).
+**Observation:** V1's blitz line was cross-validated by fold and scored **123**. On players it had
+never seen it scored **150**, against 157 for guessing the band's median — barely an estimator at
+all — with a systematic **−88** bias. The failure was invisible to cross-validation for a structural
+reason: folds hold out *players*, but every player came from the same discovery route and therefore
+the same narrow rating range, and the defect was **slope attenuation**, which costs almost nothing
+inside a narrow range and a great deal across a wide one. The held-out sample spanned 1184–2008 and
+the fitting sample did not.
+**Lesson:** Cross-validation answers *"does this generalise to more of the same data?"*, which is a
+weaker question than it looks when the data was all selected the same way. **It cannot detect a
+defect whose cost depends on the range of the sample**, and range restriction is the normal condition
+of any corpus assembled by one filter. Before trusting a fitted constant, get subjects through a
+*different door*. The tell is a model cross-validated on a corpus whose selection criterion also
+constrains the outcome variable.
+**Applied to:** [[experiments.e27-held-out]]; `BLITZ_FIT.typical_error` corrected from the
+cross-validated figure to the measured-on-strangers one, with the line itself deliberately left
+un-rescaled.
+
+---
+
 ### L-035 — For a proportion, breadth is cheaper than depth of coverage
 **Date:** 2026-08-08 · **Cycle / mission step:** M6 · **Class:** technique
 **Context:** Checking whether depth-15 error labels survive a depth-22 engine

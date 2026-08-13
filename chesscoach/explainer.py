@@ -429,13 +429,16 @@ def _limits(profile: PlayerProfile) -> list[str]:
     limits = list(LIMITS)
 
     if profile.strength is not None and profile.strength.speed == "blitz":
-        # Superseded the warning that stood here while blitz had no fit of its
-        # own (I-04). It has one now, and it is honestly worse: held-out error
-        # 123 against rapid's 103, because blunder rate discriminates less when
-        # everyone is rushing. Saying which is better beats warning about neither.
+        # E27 tested this on players it had never seen and it did badly: 150
+        # points of error against 157 for guessing the band's median, and a
+        # systematic tendency to read strangers as weaker than they are. A player
+        # anchoring on this number deserves to know that, in more words than the
+        # earlier "less accurate" gave them.
         limits.append(
-            "The rating estimate is read from blitz games, where it is less accurate "
-            "than from slower ones — blunders are commoner and separate players less."
+            "The rating estimate here is read from blitz games and is rough — tested on "
+            "players it had never seen it was out by about 150 points, it tends to read "
+            "people as weaker than they are, and the stronger you are the more it "
+            "understates you. Read it as a ballpark, not a rating."
         )
 
     for reason, count in profile.corpus.excluded:
