@@ -25,6 +25,7 @@ two copies.
 | Project steering | this vault | vision, mission, process, decisions — complete for the current stage |
 | Chess concepts | [[domain.chess-concepts]] | **first pass** — 10 domains, concept inventory, prerequisite order, band table, contested claims marked. Missing: typical-plan catalogues per structure, positional-motif taxonomy |
 | Coaching practice | [[domain.coaching]] | **first pass** — assessment method, four-way gap taxonomy, sequencing, anti-patterns, progress indicators, operational style definition. Missing: a detailed published curriculum, adult-vs-junior differences, intervention timescales |
+| **Expertise research** | [[domain.expertise-research]] | **primary sources, read directly** — Gobet & Charness (2006) held in `docs/pdf/`, quoted verbatim. Covers the four decisions the code rests on, plus the two findings that do not flatter the project: coaching's value is **contested**, and the field has little on training methods. Missing: a source for the four-way gap taxonomy |
 | Computable signals | [[domain.signals]] | **first pass, strongest area** — signal inventory, free tooling, what is *not* computable, methodological warnings |
 | Sources | [[domain.sources]] | **first pass** — every source evidence-classed; commercial bias flagged (R-11); one claim marked unverified |
 | Prior art | [[domain.sources]] § prior art | five comparable open-source projects identified, **none read yet** |
@@ -39,7 +40,8 @@ Held on disk, no network needed, all free (constraint C7,
 |---|---|---|
 | Five prior-art projects | `C:\Users\vujic\Documents\MachineLearning\ChessLLMs\` | [[domain.prior-art]] — re-readable without re-cloning |
 | Stockfish wiki | `…\ChessLLMs\Stockfish.wiki\` | engine documentation, UCI options, evaluation semantics |
-| Gobet, *Expert memory: a comparison of four theories* | `docs/pdf/` | the only research paper held in full; cognitive basis for pattern/chunk-driven expertise |
+| Gobet, *Expert memory: a comparison of four theories* | `docs/pdf/` | cognitive basis for pattern/chunk-driven expertise |
+| **Gobet & Charness, *Expertise in chess* (2006)** | `docs/pdf/` | **the primary basis for the swarm's design decisions** → [[domain.expertise-research]]. Free from Brunel's repository (C7) |
 | Stockfish 18 binary | `C:\stockfish\` | the analysis engine |
 
 **Note on the repo copies:** these are read-only references. Arrakis Engine is AGPL-3.0, so its code

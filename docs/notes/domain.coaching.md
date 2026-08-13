@@ -11,6 +11,14 @@ created: 1785254500000
 First-pass answer to questions 5–10 of [[mission.step-01-foundations]]. Sources in
 [[domain.sources]]. This note is about *method*, not chess content ([[domain.chess-concepts]]).
 
+> **Read [[domain.expertise-research]] alongside this note.** What follows was assembled from
+> coach-authored websites and is honest about it (R-11). The **decisions the code actually rests
+> on** — pattern recognition rather than calculation depth, pooling speeds, concrete claims rather
+> than principles, refusing to promise rating gains — have since been traced to peer-reviewed
+> sources, which support them. Two things there do *not* support this note: whether coaching helps at
+> all is **contested in the literature**, and the field has little to say about training methods.
+> Where the two notes disagree, the peer-reviewed one wins.
+
 ## 1. How a coach assesses a new student
 
 The consistent shape of a first session across sources:
@@ -113,10 +121,20 @@ That is the version of V3 worth building; the personality-quiz version is not.
 
 ## Open items for the next research pass
 
-- Actual coach-authored curricula/lesson plans at a concrete level of detail (the sources found are
-  mostly overview articles; the thesis will want at least one detailed published curriculum such as
-  the Steps Method for comparison).
-- How coaches handle adult improvers vs. juniors — likely different sequencing and expectations.
-- Evidence on *how long* interventions take to show up in results — needed for V6's time estimates,
-  currently the weakest-evidenced part of the vision.
+**Done 2026-08-14** → [[domain.expertise-research]]: the load-bearing claims now have peer-reviewed
+sources, and E19's speed-pooling decision turned out to have a published precedent (Chabris & Hearst
+2003, blunders per 1,000 moves 5.02 → 6.85 for a **sixfold** cut in thinking time).
+
+Still open:
+
+- **The four-way gap taxonomy above (§ 2) has no traced source.** It is the sharpest idea in this
+  note, it drives `GapTypeHypothesis` in the profile schema, and its provenance is *"found in M1"*.
+  It resembles the declarative/procedural distinction in skill-acquisition research, but that link is
+  currently an assertion. Either source it or mark it as this project's own construct and defend it
+  as such.
+- Actual coach-authored curricula/lesson plans at a concrete level of detail (the Steps Method).
+- How coaches handle adult improvers vs. juniors.
+- Evidence on *how long* interventions take to show up in results — D5, still unanswered, and
+  [[domain.expertise-research]] found the literature thin on training methods generally, so this may
+  be a gap in the field rather than in the reading.
 - How to elicit knowledge in dialogue (the probe-position idea) — is there published methodology?

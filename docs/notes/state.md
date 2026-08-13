@@ -144,7 +144,7 @@ This is what actually moved this cycle.
 | Capacity dimension | Score 0–5 | Δ | Note |
 |---|:--:|:--:|---|
 | Domain knowledge (chess) | 4 | +1 | primary sources in use; positional vocabulary assembled and rated for detectability |
-| Domain knowledge (coaching) | 2 | — | still secondary sources; F2 partially addressed |
+| Domain knowledge (coaching) | **4** | **+2** | **F2 largely closed 2026-08-14** → [[domain.expertise-research]]. The decisions the code rests on are traced to Gobet & Charness (2006), read directly from the PDF and quoted verbatim: pattern recognition over search depth (Chase & Simon; 300,000 chunks; a 1600→2300 player with **no significant increase in search depth**), the small cost of playing fast (**5.02 → 6.85 blunders per 1,000 moves for a sixfold cut in thinking time**, which independently corroborates E19), narrow transfer (Didierjean et al.), and ~1,000 hours to master. Not 5: the **four-way gap taxonomy still has no traced source** despite driving `GapTypeHypothesis`, and the procedural claims (lesson shape, the anti-pattern list) remain on coaching sites |
 | Signal & tooling knowledge | 5 | +1 | engine, API, tactical and positional detection all verified **by running them** |
 | Prior-art knowledge | 5 | — | complete |
 | Architecture | 4 | +1 | fully specified — profile schema, orchestration, interaction, confidence, storage — and each choice traced to a measurement or a rejected alternative. Not yet built |

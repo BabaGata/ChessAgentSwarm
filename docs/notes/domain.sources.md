@@ -18,6 +18,14 @@ commercial content marketing of variable rigour. Before anything from here appea
 a claim about chess pedagogy, it needs corroboration from primary sources (books by recognised
 coaches, peer-reviewed work). Flagged as an open item in [[state]].
 
+**Partly addressed 2026-08-14** → [[domain.expertise-research]]. The **load-bearing** design
+decisions — pattern recognition over calculation depth, pooling speeds, concrete claims rather than
+principles, and refusing to promise rating gains — now trace to peer-reviewed work read directly
+rather than to coaching sites. The claims still resting on commercial sources are the *procedural*
+ones (how a lesson is shaped, one-or-two priorities, the anti-pattern list); those are lower-stakes,
+and the biggest remaining gap is the **four-way gap taxonomy**, whose provenance is still unclear
+despite driving `GapTypeHypothesis` in the schema.
+
 ## Chess improvement / curriculum by level
 
 | Source | Used for | Class | Quality note |
@@ -58,6 +66,7 @@ Held locally in `docs/pdf/`. See [[decisions.0004-free-research-materials]].
 
 | Source | Used for | Class | Quality note |
 |---|---|---|---|
+| **Gobet & Charness (2006), "Expertise in chess", *Cambridge Handbook of Expertise and Expert Performance*, 523–538** — [free from Brunel's repository](https://bura.brunel.ac.uk/bitstream/2438/1475/1/Gobet-Charness-CUP-chess%20expertise.pdf), held in `docs/pdf/` | **the primary basis for four load-bearing design decisions** → [[domain.expertise-research]]: pattern recognition over search depth, the cost of playing fast, the narrowness of transfer, and how much practice a master needs | **measured / review by two central figures in the field** | Read directly, not through a summary; every quotation in [[domain.expertise-research]] is verbatim. It also carries the two findings that **do not** flatter this project: whether a coach helps is *contested* (Charness et al. 1996 vs 2005), and the field has *"not much"* on training methods at all |
 | **Capablanca, *Chess Fundamentals* (1921)** — [Project Gutenberg #33870](https://www.gutenberg.org/ebooks/33870), full text held locally | study order, endgame-first pedagogy, the limits of book learning | **primary / world champion** | Public domain in the USA. The **book's own structure is evidence**: Chapter I is "First Principles: **Endings**, Middle-game and Openings" — in that order — and he opens by telling the student to learn the power of the pieces through simple mates. This is first-hand support for the endgame-first tradition that [[domain.chess-concepts]] § E lists as contested, from the person most associated with it |
 | Gobet, *Expert memory: a comparison of four theories* | chunking / expertise theory | **measured** | the one research paper held in full, in `docs/pdf/` |
 
