@@ -144,6 +144,80 @@ find that chess instruction's benefits **transfer poorly to academic and cogniti
 is largely absent. Not a claim this project makes — worth citing to show it was checked, and to keep
 the thesis away from *"chess makes you smarter"*.
 
+## 6. The four-way gap taxonomy — sourced, and the names are inverted
+
+The taxonomy in [[domain.coaching]] § 2 drives `GapTypeHypothesis` in the profile schema and its
+provenance was *"found in M1"*. It is not this project's invention: it is a close relative of the
+**Skill–Rule–Knowledge** classification (Rasmussen, 1979–1987) and the **slips/mistakes** distinction
+(Norman, 1981; Reason, 1990), the standard framework for classifying human error in safety-critical
+work. Read from
+[Embrey, *Understanding Human Behaviour and Error*, Human Reliability Associates](https://mail.humanreliability.com/articles/Understanding%20Human%20Behaviour%20and%20Error.pdf),
+held in `docs/pdf/`.
+
+The foundational split is **intention against execution**:
+
+> "**Slips** are defined as errors in which the intention is correct, but a failure occurring when
+> carrying out the activities required. … **Mistakes**, by contrast, arise from an **incorrect
+> intention**, which leads to an incorrect action sequence, although this may be quite consistent
+> with the wrong intention. … Incorrect intentions may arise from **lack of knowledge** or
+> inappropriate diagnosis."
+
+And the three levels carry labels that could have been written for chess:
+
+| SRK level | the article's label | its example |
+|---|---|---|
+| skill-based | **"misapplied competence"** | *"operator fails to close valve due to spatial confusion with another valve"* |
+| rule-based | **"a failure of expertise"** | *"operator assumes reactor is OK based on one temperature indication which proves to be faulty"* |
+| knowledge-based | **"a lack of expertise"** | *"operator fails to diagnose the causes of a severe abnormality under considerable time-pressure"* |
+
+### The mapping
+
+| this project | SRK / GEMS | fit |
+|---|---|---|
+| **knowledge gap** — doesn't know the pattern exists | knowledge-based mistake, *"a lack of expertise"* | **close** |
+| **skill gap** — knows it, cannot execute under time or complexity | rule-based mistake, *"a failure of expertise"* | **close** |
+| **process gap** — doesn't check threats, moves fast, no candidate comparison | skill-based slip, *"misapplied competence"* | **close** — and the article's listed causes are *"strong habit intrusions"* and *"situational changes that do not trigger the need to change habits"*, which is precisely "played it instantly because nothing prompted a check" |
+| **psychological gap** — tilt, panic, risk aversion | **not an error type at all** | **the taxonomy is mixing two kinds of thing** |
+
+**Two honest consequences, and the second is the more useful one.**
+
+**The names are inverted against the standard framework.** This project's *"skill gap"* is the
+literature's **rule-based** level, and this project's *"process gap"* is the literature's
+**skill-based** level. Anyone reading the thesis with a human-factors background will trip over that.
+
+**Not renamed, deliberately.** `PROCESS` and `SKILL` are what a chess player understands; *"a
+skill-based slip"* is not, and the report is written for the player rather than for the literature.
+The mapping is recorded here so the thesis can state it in one table and move on — which is cheaper
+and clearer than a schema migration that would make the player-facing text worse.
+
+**The psychological gap is a category error, mildly.** In SRK, stress and unfamiliarity are
+**performance-influencing factors** that push a person *up* the levels toward effortful
+knowledge-based processing — the article notes humans *"do not perform very well in high stress,
+unfamiliar situations where they are required to 'think on their feet'"* — rather than a fourth kind
+of error. The project's taxonomy lists three error types and one modifier as though they were four
+peers. Worth stating rather than defending; it also explains why `PSYCHOLOGICAL` has never once been
+assigned by any section.
+
+### Where this project adds something
+
+The slips/mistakes distinction is a 2×2 of intention against action, and the literature names only
+three of its cells:
+
+| | correct action | wrong action |
+|---|---|---|
+| **correct intention** | fine | **slip** *(process gap)* |
+| **wrong intention** | **— unnamed —** | **mistake** *(knowledge gap)* |
+
+The empty cell is *right move, wrong reason*, and it is exactly the project's **`FRAGILE`** gap type
+(schema v4), introduced on the prober's evidence: a player who finds the move and explains it wrongly
+holds something that will not transfer — which §3's transfer result then explains.
+
+**The prober is the instrument that cell requires.** Separating intention from action needs the
+intention observed independently, and a played move does not reveal it; that is why probes ask for a
+move **and its reason**, and why [[domain.coaching]] concluded games alone cannot tell a knowledge gap
+from a skill gap (L-002). That conclusion was reached from coaching sites; it is the same conclusion
+the error literature reaches from the definition of a slip.
+
 ## What this changed
 
 | | |
@@ -155,11 +229,6 @@ the thesis away from *"chess makes you smarter"*.
 
 ## Still open
 
-- **The four-way gap taxonomy** (knowledge / skill / process / psychological) is the sharpest idea in
-  [[domain.coaching]] and its provenance is still *"found in M1"*. It resembles the declarative /
-  procedural distinction in the skill-acquisition literature (Anderson's ACT-R) but that link is
-  **asserted here, not verified**, and it drives `GapTypeHypothesis` in the schema. The next pass
-  should either source it or mark it as this project's own construct.
 - **Intervention timescales** — open question D5, still unanswered. Nothing found here says how long
   a change takes to show up in results, which is why plans carry no time estimates.
 - **The Steps Method** or another published curriculum, for comparison against the swarm's sequencing.

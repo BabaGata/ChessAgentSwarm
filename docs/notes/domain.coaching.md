@@ -58,6 +58,15 @@ first-class structure in the swarm: the same observable error ("hung a knight") 
 explanations, and the coaching action differs entirely. **Distinguishing them likely requires
 interaction with the player, not just game analysis** — see [[domain.signals]] § probes.
 
+> **Sourced 2026-08-14** → [[domain.expertise-research]] § 6. This is not the project's invention: it
+> is a close relative of Rasmussen's **Skill–Rule–Knowledge** classification and Norman/Reason's
+> **slips versus mistakes**, the standard framework for human error. Three consequences, all recorded
+> there: the first three rows map well, **`skill` and `process` are named the inverse of the standard
+> framework** (kept anyway, because the report is written for a player), **`psychological` is not an
+> error type** in that literature but a performance-influencing factor — which is consistent with no
+> section ever assigning it — and the swarm's `FRAGILE` type occupies the one cell of the
+> intention × action square that the literature leaves unnamed.
+
 ## 3. Sequencing
 
 - **One or two priorities at a time**, not a list of nine. Isolate, build the session around them,
@@ -125,13 +134,12 @@ That is the version of V3 worth building; the personality-quiz version is not.
 sources, and E19's speed-pooling decision turned out to have a published precedent (Chabris & Hearst
 2003, blunders per 1,000 moves 5.02 → 6.85 for a **sixfold** cut in thinking time).
 
+**Also done 2026-08-14:** the four-way gap taxonomy (§ 2) is sourced — Rasmussen's SRK and
+Norman/Reason's slips-versus-mistakes, with the naming inversion and the `psychological` category
+error both recorded honestly.
+
 Still open:
 
-- **The four-way gap taxonomy above (§ 2) has no traced source.** It is the sharpest idea in this
-  note, it drives `GapTypeHypothesis` in the profile schema, and its provenance is *"found in M1"*.
-  It resembles the declarative/procedural distinction in skill-acquisition research, but that link is
-  currently an assertion. Either source it or mark it as this project's own construct and defend it
-  as such.
 - Actual coach-authored curricula/lesson plans at a concrete level of detail (the Steps Method).
 - How coaches handle adult improvers vs. juniors.
 - Evidence on *how long* interventions take to show up in results — D5, still unanswered, and

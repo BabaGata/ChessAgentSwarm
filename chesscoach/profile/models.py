@@ -46,16 +46,46 @@ class ConfidenceTier(str, Enum):
 
 
 class GapTypeHypothesis(str, Enum):
-    """Why an error happened -- each needs a different remedy."""
+    """Why an error happened -- each needs a different remedy.
 
+    Grounded in the **Skill-Rule-Knowledge** classification (Rasmussen) and the
+    **slips/mistakes** distinction (Norman 1981, Reason 1990), the standard
+    framework for human error -- see docs/notes/domain.expertise-research.md § 6.
+
+    **The names are inverted against that literature, deliberately.** What is
+    called PROCESS here is its *skill-based* level ("misapplied competence") and
+    what is called SKILL here is its *rule-based* level ("a failure of
+    expertise"). `PROCESS` and `SKILL` are what a chess player understands, and
+    the report is written for the player; the mapping is recorded in the note so
+    the thesis can state it once.
+    """
+
+    # "A lack of expertise": no rule available, so the position has to be worked
+    # out from first principles -- and is not.
     KNOWLEDGE = "knowledge"
+    # "A failure of expertise": the pattern is held but misapplied under time or
+    # complexity. Rule-based in the literature's terms.
     SKILL = "skill"
+    # "Misapplied competence": a slip. The intention was right and nothing in the
+    # position prompted the check that would have caught it.
     PROCESS = "process"
+    # **Not an error type in the literature**, where stress and unfamiliarity are
+    # *performance-influencing factors* that push a player up into effortful
+    # processing rather than a fourth kind of mistake. Kept because coaches talk
+    # this way, and never yet assigned by any section -- which is consistent with
+    # it being a modifier rather than a category.
     PSYCHOLOGICAL = "psychological"
     # Right move, wrong reason. Distinct from KNOWLEDGE because the player is
     # not starting from nothing, and distinct from SKILL because what they hold
     # will not generalise -- the remedy is to rebuild the concept, not to drill.
     # Only a probe can establish it (schema v4).
+    #
+    # **The cell the standard taxonomy leaves empty.** Slips and mistakes form a
+    # 2x2 of intention against action and the literature names three of its
+    # cells; "wrong intention, correct action" has no name there. Separating
+    # intention from action needs the intention observed on its own, which a
+    # played move never reveals -- which is why probes ask for a move *and its
+    # reason*, and why L-002 concluded games alone cannot tell these apart.
     FRAGILE = "fragile"
     UNKNOWN = "unknown"
 
