@@ -390,13 +390,23 @@ def _band_section(profile: PlayerProfile) -> list[str]:
             f" - Players at your level lose about {note.cost_per_game:.1f} points of "
             f"win probability a game to {note.wording}."
         )
-    lines += [
-        "",
-        "   These are not findings about you — they are what the whole rating band",
-        "   loses most to, and the stronger players in it lose less. Your own one or",
-        "   two priorities above are the ones that are unusual for you specifically.",
-        "",
-    ]
+    lines.append("")
+    if profile.plan and profile.plan.steps:
+        lines += [
+            "   These are not findings about you — they are what the whole rating band",
+            "   loses most to, and the stronger players in it lose less. Your own one or",
+            "   two priorities above are the ones that are unusual for you specifically.",
+        ]
+    else:
+        # Without priorities there is nothing "above" to contrast against, and
+        # the standard wording pointed at an empty space. Found while assembling
+        # the expert-review pack, where two of the twelve players are silent.
+        lines += [
+            "   These are not findings about you — nothing specific to you cleared the",
+            "   bar. They are what the whole rating band loses most to, and the stronger",
+            "   players in it lose less, so they are a reasonable place to start.",
+        ]
+    lines.append("")
     return lines
 
 

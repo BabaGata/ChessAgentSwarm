@@ -155,6 +155,24 @@ class TestItIsNotAFinding:
         # a claim about this player is exactly what it does not support.
         assert "You play" not in report
 
+    def test_a_silent_player_is_not_pointed_at_priorities_they_do_not_have(self):
+        # The trailer said "your own one or two priorities above" to players who
+        # had none, pointing at an empty space. Found while assembling the
+        # expert-review pack, where 2 of 12 players are silent.
+        from chesscoach.explainer import render
+        from chesscoach.profile.models import CorpusRef, PlayerProfile, PlayerRef
+
+        silent = PlayerProfile(
+            player=PlayerRef(source="lichess", username="alice", band="1400-1800"),
+            corpus=CorpusRef(corpus_id="c1", n_games=45),
+            band_notes=notes_for(context({INSTANT: 16.1})),
+        )
+
+        report = render(silent)
+
+        assert "priorities above" not in report
+        assert "nothing specific to you cleared the" in report
+
     def test_a_profile_with_no_notes_prints_no_section(self):
         from chesscoach.explainer import BAND_HEADING, render
         from chesscoach.profile.models import CorpusRef, PlayerProfile, PlayerRef

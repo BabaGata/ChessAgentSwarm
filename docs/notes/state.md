@@ -112,9 +112,19 @@ report offers an alternative, **169 of 169**, that alternative still beats what 
 played, by a median of **17.8 win-probability points**. The report never claimed the move was
 optimal, only that it was better, and that claim holds.
 
-So the honest position: everything measurable without a human has now been measured. **Criterion 3 —
-a strong player reading a dozen reports — is the gate, and it is the one thing on this list that
-cannot be done alone.**
+So the honest position: everything measurable without a human has now been measured. **Criteria 2 and
+3 — a strong player reading a dozen reports — are the gate, and they are the one thing on this list
+that cannot be done alone.**
+
+**The review is prepared and pre-registered** → [[evaluation.expert-review]]. Protocol, sample and
+**pass thresholds fixed before any reviewer was approached**, because deciding what counts as a pass
+after reading the answers is how a review becomes a testimonial. Twelve players drawn from the E27
+held-out set — including the two the swarm was silent about and the weakest finding that still
+shipped, so it cannot be run on the flattering cases. The reviewer writes their **own** diagnosis
+before seeing the system's, in a separate folder, because *"would you have said this?"* and *"do you
+agree with this?"* are different measurements. Build it with
+`experiments/e28-expert-review/prepare.py`; it costs about 15–20 minutes per player of the
+reviewer's time.
 
 The uncomfortable part of this cycle is not the score. Expected-gain reasoning had been treated as
 blocked ever since E03 failed to link a feature to errors — for two scorecard cycles the note read
