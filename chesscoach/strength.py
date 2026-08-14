@@ -52,6 +52,14 @@ class _Fit:
 
 # Fitted on the 84-player E13 corpus, whose games were rapid and classical, so
 # the same line serves both. Refit with `experiments/e13-strength-signal/run.py`.
+#
+# **Deliberately left uncorrected**, and it is the control that makes E29's blitz
+# correction believable. Rapid's predictor is far less noisy (reliability 0.853
+# against blitz's 0.641), so attenuation theory asks for only a 1.17x stretch --
+# and the held-out players point the *other* way, demanding 0.63x. Applying the
+# correction here degrades MAE from 79 to 111. The remedy helps exactly where the
+# predictor is noisy and hurts where it is not, which is what attenuation
+# predicts and a blanket "stretching helps" would not.
 RAPID_FIT = _Fit(
     intercept=2053.1, slope=-19858.6, typical_error=103, fitted_range=(0.0083, 0.0717)
 )
@@ -60,27 +68,36 @@ RAPID_FIT = _Fit(
 # applying a rapid line to a blitz corpus was extrapolation the report did not
 # admit to (I-04).
 #
-# **E27 then tested it on 30 players fetched after every constant was frozen, and
-# it did badly.** Cross-validated inside the fitting corpus it scored 123; on
-# strangers it scores **150**, against 157 for guessing the median. It ranks
-# players well (r = +0.83) and its *scale* is compressed 1.5x -- estimates spread
-# 115 points where the players spread 210 -- so strong players are read as much
-# weaker than they are. That is slope attenuation, and the honest reading is that
-# the blitz line barely earns its place.
+# **E27 tested that line on 30 players fetched after every constant was frozen
+# and it did badly** -- MAE 150 against 157 for guessing the median -- because
+# blunder rate is a *noisy* measure of skill at blitz, and noise in a predictor
+# shrinks an OLS slope toward zero. It ranked players well (r = +0.83) and
+# compressed the scale, so strong players read as much weaker than they are.
 #
-# The line is **left alone** rather than rescaled on the held-out players: fitting
-# to the set that measures you is exactly the error L-018 records. What is
-# corrected is the promise -- `typical_error` now carries the figure measured on
-# strangers, and the report says the reading is rough.
+# **Corrected in E29 by the standard remedy for regression dilution**: divide the
+# slope by the predictor's reliability, and rotate about the fitting data's
+# centroid so the line still passes through it.
+#
+#   reliability   0.641   split-half by game, Spearman-Brown, **fitting corpus only**
+#   correction    1.56x
+#
+# The evidence that this was the right diagnosis is that the correction factor
+# and the held-out data were computed from **different data and agree**: the 30
+# held-out players independently demand a 1.48x stretch. On them the corrected
+# line scores **MAE 129 against the shipped line's 149**, with the bias narrowing
+# from -111 to -97 and estimates within 200 points rising from 75 % to 88 %.
+#
+# Still the weaker reading, and still worth saying so: 129 against 148 for
+# guessing the band's median is an improvement, not a good rating estimate.
 BLITZ_FIT = _Fit(
-    intercept=1841.3, slope=-12045.1, typical_error=150, fitted_range=(0.0090, 0.0607)
+    intercept=2000.6, slope=-18791.9, typical_error=129, fitted_range=(0.0090, 0.0607)
 )
 
-# Held-out mean signed error, blitz, from E27: the estimate reads a stranger as
-# this many points weaker than they are. Stated in the report rather than
-# silently corrected, because correcting it needs a refit on a wider sample and
-# not an offset read off the test set.
-BLITZ_BIAS = -88
+# Held-out mean signed error after the correction (E29, was -88 before it): the
+# estimate still reads a stranger as this many points weaker than they are.
+# Reported rather than subtracted -- an offset read off the validation set is the
+# fitting-to-your-test-set error the correction was careful to avoid.
+BLITZ_BIAS = -97
 
 # Speeds with a fit. Bullet has none and is not fetched; if one ever arrives, no
 # estimate is the honest answer rather than the nearest line.

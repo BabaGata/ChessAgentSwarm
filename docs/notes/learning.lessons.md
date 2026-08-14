@@ -45,6 +45,29 @@ a stated defect in [[experiments.e15-expected-gain]] — raw cost must become pe
 
 ---
 
+### L-037 — A correction without a control is indistinguishable from tinkering
+**Date:** 2026-08-14 · **Cycle / mission step:** M6 · **Class:** technique
+**Context:** Correcting V1's blitz line for slope attenuation
+([[experiments.e29-attenuation]]).
+**Observation:** Stretching the blitz slope by 1.56× improved held-out MAE from 149 to 129, and on
+its own that proves very little — *"I adjusted a parameter and the number improved"* is the shape of
+overfitting, not of a fix. Two things made it evidence instead. The correction was derived from the
+**fitting corpus's internal consistency** (split-half reliability, 0.641) and the held-out players
+**independently demanded 1.48×**: different data, agreeing numbers, which a wrong diagnosis has no
+reason to produce. And the same remedy was applied to **rapid**, where the theory predicted it should
+barely help — reliability 0.853 — and it made things *worse* (MAE 79 → 111), so it was not applied.
+**Lesson:** When a fix improves a metric, the question is not *"did it improve?"* but *"does it fail
+where the theory says it should fail?"* A remedy that helps everywhere it is tried is usually fitting
+noise. **Pick a case the mechanism predicts it will not help, run it there too, and report both** —
+the refusal is what turns an improvement into an explanation. This is the constructive twin of L-018
+and L-036: those say do not measure yourself on what you fitted; this says a correction needs a
+place where it is allowed to fail.
+**Applied to:** [[experiments.e29-attenuation]]; `RAPID_FIT` left uncorrected with the control's
+reasoning recorded beside it, and a test pinning the blitz correction factor so a later refit cannot
+drop it quietly.
+
+---
+
 ### L-036 — Cross-validation inside a selected sample is not out-of-sample validation
 **Date:** 2026-08-10 · **Cycle / mission step:** M6 · **Class:** technique
 **Context:** Running the whole pipeline on 30 players fetched after every constant was frozen

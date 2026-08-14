@@ -446,9 +446,8 @@ def _limits(profile: PlayerProfile) -> list[str]:
         # earlier "less accurate" gave them.
         limits.append(
             "The rating estimate here is read from blitz games and is rough — tested on "
-            "players it had never seen it was out by about 150 points, it tends to read "
-            "people as weaker than they are, and the stronger you are the more it "
-            "understates you. Read it as a ballpark, not a rating."
+            "players it had never seen it was out by about 130 points, and it still tends "
+            "to read people as weaker than they are. Read it as a ballpark, not a rating."
         )
 
     for reason, count in profile.corpus.excluded:

@@ -133,9 +133,16 @@ class TestTheFitsThemselves:
     def test_blitz_is_reported_as_the_less_certain_reading(self):
         assert BLITZ_FIT.typical_error > RAPID_FIT.typical_error
 
-    def test_blitz_separates_players_less(self):
-        # A flatter line: the same change in blunder rate moves the rating less.
-        assert abs(BLITZ_FIT.slope) < abs(RAPID_FIT.slope)
+    def test_the_blitz_line_carries_its_attenuation_correction(self):
+        # E29 divided the fitted slope by the predictor's reliability (0.641),
+        # which is why the shipped slope is steeper than the raw OLS fit of
+        # -12045 rather than equal to it. Pinned because a future refit that
+        # silently dropped the correction would look like a small change and
+        # cost 20 points of held-out accuracy.
+        raw_ols_slope = -12045.1
+
+        assert abs(BLITZ_FIT.slope) > abs(raw_ols_slope)
+        assert abs(BLITZ_FIT.slope / raw_ols_slope) == pytest.approx(1.56, abs=0.03)
 
     def test_each_fit_knows_where_it_stops_extrapolating(self):
         for fit in (RAPID_FIT, BLITZ_FIT):

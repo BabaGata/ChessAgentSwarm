@@ -42,6 +42,7 @@ An experiment with no consequence was not worth running.
 | E25 | is a weakness the whole band shares still worth coaching? | done — **for 5 claims of 27**, including the most expensive one measured (`instant_move_error`, 16.1/game), which is advised to nobody | [[experiments.e25-shared-weaknesses]] |
 | E26 | do the findings survive a much deeper engine? | done — **90 % of errors, 97 % of blunders**, implied rate ratio 1.05; and the suggested move still beats the played one **169/169** | [[experiments.e26-depth-robustness]] |
 | E27 | does any of it hold on players it was never built on? | done — **the diagnosis yes** (86 % vs 84 % matched on corpus size, p = 0.46), **the blitz rating no** (MAE 150 against 157 for guessing) | [[experiments.e27-held-out]] |
+| E29 | can the blitz line be repaired without fitting to the test set? | done — **yes**: reliability 0.641 gives a 1.56× correction, held-out data independently demands 1.48×, **MAE 149 → 129**. Rapid refuses it, which is the control | [[experiments.e29-attenuation]] |
 
 ## Conventions
 
