@@ -37,6 +37,10 @@ DEFAULT_PRIOR_STRENGTH = 50.0
 # Fewer contributors than this and the spread of rates says nothing.
 MIN_PEERS_FOR_PRIOR = 3
 
+# What share of a directory's games must actually be the speed it is being filed
+# under. See `declared_speed_is_wrong`.
+STRATUM_PURITY = 0.9
+
 
 @dataclass(frozen=True)
 class ConditionMeasurement:
@@ -279,6 +283,59 @@ class PeerReference:
                 for key, contributions in payload["cells"].items()
             },
         )
+
+
+def declared_speed_is_wrong(games, declared: str) -> str | None:
+    """Is `--time-control` a fair label for these games? Returns why not, or None.
+
+    `build-peer-reference` applies one speed label to a whole directory instead
+    of reading each game's own, which is fine when the directory was fetched one
+    speed at a time and a silent disaster otherwise: a mixed directory built as
+    `rapid` yields a reference with no blitz stratum, and every `_mixed` lookup
+    for a blitz-heavy player then returns None. The peer comparison and the band
+    notes disappear from a report that still renders and still looks complete.
+
+    Near-purity is demanded rather than a bare majority, and the difference is
+    not academic: the first corpus this was run against was 63 % rapid, passed a
+    majority test, and still filed **51 blitz games** under `rapid`. A directory
+    fetched one speed at a time is essentially pure, so anything short of that
+    means the fetch was not stratified. The tolerance exists only because
+    `speed_class` reimplements Lichess's boundary rule and may disagree with it
+    on a handful of games near the edges.
+
+    Games with no readable control abstain rather than vote: correspondence
+    games have no speed, and should not outvote the games that do.
+    """
+    from collections import Counter
+
+    from chesscoach.speed import speed_class
+
+    speeds = Counter(
+        speed for speed in (speed_class(getattr(g, "time_control", None)) for g in games) if speed
+    )
+    if not speeds:
+        return None
+
+    (dominant, count), = speeds.most_common(1)
+    if dominant == declared and count >= STRATUM_PURITY * sum(speeds.values()):
+        return None
+
+    breakdown = ", ".join(f"{speed} {n}" for speed, n in speeds.most_common())
+    strays = sum(n for speed, n in speeds.items() if speed != declared)
+
+    # Two different mistakes, and telling someone the label is wrong when the
+    # label is right sends them to fix the wrong thing.
+    fault = (
+        f"{strays} of these {sum(speeds.values())} games are not {declared}"
+        if dominant == declared
+        else f"these games are mostly {dominant}, not {declared}"
+    )
+    return (
+        f"{fault} ({breakdown}). --time-control labels the whole directory rather "
+        f"than reading each game, so those games would be filed as {declared} and "
+        f"counted into the wrong population rate. Fetch one speed at a time "
+        f"(fetch-corpus --speed {declared}) and add the other strata with --merge-with"
+    )
 
 
 def prior_strength(contributions: tuple[_Contribution, ...]) -> float:

@@ -24,20 +24,26 @@ afterwards. Start there:
 ## What exists today
 
 The full loop: ingest → deterministic analysis → findings → priorities → plan → progress check.
-Two of the eleven planned section agents are built.
+Seven of the eleven planned section agents are built. Two of the four that are
+not exist as **refusals** rather than as gaps: E10 found calculation quality is
+not measurable from game records, and the candidates that would have carried the
+missing sections did not survive screening (E09, E11).
 
 The **evaluation harness** also exists, built deliberately *before* the first agent — one written
 afterwards is one shaped by the agents.
 
 ```
 chesscoach/
-  ingest/         Lichess fetching, PGN parsing, corpus identity
+  ingest/         Lichess fetching, player discovery, PGN parsing, corpus identity
   analysis/       engine, evaluation cache, error labels, observations, parallel prefetch
   profile/        the player profile — models and persistence
-  sections/       the diagnostic agents — S1 tactical gaps, S2 decision process
+  sections/       the diagnostic agents — tactical gaps, decision process,
+                  endgame technique, opening outcomes, pawn structure,
+                  squares and files, attack and defence
   evaluation/     split-half replication, planted weaknesses, ground-truth scoring
   tactics.py      eight motif detectors, precision-gated by E04
-  strength.py     how strong the play looks, ±103 points, rating never shown to it
+  strength.py     how strong the play looks — ±103 points from rapid, ±129 from
+                  blitz, measured on strangers; rating never shown to it
   style.py        how they play, as distinct from how well — and no verdict on it
   context.py      the four questions games cannot answer; study time sizes the plan
   humaninput.py   cleaning what a person typed, before anything reads it
@@ -53,10 +59,11 @@ chesscoach/
   session.py      one session end to end, and the probe gate
   pipeline.py     engine/cache session and provenance
   cli.py          coach · analyse · probe · report · check-progress ·
-                  build-peer-reference · make-eval-set · check-eval-set · score-agent
-experiments/      e01–e07: the measurements that shaped the design, including
+                  fetch-corpus · build-peer-reference ·
+                  make-eval-set · check-eval-set · score-agent
+experiments/      e01–e29: the measurements that shaped the design, including
                   the negative ones
-tests/            688 tests
+tests/            877 tests
 ```
 
 The loop runs end to end in **one command**: fetch → analyse → diagnose → prioritise → ask → plan
@@ -80,20 +87,58 @@ python -m chesscoach.cli coach \
 ```
 
 That is the whole thing: it asks four questions games cannot answer, fetches the
-player's rated rapid and classical games, analyses them, diagnoses, picks one or
-two priorities, plans, and prints a report. Say you have an hour a week and the
-plan comes back with one thing in it, not two.
-**7.6 seconds for 60 games on a warm cache**; about two minutes for a player the
+player's rated rapid, classical and blitz games, analyses them, diagnoses, picks
+one or two priorities, plans, and prints a report. Say you have an hour a week
+and the plan comes back with one thing in it, not two.
+**1.5 seconds for 60 games on a warm cache**; about 80 seconds for a player the
 engine has never seen. Zero cash.
 
 Add `--probe --model llama3.1:8b-instruct-q6_K` to be asked about your own
 positions first, which is what turns *"you miss pins"* into *"you know what a pin
 is and did not see this one"*.
 
-Needs a local Stockfish binary and a peer reference (`build-peer-reference`).
-Everything else is free and offline.
+Needs a local Stockfish binary and a peer reference. Everything else is free and
+offline.
 
-Generating an evaluation set whose weakness is known by construction:
+### Building the peer reference from nothing
+
+`--peers` is not optional in any meaningful sense: without a population, nothing
+can be called unusual and the swarm stays silent. Building one takes two
+commands, run once per speed.
+
+```bash
+# 1. Discover players in the band and fetch their games, one speed at a time.
+python -m chesscoach.cli fetch-corpus --out corpus/rapid --speed rapid --players 80
+python -m chesscoach.cli fetch-corpus --out corpus/blitz --speed blitz --players 80
+
+# 2. Turn each directory into a stratum, merging the second into the first.
+python -m chesscoach.cli build-peer-reference \
+    --pgn-dir corpus/rapid --time-control rapid \
+    --engine /path/to/stockfish --out peers.json --cache eval-cache.db
+
+python -m chesscoach.cli build-peer-reference \
+    --pgn-dir corpus/blitz --time-control blitz --merge-with peers.json \
+    --engine /path/to/stockfish --out peers.json --cache eval-cache.db
+```
+
+**One speed per directory, always.** `--time-control` labels a whole directory
+rather than reading each game's own control, and the failure when that label is
+wrong is silent: a blitz-heavy player meets a reference with no blitz stratum,
+every lookup returns nothing, and the peer comparison and band notes simply drop
+out of a report that still renders and still looks complete. `build-peer-reference`
+now refuses a directory that is less than 90% the speed it is being filed under —
+a guard that exists because this chain was run for real and produced exactly that
+report before anyone noticed.
+
+**What reproduces is the procedure, not the sample.** Discovery reads arena
+standings, and today's arenas are not the ones this project's reference was built
+from. A reader gets a different 80-odd players from the same band; the population
+*rates* should agree, the usernames will not. Run at 4 players the long-think rate
+came out at 18.8% against the 17.8% measured over 38 — which is the level of
+agreement to expect, and the reason rates rather than players are what anything
+here is compared against.
+
+Then generating an evaluation set whose weakness is known by construction:
 
 ```bash
 python -m chesscoach.cli make-eval-set \
@@ -108,16 +153,22 @@ The second command verifies the planted flaw is actually visible to the analysis
 anything is scored against it. A fixture nobody has checked is not a test.
 
 ```bash
-python -m pytest                              # 688 tests
-python -m pytest --cov=chesscoach             # 82% coverage
+python -m pytest                              # 877 tests
+python -m pytest --cov=chesscoach             # 85% coverage
 ```
 
 ## What it currently says about real players
 
-Across **38 real players** in the target band, the two existing agents assert findings for **9** of
-them across **6 distinct kinds of weakness**, stay silent for 25, and decline on 4 for want of data.
-One player carries a three-part profile — misses pins, concedes trapped pieces, errs after long
-thinks — each claim peer-compared and traceable to sampled positions from their own games.
+On a 24-game history the swarm advises **79%** of players, up from 50% before the
+evidence from a player's other speeds was pooled into the diagnosis while the
+baseline stayed per-speed (E19, E21). Every claim is peer-compared and traceable
+to sampled positions from the player's own games.
+
+The figure that matters more is the one measured on **thirty players the system
+was never built on**: 86% of them received a diagnosis, against 84% for the
+players it was built from — a difference of nothing (p = 0.46). The same test
+found the blitz *rating* estimate failing on strangers, which is recorded with
+equal prominence a few sections down.
 
 The route there is the project in miniature. Players initially showed elevated error rates after long
 thinks at 2.10–2.85× their *own* baseline — all correct measurements, none of them diagnoses, because
@@ -125,7 +176,8 @@ a long think happens *where the position is hard* and hard positions produce err
 a population of peers instead, most of that evaporates: the population itself errs 17.8% of the time
 in exactly those positions.
 
-Two further things fell out of widening that population from 7 players to 38:
+Two further things fell out of widening that population from 7 players to 38 (it
+now stands at 84):
 
 - **Population rates converge fast.** Seven players estimated 17.7% against 3,675 moves' worth of 38.
 - **Borderline verdicts do not.** One player flipped from a top-tier finding to silence on a 0.4

@@ -58,6 +58,12 @@ The vision is reached when, for a set of held-out real players:
 5. A full assessment + plan for one player costs approximately nothing in cash terms and completes
    in minutes on a laptop.
 6. The system is documented well enough that a third party can reproduce it from this vault.
+   **Met 2026-08-14**, and only after being *run* — from an empty directory, `fetch-corpus` →
+   `build-peer-reference` (one stratum per speed, merged) → `coach`, producing a full report. It
+   had been ticked on the strength of the vault reading thoroughly, and two links of the chain were
+   broken (L-038). What reproduces is the **procedure**, not the sample: discovery reads arenas that
+   finish daily, so a reader gets different players from the same band and should expect the
+   population *rates* to agree, not the usernames.
 
 ## Non-goals
 

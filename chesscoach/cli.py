@@ -24,6 +24,7 @@ from chesscoach.arbiter import select_priorities
 from chesscoach.planner import build_plan
 from chesscoach.analysis.observations import Observation
 from chesscoach.ingest.corpus import build_corpus
+from chesscoach.ingest.lichess import DIAGNOSTIC_PERF_TYPES
 from chesscoach.orchestrator import apply_to_profile, default_agents, diagnose, summarise
 from chesscoach.pipeline import CacheStats, engine_session, load_games
 from chesscoach.profile.io import load_profile, save_profile
@@ -450,6 +451,54 @@ def _print_progress(report, plan) -> None:
             )
 
 
+def fetch_corpus(args: argparse.Namespace) -> int:
+    """Fetch a band's worth of players' games — the input build-peer-reference needs.
+
+    The first step of the chain in README "Running it", and the one that until
+    now existed only in an experiments directory. Without it, a third party
+    reproducing this project from the vault got as far as `--pgn-dir DIR` and had
+    nowhere to get DIR from.
+
+    Which players you get is not reproducible and is not meant to be: discovery
+    reads arenas that finish daily. The band is what is fixed, and it is the band
+    the rates are attributed to.
+    """
+    from chesscoach.ingest.lichess import LichessUnavailable
+    from chesscoach.ingest.population import fetch_population
+
+    low, high = (int(part) for part in args.band.split("-"))
+    out = Path(args.out)
+    print(f"band     {low}-{high}\nspeed    {args.speed or 'all diagnostic speeds'}")
+    print(f"wanted   {args.players} players x {args.games} games")
+
+    try:
+        written = fetch_population(
+            out,
+            players=args.players,
+            games=args.games,
+            band=(low, high),
+            speed=args.speed,
+            exclude=tuple(Path(d) for d in (args.exclude or [])),
+            progress=lambda line: print(line, flush=True),
+        )
+    except LichessUnavailable as error:
+        print(f"could not reach Lichess: {error}")
+        return 1
+
+    total = sum(f.n_games for f in written)
+    print(f"\nplayers  {len(written)} written to {out} ({total} games)")
+    if len(written) < args.players:
+        # Said plainly rather than left to be inferred from a file count: a
+        # reference built from half the players asked for is still usable, and
+        # the reader should decide that knowingly.
+        print(
+            f"fewer than the {args.players} asked for — arenas running now may not hold "
+            "enough players in this band. Re-run to top the directory up; players "
+            "already fetched are skipped."
+        )
+    return 0 if written else 1
+
+
 def build_peer_reference(args: argparse.Namespace) -> int:
     """Build a rating-band reference population from a directory of PGN files.
 
@@ -458,7 +507,7 @@ def build_peer_reference(args: argparse.Namespace) -> int:
     numbers, because a reference made only of interesting players is not a
     reference.
     """
-    from chesscoach.peers import build_reference
+    from chesscoach.peers import build_reference, declared_speed_is_wrong
 
     directory = Path(args.pgn_dir)
     paths = sorted(directory.glob("*.pgn"))
@@ -473,6 +522,14 @@ def build_peer_reference(args: argparse.Namespace) -> int:
         # Prefetch across every player at once: openings repeat heavily between
         # players, so the corpus costs far less than the sum of its parts.
         all_games = [game for path in paths for game in load_games(path)]
+
+        # Checked before the engine runs, not after: this takes minutes, and the
+        # bad reference it would produce is indistinguishable from a good one.
+        mismatch = declared_speed_is_wrong(all_games, args.time_control)
+        if mismatch:
+            print(f"refusing to build: {mismatch}")
+            return 1
+
         _prefetch(session, all_games, args)
 
         for path in paths:
@@ -591,6 +648,32 @@ def build_parser() -> argparse.ArgumentParser:
     score.add_argument("--depth", type=int, default=DEFAULT_DEPTH)
     score.add_argument("--cache", default=None)
     score.set_defaults(handler=score_agent)
+
+    corpus = subcommands.add_parser(
+        "fetch-corpus",
+        help="fetch games for a band of players — the input build-peer-reference reads",
+    )
+    corpus.add_argument("--out", required=True, help="directory to write one PGN per player")
+    corpus.add_argument("--band", default="1400-1800", help="rating band, as LOW-HIGH")
+    corpus.add_argument(
+        "--speed",
+        default=None,
+        choices=list(DIAGNOSTIC_PERF_TYPES),
+        help="fetch one speed only. Give this whenever the directory feeds "
+        "build-peer-reference, which labels a whole directory with its "
+        "--time-control instead of reading each game's; a mixed directory "
+        "therefore files blitz games as rapid and the stratum is a lie",
+    )
+    corpus.add_argument("--players", type=int, default=80)
+    corpus.add_argument("--games", type=int, default=60, help="recent games per player")
+    corpus.add_argument(
+        "--exclude",
+        action="append",
+        default=None,
+        help="a directory whose players must not be fetched; repeatable. Use it to "
+        "keep a held-out set held out",
+    )
+    corpus.set_defaults(handler=fetch_corpus)
 
     peers = subcommands.add_parser(
         "build-peer-reference", help="build a rating-band reference population from PGN files"

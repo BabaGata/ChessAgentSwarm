@@ -45,6 +45,37 @@ a stated defect in [[experiments.e15-expected-gain]] — raw cost must become pe
 
 ---
 
+### L-038 — A documented procedure is a claim, and the only way to test it is to run it
+**Date:** 2026-08-14 · **Cycle / mission step:** M6 · **Class:** process
+**Context:** Making vision success criterion 6 — *"documented well enough that a third party can
+reproduce it from this vault"* — actually true. It was ticked in the scorecard on the strength of
+the vault being thorough.
+**Observation:** The chain broke at step one and then broke again in a way no amount of reading
+would have found. `build-peer-reference --pgn-dir DIR` needed a directory of ~84 players' games and
+**nothing in the product produced one** — discovery lived in `experiments/e01-engine-throughput/`,
+so a stranger stopped before the first command. Promoting it and running the chain for real then
+exposed a second, worse defect: `fetch-corpus` fetched all three diagnostic speeds into one
+directory, `--time-control` **labels** a directory rather than reading each game's own control, and
+the resulting reference had a rapid stratum only. A blitz-heavy player then matched no stratum,
+`_mixed` returned None for every claim, and **the peer comparison, the excess-cost figures and the
+whole band-level section silently vanished** from a report that still rendered, still ran to a
+plausible length, and still looked finished. Comparing the two reports side by side is the only
+reason it was caught. A third fault hid behind the fix: guarding on the *majority* speed passed a
+corpus that was 63% rapid while filing 51 blitz games as rapid.
+**Lesson:** Documentation that has never been executed is an untested claim, and its failures are
+biased towards the silent kind — the loud ones get noticed during ordinary development. A
+reproduction path must be **run from an empty directory** before it is called one, and the standard
+is the artefact at the end, not the exit codes along the way: every command in the broken chain
+returned 0. Where a label is applied by a flag but is checkable against the data, check it and
+**refuse**, because a warning inside a several-minute engine run scrolls past and the bad output is
+indistinguishable from good output afterwards.
+**Applied to:** `chesscoach/ingest/population.py` and `find_candidate_players` promoted into
+`chesscoach/ingest/lichess.py`; the `fetch-corpus` command and its `--speed` flag;
+`declared_speed_is_wrong` refusing directories under 90% purity; the rewritten README "Building the
+peer reference from nothing"; and criterion 6 in [[state]] moved from asserted to verified.
+
+---
+
 ### L-037 — A correction without a control is indistinguishable from tinkering
 **Date:** 2026-08-14 · **Cycle / mission step:** M6 · **Class:** technique
 **Context:** Correcting V1's blitz line for slope attenuation

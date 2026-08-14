@@ -16,6 +16,7 @@ amateur games is rare, and that is why this project runs its own engine.
 
 from __future__ import annotations
 
+import json
 import time
 import urllib.error
 import urllib.request
@@ -29,6 +30,10 @@ USER_AGENT = "ChessAgentSwarm-thesis-research (educational; contact via github)"
 RATE_LIMIT_BACKOFF_S = 60
 MAX_RETRIES = 3
 REQUEST_TIMEOUT_S = 120
+
+# Between arena standings pages while discovering players. Not a rate-limit
+# response -- a courtesy, since discovery walks many tournaments in a row.
+TOURNAMENT_PAUSE_S = 1.0
 
 # What the swarm diagnoses on.
 #
@@ -68,11 +73,78 @@ def fetch_games_pgn(
     The default is what the swarm diagnoses on; anything else is a caller
     deliberately asking for a different stratum, never a blend. Mixing speeds
     into one corpus is the thing `DIAGNOSTIC_PERF_TYPES` exists to prevent.
+
+    **`max_games` is a floor, not a ceiling.** Measured against the live API on
+    2026-08-14: asking 20 returns 24, asking 25 returns 36, asking 40 returns 48,
+    and the same counts come back for every user, so the export rounds up to an
+    internal batch rather than counting a player's games. The surplus games are
+    **distinct** -- checked by game id, no repeats -- so the only consequence is
+    that a corpus is sometimes a little larger than requested, and the counts
+    this project quotes are the ones actually analysed. Multiples of 12 come back
+    exactly, which is why 24, 60 and 300 never showed it.
     """
     if not perf_types:
         raise ValueError("at least one perf type is required")
     url = f"{API}/games/user/{username}?max={max_games}&{_params(perf_types)}"
     return _get(url, accept="application/x-chess-pgn").decode("utf-8", errors="replace")
+
+
+def find_candidate_players(
+    low: int, high: int, wanted: int
+) -> list[tuple[str, int]]:
+    """Players inside a rating band, read from finished arena standings.
+
+    Promoted out of `experiments/e01-engine-throughput/` because
+    `build-peer-reference` needs a corpus and nothing in the product produced
+    one -- so a third party reproducing this from the vault (success criterion 6)
+    stopped at the first step. The same complaint that produced `coach`, one
+    level further back.
+
+    **Reproducible in shape rather than in content.** The tournaments finishing
+    today are not the ones that finished when this project's reference was built,
+    so a reader gets a different sample of the same population. That is the
+    honest guarantee and the reason population *rates* are what this project
+    compares against, never individual players.
+
+    A tournament that cannot be read is skipped rather than fatal: one bad id out
+    of several is no reason to return nothing. No tournaments at all **is**
+    fatal, because silence would look like "the band is empty" and the caller
+    would go on to build a corpus of nobody.
+    """
+    payload = json.loads(_get(f"{API}/tournament"))
+    ids = [
+        tour["id"]
+        for key in ("finished", "started")
+        for tour in payload.get(key, [])
+        if tour.get("id")
+    ]
+    if not ids:
+        raise LichessUnavailable("no tournaments returned by /api/tournament")
+
+    found: list[tuple[str, int]] = []
+    seen: set[str] = set()
+    for tournament in ids:
+        if len(found) >= wanted:
+            break
+        try:
+            standings = json.loads(_get(f"{API}/tournament/{tournament}?page=1"))
+        except LichessUnavailable:
+            continue
+
+        for player in standings.get("standing", {}).get("players", []):
+            name, rating = player.get("name"), player.get("rating")
+            # Arena regulars appear in many tournaments, and a player counted
+            # twice would carry double weight in every population rate.
+            if not name or not rating or name.lower() in seen:
+                continue
+            if low <= rating <= high:
+                found.append((name, rating))
+                seen.add(name.lower())
+                if len(found) >= wanted:
+                    break
+        time.sleep(TOURNAMENT_PAUSE_S)
+
+    return found
 
 
 def _get(url: str, accept: str = "application/json") -> bytes:
