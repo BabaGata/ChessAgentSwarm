@@ -20,6 +20,44 @@ only ones that cannot be measured without a person. Everything else now has a nu
 Deciding what counts as a pass after reading the answers is how a review becomes a testimonial, and
 this project has already caught itself grading on data it fitted to twice (L-018, L-036).
 
+## Amendment, 2026-08-14 — who the reviewer is
+
+**Recorded before any answer was collected**, which is the only condition under which amending a
+pre-registered protocol is legitimate.
+
+The original design assumed a titled or otherwise clearly stronger reviewer. **No such reviewer is
+available**; the author is rated ~1880 on Lichess and judged themselves too weak for the role.
+
+**Searching for a substitute failed, and the reason is structural rather than bad luck.** Published
+expert analysis of amateur play — the Lichess game-analysis forum, and the canonical books of the
+genre — analyses **one game deeply** or gives **band-level advice**. This swarm diagnoses **one
+player across ~60 games**. Without the same corpus there is nothing to compare, and no public source
+was found that pairs an identifiable, fetchable account with a strong player's diagnosis of that
+player's *recurring* weakness. The Lichess forum was checked directly: threads are mostly single
+games their authors are proud of, replies are few, and no titled responders were visible.
+
+**The review proceeds with an ~1880 reviewer, and the thesis states it.** The reasoning, so an
+examiner can weigh it rather than take it on trust:
+
+- **The task is not to out-calculate the system.** Form A asks what a player *keeps* getting wrong.
+  Diagnosing recurring weakness at 1400–1800 — hangs pieces, moves instantly, collapses after move 15
+  — is pattern recognition, and 1880 against 1400–1800 is roughly a normal coach-to-student gap.
+- **The expertise literature supports that gap being meaningful** and the skill being pattern-based
+  rather than search-based: [[domain.expertise-research]] § 1, where a player improved 1600 → 2300
+  with no significant increase in depth of search.
+- **Criterion 3 needs no superiority at all.** Whether advice is specific, ordered and actionable is
+  a judgement any competent player can make.
+
+**What this costs, stated plainly:** a stronger reviewer might disagree with both the swarm *and* the
+reviewer, and this design cannot detect that. The agreement figure is therefore *"agreement with an
+1880-rated player"*, not *"agreement with expert judgement"*, and every threshold below should be
+read with that substitution made.
+
+**Preferred if it becomes possible:** three or four reviewers at 1800–2000 rather than one. That
+yields **inter-rater agreement**, which a single titled reviewer could never provide, and which would
+tell us whether "the main weakness" is even a well-defined question at this level — a more useful
+thing to learn than one strong opinion.
+
 ## What is being asked
 
 Not *"is this good?"* — an expert asked that will be polite. Three specific things:
@@ -90,8 +128,14 @@ while it costs nothing to write.
 
 ## What the review cannot settle
 
+- **The reviewer is ~1880, not titled** (see the amendment above). This is the largest limitation and
+  it is not hidden: the result is agreement with a stronger club player, not with expert judgement.
 - **One reviewer is one opinion.** Two would allow inter-rater agreement and there is no budget for
   it; with one, the free-text A answers matter more than the ratings, because they are less anchored.
+- **The reviewer is the system's author.** Unavoidable here, and the sharpest conflict of interest in
+  the whole evaluation — which is exactly why Form A is answered before the report is opened, why the
+  sample was drawn and frozen by script, and why the thresholds were fixed in advance. Those three
+  precautions are doing more work than usual precisely because of this.
 - **A strong player is not a coach.** Playing strength and teaching judgement are different, and the
   reviewer's background should be recorded.
 - **Nothing here tests whether the advice works** — criterion 4 needs a coached cohort and months,

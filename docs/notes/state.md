@@ -118,7 +118,17 @@ that cannot be done alone.**
 
 **The review is prepared and pre-registered** → [[evaluation.expert-review]]. Protocol, sample and
 **pass thresholds fixed before any reviewer was approached**, because deciding what counts as a pass
-after reading the answers is how a review becomes a testimonial. Twelve players drawn from the E27
+after reading the answers is how a review becomes a testimonial.
+
+**Amended 2026-08-14, before any answer was collected: the reviewer is the author at ~1880, not a
+titled player.** No titled reviewer is available, and a substitute could not be found for a
+structural reason worth recording — published expert analysis covers **one game deeply** or gives
+**band-level advice**, while this swarm diagnoses **one player across ~60 games**, so there is no
+public source pairing a fetchable account with a strong player's diagnosis of that player's
+*recurring* weakness. The result will therefore read *"agreement with an 1880-rated player"*, never
+*"agreement with expert judgement"*. Three or four club reviewers at 1800–2000 would be **better than
+one titled reviewer**, because inter-rater agreement would show whether *"the main weakness"* is even
+a well-defined question at this level. Twelve players drawn from the E27
 held-out set — including the two the swarm was silent about and the weakest finding that still
 shipped, so it cannot be run on the flattering cases. The reviewer writes their **own** diagnosis
 before seeing the system's, in a separate folder, because *"would you have said this?"* and *"do you
