@@ -1,0 +1,43 @@
+﻿FORM B/C — judging the system's report
+======================================
+
+Player: Hirsican
+
+Now read report.txt in this folder, then rate each item 1-5.
+
+  correctness   is the named weakness real?
+                1 contradicted by the games / 3 present but minor
+                5 clearly a main weakness
+                                                            [   ]
+
+  priority      is it what you would work on first?
+                1 would not mention it / 3 reasonable, not my first choice
+                5 exactly my first choice
+                                                            [   ]
+
+  specificity   could the player act on this?
+                1 generic advice / 3 actionable with effort
+                5 concrete and immediately actionable
+                                                            [   ]
+
+  evidence      do the cited positions support the claim?
+                1 they do not show it / 3 mixed / 5 they show it plainly
+                                                            [   ]
+
+  harm          could following this make them worse?
+                1 yes, plainly / 3 neutral / 5 actively helpful
+                                                            [   ]
+
+The most useful box on this form:
+
+  What did the system MISS?
+
+
+
+  Anything it said that is simply wrong?
+
+
+
+  If the report was empty: was there something worth telling this player?
+
+

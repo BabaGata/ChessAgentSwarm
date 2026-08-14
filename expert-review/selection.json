@@ -1,0 +1,89 @@
+{
+  "players": [
+    {
+      "findings": 4,
+      "games": 60,
+      "player": "Hirsican",
+      "priorities": 2,
+      "stratum": "strongest_finding"
+    },
+    {
+      "findings": 1,
+      "games": 44,
+      "player": "maikel5",
+      "priorities": 1,
+      "stratum": "weakest_finding"
+    },
+    {
+      "findings": 2,
+      "games": 54,
+      "player": "bjagus",
+      "priorities": 2,
+      "stratum": "two_priorities"
+    },
+    {
+      "findings": 5,
+      "games": 55,
+      "player": "cademan",
+      "priorities": 2,
+      "stratum": "two_priorities"
+    },
+    {
+      "findings": 5,
+      "games": 60,
+      "player": "Crossfire1983",
+      "priorities": 2,
+      "stratum": "two_priorities"
+    },
+    {
+      "findings": 7,
+      "games": 28,
+      "player": "Maximilian_Honigtopf",
+      "priorities": 2,
+      "stratum": "two_priorities"
+    },
+    {
+      "findings": 2,
+      "games": 45,
+      "player": "maxhayastan",
+      "priorities": 2,
+      "stratum": "two_priorities"
+    },
+    {
+      "findings": 1,
+      "games": 56,
+      "player": "Odin5306",
+      "priorities": 1,
+      "stratum": "one_priority"
+    },
+    {
+      "findings": 1,
+      "games": 56,
+      "player": "goydorak",
+      "priorities": 1,
+      "stratum": "one_priority"
+    },
+    {
+      "findings": 1,
+      "games": 53,
+      "player": "bernes",
+      "priorities": 1,
+      "stratum": "one_priority"
+    },
+    {
+      "findings": 0,
+      "games": 45,
+      "player": "simonvj",
+      "priorities": 0,
+      "stratum": "silent"
+    },
+    {
+      "findings": 0,
+      "games": 52,
+      "player": "Sheriwoyama",
+      "priorities": 0,
+      "stratum": "silent"
+    }
+  ],
+  "seed": 20260810
+}

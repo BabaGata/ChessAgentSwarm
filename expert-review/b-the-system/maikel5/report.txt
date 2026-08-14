@@ -1,0 +1,41 @@
+﻿Report for maikel5
+44 games (2024.07.10 to 2025.05.21), rating band 1400-1800
+
+WHAT STANDS OUT
+
+1. Your play falls off when the clock is short.
+
+   How often   13% of the time, against 14% for players at your level
+   Seen in     11 of 43 games
+   Costing you about 14.2 points of win probability a game.
+   Players at your level lose about 10.0 to the same thing, so roughly
+   4.2 a game is what fixing this could get back.
+   For example game EGOMa6lY, move 45, you played d5c5 (e5f3 was better)
+   For example game WGSxhODE, move 32, you played e3e2 (c3c4 was better)
+   For example game ZE94KpSd, move 23, you played d3d4 (f4g5 was better)
+
+WHAT TO DO
+
+1. Spend less time in the opening so that the clock is not deciding your moves later.
+   Why    seen in 11 of 43 games, at 12.9% against 14.5% for peers at your level
+
+WHAT WOULD SHOW IT WORKED
+
+ - mistakes when short of time: below 8% over your next 20 games
+
+WHAT YOUR WHOLE LEVEL LOSES MOST TO
+
+ - Players at your level lose about 21.9 points of win probability a game to moves played in under two seconds.
+ - Players at your level lose about 11.1 points of win probability a game to mistakes before move 15 with Black.
+ - Players at your level lose about 10.3 points of win probability a game to mistakes before move 15 with White.
+
+   These are not findings about you — they are what the whole rating band
+   loses most to, and the stronger players in it lose less. Your own one or
+   two priorities above are the ones that are unusual for you specifically.
+
+WHAT THIS DOES NOT KNOW
+
+ - 2 of your games were left out because they were abandoned before a real game happened.
+ - This is measured from your own games and nothing else — it says what happened, not why, except where a probe asked you directly.
+ - Rates are compared with players in your rating band, so they say you are unusual, not that you are bad.
+ - Nothing here estimates your potential or your ceiling, because nothing here could.

@@ -1,0 +1,21 @@
+﻿Report for simonvj
+45 games (2026.08.09 to 2026.08.10), rating band 1400-1800
+
+Nothing reached the confidence needed to report.
+That is a real result, not an empty one: either your games do not show a consistent pattern, or there were too few of them to tell.
+
+WHAT YOUR WHOLE LEVEL LOSES MOST TO
+
+ - Players at your level lose about 13.8 points of win probability a game to moves played in under two seconds.
+ - Players at your level lose about 10.7 points of win probability a game to mistakes before move 15 with Black.
+ - Players at your level lose about 10.0 points of win probability a game to mistakes before move 15 with White.
+
+   These are not findings about you — nothing specific to you cleared the
+   bar. They are what the whole rating band loses most to, and the stronger
+   players in it lose less, so they are a reasonable place to start.
+
+WHAT THIS DOES NOT KNOW
+
+ - This is measured from your own games and nothing else — it says what happened, not why, except where a probe asked you directly.
+ - Rates are compared with players in your rating band, so they say you are unusual, not that you are bad.
+ - Nothing here estimates your potential or your ceiling, because nothing here could.

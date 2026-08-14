@@ -1,0 +1,52 @@
+﻿Report for bjagus
+54 games (2026.05.20 to 2026.07.29), rating band 1400-1800
+
+WHAT STANDS OUT
+
+1. When you go wrong, it is often a fork that punishes you.
+
+   How often   13% of the time, against 9% for players at your level
+   Seen in     14 of 54 games
+   Costing you about 11.9 points of win probability a game.
+   Players at your level lose about 6.6 to the same thing, so roughly
+   5.4 a game is what fixing this could get back.
+   For example game EhpUEfZ6, move 20, you played h7h5 (d3g6 was better)
+   For example game Qm07J5oM, move 21, you played d8f6 (c3d5 was better)
+   For example game ZlgTiFC0, move 39, you played g2g3 (a5a3 was better)
+
+2. You let opponents establish a knight you cannot chase away more often than players at your level.
+
+   How often   2% of the time, against 1% for players at your level
+   Seen in     21 of 54 games
+   For example game 0roYp34w, move 23, you played f4e5
+   For example game 6lzD0xS3, move 38, you played g5f5
+   For example game KfSRDWUO, move 50, you played f1d2
+
+WHAT TO DO
+
+1. Before committing a move, ask what your opponent's best reply threatens; a fork is what has been punishing you.
+   Why    seen in 14 of 54 games, at 12.8% against 8.6% for peers at your level
+
+2. Before a pawn move, ask which square it gives up for good — a pawn cannot come back. In the cited games, find the move where the square your opponent later occupied stopped being defensible.
+   Why    seen in 21 of 54 games, at 1.9% against 1.1% for peers at your level
+
+WHAT WOULD SHOW IT WORKED
+
+ - fork conceded when you go wrong: below 6% over your next 20 games
+ - moves that let your opponent establish a knight you cannot chase away: below 1% over your next 20 games
+
+WHAT YOUR WHOLE LEVEL LOSES MOST TO
+
+ - Players at your level lose about 21.9 points of win probability a game to moves played in under two seconds.
+ - Players at your level lose about 11.1 points of win probability a game to mistakes before move 15 with Black.
+ - Players at your level lose about 10.3 points of win probability a game to mistakes before move 15 with White.
+
+   These are not findings about you — they are what the whole rating band
+   loses most to, and the stronger players in it lose less. Your own one or
+   two priorities above are the ones that are unusual for you specifically.
+
+WHAT THIS DOES NOT KNOW
+
+ - This is measured from your own games and nothing else — it says what happened, not why, except where a probe asked you directly.
+ - Rates are compared with players in your rating band, so they say you are unusual, not that you are bad.
+ - Nothing here estimates your potential or your ceiling, because nothing here could.

@@ -1,0 +1,42 @@
+﻿Report for bernes
+53 games (2026.02.01 to 2026.07.30), rating band 1400-1800
+
+WHAT STANDS OUT
+
+1. You miss fork tactics that were available.
+
+   How often   37% of the time, against 22% for players at your level
+   Seen in     9 of 53 games
+   Costing you about 4.4 points of win probability a game.
+   Players at your level lose about 3.5 to the same thing, so roughly
+   0.9 a game is what fixing this could get back.
+   For example game 2F6G9tIr, move 23, you played c7c8 (c7b7 was better)
+   For example game 2hJaVpb7, move 17, you played e3e4 (c5b7 was better)
+   For example game 2hJaVpb7, move 32, you played f7d8 (h8e8 was better)
+
+WHAT TO DO
+
+1. Drill `fork` puzzles, and solve to be right rather than fast — review every one you get wrong.
+   Why    seen in 9 of 53 games, at 36.7% against 21.7% for peers at your level
+
+WHAT WOULD SHOW IT WORKED
+
+ - fork missed when available: below 13% over your next 71 games
+
+WHAT YOUR WHOLE LEVEL LOSES MOST TO
+
+ - Players at your level lose about 21.9 points of win probability a game to moves played in under two seconds.
+ - Players at your level lose about 11.1 points of win probability a game to mistakes before move 15 with Black.
+ - Players at your level lose about 10.3 points of win probability a game to mistakes before move 15 with White.
+
+   These are not findings about you — they are what the whole rating band
+   loses most to, and the stronger players in it lose less. Your own one or
+   two priorities above are the ones that are unusual for you specifically.
+
+WHAT THIS DOES NOT KNOW
+
+ - 4 of your games were left out because you berserked them — with half your clock, the mistakes are about the handicap rather than about you.
+ - 1 of your games were left out because they were abandoned before a real game happened.
+ - This is measured from your own games and nothing else — it says what happened, not why, except where a probe asked you directly.
+ - Rates are compared with players in your rating band, so they say you are unusual, not that you are bad.
+ - Nothing here estimates your potential or your ceiling, because nothing here could.

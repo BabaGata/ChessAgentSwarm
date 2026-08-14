@@ -1,0 +1,58 @@
+﻿Report for Maximilian_Honigtopf
+28 games (2026.06.24 to 2026.08.09), rating band 1400-1800
+
+WHAT STANDS OUT
+
+1. You go wrong early as White.
+
+   How often   22% of the time, against 10% for players at your level
+   Seen in     15 of 28 games
+   Costing you about 29.9 points of win probability a game.
+   Players at your level lose about 10.2 to the same thing, so roughly
+   19.8 a game is what fixing this could get back.
+   For example game 1xwZsPON, move 8, you played h2h3 (f1g2 was better)
+   For example game 6mFPgIGD, move 13, you played g2g4 (d1d5 was better)
+   For example game XRE3pBif, move 14, you played e1g1 (d5c7 was better)
+
+2. When you go wrong, it is often a fork that punishes you.
+
+   How often   18% of the time, against 9% for players at your level
+   Seen in     13 of 28 games
+   Costing you about 15.7 points of win probability a game.
+   Players at your level lose about 6.3 to the same thing, so roughly
+   9.5 a game is what fixing this could get back.
+   For example game 6RId8MgM, move 10, you played a6a5 (b4c5 was better)
+   For example game 94wviRHx, move 13, you played e2d4 (e5d4 was better)
+   For example game KKioqi5t, move 33, you played f1e2 (h3g2 was better)
+
+(5 further patterns were found but not prioritised — working on one or two things at a time is the point.)
+
+WHAT TO DO
+
+1. Play through your own first fifteen moves afterwards, without an engine, and write down where you stopped knowing what you were doing — that move is the edge of your repertoire and it is the one worth learning.
+   Why    seen in 15 of 28 games, at 22.1% against 10.5% for peers at your level
+
+2. Before committing a move, ask what your opponent's best reply threatens; a fork is what has been punishing you.
+   Why    seen in 13 of 28 games, at 17.5% against 8.6% for peers at your level
+
+WHAT WOULD SHOW IT WORKED
+
+ - mistakes before move 15 as White: below 11% over your next 20 games
+ - fork conceded when you go wrong: below 6% over your next 20 games
+
+WHAT YOUR WHOLE LEVEL LOSES MOST TO
+
+ - Players at your level lose about 18.0 points of win probability a game to moves played in under two seconds.
+ - Players at your level lose about 10.9 points of win probability a game to mistakes before move 15 with Black.
+ - Players at your level lose about 10.2 points of win probability a game to mistakes before move 15 with White.
+
+   These are not findings about you — they are what the whole rating band
+   loses most to, and the stronger players in it lose less. Your own one or
+   two priorities above are the ones that are unusual for you specifically.
+
+WHAT THIS DOES NOT KNOW
+
+ - This is measured from your own games and nothing else — it says what happened, not why, except where a probe asked you directly.
+ - Rates are compared with players in your rating band, so they say you are unusual, not that you are bad.
+ - Nothing here estimates your potential or your ceiling, because nothing here could.
+ - The two costs above should not be added together — a single mistake can belong to both patterns, so the totals overlap by an unknown amount.

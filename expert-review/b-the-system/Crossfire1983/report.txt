@@ -1,0 +1,58 @@
+﻿Report for Crossfire1983
+60 games (2026.08.07 to 2026.08.10), rating band 1400-1800
+
+WHAT STANDS OUT
+
+1. You go wrong more often than most when you are already better.
+
+   How often   22% of the time, against 17% for players at your level
+   Seen in     34 of 60 games
+   Costing you about 33.2 points of win probability a game.
+   Players at your level lose about 25.2 to the same thing, so roughly
+   8.0 a game is what fixing this could get back.
+   For example game 0lTtKHwA, move 40, you played a6b4 (b2b3 was better)
+   For example game IKnWcP1V, move 37, you played f7e7 (g1f2 was better)
+   For example game cJek1p4R, move 43, you played c4c3 (e8c8 was better)
+
+2. Your play falls off in rook-and-minor endgames.
+
+   How often   16% of the time, against 10% for players at your level
+   Seen in     10 of 60 games
+   Costing you about 7.7 points of win probability a game.
+   Players at your level lose about 3.3 to the same thing, so roughly
+   4.4 a game is what fixing this could get back.
+   For example game Dy63sMIT, move 42, you played f4g3 (f4e3 was better)
+   For example game l3jYDApu, move 42, you played b3c3 (d5d4 was better)
+   For example game po3xBBYK, move 47, you played c7c6 (a3a2 was better)
+
+(3 further patterns were found but not prioritised — working on one or two things at a time is the point.)
+
+WHAT TO DO
+
+1. When you are clearly better, slow down rather than speed up: take the safe line over the quick one, and check your opponent's reply before every move.
+   Why    seen in 34 of 60 games, at 21.9% against 17.1% for peers at your level
+
+2. Study rook-and-minor endgames — start with the basic winning and drawing methods rather than with studies, and play out the positions you got wrong.
+   Why    seen in 10 of 60 games, at 16.3% against 10.4% for peers at your level
+
+WHAT WOULD SHOW IT WORKED
+
+ - mistakes made while you are winning: below 12% over your next 20 games
+ - mistakes in rook-and-minor endgames: below 7% over your next 20 games
+
+WHAT YOUR WHOLE LEVEL LOSES MOST TO
+
+ - Players at your level lose about 20.9 points of win probability a game to moves played in under two seconds.
+ - Players at your level lose about 11.0 points of win probability a game to mistakes before move 15 with Black.
+ - Players at your level lose about 10.3 points of win probability a game to mistakes before move 15 with White.
+
+   These are not findings about you — they are what the whole rating band
+   loses most to, and the stronger players in it lose less. Your own one or
+   two priorities above are the ones that are unusual for you specifically.
+
+WHAT THIS DOES NOT KNOW
+
+ - This is measured from your own games and nothing else — it says what happened, not why, except where a probe asked you directly.
+ - Rates are compared with players in your rating band, so they say you are unusual, not that you are bad.
+ - Nothing here estimates your potential or your ceiling, because nothing here could.
+ - The two costs above should not be added together — a single mistake can belong to both patterns, so the totals overlap by an unknown amount.

@@ -1,0 +1,59 @@
+﻿Report for cademan
+55 games (2026.08.08 to 2026.08.10), rating band 1400-1800
+
+WHAT STANDS OUT
+
+1. You go wrong more often than most when you are already better.
+
+   How often   25% of the time, against 17% for players at your level
+   Seen in     33 of 54 games
+   Costing you about 36.8 points of win probability a game.
+   Players at your level lose about 24.8 to the same thing, so roughly
+   12.0 a game is what fixing this could get back.
+   For example game EDypWSmO, move 9, you played g5h4 (d5f6 was better)
+   For example game M2HQqz8u, move 27, you played c2c4 (g5f6 was better)
+   For example game M2nkYWix, move 14, you played c3a4 (c3e2 was better)
+
+2. You go wrong early as White.
+
+   How often   15% of the time, against 10% for players at your level
+   Seen in     20 of 54 games
+   Costing you about 16.9 points of win probability a game.
+   Players at your level lose about 10.2 to the same thing, so roughly
+   6.7 a game is what fixing this could get back.
+   For example game FW7jB2Ys, move 9, you played b1c3 (d3f5 was better)
+   For example game JD2kOv8A, move 10, you played f2f4 (g3h4 was better)
+   For example game P2Jbxf1R, move 9, you played e3e4 (e1g1 was better)
+
+(3 further patterns were found but not prioritised — working on one or two things at a time is the point.)
+
+WHAT TO DO
+
+1. When you are clearly better, slow down rather than speed up: take the safe line over the quick one, and check your opponent's reply before every move.
+   Why    seen in 33 of 54 games, at 25.3% against 16.8% for peers at your level
+
+2. Play through your own first fifteen moves afterwards, without an engine, and write down where you stopped knowing what you were doing — that move is the edge of your repertoire and it is the one worth learning.
+   Why    seen in 20 of 54 games, at 14.5% against 10.5% for peers at your level
+
+WHAT WOULD SHOW IT WORKED
+
+ - mistakes made while you are winning: below 13% over your next 20 games
+ - mistakes before move 15 as White: below 8% over your next 20 games
+
+WHAT YOUR WHOLE LEVEL LOSES MOST TO
+
+ - Players at your level lose about 19.1 points of win probability a game to moves played in under two seconds.
+ - Players at your level lose about 10.9 points of win probability a game to mistakes before move 15 with Black.
+ - Players at your level lose about 10.2 points of win probability a game to mistakes before move 15 with White.
+
+   These are not findings about you — they are what the whole rating band
+   loses most to, and the stronger players in it lose less. Your own one or
+   two priorities above are the ones that are unusual for you specifically.
+
+WHAT THIS DOES NOT KNOW
+
+ - 3 of your games were left out because they were abandoned before a real game happened.
+ - This is measured from your own games and nothing else — it says what happened, not why, except where a probe asked you directly.
+ - Rates are compared with players in your rating band, so they say you are unusual, not that you are bad.
+ - Nothing here estimates your potential or your ceiling, because nothing here could.
+ - The two costs above should not be added together — a single mistake can belong to both patterns, so the totals overlap by an unknown amount.

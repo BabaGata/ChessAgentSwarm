@@ -1,0 +1,54 @@
+﻿Report for maxhayastan
+45 games (2026.06.26 to 2026.08.10), rating band 1400-1800
+
+WHAT STANDS OUT
+
+1. Your play falls off when the clock is short.
+
+   How often   15% of the time, against 14% for players at your level
+   Seen in     8 of 44 games
+   Costing you about 12.7 points of win probability a game.
+   Players at your level lose about 10.0 to the same thing, so roughly
+   2.7 a game is what fixing this could get back.
+   For example game 93uLE94a, move 70, you played e6d7 (e6d6 was better)
+   For example game U4rRk3o0, move 35, you played d5e7 (d5c3 was better)
+   For example game YrwNHqsx, move 49, you played b5b4 (g3f5 was better)
+
+2. Attacks build against your king more readily than against players at your level.
+
+   How often   3% of the time, against 2% for players at your level
+   Seen in     13 of 44 games
+   For example game 93uLE94a, move 62, you played g4g5
+   For example game CRNg7hA1, move 28, you played h2g3
+   For example game GInElwNz, move 55, you played f7f6
+
+WHAT TO DO
+
+1. Spend less time in the opening so that the clock is not deciding your moves later.
+   Why    seen in 8 of 44 games, at 15.2% against 14.5% for peers at your level
+
+2. In the cited positions, count your opponent's pieces that can reach your king and compare it with your own defenders. The move to find is the one before they got a third attacker there — that is where the game turned, not the move the attack landed on.
+   Why    seen in 13 of 44 games, at 2.9% against 1.9% for peers at your level
+
+WHAT WOULD SHOW IT WORKED
+
+ - mistakes when short of time: below 9% over your next 20 games
+ - moves that let an attack build against your king: below 1% over your next 20 games
+
+WHAT YOUR WHOLE LEVEL LOSES MOST TO
+
+ - Players at your level lose about 21.9 points of win probability a game to moves played in under two seconds.
+ - Players at your level lose about 11.1 points of win probability a game to mistakes before move 15 with Black.
+ - Players at your level lose about 10.3 points of win probability a game to mistakes before move 15 with White.
+
+   These are not findings about you — they are what the whole rating band
+   loses most to, and the stronger players in it lose less. Your own one or
+   two priorities above are the ones that are unusual for you specifically.
+
+WHAT THIS DOES NOT KNOW
+
+ - 9 of your games were left out because you berserked them — with half your clock, the mistakes are about the handicap rather than about you.
+ - 3 of your games were left out because they were abandoned before a real game happened.
+ - This is measured from your own games and nothing else — it says what happened, not why, except where a probe asked you directly.
+ - Rates are compared with players in your rating band, so they say you are unusual, not that you are bad.
+ - Nothing here estimates your potential or your ceiling, because nothing here could.

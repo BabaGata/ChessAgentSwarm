@@ -1,0 +1,38 @@
+﻿Report for Odin5306
+56 games (2026.05.27 to 2026.08.04), rating band 1400-1800
+
+WHAT STANDS OUT
+
+1. Attacks build against your king more readily than against players at your level.
+
+   How often   3% of the time, against 2% for players at your level
+   Seen in     20 of 56 games
+   For example game 4WAdsucA, move 28, you played h5f4
+   For example game NimtYaGU, move 39, you played d2c3
+   For example game mY9XJS1y, move 28, you played f2g1
+
+WHAT TO DO
+
+1. In the cited positions, count your opponent's pieces that can reach your king and compare it with your own defenders. The move to find is the one before they got a third attacker there — that is where the game turned, not the move the attack landed on.
+   Why    seen in 20 of 56 games, at 2.6% against 1.9% for peers at your level
+
+WHAT WOULD SHOW IT WORKED
+
+ - moves that let an attack build against your king: below 1% over your next 20 games
+
+WHAT YOUR WHOLE LEVEL LOSES MOST TO
+
+ - Players at your level lose about 21.7 points of win probability a game to moves played in under two seconds.
+ - Players at your level lose about 11.1 points of win probability a game to mistakes before move 15 with Black.
+ - Players at your level lose about 10.3 points of win probability a game to mistakes before move 15 with White.
+
+   These are not findings about you — they are what the whole rating band
+   loses most to, and the stronger players in it lose less. Your own one or
+   two priorities above are the ones that are unusual for you specifically.
+
+WHAT THIS DOES NOT KNOW
+
+ - 1 of your games were left out because they were abandoned before a real game happened.
+ - This is measured from your own games and nothing else — it says what happened, not why, except where a probe asked you directly.
+ - Rates are compared with players in your rating band, so they say you are unusual, not that you are bad.
+ - Nothing here estimates your potential or your ceiling, because nothing here could.
