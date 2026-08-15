@@ -1,21 +1,67 @@
 ﻿Report for Sheriwoyama
 52 games (2023.01.05 to 2026.08.02), rating band 1400-1800
 
-Nothing reached the confidence needed to report.
-That is a real result, not an empty one: either your games do not show a consistent pattern, or there were too few of them to tell.
+WHAT COSTS YOU MOST
+
+Nothing in your games is unusual for your rating band — measured against
+players at your level, you are where you should be. So these are ranked by
+what they cost you rather than by what makes you different.
+
+1. You go wrong early as White.
+
+   Ordinary for your level, and still what these mistakes cost you most.
+
+   How often   11% of the time, against 9% for players at your level
+   Seen in     19 of 51 games
+   Costing you about 9.7 points of win probability a game.
+   Players at your level lose about 9.2 to the same thing, so roughly
+   0.5 a game is what fixing this could get back.
+   For example game LQU5WA5o, move 11, you played d1e2 (d1a4 was better)
+   For example game LtQCTqVO, move 12, you played a1c1 (c3e4 was better)
+   For example game MLDAOao3, move 11, you played b5c6 (g5f6 was better)
+
+2. When you go wrong, it is often a discovered attack that punishes you.
+
+   Ordinary for your level, and still what these mistakes cost you most.
+
+   How often   8% of the time, against 6% for players at your level
+   Seen in     8 of 51 games
+   Costing you about 4.2 points of win probability a game.
+   Players at your level lose about 4.4 to the same thing, so this is
+   not costing you your rating — it is costing you the next one.
+   For example game QKc5Iq8x, move 22, you played a6c6 (f3e5 was better)
+   For example game WCMZBLma, move 16, you played b8d7 (d5e6 was better)
+   For example game WCMZBLma, move 31, you played h7h6 (d6b5 was better)
+
+WHAT TO DO
+
+1. Play through your own first fifteen moves afterwards, without an engine, and write down where you stopped knowing what you were doing — that move is the edge of your repertoire and it is the one worth learning.
+   Why    seen in 19 of 51 games, at 10.8% against 9.3% for peers at your level
+   Note   Ordinary for your level, and still what these mistakes cost you most.
+   Start  Do this one first — the others can wait their turn.
+
+2. Before committing a move, ask what your opponent's best reply threatens; a discovered attack is what has been punishing you.
+   Why    seen in 8 of 51 games, at 7.7% against 5.8% for peers at your level
+   Note   Ordinary for your level, and still what these mistakes cost you most.
+
+WHAT WOULD SHOW IT WORKED
+
+ - mistakes before move 15 as White: below 6% over your next 20 games
+ - discovered attack conceded when you go wrong: below 4% over your next 20 games
 
 WHAT YOUR WHOLE LEVEL LOSES MOST TO
 
- - Players at your level lose about 20.8 points of win probability a game to moves played in under two seconds.
- - Players at your level lose about 11.0 points of win probability a game to mistakes before move 15 with Black.
- - Players at your level lose about 10.3 points of win probability a game to mistakes before move 15 with White.
+ - Players at your level lose about 25.7 points of win probability a game to moves played in under two seconds.
+ - Players at your level lose about 11.5 points of win probability a game to mistakes before move 15 with Black.
+ - Players at your level lose about 9.2 points of win probability a game to mistakes before move 15 with White.
 
-   These are not findings about you — nothing specific to you cleared the
-   bar. They are what the whole rating band loses most to, and the stronger
-   players in it lose less, so they are a reasonable place to start.
+   These are not findings about you — they are what the whole rating band
+   loses most to, and the stronger players in it lose less. Your own one or
+   two priorities above are the ones that are unusual for you specifically.
 
 WHAT THIS DOES NOT KNOW
 
  - This is measured from your own games and nothing else — it says what happened, not why, except where a probe asked you directly.
  - Rates are compared with players in your rating band, so they say you are unusual, not that you are bad.
  - Nothing here estimates your potential or your ceiling, because nothing here could.
+ - The two costs above should not be added together — a single mistake can belong to both patterns, so the totals overlap by an unknown amount.

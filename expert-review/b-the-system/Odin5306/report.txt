@@ -3,7 +3,15 @@
 
 WHAT STANDS OUT
 
-1. Attacks build against your king more readily than against players at your level.
+1. You end up with backward pawns more often than players at your level.
+
+   How often   2% of the time, against 1% for players at your level
+   Seen in     25 of 56 games
+   For example game 4WAdsucA, move 10, you played c6e7
+   For example game 6SDh3ygT, move 34, you played b2c3
+   For example game LZH9NLtu, move 33, you played a7a5
+
+2. Attacks build against your king more readily than against players at your level.
 
    How often   3% of the time, against 2% for players at your level
    Seen in     20 of 56 games
@@ -11,20 +19,43 @@ WHAT STANDS OUT
    For example game NimtYaGU, move 39, you played d2c3
    For example game mY9XJS1y, move 28, you played f2g1
 
+3. When you go wrong, it is often a trapped piece that punishes you.
+
+   Ordinary for your level, and still what these mistakes cost you most.
+
+   How often   6% of the time, against 2% for players at your level
+   Seen in     7 of 56 games
+   Costing you about 3.5 points of win probability a game.
+   Players at your level lose about 2.4 to the same thing, so roughly
+   1.2 a game is what fixing this could get back.
+   For example game 4EZswhjx, move 18, you played d5e6 (b7e7 was better)
+   For example game 4WAdsucA, move 24, you played f4h5 (g3g4 was better)
+   For example game 97GRiykY, move 16, you played e6d5 (d1d5 was better)
+
 WHAT TO DO
 
-1. In the cited positions, count your opponent's pieces that can reach your king and compare it with your own defenders. The move to find is the one before they got a third attacker there — that is where the game turned, not the move the attack landed on.
-   Why    seen in 20 of 56 games, at 2.6% against 1.9% for peers at your level
+1. In the cited positions, ask whether you chose the structure or simply allowed it. Conceding a weakness for something concrete is fine; doing it without noticing is the habit worth changing.
+   Why    seen in 25 of 56 games, at 2.1% against 1.3% for peers at your level
+   Start  Do this one first — the others can wait their turn.
+
+2. In the cited positions, count your opponent's pieces that can reach your king and compare it with your own defenders. The move to find is the one before they got a third attacker there — that is where the game turned, not the move the attack landed on.
+   Why    seen in 20 of 56 games, at 2.7% against 2.0% for peers at your level
+
+3. Before committing a move, ask what your opponent's best reply threatens; a trapped piece is what has been punishing you.
+   Why    seen in 7 of 56 games, at 5.7% against 2.5% for peers at your level
+   Note   Ordinary for your level, and still what these mistakes cost you most.
 
 WHAT WOULD SHOW IT WORKED
 
+ - moves that leave you with backward pawns: below 1% over your next 20 games
  - moves that let an attack build against your king: below 1% over your next 20 games
+ - trapped piece conceded when you go wrong: below 3% over your next 20 games
 
 WHAT YOUR WHOLE LEVEL LOSES MOST TO
 
- - Players at your level lose about 21.7 points of win probability a game to moves played in under two seconds.
- - Players at your level lose about 11.1 points of win probability a game to mistakes before move 15 with Black.
- - Players at your level lose about 10.3 points of win probability a game to mistakes before move 15 with White.
+ - Players at your level lose about 27.2 points of win probability a game to moves played in under two seconds.
+ - Players at your level lose about 11.2 points of win probability a game to mistakes before move 15 with Black.
+ - Players at your level lose about 9.2 points of win probability a game to mistakes before move 15 with White.
 
    These are not findings about you — they are what the whole rating band
    loses most to, and the stronger players in it lose less. Your own one or

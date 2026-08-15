@@ -3,18 +3,7 @@
 
 WHAT STANDS OUT
 
-1. When you go wrong, it is often a fork that punishes you.
-
-   How often   13% of the time, against 9% for players at your level
-   Seen in     14 of 54 games
-   Costing you about 11.9 points of win probability a game.
-   Players at your level lose about 6.6 to the same thing, so roughly
-   5.4 a game is what fixing this could get back.
-   For example game EhpUEfZ6, move 20, you played h7h5 (d3g6 was better)
-   For example game Qm07J5oM, move 21, you played d8f6 (c3d5 was better)
-   For example game ZlgTiFC0, move 39, you played g2g3 (a5a3 was better)
-
-2. You let opponents establish a knight you cannot chase away more often than players at your level.
+1. You let opponents establish a knight you cannot chase away more often than players at your level.
 
    How often   2% of the time, against 1% for players at your level
    Seen in     21 of 54 games
@@ -22,24 +11,57 @@ WHAT STANDS OUT
    For example game 6lzD0xS3, move 38, you played g5f5
    For example game KfSRDWUO, move 50, you played f1d2
 
+2. Your long thinks tend to end in a mistake.
+
+   Ordinary for your level, and still what these mistakes cost you most.
+
+   How often   21% of the time, against 20% for players at your level
+   Seen in     31 of 54 games
+   Costing you about 19.4 points of win probability a game.
+   Players at your level lose about 16.8 to the same thing, so roughly
+   2.6 a game is what fixing this could get back.
+   For example game 3oXp4eQY, move 32, you played h6f5 (h6g4 was better)
+   For example game 3oXp4eQY, move 39, you played f5h6 (f5e3 was better)
+   For example game RrVLqCN7, move 17, you played d5c3 (g5h4 was better)
+
+3. When you go wrong, it is often a fork that punishes you.
+
+   Ordinary for your level, and still what these mistakes cost you most.
+
+   How often   13% of the time, against 10% for players at your level
+   Seen in     16 of 54 games
+   Costing you about 12.5 points of win probability a game.
+   Players at your level lose about 7.6 to the same thing, so roughly
+   4.9 a game is what fixing this could get back.
+   For example game 6lzD0xS3, move 45, you played e4e3 (e5c4 was better)
+   For example game PuSoIqHt, move 21, you played a1a6 (f6d5 was better)
+   For example game ZcA3N99e, move 28, you played e6e5 (d1d5 was better)
+
 WHAT TO DO
 
-1. Before committing a move, ask what your opponent's best reply threatens; a fork is what has been punishing you.
-   Why    seen in 14 of 54 games, at 12.8% against 8.6% for peers at your level
+1. Before a pawn move, ask which square it gives up for good — a pawn cannot come back. In the cited games, find the move where the square your opponent later occupied stopped being defensible.
+   Why    seen in 21 of 54 games, at 1.9% against 0.7% for peers at your level
+   Start  Do this one first — the others can wait their turn.
 
-2. Before a pawn move, ask which square it gives up for good — a pawn cannot come back. In the cited games, find the move where the square your opponent later occupied stopped being defensible.
-   Why    seen in 21 of 54 games, at 1.9% against 1.1% for peers at your level
+2. When a think runs long, stop and choose between your two best candidate moves rather than searching for a third.
+   Why    seen in 31 of 54 games, at 20.6% against 20.2% for peers at your level
+   Note   Ordinary for your level, and still what these mistakes cost you most.
+
+3. Before committing a move, ask what your opponent's best reply threatens; a fork is what has been punishing you.
+   Why    seen in 16 of 54 games, at 13.0% against 10.0% for peers at your level
+   Note   Ordinary for your level, and still what these mistakes cost you most.
 
 WHAT WOULD SHOW IT WORKED
 
- - fork conceded when you go wrong: below 6% over your next 20 games
  - moves that let your opponent establish a knight you cannot chase away: below 1% over your next 20 games
+ - mistakes after a long think: below 12% over your next 20 games
+ - fork conceded when you go wrong: below 6% over your next 20 games
 
 WHAT YOUR WHOLE LEVEL LOSES MOST TO
 
- - Players at your level lose about 21.9 points of win probability a game to moves played in under two seconds.
- - Players at your level lose about 11.1 points of win probability a game to mistakes before move 15 with Black.
- - Players at your level lose about 10.3 points of win probability a game to mistakes before move 15 with White.
+ - Players at your level lose about 27.4 points of win probability a game to moves played in under two seconds.
+ - Players at your level lose about 11.2 points of win probability a game to mistakes before move 15 with Black.
+ - Players at your level lose about 9.2 points of win probability a game to mistakes before move 15 with White.
 
    These are not findings about you — they are what the whole rating band
    loses most to, and the stronger players in it lose less. Your own one or
@@ -50,3 +72,4 @@ WHAT THIS DOES NOT KNOW
  - This is measured from your own games and nothing else — it says what happened, not why, except where a probe asked you directly.
  - Rates are compared with players in your rating band, so they say you are unusual, not that you are bad.
  - Nothing here estimates your potential or your ceiling, because nothing here could.
+ - The two costs above should not be added together — a single mistake can belong to both patterns, so the totals overlap by an unknown amount.

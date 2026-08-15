@@ -37,6 +37,7 @@ from chesscoach.peers import ConditionMeasurement
 from chesscoach.profile.models import (
     Claim,
     Confidence,
+    ConfidenceTier,
     DeterminedBy,
     Evidence,
     Finding,
@@ -50,6 +51,7 @@ from chesscoach.sections.base import (
     SectionReport,
     diagnosable,
     drop_redundant_aggregates,
+    split_by_tier,
 )
 
 SECTION = "S3"
@@ -149,13 +151,10 @@ class S3EndgameTechnique:
                 notes=(f"only {counts.games_with_data} games with diagnosable moves",),
             )
 
-        findings = drop_redundant_aggregates(
-            tuple(
-                finding
-                for key in sorted(counts.tallies)
-                if (finding := _assess(key, counts, context))
-            )
-        )
+        candidates = [_assess(key, counts, context) for key in sorted(counts.tallies)]
+        asserted, watched = split_by_tier(candidates)
+        findings = drop_redundant_aggregates(asserted)
+        sub_threshold = drop_redundant_aggregates(watched)
         # Said even when the advantage claim had plenty to work with, because
         # silence about endgames would otherwise read as "your endgames are
         # fine" when the truth is that few of the player's games produce a
@@ -170,6 +169,7 @@ class S3EndgameTechnique:
             section=SECTION,
             findings=tuple(sorted(findings, key=lambda f: f.id)),
             notes=notes,
+            sub_threshold=tuple(sorted(sub_threshold, key=lambda f: f.id)),
         )
 
 
@@ -259,7 +259,7 @@ def _assess(key: str, counts: _Counts, context: SectionContext) -> Finding | Non
         replicated=_replicates(tally, peer_rate),
     )
     decision = assign_tier(stats)
-    if not decision.is_assertable:
+    if decision.tier is ConfidenceTier.NONE:
         return None
 
     return Finding(

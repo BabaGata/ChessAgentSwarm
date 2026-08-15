@@ -27,6 +27,7 @@ from chesscoach.peers import ConditionMeasurement
 from chesscoach.profile.models import (
     Claim,
     Confidence,
+    ConfidenceTier,
     DeterminedBy,
     Evidence,
     Finding,
@@ -35,7 +36,12 @@ from chesscoach.profile.models import (
     Measurement,
     wilson_interval,
 )
-from chesscoach.sections.base import SectionContext, SectionReport, diagnosable
+from chesscoach.sections.base import (
+    SectionContext,
+    SectionReport,
+    diagnosable,
+    split_by_tier,
+)
 
 SECTION = "S2"
 
@@ -155,19 +161,20 @@ class S2DecisionProcess:
                 notes=(f"only {games_with_data} games with timed moves after the opening",),
             )
 
-        findings: list[Finding] = []
+        candidates: list[Finding | None] = []
         notes: list[str] = []
         for condition in _conditions(observations):
             finding, note = self._assess(condition, observations, context, games_with_data)
-            if finding is not None:
-                findings.append(finding)
+            candidates.append(finding)
             if note is not None:
                 notes.append(note)
 
+        findings, watched = split_by_tier(candidates)
         return SectionReport(
             section=SECTION,
             findings=tuple(sorted(findings, key=lambda f: f.id)),
             notes=tuple(notes),
+            sub_threshold=tuple(sorted(watched, key=lambda f: f.id)),
         )
 
     def _assess(
@@ -219,7 +226,7 @@ class S2DecisionProcess:
         )
         decision = assign_tier(stats)
 
-        if not decision.is_assertable:
+        if decision.tier is ConfidenceTier.NONE:
             return None, None
 
         return Finding(

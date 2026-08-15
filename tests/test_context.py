@@ -12,9 +12,11 @@ from __future__ import annotations
 
 import pytest
 
+from chesscoach.arbiter import MAX_PRIORITIES
 from chesscoach.context import (
     FOCUSED_EFFORT_HOURS,
     QUESTIONS,
+    STEADY_EFFORT_HOURS,
     ask,
     from_answers,
     parse_hours,
@@ -59,21 +61,27 @@ class TestSizingThePlan:
 
         assert priorities_for(context) == 1
 
-    def test_a_player_with_time_gets_the_usual_two(self):
-        context = PlayerContext(weekly_study_hours=FOCUSED_EFFORT_HOURS + 5)
+    def test_a_moderate_week_gets_two(self):
+        context = PlayerContext(weekly_study_hours=FOCUSED_EFFORT_HOURS + 0.5)
 
         assert priorities_for(context) == 2
+
+    def test_a_player_with_real_time_gets_the_full_three(self):
+        context = PlayerContext(weekly_study_hours=STEADY_EFFORT_HOURS + 2)
+
+        assert priorities_for(context) == MAX_PRIORITIES
 
     def test_no_answer_falls_back_to_the_default(self):
-        assert priorities_for(PlayerContext()) == 2
-        assert priorities_for(None) == 2
+        assert priorities_for(PlayerContext()) == MAX_PRIORITIES
+        assert priorities_for(None) == MAX_PRIORITIES
 
     def test_it_never_exceeds_the_arbiters_own_ceiling(self):
-        # A player with forty hours a week still gets one or two things, because
-        # "list nine weaknesses" is the anti-pattern regardless of their time.
+        # A player with forty hours a week still gets at most three things,
+        # because "list nine weaknesses" is the anti-pattern regardless of their
+        # time. The cap is the ceiling; study hours only lower it.
         context = PlayerContext(weekly_study_hours=40)
 
-        assert priorities_for(context) == 2
+        assert priorities_for(context) == MAX_PRIORITIES
 
     def test_even_half_an_hour_a_week_gets_something(self):
         # Diagnosing and then prescribing nothing is the worse failure.

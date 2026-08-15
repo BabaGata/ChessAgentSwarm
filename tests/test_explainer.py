@@ -14,7 +14,7 @@ import pytest
 
 from chesscoach.explainer import render
 from chesscoach.planner import build_plan
-from chesscoach.arbiter import select_priorities
+from chesscoach.arbiter import MAX_PRIORITIES, select_priorities
 from chesscoach.profile.models import (
     Claim,
     Confidence,
@@ -93,12 +93,12 @@ class TestNotTheAntiPattern:
 
         report = render(a_profile(*findings))
 
-        assert report.count("How often") <= 2
+        assert report.count("How often") <= MAX_PRIORITIES
 
     def test_it_says_how_many_it_set_aside_rather_than_hiding_them(self):
         findings = tuple(
             a_finding(subject=name, rate=0.30 - n * 0.01)
-            for n, name in enumerate(["pin", "fork", "skewer"])
+            for n, name in enumerate(["pin", "fork", "skewer", "hangingPiece"])
         )
 
         assert "1 further pattern was found but not prioritised" in render(a_profile(*findings))

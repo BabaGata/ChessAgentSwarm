@@ -126,6 +126,61 @@ Fixed now. The review **passes**, for a thesis claiming a working diagnostic sys
 and the thesis reports that as the result rather than as a limitation. That sentence is written now,
 while it costs nothing to write.
 
+## Results so far — 1 of 12
+
+### `bernes` — **disagreement**, and it changed the system
+
+Recorded 2026-08-15, before the remaining eleven, because the finding was structural rather than a
+score.
+
+| | reviewer's Form A | the report |
+|---|---|---|
+| 1st | undefended pieces (losing their own) | missed forks |
+| 2nd | missing hanging pieces (not taking the opponent's) | — |
+| 3rd | *(forks, per the reviewer's later note)* | — |
+| strength | 1650 | *(not shown — no estimate reached the report)* |
+
+**Agreement on the top finding: no.** By the pre-registered rule this is one of twelve counted
+against the ≥ 7/12 threshold, and it stays counted that way whatever follows.
+
+The two halves failed for entirely different reasons, and separating them is the whole value:
+
+1. **The reviewer's #1 was measured and gated out.** `allowed_motif.hangingPiece` at 10.7 % of
+   errors, 10 of 53 games, **7.3 wp/game — the most expensive pattern in the player's games**, and
+   1.29× the population. The interval did not clear the peer rate, so it stopped at `watch` and was
+   discarded. Addressed by [[decisions.0010-three-priorities-and-the-cost-pool]]: it now appears as a
+   cost-ranked priority, labelled as ordinary for the level. It is ranked **second**, behind the
+   peer-relative finding — so the disagreement about *order* stands even after the fix.
+2. **The reviewer's #2 the system contradicts.** `missed_motif.hangingPiece` measured **3 misses in
+   77 chances — 3.9 %, against 6.9 % for peers**: this player converts free pieces slightly *better*
+   than their level. Not a gating problem and not fixed. Either the reviewer is counting something
+   the detector excludes — captures worth less than a minor piece, positions where taking is not the
+   engine's first choice, or recaptures that leave the piece attacked — or the impression is wrong.
+   **Unresolved, and it is the more interesting of the two.**
+
+The honest reading of a single case: a strong club player leads with what is *expensive and
+frequent*, and the system led with what is *unusual*. Those are different questions, and until this
+review only one of them could reach the page.
+
+### The sample's "silent" stratum no longer exists
+
+[[decisions.0010-three-priorities-and-the-cost-pool]] takes silence from 2/12 to **0/12** across this
+exact sample. The stratum was included precisely because it flatters the system least — *"the players
+it had nothing to say about"* — and it now describes nobody. Their reports lead with **WHAT COSTS YOU
+MOST** and state plainly that nothing about them is unusual.
+
+This is a change to the instrument after the sample was drawn, and it is recorded as such. Form B/C's
+last question — *"if the report was empty: was there something worth telling this player?"* — is now
+unanswerable for those two, and the more useful question about them has become whether the
+cost-ranked items are worth telling *anyone*.
+
+### A caution about the remaining eleven
+
+The reviewer has now seen this analysis, so their Form A answers for the other players are no longer
+naive in the way `bernes`'s were. That is a real contamination of the instrument and it is recorded
+rather than managed away. It argues for weighting `bernes` heavily and treating the rest as
+partially anchored.
+
 ## What the review cannot settle
 
 - **The reviewer is ~1880, not titled** (see the amendment above). This is the largest limitation and

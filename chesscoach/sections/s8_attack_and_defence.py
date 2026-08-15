@@ -31,6 +31,7 @@ from chesscoach.peers import ConditionMeasurement
 from chesscoach.profile.models import (
     Claim,
     Confidence,
+    ConfidenceTier,
     DeterminedBy,
     Evidence,
     Finding,
@@ -39,7 +40,12 @@ from chesscoach.profile.models import (
     Measurement,
     wilson_interval,
 )
-from chesscoach.sections.base import SectionContext, SectionReport, diagnosable
+from chesscoach.sections.base import (
+    SectionContext,
+    SectionReport,
+    diagnosable,
+    split_by_tier,
+)
 
 SECTION = "S8"
 
@@ -95,8 +101,8 @@ class S8AttackAndDefence:
                 notes=(f"only {counts.games_with_data} games with diagnosable moves",),
             )
 
-        finding = _assess(counts, context)
-        return SectionReport(section=SECTION, findings=(finding,) if finding else ())
+        asserted, watched = split_by_tier([_assess(counts, context)])
+        return SectionReport(section=SECTION, findings=asserted, sub_threshold=watched)
 
 
 # --- counting ---------------------------------------------------------------
@@ -153,7 +159,7 @@ def _assess(counts: _Counts, context: SectionContext) -> Finding | None:
         replicated=len({o.game_id for o in tally.examples}) >= 2 and rate > peer_rate,
     )
     decision = assign_tier(stats)
-    if not decision.is_assertable:
+    if decision.tier is ConfidenceTier.NONE:
         return None
 
     return Finding(

@@ -43,6 +43,18 @@ class DiagnosisResult:
         return tuple(sorted(collected, key=lambda finding: finding.id))
 
     @property
+    def sub_threshold(self) -> tuple[Finding, ...]:
+        """Measured, real, and not unusual enough to assert.
+
+        Offered to the arbiter as a **second** pool, never merged into
+        `findings`: these are not claims that the player is unusual, and the
+        confidence policy was right to refuse that. What they can say is what a
+        pattern cost, which is a different question and a fair one.
+        """
+        collected = [f for report in self.reports for f in report.sub_threshold]
+        return tuple(sorted(collected, key=lambda finding: finding.id))
+
+    @property
     def sections_reporting(self) -> tuple[str, ...]:
         return tuple(report.section for report in self.reports)
 

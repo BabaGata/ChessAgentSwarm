@@ -35,6 +35,7 @@ from chesscoach.peers import ConditionMeasurement
 from chesscoach.profile.models import (
     Claim,
     Confidence,
+    ConfidenceTier,
     DeterminedBy,
     Evidence,
     Finding,
@@ -43,7 +44,12 @@ from chesscoach.profile.models import (
     Measurement,
     wilson_interval,
 )
-from chesscoach.sections.base import SectionContext, SectionReport, diagnosable
+from chesscoach.sections.base import (
+    SectionContext,
+    SectionReport,
+    diagnosable,
+    split_by_tier,
+)
 from chesscoach.tactics import detect_motifs
 
 SECTION = "S1"
@@ -116,12 +122,13 @@ class S1TacticalGaps:
                 notes=(f"only {counts.games_with_data} games with diagnosable moves",),
             )
 
-        findings = [
-            finding
-            for key in sorted(counts.tallies)
-            if (finding := _assess(key, counts, context))
-        ]
-        return SectionReport(section=SECTION, findings=tuple(sorted(findings, key=lambda f: f.id)))
+        candidates = [_assess(key, counts, context) for key in sorted(counts.tallies)]
+        findings, watched = split_by_tier(candidates)
+        return SectionReport(
+            section=SECTION,
+            findings=tuple(sorted(findings, key=lambda f: f.id)),
+            sub_threshold=tuple(sorted(watched, key=lambda f: f.id)),
+        )
 
 
 # --- counting ---------------------------------------------------------------
@@ -242,7 +249,9 @@ def _assess(key: str, counts: _Counts, context: SectionContext) -> Finding | Non
         replicated=_replicates(tally, comparison),
     )
     decision = assign_tier(stats)
-    if not decision.is_assertable:
+    # `watch` is built and returned rather than dropped -- see SectionReport
+    # .sub_threshold. `none` still means there is nothing here worth carrying.
+    if decision.tier is ConfidenceTier.NONE:
         return None
 
     return Finding(

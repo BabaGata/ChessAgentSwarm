@@ -63,9 +63,12 @@ class TestCap:
 
         assert len(select_priorities(findings).priorities) == MAX_PRIORITIES
 
-    def test_the_cap_is_two(self):
-        # Stated as a test because it is a design constraint, not a knob.
-        assert MAX_PRIORITIES == 2
+    def test_the_cap_is_three(self):
+        # Stated as a test because it is a design constraint, not a knob. Raised
+        # from two on 2026-08-15 at the author's direction after the first expert
+        # review; the coaching literature's objection to long lists is answered
+        # by ranking the three and marking where to start, not by shortening it.
+        assert MAX_PRIORITIES == 3
 
     def test_returns_what_there_is_when_there_are_fewer(self):
         assert len(select_priorities((a_finding(),)).priorities) == 1
@@ -130,7 +133,7 @@ class TestDiversity:
         same_pin = a_finding(kind="allowed_motif", subject="pin", rate=0.55, peer_rate=0.10)
         other = a_finding(kind="missed_motif", subject="fork", rate=0.40, peer_rate=0.15)
 
-        chosen = select_priorities((strong_pin, same_pin, other)).priorities
+        chosen = select_priorities((strong_pin, same_pin, other), limit=2).priorities
 
         assert [p.finding.claim.subject for p in chosen] == ["pin", "fork"]
 
@@ -155,8 +158,8 @@ class TestExplanation:
         assert [p.rank for p in select_priorities(findings).priorities] == [1, 2]
 
     def test_names_what_was_left_out(self):
-        findings = tuple(a_finding(subject=f"m{n}") for n in range(4))
+        findings = tuple(a_finding(subject=f"m{n}") for n in range(5))
 
         selection = select_priorities(findings)
 
-        assert len(selection.not_selected) == 2
+        assert len(selection.not_selected) == 5 - MAX_PRIORITIES

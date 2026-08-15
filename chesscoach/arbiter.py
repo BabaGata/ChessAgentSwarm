@@ -26,8 +26,12 @@ from dataclasses import dataclass
 
 from chesscoach.profile.models import ConfidenceTier, Finding
 
-# One or two. Not a knob.
-MAX_PRIORITIES = 2
+# Raised from two to three on 2026-08-15, at the thesis author's direction after
+# the first expert review. The coaching literature's objection stands and is
+# answered by *ordering* rather than by length: step 1 is marked as where to
+# start, and the reader is told the rest are sequenced behind it. A ranked three
+# is still a plan; an unranked nine is the anti-pattern.
+MAX_PRIORITIES = 3
 
 # Below this a cost is real and not worth reordering anything for -- a fraction
 # of a win-probability point per game is noise in the measurement, not a reason
@@ -47,6 +51,11 @@ class Priority:
     finding: Finding
     rank: int
     reasons: tuple[str, ...]
+    # True when this came from the cost pool rather than the peer comparison:
+    # expensive for this player, and **not** shown to be unusual for their level.
+    # The report must say so, or it turns a population fact into a personal
+    # accusation (E25 condition 2).
+    shared: bool = False
 
 
 @dataclass(frozen=True)
@@ -59,24 +68,84 @@ class Selection:
 
 
 def select_priorities(
-    findings: tuple[Finding, ...], limit: int = MAX_PRIORITIES
+    findings: tuple[Finding, ...],
+    limit: int = MAX_PRIORITIES,
+    also: tuple[Finding, ...] = (),
 ) -> Selection:
-    """Rank the assertable findings and take the top one or two."""
-    eligible = [f for f in findings if f.confidence.tier in ASSERTABLE]
-    if not eligible:
-        return Selection(considered=0)
+    """Rank the assertable findings, then fill any empty slots by cost.
 
+    `also` is the sub-threshold pool: patterns measured, priced, and **not**
+    shown to be unusual for the player's level. They can never displace an
+    assertable finding — being unusual is what makes the first slots a diagnosis
+    rather than a description — and they are ranked among themselves by what they
+    cost the player outright, because the excess over peers is precisely the
+    comparison that already declined to rank them.
+
+    Without `also` this behaves exactly as it did before, which is what every
+    existing caller relies on.
+    """
+    eligible = [f for f in findings if f.confidence.tier in ASSERTABLE]
     ordered = sorted(eligible, key=_sort_key)
     chosen = _take_diverse(ordered, limit)
 
+    # Only what unusualness left empty. E17 measured what happens when cost ranks
+    # the whole list: one claim is named to 70 % of players.
+    costly = _take_diverse(
+        [f for f in sorted(also, key=_cost_key) if _worth_a_slot(f)],
+        limit - len(chosen),
+        taken={f.claim.subject for f in chosen},
+    )
+    if not chosen and not costly:
+        return Selection(considered=0)
+
+    priorities = tuple(
+        Priority(
+            finding=f,
+            rank=index + 1,
+            reasons=_reasons(f, shared=f in costly),
+            shared=f in costly,
+        )
+        for index, f in enumerate(chosen + costly)
+    )
     return Selection(
-        priorities=tuple(
-            Priority(finding=f, rank=index + 1, reasons=_reasons(f))
-            for index, f in enumerate(chosen)
-        ),
+        priorities=priorities,
         considered=len(eligible),
         not_selected=tuple(f.id for f in ordered if f not in chosen),
     )
+
+
+def _worth_a_slot(finding: Finding) -> bool:
+    """Two conditions, and the second was learned the hard way.
+
+    **It must have a cost to state.** A claim whose instances are choices rather
+    than mistakes — conceding a structure, letting a rook reach the seventh —
+    cannot say what it cost, and filling a training slot with one would be
+    inventing a priority rather than finding one.
+
+    **And the player must not already be better than their level at it.** Cost
+    alone does not imply that: a claim can cost 8.6 a game against the
+    population's 7.1 while the player's *rate* sits below theirs, because the
+    condition arises more often for this player or their errors inside it are
+    dearer. Running all twelve review players produced exactly that — one was
+    told their play falls off when the clock is short at **13 % against 15 % for
+    peers**, under a heading saying it stood out. A thing you do less than your
+    peers is not a thing to work on, whatever it totals to.
+
+    A missing peer rate is not evidence of being better than average, so it
+    passes; the alternative silently narrows the pool to whatever the reference
+    happens to cover.
+    """
+    measurement = finding.measurement
+    cost = measurement.cost_per_game
+    if cost is None or cost < NEGLIGIBLE_COST_PER_GAME:
+        return False
+    if measurement.peer_rate is not None and measurement.rate < measurement.peer_rate:
+        return False
+    return True
+
+
+def _cost_key(finding: Finding) -> tuple:
+    return (-(finding.measurement.cost_per_game or 0.0), finding.id)
 
 
 def _sort_key(finding: Finding) -> tuple:
@@ -129,15 +198,23 @@ def _unusualness(finding: Finding) -> float:
     return measurement.lift_vs_peer or measurement.lift_vs_baseline or 1.0
 
 
-def _take_diverse(ordered: list[Finding], limit: int) -> list[Finding]:
+def _take_diverse(
+    ordered: list[Finding], limit: int, taken: set[str] | None = None
+) -> list[Finding]:
     """Fill the slots, preferring a second priority about something else.
 
     Two views of the same pattern -- missing pins and conceding them -- are one
     thing to work on, not two. If nothing else is available the slot is still
     filled rather than wasted.
+
+    `taken` carries subjects already claimed by an earlier pool, so the rule
+    holds *across* the assertable and cost-ranked pools and not only within each.
     """
+    if limit <= 0:
+        return []
+
     chosen: list[Finding] = []
-    subjects: set[str] = set()
+    subjects: set[str] = set(taken or ())
 
     for finding in ordered:
         if len(chosen) >= limit:
@@ -147,19 +224,35 @@ def _take_diverse(ordered: list[Finding], limit: int) -> list[Finding]:
         chosen.append(finding)
         subjects.add(finding.claim.subject)
 
+    # The fallback relaxes diversity *within* this pool rather than across pools:
+    # a slot is better filled than wasted, but repeating a subject the reader has
+    # already been given a step for is not filling it.
+    blocked = set(taken or ())
     if len(chosen) < limit:
         for finding in ordered:
             if len(chosen) >= limit:
                 break
+            if finding.claim.subject in blocked:
+                continue
             if finding not in chosen:
                 chosen.append(finding)
 
     return chosen
 
 
-def _reasons(finding: Finding) -> tuple[str, ...]:
+def _reasons(finding: Finding, shared: bool = False) -> tuple[str, ...]:
     """Plain statements of why this one, in terms of the evidence."""
     measurement = finding.measurement
+    if shared:
+        # Never "you do this more than your peers" — the reason this one is here
+        # is precisely that it could not be shown to be unusual. Saying so is the
+        # difference between a population fact and a personal accusation.
+        return (
+            "not unusual for your level, and the most expensive pattern left",
+            f"costing about {measurement.cost_per_game:.1f} points of win probability a game",
+            f"seen in {measurement.distinct_games} of {measurement.games_with_data} games",
+        )
+
     reasons = [f"{finding.confidence.tier.value} confidence"]
 
     if measurement.peer_rate is not None and measurement.lift_vs_peer:

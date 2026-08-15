@@ -45,6 +45,35 @@ a stated defect in [[experiments.e15-expected-gain]] — raw cost must become pe
 
 ---
 
+### L-039 — A correct filter can still be the wrong gate, if it is the only door
+**Date:** 2026-08-15 · **Cycle / mission step:** M6 · **Class:** technique
+**Context:** The first expert-review disagreement, on player `bernes`
+([[evaluation.expert-review]], [[decisions.0010-three-priorities-and-the-cost-pool]]).
+**Observation:** The reviewer named undefended pieces as the main weakness; the report named forks.
+The pattern they named **had been measured**: 10.7 % of the player's errors, 10 of 53 games, **7.3
+win-probability points a game — the most expensive pattern in their games**, and 1.29× the
+population. It stopped at `watch` because the Wilson lower bound did not clear the peer rate, which
+on 112 trials is the *correct* statistical verdict: 10.7 % against 8.3 % is not a significant
+difference and asserting the player was unusual would have been unsupported. Every component behaved
+as designed and the reader still lost the most important thing in their games. The cause was not the
+filter but its **monopoly**: being unusual was the only route onto the page, so a claim that failed
+that one test was destroyed rather than demoted, and its cost — measured, real, and never in dispute
+— had nowhere to go.
+**Lesson:** When a gate is the sole entry to an output, it stops being a filter on *quality* and
+becomes a filter on *kind*: whatever question it asks is the only question the system can answer. The
+fix is rarely to loosen it — that admits noise for everyone to satisfy one case — but to add a second
+route that asks a **different** question and says which route a result came in by. Here: unusualness
+fills the first slots and cost fills what is left, each labelled. The diagnostic symptom is a
+component that is individually defensible at every step and collectively wrong, which no unit test
+can catch, because each unit is right. Only an outside reader comparing the output against the world
+finds it — which is what expert review is *for*, and why criterion 2 could not be replaced by more
+internal measurement.
+**Applied to:** `SectionReport.sub_threshold` retaining `watch` findings across all seven agents;
+`select_priorities(..., also=)`; `MAX_PRIORITIES` 2 → 3; the shared label in the explainer and the
+rewritten excess-cost sentence; ADR-0010.
+
+---
+
 ### L-038 — A documented procedure is a claim, and the only way to test it is to run it
 **Date:** 2026-08-14 · **Cycle / mission step:** M6 · **Class:** process
 **Context:** Making vision success criterion 6 — *"documented well enough that a third party can

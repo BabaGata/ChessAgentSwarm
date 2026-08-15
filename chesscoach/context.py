@@ -26,11 +26,18 @@ from chesscoach.arbiter import MAX_PRIORITIES
 from chesscoach.humaninput import clean, is_blank
 from chesscoach.profile.models import PlayerContext
 
-# Below this, one thing to work on rather than two. A convention rather than a
-# measurement -- nothing in this project links study hours to outcomes, and
+# Below this, one thing to work on rather than several. A convention rather than
+# a measurement -- nothing in this project links study hours to outcomes, and
 # saying so is better than implying the number was derived. It errs toward
 # fewer, which is the direction domain.coaching § 4 argues for anyway.
 FOCUSED_EFFORT_HOURS = 3.0
+
+# And below this, two rather than the full three. Added when the ceiling rose
+# from two to three: without a middle band the question becomes a switch between
+# one and three, which is a cruder instrument than the answer deserves. Same
+# standard of evidence as the constant above, which is to say none -- both are
+# conventions, and both are declared as such rather than dressed up.
+STEADY_EFFORT_HOURS = 6.0
 
 
 @dataclass(frozen=True)
@@ -77,6 +84,8 @@ def priorities_for(context: PlayerContext | None, ceiling: int = MAX_PRIORITIES)
         return ceiling
     if context.weekly_study_hours < FOCUSED_EFFORT_HOURS:
         return 1
+    if context.weekly_study_hours < STEADY_EFFORT_HOURS:
+        return min(2, ceiling)
     return ceiling
 
 

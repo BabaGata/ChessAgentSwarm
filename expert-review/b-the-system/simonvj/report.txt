@@ -1,21 +1,75 @@
 ﻿Report for simonvj
 45 games (2026.08.09 to 2026.08.10), rating band 1400-1800
 
-Nothing reached the confidence needed to report.
-That is a real result, not an empty one: either your games do not show a consistent pattern, or there were too few of them to tell.
+WHAT STANDS OUT
+
+1. You end up with doubled pawns more often than players at your level.
+
+   How often   4% of the time, against 3% for players at your level
+   Seen in     31 of 44 games
+   For example game AXi9PPqi, move 12, you played b7c6
+   For example game J5gd4sb6, move 11, you played d4c5
+   For example game VJqCQt6V, move 14, you played c5d4
+
+2. You miss pin tactics that were available.
+
+   Ordinary for your level, and still what these mistakes cost you most.
+
+   How often   22% of the time, against 18% for players at your level
+   Seen in     12 of 44 games
+   Costing you about 6.1 points of win probability a game.
+   Players at your level lose about 6.5 to the same thing, so this is
+   not costing you your rating — it is costing you the next one.
+   For example game CxhKH9PN, move 12, you played d4d5 (d1a4 was better)
+   For example game J5gd4sb6, move 13, you played g5f6 (g2e4 was better)
+   For example game kqTAfT2U, move 21, you played f4d6 (d1f3 was better)
+
+3. When you go wrong, it is often a hanging piece that punishes you.
+
+   Ordinary for your level, and still what these mistakes cost you most.
+
+   How often   12% of the time, against 11% for players at your level
+   Seen in     11 of 44 games
+   Costing you about 5.6 points of win probability a game.
+   Players at your level lose about 9.4 to the same thing, so this is
+   not costing you your rating — it is costing you the next one.
+   For example game AXi9PPqi, move 17, you played b8b5 (c6b5 was better)
+   For example game J5gd4sb6, move 13, you played g5f6 (d8f6 was better)
+   For example game J5gd4sb6, move 24, you played d5b4 (c5b4 was better)
+
+WHAT TO DO
+
+1. In the cited positions, ask whether you chose the structure or simply allowed it. Conceding a weakness for something concrete is fine; doing it without noticing is the habit worth changing.
+   Why    seen in 31 of 44 games, at 4.3% against 2.8% for peers at your level
+   Start  Do this one first — the others can wait their turn.
+
+2. Drill `pin` puzzles, and solve to be right rather than fast — review every one you get wrong.
+   Why    seen in 12 of 44 games, at 21.9% against 18.3% for peers at your level
+   Note   Ordinary for your level, and still what these mistakes cost you most.
+
+3. Before committing a move, ask what your opponent's best reply threatens; a hanging piece is what has been punishing you.
+   Why    seen in 11 of 44 games, at 12.1% against 11.4% for peers at your level
+   Note   Ordinary for your level, and still what these mistakes cost you most.
+
+WHAT WOULD SHOW IT WORKED
+
+ - moves that leave you with doubled pawns: below 2% over your next 20 games
+ - pin missed when available: below 12% over your next 28 games
+ - hanging piece conceded when you go wrong: below 7% over your next 20 games
 
 WHAT YOUR WHOLE LEVEL LOSES MOST TO
 
- - Players at your level lose about 13.8 points of win probability a game to moves played in under two seconds.
- - Players at your level lose about 10.7 points of win probability a game to mistakes before move 15 with Black.
- - Players at your level lose about 10.0 points of win probability a game to mistakes before move 15 with White.
+ - Players at your level lose about 14.9 points of win probability a game to moves played in under two seconds.
+ - Players at your level lose about 13.2 points of win probability a game to mistakes before move 15 with Black.
+ - Players at your level lose about 9.2 points of win probability a game to mistakes before move 15 with White.
 
-   These are not findings about you — nothing specific to you cleared the
-   bar. They are what the whole rating band loses most to, and the stronger
-   players in it lose less, so they are a reasonable place to start.
+   These are not findings about you — they are what the whole rating band
+   loses most to, and the stronger players in it lose less. Your own one or
+   two priorities above are the ones that are unusual for you specifically.
 
 WHAT THIS DOES NOT KNOW
 
  - This is measured from your own games and nothing else — it says what happened, not why, except where a probe asked you directly.
  - Rates are compared with players in your rating band, so they say you are unusual, not that you are bad.
  - Nothing here estimates your potential or your ceiling, because nothing here could.
+ - The two costs above should not be added together — a single mistake can belong to both patterns, so the totals overlap by an unknown amount.

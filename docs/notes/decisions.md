@@ -24,6 +24,7 @@ real work, or if a future reader would otherwise ask *"why on earth is it like t
 | [[decisions.0007-storage-sqlite-cache-json-profile]] | 2026-07-28 | SQLite position cache keyed by (position, engine, depth); JSON player profiles | accepted |
 | [[decisions.0008-deterministic-planner]] | 2026-07-31 | The planner is deterministic; only the prober and explainer use a model | accepted |
 | [[decisions.0009-prober-before-breadth]] | 2026-08-03 | Build the prober before sections S3–S11 — four scorecard dimensions are at zero and all four need the player to be asked something | accepted |
+| [[decisions.0010-three-priorities-and-the-cost-pool]] | 2026-08-15 | Three priorities, and a second pool ranked by cost for what the peer comparison leaves empty — after the first expert review found the most expensive pattern in a player's games measured and discarded | accepted |
 
 ## Template
 

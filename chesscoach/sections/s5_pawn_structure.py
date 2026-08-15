@@ -38,6 +38,7 @@ from chesscoach.peers import ConditionMeasurement
 from chesscoach.profile.models import (
     Claim,
     Confidence,
+    ConfidenceTier,
     DeterminedBy,
     Evidence,
     Finding,
@@ -52,6 +53,7 @@ from chesscoach.sections.base import (
     SectionReport,
     diagnosable,
     drop_redundant_aggregates,
+    split_by_tier,
 )
 from chesscoach.structure import conceded
 
@@ -131,14 +133,14 @@ class S5PawnStructure:
                 notes=(f"only {counts.games_with_data} games with diagnosable moves",),
             )
 
-        findings = drop_redundant_aggregates(
-            tuple(
-                finding
-                for key in sorted(counts.tallies)
-                if (finding := _assess(key, counts, context))
-            )
+        candidates = [_assess(key, counts, context) for key in sorted(counts.tallies)]
+        asserted, watched = split_by_tier(candidates)
+        findings = drop_redundant_aggregates(asserted)
+        return SectionReport(
+            section=SECTION,
+            findings=tuple(sorted(findings, key=lambda f: f.id)),
+            sub_threshold=tuple(sorted(drop_redundant_aggregates(watched), key=lambda f: f.id)),
         )
-        return SectionReport(section=SECTION, findings=tuple(sorted(findings, key=lambda f: f.id)))
 
 
 # --- counting ---------------------------------------------------------------
@@ -235,7 +237,7 @@ def _assess(key: str, counts: _Counts, context: SectionContext) -> Finding | Non
         replicated=len({o.game_id for o in tally.examples}) >= 2 and rate > peer_rate,
     )
     decision = assign_tier(stats)
-    if not decision.is_assertable:
+    if decision.tier is ConfidenceTier.NONE:
         return None
 
     return Finding(

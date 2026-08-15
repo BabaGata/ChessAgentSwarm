@@ -13,12 +13,12 @@ the ones most likely to be violated under pressure to make a demo look good:
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Protocol
+from typing import Iterable, Protocol
 
 from chesscoach.analysis.observations import Observation
 from chesscoach.ingest.corpus import Corpus
 from chesscoach.peers import ConditionMeasurement, PeerReference
-from chesscoach.profile.models import Finding, Provenance
+from chesscoach.profile.models import ConfidenceTier, Finding, Provenance
 
 
 # Which moves are worth diagnosing at all. Shared by every section so the answer
@@ -158,12 +158,39 @@ class SectionReport:
     "we could not assess this" and "we assessed this and it is fine" are
     different statements, and collapsing them tells the player their endgames
     are fine when four of their games reached one.
+
+    `sub_threshold` carries the claims that were measured and are **not unusual
+    enough to assert** -- `watch` tier. They were previously discarded inside
+    each agent, and the first expert review found what that costs: for one player
+    the single most expensive pattern in their games, conceding undefended pieces
+    at 7.3 win-probability points a game across 10 of 53 games, was measured,
+    landed at 1.29x the population, failed the interval test, and vanished. The
+    reviewer named it as the player's main weakness.
+
+    They are kept rather than asserted. Nothing here is a claim that the player
+    is unusual -- the gate was right to refuse that -- only that the cost is real
+    and was paid. What may be done with them is the arbiter's decision.
     """
 
     section: str
     findings: tuple[Finding, ...] = ()
     insufficient_data: bool = False
     notes: tuple[str, ...] = ()
+    sub_threshold: tuple[Finding, ...] = ()
+
+
+def split_by_tier(candidates: Iterable[Finding | None]) -> tuple[tuple[Finding, ...], ...]:
+    """Separate what may be asserted from what was merely measured.
+
+    Shared so the boundary cannot drift between seven agents, each of which used
+    to apply it inline by returning None.
+    """
+    kept = [finding for finding in candidates if finding is not None]
+    assertable = tuple(
+        f for f in kept if f.confidence.tier in (ConfidenceTier.FOCUS, ConfidenceTier.PRIORITY)
+    )
+    watched = tuple(f for f in kept if f.confidence.tier is ConfidenceTier.WATCH)
+    return assertable, watched
 
 
 class SectionAgent(Protocol):

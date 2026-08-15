@@ -824,6 +824,7 @@ def coach(args: argparse.Namespace) -> int:
         observations, corpus, provenance,
         band=args.band, time_control=args.time_control, peers=peers,
     )
+    diagnosis = diagnose(context, default_agents())
     profile = apply_to_profile(
         PlayerProfile(
             player=PlayerRef(source="lichess", username=args.player, band=args.band),
@@ -833,9 +834,9 @@ def coach(args: argparse.Namespace) -> int:
             band_notes=notes_for(context),
             context=player_context,
         ),
-        diagnose(context, default_agents()),
+        diagnosis,
     )
-    profile = _planned(profile, peers, args)
+    profile = _planned(profile, peers, args, also=diagnosis.sub_threshold)
 
     if args.probe:
         profile = _probe_interactively(profile, peers, args)
@@ -921,16 +922,36 @@ def ask_context():
     return ask()
 
 
-def _planned(profile, peers, args):
+def _planned(profile, peers, args, also=()):
     """Attach a plan, sized to the time the player said they have.
 
     This is the whole reason the context questions exist: two priorities for
     someone with half an hour a week is a plan that fails and teaches them the
     system does not know them (architecture.interaction step 2).
+
+    `also` carries the sub-threshold pool — patterns that cost this player real
+    win probability and could not be shown to be unusual for their level. They
+    fill slots the peer comparison left empty, never slots it wanted. The chosen
+    ones are merged into `findings` so the report, the progress check and the
+    saved profile can all resolve a plan step back to its measurement; they keep
+    their `watch` tier, which is what tells the explainer to label them.
     """
     from chesscoach.context import priorities_for
 
-    selection = select_priorities(profile.findings, limit=priorities_for(profile.context))
+    selection = select_priorities(
+        profile.findings, limit=priorities_for(profile.context), also=also
+    )
+    chosen = {p.finding.id for p in selection.priorities}
+    known = {f.id for f in profile.findings}
+    profile = replace(
+        profile,
+        findings=tuple(
+            sorted(
+                profile.findings + tuple(f for f in also if f.id in chosen and f.id not in known),
+                key=lambda finding: finding.id,
+            )
+        ),
+    )
     return replace(
         profile,
         plan=build_plan(

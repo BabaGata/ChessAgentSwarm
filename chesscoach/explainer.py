@@ -27,6 +27,7 @@ from chesscoach.arbiter import NEGLIGIBLE_COST_PER_GAME
 from chesscoach.context import FOCUSED_EFFORT_HOURS
 from chesscoach.phrasing import move_number, quantity, statement
 from chesscoach.profile.models import (
+    ConfidenceTier,
     DeterminedBy,
     Finding,
     GapTypeHypothesis,
@@ -58,6 +59,26 @@ GAP_MEANING: dict[str, str] = {
 }
 
 BAND_HEADING = "WHAT YOUR WHOLE LEVEL LOSES MOST TO"
+
+# What a cost-ranked filler is told about itself. It reached the report because
+# it is expensive, not because the player is unusual -- the confidence gate
+# specifically declined to say that -- and the reader has to be able to tell the
+# two apart.
+SHARED_LABEL = "Ordinary for your level, and still what these mistakes cost you most."
+
+# Used instead of WHAT STANDS OUT when nothing did — every reported item reached
+# the page on cost, so claiming otherwise would invent a diagnosis.
+COSTLY_HEADING = "WHAT COSTS YOU MOST"
+
+
+def is_shared(finding: Finding) -> bool:
+    """Did this reach the plan on cost rather than on being unusual?
+
+    Read off the tier rather than stored separately: only the arbiter's cost
+    pool puts a `watch` finding into a profile, so the tier *is* the marker and
+    cannot fall out of step with the decision that produced it.
+    """
+    return finding.confidence.tier is ConfidenceTier.WATCH
 
 
 LIMITS = (
@@ -244,7 +265,20 @@ def _findings_section(profile: PlayerProfile) -> list[str]:
             "",
         ]
 
-    lines = ["WHAT STANDS OUT", ""]
+    # When every item arrived on cost, nothing *stood out* — the peer comparison
+    # found this player unremarkable and the heading has to say so, or the report
+    # claims a diagnosis it did not make. Found by running all twelve review
+    # players: two of them had no assertable finding at all and were still handed
+    # "WHAT STANDS OUT" over three ordinary patterns.
+    all_shared = all(is_shared(finding) for finding in reported)
+    lines = [COSTLY_HEADING if all_shared else "WHAT STANDS OUT", ""]
+    if all_shared:
+        lines += [
+            "Nothing in your games is unusual for your rating band — measured against",
+            "players at your level, you are where you should be. So these are ranked by",
+            "what they cost you rather than by what makes you different.",
+            "",
+        ]
     for index, finding in enumerate(reported, start=1):
         lines += _finding(index, finding, profile.probes)
 
@@ -263,6 +297,13 @@ def _finding(index: int, finding: Finding, probes: tuple[ProbeRecord, ...]) -> l
     measurement = finding.measurement
     lines = [f"{index}. {statement(finding)}", ""]
 
+    if is_shared(finding):
+        # Said before the numbers, not after, because a reader who meets "10.7%
+        # against 8.3%" first has already concluded they are unusual by the time
+        # any qualifier arrives. E25 condition 2: a population fact must not be
+        # dressed as a personal accusation.
+        lines += [f"   {SHARED_LABEL}", ""]
+
     comparison = (
         f"{measurement.rate:.0%} of the time, against {measurement.peer_rate:.0%} "
         "for players at your level"
@@ -279,7 +320,7 @@ def _finding(index: int, finding: Finding, probes: tuple[ProbeRecord, ...]) -> l
     excess = measurement.excess_cost_per_game
     if cost is not None and cost >= NEGLIGIBLE_COST_PER_GAME:
         lines.append(f"   Costing you about {cost:.1f} points of win probability a game.")
-        if excess is not None and measurement.peer_cost_per_game is not None:
+        if excess is not None and measurement.peer_cost_per_game is not None and excess > 0:
             # The honest ceiling is the *excess*, not the whole cost. Playing
             # this perfectly is not on offer; playing it the way players at the
             # same level do is, so that difference is what a plan can promise.
@@ -288,6 +329,18 @@ def _finding(index: int, finding: Finding, probes: tuple[ProbeRecord, ...]) -> l
                 f"{measurement.peer_cost_per_game:.1f} to the same thing, so roughly"
             )
             lines.append(f"   {excess:.1f} a game is what fixing this could get back.")
+        elif measurement.peer_cost_per_game is not None:
+            # Peers lose as much or more. The excess is zero or negative and
+            # printing it would promise a negative gain; what is true is that
+            # matching the level is no longer the target, because they already
+            # do. Beating it is, and nothing here can price that.
+            lines.append(
+                f"   Players at your level lose about "
+                f"{measurement.peer_cost_per_game:.1f} to the same thing, so this is"
+            )
+            lines.append(
+                "   not costing you your rating — it is costing you the next one."
+            )
         else:
             lines.append(
                 "   That is what these moves gave away, and the most you could get back."
@@ -348,8 +401,19 @@ def _plan_section(profile: PlayerProfile) -> list[str]:
         return []
 
     lines = ["WHAT TO DO", ""]
+    reported = {f.id: f for f in profile.findings}
     for index, step in enumerate(profile.plan.steps, start=1):
-        lines += [f"{index}. {step.action}", f"   Why    {step.why}", ""]
+        lines += [f"{index}. {step.action}", f"   Why    {step.why}"]
+        finding = reported.get(step.finding_id)
+        if finding is not None and is_shared(finding):
+            lines.append(f"   Note   {SHARED_LABEL}")
+        # The ordering is the whole answer to "why not just list everything":
+        # three things with a stated first is a plan, three in a row is a list.
+        # The marker is what carries that, so it is said rather than left
+        # implicit in the numbering.
+        if index == 1 and len(profile.plan.steps) > 1:
+            lines.append("   Start  Do this one first — the others can wait their turn.")
+        lines.append("")
 
     lines += ["WHAT WOULD SHOW IT WORKED", ""]
     for step in profile.plan.steps:
