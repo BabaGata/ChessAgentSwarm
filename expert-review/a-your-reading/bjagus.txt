@@ -1,4 +1,4 @@
-﻿FORM A — your own reading, before you see the system's
+FORM A — your own reading, before you see the system's
 =========================================================
 
 Player: bjagus
@@ -8,19 +8,85 @@ Please answer from the games alone. Do not open the report yet — it is in a
 separate folder for that reason, and the value of this whole exercise depends
 on these answers being yours rather than a reaction to the system's.
 
-THREE mistakes, ranked, because the report now names three and the comparison
-is only fair if both sides get the same number of slots. If only one or two
-stand out, leave the rest blank — a padded third is worse than an empty one.
+PART 1 — GAME BY GAME. This is the part that matters most.
+
+Write down every mistake you notice, one line each, in this shape:
+
+    <game number>. <what went wrong> move <number>
+
+    4. Loosing pawn move 16.
+    4. Instant moves.
+    7. Knight fork move 23.
+
+**Always give the move number where you can.** It is the difference between a
+note that can be checked against a specific position and one that can only be
+compared against a whole-game rate. Measured on these very notes: the 20 that
+carried a move number produced 20 checkable comparisons, the 10 that did not
+produced none.
+
+Nothing here needs ranking, and there is no target number. A game with nothing
+worth writing down is a real answer — leave it out.
+
+This part exists because it separates two things the ranked list below cannot.
+*Did the system see this mistake at all?* is a different question from *did it
+choose to tell the player about it?*, and only the first is about whether the
+analysis works.
 
 
 0. How many of the 54 games did you actually look at?
 
-   [    ]  games
+   [ 20 ]  games      (about 2h30 of reading — recorded because it is the
+                       binding cost of this whole exercise, see E31)
 
-   Answered first, and honestly. A reading of the first twenty is a perfectly
-   good reading of the first twenty, and it is a different measurement from a
-   reading of all of them. Recording which one this is costs you a number and
-   saves the result from being over-read.
+
+   Notes, games 1-20. Move numbers appear from game 8 onward.
+
+1. Not seeing potential fork motif threat.
+2. Not seeing pawn taking tactic.
+3. Giving up good bishop for a bad knight.
+4. Loosing pieces.
+4. Not seing piece winning motif.
+4. Instant moves.
+5. Not seing defense exchange motif.
+5. Instant moves.
+6. Placing queen on the attacked square.
+6. Instant moves.
+7. Loosing pawn.
+7. Instant moves.
+7. Overseeing king attack tactic.
+8. Giving up good piece for a bad one.
+8. Loosing pawn.
+8. Loosing queen for knight move 31.
+9. Loosing pawn move 17.
+9. Knight fork move 23.
+11. Loosing pawn move 16.
+11. Making isolated pawn move 26.
+11. Not taking material move 36.
+11. Not taking material move 38.
+12. Loosing pawn move 11.
+12. Making isolated pawn move 14.
+12. Missing pawn structure worsening motif move 17.
+12. Loosing material move 39.
+13. Missing pawn structure worsening motif for the opponnent move 14.
+13. Loosing pawn move 14.
+14. Missing knight fork motif move 9.
+14. Loosing pawn move 43.
+15. Worsening pawn structure.
+16. Placing queen on the attacked square move 15.
+18. Not defending properly move 28.
+19. Loosing piece move 21.
+19. Loosing piece move 41.
+20. Being greedy over material instead of defending the king move 24.
+
+
+
+
+PART 2 — the ranked three, from what you wrote above.
+
+Filled in **after** part 1, not before, so the ranking is a summary of what you
+actually saw rather than an impression you then went looking for. If only one
+or two stand out, leave the rest blank — a padded third is worse than an empty
+one.
 
 
 1. What is this player's MAIN weakness?

@@ -1,0 +1,56 @@
+ game   move  reviewer noted                                  swarm                 verdict
+--------------------------------------------------------------------------------------------------------
+    1         Not seeing potential fork motif threat.         -                     NO MOVE GIVEN
+    2         Not seeing pawn taking tactic.                  -                     NO MOVE GIVEN
+    3         Giving up good bishop for a bad knight.         -                     NO DETECTOR
+    4         Loosing pieces.                                 -                     NO MOVE GIVEN
+    4         Not seing piece winning motif.                  -                     NO MOVE GIVEN
+    4         Instant moves.                                  19 instant            MATCHED
+    5         Not seing defense exchange motif.               -                     NO MOVE GIVEN
+    5         Instant moves.                                  20 instant            MATCHED
+    6         Placing queen on the attacked square.           -                     NO MOVE GIVEN
+    6         Instant moves.                                  16 instant            MATCHED
+    7         Loosing pawn.                                   -                     NO MOVE GIVEN
+    7         Instant moves.                                  16 instant            MATCHED
+    7         Overseeing king attack tactic.                  -                     NO MOVE GIVEN
+    8         Giving up good piece for a bad one.             -                     NO DETECTOR
+    8         Loosing pawn.                                   -                     NO MOVE GIVEN
+    8     31  Loosing queen for knight move 31.               error only            saw, did not name
+    9     17  Loosing pawn move 17.                           nothing               MISSED
+    9     23  Knight fork move 23.                            discoveredAttack      saw, did not name
+   11     16  Loosing pawn move 16.                           error only            saw, did not name
+   11     26  Making isolated pawn move 26.                   nothing               MISSED
+   11     36  Not taking material move 36.                    hangingPiece,hanging  NAMED
+   11     38  Not taking material move 38.                    hangingPiece,hanging  NAMED
+   12     11  Loosing pawn move 11.                           nothing               MISSED
+   12     14  Making isolated pawn move 14.                   nothing               MISSED
+   12     17  Missing pawn structure worsening motif move 17  error only            saw, did not name
+   12     39  Loosing material move 39.                       error only            saw, did not name
+   13     14  Missing pawn structure worsening motif for the  error only            saw, did not name
+   13     14  Loosing pawn move 14.                           error only            saw, did not name
+   14      9  Missing knight fork motif move 9.               error only            saw, did not name
+   14     43  Loosing pawn move 43.                           error only            saw, did not name
+   15         Worsening pawn structure.                       -                     NO MOVE GIVEN
+   16     15  Placing queen on the attacked square move 15.   error only            saw, did not name
+   18     28  Not defending properly move 28.                 error only            saw, did not name
+   19     21  Loosing piece move 21.                          error only            saw, did not name
+   19     41  Loosing piece move 41.                          error only            saw, did not name
+   20     24  Being greedy over material instead of defendin  error only            saw, did not name
+
+========================================================================================================
+MOVE-LEVEL NOTES — the ones that can actually be checked
+  notes carrying a move number        20
+  the swarm flagged that same move    16  (80%)   <- DETECTION
+    ...and named the same pattern      2  (10%)   <- NAMING
+    ...but could not name it          14  (70%)
+  the swarm saw nothing there          4  (20%)
+
+PAWN MATERIAL — E30's exclusion, seen at move level
+  notes mentioning a pawn             9
+  of those, unnamed by the swarm      9
+
+EVERYTHING ELSE
+  game-level 'instant moves' notes     4 confirmed, 0 not
+  no detector exists for              2
+  game-level, no move to check         10
+  wording not mapped                  0

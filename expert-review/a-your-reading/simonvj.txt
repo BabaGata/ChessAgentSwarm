@@ -8,9 +8,29 @@ Please answer from the games alone. Do not open the report yet — it is in a
 separate folder for that reason, and the value of this whole exercise depends
 on these answers being yours rather than a reaction to the system's.
 
-THREE mistakes, ranked, because the report now names three and the comparison
-is only fair if both sides get the same number of slots. If only one or two
-stand out, leave the rest blank — a padded third is worse than an empty one.
+PART 1 — GAME BY GAME. This is the part that matters most.
+
+Write down every mistake you notice, one line each, in this shape:
+
+    <game number>. <what went wrong> move <number>
+
+    4. Loosing pawn move 16.
+    4. Instant moves.
+    7. Knight fork move 23.
+
+**Always give the move number where you can.** It is the difference between a
+note that can be checked against a specific position and one that can only be
+compared against a whole-game rate. Measured on the first player who did this:
+the notes with a move number produced 20 checkable comparisons, the ones
+without produced none.
+
+Nothing here needs ranking, and there is no target number. A game with nothing
+worth writing down is a real answer — leave it out.
+
+This part exists because it separates two things the ranked list below cannot.
+*Did the system see this mistake at all?* is a different question from *did it
+choose to tell the player about it?*, and only the first is about whether the
+analysis works.
 
 
 0. How many of the 45 games did you actually look at?
@@ -21,6 +41,19 @@ stand out, leave the rest blank — a padded third is worse than an empty one.
    good reading of the first twenty, and it is a different measurement from a
    reading of all of them. Recording which one this is costs you a number and
    saves the result from being over-read.
+
+
+   (your game-by-game notes here)
+
+
+
+
+PART 2 — the ranked three, from what you wrote above.
+
+Filled in **after** part 1, not before, so the ranking is a summary of what you
+actually saw rather than an impression you then went looking for. If only one
+or two stand out, leave the rest blank — a padded third is worse than an empty
+one.
 
 
 1. What is this player's MAIN weakness?
