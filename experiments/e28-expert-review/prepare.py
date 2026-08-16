@@ -52,19 +52,48 @@ Please answer from the games alone. Do not open the report yet — it is in a
 separate folder for that reason, and the value of this whole exercise depends
 on these answers being yours rather than a reaction to the system's.
 
+THREE mistakes, ranked, because the report now names three and the comparison
+is only fair if both sides get the same number of slots. If only one or two
+stand out, leave the rest blank — a padded third is worse than an empty one.
+
+
+0. How many of the {games} games did you actually look at?
+
+   [    ]  games
+
+   Answered first, and honestly. A reading of the first twenty is a perfectly
+   good reading of the first twenty, and it is a different measurement from a
+   reading of all of them. Recording which one this is costs you a number and
+   saves the result from being over-read.
+
+
 1. What is this player's MAIN weakness?
 
 
 
-2. What is their second weakness, if one stands out?
+2. Second?
 
 
 
-3. What one thing would you tell them to work on first?
+3. Third?
 
 
 
-4. Roughly how strong do you think they are?
+4. What one thing would you tell them to work on first?
+
+
+
+5. Roughly how strong do you think they are?
+
+
+
+6. Anything you counted here that a computer might define differently?
+
+   Optional, and unusually useful. "Hanging pieces" might mean undefended
+   pieces only, or pieces and pawns together; "misses tactics" might or might
+   not include the ones they had no time for. Where your definition is wider
+   or narrower than the obvious one, saying so turns a disagreement into a
+   measurable question instead of a difference of opinion.
 
 
 """

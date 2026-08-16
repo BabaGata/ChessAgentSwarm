@@ -43,6 +43,7 @@ An experiment with no consequence was not worth running.
 | E26 | do the findings survive a much deeper engine? | done — **90 % of errors, 97 % of blunders**, implied rate ratio 1.05; and the suggested move still beats the played one **169/169** | [[experiments.e26-depth-robustness]] |
 | E27 | does any of it hold on players it was never built on? | done — **the diagnosis yes** (86 % vs 84 % matched on corpus size, p = 0.46), **the blitz rating no** (MAE 150 against 157 for guessing) | [[experiments.e27-held-out]] |
 | E29 | can the blitz line be repaired without fitting to the test set? | done — **yes**: reliability 0.641 gives a 1.56× correction, held-out data independently demands 1.48×, **MAE 149 → 129**. Rapid refuses it, which is the control | [[experiments.e29-attenuation]] |
+| E30 | does "hanging piece" mean pieces, or pieces and pawns? | done — **the definition explains what the reviewer saw and rescues neither claim**: with pawns bernes hands over free material on **19.6 % of errors** (unmissable to a human) but the population does it on 17.6 %, so the deviation *shrinks* 1.40× → 1.11×. `HANGING_MIN_VALUE` stays at 3 | [[experiments.e30-hanging-definition]] |
 
 ## Conventions
 

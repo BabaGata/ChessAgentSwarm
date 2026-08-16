@@ -1,25 +1,73 @@
-﻿FORM A — your own reading, before you see the system's
+FORM A — your own reading, before you see the system's
 =========================================================
 
 Player: bernes
 Games:  53 games, in games/bernes.pgn
 
-Please answer from the games alone. Do not open the report yet — it is in a
-separate folder for that reason, and the value of this whole exercise depends
-on these answers being yours rather than a reaction to the system's.
+
+FIRST PASS — kept, not overwritten
+-----------------------------------
+Recorded 2026-08-15. Roughly the first 20 of 53 games, then the form was
+checked against what that subset showed. It is the only naive reading this
+review has and it is preserved for that reason, not because it was complete.
+It already changed the system: ADR-0010 and L-039 both came out of it.
+
+  1. Main weakness    Undefended pieces.
+  2. Second           Missing hanging pieces.
+  3. Work on first    Check if you have hanging pieces and if the opponent
+                      can attack them.
+  4. Strength         1650
+
+  Definition note, given afterwards: "hanging pieces" here counted PAWNS AND
+  PIECES TOGETHER. The system's detector counts only pieces worth a knight or
+  more (HANGING_MIN_VALUE = 3), so the two were measuring different things.
+  Being chased down separately — see docs/notes/evaluation.expert-review.md.
+
+
+SECOND PASS — all 53 games
+---------------------------
+NOT a naive reading, and it must not be reported as one. By the time this is
+filled in you have seen the system's report for bernes, its numbers, and an
+analysis of why it said what it did. It is worth doing because a full reading
+beats a partial one on the facts of the games; it is worth nothing as a test
+of whether you and the system agree independently. That test has been run
+once, on the first pass above, and cannot be run again on this player.
+
+For the other eleven, the naive test is still intact. Fill their Form A
+before opening their report.
+
+
+0. How many of the 53 games did you actually look at?
+
+   [    ]  games
+
 
 1. What is this player's MAIN weakness?
 
 
 
-2. What is their second weakness, if one stands out?
+2. Second?
 
 
 
-3. What one thing would you tell them to work on first?
+3. Third?
 
 
 
-4. Roughly how strong do you think they are?
+4. What one thing would you tell them to work on first?
+
+
+
+5. Roughly how strong do you think they are?
+
+
+
+6. Anything you counted here that a computer might define differently?
+
+   Optional, and unusually useful. "Hanging pieces" might mean undefended
+   pieces only, or pieces and pawns together; "misses tactics" might or might
+   not include the ones they had no time for. Where your definition is wider
+   or narrower than the obvious one, saying so turns a disagreement into a
+   measurable question instead of a difference of opinion.
 
 

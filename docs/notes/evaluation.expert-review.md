@@ -110,13 +110,47 @@ Each rated 1–5, with the anchors written out so two reviewers would mean the s
 
 Plus, unrated and most valuable: **"what did the system miss?"**
 
+### Form A amendments, 2026-08-15 — after the first player
+
+Three changes, all forced by what `bernes` exposed. The eleven unanswered forms were regenerated;
+`bernes`'s answers were **preserved in place** as a first pass, since they are the only naive reading
+this review has.
+
+- **Three ranked slots instead of two.** The report now names three
+  ([[decisions.0010-three-priorities-and-the-cost-pool]]) and a comparison where one side gets two
+  slots and the other three is not a fair test of agreement. Padding is explicitly discouraged: *"a
+  padded third is worse than an empty one."*
+- **"How many of the N games did you actually look at?"**, asked *first*. The reviewer read roughly
+  20 of 53 and the form had no way to record it, so the answers read as a full-corpus judgement for a
+  day. A partial reading is a valid measurement of a different thing, and which one it is has to be
+  on the form.
+- **"Anything you counted here that a computer might define differently?"** One sentence from the
+  reviewer — *"I included pawns and pieces together"* — turned an unresolvable difference of opinion
+  into [[experiments.e30-hanging-definition]], an experiment with a number at the end. That is the
+  highest return per word on the form, so it is now asked of every player.
+
+**The third slot loosens the agreement criterion, and that is not waved away.** More slots means more
+chances for the system's top finding to appear somewhere in them, so scoring against three would be a
+weaker test than the one registered on 2026-08-10 against two. Amending an instrument after seeing a
+result is exactly how a pre-registration is quietly spent.
+
+So agreement is scored **both ways, and the pre-registered one is the headline**:
+
+| | |
+|---|---|
+| **primary (pre-registered, unchanged)** | the system's top finding appears in the reviewer's slots **1–2**. Thresholds as fixed: ≥ 7/12, and below 40 % the diagnosis does not match expert judgement |
+| **secondary (reported alongside)** | the same, allowing slot 3. Strictly more permissive, so it can only ever look better — and is therefore never quoted on its own |
+
+The thresholds themselves are untouched. If the two figures disagree, that gap is itself worth
+reporting: it measures how often the system's answer was the reviewer's *third* thought.
+
 ## Pre-registered thresholds
 
 Fixed now. The review **passes**, for a thesis claiming a working diagnostic system, if:
 
 | | threshold |
 |---|---|
-| **agreement (criterion 2)** | the system's top finding appears in the reviewer's free-text A answer for **≥ 60 %** of players (7 of 12) |
+| **agreement (criterion 2)** | the system's top finding appears in the reviewer's free-text A answer for **≥ 60 %** of players (7 of 12). Scored over slots **1–2**, which is what this instrument had when the threshold was fixed; see the Form A amendments for why the later third slot is reported separately rather than folded in |
 | **correctness** | median ≥ **4**, and **no player** scores 1 |
 | **priority** | median ≥ **3** |
 | **specificity (criterion 3)** | median ≥ **3** |
@@ -151,16 +185,36 @@ The two halves failed for entirely different reasons, and separating them is the
    discarded. Addressed by [[decisions.0010-three-priorities-and-the-cost-pool]]: it now appears as a
    cost-ranked priority, labelled as ordinary for the level. It is ranked **second**, behind the
    peer-relative finding — so the disagreement about *order* stands even after the fix.
-2. **The reviewer's #2 the system contradicts.** `missed_motif.hangingPiece` measured **3 misses in
-   77 chances — 3.9 %, against 6.9 % for peers**: this player converts free pieces slightly *better*
-   than their level. Not a gating problem and not fixed. Either the reviewer is counting something
-   the detector excludes — captures worth less than a minor piece, positions where taking is not the
-   engine's first choice, or recaptures that leave the piece attacked — or the impression is wrong.
-   **Unresolved, and it is the more interesting of the two.**
+2. **The reviewer's #2 the system contradicts, and still does.** `missed_motif.hangingPiece` measured
+   **3 misses in 77 chances — 3.9 %**, at or below the population: this player converts free pieces
+   slightly *better* than their level. The reviewer then named the likely cause — they had counted
+   **pawns and pieces together**, where the detector counts pieces worth a knight or more — which
+   made it measurable. [[experiments.e30-hanging-definition]] ran both definitions across all twelve
+   players: under the reviewer's own wider definition bernes sits at **5.5 % against a population
+   median of 6.4 %**, i.e. *further* below their level, not above it. **The contradiction survives
+   the reviewer's own definition and is now a measured disagreement rather than an open question.**
 
 The honest reading of a single case: a strong club player leads with what is *expensive and
 frequent*, and the system led with what is *unusual*. Those are different questions, and until this
 review only one of them could reach the page.
+
+E30 put a number on how far apart those questions are here. Counting pawns as the reviewer did,
+bernes hands over free material on **19.6 % of their errors — about one in five**. Scanning twenty
+games that is unmissable, and naming it first is a correct reading of the board. The population does
+it on 17.6 %, so the swarm called it ordinary and said nothing. **Both measurements are right.** The
+reviewer was reading absolute frequency and the system was ranking relative frequency.
+
+### The reviewer read ~20 of the 53 games
+
+Stated afterwards, and it changes how these answers should be weighed rather than discrediting them.
+A reading of the first twenty is enough to see a one-in-five pattern — which is exactly what was
+reported — and is thin ground for *ranking* three weaknesses against each other. The Form A
+instrument did not ask, so this went unrecorded until it came up in conversation; it now asks first,
+before anything else.
+
+A second pass over all 53 games is available and is **not** a naive reading — by then the reviewer
+has seen the report and the analysis of it. It is worth doing on the facts of the games and is worth
+nothing as an independence test. That test has been run once on this player and cannot be run again.
 
 ### The sample's "silent" stratum no longer exists
 

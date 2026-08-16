@@ -1,0 +1,48 @@
+
+==============================================================================
+missed_motif.hangingPiece.own
+==============================================================================
+player                                 pieces only            pieces + pawns
+                             inst/opps        rate     inst/opps        rate
+------------------------------------------------------------------------------
+Crossfire1983                    6/102        5.9%        20/199       10.1%
+Hirsican                          6/85        7.1%        10/125        8.0%
+Maximilian_Honigtopf              6/41       14.6%          8/63       12.7%
+Odin5306                          3/87        3.4%         7/161        4.3%
+Sheriwoyama                       5/67        7.5%         8/130        6.2%
+bernes                            3/77        3.9%         7/127        5.5% <-- reviewer's player
+bjagus                            3/94        3.2%         6/135        4.4%
+cademan                           9/95        9.5%        17/138       12.3%
+goydorak                          3/97        3.1%        14/178        7.9%
+maikel5                           2/61        3.3%         8/120        6.7%
+maxhayastan                       1/71        1.4%         6/135        4.4%
+simonvj                           0/58        0.0%         5/109        4.6%
+------------------------------------------------------------------------------
+population median                             3.7%                      6.4%
+
+  bernes against the population, pieces only    : 3.9% vs 3.7%  (1.06x)
+  bernes against the population, pieces + pawns : 5.5% vs 6.4%  (0.86x)
+
+==============================================================================
+allowed_motif.hangingPiece.own
+==============================================================================
+player                                 pieces only            pieces + pawns
+                             inst/opps        rate     inst/opps        rate
+------------------------------------------------------------------------------
+Crossfire1983                   21/225        9.3%        39/225       17.3%
+Hirsican                        16/226        7.1%        41/226       18.1%
+Maximilian_Honigtopf              8/97        8.2%         24/97       24.7%
+Odin5306                         5/122        4.1%        11/122        9.0%
+Sheriwoyama                      4/130        3.1%        18/130       13.8%
+bernes                          12/112       10.7%        22/112       19.6% <-- reviewer's player
+bjagus                          13/184        7.1%        27/184       14.7%
+cademan                         23/206       11.2%        37/206       18.0%
+goydorak                        23/192       12.0%        37/192       19.3%
+maikel5                           5/75        6.7%         11/75       14.7%
+maxhayastan                      8/129        6.2%        19/129       14.7%
+simonvj                          12/99       12.1%         20/99       20.2%
+------------------------------------------------------------------------------
+population median                             7.7%                     17.6%
+
+  bernes against the population, pieces only    : 10.7% vs 7.7%  (1.40x)
+  bernes against the population, pieces + pawns : 19.6% vs 17.6%  (1.11x)
