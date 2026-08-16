@@ -45,6 +45,35 @@ a stated defect in [[experiments.e15-expected-gain]] — raw cost must become pe
 
 ---
 
+### L-040 — A conditional rate cannot tell "bad at it" from "in it constantly"
+**Date:** 2026-08-15 · **Cycle / mission step:** M6 · **Class:** technique
+**Context:** The author challenged a filter added hours earlier that excluded any claim whose rate
+sat below the population's ([[decisions.0010-three-priorities-and-the-cost-pool]], amendment).
+**Observation:** Every rate in this project divides by **opportunities**, which is deliberate and
+correct — a per-move denominator would mostly measure how tactical the opponent made the game. The
+consequence went unnoticed for the whole project: such a rate is **conditional**, so it answers "how
+badly do you play once you are in this?" and is structurally silent about "how often are you in it?".
+Filtering on it discards the second question entirely. Measured across twelve players, **198 of 327
+claim-pairs sat below the peer rate and 21 of those cost more than peers anyway** — six in a player's
+top five by cost, two of them a player's single largest number. One player handled time pressure
+*better* than their level and met it two-and-a-half times as often, at 15.1 win-probability points a
+game against the population's 8.0. The filter deleted it for being 0.7 points of rate below the
+median. The blunt fix — rank it in — would have been almost as bad, because the ordinary wording then
+prescribes practising the half the player is already good at.
+**Lesson:** Whenever a metric has a denominator chosen for good reasons, **ask what that denominator
+divides away**, and check whether the discarded quantity is itself the finding. `cost = rate ×
+exposure × severity`; a system measuring only the first factor will confidently rank the wrong thing
+and give advice pointing at the wrong half. The remedy is not to change the rate — it is right — but
+to carry the exposure alongside it and let the two disagree out loud, because a claim where they
+disagree is more informative than one where they agree. Related to L-039: that was a gate admitting
+only one *kind* of claim, this is a metric admitting only one *factor* of one.
+**Applied to:** `Measurement.opportunities` / `peer_opportunities_per_game` / `exposure_per_game` /
+`exposure_ratio` / `driven_by_exposure` (schema v14); `PeerReference.opportunities_per_game` and its
+mix-matched `SectionContext` accessor; the arbiter's eligibility rule; exposure-specific wording and
+plan actions in the explainer and planner.
+
+---
+
 ### L-039 — A correct filter can still be the wrong gate, if it is the only door
 **Date:** 2026-08-15 · **Cycle / mission step:** M6 · **Class:** technique
 **Context:** The first expert-review disagreement, on player `bernes`

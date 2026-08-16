@@ -251,6 +251,11 @@ def _assess(key: str, counts: _Counts, context: SectionContext) -> Finding | Non
             baseline_rate=round(peer_rate, 4),
             peer_rate=round(peer_rate, 4),
             ci95=stats.ci95,
+            # Recorded even though this section can never price itself, so the
+            # field means "not measured" nowhere and "no cost to compare"
+            # everywhere it is absent.
+            opportunities=tally.opportunities,
+            peer_opportunities_per_game=context.peer_opportunities_per_game(key),
         ),
         provenance=context.provenance,
         # Conceding a structure deliberately -- for the bishop pair, for open

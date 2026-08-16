@@ -136,6 +136,18 @@ class SectionContext:
 
         return self._mixed(at)
 
+    def peer_opportunities_per_game(self, claim_key: str) -> float | None:
+        """How much of this condition a player at their level meets, per game.
+
+        Mix-matched like every other peer figure, so a blitz-heavy player is
+        compared against how often a blitz-heavy peer meets it.
+        """
+        return self._mixed(
+            lambda speed: self.peers.opportunities_per_game(
+                self.band, speed, claim_key, excluding=self.corpus.username
+            )
+        )
+
     def peer_cost_per_game(self, claim_key: str) -> float | None:
         """What this claim costs the population per game, this player excluded.
 

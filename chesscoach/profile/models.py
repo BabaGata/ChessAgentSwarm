@@ -31,7 +31,7 @@ from enum import Enum
 # CorpusRef gains `game_ids`, so a later check knows which games are new. And
 # Plan gains `outcomes`, so a plan carries its own verdict -- a system that
 # quietly drops its failed predictions is unfalsifiable.
-SCHEMA_VERSION = 13
+SCHEMA_VERSION = 14
 
 _Z = 1.96  # 95% normal quantile, for Wilson intervals
 
@@ -186,6 +186,17 @@ class Measurement:
     # None when no reference population can price it, which is also the honest
     # state for every profile written before v11.
     peer_cost_per_game: float | None = None
+    # How much of the condition the player met at all, and how much a peer meets
+    # (schema v14). `rate` is a **conditional** quantity -- how badly you play
+    # once you are in the condition -- and on its own it cannot tell "you handle
+    # time pressure badly" from "you are in time pressure constantly".
+    #
+    # Six of twelve review players had a claim costing more than the population's
+    # while their rate sat at or below it, and in every case exposure was the
+    # cause. One met time pressure 5.4 times a game against a peer's 0.4 and
+    # handled it *better* than average once there.
+    opportunities: int | None = None
+    peer_opportunities_per_game: float | None = None
 
     def __post_init__(self) -> None:
         if not 0.0 <= self.rate <= 1.0:
@@ -218,6 +229,40 @@ class Measurement:
         if own is None or self.peer_cost_per_game is None:
             return None
         return max(0.0, own - self.peer_cost_per_game)
+
+    @property
+    def exposure_per_game(self) -> float | None:
+        """How often the player met this condition at all, per game."""
+        if self.opportunities is None or not self.games_with_data:
+            return None
+        return self.opportunities / self.games_with_data
+
+    @property
+    def exposure_ratio(self) -> float | None:
+        """How much more of the condition this player meets than a peer does."""
+        own = self.exposure_per_game
+        if own is None or not self.peer_opportunities_per_game:
+            return None
+        return own / self.peer_opportunities_per_game
+
+    @property
+    def driven_by_exposure(self) -> bool:
+        """Costly, and **not** because the player is worse at it once there.
+
+        The shape that the peer-relative rate is blind to by construction: the
+        rate is at or below the population's, so the player handles the
+        condition as well as anyone, and the claim still costs more than it
+        costs them — which can only come from meeting it more often.
+
+        The distinction is the whole of the advice. Telling someone to work on
+        their play in time pressure when they are *better* than average at it,
+        and reach it fifteen times as often, prescribes the one thing that
+        cannot help.
+        """
+        cost, peer_cost = self.cost_per_game, self.peer_cost_per_game
+        if cost is None or peer_cost is None or self.peer_rate is None:
+            return False
+        return self.rate <= self.peer_rate and cost > peer_cost
 
     @property
     def cost_per_game(self) -> float | None:

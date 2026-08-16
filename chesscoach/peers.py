@@ -157,6 +157,37 @@ class PeerReference:
         games = sum(c.games_with_data for c in contributions)
         return sum(c.cost_wp for c in contributions) / games if games else None
 
+    def opportunities_per_game(
+        self,
+        band: str,
+        time_control: str,
+        claim_key: str,
+        excluding: str | None = None,
+    ) -> float | None:
+        """How often a player at this level meets the condition at all, per game.
+
+        The denominator of every rate in this project is **opportunities**, which
+        makes each rate conditional -- how badly you play once you are in the
+        condition. That is deliberate (S1's docstring: a per-move rate would
+        mostly measure how tactical the opponents were), and it means the rate
+        alone cannot distinguish *handling something badly* from *meeting it
+        constantly*.
+
+        This is the missing half. Six of the twelve review players had a claim
+        costing more than the population's while their rate sat at or below it,
+        and exposure was the cause in every one.
+        """
+        contributions = [
+            c
+            for c in self._contributions(band, time_control, claim_key, excluding)
+            if c.games_with_data > 0
+        ]
+        if not contributions:
+            return None
+
+        games = sum(c.games_with_data for c in contributions)
+        return sum(c.opportunities for c in contributions) / games if games else None
+
     def prior_for(
         self,
         band: str,

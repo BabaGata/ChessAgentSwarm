@@ -244,6 +244,8 @@ class S2DecisionProcess:
                 # the habit costs (D5).
                 cost_wp=round(sum(o.loss_wp for o in errors), 2),
                 peer_cost_per_game=context.peer_cost_per_game(claim.key()),
+                opportunities=len(inside),
+                peer_opportunities_per_game=context.peer_opportunities_per_game(claim.key()),
             ),
             provenance=context.provenance,
             confidence=Confidence(

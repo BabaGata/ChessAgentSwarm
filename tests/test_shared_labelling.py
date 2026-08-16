@@ -41,10 +41,12 @@ PROV = Provenance(
 )
 
 
-def a_finding(subject, tier, *, cost, peer_cost, rate, peer_rate, games=10):
+def a_finding(subject, tier, *, cost, peer_cost, rate, peer_rate, games=10,
+              opportunities=None, peer_exposure=None):
+    kind = "time_pressure_error" if subject == "clock" else "allowed_motif"
     return Finding(
         section="S1",
-        claim=Claim.of(kind="allowed_motif", subject=subject),
+        claim=Claim.of(kind=kind, subject=subject),
         measurement=Measurement(
             instances=12,
             distinct_games=games,
@@ -55,6 +57,8 @@ def a_finding(subject, tier, *, cost, peer_cost, rate, peer_rate, games=10):
             ci95=(0.06, 0.18),
             cost_wp=cost * 53,
             peer_cost_per_game=peer_cost,
+            opportunities=opportunities,
+            peer_opportunities_per_game=peer_exposure,
         ),
         provenance=PROV,
         confidence=Confidence(tier=tier, replicated=True, reasons=()),
@@ -145,6 +149,56 @@ class TestOrderingIsTheFocus:
         report = a_report(a_finding("fork", **UNUSUAL), a_finding("hangingPiece", **ORDINARY))
 
         assert report.index("fork") < report.index("hanging piece")
+
+
+class TestAnExposureFinding:
+    """Costly because they meet it constantly, not because they play it badly."""
+
+    EXPOSED = dict(
+        tier=ConfidenceTier.WATCH, cost=14.8, peer_cost=8.0, rate=0.146, peer_rate=0.153,
+    )
+
+    def a_report_with_exposure(self):
+        finding = a_finding(
+            "clock", opportunities=238, peer_exposure=2.2, **self.EXPOSED
+        )
+        selection = select_priorities((), also=(finding,))
+        profile = PlayerProfile(
+            player=PlayerRef(source="lichess", username="p", band="1400-1800"),
+            corpus=CorpusRef(corpus_id="c1", n_games=53, game_ids=()),
+            findings=(finding,),
+            plan=build_plan(selection.priorities, created=date.today().isoformat()),
+        )
+        return render(profile)
+
+    def test_it_is_not_called_ordinary_for_the_level(self):
+        # SHARED_LABEL says "ordinary for your level", which is the wrong
+        # qualifier when the rate is actually BETTER than ordinary.
+        report = self.a_report_with_exposure()
+
+        assert SHARED_LABEL not in report
+        assert "Not because you play it badly" in report
+
+    def test_it_prints_the_frequency_the_advice_rests_on(self):
+        report = self.a_report_with_exposure()
+
+        assert "You meet it about 4.5 times a game" in report
+        assert "about 2.2 times for players at your level" in report
+
+    def test_it_says_which_half_to_change(self):
+        # The one instruction in the report, and the reason the whole feature
+        # exists: the ordinary wording would send this player to practise the
+        # half they are already better than their level at.
+        report = self.a_report_with_exposure()
+
+        assert "how often you get there, not what you do" in report
+
+    def test_it_still_states_the_recoverable_figure(self):
+        # Checked because the exposure branch had to be moved ahead of the
+        # positive-excess branch, and the easy mistake is to lose the number.
+        report = self.a_report_with_exposure()
+
+        assert "6.8 a game is what fixing this could get back" in report
 
 
 class TestTheHeadingMatchesTheClaim:

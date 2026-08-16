@@ -249,6 +249,8 @@ def _assess(key: str, counts: _Counts, context: SectionContext) -> Finding | Non
             peer_cost_per_game=(
                 context.peer_cost_per_game(key) if kind == EARLY_ERROR else None
             ),
+            opportunities=tally.opportunities,
+            peer_opportunities_per_game=context.peer_opportunities_per_game(key),
         ),
         provenance=context.provenance,
         # "Does not know this opening" and "knows it and went wrong" need

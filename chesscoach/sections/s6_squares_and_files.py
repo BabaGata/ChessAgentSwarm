@@ -194,6 +194,8 @@ def _assess(key: str, counts: _Counts, context: SectionContext) -> Finding | Non
             baseline_rate=round(peer_rate, 4),
             peer_rate=round(peer_rate, 4),
             ci95=stats.ci95,
+            opportunities=tally.opportunities,
+            peer_opportunities_per_game=context.peer_opportunities_per_game(key),
         ),
         provenance=context.provenance,
         # Giving up a square for something concrete is respectable; not noticing

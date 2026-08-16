@@ -142,23 +142,43 @@ class TestCostFillsEmptySlots:
 
         assert select_priorities((), also=(trivial,)).priorities == ()
 
-    def test_a_pattern_the_player_does_less_than_peers_is_never_offered(self):
-        # Caught by running all 12 review players. Sheriwoyama was handed "your
-        # play falls off when the clock is short" at **13% against 15% for
-        # players at your level** — they are better than average at it — under a
-        # heading saying it stands out, with a training step attached.
-        #
-        # Cost alone cannot filter this: that claim costs 8.6 a game and peers
-        # only 7.1, because the condition arises more often for this player, so
-        # the *excess* is positive while the *rate* is below the population. A
-        # thing you do less than your peers is not a thing to work on, whatever
-        # it totals to.
-        better_than_peers = finding(
+    def test_a_pattern_below_the_peer_rate_that_costs_no_more_is_dropped(self):
+        # Better at it than the population, and paying no more for it. There is
+        # nothing here to work on and nothing to say.
+        harmless = finding(
             "time_pressure_error", "clock", ConfidenceTier.WATCH,
-            cost=8.6, peer_cost=7.1, rate=0.13, peer_rate=0.15,
+            cost=5.0, peer_cost=7.1, rate=0.13, peer_rate=0.15,
         )
 
-        assert select_priorities((), also=(better_than_peers,)).priorities == ()
+        assert select_priorities((), also=(harmless,)).priorities == ()
+
+    def test_a_pattern_below_the_peer_rate_that_costs_MORE_is_kept(self):
+        # maikel5's largest number. 14.6% against 15.3% for peers — better than
+        # their level once in time pressure — and 14.8 a game against 8.0,
+        # because they meet it 5.4 times a game where a peer meets it 0.4.
+        #
+        # An earlier rule excluded this on the rate alone and threw away the
+        # single most expensive pattern in that player's profile.
+        exposure_driven = finding(
+            "time_pressure_error", "clock", ConfidenceTier.WATCH,
+            cost=14.8, peer_cost=8.0, rate=0.146, peer_rate=0.153,
+        )
+
+        chosen = select_priorities((), also=(exposure_driven,)).priorities
+
+        assert len(chosen) == 1
+        assert chosen[0].finding.measurement.driven_by_exposure is True
+
+    def test_cost_still_decides_the_order_among_them(self):
+        # Exposure changes what is *said*, never what outranks what.
+        dearer = finding("allowed_motif", "hangingPiece", ConfidenceTier.WATCH,
+                         cost=9.9, peer_cost=8.7, rate=0.20, peer_rate=0.15)
+        exposure_driven = finding("time_pressure_error", "clock", ConfidenceTier.WATCH,
+                                  cost=14.8, peer_cost=8.0, rate=0.146, peer_rate=0.153)
+
+        chosen = select_priorities((), also=(dearer, exposure_driven), limit=2).priorities
+
+        assert [p.finding.claim.subject for p in chosen] == ["clock", "hangingPiece"]
 
     def test_a_pattern_with_no_peer_rate_is_still_offered(self):
         # No reference for this claim is not evidence of being better than

@@ -173,6 +173,8 @@ def _assess(counts: _Counts, context: SectionContext) -> Finding | None:
             baseline_rate=round(peer_rate, 4),
             peer_rate=round(peer_rate, 4),
             ci95=stats.ci95,
+            opportunities=tally.opportunities,
+            peer_opportunities_per_game=context.peer_opportunities_per_game(_key()),
         ),
         provenance=context.provenance,
         # Inviting an attack can be a deliberate provocation or an oversight, and

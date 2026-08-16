@@ -122,14 +122,24 @@ def _worth_a_slot(finding: Finding) -> bool:
     cannot say what it cost, and filling a training slot with one would be
     inventing a priority rather than finding one.
 
-    **And the player must not already be better than their level at it.** Cost
-    alone does not imply that: a claim can cost 8.6 a game against the
-    population's 7.1 while the player's *rate* sits below theirs, because the
-    condition arises more often for this player or their errors inside it are
-    dearer. Running all twelve review players produced exactly that — one was
-    told their play falls off when the clock is short at **13 % against 15 % for
-    peers**, under a heading saying it stood out. A thing you do less than your
-    peers is not a thing to work on, whatever it totals to.
+    **And it must be worse than the player's level in at least one of the two
+    ways that matter** — a higher rate, or a higher cost.
+
+    An earlier version of this required the rate alone, on the reasoning that a
+    thing you do less than your peers is not a thing to work on. That reasoning
+    is wrong for a **conditional** rate, and measurement showed how wrong: of 327
+    (player, claim) pairs across the twelve review players, 198 sat below the
+    peer rate and **21 of those cost more than peers anyway** — six of them in a
+    player's top five by cost, two of them a player's single most expensive
+    pattern. One player met time pressure **5.4 times a game against a peer's
+    0.4** and handled it better than average once there; the rule threw away the
+    largest number in their profile.
+
+    So a below-peer rate is no longer disqualifying on its own. What it changes
+    is the **wording**, not the eligibility: `Measurement.driven_by_exposure`
+    marks these, and the report says the cost comes from meeting the condition
+    more often rather than from handling it worse. Ranking still uses cost, so
+    nothing here can outrank a claim that is dearer.
 
     A missing peer rate is not evidence of being better than average, so it
     passes; the alternative silently narrows the pool to whatever the reference
@@ -139,9 +149,11 @@ def _worth_a_slot(finding: Finding) -> bool:
     cost = measurement.cost_per_game
     if cost is None or cost < NEGLIGIBLE_COST_PER_GAME:
         return False
-    if measurement.peer_rate is not None and measurement.rate < measurement.peer_rate:
-        return False
-    return True
+    if measurement.peer_rate is None or measurement.rate >= measurement.peer_rate:
+        return True
+    # Below the peer rate: only worth a slot if it still costs more than it costs
+    # them, which can only mean exposure.
+    return measurement.driven_by_exposure
 
 
 def _cost_key(finding: Finding) -> tuple:

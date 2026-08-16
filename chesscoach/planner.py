@@ -249,6 +249,35 @@ def _action(finding: Finding) -> str:
     # cannot act on, so the readable name goes there instead.
     subject = finding.claim.subject
     name = subject_name(subject, finding.claim.kind)
+
+    # Where the cost comes from meeting the condition constantly rather than
+    # from handling it badly, the ordinary action is the wrong instruction: it
+    # sends the player to practise the half they are already better than their
+    # level at. Only some conditions are a behaviour they choose — you can play
+    # fewer instant moves, you cannot reach fewer endgames — so this covers
+    # those and falls through to the ordinary action for the rest.
+    if finding.measurement.driven_by_exposure:
+        by_exposure = {
+            "instant_move_error": (
+                "You handle a snap decision about as well as anyone at your level; you "
+                "just take far more of them. Pick a floor — five seconds on any move "
+                "that is not a recapture — and hold it even when the move looks obvious."
+            ),
+            "time_pressure_error": (
+                "You play short-of-time positions about as well as anyone at your level, "
+                "and you reach them far more often. The fix is upstream: give yourself a "
+                "clock target for move 20 and take the sound move over the best one "
+                "whenever you are behind it."
+            ),
+            "long_think_error": (
+                "Your long thinks are about as productive as anyone's at your level, and "
+                "you take many more of them. Cap the ones that are not critical: if two "
+                "candidate moves are still level after two minutes, play the safer."
+            ),
+        }
+        if finding.claim.kind in by_exposure:
+            return by_exposure[finding.claim.kind]
+
     actions = {
         "missed_motif": (
             f"Drill `{subject}` puzzles, and solve to be right rather than fast — "

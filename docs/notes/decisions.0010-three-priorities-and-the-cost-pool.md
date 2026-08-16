@@ -120,6 +120,53 @@ and here is what costs you most"* is more useful than one that says nothing, and
 silence was that it reads as *"you are fine"* — which the new wording states explicitly instead of
 implying.
 
+## Amendment, 2026-08-15 — the rate filter was too blunt, and exposure is the missing half
+
+The filter added above ("a cost-ranked filler must be at or above the peer rate") was challenged the
+same day, and the challenge was right.
+
+**Every rate in this project is conditional.** Its denominator is *opportunities*, which is
+deliberate — S1's docstring: a per-move rate would mostly measure how tactical the opponent made the
+game — and it means a rate cannot distinguish **handling something badly** from **meeting it
+constantly**. Filtering on the rate alone therefore discards the second case entirely.
+
+Measured across the twelve review players: of 327 (player, claim) pairs carrying both a peer rate and
+a peer cost, **198 sat below the peer rate, and 21 of those cost more than peers anyway**. Six ranked
+in a player's top five by cost; two were a player's single most expensive pattern.
+
+| player | claim | rate | peers | per game | peers | cost | peers |
+|---|---|--:|--:|--:|--:|--:|--:|
+| maikel5 | time pressure | 14.6 % | 15.3 % | **5.4** | 2.2 | **15.1** | 8.0 |
+| bjagus | instant moves | 9.4 % | 9.4 % | 15.8 | 9.2 | 29.6 | 27.4 |
+| goydorak | endgames | 7.0 % | 9.9 % | 8.7 | 5.3 | 15.0 | 11.2 |
+| simonvj | instant moves | 6.2 % | 7.7 % | 12.8 | 9.2 | 15.5 | 14.9 |
+
+`maikel5` settles it. They handle time pressure **better than their level** and reach it about
+two-and-a-half times as often, so it costs them 15.1 a game against the population's 8.0 — the
+largest number in their profile, discarded by a rule that read one of the two columns.
+
+**But plain inclusion would have prescribed the wrong thing.** `time_pressure_error.clock` means
+*error rate given time pressure*, so ranking it in and printing the ordinary wording tells maikel5 to
+work on their play in time pressure — the one half they are already better than average at.
+
+So `Measurement` gains `opportunities` and `peer_opportunities_per_game` (schema v14) and the derived
+`exposure_per_game`, `exposure_ratio` and `driven_by_exposure`. A below-peer-rate claim is eligible
+**only** when it still costs more than the population's, which can only come from exposure; it is
+then labelled *"Not because you play it badly — because you are in it so often"*, prints the
+frequency beside the rate it contradicts, and gets an action aimed at exposure where the condition is
+a behaviour the player controls (instant moves, time pressure, long thinks) rather than one the game
+hands them (endgames). Ranking is unchanged: cost decides, so nothing here can outrank a dearer
+claim.
+
+**A correction worth recording.** A first pass measured maikel5's exposure ratio at **15×**, from a
+rapid-only comparison against a blitz-mixed player. The production path mix-matches per speed like
+every other peer figure and gives **2.5×**. Same direction, very different magnitude — and the wrong
+number came from a scratch script that skipped the standardisation the real code does (I-03, E19).
+
+**Cost of the amendment.** Silence stays at 0/12 and `time_pressure_error.clock` rises from 3/12 to
+4/12 named, which is the degeneracy figure moving the wrong way — still well inside E17's 70 %
+failure mode, and worth watching if the cost pool grows further.
+
 ## Consequences
 
 **Easier.** The report can now name a pattern that is expensive and ordinary, which is the only

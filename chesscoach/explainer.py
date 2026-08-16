@@ -70,6 +70,25 @@ SHARED_LABEL = "Ordinary for your level, and still what these mistakes cost you 
 # the page on cost, so claiming otherwise would invent a diagnosis.
 COSTLY_HEADING = "WHAT COSTS YOU MOST"
 
+# For a claim that is expensive because the player meets the condition far more
+# often than their level, while handling it as well or better once there. Said
+# instead of SHARED_LABEL, because "ordinary for your level" is the wrong
+# qualifier when the rate is actually better than ordinary.
+EXPOSURE_LABEL = "Not because you play it badly — because you are in it so often."
+
+
+def _times(count: float | None) -> str:
+    """A frequency a reader can picture, rather than a rate they must convert."""
+    if count is None:
+        return "—"
+    if count >= 10:
+        return f"about {count:.0f} times"
+    if count >= 1.5:
+        return f"about {count:.1f} times"
+    if count >= 0.75:
+        return "about once"
+    return f"about {count:.1f} times"
+
 
 def is_shared(finding: Finding) -> bool:
     """Did this reach the plan on cost rather than on being unusual?
@@ -297,7 +316,9 @@ def _finding(index: int, finding: Finding, probes: tuple[ProbeRecord, ...]) -> l
     measurement = finding.measurement
     lines = [f"{index}. {statement(finding)}", ""]
 
-    if is_shared(finding):
+    if measurement.driven_by_exposure:
+        lines += [f"   {EXPOSURE_LABEL}", ""]
+    elif is_shared(finding):
         # Said before the numbers, not after, because a reader who meets "10.7%
         # against 8.3%" first has already concluded they are unusual by the time
         # any qualifier arrives. E25 condition 2: a population fact must not be
@@ -315,12 +336,39 @@ def _finding(index: int, finding: Finding, probes: tuple[ProbeRecord, ...]) -> l
         f"   Seen in     {measurement.distinct_games} of {measurement.games_with_data} games"
     )
 
+    # Where exposure is what makes this expensive, it is the number the advice
+    # rests on and it goes next to the rate it contradicts.
+    exposure = measurement.exposure_per_game
+    if measurement.driven_by_exposure and exposure is not None:
+        peer_exposure = measurement.peer_opportunities_per_game
+        lines.append(
+            f"   You meet it {_times(exposure)} a game, against "
+            f"{_times(peer_exposure)} for players at your level."
+        )
+
     # The line that answers "why should I care?", where it can be answered.
     cost = measurement.cost_per_game
     excess = measurement.excess_cost_per_game
     if cost is not None and cost >= NEGLIGIBLE_COST_PER_GAME:
         lines.append(f"   Costing you about {cost:.1f} points of win probability a game.")
-        if excess is not None and measurement.peer_cost_per_game is not None and excess > 0:
+        if measurement.driven_by_exposure:
+            # Checked **first**, and it has to be: an exposure finding is one
+            # where cost exceeds the peer cost, so the positive-excess branch
+            # below would always claim it and print the ordinary wording. The
+            # recoverable figure is still true and still shown; what it cannot
+            # say on its own is *which half to change*, and this player is
+            # already better than their level at the half the ordinary advice
+            # would send them to practise.
+            lines.append(
+                f"   Players at your level lose about "
+                f"{measurement.peer_cost_per_game:.1f} to the same thing, so roughly"
+            )
+            lines.append(f"   {excess:.1f} a game is what fixing this could get back —")
+            lines.append(
+                "   and what to change is how often you get there, not what you do"
+            )
+            lines.append("   once you are there.")
+        elif excess is not None and measurement.peer_cost_per_game is not None and excess > 0:
             # The honest ceiling is the *excess*, not the whole cost. Playing
             # this perfectly is not on offer; playing it the way players at the
             # same level do is, so that difference is what a plan can promise.
@@ -405,7 +453,9 @@ def _plan_section(profile: PlayerProfile) -> list[str]:
     for index, step in enumerate(profile.plan.steps, start=1):
         lines += [f"{index}. {step.action}", f"   Why    {step.why}"]
         finding = reported.get(step.finding_id)
-        if finding is not None and is_shared(finding):
+        if finding is not None and finding.measurement.driven_by_exposure:
+            lines.append(f"   Note   {EXPOSURE_LABEL}")
+        elif finding is not None and is_shared(finding):
             lines.append(f"   Note   {SHARED_LABEL}")
         # The ordering is the whole answer to "why not just list everything":
         # three things with a stated first is a plan, three in a row is a list.

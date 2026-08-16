@@ -5,11 +5,16 @@ WHAT STANDS OUT
 
 1. Your play falls off when the clock is short.
 
+   Not because you play it badly — because you are in it so often.
+
    How often   15% of the time, against 15% for players at your level
    Seen in     13 of 43 games
+   You meet it about 5.4 times a game, against about 2.2 times for players at your level.
    Costing you about 15.1 points of win probability a game.
    Players at your level lose about 8.0 to the same thing, so roughly
-   7.1 a game is what fixing this could get back.
+   7.1 a game is what fixing this could get back —
+   and what to change is how often you get there, not what you do
+   once you are there.
    For example game EGOMa6lY, move 56, you played f6f3 (e5e6 was better)
    For example game e7cTUscH, move 32, you played h7h6 (g7f6 was better)
    For example game yKHBrF0e, move 16, you played a5b3 (a5c4 was better)
@@ -42,8 +47,9 @@ WHAT STANDS OUT
 
 WHAT TO DO
 
-1. Spend less time in the opening so that the clock is not deciding your moves later.
+1. You play short-of-time positions about as well as anyone at your level, and you reach them far more often. The fix is upstream: give yourself a clock target for move 20 and take the sound move over the best one whenever you are behind it.
    Why    seen in 13 of 43 games, at 14.6% against 15.3% for peers at your level
+   Note   Not because you play it badly — because you are in it so often.
    Start  Do this one first — the others can wait their turn.
 
 2. Study rook-and-minor endgames — start with the basic winning and drawing methods rather than with studies, and play out the positions you got wrong.
