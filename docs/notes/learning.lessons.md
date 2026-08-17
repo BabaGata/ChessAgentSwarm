@@ -45,6 +45,34 @@ a stated defect in [[experiments.e15-expected-gain]] — raw cost must become pe
 
 ---
 
+### L-041 — A measurement harness needs its own null test, or it will confirm whatever it omits
+**Date:** 2026-08-16 · **Cycle / mission step:** M6 · **Class:** process
+**Context:** Three experiments in a row (E31, E32, E33) reported a "naming" agreement figure of
+0–10 % and drew conclusions from it.
+**Observation:** The figure was wrong by roughly **3×**. S1 measures two directions —
+`missed_motif` from the player's own best move, `allowed_motif` from the **opponent's best reply** —
+and `compare.py` only ever indexed the first. Every reviewer note of the form *"loosing a pawn"*,
+which is the allowed direction and most of what a reviewer actually writes, was scored unnamed **by
+construction**. The code even carried a comment claiming both directions were included. Three
+downstream conclusions followed from it and two were wrong: E32's *"the naming gap was never the
+vocabulary"*, and E33's *"naming is flat across every threshold"* — corrected, naming rises 28 % →
+42 % as the floor drops, which reverses the recommendation. Nothing in the test suite could catch
+this: the harness lives in `experiments/`, has no tests, and its output is a plausible-looking
+percentage either way. **It was found only because a follow-up question — "what can increase
+naming?" — required a breakdown, and the breakdown disagreed with the headline.**
+**Lesson:** A harness that scores agreement will happily score *whatever it happens to look at*, and
+a low number is the most dangerous possible result because it invites a satisfying story about the
+system being limited. Before believing an agreement figure, **run the null test: feed it a case it
+must score as a match**, and check the denominator's definition against the thing being measured, not
+against the code that measures it. Where a metric has two directions, assert both are exercised. A
+disagreement between a headline and its own breakdown is the cheapest available check and should be
+run *before* publishing the headline, not after someone asks a follow-up.
+**Applied to:** both directions indexed in `experiments/e31-move-level-agreement/compare.py` and
+`e33-error-threshold/run.py`; corrections written into E31, E32 and E33 in place rather than
+silently; and the four-lever naming diagnosis that the corrected breakdown made possible.
+
+---
+
 ### L-040 — A conditional rate cannot tell "bad at it" from "in it constantly"
 **Date:** 2026-08-15 · **Cycle / mission step:** M6 · **Class:** technique
 **Context:** The author challenged a filter added hours earlier that excluded any claim whose rate

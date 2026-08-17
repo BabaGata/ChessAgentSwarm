@@ -49,6 +49,23 @@ a specific ply**, against 3 data points from a ranked list.
 the mistake, could not name it" into "missed", which is the difference between a broken analysis core
 and a thin vocabulary. They need opposite fixes and only one of them is a real problem.
 
+## Correction, 2026-08-16 — every naming figure in this note was ~3× too low
+
+`compare.py` built its motif index from the player's **own best move only**, never from the
+opponent's best reply — so the entire `allowed_motif` direction was invisible to it, and every note
+of the form *"loosing a pawn"* scored unnamed by construction. A comment in the code claimed both
+directions were included; the code never did.
+
+| player | naming as published | naming corrected |
+|---|--:|--:|
+| `bjagus` | 10 % | **30 %** |
+| `cademan` | 8 % | **37 %** |
+| `Crossfire1983` | 0 % | **8 %** |
+
+Detection figures are unaffected — they depend only on whether the move carried a label.
+[[experiments.e32-hanging-pawn-screen]] and [[experiments.e33-error-threshold]] both inherited the
+bad number and are corrected in place. The lesson is L-041.
+
 ## Three players, 2026-08-16 — detection varies, naming does not
 
 | player | notes with a move | detection | naming | pawn notes unnamed |

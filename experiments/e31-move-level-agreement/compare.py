@@ -224,6 +224,16 @@ def analyse(player: str, engine: str, cache: str | None, depth: int, limit: int)
     for observation in observations:
         by_game.setdefault(observation.game_id, []).append(observation)
 
+    # Keyed by ply so a move's punishment -- the opponent's best reply -- can be
+    # read. **This was missing until 2026-08-16 and the omission was the whole
+    # naming figure.** S1 measures two directions: `missed_motif` from the
+    # player's own best move, `allowed_motif` from the opponent's reply. This
+    # comparison only ever built the first, so every note of the form "loosing a
+    # pawn" -- which is the allowed direction, and most of what the reviewer
+    # writes -- was scored as unnamed by construction. Reported naming was 8-10 %
+    # and the true figure is roughly three times that.
+    by_ply = {(o.game_id, o.ply): o for o in observations}
+
     facts = []
     for index, game in enumerate(games, start=1):
         own = [o for o in by_game.get(game.game_id, []) if o.mover == player]
@@ -237,10 +247,12 @@ def analyse(player: str, engine: str, cache: str | None, depth: int, limit: int)
             loss_by_move[move_no] = max(loss_by_move.get(move_no, 0.0), o.loss_wp)
             if o.label is not None:
                 errors_by_move.setdefault(move_no, []).append(o.label.value)
-                # What the opponent's best reply would have executed, and what
-                # the player's own best move would have.
                 motifs_by_move.setdefault(move_no, set())
+                # Both directions, as S1 itself measures them.
                 motifs_by_move[move_no] |= _motifs_at(o)
+                reply = by_ply.get((o.game_id, o.ply + 1))
+                if reply is not None:
+                    motifs_by_move[move_no] |= _motifs_at(reply)
 
         facts.append(
             GameFacts(

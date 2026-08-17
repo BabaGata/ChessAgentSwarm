@@ -89,6 +89,10 @@ def agreement(player: str, games, observations, threshold: float) -> tuple[int, 
 
     notes = [n for n in parse_notes(ROOT / "a-your-reading" / f"{player}.txt") if n.move]
     by_index = {index: game for index, game in enumerate(games, start=1)}
+    # Both directions. Reading only the player's own best move scores every
+    # "loosing a pawn" note as unnamed by construction -- the bug that made the
+    # first version of this report naming at 8 % instead of 28 %.
+    by_ply = {(o.game_id, o.ply): o for o in observations}
     own = {}
     for o in observations:
         if o.mover != player:
@@ -110,12 +114,13 @@ def agreement(player: str, games, observations, threshold: float) -> tuple[int, 
                 if o.label is None:
                     continue
                 erred = True
-                if not o.best_move:
-                    continue
-                board = chess.Board(o.fen_before)
-                move = chess.Move.from_uci(o.best_move)
-                if move in board.legal_moves:
-                    signals |= set(detect_motifs(board, move))
+                for source in (o, by_ply.get((o.game_id, o.ply + 1))):
+                    if source is None or not source.best_move:
+                        continue
+                    board = chess.Board(source.fen_before)
+                    move = chess.Move.from_uci(source.best_move)
+                    if move in board.legal_moves:
+                        signals |= set(detect_motifs(board, move))
         detected += int(erred)
         named += int(any(signal in signals for signal in expected))
     return checkable, detected, named

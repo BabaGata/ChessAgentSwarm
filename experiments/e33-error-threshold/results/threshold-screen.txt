@@ -10,10 +10,10 @@ VOLUME AND COST — 12 players
 AGREEMENT WITH THE REVIEWER — 3 annotated players, move-level notes
  threshold  checkable         detected           named
 --------------------------------------------------------
-      10.0        106        61 ( 58%)        8 (  8%)
-       7.0        106        74 ( 70%)        8 (  8%)
-       5.0        106        83 ( 78%)        9 (  8%)
-       3.0        106        94 ( 89%)       10 (  9%)
+      10.0        106        61 ( 58%)       30 ( 28%)
+       7.0        106        74 ( 70%)       35 ( 33%)
+       5.0        106        83 ( 78%)       40 ( 38%)
+       3.0        106        94 ( 89%)       45 ( 42%)
 
 DISCRIMINATION — p90/median, the L-024 screen. Higher separates players better.
  threshold    missed_motif   allowed_motif    missed_motif   allowed_motif  instant_move_e

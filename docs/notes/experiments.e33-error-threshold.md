@@ -27,6 +27,21 @@ is exact and free. The `mistake` band was scaled with the floor rather than left
 do not overlap strangely at 3.0. `blunder` stays at 30, so V1's strength estimate — which reads
 blunder rate — is untouched at every threshold.
 
+## Correction, 2026-08-16 — the first version of this note was wrong
+
+Published claiming **naming is flat at 8–9 %** across every threshold, and concluding that the
+threshold was not what held naming back. Both statements came from a **bug in the comparison
+harness**, found while diagnosing why naming was stuck.
+
+S1 measures two directions: `missed_motif` from the player's own best move, `allowed_motif` from the
+**opponent's best reply**. `compare.py` only ever built the first. Every note of the form *"loosing a
+pawn"* — the allowed direction, and most of what the reviewer writes — was scored unnamed **by
+construction**. A comment in the code claimed both directions were included; the code never did.
+
+Corrected figures below. Naming is roughly **three times higher** than reported and **rises with the
+threshold rather than staying flat**. Everything downstream of the old number is corrected with it:
+[[experiments.e31-move-level-agreement]] and [[experiments.e32-hanging-pawn-screen]] both carried it.
+
 ## Result
 
 **Volume and cost**, 12 players:
@@ -42,10 +57,10 @@ blunder rate — is untouched at every threshold.
 
 | threshold | detected | named |
 |--:|--:|--:|
-| **10.0** | 61 (**58 %**) | 8 (8 %) |
-| 7.0 | 74 (70 %) | 8 (8 %) |
-| **5.0** | 83 (**78 %**) | 9 (8 %) |
-| 3.0 | 94 (**89 %**) | 10 (9 %) |
+| **10.0** (ships) | 61 (**58 %**) | 30 (**28 %**) |
+| 7.0 | 74 (70 %) | 35 (33 %) |
+| **5.0** | 83 (**78 %**) | 40 (**38 %**) |
+| 3.0 | 94 (**89 %**) | 45 (**42 %**) |
 
 **Discrimination**, p90 ÷ median — the L-024 screen. The expected failure mode was spreads collapsing
 toward 1.00× as cheap errors flooded the evidence:
@@ -64,14 +79,39 @@ toward 1.00× as cheap errors flooded the evidence:
 casualty is `instant_move_error`, falling 1.91× → 1.40× as the floor drops — which makes sense, since
 a habit defined by speed rather than by severity gains the most noise from admitting small errors.
 
-**2. Naming is completely flat: 8 % → 9 %.** This refutes E32's own hypothesis. E32 concluded that
-the pawn-naming gap was gated by the threshold — 24 of 45 notes below the line, so no motif could
-run. At 3.0 those detectors all run, detection climbs 31 points, and **one extra note gets named**.
+**2. Naming rises with the threshold: 28 % → 42 %.** E32's hypothesis was right after all, and the
+first version of this note wrongly refuted it: 45 of 106 reviewer notes sit below the 10 wp line, no
+detector runs on them, and dropping the floor to 3.0 recovers most of that — **15 more notes named,
+a 50 % relative gain**.
 
-So the motif vocabulary does not describe what the reviewer describes, and it is not the threshold
-holding it back. The swarm can be made to *see* almost everything a strong club player sees — 89 % —
-and still has nothing to *call* it. Detection and naming are independent problems, which is what
-E31's original split said and this now confirms by intervention rather than by observation.
+Detection and naming are still *distinct*, and the gap between them stays wide at every threshold —
+89 % seen against 42 % named at the floor. But they are not independent: roughly **a third of every
+detection gained turns into a naming gained**, because a labelled move is a move the motif detectors
+are finally allowed to look at.
+
+Naming is therefore limited by two things at once, and the threshold is the larger of them. What
+remains after it is the vocabulary itself, quantified in the diagnosis below.
+
+## What actually limits naming — the four levers, sized
+
+Every unnamed note at the shipping threshold, classified. 106 move-level notes, three players.
+
+| | | share | what would fix it |
+|---|--:|--:|---|
+| **named correctly** | 30 | 28 % | — |
+| **below the label threshold** | 45 | **42 %** | lower `INACCURACY_WP`; measured above, 28 % → 42 % naming |
+| **error, but no motif covers it** | 16 | 15 % | more or broader motifs |
+| **a motif fired, a different one** | 15 | 14 % | a claim measured in *material*, not mechanism |
+
+Supporting figure: of **225 labelled errors** across these players, only **122 (54 %) carry any motif
+at all**. Nearly half of what the swarm already calls a mistake is tactically anonymous to it, before
+the reviewer is consulted at all.
+
+**A structural gap, smaller than it looks.** Motifs are computed on the engine's best move and on the
+opponent's best reply — **never on the move the player actually played**. So "placing a piece on the
+attacked square", a property of the played move, has nowhere to land. Checked directly: of the 15
+different-motif cases, the played move carries what the reviewer described in **1**. Real, worth
+fixing for the sentences it would enable, and not a large lever.
 
 ## Consequence — screened, not applied
 

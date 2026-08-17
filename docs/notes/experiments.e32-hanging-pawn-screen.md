@@ -41,6 +41,20 @@ Both new claims spread inside the range of everything already shipping. And a nu
 the reviewer's attention directly: **players miss free pawns at 10.1 % against free pieces at
 5.0 %** — twice as often.
 
+## Correction, 2026-08-16 — the payoff table below is wrong
+
+The "unnamed after" column was produced by a comparison harness that read only the **missed**
+direction and never the opponent's reply, so every *"loosing a pawn"* note — the **allowed**
+direction — scored unnamed by construction. See [[experiments.e33-error-threshold]] § Correction.
+
+Re-measured with both directions: **9 of 45 pawn notes are named, not 1.** The detector did more than
+this note credits it with, and the conclusion drawn here — *"the gap it was built to close was never
+the vocabulary"* — is **half wrong**: the threshold is the larger barrier, exactly as this note
+argued, and E33 then measured naming rising 28 % → 42 % as the floor drops.
+
+What survives unchanged: the screen result, the spread figures, and the observation that reviewer and
+swarm name *outcome* versus *mechanism*.
+
 ## The payoff — it did not arrive
 
 Re-running E31 with the detector in place:
