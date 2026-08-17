@@ -102,10 +102,18 @@ BLIND: tuple[tuple[str, str], ...] = (
     ("piece quality",
      "\"Gave up a good bishop for a bad knight\" has no detector. Nothing in the\n"
      "    swarm represents a piece being good or bad."),
-    ("free pawns",
-     f"The hanging-piece detector ignores anything worth less than a knight\n"
-     f"    (HANGING_MIN_VALUE = {HANGING_MIN_VALUE}), so a dropped pawn is never NAMED — though the\n"
-     "    error underneath it is usually still counted. See E30 and E31."),
+    ("small mistakes, pawn-sized ones especially",
+     f"A free pawn now HAS a name ('free pawn', added in E32) — but a move has to\n"
+     f"    cost {INACCURACY_WP:.0f} points of win probability before any pattern detector runs on\n"
+     "    it at all, and dropping one pawn in a balanced position frequently costs\n"
+     "    less. Measured across three reviewed players, 24 of 45 pawn notes sat\n"
+     "    below that line. Write them down anyway — the gap between what you\n"
+     "    notice and what the swarm labels is itself the measurement."),
+    ("what was LOST, as opposed to what won it",
+     "The swarm names the mechanism, you tend to name the outcome. A pawn dropped\n"
+     "    to a pin is 'a pin' to it and 'a lost pawn' to you, and both are right.\n"
+     "    Where you can, say which piece or pawn went and to what — the two\n"
+     "    vocabularies can then be lined up instead of disagreeing."),
     ("plans and ideas",
      "No detector represents a plan, a wrong plan, or playing without one."),
     ("openings by name",

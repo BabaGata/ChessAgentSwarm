@@ -135,6 +135,7 @@ These eight and no others. Both directions: missing one, and allowing one.
   skewer                   (skewer)
   discovered attack        (discoveredAttack)
   hanging piece            (hangingPiece)
+  free pawn                (hangingPawn)
   back-rank mate           (backRankMate)
   capturing the defender   (capturingDefender)
   trapped piece            (trappedPiece)
@@ -168,10 +169,19 @@ these, the swarm will not have it, and saying so is still worth the line.
     "Gave up a good bishop for a bad knight" has no detector. Nothing in the
     swarm represents a piece being good or bad.
 
-  free pawns
-    The hanging-piece detector ignores anything worth less than a knight
-    (HANGING_MIN_VALUE = 3), so a dropped pawn is never NAMED — though the
-    error underneath it is usually still counted. See E30 and E31.
+  small mistakes, pawn-sized ones especially
+    A free pawn now HAS a name ('free pawn', added in E32) — but a move has to
+    cost 10 points of win probability before any pattern detector runs on
+    it at all, and dropping one pawn in a balanced position frequently costs
+    less. Measured across three reviewed players, 24 of 45 pawn notes sat
+    below that line. Write them down anyway — the gap between what you
+    notice and what the swarm labels is itself the measurement.
+
+  what was LOST, as opposed to what won it
+    The swarm names the mechanism, you tend to name the outcome. A pawn dropped
+    to a pin is 'a pin' to it and 'a lost pawn' to you, and both are right.
+    Where you can, say which piece or pawn went and to what — the two
+    vocabularies can then be lined up instead of disagreeing.
 
   plans and ideas
     No detector represents a plan, a wrong plan, or playing without one.

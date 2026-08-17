@@ -1,0 +1,13 @@
+
+claim                                  players instances    opps   pooled   median     p90  spread
+------------------------------------------------------------------------------------------------
+missed_motif.hangingPawn.own                12        69     685   10.1%     9.4%   14.4%   1.53x  <-- new
+allowed_motif.hangingPawn.own               12       156    1797    8.7%     8.0%   11.1%   1.38x  <-- new
+missed_motif.hangingPiece.own               12        47     935    5.0%     3.7%    9.5%   2.58x
+allowed_motif.hangingPiece.own              12       150    1797    8.3%     7.7%   12.0%   1.56x
+missed_motif.fork.own                       12        87     393   22.1%    23.0%   32.3%   1.40x
+allowed_motif.fork.own                      12       175    1797    9.7%     9.1%   13.6%   1.50x
+
+The spread is the screen: p90 divided by the median. A claim every player
+scores alike cannot select anyone's priority, however common it is (L-024).
+The new claims have to spread at least as wide as the ones already shipping.

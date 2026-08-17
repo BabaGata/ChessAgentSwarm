@@ -59,6 +59,12 @@ class Motif(StrEnum):
     SKEWER = "skewer"
     DISCOVERED_ATTACK = "discoveredAttack"
     HANGING_PIECE = "hangingPiece"
+    # A sibling of the above rather than a widening of it. E31 found 45 of 45
+    # reviewer notes mentioning a pawn had no name available; E30 found that
+    # folding pawns INTO `hangingPiece` halves that claim's deviation, because
+    # everybody drops free pawns. Separate, both stay true and each is compared
+    # against its own population rate.
+    HANGING_PAWN = "hangingPawn"
     BACK_RANK_MATE = "backRankMate"
     REMOVING_THE_DEFENDER = "capturingDefender"
     TRAPPED_PIECE = "trappedPiece"
@@ -160,6 +166,33 @@ def _is_hanging_piece(
 
     captured = board.piece_at(move.to_square)
     if captured is None or PIECE_VALUE[captured.piece_type] < HANGING_MIN_VALUE:
+        return False
+
+    return not after.is_attacked_by(not mover, move.to_square)
+
+
+def _is_hanging_pawn(
+    board: chess.Board, after: chess.Board, move: chess.Move, mover: chess.Color
+) -> bool:
+    """A pawn won for nothing: taken, and the taker cannot be answered.
+
+    The exact counterpart of `_is_hanging_piece` below the value line, and the
+    reason it exists is empirical: across three reviewed players, **every one of
+    45 notes mentioning a pawn was unnameable** ([[experiments.e31-move-level-agreement]]).
+    The engine saw the error; the vocabulary had no word for it.
+
+    En passant is included, unlike in the piece detector, because it wins a pawn
+    for nothing exactly as any other free capture does — and the captured pawn is
+    not on the destination square, so it has to be handled rather than inherited.
+    """
+    if not board.is_capture(move):
+        return False
+
+    if board.is_en_passant(move):
+        return not after.is_attacked_by(not mover, move.to_square)
+
+    captured = board.piece_at(move.to_square)
+    if captured is None or PIECE_VALUE[captured.piece_type] >= HANGING_MIN_VALUE:
         return False
 
     return not after.is_attacked_by(not mover, move.to_square)
@@ -331,6 +364,7 @@ _DETECTORS = {
     Motif.SKEWER: _is_skewer,
     Motif.DISCOVERED_ATTACK: _is_discovered_attack,
     Motif.HANGING_PIECE: _is_hanging_piece,
+    Motif.HANGING_PAWN: _is_hanging_pawn,
     Motif.BACK_RANK_MATE: _is_back_rank_mate,
     Motif.REMOVING_THE_DEFENDER: _is_removing_the_defender,
     Motif.TRAPPED_PIECE: _is_trapped_piece,

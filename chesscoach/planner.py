@@ -278,6 +278,24 @@ def _action(finding: Finding) -> str:
         if finding.claim.kind in by_exposure:
             return by_exposure[finding.claim.kind]
 
+    # `hangingPawn` has no Lichess puzzle theme behind it, so "drill `hangingPawn`
+    # puzzles" would send the player to a filter that returns nothing. It is also
+    # not really a tactic to train — it is a habit of looking.
+    by_subject = {
+        ("missed_motif", "hangingPawn"): (
+            "Before you move, check the whole board for material that is simply "
+            "there — undefended pawns included. These are not tactics to calculate; "
+            "they are pawns you have not looked at."
+        ),
+        ("allowed_motif", "hangingPawn"): (
+            "After choosing a move and before playing it, check every pawn you own "
+            "that no longer has a defender. Dropped pawns rarely lose a game on "
+            "their own and they are what your mistakes are most often costing you."
+        ),
+    }
+    if (finding.claim.kind, subject) in by_subject:
+        return by_subject[(finding.claim.kind, subject)]
+
     actions = {
         "missed_motif": (
             f"Drill `{subject}` puzzles, and solve to be right rather than fast — "

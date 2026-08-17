@@ -24,6 +24,7 @@ MOTIF_NAMES: dict[str, str] = {
     "skewer": "skewer",
     "discoveredAttack": "discovered attack",
     "hangingPiece": "hanging piece",
+    "hangingPawn": "free pawn",
     "trappedPiece": "trapped piece",
     "backRankMate": "back-rank mate",
     "capturingDefender": "capturing the defender",
@@ -74,6 +75,23 @@ STATEMENTS: dict[str, str] = {
     "allows_square": "You let opponents establish {subject} more often than players at your level.",
     "allows_pressure": (
         "Attacks build against your king more readily than against players at your level."
+    ),
+}
+
+SUBJECT_QUANTITIES: dict[tuple[str, str], str] = {
+    ("missed_motif", "hangingPawn"): "free pawns left uncaptured",
+    ("allowed_motif", "hangingPawn"): "pawns dropped when you go wrong",
+}
+
+# Where the generic template would produce something a person would not say.
+# "You miss free pawn tactics that were available" is grammatical and wrong:
+# taking a free pawn is not a tactic, it is looking at the board.
+SUBJECT_STATEMENTS: dict[tuple[str, str], str] = {
+    ("missed_motif", "hangingPawn"): (
+        "You leave free pawns on the board — material that was there for the taking."
+    ),
+    ("allowed_motif", "hangingPawn"): (
+        "When you go wrong, it is often a pawn you simply drop."
     ),
 }
 
@@ -151,6 +169,10 @@ def quantity(finding: Finding) -> str:
     if subject == POOLED and kind in POOLED_QUANTITIES:
         return POOLED_QUANTITIES[kind]
 
+    override = SUBJECT_QUANTITIES.get((kind, subject))
+    if override is not None:
+        return override
+
     name = subject_name(subject, kind)
     template = QUANTITIES.get(kind)
     if template is None:
@@ -163,6 +185,10 @@ def statement(finding: Finding) -> str:
     kind, subject = finding.claim.kind, finding.claim.subject
     if subject == POOLED and kind in POOLED_STATEMENTS:
         return POOLED_STATEMENTS[kind]
+
+    override = SUBJECT_STATEMENTS.get((kind, subject))
+    if override is not None:
+        return override
 
     name = subject_name(subject, kind)
     template = STATEMENTS.get(kind)

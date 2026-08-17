@@ -36,6 +36,7 @@ from __future__ import annotations
 
 import argparse
 import re
+import statistics
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -43,6 +44,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from chesscoach.analysis.core import analyse_corpus  # noqa: E402
+from chesscoach.analysis.labels import INACCURACY_WP  # noqa: E402
 from chesscoach.ingest.corpus import build_corpus  # noqa: E402
 from chesscoach.pipeline import engine_session, load_games  # noqa: E402
 from chesscoach.tactics import detect_motifs  # noqa: E402
@@ -118,9 +120,9 @@ VOCABULARY: tuple[tuple[str, tuple[str, ...]], ...] = (
 
     # --- threats against them that they did not see (ALLOWED) --------------
     ("piece loosing", ("hangingPiece", "trappedPiece")),
-    ("pawn loosing", ("hangingPiece:pawn",)),
-    ("loosing pawn motif", ("hangingPiece:pawn",)),
-    ("a loosing pawn", ("hangingPiece:pawn",)),
+    ("pawn loosing", ("hangingPawn",)),
+    ("loosing pawn motif", ("hangingPawn",)),
+    ("a loosing pawn", ("hangingPawn",)),
     ("a loosing piece", ("hangingPiece", "trappedPiece")),
     ("placing a piece on the attacked square", ("hangingPiece",)),
     ("queen on the attacked square", ("hangingPiece",)),
@@ -129,14 +131,14 @@ VOCABULARY: tuple[tuple[str, tuple[str, ...]], ...] = (
     # --- their own chances they did not take (MISSED) ----------------------
     ("piece winning", ("hangingPiece", "trappedPiece")),
     ("material taking", ("hangingPiece",)),
-    ("pawn taking", ("hangingPiece:pawn",)),
-    ("not taking a pawn back", ("hangingPiece:pawn",)),
-    ("not taking a pawn", ("hangingPiece:pawn",)),
+    ("pawn taking", ("hangingPawn",)),
+    ("not taking a pawn back", ("hangingPawn",)),
+    ("not taking a pawn", ("hangingPawn",)),
     ("not taking queen", ("hangingPiece",)),
     ("not taking a piece", ("hangingPiece",)),
     ("not taking material", ("hangingPiece",)),
     ("queen taking opportunity", ("hangingPiece",)),
-    ("hanging pawn", ("hangingPiece:pawn",)),
+    ("hanging pawn", ("hangingPawn",)),
     ("pinned piece", ("pin",)),
     ("defense exchange", ("capturingDefender",)),
 
@@ -147,8 +149,8 @@ VOCABULARY: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("discovered", ("discoveredAttack",)),
 
     # --- material, unspecified -------------------------------------------
-    ("loosing a pawn", ("hangingPiece:pawn",)),
-    ("loosing pawn", ("hangingPiece:pawn",)),
+    ("loosing a pawn", ("hangingPawn",)),
+    ("loosing pawn", ("hangingPawn",)),
     ("loosing a queen", ("hangingPiece",)),
     ("loosing queen", ("hangingPiece",)),
     ("loosing a piece", ("hangingPiece", "trappedPiece")),
@@ -191,6 +193,17 @@ class GameFacts:
     motifs_by_move: dict[int, set[str]]
     instant_moves: int
     instant_errors: int
+    # Every move's loss, labelled or not. The labelled ones are a subset, and
+    # the gap between them is the finding: a move can cost real win probability
+    # and carry no label, so no motif detector ever runs on it.
+    loss_by_move: dict[int, float]
+
+    def worst_loss_near(self, move: int, window: int = MOVE_WINDOW) -> float:
+        return max(
+            (self.loss_by_move.get(move + offset, 0.0)
+             for offset in range(-window, window + 1)),
+            default=0.0,
+        )
 
     def signals_near(self, move: int, window: int = MOVE_WINDOW) -> set[str]:
         found: set[str] = set()
@@ -218,8 +231,10 @@ def analyse(player: str, engine: str, cache: str | None, depth: int, limit: int)
         motifs_by_move: dict[int, set[str]] = {}
         instant = [o for o in own if (o.seconds_spent or 99) <= 2.0]
 
+        loss_by_move: dict[int, float] = {}
         for o in own:
             move_no = o.ply // 2 + 1
+            loss_by_move[move_no] = max(loss_by_move.get(move_no, 0.0), o.loss_wp)
             if o.label is not None:
                 errors_by_move.setdefault(move_no, []).append(o.label.value)
                 # What the opponent's best reply would have executed, and what
@@ -235,6 +250,7 @@ def analyse(player: str, engine: str, cache: str | None, depth: int, limit: int)
                 motifs_by_move=motifs_by_move,
                 instant_moves=len(instant),
                 instant_errors=sum(1 for o in instant if o.label is not None),
+                loss_by_move=loss_by_move,
             )
         )
     return facts
@@ -250,14 +266,10 @@ def _motifs_at(observation) -> set[str]:
     move = chess.Move.from_uci(observation.best_move)
     if move not in board.legal_moves:
         return set()
-    found = set()
-    for motif in detect_motifs(board, move):
-        found.add(motif)
-        captured = board.piece_at(move.to_square)
-        if motif == "hangingPiece" and captured is not None:
-            found.add("hangingPiece:pawn" if captured.piece_type == chess.PAWN
-                      else "hangingPiece:piece")
-    return found
+    # `hangingPawn` is a real motif since E32; it used to be synthesised here
+    # from the captured piece type, which is exactly the kind of analysis that
+    # belongs in the product rather than in a comparison script.
+    return set(detect_motifs(board, move))
 
 
 def main() -> int:
@@ -284,8 +296,10 @@ def main() -> int:
         print(text)
         lines.append(text)
 
-    say(f"{'game':>5}  {'move':>5}  {'reviewer noted':<48}{'swarm':<22}verdict")
+    say(f"{'game':>5}  {'move':>5}  {'reviewer noted':<44}{'loss':>6}  {'swarm':<20}verdict")
     say("-" * 104)
+    losses: list[float] = []
+    pawn_losses: list[float] = []
 
     tally = {
         "named": 0, "saw_only": 0, "missed": 0,
@@ -342,10 +356,13 @@ def main() -> int:
         else:
             verdict, key = "MISSED", "missed"
 
-        say(f"{note.game:>5}  {note.move:>5}  {text:<48}{shown:<22}{verdict}")
+        loss = game.worst_loss_near(note.move)
+        say(f"{note.game:>5}  {note.move:>5}  {text:<44}{loss:>6.1f}  {shown:<20}{verdict}")
         tally[key] += 1
+        losses.append(loss)
         if "pawn" in note.text.lower():
             tally["pawn_notes"] += 1
+            pawn_losses.append(loss)
             if not named:
                 tally["pawn_unnamed"] += 1
 
@@ -365,9 +382,21 @@ def main() -> int:
         say(f"  the swarm saw nothing there        {tally['missed']:>3}  "
             f"({tally['missed']/checkable:.0%})")
     say()
-    say("PAWN MATERIAL — E30's exclusion, seen at move level")
+    say("PAWN MATERIAL")
     say(f"  notes mentioning a pawn             {tally['pawn_notes']}")
     say(f"  of those, unnamed by the swarm      {tally['pawn_unnamed']}")
+    if pawn_losses:
+        below = sum(1 for loss in pawn_losses if loss < INACCURACY_WP)
+        say(f"  median loss at those moves          {statistics.median(pawn_losses):.1f} wp")
+        say(f"  below the {INACCURACY_WP:.0f} wp label threshold      "
+            f"{below}/{len(pawn_losses)}"
+            "   <- no label means no motif ever runs")
+    if losses:
+        below_all = sum(1 for loss in losses if loss < INACCURACY_WP)
+        say()
+        say("ALL NOTED MOVES")
+        say(f"  median loss where you saw a mistake {statistics.median(losses):.1f} wp")
+        say(f"  below the label threshold           {below_all}/{len(losses)}")
     say()
     say("EVERYTHING ELSE")
     say(f"  game-level 'instant moves' notes     {tally['instant_hit']} confirmed, "
