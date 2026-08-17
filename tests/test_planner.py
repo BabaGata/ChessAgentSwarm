@@ -176,18 +176,29 @@ class TestShrunkTargets:
         assert "without changing anything" in sign
 
     def test_the_stated_false_positive_rate_is_the_calibrated_one(self):
-        # A number here is only allowed because it is now held out: 27-57
-        # predictions per depth, cross-validated by player at 2 and 5 folds. The
-        # earlier in-sample 8% was withdrawn for exactly this reason, so the
-        # figures shown must track the constants they were calibrated with.
+        # A number here is only allowed because it is held out: 27-57 predictions
+        # per depth, cross-validated by player at 2 and 5 folds. The earlier
+        # in-sample 8% was withdrawn for exactly this reason, so the figures
+        # shown must track the constants they were calibrated with — **and must
+        # disappear when those constants no longer apply.**
+        #
+        # E05 fitted the range at a 10 wp error floor and E33 moved the floor to
+        # 5.0, so it is currently withdrawn. This asserts the rule rather than
+        # the moment: refit E05, update NO_CHANGE_RATIO_FITTED_AT_WP, and the
+        # first branch starts being checked again automatically.
+        from chesscoach.analysis.labels import calibration_is_stale
         from chesscoach.planner import UNTREATED_MET_SHARE_RANGE
 
         finding = a_finding(rate=0.30, instances=600, distinct_games=20, peer_rate=0.12)
 
         sign = self.plan_with_peers(finding).steps[0].progress_sign
 
-        assert f"{UNTREATED_MET_SHARE_RANGE[0]:.0%}" in sign
-        assert f"{UNTREATED_MET_SHARE_RANGE[1]:.0%}" in sign
+        if calibration_is_stale():
+            assert f"{UNTREATED_MET_SHARE_RANGE[0]:.0%}" not in sign
+            assert "has not been recalibrated" in sign
+        else:
+            assert f"{UNTREATED_MET_SHARE_RANGE[0]:.0%}" in sign
+            assert f"{UNTREATED_MET_SHARE_RANGE[1]:.0%}" in sign
 
     def test_the_withdrawn_twenty_percent_claim_has_not_crept_back(self):
         # Guards a specific past mistake, not a style rule. The output once said

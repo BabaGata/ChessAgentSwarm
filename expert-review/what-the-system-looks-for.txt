@@ -16,8 +16,8 @@ HOW A MISTAKE IS DECIDED AT ALL
 Every one of your moves is compared with the engine's best move at depth 15,
 and the difference is converted to WIN PROBABILITY, not centipawns.
 
-    inaccuracy     10 points of win probability given away
-    mistake        20
+    inaccuracy      5 points of win probability given away
+    mistake        18
     blunder        30
 
 Three consequences worth knowing while you annotate:
@@ -33,7 +33,7 @@ Three consequences worth knowing while you annotate:
     allowing mate in 10 therefore score the SAME, and going from already
     winning to mate scores nothing at all.
 
-  * Anything below 10 points carries no label. A move giving away 9
+  * Anything below 5 points carries no label. A move giving away 9
     points of win probability is real and is not counted as an error. If you
     are noticing small errors, you are working finer than the swarm does
     (measured in E31).
@@ -171,7 +171,7 @@ these, the swarm will not have it, and saying so is still worth the line.
 
   small mistakes, pawn-sized ones especially
     A free pawn now HAS a name ('free pawn', added in E32) — but a move has to
-    cost 10 points of win probability before any pattern detector runs on
+    cost 5 points of win probability before any pattern detector runs on
     it at all, and dropping one pawn in a balanced position frequently costs
     less. Measured across three reviewed players, 24 of 45 pawn notes sat
     below that line. Write them down anyway — the gap between what you

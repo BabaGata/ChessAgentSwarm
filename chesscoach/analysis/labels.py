@@ -22,9 +22,53 @@ CLAMP_CP = 1000
 
 # Thresholds in win-probability points. Provisional project values, not a
 # standard -- see docs/notes/architecture.confidence.md.
-INACCURACY_WP = 10.0
-MISTAKE_WP = 20.0
+#
+# Lowered from 10.0 on 2026-08-16, screened in [[experiments.e33-error-threshold]]
+# across four values on twelve players. What it buys, measured against a strong
+# club player's own game-by-game annotation of 106 moves:
+#
+#                       moves called    reviewer notes   reviewer notes
+#     INACCURACY_WP        an error         DETECTED          NAMED
+#             10.0            9.0 %            58 %            28 %
+#              5.0           19.2 %            78 %            38 %
+#              3.0           27.8 %            89 %            42 %
+#
+# The expected failure -- claims flooding with cheap errors until they stop
+# separating players -- did not occur: at 5.0 four of five watched claims reach
+# their *best* p90/median spread of any threshold tested. 3.0 buys 11 more points
+# of detection for a quarter of all moves being errors and the sharpest dilution
+# of cost per error, so 5.0 is where the evidence stops rather than where it runs
+# out.
+#
+# The reviewer's median noticed mistake cost 8.9 wp. A floor above that was
+# discarding most of what a strong player sees, by construction.
+INACCURACY_WP = 5.0
+
+# Scaled with the floor rather than left at 20 so the bands stay evenly spaced;
+# this is the value E33 screened. The boundary is close to **cosmetic**: every
+# measurement in the swarm turns on `label is not None`, and only the printed
+# word changes here.
+MISTAKE_WP = 17.5
 BLUNDER_WP = 30.0
+
+# What `INACCURACY_WP` was when the progress check's no-change constant was
+# fitted. E05 measured `NO_CHANGE_RATIO = 0.58` from 57 predictions across 84
+# players, cross-validated at 2 and 5 folds -- all of it at a 10 wp floor.
+#
+# Change the floor and that constant describes a different quantity: rates are
+# built from different moves, and the regression it corrects for has a different
+# size. The refit needs the 84-player corpus, which is deliberately not committed
+# (data is regenerable), so it is **outstanding** rather than done.
+#
+# This constant exists so the gap cannot be forgotten: `progress.py` states it in
+# its own output rather than quietly reporting a verdict calibrated for a floor
+# the analysis no longer uses.
+NO_CHANGE_RATIO_FITTED_AT_WP = 10.0
+
+
+def calibration_is_stale() -> bool:
+    """Is the progress check's constant fitted for the floor now in use?"""
+    return INACCURACY_WP != NO_CHANGE_RATIO_FITTED_AT_WP
 
 # Lichess' centipawn -> win-percentage conversion constant.
 _WP_SCALE = 0.00368208

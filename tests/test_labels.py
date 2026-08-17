@@ -7,6 +7,8 @@ import pytest
 from chesscoach.analysis.labels import (
     BLUNDER_WP,
     CLAMP_CP,
+    INACCURACY_WP,
+    MISTAKE_WP,
     ErrorLabel,
     classify,
     clamp_cp,
@@ -44,18 +46,27 @@ class TestClamp:
 
 
 class TestClassify:
+    # Written against the constants rather than against literals: the thresholds
+    # are provisional by design and were lowered once already (E33), and a test
+    # that hardcodes 10.0 fails for the wrong reason when they move again.
     @pytest.mark.parametrize(
         "loss,expected",
         [
             (0.0, None),
-            (5.0, None),
-            (10.0, ErrorLabel.INACCURACY),
-            (25.0, ErrorLabel.MISTAKE),
-            (60.0, ErrorLabel.BLUNDER),
+            (INACCURACY_WP - 0.1, None),
+            (INACCURACY_WP, ErrorLabel.INACCURACY),
+            (MISTAKE_WP - 0.1, ErrorLabel.INACCURACY),
+            (MISTAKE_WP, ErrorLabel.MISTAKE),
+            (BLUNDER_WP - 0.1, ErrorLabel.MISTAKE),
+            (BLUNDER_WP, ErrorLabel.BLUNDER),
+            (100.0, ErrorLabel.BLUNDER),
         ],
     )
     def test_assigns_the_expected_label(self, loss, expected):
         assert classify(loss) is expected
+
+    def test_the_bands_are_ordered_and_do_not_overlap(self):
+        assert 0 < INACCURACY_WP < MISTAKE_WP < BLUNDER_WP
 
     def test_blunder_threshold_is_inclusive(self):
         assert classify(BLUNDER_WP) is ErrorLabel.BLUNDER

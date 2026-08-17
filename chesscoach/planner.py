@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import math
 
+from chesscoach.analysis.labels import calibration_is_stale
 from chesscoach.arbiter import Priority
 from chesscoach.peers import PeerReference
 from chesscoach.phrasing import POOLED, quantity, subject_name
@@ -205,13 +206,26 @@ def _progress_sign(finding: Finding, target: float, games: int, expected: float 
     is most of what there is to see.
     """
     sign = f"{_quantity(finding)} below {target:.1%} over the next {games} games"
-    if expected is not None:
+    if expected is None:
+        return f"{sign} (currently {finding.measurement.rate:.1%})"
+
+    measured = f"measured {finding.measurement.rate:.1%}, ~{expected:.1%} if nothing changes"
+    if calibration_is_stale():
+        # The untreated-share range is withdrawn rather than restated. It was
+        # measured against a 10 wp error floor (E05) and the analysis now uses a
+        # different one, so quoting it here would be a false-positive rate for a
+        # measurement nobody has made. Said out loud: going quiet about a caveat
+        # reads as more confidence, not less.
         return (
-            f"{sign} (measured {finding.measurement.rate:.1%}, ~{expected:.1%} if nothing changes; "
-            f"{UNTREATED_MET_SHARE_RANGE[0]:.0%}–{UNTREATED_MET_SHARE_RANGE[1]:.0%} of players "
-            "reach this target without changing anything)"
+            f"{sign} ({measured}; the share of players who reach this without "
+            "changing anything has not been recalibrated since the error "
+            "threshold moved, so it is not quoted)"
         )
-    return f"{sign} (currently {finding.measurement.rate:.1%})"
+    return (
+        f"{sign} ({measured}; "
+        f"{UNTREATED_MET_SHARE_RANGE[0]:.0%}–{UNTREATED_MET_SHARE_RANGE[1]:.0%} of players "
+        "reach this target without changing anything)"
+    )
 
 
 def _quantity(finding: Finding) -> str:

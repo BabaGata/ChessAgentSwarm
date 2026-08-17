@@ -101,11 +101,28 @@ Every unnamed note at the shipping threshold, classified. 106 move-level notes, 
 | **named correctly** | 30 | 28 % | — |
 | **below the label threshold** | 45 | **42 %** | lower `INACCURACY_WP`; measured above, 28 % → 42 % naming |
 | **error, but no motif covers it** | 16 | 15 % | more or broader motifs |
-| **a motif fired, a different one** | 15 | 14 % | a claim measured in *material*, not mechanism |
+| **a motif fired, a different one** | 15 | 14 % | ~~a claim measured in *material*~~ — **refused**, below |
 
 Supporting figure: of **225 labelled errors** across these players, only **122 (54 %) carry any motif
 at all**. Nearly half of what the swarm already calls a mistake is tactically anonymous to it, before
 the reviewer is consulted at all.
+
+**The material-outcome claim is refused, 2026-08-16.** The 14 % where a motif fired and disagreed are
+cases where the reviewer named *what was lost* and the swarm named *what won it* — "loosing a pawn"
+against "a pin". The obvious remedy is a claim measured in material delta. The author's ruling:
+
+> "material-outcome claim should not be implemented, mechanism is more informative than the material
+> claim"
+
+That is the right call and worth recording as a principle rather than a preference. *"You dropped a
+pawn"* names a symptom the player already knows about — they watched it happen — while *"a pin won
+it"* names the thing that can be trained. A report full of material outcomes would be a scoreboard;
+V8 asks for an explanation. It also protects against the failure this project keeps rediscovering:
+a claim ranking by size rather than by mechanism ends up telling everyone the same thing (E17).
+
+The consequence is that this 14 % is **accepted as permanent disagreement**, not treated as a defect.
+Reviewer and swarm will keep describing the same move differently, and the reviewer's instruction to
+name the material lost stays in Form A precisely so the two can be lined up.
 
 **A structural gap, smaller than it looks.** Motifs are computed on the engine's best move and on the
 opponent's best reply — **never on the move the player actually played**. So "placing a piece on the
@@ -113,7 +130,39 @@ attacked square", a property of the played move, has nowhere to land. Checked di
 different-motif cases, the played move carries what the reviewer described in **1**. Real, worth
 fixing for the sentences it would enable, and not a large lever.
 
-## Consequence — screened, not applied
+## Applied, 2026-08-16 — `INACCURACY_WP = 5.0`
+
+The author's decision after seeing the corrected figures. `MISTAKE_WP` moves to 17.5, the value this
+experiment screened, keeping the bands evenly spaced; the boundary is close to cosmetic since every
+measurement in the swarm turns on `label is not None`. `BLUNDER_WP` is untouched at 30, so V1's
+strength estimate — which reads blunder rate — is unaffected.
+
+**What this invalidates, and what was done about it.**
+
+`NO_CHANGE_RATIO = 0.58` was fitted at a 10 wp floor across 57 predictions
+([[experiments.e05-natural-drift]]). Refitting needs the 84-player corpus, which is deliberately not
+committed, so it is **outstanding**. Rather than let a stale constant quietly produce a confident
+verdict, `labels.NO_CHANGE_RATIO_FITTED_AT_WP` records the floor it was fitted at and
+`calibration_is_stale()` compares it with the floor in use. While they disagree the plan **withdraws
+the "15–23 % of players reach this without changing anything" figure and says why**:
+
+```
+fork missed when available: below 14.6% over the next 20 games
+  (measured 30.3%, ~25.2% if nothing changes; the share of players who reach
+   this without changing anything has not been recalibrated since the error
+   threshold moved, so it is not quoted)
+```
+
+The target itself is unchanged and still falsifiable — only the false-positive rate is withdrawn,
+because that number was measured against a different definition of "an error". `test_planner`'s
+assertion was rewritten to encode the **rule** rather than the moment: refit E05, update the marker,
+and it starts checking the quoted range again automatically.
+
+**Peer references must be rebuilt** — rates are no more comparable across thresholds than across
+depths (E01) — and every coverage, overlap and cost figure in the vault now describes the old floor
+until re-measured.
+
+## Consequence — the screen said yes; the blast radius decided how
 
 The screen is favourable and it is **not** what should decide this. Lowering the floor has a blast
 radius the screen does not measure:
