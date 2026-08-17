@@ -42,10 +42,72 @@ analysis works.
    reading of all of them. Recording which one this is costs you a number and
    saves the result from being over-read.
 
-
-   (your game-by-game notes here)
-
-
+1. Loosing pawn move 5.
+1. Missing piece loosing tactic move 5.
+1. Not taking a piece move 12.
+1. Loosing a pawn move 20.
+2. Missing a piece winning motif move 13.
+2. Missing a piece winning motif move 14.
+2. Missing a fork move 20.
+2. Missing additional material loosng defense move 21.
+3. Loosing a pawn move 8.
+3. Missing a fork move 8.
+4. Missing a pawn taking opportunity move 4.
+4. Missing a material taking motif move 4.
+4. Missing a pinned piece move 23.
+4. Missing a preventable checkmate move 26.
+5. Not taking queen move 14.
+5. Loosing a queen move 14.
+5. Loosing a pawn move 24.
+5. Missing a fork move 26.
+7. Loosing a piece move 16.
+7. Missing a fork move 16.
+7. Quitting the game too early move 16.
+9. Messing up pawn structure move 15.
+9. Missing pawn loosing motif move 15.
+9. Missing hanging pawn move 20.
+9. Missing material saving defense move 32.
+9. Missing queen taking treath move 35.
+9. Missing queen taking opportunity move 36.
+10. Loosing a pawn move 20.
+10. Missing a piece loosing treath move 22.
+11. Placing a piece on the attacked square move 24.
+11. Loosing material move 27.
+12. Loosing a pawn move 18.
+12. Loosing a pawn move 20.
+12. Loosing a pawn move 23.
+12. Loosing a pawn move 25.
+12. Missing a piece loosing treath move 32.
+12. Missing a king attack opportunity move 35.
+12. Missing a fork move 41.
+13. Developing a piece improperly move 10.
+13. Missing a checkmate treath motif move 14.
+13. Missing a checkmate treath move 15.
+14. Giving up a great square for the opponent knight move 18.
+14. Missing an passant move 24.
+14. Missing a fork move 23.
+15. Loosing a pawn move 11.
+15. Loosing a pawn move 14.
+15. Missing a pawn taking opportunity move 15.
+15. Missing a king attack tactic move 15.
+15. Placing a piece on the attacked square move 37.
+16. Not taking a pawn back move 10.
+16. Not taking a pawn move 18.
+18. Missing a piece loosing motif move 4.
+18. Missing a loosing pawn move 7.
+18. Missing a loosing piece move 14.
+18. Missing a loosing piece move 17.
+18. Missing a loosing pawn move 26.
+18. Missing a checkmate treath move 32.
+19. Missing a piece loosing move 15.
+19. Missing a pawn loosing move 22.
+19. Quitting a game too early move 22.
+20. Missing a forced fork motif move 6.
+20. Messing up pawn structure move 9.
+20. Loosing a pawn move 11.
+20. Missing a piece loosing move 11.
+20. Missing a fork motif move 11.
+20. Loosing a piece move 18.
 
 
 PART 2 — the ranked three, from what you wrote above.

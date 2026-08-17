@@ -179,6 +179,11 @@ The most useful box on this form:
 README = """Expert review pack
 ==================
 
+Read `what-the-system-looks-for.txt` first, once, before any player. It lists
+everything the swarm can detect and — more usefully — what it is blind to. You
+are not being tested on your ability to guess its vocabulary, and a reviewer
+who does not know what it looks for cannot tell a gap from an oversight.
+
 {n} players. For each, work in this order:
 
   1. open  games/<player>.pgn            (or the study link, if provided)

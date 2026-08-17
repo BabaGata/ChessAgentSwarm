@@ -1,0 +1,184 @@
+﻿WHAT THE SYSTEM LOOKS FOR
+==========================================================================
+
+Generated from the code, so it is what the swarm actually measures rather
+than what anyone remembers it measuring.
+
+Read this BEFORE annotating, not after. You are not being tested on your
+ability to guess the vocabulary — if you notice something real that is not
+in here, that is a finding about the system and the most useful thing you
+can write down.
+
+
+HOW A MISTAKE IS DECIDED AT ALL
+--------------------------------------------------------------------------
+
+Every one of your moves is compared with the engine's best move at depth 15,
+and the difference is converted to WIN PROBABILITY, not centipawns.
+
+    inaccuracy     10 points of win probability given away
+    mistake        20
+    blunder        30
+
+Three consequences worth knowing while you annotate:
+
+  * FORCED SEQUENCES ARE INCLUDED. The engine's evaluation already accounts
+    for anything forced inside its search, so a move that loses a rook six
+    moves later, or allows a mate in three, registers on the move that
+    ALLOWED it. You do not need to count material yourself, and the swarm
+    never counts material — it reads the evaluation.
+
+  * Evaluations are clamped at +-1000cp first, so mate is treated as
+    'completely winning' rather than as infinity. Allowing mate in 1 and
+    allowing mate in 10 therefore score the SAME, and going from already
+    winning to mate scores nothing at all.
+
+  * Anything below 10 points carries no label. A move giving away 9
+    points of win probability is real and is not counted as an error. If you
+    are noticing small errors, you are working finer than the swarm does
+    (measured in E31).
+
+
+THE SEVEN SECTIONS
+--------------------------------------------------------------------------
+
+  S1  tactics
+    claims: missed_motif / allowed_motif
+    For every move, the engine's best move is checked for a tactical pattern.
+    MISSED  = the pattern was there, you played something that lost ground.
+    ALLOWED = your move was an error, and the opponent's best reply plays
+              the pattern against you.
+
+  S2  decision process
+    claims: time_pressure / instant_move / long_think / time_budget
+    The same errors, sorted by the CLOCK rather than by the board: what were
+    you doing with your time when you went wrong.
+
+  S3  endgames
+    claims: endgame_error / advantage_error
+    Errors once the position is an endgame, split by material left, and errors
+    made while already clearly better.
+
+  S4  openings
+    claims: early_error / opening_disadvantage
+    Errors before move 15, split by colour; and how often you leave the opening
+    already worse.
+
+  S5  pawn structure
+    claims: concedes_weakness
+    Moves after which YOUR OWN pawn structure has a new weakness in it.
+
+  S6  squares and files
+    claims: allows_square
+    Moves after which the opponent has a square or file they did not have.
+
+  S8  attack and defence
+    claims: allows_pressure
+    Moves after which more enemy pieces bear on your king.
+
+
+EVERY SENTENCE IT CAN SAY ABOUT YOU
+--------------------------------------------------------------------------
+
+Verbatim from the report templates. If your note matches one of these,
+the swarm has a name for it; if it does not, it may still have SEEN the
+mistake without being able to name it.
+
+  advantage_error
+      You go wrong more often than most when you are already better.
+  allowed_motif
+      When you go wrong, it is often a {subject} that punishes you.
+  allows_pressure
+      Attacks build against your king more readily than against players at your level.
+  allows_square
+      You let opponents establish {subject} more often than players at your level.
+  concedes_weakness
+      You end up with {subject} pawns more often than players at your level.
+  early_error
+      You go wrong early {subject}.
+  endgame_error
+      Your play falls off in {subject} endgames.
+  instant_move_error
+      Moves you play instantly go wrong more often than they should.
+  long_think_error
+      Your long thinks tend to end in a mistake.
+  missed_motif
+      You miss {subject} tactics that were available.
+  opening_disadvantage
+      You come out of the opening worse more often than most.
+  time_budget_error
+      When you use up most of your clock before move 15, the rest of that game goes worse — the cost of a long think lands later, not on the move itself.
+  time_pressure_error
+      Your play falls off when the clock is short.
+
+  ...and where a claim covers everything of its type at once:
+
+  allows_square (pooled)
+      You let opponents settle pieces into your position more often than players at your level.
+  concedes_weakness (pooled)
+      Your moves leave weaknesses in your own pawn structure more often than players at your level.
+  early_error (pooled)
+      You go wrong early, before the middlegame starts.
+  endgame_error (pooled)
+      Your play falls off in the endgame.
+  opening_disadvantage (pooled)
+      You come out of the opening worse more often than most.
+
+
+THE TACTICAL PATTERNS IT KNOWS
+--------------------------------------------------------------------------
+
+These eight and no others. Both directions: missing one, and allowing one.
+
+  fork                     (fork)
+  pin                      (pin)
+  skewer                   (skewer)
+  discovered attack        (discoveredAttack)
+  hanging piece            (hangingPiece)
+  back-rank mate           (backRankMate)
+  capturing the defender   (capturingDefender)
+  trapped piece            (trappedPiece)
+
+  pawn structure it can concede : backward, doubled, isolated
+  squares it can give away      : a knight you cannot chase away, a rook on your second rank
+
+
+THE CLOCK CONDITIONS IT SORTS ERRORS INTO
+--------------------------------------------------------------------------
+
+  instant move     played in 2 seconds or less
+  time pressure    60 seconds or less left on the clock
+  long think       3x your own typical time for that game
+  time budget      the rest of a game after overspending by move 15
+
+
+WHAT IT IS BLIND TO
+--------------------------------------------------------------------------
+
+Written down so you can tell a gap from an oversight. If you notice one of
+these, the swarm will not have it, and saying so is still worth the line.
+
+  why you lost the material
+    The swarm records WHAT punished you, never WHY you allowed it. Undefended
+    pieces left standing, a piece moved to an attacked square, an exchange
+    counted wrongly, a defensive resource missed — none of these are
+    measured. Only a probe (V9) asks, and only about a shortlisted finding.
+
+  piece quality
+    "Gave up a good bishop for a bad knight" has no detector. Nothing in the
+    swarm represents a piece being good or bad.
+
+  free pawns
+    The hanging-piece detector ignores anything worth less than a knight
+    (HANGING_MIN_VALUE = 3), so a dropped pawn is never NAMED — though the
+    error underneath it is usually still counted. See E30 and E31.
+
+  plans and ideas
+    No detector represents a plan, a wrong plan, or playing without one.
+
+  openings by name
+    Games carry their ECO code, and nothing diagnoses a specific line.
+
+  whether the opponent was any good
+    Opponent rating is not used anywhere in the diagnosis.
+

@@ -49,6 +49,30 @@ a specific ply**, against 3 data points from a ranked list.
 the mistake, could not name it" into "missed", which is the difference between a broken analysis core
 and a thin vocabulary. They need opposite fixes and only one of them is a real problem.
 
+## Three players, 2026-08-16 — detection varies, naming does not
+
+| player | notes with a move | detection | naming | pawn notes unnamed |
+|---|--:|--:|--:|--:|
+| `bjagus` (20 games) | 20 | **80 %** | 10 % | 9 / 9 |
+| `cademan` (20 games) | 60 | **57 %** | 8 % | 23 / 23 |
+| `Crossfire1983` (10 games) | 26 | **42 %** | 0 % | 13 / 13 |
+
+**Naming is flat and low everywhere: 5 of 106 move-level notes.** Detection swings widely, and the
+swing tracks how much of the reviewer's attention is on **pawn-sized material** — `Crossfire1983`'s
+notes are half pawn-related and its detection is lowest. Both barriers are the same class of
+observation hitting two different walls: `HANGING_MIN_VALUE = 3` denies it a *name*, and
+`INACCURACY_WP = 10.0` often denies it a *label* as well, because dropping one pawn in a balanced
+middlegame is frequently worth less than ten points of win probability.
+
+**45 of 45 pawn notes across three players are unnameable.** That is no longer a curiosity of one
+player's games.
+
+The reviewer's own vocabulary also turned out to be **more precise than the first mapping allowed**.
+They consistently distinguish *"missing a piece winning motif"* (their own chance, not taken) from
+*"missing a piece loosing threat"* (a threat against them, not seen) — which is exactly the
+`missed_motif` / `allowed_motif` split. The first version of `compare.py` collapsed both and left 44
+notes unmapped; the table now honours the distinction.
+
 ## Three specific findings
 
 ### Every pawn note is unnameable — 9 of 9

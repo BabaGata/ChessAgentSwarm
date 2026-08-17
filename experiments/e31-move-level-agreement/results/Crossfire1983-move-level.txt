@@ -1,0 +1,52 @@
+ game   move  reviewer noted                                  swarm                 verdict
+--------------------------------------------------------------------------------------------------------
+    1         Destroying structure of the king's castle move  ?                     UNMAPPED
+    1     14  Loosing pawn move 14.                           nothing               MISSED
+    1     18  Loosing pawn move 18.                           error only            saw, did not name
+    1     23  Missing fork move 23.                           nothing               MISSED
+    1     23  Missing pawn loosing sequence move 23.          nothing               MISSED
+    2         Giving up a piece move 3.                       ?                     UNMAPPED
+    2     19  Missing pawn loosing sequence move 19.          nothing               MISSED
+    2     21  Missing loosing a pawn move 21.                 nothing               MISSED
+    2     22  Missing a fork move 22.                         nothing               MISSED
+    2     27  Loosing a pawn move 27.                         nothing               MISSED
+    3     17  Missing a fork move 17.                         error only            saw, did not name
+    3         Missing loosing additional material move 18.    ?                     UNMAPPED
+    3     34  Missing loosing pawns move 34.                  nothing               MISSED
+    5     15  Loosing a piece move 15.                        error only            saw, did not name
+    5         Missing taking a pawn move 19.                  ?                     UNMAPPED
+    6     22  Loosing a piece move 22.                        capturingDefender     saw, did not name
+    6     31  Missing a pin move 31.                          nothing               MISSED
+    7      9  Loosing a pawn move 9.                          nothing               MISSED
+    7     21  Loosing a pawn move 21.                         nothing               MISSED
+    7         Missing a for opportunity move 36.              ?                     UNMAPPED
+    7     38  Missing a pawn loosing move 38.                 fork                  saw, did not name
+    8      9  Loosing a pawn move 9.                          error only            saw, did not name
+    8      9  Missing a pawn loosing sequence move 9.         error only            saw, did not name
+    8     33  Missing loosing a piece move 33.                nothing               MISSED
+    8     36  Missing loosing a piece sequence move 36.       error only            saw, did not name
+    8     37  Loosing a piece move 37.                        error only            saw, did not name
+    9         Missing material loosing sequence move 5.       ?                     UNMAPPED
+    9      9  Loosing a piece move 9.                         nothing               MISSED
+   10      5  Loosing a pawn move 5.                          nothing               MISSED
+   10      9  Missing a checkmate motif move 9.               skewer                saw, did not name
+   10     19  Missing a pin move 19.                          nothing               MISSED
+   10     38  Loosing a piece move 38.                        error only            saw, did not name
+
+========================================================================================================
+MOVE-LEVEL NOTES — the ones that can actually be checked
+  notes carrying a move number        26
+  the swarm flagged that same move    11  (42%)   <- DETECTION
+    ...and named the same pattern      0  (0%)   <- NAMING
+    ...but could not name it          11  (42%)
+  the swarm saw nothing there         15  (58%)
+
+PAWN MATERIAL — E30's exclusion, seen at move level
+  notes mentioning a pawn             13
+  of those, unnamed by the swarm      13
+
+EVERYTHING ELSE
+  game-level 'instant moves' notes     0 confirmed, 0 not
+  no detector exists for              0
+  game-level, no move to check         0
+  wording not mapped                  6

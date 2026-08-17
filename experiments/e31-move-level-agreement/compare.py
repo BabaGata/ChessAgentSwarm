@@ -96,28 +96,79 @@ def parse_notes(path: Path) -> list[Note]:
 # What each phrase the reviewer used would have to look like in the swarm's
 # vocabulary. Deliberately written from THEIR words outward, not from the claim
 # list inward -- the point is to find what has no mapping at all.
+# Longest and most specific first: the first match wins, so "piece loosing"
+# (a threat against them they did not see) must be tested before "piece" alone.
+#
+# Written by the agent AFTER reading the reviewer's notes, which makes it the
+# weakest link in E31 and is stated as such in the note. It is a table rather
+# than a model so it can be argued with line by line.
 VOCABULARY: tuple[tuple[str, tuple[str, ...]], ...] = (
-    ("fork", ("fork",)),
-    ("knight fork", ("fork",)),
-    ("pawn taking", ("hangingPiece:pawn",)),
-    ("loosing pawn", ("hangingPiece:pawn",)),
-    ("not taking material", ("hangingPiece",)),
-    ("loosing material", ("hangingPiece",)),
-    ("loosing piece", ("hangingPiece",)),
-    ("piece winning", ("hangingPiece", "trappedPiece")),
-    ("defense exchange", ("capturingDefender",)),
+    # --- things with no detector at all -----------------------------------
+    ("good bishop for a bad knight", ()),
+    ("good piece for a bad one", ()),
+    ("quitting the game", ()),          # resignation behaviour
+    ("quitting a game", ()),
+    ("developing a piece improperly", ()),
+    ("an passant", ()),                 # en passant is not a tracked motif
+    ("material saving defense", ()),    # defensive resources are not detected
+    ("additional material loosng defense", ()),
+    ("preventable checkmate", ("backRankMate",)),
+    ("checkmate treath", ("backRankMate",)),
+    ("checkmate", ("backRankMate",)),
+
+    # --- threats against them that they did not see (ALLOWED) --------------
+    ("piece loosing", ("hangingPiece", "trappedPiece")),
+    ("pawn loosing", ("hangingPiece:pawn",)),
+    ("loosing pawn motif", ("hangingPiece:pawn",)),
+    ("a loosing pawn", ("hangingPiece:pawn",)),
+    ("a loosing piece", ("hangingPiece", "trappedPiece")),
+    ("placing a piece on the attacked square", ("hangingPiece",)),
     ("queen on the attacked square", ("hangingPiece",)),
+    ("queen taking treath", ("hangingPiece",)),
+
+    # --- their own chances they did not take (MISSED) ----------------------
+    ("piece winning", ("hangingPiece", "trappedPiece")),
+    ("material taking", ("hangingPiece",)),
+    ("pawn taking", ("hangingPiece:pawn",)),
+    ("not taking a pawn back", ("hangingPiece:pawn",)),
+    ("not taking a pawn", ("hangingPiece:pawn",)),
+    ("not taking queen", ("hangingPiece",)),
+    ("not taking a piece", ("hangingPiece",)),
+    ("not taking material", ("hangingPiece",)),
+    ("queen taking opportunity", ("hangingPiece",)),
+    ("hanging pawn", ("hangingPiece:pawn",)),
+    ("pinned piece", ("pin",)),
+    ("defense exchange", ("capturingDefender",)),
+
+    # --- either direction, motif named outright ---------------------------
+    ("fork", ("fork",)),
+    ("pin", ("pin",)),
+    ("skewer", ("skewer",)),
+    ("discovered", ("discoveredAttack",)),
+
+    # --- material, unspecified -------------------------------------------
+    ("loosing a pawn", ("hangingPiece:pawn",)),
+    ("loosing pawn", ("hangingPiece:pawn",)),
+    ("loosing a queen", ("hangingPiece",)),
     ("loosing queen", ("hangingPiece",)),
-    ("instant move", ("instant_move_error",)),
+    ("loosing a piece", ("hangingPiece", "trappedPiece")),
+    ("loosing piece", ("hangingPiece", "trappedPiece")),
+    ("loosing pieces", ("hangingPiece", "trappedPiece")),
+    ("loosing material", ("hangingPiece", "trappedPiece")),
+
+    # --- structure and squares -------------------------------------------
+    ("great square for the opponent knight", ("allows_square:outpost",)),
+    ("isolated pawn", ("concedes_weakness:isolated",)),
+    ("messing up pawn structure", ("concedes_weakness",)),
+    ("worsening pawn structure", ("concedes_weakness",)),
+    ("pawn structure", ("concedes_weakness",)),
+
+    # --- king safety and process -----------------------------------------
     ("king attack", ("allows_pressure",)),
     ("defending the king", ("allows_pressure",)),
     ("not defending properly", ("allows_pressure",)),
-    ("isolated pawn", ("concedes_weakness:isolated",)),
-    ("pawn structure", ("concedes_weakness",)),
-    ("good bishop for a bad knight", ()),      # no detector exists
-    ("good piece for a bad one", ()),          # no detector exists
-    ("worsening pawn structure", ("concedes_weakness",)),
     ("greedy over material", ("allows_pressure",)),
+    ("instant move", ("instant_move_error",)),
 )
 
 
