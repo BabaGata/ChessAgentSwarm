@@ -42,8 +42,8 @@ analysis works.
    reading of all of them. Recording which one this is costs you a number and
    saves the result from being over-read.
 
-
-   (your game-by-game notes here)
+1. Missing proper defense move 8.
+2. 
 
 
 

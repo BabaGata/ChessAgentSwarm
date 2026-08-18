@@ -84,6 +84,14 @@ SECTIONS: tuple[tuple[str, str, str], ...] = (
         "Moves after which the opponent has a square or file they did not have.",
     ),
     (
+        "S7  material safety",
+        "moved_into_attack / miscounted_exchange",
+        "The only section that reads THE MOVE YOU ACTUALLY PLAYED. Did the piece\n"
+        "    you just moved land where it can be won, and do the exchanges you start\n"
+        "    lose material once the recaptures are counted? This is the nearest the\n"
+        "    swarm gets to WHY you lost material rather than what won it.",
+    ),
+    (
         "S8  attack and defence",
         "allows_pressure",
         "Moves after which more enemy pieces bear on your king.",
@@ -94,11 +102,16 @@ SECTIONS: tuple[tuple[str, str, str], ...] = (
 # representation of. Listed because an honest tool says where it is blind, and
 # because every one of these came out of real review notes.
 BLIND: tuple[tuple[str, str], ...] = (
-    ("why you lost the material",
-     "The swarm records WHAT punished you, never WHY you allowed it. Undefended\n"
-     "    pieces left standing, a piece moved to an attacked square, an exchange\n"
-     "    counted wrongly, a defensive resource missed — none of these are\n"
-     "    measured. Only a probe (V9) asks, and only about a shortlisted finding."),
+    ("why you lost the material — PARTLY covered since 2026-08-17",
+     "S7 now names two causes: moving a piece onto a square where it can be won,\n"
+     "    and starting an exchange that loses material once the recaptures are\n"
+     "    counted. Two more were measured and REFUSED — leaving your other pieces\n"
+     "    loose, and ignoring a standing threat — because both correlate above\n"
+     "    +0.91 with how often the player errs at all, so they restate the error\n"
+     "    rate rather than explaining it (E34).\n"
+     "    Still absent: whether a defensive resource existed and was missed, and\n"
+     "    whether the player looked at the square at all. The second is unknowable\n"
+     "    from a game record — only a probe can ask (V9)."),
     ("piece quality",
      "\"Gave up a good bishop for a bad knight\" has no detector. Nothing in the\n"
      "    swarm represents a piece being good or bad."),

@@ -129,7 +129,13 @@ the player is on and whether they handle it correctly.
 > knight — outposts turned out to be the strongest discriminator in the project. What is trivial is
 > everything phrased as a property of the player's own position (L-024).
 
-### S7 · Calculation quality — **screened and not built** ([[experiments.e10-calculation-candidates]])
+### S7 · Material safety — **built 2026-08-17** ([[experiments.e34-material-causes]])
+
+The slot below was emptied by E10 and refilled by E34 on a different question: not *how deeply do you calculate* but **did you check**. Two claims — `moved_into_attack` and `miscounted_exchange` — read the move the player actually played, and both passed E10's own test to get in. Two further candidates, `left_hanging` and `ignored_threat`, were refused for correlating +0.917 and +0.914 with the overall error rate: exactly where `missed_quiet` failed.
+
+The original screening, which still stands for calculation *depth*:
+
+#### S7 (original) · Calculation quality — **screened and not built** ([[experiments.e10-calculation-candidates]])
 **Owns:** the calculation skills distinct from pattern knowledge — finding quiet moves, finding
 defensive moves, depth of forcing sequences, breadth of candidate consideration.
 

@@ -375,6 +375,19 @@ def _action(finding: Finding) -> str:
             "come back. In the cited games, find the move where the square your opponent "
             "later occupied stopped being defensible."
         ),
+        # S7: a habit of checking, not a body of knowledge to study. Neither
+        # maps to a puzzle theme, and sending a player to drill would be the
+        # wrong prescription for a looking problem.
+        "moved_into_attack": (
+            "Before you let go of a piece, ask one question about the square you are "
+            "putting it on: what attacks it, and what defends it. Not the whole "
+            "position -- one square, every move."
+        ),
+        "miscounted_exchange": (
+            "Before starting an exchange, count both sides of it: every attacker you "
+            "have on that square against every defender they have, cheapest first. "
+            "In the cited games, count them again and see where the total went wrong."
+        ),
         "allows_pressure": (
             "In the cited positions, count your opponent's pieces that can reach your king "
             "and compare it with your own defenders. The move to find is the one before "

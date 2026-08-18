@@ -74,6 +74,46 @@ analysis works.
 10. Missing a checkmate motif move 9.
 10. Missing a pin move 19.
 10. Loosing a piece move 38.
+11. Missing a pawn loosing sequence move 18.
+11. Missing a pawn saving defense move 30.
+12. Destroying pawn structure move 16.
+12. Loosing a pawn move 32.
+12. Not taking a pawn move 42.
+13. Not preventing attack on king move 14.
+13. Not defending properly move 21.
+14. Making weakness move 11.
+14. Fork move 15.
+14. Fork move 22.
+15. Loosing space move 10.
+15. Not taking pawn move 13.
+15. Missing pawn loosing sequence move 14.
+15. Loosing a pawn move 30.
+15. Missing piece loosing sequence move 31.
+15. Giving a good piece for undeveloped one move 10.
+15. Destroying pawn structure move 11.
+15. Not defending properly move 13.
+15. Opening up to attack move 14.
+15. Missing piece loosing sequence move 15.
+15. Loosing pawn move 21.
+15. Loosing pawn move 23.
+15. Missing a piece loosing sequence move 23.
+15. Not defending properly move 24.
+15. Loosing pawn move 32.
+15. Missing a piece loosing sequence move 32.
+15. Not taking a pawn move 38.
+16. Advancing with pieces prematurely move 19.
+16. Fork sequence move 19.
+16. Checkmate move 25.
+17. Loosing center move 12.
+17. Missing loosing pawn move 19.
+18. Missing a pawn moving sequence move 10.
+18. Not taking a pawn move 16.
+18. Missing a piece loosing move 18.
+18. Discovered attack move 26.
+18. Missing a piece taking move 39.
+18. Loosing a pawn move 53.
+19. Missing a piece loosing move 21.
+20. Missing a defense move 9.
 
 
 

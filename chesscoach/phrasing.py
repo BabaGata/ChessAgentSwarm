@@ -47,6 +47,8 @@ QUANTITIES: dict[str, str] = {
     "concedes_weakness": "moves that leave you with {subject} pawns",
     "allows_square": "moves that let your opponent establish {subject}",
     "allows_pressure": "moves that let an attack build against your king",
+    "moved_into_attack": "moves that leave the piece you moved takeable",
+    "miscounted_exchange": "exchanges you start that lose material",
 }
 
 # The finding as a sentence a person would say. Deliberately flat: no severity
@@ -75,6 +77,16 @@ STATEMENTS: dict[str, str] = {
     "allows_square": "You let opponents establish {subject} more often than players at your level.",
     "allows_pressure": (
         "Attacks build against your king more readily than against players at your level."
+    ),
+    # S7. Says what the player DID, not what punished them -- the whole point of
+    # the section (D13, E34).
+    "moved_into_attack": (
+        "You put the piece you have just moved on a square where it can be won, "
+        "more often than players at your level."
+    ),
+    "miscounted_exchange": (
+        "When you start an exchange, it more often turns out to lose material "
+        "than it does for players at your level."
     ),
 }
 

@@ -1,0 +1,72 @@
+
+DOES IT FIRE, AND DOES IT SEPARATE PLAYERS?
+cause                    players  instances  chances   pooled   median     p90   spread
+---------------------------------------------------------------------------------------
+moved_into_attack             12       1691    14951   11.3%    10.9%   14.8%    1.36x
+miscounted_exchange           12         97     3765    2.6%     2.3%    4.0%    1.75x
+left_hanging                  12       2007    14951   13.4%    12.9%   20.7%    1.61x
+ignored_threat                12       1238     5290   23.4%    22.1%   31.8%    1.44x
+
+HOW MUCH OF WHAT IT ALREADY CALLS A MISTAKE CAN IT NOW EXPLAIN?
+  labelled errors                        3653
+  carrying a tactical MOTIF (today)        1741 (48%)
+  carrying a material CAUSE (new)          1172 (32%)
+
+  the overlap, which is what decides whether causes ADD anything:
+    motif only                              900 (25%)
+    cause only  <- newly explained          331 (9%)
+    both                                    841 (23%)
+    still anonymous                        1581 (43%)
+
+  SURVIVORS ONLY (moved_into_attack + miscounted_exchange), which is
+  what would actually ship:
+    errors they explain                     488 (13%)
+    of those, no motif said anything        124 (3%)
+    anonymous after shipping only these  49%
+
+  anonymous before / after               52% -> 43%
+
+  errors that actually cost material     850
+  of those, a cause explains                850 (100%)
+    NOTE: this figure is near-tautological. 'Cost material' is defined
+    as a losing exchange or material won on the reply, which is close to
+    the union of the cause definitions. It cannot fail and is not evidence.
+
+DOES IT FALL WITH RATING, AFTER DIVIDING OUT GENERAL SKILL? (L-025)
+cause                        raw r   divided r
+----------------------------------------------
+moved_into_attack            -0.38       +0.51
+miscounted_exchange          -0.25       +0.15
+left_hanging                 -0.72       -0.16
+ignored_threat               -0.75       +0.15
+  (12 players with a rating; E25 used 84 and called 12 thin)
+
+OR IS IT THE ERROR RATE UNDER ANOTHER NAME? (E10's test, which closed S7)
+cause                      r with overall error rate
+------------------------------------------------------
+moved_into_attack                             +0.225
+miscounted_exchange                           +0.123
+left_hanging                                  +0.917  <- restates the error rate
+ignored_threat                                +0.914  <- restates the error rate
+  E10 refused a candidate at +0.737. Above ~0.70 a claim is not a new
+  diagnosis, it is how often the player goes wrong at all.
+
+PER PLAYER - the spread above, made concrete
+player                 rating  moved_into_att  miscounted_exc    left_hanging  ignored_threat
+--------------------------------------------------------------------------------------
+bernes                   1632          11.4%           1.6%           7.8%          14.1%
+bjagus                   1855          12.4%           1.7%          12.5%          21.2%
+cademan                  1340          11.2%           3.1%          20.7%          31.8%
+Crossfire1983            1644          12.5%           1.2%          15.5%          24.7%
+goydorak                 1580          10.4%           5.2%          12.8%          23.1%
+Hirsican                 1530           9.3%           4.0%          18.6%          28.9%
+maikel5                  1923          10.4%           3.0%          10.1%          19.3%
+maxhayastan              1736          10.6%           2.6%           9.6%          18.9%
+Maximilian_Honigtopf     1171          15.2%           2.2%          23.3%          37.1%
+Odin5306                 1981          10.7%           2.1%           8.9%          17.9%
+Sheriwoyama              2033           9.7%           2.0%          15.4%          23.9%
+simonvj                  1786          14.8%           2.4%          12.9%          21.1%
+
+Spread is p90/median. A cause every player commits at the same rate cannot
+select anyone's priority however common it is, which is what removed most
+of E09's and E11's candidates.

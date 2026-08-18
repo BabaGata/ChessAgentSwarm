@@ -72,6 +72,13 @@ THE SEVEN SECTIONS
     claims: allows_square
     Moves after which the opponent has a square or file they did not have.
 
+  S7  material safety
+    claims: moved_into_attack / miscounted_exchange
+    The only section that reads THE MOVE YOU ACTUALLY PLAYED. Did the piece
+    you just moved land where it can be won, and do the exchanges you start
+    lose material once the recaptures are counted? This is the nearest the
+    swarm gets to WHY you lost material rather than what won it.
+
   S8  attack and defence
     claims: allows_pressure
     Moves after which more enemy pieces bear on your king.
@@ -102,8 +109,12 @@ mistake without being able to name it.
       Moves you play instantly go wrong more often than they should.
   long_think_error
       Your long thinks tend to end in a mistake.
+  miscounted_exchange
+      When you start an exchange, it more often turns out to lose material than it does for players at your level.
   missed_motif
       You miss {subject} tactics that were available.
+  moved_into_attack
+      You put the piece you have just moved on a square where it can be won, more often than players at your level.
   opening_disadvantage
       You come out of the opening worse more often than most.
   time_budget_error
@@ -159,11 +170,16 @@ WHAT IT IS BLIND TO
 Written down so you can tell a gap from an oversight. If you notice one of
 these, the swarm will not have it, and saying so is still worth the line.
 
-  why you lost the material
-    The swarm records WHAT punished you, never WHY you allowed it. Undefended
-    pieces left standing, a piece moved to an attacked square, an exchange
-    counted wrongly, a defensive resource missed — none of these are
-    measured. Only a probe (V9) asks, and only about a shortlisted finding.
+  why you lost the material — PARTLY covered since 2026-08-17
+    S7 now names two causes: moving a piece onto a square where it can be won,
+    and starting an exchange that loses material once the recaptures are
+    counted. Two more were measured and REFUSED — leaving your other pieces
+    loose, and ignoring a standing threat — because both correlate above
+    +0.91 with how often the player errs at all, so they restate the error
+    rate rather than explaining it (E34).
+    Still absent: whether a defensive resource existed and was missed, and
+    whether the player looked at the square at all. The second is unknowable
+    from a game record — only a probe can ask (V9).
 
   piece quality
     "Gave up a good bishop for a bad knight" has no detector. Nothing in the
