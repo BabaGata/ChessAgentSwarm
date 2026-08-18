@@ -127,6 +127,39 @@ can be won, on 11 % of your moves"* is a statement about a habit; conditioning i
 punished would make it a statement about the player's opponents. The **cost** is error-conditioned,
 because a move that lost nothing cost nothing.
 
+## Follow-up, 2026-08-17 — the sacrifice question, and why sound ones are counted
+
+The reviewer, reading `goydorak`: *"he does bad sacrifices a lot, giving up a piece for a pawn for
+not much attack possible."*
+
+**The shipped claim already sees it.** `miscounted_exchange` puts `goydorak` top of the twelve at
+**5.2 % against a 2.3 % median** — 20 material-losing captures out of 386, the highest count in the
+corpus.
+
+The obvious objection is that a **sacrifice is not a miscount**, and it is worth answering with a
+number rather than a definition. Splitting those 20 by whether the engine called the move an error:
+
+| | material-losing captures | the engine called it an error |
+|---|--:|--:|
+| all twelve players | 97 | 55 (**57 %**) |
+| `goydorak` | 20 | 11 (55 %) |
+
+So **43 % of what the claim counts are sacrifices the engine did not fault**, and `goydorak` is
+almost exactly average in that ratio. Their distinctiveness is *frequency*, not unsoundness: they
+give up material in exchanges twice as often as their peers, and when they do it is no less sound
+than anyone else's. That is a sharper statement than the impression it came from, and the right one.
+
+**Conditioning the claim on the move being an error was tried and is worse:**
+
+| | r with the overall error rate | spread |
+|---|--:|--:|
+| as shipped, all material-losing captures | **+0.125** | 1.75× |
+| conditioned on the engine calling it an error | **+0.682** | 2.15× |
+
+Better separation, bought by importing the failure this experiment refused two candidates for:
+"was it an error" *is* the error rate, so filtering by it drags the claim to the edge of E10's +0.737
+line. The unconditioned version stays.
+
 ## Honest limitations
 
 - **`moved_into_attack` has the weakest spread of the four, 1.36×**, close to the zone where E09's

@@ -185,6 +185,55 @@ points of detection for a quarter of all moves being errors and the sharpest dil
 Recorded as a decision for the author rather than taken here, with the refit work stated so it is
 priced honestly rather than discovered afterwards.
 
+## Follow-up, 2026-08-17 — is the threshold fixed, and is that fair to stronger players?
+
+Asked by the reviewer:
+
+> "Players in the upper range of the skill level do less mistakes and of the less severity, and they
+> lose by doing multiple inaccurate moves but those are not much severe. Is the threshold permanent
+> or is it set up dynamically for the players?"
+
+**It is permanent.** `INACCURACY_WP = 5.0`, `MISTAKE_WP = 17.5`, `BLUNDER_WP = 30.0`, identical for
+every player. Nothing anywhere adapts them.
+
+**The observation behind the question is correct on all three axes.** Twelve players, sorted by
+rating:
+
+| | correlation with rating |
+|---|--:|
+| error rate | **−0.84** |
+| **median** loss of an error | **−0.74** |
+| mean loss of an error | **−0.86** |
+| share of errors in the smallest band (5–10 wp) | **+0.70** |
+
+`Sheriwoyama` (2033) has 58 % of their errors in the 5–10 wp band and 5 % blunders;
+`Maximilian_Honigtopf` (1171) has 46 % and 14 %. Stronger players do not merely err less — their
+errors are *smaller*, and the difference is large.
+
+**Which retrospectively justifies this experiment more than its own screen did.** At the old 10 wp
+floor that smallest band was **entirely invisible**, and it is 46–58 % of all errors. Lowering the
+floor did not affect players evenly: it recovered proportionally more of what a strong player does
+wrong, because that is where a strong player's mistakes live.
+
+**A per-player threshold is still refused, for two reasons that are not about effort.**
+
+1. **It would break the peer comparison, which is the whole mechanism.** Every claim in this project
+   is a rate compared against a population rate. If each player's rate were computed against a
+   different definition of "error", those rates would not be comparable — the same objection E01
+   raises about comparing across engine depths, and the same one `build-peer-reference` enforces by
+   refusing to mix strata.
+2. **It would be circular.** V1 estimates a player's rating *from their blunder rate*
+   ([[experiments.e13-strength-signal]]). A rating-dependent threshold would make the estimate an
+   input to its own input.
+
+**The right answer to the observation is a claim, not a moving threshold.** "Your mistakes are many
+and small" against "few and catastrophic" is a real, measurable difference between players that the
+swarm currently cannot say — it reports rates and costs, never the *shape* of a player's error
+distribution. That is a candidate for a future screen rather than a change to the constants, and it
+would have to clear the same bar everything else does: does it distinguish players once general
+error-proneness is divided out? Given median loss correlates −0.74 with rating and error rate −0.84,
+the honest prior is that it mostly would not.
+
 ## Honest limitations
 
 - **Agreement is measured on three players' notes** and rests on the phrase table written after
