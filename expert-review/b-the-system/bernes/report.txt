@@ -5,66 +5,63 @@ WHAT STANDS OUT
 
 1. You miss fork tactics that were available.
 
-   How often   32% of the time, against 17% for players at your level
-   Seen in     8 of 53 games
-   Costing you about 4.2 points of win probability a game.
-   Players at your level lose about 3.9 to the same thing, so roughly
-   0.3 a game is what fixing this could get back.
+   How often   48% of the time, against 30% for players at your level
+   Seen in     10 of 53 games
+   Costing you about 5.0 points of win probability a game.
+   Players at your level lose about 4.3 to the same thing, so roughly
+   0.7 a game is what fixing this could get back.
+   For example game 2hJaVpb7, move 17, you played e3e4 (c5b7 was better)
    For example game 2hJaVpb7, move 32, you played f7d8 (h8e8 was better)
-   For example game 2hJaVpb7, move 33, you played e1c3 (h8e8 was better)
    For example game cZ8EWhYi, move 19, you played f7g8 (c6b4 was better)
 
 2. When you go wrong, it is often a hanging piece that punishes you.
 
-   Ordinary for your level, and still what these mistakes cost you most.
-
-   How often   11% of the time, against 8% for players at your level
-   Seen in     10 of 53 games
-   Costing you about 7.3 points of win probability a game.
-   Players at your level lose about 8.7 to the same thing, so this is
+   How often   11% of the time, against 7% for players at your level
+   Seen in     20 of 53 games
+   Costing you about 9.4 points of win probability a game.
+   Players at your level lose about 9.5 to the same thing, so this is
    not costing you your rating — it is costing you the next one.
-   For example game 2F6G9tIr, move 23, you played c7c8 (a7c8 was better)
    For example game 67QVbxrB, move 15, you played c4b3 (c1c8 was better)
-   For example game CnRTxl8D, move 29, you played c8c3 (g3c3 was better)
+   For example game CUusrqnj, move 13, you played d7e5 (d4e5 was better)
+   For example game EGKTN6wj, move 22, you played d2e4 (d5e4 was better)
 
-3. When you go wrong, it is often a discovered attack that punishes you.
+3. You put the piece you have just moved on a square where it can be won, more often than players at your level.
 
    Ordinary for your level, and still what these mistakes cost you most.
 
-   How often   10% of the time, against 6% for players at your level
-   Seen in     7 of 53 games
-   Costing you about 3.8 points of win probability a game.
-   Players at your level lose about 4.5 to the same thing, so this is
+   How often   11% of the time, against 11% for players at your level
+   Seen in     50 of 53 games
+   Costing you about 7.7 points of win probability a game.
+   Players at your level lose about 11.6 to the same thing, so this is
    not costing you your rating — it is costing you the next one.
-   For example game 2hJaVpb7, move 21, you played f1c1 (c6d8 was better)
-   For example game EUOCR8E9, move 21, you played a1d1 (d4f2 was better)
-   For example game SJTSabAM, move 9, you played c5d4 (f3d4 was better)
+   For example game ClJtXsak, move 8, you played c5d4 (g8f6 was better)
+   For example game Ht1L9CDk, move 17, you played c3d5 (e1g1 was better)
+   For example game XkSr9VDj, move 13, you played c2g6
 
 WHAT TO DO
 
 1. Drill `fork` puzzles, and solve to be right rather than fast — review every one you get wrong.
-   Why    seen in 8 of 53 games, at 32.3% against 17.1% for peers at your level
+   Why    seen in 10 of 53 games, at 48.4% against 30.2% for peers at your level
    Start  Do this one first — the others can wait their turn.
 
 2. Before committing a move, ask what your opponent's best reply threatens; a hanging piece is what has been punishing you.
-   Why    seen in 10 of 53 games, at 10.7% against 8.3% for peers at your level
-   Note   Ordinary for your level, and still what these mistakes cost you most.
+   Why    seen in 20 of 53 games, at 10.8% against 6.6% for peers at your level
 
-3. Before committing a move, ask what your opponent's best reply threatens; a discovered attack is what has been punishing you.
-   Why    seen in 7 of 53 games, at 9.8% against 6.0% for peers at your level
+3. Before you let go of a piece, ask one question about the square you are putting it on: what attacks it, and what defends it. Not the whole position -- one square, every move.
+   Why    seen in 50 of 53 games, at 11.4% against 11.0% for peers at your level
    Note   Ordinary for your level, and still what these mistakes cost you most.
 
 WHAT WOULD SHOW IT WORKED
 
- - fork missed when available: below 16% over your next 69 games
+ - fork missed when available: below 20% over your next 69 games
  - hanging piece conceded when you go wrong: below 6% over your next 20 games
- - discovered attack conceded when you go wrong: below 5% over your next 20 games
+ - moves that leave the piece you moved takeable: below 7% over your next 20 games
 
 WHAT YOUR WHOLE LEVEL LOSES MOST TO
 
- - Players at your level lose about 27.4 points of win probability a game to moves played in under two seconds.
- - Players at your level lose about 11.2 points of win probability a game to mistakes before move 15 with Black.
- - Players at your level lose about 9.2 points of win probability a game to mistakes before move 15 with White.
+ - Players at your level lose about 38.4 points of win probability a game to moves played in under two seconds.
+ - Players at your level lose about 17.2 points of win probability a game to mistakes before move 15 with Black.
+ - Players at your level lose about 14.4 points of win probability a game to mistakes before move 15 with White.
 
    These are not findings about you — they are what the whole rating band
    loses most to, and the stronger players in it lose less. Your own one or

@@ -3,61 +3,64 @@
 
 WHAT STANDS OUT
 
-1. You go wrong early as White.
+1. When you go wrong, it is often a fork that punishes you.
 
-   How often   22% of the time, against 10% for players at your level
+   How often   13% of the time, against 6% for players at your level
+   Seen in     15 of 28 games
+   Costing you about 16.8 points of win probability a game.
+   Players at your level lose about 7.5 to the same thing, so roughly
+   9.3 a game is what fixing this could get back.
+   For example game 6RId8MgM, move 11, you played b5b4 (c5e5 was better)
+   For example game KKioqi5t, move 17, you played b2b4 (h6f4 was better)
+   For example game KvIYSreC, move 7, you played f2f4 (e5d3 was better)
+
+2. When you go wrong, it is often a pawn you simply drop.
+
+   How often   13% of the time, against 6% for players at your level
    Seen in     14 of 28 games
-   Costing you about 29.9 points of win probability a game.
-   Players at your level lose about 9.2 to the same thing, so roughly
-   20.8 a game is what fixing this could get back.
-   For example game KKioqi5t, move 9, you played c1g5 (f3f4 was better)
-   For example game O6wkiLYY, move 6, you played f2f4 (f1d3 was better)
-   For example game QJNZvmfi, move 6, you played e4f5 (e4e5 was better)
+   Costing you about 14.6 points of win probability a game.
+   Players at your level lose about 5.5 to the same thing, so roughly
+   9.2 a game is what fixing this could get back.
+   For example game KKioqi5t, move 29, you played a1c1 (h4h3 was better)
+   For example game O6wkiLYY, move 6, you played f2f4 (e5e4 was better)
+   For example game rEJOQ7iq, move 9, you played e1g1 (c8g4 was better)
 
-2. When you go wrong, it is often a fork that punishes you.
+3. You go wrong early as Black.
 
-   How often   18% of the time, against 9% for players at your level
-   Seen in     13 of 28 games
-   Costing you about 15.4 points of win probability a game.
-   Players at your level lose about 6.7 to the same thing, so roughly
-   8.7 a game is what fixing this could get back.
-   For example game 6RId8MgM, move 10, you played a6a5 (b4c5 was better)
-   For example game 94wviRHx, move 13, you played e2d4 (e5d4 was better)
-   For example game KKioqi5t, move 33, you played f1e2 (h3g2 was better)
+   How often   47% of the time, against 27% for players at your level
+   Seen in     10 of 28 games
+   Costing you about 22.8 points of win probability a game.
+   Players at your level lose about 17.8 to the same thing, so roughly
+   4.9 a game is what fixing this could get back.
+   For example game 6RId8MgM, move 7, you played b4a5 (c8b7 was better)
+   For example game DRPg8Bme, move 8, you played c6d4 (h8g8 was better)
+   For example game Ib5a1BS8, move 11, you played a7a6 (d7d5 was better)
 
-3. You end up with isolated pawns more often than players at your level.
-
-   How often   4% of the time, against 2% for players at your level
-   Seen in     14 of 28 games
-   For example game IGCmSgiy, move 10, you played g2f3
-   For example game R9GJUKUy, move 21, you played f2e3
-   For example game XRE3pBif, move 9, you played g5f6
-
-(3 further patterns were found but not prioritised — working on one or two things at a time is the point.)
+(6 further patterns were found but not prioritised — working on one or two things at a time is the point.)
 
 WHAT TO DO
 
-1. Play through your own first fifteen moves afterwards, without an engine, and write down where you stopped knowing what you were doing — that move is the edge of your repertoire and it is the one worth learning.
-   Why    seen in 14 of 28 games, at 21.5% against 9.9% for peers at your level
+1. Before committing a move, ask what your opponent's best reply threatens; a fork is what has been punishing you.
+   Why    seen in 15 of 28 games, at 12.8% against 6.3% for peers at your level
    Start  Do this one first — the others can wait their turn.
 
-2. Before committing a move, ask what your opponent's best reply threatens; a fork is what has been punishing you.
-   Why    seen in 13 of 28 games, at 17.5% against 8.8% for peers at your level
+2. After choosing a move and before playing it, check every pawn you own that no longer has a defender. Dropped pawns rarely lose a game on their own and they are what your mistakes are most often costing you.
+   Why    seen in 14 of 28 games, at 12.8% against 6.2% for peers at your level
 
-3. In the cited positions, ask whether you chose the structure or simply allowed it. Conceding a weakness for something concrete is fine; doing it without noticing is the habit worth changing.
-   Why    seen in 14 of 28 games, at 4.1% against 1.8% for peers at your level
+3. Play through your own first fifteen moves afterwards, without an engine, and write down where you stopped knowing what you were doing — that move is the edge of your repertoire and it is the one worth learning.
+   Why    seen in 10 of 28 games, at 47.1% against 27.4% for peers at your level
 
 WHAT WOULD SHOW IT WORKED
 
- - mistakes before move 15 as White: below 11% over your next 20 games
- - fork conceded when you go wrong: below 6% over your next 20 games
- - moves that leave you with isolated pawns: below 2% over your next 20 games
+ - fork conceded when you go wrong: below 5% over your next 20 games
+ - pawns dropped when you go wrong: below 4% over your next 20 games
+ - mistakes before move 15 as Black: below 24% over your next 20 games
 
 WHAT YOUR WHOLE LEVEL LOSES MOST TO
 
- - Players at your level lose about 21.4 points of win probability a game to moves played in under two seconds.
- - Players at your level lose about 12.2 points of win probability a game to mistakes before move 15 with Black.
- - Players at your level lose about 9.2 points of win probability a game to mistakes before move 15 with White.
+ - Players at your level lose about 30.2 points of win probability a game to moves played in under two seconds.
+ - Players at your level lose about 17.9 points of win probability a game to mistakes before move 15 with Black.
+ - Players at your level lose about 14.8 points of win probability a game to mistakes before move 15 with White.
 
    These are not findings about you — they are what the whole rating band
    loses most to, and the stronger players in it lose less. Your own one or

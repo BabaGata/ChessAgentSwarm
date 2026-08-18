@@ -3,74 +3,71 @@
 
 WHAT STANDS OUT
 
-1. Your play falls off when the clock is short.
+1. When you use up most of your clock before move 15, the rest of that game goes worse — the cost of a long think lands later, not on the move itself.
+
+   How often   25% of the time, against 9% for players at your level
+   Seen in     8 of 43 games
+   Costing you about 9.8 points of win probability a game.
+   Players at your level lose about 0.3 to the same thing, so roughly
+   9.5 a game is what fixing this could get back.
+   For example game WGSxhODE, move 31, you played e2e3 (d2e1 was better)
+   For example game n78WmqCX, move 27, you played a6a5 (g6e7 was better)
+   For example game ssS6uIix, move 18, you played d1e1 (c2c3 was better)
+
+2. Your play falls off when the clock is short.
 
    Not because you play it badly — because you are in it so often.
 
-   How often   15% of the time, against 15% for players at your level
-   Seen in     13 of 43 games
+   How often   25% of the time, against 26% for players at your level
+   Seen in     14 of 43 games
    You meet it about 5.4 times a game, against about 2.2 times for players at your level.
-   Costing you about 15.1 points of win probability a game.
-   Players at your level lose about 8.0 to the same thing, so roughly
-   7.1 a game is what fixing this could get back —
+   Costing you about 19.3 points of win probability a game.
+   Players at your level lose about 10.0 to the same thing, so roughly
+   9.4 a game is what fixing this could get back —
    and what to change is how often you get there, not what you do
    once you are there.
-   For example game EGOMa6lY, move 56, you played f6f3 (e5e6 was better)
-   For example game e7cTUscH, move 32, you played h7h6 (g7f6 was better)
-   For example game yKHBrF0e, move 16, you played a5b3 (a5c4 was better)
+   For example game EGOMa6lY, move 45, you played d5c5 (e5f3 was better)
+   For example game WGSxhODE, move 15, you played a1e1 (h3f4 was better)
+   For example game e7cTUscH, move 23, you played f7f5 (g7g5 was better)
 
-2. Your play falls off in rook-and-minor endgames.
+3. Your play falls off in rook endgames.
 
    Ordinary for your level, and still what these mistakes cost you most.
 
-   How often   21% of the time, against 16% for players at your level
-   Seen in     5 of 43 games
-   Costing you about 5.1 points of win probability a game.
-   Players at your level lose about 6.8 to the same thing, so this is
+   How often   24% of the time, against 20% for players at your level
+   Seen in     3 of 43 games
+   Costing you about 3.8 points of win probability a game.
+   Players at your level lose about 4.5 to the same thing, so this is
    not costing you your rating — it is costing you the next one.
-   For example game 5w0MJrWh, move 35, you played c5d5 (g8g7 was better)
-   For example game EGOMa6lY, move 40, you played e6f8 (d8d7 was better)
-   For example game e7cTUscH, move 28, you played d4b5 (d4f3 was better)
-
-3. Your play falls off in minor-piece endgames.
-
-   Ordinary for your level, and still what these mistakes cost you most.
-
-   How often   8% of the time, against 8% for players at your level
-   Seen in     4 of 43 games
-   Costing you about 1.9 points of win probability a game.
-   Players at your level lose about 1.7 to the same thing, so roughly
-   0.1 a game is what fixing this could get back.
-   For example game 7pZmm5Em, move 39, you played c6c5 (h5h4 was better)
-   For example game FX7viBFV, move 32, you played g7g5 (e7d5 was better)
-   For example game e7cTUscH, move 32, you played h7h6 (g7f6 was better)
+   For example game EGOMa6lY, move 52, you played c6c4 (e5e6 was better)
+   For example game yKHBrF0e, move 31, you played c2h2 (c2c4 was better)
+   For example game zcStry0S, move 33, you played c2c1 (c4d4 was better)
 
 WHAT TO DO
 
-1. You play short-of-time positions about as well as anyone at your level, and you reach them far more often. The fix is upstream: give yourself a clock target for move 20 and take the sound move over the best one whenever you are behind it.
-   Why    seen in 13 of 43 games, at 14.6% against 15.3% for peers at your level
-   Note   Not because you play it badly — because you are in it so often.
+1. Give yourself a clock target for move 15 — half your starting time still on it — and when you are behind that target, take the sound move over the best one until you are back on it.
+   Why    seen in 8 of 43 games, at 25.2% against 9.1% for peers at your level
    Start  Do this one first — the others can wait their turn.
 
-2. Study rook-and-minor endgames — start with the basic winning and drawing methods rather than with studies, and play out the positions you got wrong.
-   Why    seen in 5 of 43 games, at 21.4% against 16.3% for peers at your level
-   Note   Ordinary for your level, and still what these mistakes cost you most.
+2. You play short-of-time positions about as well as anyone at your level, and you reach them far more often. The fix is upstream: give yourself a clock target for move 20 and take the sound move over the best one whenever you are behind it.
+   Why    seen in 14 of 43 games, at 24.9% against 26.1% for peers at your level
+   Note   Not because you play it badly — because you are in it so often.
 
-3. Study minor-piece endgames — start with the basic winning and drawing methods rather than with studies, and play out the positions you got wrong.
-   Why    seen in 4 of 43 games, at 8.1% against 8.0% for peers at your level
+3. Study rook endgames — start with the basic winning and drawing methods rather than with studies, and play out the positions you got wrong.
+   Why    seen in 3 of 43 games, at 23.8% against 20.0% for peers at your level
    Note   Ordinary for your level, and still what these mistakes cost you most.
 
 WHAT WOULD SHOW IT WORKED
 
- - mistakes when short of time: below 8% over your next 20 games
- - mistakes in rook-and-minor endgames: below 6% over your next 31 games
- - mistakes in minor-piece endgames: below 5% over your next 28 games
+ - mistakes after move 15 in games where the clock went early: below 17% over your next 20 games
+ - mistakes when short of time: below 15% over your next 20 games
+ - mistakes in rook endgames: below 12% over your next 41 games
 
 WHAT YOUR WHOLE LEVEL LOSES MOST TO
 
- - Players at your level lose about 27.4 points of win probability a game to moves played in under two seconds.
- - Players at your level lose about 11.2 points of win probability a game to mistakes before move 15 with Black.
- - Players at your level lose about 9.2 points of win probability a game to mistakes before move 15 with White.
+ - Players at your level lose about 38.4 points of win probability a game to moves played in under two seconds.
+ - Players at your level lose about 17.2 points of win probability a game to mistakes before move 15 with Black.
+ - Players at your level lose about 14.4 points of win probability a game to mistakes before move 15 with White.
 
    These are not findings about you — they are what the whole rating band
    loses most to, and the stronger players in it lose less. Your own one or

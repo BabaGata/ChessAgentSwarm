@@ -23,13 +23,13 @@ WHAT STANDS OUT
 
    Ordinary for your level, and still what these mistakes cost you most.
 
-   How often   6% of the time, against 2% for players at your level
-   Seen in     7 of 56 games
-   Costing you about 3.5 points of win probability a game.
-   Players at your level lose about 2.4 to the same thing, so roughly
-   1.2 a game is what fixing this could get back.
+   How often   4% of the time, against 2% for players at your level
+   Seen in     11 of 56 games
+   Costing you about 4.3 points of win probability a game.
+   Players at your level lose about 2.8 to the same thing, so roughly
+   1.4 a game is what fixing this could get back.
    For example game 4EZswhjx, move 18, you played d5e6 (b7e7 was better)
-   For example game 4WAdsucA, move 24, you played f4h5 (g3g4 was better)
+   For example game 6SDh3ygT, move 44, you played g2f3 (g6g1 was better)
    For example game 97GRiykY, move 16, you played e6d5 (d1d5 was better)
 
 WHAT TO DO
@@ -42,20 +42,20 @@ WHAT TO DO
    Why    seen in 20 of 56 games, at 2.7% against 2.0% for peers at your level
 
 3. Before committing a move, ask what your opponent's best reply threatens; a trapped piece is what has been punishing you.
-   Why    seen in 7 of 56 games, at 5.7% against 2.5% for peers at your level
+   Why    seen in 11 of 56 games, at 4.5% against 2.3% for peers at your level
    Note   Ordinary for your level, and still what these mistakes cost you most.
 
 WHAT WOULD SHOW IT WORKED
 
  - moves that leave you with backward pawns: below 1% over your next 20 games
  - moves that let an attack build against your king: below 1% over your next 20 games
- - trapped piece conceded when you go wrong: below 3% over your next 20 games
+ - trapped piece conceded when you go wrong: below 2% over your next 20 games
 
 WHAT YOUR WHOLE LEVEL LOSES MOST TO
 
- - Players at your level lose about 27.2 points of win probability a game to moves played in under two seconds.
- - Players at your level lose about 11.2 points of win probability a game to mistakes before move 15 with Black.
- - Players at your level lose about 9.2 points of win probability a game to mistakes before move 15 with White.
+ - Players at your level lose about 38.1 points of win probability a game to moves played in under two seconds.
+ - Players at your level lose about 17.2 points of win probability a game to mistakes before move 15 with Black.
+ - Players at your level lose about 14.5 points of win probability a game to mistakes before move 15 with White.
 
    These are not findings about you — they are what the whole rating band
    loses most to, and the stronger players in it lose less. Your own one or

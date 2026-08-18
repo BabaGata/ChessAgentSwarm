@@ -3,18 +3,29 @@
 
 WHAT STANDS OUT
 
-1. You go wrong more often than most when you are already better.
+1. When you go wrong, it is often a pawn you simply drop.
 
-   How often   23% of the time, against 16% for players at your level
-   Seen in     38 of 60 games
-   Costing you about 41.0 points of win probability a game.
-   Players at your level lose about 26.9 to the same thing, so roughly
-   14.2 a game is what fixing this could get back.
-   For example game 7NsTbBDr, move 23, you played g7g5 (f7g6 was better)
+   How often   10% of the time, against 6% for players at your level
+   Seen in     26 of 60 games
+   Costing you about 10.8 points of win probability a game.
+   Players at your level lose about 5.4 to the same thing, so roughly
+   5.4 a game is what fixing this could get back.
+   For example game 7Z8v3NMH, move 18, you played c5e4 (c7c4 was better)
+   For example game 98JrKGMj, move 24, you played c4e2 (f4a4 was better)
+   For example game BFRr53W3, move 14, you played d4e5 (g6e5 was better)
+
+2. You give up material to get at the enemy king more often than players at your level.
+
+   How often   3% of the time, against 1% for players at your level
+   Seen in     8 of 60 games
+   Costing you about 3.0 points of win probability a game.
+   Players at your level lose about 1.3 to the same thing, so roughly
+   1.8 a game is what fixing this could get back.
+   For example game 7Z8v3NMH, move 26, you played d4e6 (f3d2 was better)
+   For example game BFRr53W3, move 72, you played h8h2 (h8g8 was better)
    For example game BudxKh61, move 33, you played f7g7 (d4f6 was better)
-   For example game f7bS0Ei1, move 23, you played f5f6 (e5e6 was better)
 
-2. You let opponents establish a knight you cannot chase away more often than players at your level.
+3. You let opponents establish a knight you cannot chase away more often than players at your level.
 
    How often   1% of the time, against 1% for players at your level
    Seen in     11 of 60 games
@@ -22,39 +33,31 @@ WHAT STANDS OUT
    For example game 3pPHPEC4, move 15, you played g2g3
    For example game 7q1PKl3w, move 24, you played f5h3
 
-3. You end up with isolated pawns more often than players at your level.
-
-   How often   4% of the time, against 2% for players at your level
-   Seen in     41 of 60 games
-   For example game 98JrKGMj, move 15, you played g2h3
-   For example game QwF4g8R7, move 13, you played b7c6
-   For example game rZRSwVcG, move 15, you played c5d4
-
-(2 further patterns were found but not prioritised — working on one or two things at a time is the point.)
+(6 further patterns were found but not prioritised — working on one or two things at a time is the point.)
 
 WHAT TO DO
 
-1. When you are clearly better, slow down rather than speed up: take the safe line over the quick one, and check your opponent's reply before every move.
-   Why    seen in 38 of 60 games, at 23.4% against 15.6% for peers at your level
+1. After choosing a move and before playing it, check every pawn you own that no longer has a defender. Dropped pawns rarely lose a game on their own and they are what your mistakes are most often costing you.
+   Why    seen in 26 of 60 games, at 10.5% against 5.7% for peers at your level
    Start  Do this one first — the others can wait their turn.
 
-2. Before a pawn move, ask which square it gives up for good — a pawn cannot come back. In the cited games, find the move where the square your opponent later occupied stopped being defensible.
-   Why    seen in 11 of 60 games, at 1.4% against 0.7% for peers at your level
+2. Before giving material up for an attack, name the follow-up: which piece joins next, and on which square. If you cannot name it in one sentence, the attack is a hope rather than a plan. Go through the cited games and check which ones you could have answered.
+   Why    seen in 8 of 60 games, at 2.7% against 0.8% for peers at your level
 
-3. In the cited positions, ask whether you chose the structure or simply allowed it. Conceding a weakness for something concrete is fine; doing it without noticing is the habit worth changing.
-   Why    seen in 41 of 60 games, at 4.3% against 2.0% for peers at your level
+3. Before a pawn move, ask which square it gives up for good — a pawn cannot come back. In the cited games, find the move where the square your opponent later occupied stopped being defensible.
+   Why    seen in 11 of 60 games, at 1.4% against 0.7% for peers at your level
 
 WHAT WOULD SHOW IT WORKED
 
- - mistakes made while you are winning: below 13% over your next 20 games
+ - pawns dropped when you go wrong: below 4% over your next 20 games
+ - material given up to attack the king: below 1% over your next 20 games
  - moves that let your opponent establish a knight you cannot chase away: below 1% over your next 20 games
- - moves that leave you with isolated pawns: below 2% over your next 20 games
 
 WHAT YOUR WHOLE LEVEL LOSES MOST TO
 
- - Players at your level lose about 27.4 points of win probability a game to moves played in under two seconds.
- - Players at your level lose about 11.2 points of win probability a game to mistakes before move 15 with Black.
- - Players at your level lose about 9.2 points of win probability a game to mistakes before move 15 with White.
+ - Players at your level lose about 38.4 points of win probability a game to moves played in under two seconds.
+ - Players at your level lose about 17.2 points of win probability a game to mistakes before move 15 with Black.
+ - Players at your level lose about 14.4 points of win probability a game to mistakes before move 15 with White.
 
    These are not findings about you — they are what the whole rating band
    loses most to, and the stronger players in it lose less. Your own one or
@@ -65,3 +68,4 @@ WHAT THIS DOES NOT KNOW
  - This is measured from your own games and nothing else — it says what happened, not why, except where a probe asked you directly.
  - Rates are compared with players in your rating band, so they say you are unusual, not that you are bad.
  - Nothing here estimates your potential or your ceiling, because nothing here could.
+ - The two costs above should not be added together — a single mistake can belong to both patterns, so the totals overlap by an unknown amount.

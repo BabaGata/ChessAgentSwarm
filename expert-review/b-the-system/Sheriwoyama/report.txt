@@ -11,70 +11,67 @@ what they cost you rather than by what makes you different.
 
    Ordinary for your level, and still what these mistakes cost you most.
 
-   How often   11% of the time, against 9% for players at your level
-   Seen in     19 of 51 games
-   Costing you about 9.7 points of win probability a game.
-   Players at your level lose about 9.2 to the same thing, so roughly
-   0.5 a game is what fixing this could get back.
-   For example game LQU5WA5o, move 11, you played d1e2 (d1a4 was better)
+   How often   25% of the time, against 24% for players at your level
+   Seen in     24 of 51 games
+   Costing you about 15.1 points of win probability a game.
+   Players at your level lose about 14.5 to the same thing, so roughly
+   0.6 a game is what fixing this could get back.
+   For example game DlGh7HXL, move 13, you played b2b3 (g2g4 was better)
    For example game LtQCTqVO, move 12, you played a1c1 (c3e4 was better)
-   For example game MLDAOao3, move 11, you played b5c6 (g5f6 was better)
+   For example game Zc5TdVPR, move 12, you played d1a4 (e4d5 was better)
 
-2. Your play falls off when the clock is short.
-
-   Not because you play it badly — because you are in it so often.
-
-   How often   13% of the time, against 15% for players at your level
-   Seen in     11 of 51 games
-   You meet it about 3.0 times a game, against about 1.9 times for players at your level.
-   Costing you about 8.6 points of win probability a game.
-   Players at your level lose about 7.1 to the same thing, so roughly
-   1.6 a game is what fixing this could get back —
-   and what to change is how often you get there, not what you do
-   once you are there.
-   For example game RvAOt19O, move 34, you played e7e6 (f7g6 was better)
-   For example game WCMZBLma, move 61, you played h6h5 (h4h5 was better)
-   For example game gjahkDEc, move 36, you played g1g2 (g6g2 was better)
-
-3. When you go wrong, it is often a discovered attack that punishes you.
+2. Your long thinks tend to end in a mistake.
 
    Ordinary for your level, and still what these mistakes cost you most.
 
-   How often   8% of the time, against 6% for players at your level
-   Seen in     8 of 51 games
-   Costing you about 4.2 points of win probability a game.
-   Players at your level lose about 4.4 to the same thing, so this is
+   How often   42% of the time, against 37% for players at your level
+   Seen in     30 of 51 games
+   Costing you about 14.5 points of win probability a game.
+   Players at your level lose about 22.3 to the same thing, so this is
    not costing you your rating — it is costing you the next one.
-   For example game QKc5Iq8x, move 22, you played a6c6 (f3e5 was better)
-   For example game WCMZBLma, move 16, you played b8d7 (d5e6 was better)
-   For example game WCMZBLma, move 31, you played h7h6 (d6b5 was better)
+   For example game 68vfJz7d, move 25, you played e2g2 (c3b4 was better)
+   For example game B7uc3UUY, move 34, you played d1d3 (c3e5 was better)
+   For example game e0gELYLC, move 16, you played a8d8 (c6b4 was better)
+
+3. When you go wrong, it is often a pawn you simply drop.
+
+   Ordinary for your level, and still what these mistakes cost you most.
+
+   How often   7% of the time, against 6% for players at your level
+   Seen in     14 of 51 games
+   Costing you about 5.9 points of win probability a game.
+   Players at your level lose about 5.5 to the same thing, so roughly
+   0.4 a game is what fixing this could get back.
+   For example game 7ZcwpUAm, move 15, you played b4b2 (a5c5 was better)
+   For example game a2kq6bZM, move 19, you played h5h4 (g5h4 was better)
+   For example game fLhhJaao, move 37, you played e6e5 (a5e5 was better)
 
 WHAT TO DO
 
 1. Play through your own first fifteen moves afterwards, without an engine, and write down where you stopped knowing what you were doing — that move is the edge of your repertoire and it is the one worth learning.
-   Why    seen in 19 of 51 games, at 10.8% against 9.3% for peers at your level
+   Why    seen in 24 of 51 games, at 24.9% against 23.5% for peers at your level
    Note   Ordinary for your level, and still what these mistakes cost you most.
    Start  Do this one first — the others can wait their turn.
 
-2. You play short-of-time positions about as well as anyone at your level, and you reach them far more often. The fix is upstream: give yourself a clock target for move 20 and take the sound move over the best one whenever you are behind it.
-   Why    seen in 11 of 51 games, at 12.6% against 14.8% for peers at your level
-   Note   Not because you play it badly — because you are in it so often.
+2. When a think runs long, stop and choose between your two best candidate moves rather than searching for a third.
+   Why    seen in 30 of 51 games, at 42.0% against 37.2% for peers at your level
+   Note   Ordinary for your level, and still what these mistakes cost you most.
 
-3. Before committing a move, ask what your opponent's best reply threatens; a discovered attack is what has been punishing you.
-   Why    seen in 8 of 51 games, at 7.7% against 5.8% for peers at your level
+3. After choosing a move and before playing it, check every pawn you own that no longer has a defender. Dropped pawns rarely lose a game on their own and they are what your mistakes are most often costing you.
+   Why    seen in 14 of 51 games, at 7.5% against 5.8% for peers at your level
    Note   Ordinary for your level, and still what these mistakes cost you most.
 
 WHAT WOULD SHOW IT WORKED
 
- - mistakes before move 15 as White: below 6% over your next 20 games
- - mistakes when short of time: below 7% over your next 20 games
- - discovered attack conceded when you go wrong: below 4% over your next 20 games
+ - mistakes before move 15 as White: below 15% over your next 20 games
+ - mistakes after a long think: below 23% over your next 20 games
+ - pawns dropped when you go wrong: below 4% over your next 20 games
 
 WHAT YOUR WHOLE LEVEL LOSES MOST TO
 
- - Players at your level lose about 25.7 points of win probability a game to moves played in under two seconds.
- - Players at your level lose about 11.5 points of win probability a game to mistakes before move 15 with Black.
- - Players at your level lose about 9.2 points of win probability a game to mistakes before move 15 with White.
+ - Players at your level lose about 36.1 points of win probability a game to moves played in under two seconds.
+ - Players at your level lose about 17.4 points of win probability a game to mistakes before move 15 with Black.
+ - Players at your level lose about 14.5 points of win probability a game to mistakes before move 15 with White.
 
    These are not findings about you — they are what the whole rating band
    loses most to, and the stronger players in it lose less. Your own one or

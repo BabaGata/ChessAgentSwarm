@@ -6,6 +6,13 @@ everything the swarm can detect and — more usefully — what it is blind to. Y
 are not being tested on your ability to guess its vocabulary, and a reviewer
 who does not know what it looks for cannot tell a gap from an oversight.
 
+The reports in b-the-system/ were regenerated on 2026-08-17 against the
+current system. If you filled in a Form B/C before that date, it judged an
+older diagnosis: since then the error threshold moved from 10 to 5 win-
+probability points (roughly doubling what is detected), a free-pawn detector
+arrived, and S7 added three claims about the move you actually played. Form A
+answers are unaffected - those are written before the report is opened.
+
 12 players. For each, work in this order:
 
   1. open  games/<player>.pgn            (or the study link, if provided)
