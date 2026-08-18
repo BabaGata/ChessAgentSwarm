@@ -192,3 +192,108 @@ def ignored_threat(board: chess.Board, move: chess.Move) -> bool:
     after.push(move)
     still = _winnable_squares(after, mover)
     return bool((threatened & still) - {move.to_square})
+
+
+# How near the enemy king a material-losing capture has to land before it reads
+# as an attacking sacrifice rather than a miscount. Two squares, not one: a
+# bishop taking on h7 next to the king and a rook taking a knight on f6 that
+# defends it are the same idea, and only the first touches the king.
+ATTACK_RADIUS = 2
+
+
+def near_king(board: chess.Board, square: int, defender: chess.Color) -> bool:
+    """Is `square` inside the attacking radius of `defender`'s king?"""
+    king = board.king(defender)
+    if king is None:
+        return False
+    return max(
+        abs(chess.square_file(square) - chess.square_file(king)),
+        abs(chess.square_rank(square) - chess.square_rank(king)),
+    ) <= ATTACK_RADIUS
+
+
+def sacrificed_for_attack(board: chess.Board, move: chess.Move) -> bool:
+    """Material given up on or beside the enemy king.
+
+    The reviewer's distinction, and it is a real one:
+
+        "a sacrifice is when a player deliberately gives a stronger piece for a
+         weaker piece to make opening for attack which is usually on the king...
+         something like taking a pawn with a bishop on the kings castle or rook
+         for a defending knight"
+
+    Whether the sacrifice was *sound* is not asked here and deliberately so.
+    Soundness is the engine's judgement, and conditioning on it drags the claim
+    into restating the error rate -- measured at r = +0.682 against +0.125
+    unconditioned (E34 follow-up).
+    """
+    if not board.is_capture(move) or exchange_value(board, move) > -MATERIAL_LOSS:
+        return False
+    return near_king(board, move.to_square, not board.turn)
+
+
+def miscounted_exchange_away_from_king(board: chess.Board, move: chess.Move) -> bool:
+    """A losing capture that is **not** an attack on the king.
+
+    What is left of `miscounted_exchange` once sacrifices are taken out of it:
+    an exchange that simply did not add up, with no attacking idea behind it.
+    """
+    return miscounted_exchange(board, move) and not near_king(
+        board, move.to_square, not board.turn
+    )
+
+
+def material_balance(board: chess.Board, colour: chess.Color) -> int:
+    """Material for `colour` minus material against, in pawns. Kings excluded."""
+    total = 0
+    for _square, piece in board.piece_map().items():
+        if piece.piece_type == chess.KING:
+            continue
+        value = PIECE_VALUE[piece.piece_type]
+        total += value if piece.color == colour else -value
+    return total
+
+
+def best_free_capture(board: chess.Board) -> tuple[chess.Move | None, int]:
+    """The most material available for nothing right now, and the move that takes it."""
+    best, best_gain = None, 0
+    for move in board.legal_moves:
+        if not board.is_capture(move):
+            continue
+        gain = exchange_value(board, move)
+        if gain > best_gain:
+            best, best_gain = move, gain
+    return best, best_gain
+
+
+def moved_toward_king(board: chess.Board, move: chess.Move) -> bool:
+    """Did this move bring a piece closer to the enemy king?"""
+    king = board.king(not board.turn)
+    if king is None:
+        return False
+
+    def distance(square: int) -> int:
+        return max(
+            abs(chess.square_file(square) - chess.square_file(king)),
+            abs(chess.square_rank(square) - chess.square_rank(king)),
+        )
+
+    return distance(move.to_square) < distance(move.from_square)
+
+
+def declined_material_to_attack(board: chess.Board, move: chess.Move) -> bool:
+    """Free material was on offer, and the player went for the king instead.
+
+    The reviewer, on `goydorak`: *"sometimes he does not take free pawn on the
+    opposite side just to go with his pieces towards the king."*
+
+    Both halves are required. Passing up material for a quiet move is a
+    different habit -- possibly a better one -- and this claim is about the
+    trade the player keeps choosing, not about every capture they decline.
+    """
+    _capture, gain = best_free_capture(board)
+    if gain < MATERIAL_LOSS or board.is_capture(move):
+        return False
+    return moved_toward_king(board, move) or near_king(
+        board, move.to_square, not board.turn
+    )

@@ -85,7 +85,7 @@ SECTIONS: tuple[tuple[str, str, str], ...] = (
     ),
     (
         "S7  material safety",
-        "moved_into_attack / miscounted_exchange",
+        "moved_into_attack / miscounted_exchange / sacrificed_for_attack",
         "The only section that reads THE MOVE YOU ACTUALLY PLAYED. Did the piece\n"
         "    you just moved land where it can be won, and do the exchanges you start\n"
         "    lose material once the recaptures are counted? This is the nearest the\n"

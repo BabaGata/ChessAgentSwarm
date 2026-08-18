@@ -48,7 +48,8 @@ QUANTITIES: dict[str, str] = {
     "allows_square": "moves that let your opponent establish {subject}",
     "allows_pressure": "moves that let an attack build against your king",
     "moved_into_attack": "moves that leave the piece you moved takeable",
-    "miscounted_exchange": "exchanges you start that lose material",
+    "miscounted_exchange": "exchanges you start away from the kings that lose material",
+    "sacrificed_for_attack": "material given up to attack the king",
 }
 
 # The finding as a sentence a person would say. Deliberately flat: no severity
@@ -85,8 +86,15 @@ STATEMENTS: dict[str, str] = {
         "more often than players at your level."
     ),
     "miscounted_exchange": (
-        "When you start an exchange, it more often turns out to lose material "
-        "than it does for players at your level."
+        "Away from the kings, exchanges you start turn out to lose material more "
+        "often than they do for players at your level."
+    ),
+    # Stated without a verdict. 43 % of these are sacrifices the engine did
+    # not fault, so calling them mistakes would be wrong; the cost line below
+    # it in the report is what tells the player whether theirs are working.
+    "sacrificed_for_attack": (
+        "You give up material to get at the enemy king more often than players "
+        "at your level."
     ),
 }
 

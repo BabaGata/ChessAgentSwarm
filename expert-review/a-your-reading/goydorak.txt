@@ -43,7 +43,46 @@ analysis works.
    saves the result from being over-read.
 
 1. Missing proper defense move 8.
-2. 
+2. Missing proper defense move 16.
+2. Missing proper defense move 21.
+2. Not taking a pawn move 42.
+3. Missing proper defense move 15.
+3. Loosing a piece move 16.
+3. Pin move 19.
+3. Placing a piece on the attacked spot move 24.
+3. Loosing a piece move 25.
+6. Loosing a pawn move 13.
+8. Good piece for a bad piece 21.
+8. Worsening pawn structure 24.
+8. Loosing a pawn move 25.
+8. Loosing a pawn move 28.
+9. Giving a good square move 11.
+10. Bad sacrifice move 11.
+10. Not taking a pawn move 13.
+11. Loosing center move 22.
+11. Not eating a pawn move 24.
+12. Not taking a pawn move 11.
+12. Bad sacrifice move 18.
+12. Loosing a piece 24.
+13. Not creating pressure move 46.
+14. Bad sacrifice move 5.
+14. Bad sacrifice move 12.
+15. Fork move 21.
+15. Not defending properly move 24.
+15. Endgame move 54.
+16. Good piece for a bad piece mov 11.
+16. Not taking a piece move 26.
+17. Bad exchange calculation move 6.
+17. Inactive move move 23.
+18. Loosing a pawn move 16.
+18. A bad sacrifice move 18.
+18. Innacurate play move 19.
+19. Not destroying king's castle structure move 8.
+19. Innacurate move 11.
+19. Not defending properly move 13.
+19. Not taking a pawn move 20.
+19. Loosing a piece move 23.
+20. Giving up a pawn move 32.
 
 
 

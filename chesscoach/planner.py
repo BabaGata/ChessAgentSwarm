@@ -388,6 +388,15 @@ def _action(finding: Finding) -> str:
             "have on that square against every defender they have, cheapest first. "
             "In the cited games, count them again and see where the total went wrong."
         ),
+        # Not "stop sacrificing". Roughly two in five of these are sound, and
+        # a player who attacks is not doing something to be cured of -- the
+        # question is whether the attack was there before the material went.
+        "sacrificed_for_attack": (
+            "Before giving material up for an attack, name the follow-up: which piece "
+            "joins next, and on which square. If you cannot name it in one sentence, "
+            "the attack is a hope rather than a plan. Go through the cited games and "
+            "check which ones you could have answered."
+        ),
         "allows_pressure": (
             "In the cited positions, count your opponent's pieces that can reach your king "
             "and compare it with your own defenders. The move to find is the one before "

@@ -9,17 +9,30 @@ so a claim built on it would have restated how often the player went wrong at
 all. E34 revives the slot on a different operationalisation — not *how deeply do
 you calculate*, but *did you check* — and passes E10's own test to do it.
 
-Two claims, from four candidates:
+Three claims, from eight candidates screened across two experiments. The
+number in brackets is the correlation with the player's overall error rate --
+E10's test, which refused `missed_quiet` at +0.737:
 
-    moved_into_attack     the piece you just moved can be won      r = +0.225
-    miscounted_exchange   a capture that loses material            r = +0.123
+    moved_into_attack      the piece you just moved can be won      [+0.225]
+    miscounted_exchange    a losing exchange AWAY from the kings    [-0.060]
+    sacrificed_for_attack  material given up at the enemy king      [+0.208]
 
-    left_hanging          +0.917 with the overall error rate  -- REFUSED
-    ignored_threat        +0.914                              -- REFUSED
+    left_hanging           [+0.917]  REFUSED -- the error rate renamed
+    ignored_threat         [+0.914]  REFUSED -- likewise
+    declined_material      spread 1.20x  REFUSED -- everyone does it
+    delayed_material_loss  spread 1.20x  REFUSED -- and drifting to +0.604
 
-The refused pair fail for a reason worth keeping in view: a player who errs more
-has more loose pieces and more unanswered threats **as a consequence**, so those
-rates are the error rate wearing a better name (L-014, and E10's grounds).
+The first two refusals share a reason worth keeping in view: a player who errs
+more has more loose pieces and more unanswered threats **as a consequence**, so
+those rates are error-proneness wearing a better name (L-014, E10's grounds).
+
+**The sacrifice split came from the reviewer and improved the measurement.**
+E34 shipped one claim over every material-losing capture and called it
+`miscounted_exchange`, which is the wrong name for an attacking player: it
+prescribes "count the exchange" to someone who counted it and accepted the cost.
+Splitting on whether the material went near the enemy king (E35) raised the
+spread of *both* halves above the 1.75x of the combined claim -- 2.71x and 1.84x.
+A domain distinction sharpened a measurement, which is not the usual direction.
 
 **These read the move the player actually played.** Every other detector in the
 project reads the engine's best move or the opponent's best reply, which is the
@@ -45,7 +58,11 @@ import chess
 from chesscoach.analysis.observations import Observation
 from chesscoach.confidence import MIN_GAMES_WITH_DATA, ClaimStats, assign_tier
 from chesscoach.evaluation.splithalf import split_half_check
-from chesscoach.material import miscounted_exchange, moved_into_attack
+from chesscoach.material import (
+    miscounted_exchange_away_from_king,
+    moved_into_attack,
+    sacrificed_for_attack,
+)
 from chesscoach.peers import ConditionMeasurement
 from chesscoach.profile.models import (
     Claim,
@@ -70,6 +87,7 @@ SECTION = "S7"
 
 MOVED_INTO_ATTACK = "moved_into_attack"
 MISCOUNTED = "miscounted_exchange"
+SACRIFICED = "sacrificed_for_attack"
 
 EVIDENCE_SAMPLE_SIZE = 4
 
@@ -142,6 +160,7 @@ def _count(context: SectionContext) -> _Counts:
     tallies: dict[str, _Tally] = {
         MOVED_INTO_ATTACK: _Tally(),
         MISCOUNTED: _Tally(),
+        SACRIFICED: _Tally(),
     }
 
     for observation in moves:
@@ -157,7 +176,16 @@ def _count(context: SectionContext) -> _Counts:
         # chance to miscount one. Denominators are opportunities, never moves.
         _record(tallies[MOVED_INTO_ATTACK], observation, moved_into_attack(board, move))
         if board.is_capture(move):
-            _record(tallies[MISCOUNTED], observation, miscounted_exchange(board, move))
+            # Split on the reviewer's distinction, and the split sharpened
+            # both halves: the combined claim spread 1.75x, these spread
+            # 2.71x and 1.84x (E35). A sacrifice near the king and an
+            # exchange that did not add up want opposite advice.
+            _record(tallies[SACRIFICED], observation, sacrificed_for_attack(board, move))
+            _record(
+                tallies[MISCOUNTED],
+                observation,
+                miscounted_exchange_away_from_king(board, move),
+            )
 
     return _Counts(
         tallies=tallies,
@@ -270,11 +298,12 @@ def _sample_evidence(tally: _Tally, kind: str, seed_key: str) -> tuple[Evidence,
         rng.sample(ordered, min(EVIDENCE_SAMPLE_SIZE, len(ordered))),
         key=lambda o: (o.game_id, o.ply),
     )
-    note = (
-        "the piece you moved could be won here"
-        if kind == MOVED_INTO_ATTACK
-        else "this capture loses material once the recaptures are counted"
-    )
+    notes = {
+        MOVED_INTO_ATTACK: "the piece you moved could be won here",
+        MISCOUNTED: "this capture loses material once the recaptures are counted",
+        SACRIFICED: "material given up here, next to the enemy king",
+    }
+    note = notes[kind]
     return tuple(
         Evidence(
             game_id=o.game_id,

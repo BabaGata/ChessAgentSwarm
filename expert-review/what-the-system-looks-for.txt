@@ -73,7 +73,7 @@ THE SEVEN SECTIONS
     Moves after which the opponent has a square or file they did not have.
 
   S7  material safety
-    claims: moved_into_attack / miscounted_exchange
+    claims: moved_into_attack / miscounted_exchange / sacrificed_for_attack
     The only section that reads THE MOVE YOU ACTUALLY PLAYED. Did the piece
     you just moved land where it can be won, and do the exchanges you start
     lose material once the recaptures are counted? This is the nearest the
@@ -110,13 +110,15 @@ mistake without being able to name it.
   long_think_error
       Your long thinks tend to end in a mistake.
   miscounted_exchange
-      When you start an exchange, it more often turns out to lose material than it does for players at your level.
+      Away from the kings, exchanges you start turn out to lose material more often than they do for players at your level.
   missed_motif
       You miss {subject} tactics that were available.
   moved_into_attack
       You put the piece you have just moved on a square where it can be won, more often than players at your level.
   opening_disadvantage
       You come out of the opening worse more often than most.
+  sacrificed_for_attack
+      You give up material to get at the enemy king more often than players at your level.
   time_budget_error
       When you use up most of your clock before move 15, the rest of that game goes worse — the cost of a long think lands later, not on the move itself.
   time_pressure_error
