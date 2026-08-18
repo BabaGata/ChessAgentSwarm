@@ -42,8 +42,62 @@ analysis works.
    reading of all of them. Recording which one this is costs you a number and
    saves the result from being over-read.
 
-
-   (your game-by-game notes here)
+1. Not defending properly move 13.
+1. Not taking a pawn move 15.
+1. Giving a pawn move 18.
+1. Destroying a pawn strucutre move 20.
+1. Not defending properly move 23.
+1. Loosing a piece move 23.
+1. Loosing a piece move 26.
+2. Not taking a piece move 17.
+2. Missing a fork move 19.
+3. Not attacking properly move 8.
+3. Not taking a pawn move 13.
+3. Pin move 18.
+3. Loosing a piece move 26.
+3. Not taking a piece move 31.
+3. Not taking a piece move 33.
+3. Not taking a piece move 36.
+3. Missing a checkmate move 36.
+3. Giving a pawn move 39.
+4. Passive move move 8.
+4. Not seeing checkmate move 28.
+5. Giving up material move 25.
+5. Loosing a piece 29.
+6. Not defending properly move 15.
+7. Loosing a piece move 24.
+8. Not taking a pawn move 14.
+8. Giving a pawn move 25.
+8. Fork move 29.
+8. Fork move 32.
+9. Loosing a pawn move 11.
+9. Not putting pressure move 11.
+9. Fork move 26.
+9. Not defending properly move 36.
+10. Weekening king move 11.
+10. Giving up early move 14.
+11. Not taking a pawn move 16.
+11. Fork move 21.
+11. Loosing a piece move 22.
+12. Not taking material move 26.
+12. Loosing material move 26.
+12. Not taking a piece move 30.
+12. Giving a piece move 31.
+13. Loosing a pawn move 13.
+13. Not defending properly move 14.
+15. Loosing a pawn move 14.
+15. Loosing a rook move 16.
+15. Pin move 21.
+16. Good piece for a bad piece move 17.
+16. Loosing a pawn move 19.
+16. Not defending properly move 30.
+17. Fork move 11.
+17. Not taking a piece move 19.
+17. Not taking material move 23.
+19. Not seeing checkmate move 10.
+19. Not taking a pawn move 12.
+19. Giving a piece move 33.
+20. Giving a piece move 10.
 
 
 

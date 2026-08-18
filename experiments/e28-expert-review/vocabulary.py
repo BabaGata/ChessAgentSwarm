@@ -112,6 +112,12 @@ BLIND: tuple[tuple[str, str], ...] = (
      "    Still absent: whether a defensive resource existed and was missed, and\n"
      "    whether the player looked at the square at all. The second is unknowable\n"
      "    from a game record — only a probe can ask (V9)."),
+    ("HOW material was lost — counting against calculating",
+     "Measured across twelve players: 88.5 % of material lost goes to a SEQUENCE\n"
+     "    over a few moves, and only 11.5 % to a piece left en prise on the square\n"
+     "    it moved to. Every player sits between 81 % and 93 %, so it cannot be a\n"
+     "    finding about anyone (E36) — but it is worth knowing while you annotate,\n"
+     "    because S7's advice covers only the 11.5 %."),
     ("piece quality",
      "\"Gave up a good bishop for a bad knight\" has no detector. Nothing in the\n"
      "    swarm represents a piece being good or bad."),

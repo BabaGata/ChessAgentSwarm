@@ -1,0 +1,30 @@
+
+SCREEN 1 - does it separate players?
+candidate                instances  chances   pooled   median     p90   spread  engine faults
+---------------------------------------------------------------------------------------------
+lost_on_the_square             337    14951    2.3%     2.1%    3.2%    1.53x           60%
+lost_to_a_sequence            2590    12902   20.1%    19.8%   27.3%    1.38x           33%
+sequence_share                                88.5%    89.2%   90.5%    1.02x
+
+SCREEN 2 - or is it the error rate under another name? (E10 refused at +0.737)
+candidate                  r with error rate   r with rating
+--------------------------------------------------------------
+lost_on_the_square                    +0.751          -0.753  <- restates it
+lost_to_a_sequence                    +0.838          -0.723  <- restates it
+sequence_share                        -0.598          +0.629
+
+PER PLAYER - of your material losses, how many needed calculation?
+player                 rating  on the square  to a sequence  sequence share
+---------------------------------------------------------------------------
+Maximilian_Honigtopf     1171             25            105             81%
+cademan                  1340             35            230             87%
+Hirsican                 1530             36            285             89%
+goydorak                 1580             49            335             87%
+bernes                   1632             12            154             93%
+Crossfire1983            1644             34            293             90%
+maxhayastan              1736             24            206             90%
+simonvj                  1786             29            175             86%
+bjagus                   1855             25            216             90%
+maikel5                  1923             18            140             89%
+Odin5306                 1981             24            229             91%
+Sheriwoyama              2033             26            222             90%
