@@ -117,7 +117,12 @@ BLIND: tuple[tuple[str, str], ...] = (
      "    over a few moves, and only 11.5 % to a piece left en prise on the square\n"
      "    it moved to. Every player sits between 81 % and 93 %, so it cannot be a\n"
      "    finding about anyone (E36) — but it is worth knowing while you annotate,\n"
-     "    because S7's advice covers only the 11.5 %."),
+     "    because S7's advice covers only the 11.5 %.\n"
+     "    Inside that sequence bucket (E37): a named tactic takes 54.7 %, an\n"
+     "    exchange resolving badly 31.9 %, a pure run of forcing moves only 2.8 %,\n"
+     "    and 10.7 % nothing here can name. Among the tactics, PINS OUTRANK FORKS\n"
+     "    1.6 to 1 (30.7 % against 18.6 %), with 'capturing the defender' second\n"
+     "    at 24.2 % — which is not the order most puzzle training implies."),
     ("piece quality",
      "\"Gave up a good bishop for a bad knight\" has no detector. Nothing in the\n"
      "    swarm represents a piece being good or bad."),

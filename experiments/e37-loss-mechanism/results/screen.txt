@@ -1,0 +1,40 @@
+
+WHAT WON THE MATERIAL - 2590 sequence losses, 12 players
+mechanism         instances    share   median     p90   spread
+--------------------------------------------------------------
+tactic                 1417   54.7%    54.2%   62.2%    1.15x
+exchange                825   31.9%    33.5%   38.4%    1.15x
+forcing                  72    2.8%     2.8%    5.0%    1.78x
+unattributed            276   10.7%    10.1%   14.0%    1.39x
+
+WHICH TACTIC, inside the tactic bucket
+  pin                      644   30.7%
+  capturingDefender        508   24.2%
+  fork                     390   18.6%
+  discoveredAttack         316   15.0%
+  trappedPiece             144    6.9%
+  skewer                    98    4.7%
+
+SCREEN - per-move rates, the shape a claim would take
+candidate                pooled   median     p90   spread   r with err rate
+----------------------------------------------------------------------------
+tactic                    9.5%     8.6%   14.4%    1.68x            +0.910  <- restates it
+exchange                  5.5%     5.5%    6.4%    1.17x            -0.372
+forcing                   0.5%     0.5%    0.8%    1.76x            +0.307
+unattributed              1.8%     2.0%    3.0%    1.52x            +0.410
+
+PER PLAYER - composition of the sequence losses
+player                 rating  losses        tactic      exchange       forcing  unattributed
+---------------------------------------------------------------------------------------------
+Maximilian_Honigtopf     1171     105          71%          15%           4%          10%
+cademan                  1340     230          62%          25%           3%          10%
+Hirsican                 1530     285          61%          23%           2%          14%
+goydorak                 1580     335          52%          35%           3%          10%
+bernes                   1632     154          56%          34%           0%          10%
+Crossfire1983            1644     293          54%          32%           2%          12%
+maxhayastan              1736     206          43%          39%           5%          12%
+simonvj                  1786     175          46%          34%           2%          17%
+bjagus                   1855     216          54%          38%           2%           5%
+maikel5                  1923     140          48%          37%           5%          10%
+Odin5306                 1981     229          57%          33%           3%           7%
+Sheriwoyama              2033     222          54%          32%           3%          10%
