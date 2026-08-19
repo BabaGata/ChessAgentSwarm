@@ -1,0 +1,46 @@
+
+THE CLAIM - when you enter an exchange, how often do you come out down?
+  exchanges entered                3335
+  came out down material           368  (11.0%)
+  of those, engine faulted a move  86  (23%)
+
+  median 10.2%   p90 16.5%   SPREAD 1.62x
+  r with the overall error rate    +0.785   <- restates it
+  r with rating                    -0.759
+
+  Compare E37's per-move version: 5.5% pooled, spread 1.17x. The denominator
+  is the whole difference - dividing by every move mostly measured how often
+  exchanges happen at all.
+
+NARROWER - your own capture looked sound, and it went wrong anyway
+  sound-looking entries            3217
+  went wrong anyway                252  (7.8%)
+  median 7.7%   p90 11.4%   SPREAD 1.49x
+  r with the overall error rate    +0.760   <- restates it
+
+player                 rating  entered   lost    rate
+-----------------------------------------------------
+Maximilian_Honigtopf     1171      123     24   19.5%
+cademan                  1340      279     46   16.5%
+goydorak                 1580      342     54   15.8%
+Hirsican                 1530      277     39   14.1%
+Crossfire1983            1644      362     43   11.9%
+simonvj                  1786      263     27   10.3%
+Sheriwoyama              2033      276     28   10.1%
+maxhayastan              1736      263     26    9.9%
+maikel5                  1923      211     19    9.0%
+Odin5306                 1981      335     26    7.8%
+bjagus                   1855      320     24    7.5%
+bernes                   1632      284     12    4.2%
+
+ARE FORKS EASIER TO SEE THAN PINS? - the reviewer's hypothesis for E37's order
+motif                  chances   missed   miss rate
+---------------------------------------------------
+discoveredAttack           425      138      32.5%
+fork                       393      126      32.1%
+trappedPiece               159       48      30.2%
+skewer                     102       28      27.5%
+pin                        993      269      27.1%
+capturingDefender          405       81      20.0%
+hangingPawn                685      122      17.8%
+hangingPiece               935       74       7.9%

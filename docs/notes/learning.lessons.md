@@ -45,6 +45,34 @@ a stated defect in [[experiments.e15-expected-gain]] — raw cost must become pe
 
 ---
 
+### L-042 — A claim about what happened to the player is the error rate; a claim about what they did is not
+**Date:** 2026-08-18 · **Cycle / mission step:** M6 · **Class:** technique
+**Context:** Eleven material-loss candidates screened across E34, E36, E37 and E38, chasing the
+reviewer's question about *why* players lose material.
+**Observation:** The survivors and the failures separate perfectly along a line nobody was aiming
+at. Every candidate describing **an action the player took** is independent of their overall error
+rate — `sacrificed_for_attack` +0.208, `moved_into_attack` +0.225, `miscounted_exchange` +0.123.
+Every candidate describing **a state their position was in, or something that happened to them**, is
+the error rate wearing a different name — `left_hanging` +0.917, `ignored_threat` +0.914,
+`lost_to_a_sequence` +0.838, the tactic bucket +0.910, and three separate formulations of the
+exchange claim at +0.785, +0.760 and −0.372 (the last one bought its independence by measuring
+nothing, spreading 1.17×). Tightening a denominator moved discrimination — E38's exchange claim went
+1.17× → 1.62× — and never moved independence at all. **The two screens respond to different things,
+and no amount of formulation moved a claim across the line.**
+**Lesson:** Being punished is downstream of erring, so **any count of punishments is a count of
+errors with extra steps**. Before screening a candidate, ask which side of that line it sits on: does
+it name something the player *did*, which they could do differently tomorrow, or something that
+*befell them*, which is what erring looks like from outside? The first can be a diagnosis and the
+second can only ever be a restatement — and it will look promising, because it correlates with rating
+beautifully and separates players convincingly. This is also why the useful claims are the ones a
+player can act on directly: the property that makes a claim coachable is the same property that makes
+it statistically independent, which is a pleasant thing to be true and was not obvious in advance.
+**Applied to:** E38's three refusals and the decision not to attempt a fourth; the framing of every
+future material candidate; and retrospectively it explains E34's and E36's refusals, which were
+diagnosed one at a time without the pattern being visible.
+
+---
+
 ### L-041 — A measurement harness needs its own null test, or it will confirm whatever it omits
 **Date:** 2026-08-16 · **Cycle / mission step:** M6 · **Class:** process
 **Context:** Three experiments in a row (E31, E32, E33) reported a "naming" agreement figure of
