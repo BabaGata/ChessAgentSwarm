@@ -30,9 +30,20 @@ from chesscoach.analysis.cache import EvalCache, PositionEval
 from chesscoach.analysis.engine import to_position_eval
 from chesscoach.ingest.pgn import GameRecord
 
-# Positions per task. Large enough that engine start-up is amortised, small
-# enough that workers finish together rather than trailing.
-CHUNK_SIZE = 250
+# Positions per worker per chunk. A new ProcessPoolExecutor is built for every
+# chunk, and on Windows that spawns rather than forks -- each child re-imports
+# the module and launches its own Stockfish. Measured on a 14-core laptop, one
+# pool costs on the order of ten seconds, so the figure that matters is how many
+# positions each worker gets before the pool is torn down.
+#
+# The old CHUNK_SIZE was a flat 250, which with 18 workers gave each one **14
+# positions** before paying for a fresh pool -- so a 240,000-position corpus paid
+# for ~960 pools. Sizing per worker instead keeps the amortisation constant as
+# the machine changes.
+POSITIONS_PER_WORKER = 400
+
+# Floor for tiny corpora, where one pool is the whole job anyway.
+MIN_CHUNK_SIZE = 250
 
 
 def collect_positions(games: Iterable[GameRecord]) -> tuple[str, ...]:
@@ -77,7 +88,8 @@ def prefetch(
 
     evaluate = evaluate_batch or _evaluate_with_engines
     workers = workers or max(1, (os.cpu_count() or 4) - 2)
-    chunks = [missing[i : i + CHUNK_SIZE] for i in range(0, len(missing), CHUNK_SIZE)]
+    chunk_size = max(MIN_CHUNK_SIZE, workers * POSITIONS_PER_WORKER)
+    chunks = [missing[i : i + chunk_size] for i in range(0, len(missing), chunk_size)]
 
     done = 0
     for chunk in chunks:

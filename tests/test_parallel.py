@@ -11,6 +11,7 @@ hits alone.
 from __future__ import annotations
 
 from chesscoach.analysis.cache import EvalCache, PositionEval
+from chesscoach.analysis import parallel
 from chesscoach.analysis.parallel import collect_positions, prefetch
 from chesscoach.ingest.pgn import parse_pgn_text
 
@@ -101,3 +102,31 @@ class TestPrefetch:
 
 def _stub_batch(fens, engine, depth, workers=1):
     return {fen: PositionEval(score_cp=len(fen) % 50, best_move="e2e4") for fen in fens}
+
+
+class TestChunkSizing:
+    """A new process pool is built for every chunk, and on Windows that spawns
+    rather than forks: each child re-imports the module and launches its own
+    Stockfish. What matters is how many positions each worker gets before the
+    pool is torn down, not how many the chunk holds.
+
+    The old flat CHUNK_SIZE of 250 gave 18 workers **14 positions each**, so a
+    129,000-position corpus paid for ~500 pools. Measured on the real corpus,
+    sizing per worker took the prefetch from 6 to 30 positions a second — the
+    difference between a 20-hour build and a 2-hour one.
+    """
+
+    def size_for(self, workers: int) -> int:
+        return max(parallel.MIN_CHUNK_SIZE, workers * parallel.POSITIONS_PER_WORKER)
+
+    def test_each_worker_gets_hundreds_of_positions_not_a_dozen(self):
+        assert parallel.POSITIONS_PER_WORKER >= 200
+
+    def test_the_chunk_scales_with_the_worker_count(self):
+        # A bigger machine must not mean more pools for the same work.
+        assert self.size_for(18) > self.size_for(4)
+
+    def test_a_tiny_corpus_still_gets_one_chunk(self):
+        # The floor exists so a handful of positions is not split into slivers.
+        assert parallel.MIN_CHUNK_SIZE >= 250
+        assert self.size_for(1) >= parallel.MIN_CHUNK_SIZE
