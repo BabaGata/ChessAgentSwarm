@@ -77,7 +77,7 @@ from chesscoach.profile.models import (
 # checked. That is not corrupted data -- it is accurately "this plan predates
 # falsifiable targets", and the progress check already treats a missing target as
 # not measurable rather than as failure.
-READABLE_SCHEMA_VERSIONS = frozenset({2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, SCHEMA_VERSION})
+READABLE_SCHEMA_VERSIONS = frozenset({2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, SCHEMA_VERSION})
 
 
 def to_dict(profile: PlayerProfile) -> dict[str, Any]:
@@ -225,6 +225,14 @@ def _finding_to_dict(finding: Finding) -> dict[str, Any]:
             "excess_cost_per_game": finding.measurement.excess_cost_per_game,
             "lift_vs_peer": finding.measurement.lift_vs_peer,
             "lift_vs_baseline": finding.measurement.lift_vs_baseline,
+            # Compact "game_id:ply" so a claim with a few hundred instances costs
+            # a few kilobytes rather than a few hundred nested objects. Omitted
+            # entirely when not recorded, which keeps every pre-v15 profile
+            # byte-identical in this field's absence.
+            "instances_at": [
+                f"{game_id}:{ply}" for game_id, ply in finding.measurement.instances_at
+            ]
+            or None,
         },
         "provenance": {
             "engine": finding.provenance.engine,
@@ -261,6 +269,22 @@ def _finding_to_dict(finding: Finding) -> dict[str, Any]:
     }
 
 
+def _instances_at(raw: Any) -> tuple[tuple[str, int], ...]:
+    """Rebuild the instance moves from their compact "game_id:ply" form.
+
+    A game id may itself contain a colon, so the split is from the **right** and
+    exactly once. Absent in every pre-v15 profile, which reads back as "not
+    recorded" and simply leaves those findings unsuppressed.
+    """
+    if not raw:
+        return ()
+    moves = []
+    for item in raw:
+        game_id, _, ply = str(item).rpartition(":")
+        moves.append((game_id, int(ply)))
+    return tuple(moves)
+
+
 def _finding_from_dict(payload: dict[str, Any]) -> Finding:
     claim = payload["claim"]
     measurement = payload["measurement"]
@@ -287,6 +311,7 @@ def _finding_from_dict(payload: dict[str, Any]) -> Finding:
             ci95=tuple(ci95) if ci95 else None,
             cost_wp=measurement.get("cost_wp"),
             peer_cost_per_game=measurement.get("peer_cost_per_game"),
+            instances_at=_instances_at(measurement.get("instances_at")),
         ),
         provenance=Provenance(
             engine=provenance["engine"],

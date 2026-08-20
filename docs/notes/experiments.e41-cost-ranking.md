@@ -1,7 +1,7 @@
 ---
 id: cas-exp-e41
 title: 'E41 — Cost ranking loses too, and that is what identifies the real cause'
-desc: 'The reviewer proposed ranking by severity and count instead of by peer excess. Tested directly it also agrees 0 times in 6 — and two rules that disagree about everything giving the same answer means the ranking rule was never the cause. It is category width.'
+desc: 'The reviewer proposed ranking by severity and count instead of by peer excess. Tested directly it also agrees 0 times in 6 — and two rules that disagree about everything giving the same answer means the ranking rule was never the cause. Relocates the defect onto three others; the containment half of this note is corrected by E42.'
 updated: 1787961600000
 created: 1787961600000
 ---
@@ -103,13 +103,23 @@ the reviewer raised earlier about broad categories landing in every player's top
 now measured rather than predicted. `drop_redundant_aggregates` already exists to stop this — it
 operates *within* a section and these claims are in different ones.
 
+> **Corrected 2026-08-20 by [[experiments.e42-claim-overlap]].** The inference in this paragraph is
+> wrong. `early_error` does tally hung pieces, but measuring the instance sets shows the claims
+> barely overlap: across 501 cross-section pairs the median coverage is **3 %** and **none reaches
+> 80 %**. `early_error` outprices `hangingPiece` because more errors happen in the opening than
+> hanging pieces happen anywhere — not because it contains them. "Width" is real but means *how many
+> distinct mistakes a claim covers*, which is a far weaker objection than double-counting. The
+> cross-section suppressor was built anyway, calibrated, and changes **one player of twelve**.
+
 ## Consequence
 
 - **The proposal is refused as stated** and the arbiter is unchanged. Recorded so it is not
   re-litigated: cost ranking was measured against the reviewer's own notes and did not improve them.
 - **The defect is relocated** off the arbiter and onto three things that can each be tested:
   cross-section aggregate suppression, the two focus gates against a 20-game window, and the
-  detector threshold for the five absent claims.
+  detector threshold for the five absent claims. **The first of those was built and measured**
+  ([[experiments.e42-claim-overlap]]) and turned out to be the *smallest* of the three, not the
+  largest — the remaining two are where the effect is.
 - **`FOCUS_GAMES_WITH_DATA = 20` colliding with a 20-game review window is a new and separate
   finding**, and it contaminates the review: a claim can be blocked purely because the reviewer read
   twenty games rather than twenty-five.

@@ -48,6 +48,7 @@ from chesscoach.sections.base import (
     SectionContext,
     SectionReport,
     diagnosable,
+    instance_moves,
     split_by_tier,
 )
 from chesscoach.tactics import detect_motifs
@@ -259,6 +260,7 @@ def _assess(key: str, counts: _Counts, context: SectionContext) -> Finding | Non
         claim=Claim.of(kind=kind, subject=motif),
         measurement=Measurement(
             instances=tally.instances,
+            instances_at=instance_moves(tally.examples),
             distinct_games=stats.distinct_games,
             games_with_data=counts.games_with_data,
             rate=round(rate, 4),

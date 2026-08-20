@@ -56,6 +56,8 @@ An experiment with no consequence was not worth running.
 | E40 | is the ranked top three needed, or can it be derived from the notes? | done — **derived, and it agrees with the swarm 0 times in 6** | [[experiments.e40-derived-ranking]] |
 | E41 | would ranking by cost beat ranking by peer-relative excess? | done — **refused: also 0/6, worse overlap.** Two rules disagreeing about everything and agreeing on the answer relocated the defect: **5 of 12 material claims never become candidates**, 7 are above peers and expensive but blocked by `FOCUS_GAMES_WITH_DATA = 20` against a 20-game window, and in the cost pool they lose to `early_error`, which **contains** them | [[experiments.e41-cost-ranking]] |
 
+| E42 | how much do the swarm's claims describe the same moves? | done — **almost none, which refutes E41's explanation.** 501 cross-section pairs, median **3 %** coverage, **0** reaching 80 %. Threshold calibrated against the convention the project already uses (60 %); the rule ships and changes **1 player of 12** | [[experiments.e42-claim-overlap]] |
+
 
 ## Conventions
 

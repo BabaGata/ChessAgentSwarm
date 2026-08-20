@@ -53,6 +53,7 @@ from chesscoach.sections.base import (
     SectionReport,
     diagnosable,
     drop_redundant_aggregates,
+    instance_moves,
     split_by_tier,
 )
 from chesscoach.structure import conceded
@@ -245,6 +246,7 @@ def _assess(key: str, counts: _Counts, context: SectionContext) -> Finding | Non
         claim=Claim.of(kind=CONCEDES, subject=subject),
         measurement=Measurement(
             instances=tally.instances,
+            instances_at=instance_moves(tally.examples),
             distinct_games=stats.distinct_games,
             games_with_data=counts.games_with_data,
             rate=round(rate, 4),

@@ -44,6 +44,7 @@ need to know?"
 | **Sections S3–S6, S8** | **built, each screened first** | endgame technique, opening outcomes, pawn structure, squares and files, attack and defence. **Eight sections total** since S7 reopened |
 | **S7 material safety** | **built 2026-08-17** | `moved_into_attack`, `miscounted_exchange` — the only section reading **the move the player actually played**, answering D13. Two further candidates refused for restating the error rate (E34) |
 | **Arbiter + planner** | **built** | one or two priorities, ranked by peer-relative recoverable cost; every step carries a falsifiable target and a check point |
+| **Claim overlap suppression** | **built 2026-08-20** | `chesscoach/overlap.py` — every claim now reports `instances_at`, so two sections describing the same moves is **measured** rather than asserted from a table. Threshold 0.60, calibrated against the pairs `drop_redundant_aggregates` already deletes. Effect is small and stated: **1 player of 12** (E42). Profile schema v15 |
 | **Explainer** | **built** | the report a person reads: strength, style, findings with cited positions, plan, band notes, limits |
 | **Prober (V9)** | **built** | probe selection, move check, a local model classifying reasons at kappa 0.74, `gap_type` written back |
 | **V1 strength / V3 style** | **built, per speed** | two fitted lines (rapid ±103, blitz ±123); one style tendency, mix-matched to the player's speeds |
@@ -182,15 +183,24 @@ This is what actually moved this cycle.
 
 ## Next logical steps (priority order)
 
-0. **P0 — D15: the reviewer's top concern cannot reach the report, and the arbiter is not why**
-   *(new 2026-08-20)* → [[experiments.e41-cost-ranking]]. Ranking by cost instead of peer excess was
+0. **P0 — D15, defect (c): cross-section aggregate suppression.** **Done 2026-08-20** →
+   [[experiments.e42-claim-overlap]]. Built as instructed, and **the premise was wrong**: the claims
+   barely overlap (501 pairs, median 3 % coverage, none over 80 %), so `early_error` outprices
+   `hangingPiece` by covering more distinct mistakes, not by containing it. `chesscoach/overlap.py`
+   ships anyway with a threshold **calibrated** against the pairs `drop_redundant_aggregates` already
+   deletes, and changes **1 player of 12** (maxhayastan, whose `time_pressure_error` was 77 % the same
+   moves as `endgame_error`). Profile size 1.09×. **L-043.**
+
+0. **P0 — D15, defects (a) and (b): now known to be the large ones** *(new 2026-08-20)* →
+   [[experiments.e41-cost-ranking]]. Ranking by cost instead of peer excess was
    tested against the reviewer's own notes and **refused** — 0 of 6, worse overlap than the shipping
    rule. The refusal is what located the defect: **5 of 12 material claims never become candidates**,
    7 more are above the peer rate and cost 6.3–15.1 wp/game yet are blocked by
    `FOCUS_GAMES_WITH_DATA = 20` meeting a **20-game window** and by `FOCUS_MARGIN = 1.25`, and in the
-   cost pool they lose to `early_error`, which **contains** them. Cost ranks category width, not
-   importance. Three independent fixes, none of them the arbiter, and **(b) contaminates the expert
-   review itself**.
+   cost pool they lose to `early_error` — which covers more distinct mistakes, the containment
+   reading having since been refuted. **(a)** is a detector-threshold question and **(b)** a gate
+   question; neither is touched yet, and **(b) contaminates the expert review itself**, since a claim
+   can be blocked purely because the reviewer read twenty games rather than twenty-five.
 
 0. **~~P0 — D12: does `focus` need a magnitude floor?~~ Done 2026-08-05.** Yes, and it has one:
    `FOCUS_MARGIN = 1.25` on the point estimate, alongside the interval test. Chosen from the data —

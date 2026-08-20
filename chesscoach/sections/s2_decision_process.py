@@ -40,6 +40,7 @@ from chesscoach.sections.base import (
     SectionContext,
     SectionReport,
     diagnosable,
+    instance_moves,
     split_by_tier,
 )
 
@@ -234,6 +235,7 @@ class S2DecisionProcess:
             claim=claim,
             measurement=Measurement(
                 instances=len(errors),
+                instances_at=instance_moves(errors),
                 distinct_games=stats.distinct_games,
                 games_with_data=stats.games_with_data,
                 rate=round(rate, 4),

@@ -31,7 +31,7 @@ from enum import Enum
 # CorpusRef gains `game_ids`, so a later check knows which games are new. And
 # Plan gains `outcomes`, so a plan carries its own verdict -- a system that
 # quietly drops its failed predictions is unfalsifiable.
-SCHEMA_VERSION = 14
+SCHEMA_VERSION = 15
 
 _Z = 1.96  # 95% normal quantile, for Wilson intervals
 
@@ -197,10 +197,29 @@ class Measurement:
     # handled it *better* than average once there.
     opportunities: int | None = None
     peer_opportunities_per_game: float | None = None
+    # Which moves the instances actually were, as (game_id, ply) (schema v15).
+    #
+    # Claims from different sections are different **views of the same moves**,
+    # not independent problems: an error in the opening is counted by
+    # `early_error`, and if a piece was hanging it is counted again by
+    # `missed_motif.hangingPiece`, and again by `instant_move_error` if it was
+    # played in two seconds. Ranking them against each other without knowing that
+    # lets a wide claim outrank a narrow one purely for being wide, and lets a
+    # top three be three descriptions of one set of mistakes (E41, D15).
+    #
+    # Empty means **not recorded**, not "no instances" -- a claim that does not
+    # report its moves is never suppressed and never re-priced, so a section that
+    # has not been wired up degrades to the behaviour that existed before this.
+    instances_at: tuple[tuple[str, int], ...] = ()
 
     def __post_init__(self) -> None:
         if not 0.0 <= self.rate <= 1.0:
             raise ValueError(f"rate must be a proportion, got {self.rate}")
+        if self.instances_at and len(self.instances_at) != self.instances:
+            raise ValueError(
+                f"instances_at has {len(self.instances_at)} moves but instances is "
+                f"{self.instances}; a claim must report every instance or none"
+            )
         if self.distinct_games > self.instances:
             raise ValueError(
                 f"distinct_games ({self.distinct_games}) cannot exceed instances ({self.instances})"

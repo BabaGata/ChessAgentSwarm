@@ -1,0 +1,32 @@
+COVERAGE OF THE WIDE CLAIM BY THE NARROW ONE, BY RELATIONSHIP
+
+A. pairs the project already deletes (pooled parent vs its subdivision)
+     n=2
+    min 60%   p10 60%   median 65%   p90 69%   max 69%
+    of these, pairs SPLIT across the asserted and watched pools, which the existing rule cannot see: 2
+
+B. same kind, neither pooled (siblings — nothing deletes these)
+     n=59
+    min 0%   p10 0%   median 6%   p90 21%   max 59%
+
+C. different sections entirely (no convention covers these)
+     n=501
+    min 0%   p10 0%   median 3%   p90 15%   max 77%
+
+   the strongest cross-section pairs:
+     77%  maxhayastan          time_pressure_error.clock.own      <- endgame_error.rook.own
+     34%  Hirsican             advantage_error.clear.own          <- long_think_error.long_think.own
+     33%  Hirsican             sacrificed_for_attack.own_move.own <- missed_motif.trappedPiece.own
+     33%  Hirsican             missed_motif.trappedPiece.own      <- sacrificed_for_attack.own_move.own
+     32%  cademan              advantage_error.clear.own          <- long_think_error.long_think.own
+     29%  Maximilian_Honigtopf endgame_error.any.own              <- allowed_motif.fork.own
+     29%  bjagus               advantage_error.clear.own          <- early_error.white.own
+     27%  goydorak             allowed_motif.hangingPiece.own     <- sacrificed_for_attack.own_move.own
+     27%  bjagus               advantage_error.clear.own          <- long_think_error.long_think.own
+     26%  Maximilian_Honigtopf early_error.black.own              <- allowed_motif.pin.own
+     26%  Maximilian_Honigtopf early_error.black.own              <- advantage_error.clear.own
+     24%  cademan              early_error.black.own              <- advantage_error.clear.own
+
+CALIBRATION: the weakest tenth of the pairs the project already calls redundant sits at 60%.
+A cross-section rule set there deletes nothing the codebase would not already delete if the two claims shared a kind.
+At that threshold it would fire on 1 of 501 cross-section pairs.

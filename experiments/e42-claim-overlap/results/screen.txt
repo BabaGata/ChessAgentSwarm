@@ -1,0 +1,84 @@
+bernes  (8 candidates)
+    early_error.white.own              vs allowed_motif.hangingPiece.own     share    3 = 23% of the smaller
+    early_error.white.own              vs endgame_error.rook_minor.own       share    0 = 0% of the smaller
+    allowed_motif.hangingPiece.own     vs endgame_error.rook_minor.own       share    2 = 22% of the smaller
+
+bjagus  (13 candidates)
+    advantage_error.clear.own          vs early_error.white.own              share   14 = 37% of the smaller
+    advantage_error.clear.own          vs allows_square.outpost.own          share    1 = 9% of the smaller
+    early_error.white.own              vs allows_square.outpost.own          share    0 = 0% of the smaller
+
+cademan  (12 candidates)
+    advantage_error.clear.own          vs early_error.black.own              share    7 = 28% of the smaller
+    advantage_error.clear.own          vs allowed_motif.fork.own             share    4 = 20% of the smaller
+    early_error.black.own              vs allowed_motif.fork.own             share    3 = 15% of the smaller
+
+Crossfire1983  (13 candidates)
+    allows_pressure.king.own           vs allowed_motif.hangingPawn.own      share    0 = 0% of the smaller
+    allows_pressure.king.own           vs moved_into_attack.own_move.own     share    0 = 0% of the smaller
+    allowed_motif.hangingPawn.own      vs moved_into_attack.own_move.own     share    5 = 28% of the smaller
+
+goydorak  (9 candidates)
+    early_error.white.own              vs allowed_motif.pin.own              share    8 = 40% of the smaller
+    early_error.white.own              vs allowed_motif.hangingPiece.own     share    2 = 18% of the smaller
+    allowed_motif.pin.own              vs allowed_motif.hangingPiece.own     share    0 = 0% of the smaller
+
+Hirsican  (16 candidates)
+    allowed_motif.fork.own             vs advantage_error.clear.own          share    9 = 47% of the smaller
+    allowed_motif.fork.own             vs long_think_error.long_think.own    share    6 = 32% of the smaller
+    advantage_error.clear.own          vs long_think_error.long_think.own    share   17 = 40% of the smaller
+
+maikel5  (4 candidates)
+    endgame_error.rook_minor.own       vs allowed_motif.discoveredAttack.own share    1 = 25% of the smaller
+    endgame_error.rook_minor.own       vs missed_motif.capturingDefender.own share    0 = 0% of the smaller
+    allowed_motif.discoveredAttack.own vs missed_motif.capturingDefender.own share    0 = 0% of the smaller
+
+maxhayastan  (7 candidates)
+    time_pressure_error.clock.own      vs endgame_error.rook.own             share   17 = 81% of the smaller
+    time_pressure_error.clock.own      vs allowed_motif.pin.own              share    0 = 0% of the smaller
+    endgame_error.rook.own             vs allowed_motif.pin.own              share    1 = 8% of the smaller
+
+Maximilian_Honigtopf  (18 candidates)
+    early_error.black.own              vs allowed_motif.pin.own              share   10 = 40% of the smaller
+    early_error.black.own              vs concedes_weakness.isolated.own     share    1 = 6% of the smaller
+    allowed_motif.pin.own              vs concedes_weakness.isolated.own     share    1 = 6% of the smaller
+
+Odin5306  (3 candidates)
+    moved_into_attack.own_move.own     vs allowed_motif.trappedPiece.own     share    2 = 40% of the smaller
+
+Sheriwoyama  (9 candidates)
+    long_think_error.long_think.own    vs advantage_error.clear.own          share    6 = 30% of the smaller
+    long_think_error.long_think.own    vs missed_motif.discoveredAttack.own  share    3 = 23% of the smaller
+    advantage_error.clear.own          vs missed_motif.discoveredAttack.own  share    6 = 46% of the smaller
+
+simonvj  (10 candidates)
+    long_think_error.long_think.own    vs moved_into_attack.own_move.own     share    4 = 13% of the smaller
+    long_think_error.long_think.own    vs missed_motif.pin.own               share    5 = 50% of the smaller
+    moved_into_attack.own_move.own     vs missed_motif.pin.own               share    2 = 20% of the smaller
+
+==============================================================================
+players 12   candidate claims not reporting instances: 7
+
+1. THE SHIPPED THREE - how much of the smaller claim the other one repeats
+   pairs 34   median 21%   mean 22%   max 81%
+   pairs sharing >= 25% of the smaller claim: 14/34 (41%)
+   pairs sharing >= 50% of the smaller claim: 2/34 (6%)
+   pairs sharing >= 75% of the smaller claim: 1/34 (3%)
+   pairs sharing >= 90% of the smaller claim: 0/34 (0%)
+   players with at least one >=50% pair in their three: 2/12
+
+2. ALL CANDIDATE PAIRS - is there containment, or only diffuse overlap?
+   ordered pairs (wide, narrow): 631
+   wide claims with >= 50% of their instances inside a narrower one: 5 (0.8%)
+   wide claims with >= 70% of their instances inside a narrower one: 1 (0.2%)
+   wide claims with >= 80% of their instances inside a narrower one: 0 (0.0%)
+   wide claims with >= 90% of their instances inside a narrower one: 0 (0.0%)
+   wide claims with >= 95% of their instances inside a narrower one: 0 (0.0%)
+   wide claims with >= 100% of their instances inside a narrower one: 0 (0.0%)
+
+3. THE STRONGEST CONTAINMENTS (wide claim <- the narrower one inside it)
+   77%  maxhayastan          time_pressure_error.clock.own        contains endgame_error.rook.own
+   69%  bjagus               allows_square.any.own                contains allows_square.outpost.own
+   60%  bjagus               early_error.any.own                  contains early_error.white.own
+   59%  cademan              concedes_weakness.doubled.own        contains concedes_weakness.isolated.own
+   57%  Maximilian_Honigtopf concedes_weakness.doubled.own        contains concedes_weakness.isolated.own

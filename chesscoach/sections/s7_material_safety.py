@@ -80,6 +80,7 @@ from chesscoach.sections.base import (
     SectionContext,
     SectionReport,
     diagnosable,
+    instance_moves,
     split_by_tier,
 )
 
@@ -240,6 +241,7 @@ def _assess(kind: str, counts: _Counts, context: SectionContext) -> Finding | No
         claim=Claim.of(kind=kind, subject="own_move"),
         measurement=Measurement(
             instances=tally.instances,
+            instances_at=instance_moves(tally.examples),
             distinct_games=stats.distinct_games,
             games_with_data=counts.games_with_data,
             rate=round(rate, 4),

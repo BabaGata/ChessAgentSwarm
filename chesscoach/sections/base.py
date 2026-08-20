@@ -69,6 +69,19 @@ def drop_redundant_aggregates(findings: tuple[Finding, ...]) -> tuple[Finding, .
     )
 
 
+
+def instance_moves(observations: Iterable[Observation]) -> tuple[tuple[str, int], ...]:
+    """Identify a claim's instances by the moves they actually were.
+
+    Sections measure in isolation and cannot see that they are describing the
+    same mistakes from different angles. Carrying the moves lets the arbiter find
+    that out by measurement rather than by a hand-written table of which claim
+    contains which -- which would be invented pedagogy, and wrong the first time
+    a section changed what it counts.
+    """
+    return tuple((o.game_id, o.ply) for o in observations)
+
+
 @dataclass(frozen=True)
 class SectionContext:
     """Everything a section agent is given. Read-only.

@@ -45,6 +45,32 @@ a stated defect in [[experiments.e15-expected-gain]] — raw cost must become pe
 
 ---
 
+### L-043 — "It contains it" is a hypothesis about instances, not a fact about names
+**Date:** 2026-08-20 · **Cycle / mission step:** M6 · **Class:** technique
+**Context:** [[experiments.e41-cost-ranking]] read `s4_opening_outcomes.py:141`, saw `early_error`
+tally *every* diagnosable error in the opening window, and concluded it outprices
+`missed_motif.hangingPiece` by containing it. The author instructed a cross-section suppressor be
+built on that basis.
+**Observation:** The code reading was right and the inference was wrong. Once every claim reported
+its instances, [[experiments.e42-claim-overlap]] measured 501 cross-section pairs across twelve
+players: **median coverage 3 %, 90th percentile 15 %, none reaching 80 %.** `early_error` is dearer
+because more errors happen in the opening than hanging pieces happen anywhere — the two claims are
+about *different moves*. The suppressor was built, calibrated and shipped, and changes **one player
+of twelve**.
+**Lesson:** A containment claim between two categories is an empirical statement about which
+observations fall in both, and reading the code that defines them cannot settle it. Definitional
+overlap bounds how much two claims *could* share; it says nothing about how much they *do*. The tell
+is that the argument runs entirely on the categories' names and definitions and never on a count —
+and it is seductive precisely because the definitional half is verifiable, which makes the whole
+thing feel checked. Before designing around "A contains B", make A and B report their instances and
+count the intersection; it is nearly always cheaper than the mechanism being justified.
+**Applied to:** the correction stamped into E41; D15's defect (c); the decision to keep
+`chesscoach/overlap.py` anyway on a *calibrated* threshold with its small effect stated rather than
+quietly implied; and the ordering of D15's remaining work, since the two untouched defects are now
+known to be the large ones.
+
+---
+
 ### L-042 — A claim about what happened to the player is the error rate; a claim about what they did is not
 **Date:** 2026-08-18 · **Cycle / mission step:** M6 · **Class:** technique
 **Context:** Eleven material-loss candidates screened across E34, E36, E37 and E38, chasing the

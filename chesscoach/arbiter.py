@@ -24,6 +24,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from chesscoach.overlap import drop_covered_claims
 from chesscoach.profile.models import ConfidenceTier, Finding
 
 # Raised from two to three on 2026-08-15, at the thesis author's direction after
@@ -83,7 +84,16 @@ def select_priorities(
 
     Without `also` this behaves exactly as it did before, which is what every
     existing caller relies on.
+
+    Before anything is ranked, claims that mostly restate a narrower one are
+    removed — **across sections and across both pools**, by measured overlap
+    rather than by a table of which claim contains which (`chesscoach.overlap`).
+    Sections cannot see each other, so this is the only place that can notice two
+    of them describing the same moves. It is a small effect and honestly so: one
+    pair in 501 reached the threshold across twelve real players (E42).
     """
+    findings, also = drop_covered_claims(tuple(findings), tuple(also))
+
     eligible = [f for f in findings if f.confidence.tier in ASSERTABLE]
     ordered = sorted(eligible, key=_sort_key)
     chosen = _take_diverse(ordered, limit)
