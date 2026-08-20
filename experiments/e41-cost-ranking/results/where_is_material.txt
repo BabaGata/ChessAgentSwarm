@@ -1,0 +1,29 @@
+bjagus
+    motif:hangingPawn        ABSENT - never became a candidate
+    motif:hangingPiece       ABSENT - never became a candidate
+
+cademan
+    motif:hangingPawn        sub_threshold  rate 11.9% vs peer 7.1%  cost 12.73  7/18 games  tier watch
+    motif:hangingPiece       sub_threshold  rate 13.8% vs peer 7.8%  cost 15.10  9/18 games  tier watch
+
+Crossfire1983
+    motif:hangingPawn        asserted       rate 12.2% vs peer 7.6%  cost 9.87  10/20 games  tier focus
+    motif:hangingPiece       sub_threshold  rate 9.5% vs peer 8.3%  cost 8.74  13/20 games  tier watch
+
+goydorak
+    motif:hangingPawn        sub_threshold  rate 9.3% vs peer 6.8%  cost 6.32  8/19 games  tier watch
+    motif:hangingPawn        sub_threshold  rate 21.1% vs peer 20.0%  cost 1.71  3/19 games  tier watch
+    motif:hangingPiece       sub_threshold  rate 9.3% vs peer 7.6%  cost 10.15  8/19 games  tier watch
+
+Hirsican
+    motif:hangingPawn        sub_threshold  rate 9.3% vs peer 7.7%  cost 10.99  11/20 games  tier watch
+    motif:hangingPiece       ABSENT - never became a candidate
+
+maikel5
+    motif:hangingPawn        ABSENT - never became a candidate
+    motif:hangingPiece       ABSENT - never became a candidate
+
+----------------------------------------------------------------------
+  asserted (ranked and lost)        1
+  sub-threshold (priced, outranked) 7
+  absent (never a candidate)        5

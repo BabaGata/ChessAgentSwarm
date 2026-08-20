@@ -182,6 +182,16 @@ This is what actually moved this cycle.
 
 ## Next logical steps (priority order)
 
+0. **P0 — D15: the reviewer's top concern cannot reach the report, and the arbiter is not why**
+   *(new 2026-08-20)* → [[experiments.e41-cost-ranking]]. Ranking by cost instead of peer excess was
+   tested against the reviewer's own notes and **refused** — 0 of 6, worse overlap than the shipping
+   rule. The refusal is what located the defect: **5 of 12 material claims never become candidates**,
+   7 more are above the peer rate and cost 6.3–15.1 wp/game yet are blocked by
+   `FOCUS_GAMES_WITH_DATA = 20` meeting a **20-game window** and by `FOCUS_MARGIN = 1.25`, and in the
+   cost pool they lose to `early_error`, which **contains** them. Cost ranks category width, not
+   importance. Three independent fixes, none of them the arbiter, and **(b) contaminates the expert
+   review itself**.
+
 0. **~~P0 — D12: does `focus` need a magnitude floor?~~ Done 2026-08-05.** Yes, and it has one:
    `FOCUS_MARGIN = 1.25` on the point estimate, alongside the interval test. Chosen from the data —
    the smallest ratio among the swarm's 40 real findings is 1.40 — so it **removed nothing**, and

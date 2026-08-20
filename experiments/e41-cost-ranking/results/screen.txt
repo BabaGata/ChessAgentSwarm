@@ -1,0 +1,36 @@
+
+CLAIM ONE - does the report fall to the cost pool as players get stronger?
+player                 rating  from cost pool   shipped three
+--------------------------------------------------------------------------------------------
+Maximilian_Honigtopf     1171         0 of 3   early_error, motif:pin, concedes_weakness
+cademan                  1340         3 of 3   advantage_error, early_error, motif:fork
+Hirsican                 1530         2 of 3   motif:fork, advantage_error, long_think_error
+goydorak                 1580         3 of 3   early_error, motif:pin, motif:hangingPiece
+bernes                   1632         3 of 3   early_error, motif:hangingPiece, endgame_error
+Crossfire1983            1644         1 of 3   allows_pressure, motif:hangingPawn, material:m
+maxhayastan              1736         3 of 3   time_pressure_error, endgame_error, motif:pin
+simonvj                  1786         3 of 3   long_think_error, material:moved_into_attack, 
+bjagus                   1855         0 of 3   advantage_error, early_error, allows_square
+maikel5                  1923         3 of 3   endgame_error, motif:discoveredAttack, motif:c
+Odin5306                 1981         2 of 3   material:moved_into_attack, motif:trappedPiece
+Sheriwoyama              2033         2 of 3   long_think_error, advantage_error, motif:disco
+
+  corr(rating, slots filled from the cost pool) = +0.19
+  mean slots from the pool: 2.1 of 3
+
+CLAIM TWO - would cost ranking agree with the reviewer better?
+player                reviewer top-3                               shipped  by cost
+--------------------------------------------------------------------------------------
+bjagus                motif:hangingPiece, motif:hangingPawn, con        no       no
+cademan               motif:hangingPawn, motif:hangingPiece, mot        no       no
+Crossfire1983         motif:hangingPawn, motif:hangingPiece, mot        no       no
+goydorak              motif:hangingPawn, motif:hangingPiece, all        no       no
+Hirsican              motif:hangingPiece, motif:hangingPawn, all        no       no
+maikel5               motif:hangingPawn, allows_pressure, motif:        no       no
+
+  top finding in the reviewer's three   shipped 0/6   by cost 0/6
+  median overlap of three               shipped 0.5   by cost 0.0
+
+THE CATCH - E17 refused cost ranking for naming one claim to 70% of players
+  shipped   most-named leading claim: early_error -> 3/12 (25%),  8 distinct
+  by cost   most-named leading claim: advantage_error -> 4/12 (33%),  5 distinct
