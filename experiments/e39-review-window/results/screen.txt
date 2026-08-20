@@ -1,0 +1,21 @@
+
+DOES A 20-GAME READ AGREE WITH THE WHOLE CORPUS?
+player                window top                        full-corpus top                     same
+------------------------------------------------------------------------------------------------
+bernes                allowed_motif.hangingPiece.own    allowed_motif.hangingPiece.own       yes
+bjagus                allows_square.outpost.own         allows_square.outpost.own            yes
+cademan               advantage_error.clear.own         allowed_motif.fork.own                NO
+Crossfire1983         allows_pressure.king.own          allows_square.rook_seventh.own        NO
+goydorak              early_error.white.own             allows_pressure.king.own              NO
+Hirsican              allowed_motif.fork.own            concedes_weakness.isolated.own        NO
+maikel5               endgame_error.rook_minor.own      time_pressure_error.clock.own         NO
+maxhayastan           advantage_error.clear.own         allows_pressure.king.own              NO
+Maximilian_Honigtopf  early_error.black.own             allowed_motif.fork.own                NO
+Odin5306              moved_into_attack.own_move.own    allows_pressure.king.own              NO
+Sheriwoyama           long_think_error.long_think.own   long_think_error.long_think.own      yes
+simonvj               long_think_error.long_think.own   moved_into_attack.own_move.own        NO
+
+  top finding identical                 3/12  (25%)
+  full-corpus top appears in the window 5/12  (42%)
+  window says nothing at all            0/12
+  median claims shared out of 3         1.0

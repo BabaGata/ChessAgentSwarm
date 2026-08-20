@@ -235,6 +235,25 @@ naive in the way `bernes`'s were. That is a real contamination of the instrument
 rather than managed away. It argues for weighting `bernes` heavily and treating the rest as
 partially anchored.
 
+## Amendment, 2026-08-19 — the windows must match
+
+[[experiments.e39-review-window]] found the swarm changes its **own** leading finding **9 times in
+12** between a 20-game window and the full corpus, with a median overlap of one claim in three.
+
+The reviewer reads 20 games; the reports in `b-the-system/` were built from ~50. So the
+pre-registered agreement test, as set up, measures **sampling mismatch as much as diagnostic
+quality**, and a disagreement cannot be attributed to judgement.
+
+**The reports must be regenerated from the same 20 games the reviewer read.** No Form A work is
+invalidated — those answers are about the games, not the report — and the move-level comparison was
+already matched, because `compare.py` runs the swarm over the same 20.
+
+**What that costs, and it is stated in the thesis rather than hidden.** Twenty games is close to the
+swarm's floor: `FOCUS_GAMES_WITH_DATA` is 20, so more of the three slots fill from the cost pool than
+from peer-relative findings. The review then judges the swarm at its **weakest** operating point
+rather than at the ~50 games a real session fetches. That is the smaller of the two distortions:
+comparing two different samples is worse than comparing one small one.
+
 ## What the review cannot settle
 
 - **The reviewer is ~1880, not titled** (see the amendment above). This is the largest limitation and
