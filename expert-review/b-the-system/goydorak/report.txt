@@ -3,68 +3,65 @@
 
 WHAT STANDS OUT
 
-1. Away from the kings, exchanges you start turn out to lose material more often than they do for players at your level.
+1. Attacks build against your king more readily than against players at your level.
 
    How often   3% of the time, against 2% for players at your level
-   Seen in     10 of 56 games
-   Costing you about 1.8 points of win probability a game.
-   Players at your level lose about 2.4 to the same thing, so this is
-   not costing you your rating — it is costing you the next one.
-   For example game 3tdSKWu6, move 31, you played e5g4
-   For example game QG3lJAhA, move 24, you played e1e2
-   For example game QMc52cvf, move 16, you played h8g8
+   Seen in     21 of 56 games
+   For example game QMc52cvf, move 31, you played f6e7
+   For example game Tfb8OGuN, move 62, you played f4e4
+   For example game hN7Tz0KQ, move 12, you played f3h4
 
-2. You go wrong more often than most when you are already better.
+2. Your long thinks tend to end in a mistake.
+
+   Ordinary for your level, and still what these mistakes cost you most.
+
+   How often   36% of the time, against 35% for players at your level
+   Seen in     46 of 56 games
+   Costing you about 29.9 points of win probability a game.
+   Players at your level lose about 22.5 to the same thing, so roughly
+   7.4 a game is what fixing this could get back.
+   For example game MtWU9Y2a, move 25, you played g5d8 (f7f5 was better)
+   For example game QMc52cvf, move 13, you played d8f6 (c8d7 was better)
+   For example game ZyOG2Dm0, move 28, you played h7h6 (d8f8 was better)
+
+3. You go wrong more often than most when you are already better.
 
    Ordinary for your level, and still what these mistakes cost you most.
 
    How often   29% of the time, against 28% for players at your level
    Seen in     29 of 56 games
    Costing you about 24.9 points of win probability a game.
-   Players at your level lose about 29.2 to the same thing, so this is
+   Players at your level lose about 28.0 to the same thing, so this is
    not costing you your rating — it is costing you the next one.
    For example game JpiP6HBj, move 11, you played d5a2 (d4e5 was better)
    For example game ZyOG2Dm0, move 14, you played e5g6 (e5g4 was better)
    For example game wH4jeMdS, move 35, you played a7c7 (e6c8 was better)
 
-3. When you go wrong, it is often a hanging piece that punishes you.
-
-   Ordinary for your level, and still what these mistakes cost you most.
-
-   How often   9% of the time, against 9% for players at your level
-   Seen in     24 of 56 games
-   Costing you about 13.1 points of win probability a game.
-   Players at your level lose about 10.7 to the same thing, so roughly
-   2.4 a game is what fixing this could get back.
-   For example game 2AdZT9MO, move 11, you played c4f7 (g8f7 was better)
-   For example game RfFw3HIc, move 14, you played a2a3 (b4c3 was better)
-   For example game hN7Tz0KQ, move 23, you played d3e4 (d4f6 was better)
-
 WHAT TO DO
 
-1. Before starting an exchange, count both sides of it: every attacker you have on that square against every defender they have, cheapest first. In the cited games, count them again and see where the total went wrong.
-   Why    seen in 10 of 56 games, at 2.9% against 1.6% for peers at your level
+1. In the cited positions, count your opponent's pieces that can reach your king and compare it with your own defenders. The move to find is the one before they got a third attacker there — that is where the game turned, not the move the attack landed on.
+   Why    seen in 21 of 56 games, at 2.9% against 2.1% for peers at your level
    Start  Do this one first — the others can wait their turn.
 
-2. When you are clearly better, slow down rather than speed up: take the safe line over the quick one, and check your opponent's reply before every move.
-   Why    seen in 29 of 56 games, at 29.1% against 28.3% for peers at your level
+2. When a think runs long, stop and choose between your two best candidate moves rather than searching for a third.
+   Why    seen in 46 of 56 games, at 36.5% against 35.4% for peers at your level
    Note   Ordinary for your level, and still what these mistakes cost you most.
 
-3. Before committing a move, ask what your opponent's best reply threatens; a hanging piece is what has been punishing you.
-   Why    seen in 24 of 56 games, at 8.9% against 8.8% for peers at your level
+3. When you are clearly better, slow down rather than speed up: take the safe line over the quick one, and check your opponent's reply before every move.
+   Why    seen in 29 of 56 games, at 29.1% against 27.8% for peers at your level
    Note   Ordinary for your level, and still what these mistakes cost you most.
 
 WHAT WOULD SHOW IT WORKED
 
- - exchanges you start away from the kings that lose material: below 1% over your next 20 games
+ - moves that let an attack build against your king: below 2% over your next 20 games
+ - mistakes after a long think: below 21% over your next 20 games
  - mistakes made while you are winning: below 17% over your next 20 games
- - hanging piece conceded when you go wrong: below 5% over your next 20 games
 
 WHAT YOUR WHOLE LEVEL LOSES MOST TO
 
- - Players at your level lose about 21.5 points of win probability a game to moves played in under two seconds.
- - Players at your level lose about 18.5 points of win probability a game to mistakes before move 15 with Black.
- - Players at your level lose about 15.1 points of win probability a game to mistakes before move 15 with White.
+ - Players at your level lose about 22.4 points of win probability a game to moves played in under two seconds.
+ - Players at your level lose about 15.7 points of win probability a game to mistakes before move 15 with Black.
+ - Players at your level lose about 15.6 points of win probability a game to mistakes before move 15 with White.
 
    These are not findings about you — they are what the whole rating band
    loses most to, and the stronger players in it lose less. Your own one or

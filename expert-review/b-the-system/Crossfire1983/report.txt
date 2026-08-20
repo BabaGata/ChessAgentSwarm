@@ -3,65 +3,65 @@
 
 WHAT STANDS OUT
 
-1. Your play falls off in minor-piece endgames.
+1. You let opponents establish a rook on your second rank more often than players at your level.
 
-   How often   23% of the time, against 12% for players at your level
-   Seen in     6 of 60 games
-   Costing you about 6.1 points of win probability a game.
-   Players at your level lose about 2.0 to the same thing, so roughly
-   4.1 a game is what fixing this could get back.
-   For example game Dy63sMIT, move 47, you played d6f8 (b6c5 was better)
-   For example game cJek1p4R, move 50, you played a4c3 (h7g6 was better)
-   For example game nVJ3UtQ9, move 26, you played e4d3 (d4c3 was better)
+   How often   2% of the time, against 1% for players at your level
+   Seen in     18 of 60 games
+   For example game AUMaACdN, move 19, you played d5d7
+   For example game BwJc2w5g, move 30, you played g1g2
+   For example game KgGYixR0, move 27, you played d2f3
 
-2. You go wrong early as White.
-
-   How often   29% of the time, against 23% for players at your level
-   Seen in     28 of 60 games
-   Costing you about 16.8 points of win probability a game.
-   Players at your level lose about 14.5 to the same thing, so roughly
-   2.3 a game is what fixing this could get back.
-   For example game JkGTmmm5, move 14, you played b1d2 (e3c5 was better)
-   For example game chrsKANE, move 13, you played d2g5 (f1e1 was better)
-   For example game nVJ3UtQ9, move 6, you played b1c3 (f3h4 was better)
-
-3. You go wrong more often than most when you are already better.
+2. You go wrong more often than most when you are already better.
 
    Ordinary for your level, and still what these mistakes cost you most.
 
-   How often   32% of the time, against 28% for players at your level
+   How often   32% of the time, against 30% for players at your level
    Seen in     36 of 60 games
    Costing you about 37.7 points of win probability a game.
-   Players at your level lose about 31.5 to the same thing, so roughly
-   6.2 a game is what fixing this could get back.
+   Players at your level lose about 29.2 to the same thing, so roughly
+   8.5 a game is what fixing this could get back.
    For example game cJek1p4R, move 20, you played f6f5 (d5c3 was better)
    For example game hBYiWbs2, move 9, you played e5d4 (f8b4 was better)
    For example game kj2tmlAy, move 61, you played e6e7 (e6d5 was better)
 
+3. You go wrong early as Black.
+
+   Ordinary for your level, and still what these mistakes cost you most.
+
+   How often   30% of the time, against 27% for players at your level
+   Seen in     29 of 60 games
+   Costing you about 18.3 points of win probability a game.
+   Players at your level lose about 16.9 to the same thing, so roughly
+   1.4 a game is what fixing this could get back.
+   For example game DNNAmw5J, move 8, you played b7b6 (f8d6 was better)
+   For example game VaWiK76d, move 8, you played b4c3 (d8e7 was better)
+   For example game cJek1p4R, move 6, you played c7c5 (f8d6 was better)
+
 WHAT TO DO
 
-1. Study minor-piece endgames — start with the basic winning and drawing methods rather than with studies, and play out the positions you got wrong.
-   Why    seen in 6 of 60 games, at 23.4% against 11.5% for peers at your level
+1. Before a pawn move, ask which square it gives up for good — a pawn cannot come back. In the cited games, find the move where the square your opponent later occupied stopped being defensible.
+   Why    seen in 18 of 60 games, at 1.8% against 1.1% for peers at your level
    Start  Do this one first — the others can wait their turn.
 
-2. Play through your own first fifteen moves afterwards, without an engine, and write down where you stopped knowing what you were doing — that move is the edge of your repertoire and it is the one worth learning.
-   Why    seen in 28 of 60 games, at 29.4% against 23.5% for peers at your level
+2. When you are clearly better, slow down rather than speed up: take the safe line over the quick one, and check your opponent's reply before every move.
+   Why    seen in 36 of 60 games, at 32.4% against 29.8% for peers at your level
+   Note   Ordinary for your level, and still what these mistakes cost you most.
 
-3. When you are clearly better, slow down rather than speed up: take the safe line over the quick one, and check your opponent's reply before every move.
-   Why    seen in 36 of 60 games, at 32.4% against 28.1% for peers at your level
+3. Play through your own first fifteen moves afterwards, without an engine, and write down where you stopped knowing what you were doing — that move is the edge of your repertoire and it is the one worth learning.
+   Why    seen in 29 of 60 games, at 29.6% against 26.6% for peers at your level
    Note   Ordinary for your level, and still what these mistakes cost you most.
 
 WHAT WOULD SHOW IT WORKED
 
- - mistakes in minor-piece endgames: below 11% over your next 32 games
- - mistakes before move 15 as White: below 17% over your next 20 games
- - mistakes made while you are winning: below 17% over your next 20 games
+ - moves that let your opponent establish a rook on your second rank: below 1% over your next 20 games
+ - mistakes made while you are winning: below 18% over your next 20 games
+ - mistakes before move 15 as Black: below 17% over your next 20 games
 
 WHAT YOUR WHOLE LEVEL LOSES MOST TO
 
- - Players at your level lose about 36.4 points of win probability a game to moves played in under two seconds.
- - Players at your level lose about 17.4 points of win probability a game to mistakes before move 15 with Black.
- - Players at your level lose about 14.5 points of win probability a game to mistakes before move 15 with White.
+ - Players at your level lose about 32.9 points of win probability a game to moves played in under two seconds.
+ - Players at your level lose about 16.9 points of win probability a game to mistakes before move 15 with White.
+ - Players at your level lose about 16.9 points of win probability a game to mistakes before move 15 with Black.
 
    These are not findings about you — they are what the whole rating band
    loses most to, and the stronger players in it lose less. Your own one or

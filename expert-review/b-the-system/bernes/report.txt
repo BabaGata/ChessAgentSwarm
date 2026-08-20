@@ -1,67 +1,77 @@
 ﻿Report for bernes
 53 games (2026.02.01 to 2026.07.30), rating band 1400-1800
 
-WHAT STANDS OUT
+WHAT COSTS YOU MOST
 
-1. You miss fork tactics that were available.
+Nothing in your games is unusual for your rating band — measured against
+players at your level, you are where you should be. So these are ranked by
+what they cost you rather than by what makes you different.
 
-   How often   48% of the time, against 30% for players at your level
-   Seen in     10 of 53 games
-   Costing you about 5.0 points of win probability a game.
-   Players at your level lose about 4.3 to the same thing, so roughly
-   0.7 a game is what fixing this could get back.
-   For example game 2hJaVpb7, move 17, you played e3e4 (c5b7 was better)
-   For example game 2hJaVpb7, move 32, you played f7d8 (h8e8 was better)
-   For example game cZ8EWhYi, move 19, you played f7g8 (c6b4 was better)
+1. When you go wrong, it is often a hanging piece that punishes you.
 
-2. When you go wrong, it is often a hanging piece that punishes you.
+   Ordinary for your level, and still what these mistakes cost you most.
 
-   How often   11% of the time, against 7% for players at your level
+   How often   11% of the time, against 8% for players at your level
    Seen in     20 of 53 games
    Costing you about 9.4 points of win probability a game.
-   Players at your level lose about 9.5 to the same thing, so this is
+   Players at your level lose about 10.2 to the same thing, so this is
    not costing you your rating — it is costing you the next one.
    For example game 67QVbxrB, move 15, you played c4b3 (c1c8 was better)
    For example game CUusrqnj, move 13, you played d7e5 (d4e5 was better)
    For example game EGKTN6wj, move 22, you played d2e4 (d5e4 was better)
 
-3. You put the piece you have just moved on a square where it can be won, more often than players at your level.
+2. Your play falls off in minor-piece endgames.
 
    Ordinary for your level, and still what these mistakes cost you most.
 
-   How often   11% of the time, against 11% for players at your level
-   Seen in     50 of 53 games
-   Costing you about 7.7 points of win probability a game.
-   Players at your level lose about 11.6 to the same thing, so this is
-   not costing you your rating — it is costing you the next one.
-   For example game ClJtXsak, move 8, you played c5d4 (g8f6 was better)
-   For example game Ht1L9CDk, move 17, you played c3d5 (e1g1 was better)
-   For example game XkSr9VDj, move 13, you played c2g6
+   How often   29% of the time, against 19% for players at your level
+   Seen in     3 of 53 games
+   Costing you about 6.3 points of win probability a game.
+   Players at your level lose about 2.7 to the same thing, so roughly
+   3.5 a game is what fixing this could get back.
+   For example game 6Rgq7QIU, move 50, you played h4g3 (a3a4 was better)
+   For example game Pr0oM0QR, move 45, you played c3d5 (g8f7 was better)
+   For example game swDGGhHI, move 27, you played e4e5 (c3d5 was better)
+
+3. You miss fork tactics that were available.
+
+   Ordinary for your level, and still what these mistakes cost you most.
+
+   How often   48% of the time, against 35% for players at your level
+   Seen in     10 of 53 games
+   Costing you about 5.0 points of win probability a game.
+   Players at your level lose about 4.0 to the same thing, so roughly
+   1.0 a game is what fixing this could get back.
+   For example game 2hJaVpb7, move 17, you played e3e4 (c5b7 was better)
+   For example game 2hJaVpb7, move 32, you played f7d8 (h8e8 was better)
+   For example game cZ8EWhYi, move 19, you played f7g8 (c6b4 was better)
 
 WHAT TO DO
 
-1. Drill `fork` puzzles, and solve to be right rather than fast — review every one you get wrong.
-   Why    seen in 10 of 53 games, at 48.4% against 30.2% for peers at your level
+1. Before committing a move, ask what your opponent's best reply threatens; a hanging piece is what has been punishing you.
+   Why    seen in 20 of 53 games, at 10.8% against 8.4% for peers at your level
+   Note   Ordinary for your level, and still what these mistakes cost you most.
    Start  Do this one first — the others can wait their turn.
 
-2. Before committing a move, ask what your opponent's best reply threatens; a hanging piece is what has been punishing you.
-   Why    seen in 20 of 53 games, at 10.8% against 6.6% for peers at your level
+2. Study minor-piece endgames — start with the basic winning and drawing methods rather than with studies, and play out the positions you got wrong.
+   Why    seen in 3 of 53 games, at 29.0% against 19.4% for peers at your level
+   Note   Ordinary for your level, and still what these mistakes cost you most.
 
-3. Before you let go of a piece, ask one question about the square you are putting it on: what attacks it, and what defends it. Not the whole position -- one square, every move.
-   Why    seen in 50 of 53 games, at 11.4% against 11.0% for peers at your level
+3. Drill `fork` puzzles, and solve to be right rather than fast — review every one you get wrong.
+   Why    seen in 10 of 53 games, at 48.4% against 35.1% for peers at your level
    Note   Ordinary for your level, and still what these mistakes cost you most.
 
 WHAT WOULD SHOW IT WORKED
 
- - fork missed when available: below 20% over your next 69 games
- - hanging piece conceded when you go wrong: below 6% over your next 20 games
- - moves that leave the piece you moved takeable: below 7% over your next 20 games
+ - hanging piece conceded when you go wrong: below 5% over your next 20 games
+ - mistakes in minor-piece endgames: below 11% over your next 35 games
+ - fork missed when available: below 22% over your next 69 games
 
 WHAT YOUR WHOLE LEVEL LOSES MOST TO
 
- - Players at your level lose about 38.4 points of win probability a game to moves played in under two seconds.
- - Players at your level lose about 17.2 points of win probability a game to mistakes before move 15 with Black.
- - Players at your level lose about 14.4 points of win probability a game to mistakes before move 15 with White.
+ - Players at your level lose about 34.3 points of win probability a game to moves played in under two seconds.
+ - Players at your level lose about 17.1 points of win probability a game to mistakes before move 15 with White.
+ - Players at your level lose about 17.1 points of win probability a game to mistakes before move 15 with Black.
 
    These are not findings about you — they are what the whole rating band
    loses most to, and the stronger players in it lose less. Your own one or

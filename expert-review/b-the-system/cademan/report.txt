@@ -3,61 +3,64 @@
 
 WHAT STANDS OUT
 
-1. You end up with doubled pawns more often than players at your level.
+1. When you go wrong, it is often a fork that punishes you.
 
-   How often   5% of the time, against 3% for players at your level
-   Seen in     42 of 54 games
-   For example game A38Dr6lK, move 8, you played e5d4
-   For example game i5zmp6hB, move 23, you played d6c5
-   For example game liX9MImV, move 11, you played g2f3
+   How often   10% of the time, against 6% for players at your level
+   Seen in     24 of 54 games
+   Costing you about 12.8 points of win probability a game.
+   Players at your level lose about 6.9 to the same thing, so roughly
+   6.0 a game is what fixing this could get back.
+   For example game P2Jbxf1R, move 9, you played e3e4 (d5e4 was better)
+   For example game mAV6i7GW, move 13, you played d8e7 (d3b5 was better)
+   For example game vmYdIpZ1, move 25, you played h6g5 (d8g5 was better)
 
 2. You go wrong more often than most when you are already better.
 
-   How often   38% of the time, against 28% for players at your level
+   How often   38% of the time, against 29% for players at your level
    Seen in     36 of 54 games
    Costing you about 43.1 points of win probability a game.
-   Players at your level lose about 30.9 to the same thing, so roughly
-   12.1 a game is what fixing this could get back.
+   Players at your level lose about 28.9 to the same thing, so roughly
+   14.2 a game is what fixing this could get back.
    For example game 4Da7IGFw, move 41, you played f5f4 (h6h3 was better)
    For example game M2HQqz8u, move 27, you played c2c4 (g5f6 was better)
    For example game T7AhF7X3, move 16, you played g8h6 (h7h5 was better)
 
-3. You go wrong early as White.
+3. You miss pin tactics that were available.
 
-   How often   31% of the time, against 24% for players at your level
-   Seen in     29 of 54 games
-   Costing you about 23.2 points of win probability a game.
-   Players at your level lose about 14.7 to the same thing, so roughly
-   8.5 a game is what fixing this could get back.
-   For example game 52oAYHi1, move 14, you played e5f4 (e5c7 was better)
-   For example game EDypWSmO, move 9, you played g5h4 (d5f6 was better)
-   For example game luxzBEEB, move 9, you played f2f3 (e1g1 was better)
+   How often   43% of the time, against 29% for players at your level
+   Seen in     25 of 54 games
+   Costing you about 13.8 points of win probability a game.
+   Players at your level lose about 7.0 to the same thing, so roughly
+   6.8 a game is what fixing this could get back.
+   For example game 6xf6U70Y, move 8, you played d1d8 (f3c6 was better)
+   For example game Odqpej9W, move 6, you played d5d7 (f8b4 was better)
+   For example game T7AhF7X3, move 20, you played b5b4 (b5d5 was better)
 
-(4 further patterns were found but not prioritised — working on one or two things at a time is the point.)
+(2 further patterns were found but not prioritised — working on one or two things at a time is the point.)
 
 WHAT TO DO
 
-1. In the cited positions, ask whether you chose the structure or simply allowed it. Conceding a weakness for something concrete is fine; doing it without noticing is the habit worth changing.
-   Why    seen in 42 of 54 games, at 5.2% against 3.1% for peers at your level
+1. Before committing a move, ask what your opponent's best reply threatens; a fork is what has been punishing you.
+   Why    seen in 24 of 54 games, at 10.2% against 5.9% for peers at your level
    Start  Do this one first — the others can wait their turn.
 
 2. When you are clearly better, slow down rather than speed up: take the safe line over the quick one, and check your opponent's reply before every move.
-   Why    seen in 36 of 54 games, at 38.2% against 28.1% for peers at your level
+   Why    seen in 36 of 54 games, at 38.2% against 29.3% for peers at your level
 
-3. Play through your own first fifteen moves afterwards, without an engine, and write down where you stopped knowing what you were doing — that move is the edge of your repertoire and it is the one worth learning.
-   Why    seen in 29 of 54 games, at 31.1% against 24.5% for peers at your level
+3. Drill `pin` puzzles, and solve to be right rather than fast — review every one you get wrong.
+   Why    seen in 25 of 54 games, at 42.6% against 29.1% for peers at your level
 
 WHAT WOULD SHOW IT WORKED
 
- - moves that leave you with doubled pawns: below 2% over your next 20 games
- - mistakes made while you are winning: below 18% over your next 20 games
- - mistakes before move 15 as White: below 18% over your next 20 games
+ - fork conceded when you go wrong: below 5% over your next 20 games
+ - mistakes made while you are winning: below 21% over your next 20 games
+ - pin missed when available: below 21% over your next 20 games
 
 WHAT YOUR WHOLE LEVEL LOSES MOST TO
 
- - Players at your level lose about 32.5 points of win probability a game to moves played in under two seconds.
- - Players at your level lose about 17.7 points of win probability a game to mistakes before move 15 with Black.
- - Players at your level lose about 14.7 points of win probability a game to mistakes before move 15 with White.
+ - Players at your level lose about 30.2 points of win probability a game to moves played in under two seconds.
+ - Players at your level lose about 16.6 points of win probability a game to mistakes before move 15 with White.
+ - Players at your level lose about 16.6 points of win probability a game to mistakes before move 15 with Black.
 
    These are not findings about you — they are what the whole rating band
    loses most to, and the stronger players in it lose less. Your own one or

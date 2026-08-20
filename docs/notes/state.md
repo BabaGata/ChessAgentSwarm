@@ -37,7 +37,8 @@ need to know?"
 | **S1 tactical gaps** | **built, assessed** | eight motif detectors, precision-gated by E04; took the swarm from 1 claim kind to **6** → [[mission.step-07-second-iteration]] |
 | Orchestration | **built** | `chesscoach/orchestrator.py` — fan-out, failure isolation, section-scoped replacement. Findings now reach the profile |
 | Shared pipeline | **built** | `chesscoach/pipeline.py` — engine/cache session and provenance, extracted in M6 from three copies |
-| Peer reference corpus | **built, widened, stratified** | `chesscoach/peers.py` — **84 players**, band 1400–1800, **rapid *and* blitz strata** (schema v2), carrying per-claim **rates and costs**, depth 15, leave-one-out |
+| Peer reference corpus | **rebuilt at full size 2026-08-19** | `data/raw/out/peers-full.json` (gitignored, regenerable): **71 rapid + 65 blitz players**, 30 games each, 104 cells, ~81,000 moves at depth 15. Replaces the 5-per-stratum throwaway that every population rate had been resting on since the threshold change. **The top finding changed for 8 of 12 review players**, and the degeneracy check improved (most-named claim 4/12 → 3/12) |
+| Peer reference corpus *(previous)* | **built, widened, stratified** | `chesscoach/peers.py` — **84 players**, band 1400–1800, **rapid *and* blitz strata** (schema v2), carrying per-claim **rates and costs**, depth 15, leave-one-out |
 | Parallel analysis | **built** | `chesscoach/analysis/parallel.py` — corpus-wide dedup + prefetch. ~3× on a cold cache, measured |
 | Confidence policy | **enforced at runtime** | `chesscoach/confidence.py` — tiers, distinct-game counts, split-half replication as a promotion requirement. Shrinkage was tried here and **reverted** (E20) |
 | **Sections S3–S6, S8** | **built, each screened first** | endgame technique, opening outcomes, pawn structure, squares and files, attack and defence. **Eight sections total** since S7 reopened |
