@@ -58,6 +58,8 @@ An experiment with no consequence was not worth running.
 
 | E42 | how much do the swarm's claims describe the same moves? | done — **almost none, which refutes E41's explanation.** 501 cross-section pairs, median **3 %** coverage, **0** reaching 80 %. Threshold calibrated against the convention the project already uses (60 %); the rule ships and changes **1 player of 12** | [[experiments.e42-claim-overlap]] |
 
+| E43 | do the two focus gates block claims for the wrong reason? | done — **one yes, one no.** `FOCUS_GAMES_WITH_DATA = 20` blocks **15** claims at a 20-game window and **0** at 60, and any fraction of the corpus fixes it (window agreement 66 % → 75 %). `FOCUS_MARGIN` admits **+0** at 20 games and does not readmit S5's pooled claim even at **1.10** — the margin was never the constraint | [[experiments.e43-focus-gates]] |
+
 
 ## Conventions
 

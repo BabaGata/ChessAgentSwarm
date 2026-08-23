@@ -191,7 +191,22 @@ This is what actually moved this cycle.
    deletes, and changes **1 player of 12** (maxhayastan, whose `time_pressure_error` was 77 % the same
    moves as `endgame_error`). Profile size 1.09×. **L-043.**
 
-0. **P0 — D15, defects (a) and (b): now known to be the large ones** *(new 2026-08-20)* →
+0. **P0 — D15, defect (b): swept.** **Done 2026-08-20** → [[experiments.e43-focus-gates]].
+   `FOCUS_GAMES_WITH_DATA = 20` blocks **15** claims at a 20-game window and **0** at 60 — it measures
+   the window, not the evidence. A fraction of the corpus fixes it at any value 0.70–0.90, and window
+   agreement rises **66 % → 75 %**, decomposing 9 points of E39's disagreement as artefact rather than
+   sampling. Two of the fifteen are the reviewer's own top concern (`allowed_motif.hangingPiece`,
+   1.84× and 2.60×). **`FOCUS_MARGIN` is exonerated and stays at 1.25** — +0 claims at 20 games, and
+   S5's pooled claim does not return even at 1.10. **Recommended, deliberately not applied:** it
+   changes the reports the author is mid-review on. Also surfaced: the **two strongest players
+   (1981, 2033) are the only two with nothing assertable at 60 games.**
+
+0. **P0 — D15, defect (a): the five material claims that never become candidates** — now the only
+   untouched part, and after E42 and E43 the largest remaining one. A detector-threshold question
+   ([[experiments.e31-move-level-agreement]], [[experiments.e32-hanging-pawn-screen]]), not a
+   ranking or gating one.
+
+0. **~~P0 — D15, defects (a) and (b): now known to be the large ones~~ (b) done above)** *(new 2026-08-20)* →
    [[experiments.e41-cost-ranking]]. Ranking by cost instead of peer excess was
    tested against the reviewer's own notes and **refused** — 0 of 6, worse overlap than the shipping
    rule. The refusal is what located the defect: **5 of 12 material claims never become candidates**,

@@ -1,0 +1,4219 @@
+{
+ "short": {
+  "Crossfire1983": [
+   {
+    "claim_id": "S1.allowed_motif.hangingPawn.own",
+    "kind": "allowed_motif",
+    "subject": "hangingPawn",
+    "distinct_games": 10,
+    "games_with_data": 20,
+    "rate": 0.1224,
+    "baseline_rate": 0.0457,
+    "ci95": [
+     0.07887506814974164,
+     0.18525366026470103
+    ],
+    "replicated": true,
+    "cost_per_game": 9.8675,
+    "lift": 2.6783369803063457,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S8.allows_pressure.king.own",
+    "kind": "allows_pressure",
+    "subject": "king",
+    "distinct_games": 12,
+    "games_with_data": 20,
+    "rate": 0.049,
+    "baseline_rate": 0.0197,
+    "ci95": [
+     0.034081786972403404,
+     0.06983845776156508
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 2.487309644670051,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S1.allowed_motif.discoveredAttack.own",
+    "kind": "allowed_motif",
+    "subject": "discoveredAttack",
+    "distinct_games": 6,
+    "games_with_data": 20,
+    "rate": 0.0612,
+    "baseline_rate": 0.0544,
+    "ci95": [
+     0.032541132146123544,
+     0.11225711979498555
+    ],
+    "replicated": false,
+    "cost_per_game": 4.865,
+    "lift": 1.125,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S1.allowed_motif.fork.own",
+    "kind": "allowed_motif",
+    "subject": "fork",
+    "distinct_games": 7,
+    "games_with_data": 20,
+    "rate": 0.068,
+    "baseline_rate": 0.0534,
+    "ci95": [
+     0.03736716429228684,
+     0.12069002947919266
+    ],
+    "replicated": false,
+    "cost_per_game": 6.4955,
+    "lift": 1.2734082397003745,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S1.allowed_motif.hangingPiece.own",
+    "kind": "allowed_motif",
+    "subject": "hangingPiece",
+    "distinct_games": 13,
+    "games_with_data": 20,
+    "rate": 0.0952,
+    "baseline_rate": 0.0496,
+    "ci95": [
+     0.0575801902774976,
+     0.1535127708154635
+    ],
+    "replicated": true,
+    "cost_per_game": 8.7375,
+    "lift": 1.9193548387096777,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S1.missed_motif.trappedPiece.own",
+    "kind": "missed_motif",
+    "subject": "trappedPiece",
+    "distinct_games": 3,
+    "games_with_data": 20,
+    "rate": 0.5556,
+    "baseline_rate": 0.1736,
+    "ci95": [
+     0.2666473457440297,
+     0.811224570528086
+    ],
+    "replicated": false,
+    "cost_per_game": 3.5075000000000003,
+    "lift": 3.200460829493087,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S3.endgame_error.minor.own",
+    "kind": "endgame_error",
+    "subject": "minor",
+    "distinct_games": 3,
+    "games_with_data": 20,
+    "rate": 0.2333,
+    "baseline_rate": 0.1923,
+    "ci95": [
+     0.11792239210501232,
+     0.40928672330324267
+    ],
+    "replicated": true,
+    "cost_per_game": 3.561,
+    "lift": 1.2132085283411338,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S3.endgame_error.rook.own",
+    "kind": "endgame_error",
+    "subject": "rook",
+    "distinct_games": 3,
+    "games_with_data": 20,
+    "rate": 0.2,
+    "baseline_rate": 0.1476,
+    "ci95": [
+     0.1155209712045974,
+     0.3236513150690593
+    ],
+    "replicated": true,
+    "cost_per_game": 11.1505,
+    "lift": 1.3550135501355014,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S4.early_error.black.own",
+    "kind": "early_error",
+    "subject": "black",
+    "distinct_games": 10,
+    "games_with_data": 20,
+    "rate": 0.2871,
+    "baseline_rate": 0.2672,
+    "ci95": [
+     0.2079751430698828,
+     0.38188231809057244
+    ],
+    "replicated": true,
+    "cost_per_game": 15.419999999999998,
+    "lift": 1.0744760479041917,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S4.early_error.white.own",
+    "kind": "early_error",
+    "subject": "white",
+    "distinct_games": 9,
+    "games_with_data": 20,
+    "rate": 0.3119,
+    "baseline_rate": 0.2651,
+    "ci95": [
+     0.23260984308346908,
+     0.40404897777692284
+    ],
+    "replicated": true,
+    "cost_per_game": 15.3005,
+    "lift": 1.176537155790268,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S4.opening_disadvantage.any.own",
+    "kind": "opening_disadvantage",
+    "subject": "any",
+    "distinct_games": 6,
+    "games_with_data": 20,
+    "rate": 0.3,
+    "baseline_rate": 0.235,
+    "ci95": [
+     0.14547527396899385,
+     0.5189767762289793
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.2765957446808511,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S6.allows_square.rook_seventh.own",
+    "kind": "allows_square",
+    "subject": "rook_seventh",
+    "distinct_games": 5,
+    "games_with_data": 20,
+    "rate": 0.0157,
+    "baseline_rate": 0.0108,
+    "ci95": [
+     0.008299417032652245,
+     0.029630458127461227
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.4537037037037035,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S7.moved_into_attack.own_move.own",
+    "kind": "moved_into_attack",
+    "subject": "own_move",
+    "distinct_games": 19,
+    "games_with_data": 20,
+    "rate": 0.1285,
+    "baseline_rate": 0.1162,
+    "ci95": [
+     0.10358648164642273,
+     0.15828089730672587
+    ],
+    "replicated": true,
+    "cost_per_game": 21.558500000000002,
+    "lift": 1.1058519793459554,
+    "n_games": 20
+   }
+  ],
+  "Hirsican": [
+   {
+    "claim_id": "S1.allowed_motif.fork.own",
+    "kind": "allowed_motif",
+    "subject": "fork",
+    "distinct_games": 13,
+    "games_with_data": 20,
+    "rate": 0.118,
+    "baseline_rate": 0.0543,
+    "ci95": [
+     0.07686519603194157,
+     0.17696393447880326
+    ],
+    "replicated": true,
+    "cost_per_game": 23.2595,
+    "lift": 2.173112338858195,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S1.allowed_motif.capturingDefender.own",
+    "kind": "allowed_motif",
+    "subject": "capturingDefender",
+    "distinct_games": 9,
+    "games_with_data": 20,
+    "rate": 0.0621,
+    "baseline_rate": 0.0613,
+    "ci95": [
+     0.03408404331441131,
+     0.11054935019790596
+    ],
+    "replicated": false,
+    "cost_per_game": 8.380500000000001,
+    "lift": 1.0130505709624797,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S1.allowed_motif.discoveredAttack.own",
+    "kind": "allowed_motif",
+    "subject": "discoveredAttack",
+    "distinct_games": 7,
+    "games_with_data": 20,
+    "rate": 0.0745,
+    "baseline_rate": 0.0598,
+    "ci95": [
+     0.04314758976698398,
+     0.1257515230783172
+    ],
+    "replicated": false,
+    "cost_per_game": 8.8645,
+    "lift": 1.245819397993311,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S1.allowed_motif.hangingPawn.own",
+    "kind": "allowed_motif",
+    "subject": "hangingPawn",
+    "distinct_games": 11,
+    "games_with_data": 20,
+    "rate": 0.0932,
+    "baseline_rate": 0.0575,
+    "ci95": [
+     0.05727423101475549,
+     0.14802346083002155
+    ],
+    "replicated": true,
+    "cost_per_game": 10.987,
+    "lift": 1.6208695652173912,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S1.missed_motif.discoveredAttack.own",
+    "kind": "missed_motif",
+    "subject": "discoveredAttack",
+    "distinct_games": 4,
+    "games_with_data": 20,
+    "rate": 0.5556,
+    "baseline_rate": 0.2857,
+    "ci95": [
+     0.2666473457440297,
+     0.811224570528086
+    ],
+    "replicated": false,
+    "cost_per_game": 5.12,
+    "lift": 1.944697234861743,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S1.missed_motif.pin.own",
+    "kind": "missed_motif",
+    "subject": "pin",
+    "distinct_games": 9,
+    "games_with_data": 20,
+    "rate": 0.3514,
+    "baseline_rate": 0.2857,
+    "ci95": [
+     0.2182540663110087,
+     0.5124127048243043
+    ],
+    "replicated": true,
+    "cost_per_game": 11.0205,
+    "lift": 1.2299614980749036,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S1.missed_motif.trappedPiece.own",
+    "kind": "missed_motif",
+    "subject": "trappedPiece",
+    "distinct_games": 3,
+    "games_with_data": 20,
+    "rate": 1.0,
+    "baseline_rate": 0.2883,
+    "ci95": [
+     0.43849391955098227,
+     1.0
+    ],
+    "replicated": false,
+    "cost_per_game": 3.3575000000000004,
+    "lift": 3.46860908775581,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S2.long_think_error.long_think.own",
+    "kind": "long_think_error",
+    "subject": "long_think",
+    "distinct_games": 16,
+    "games_with_data": 20,
+    "rate": 0.4257,
+    "baseline_rate": 0.3147,
+    "ci95": [
+     0.3337753927460355,
+     0.523151628589007
+    ],
+    "replicated": false,
+    "cost_per_game": 33.153,
+    "lift": 1.3527168732125836,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S3.advantage_error.clear.own",
+    "kind": "advantage_error",
+    "subject": "clear",
+    "distinct_games": 14,
+    "games_with_data": 20,
+    "rate": 0.3333,
+    "baseline_rate": 0.3012,
+    "ci95": [
+     0.2628864565745068,
+     0.41210392314073274
+    ],
+    "replicated": true,
+    "cost_per_game": 56.56,
+    "lift": 1.1065737051792828,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S3.endgame_error.any.own",
+    "kind": "endgame_error",
+    "subject": "any",
+    "distinct_games": 4,
+    "games_with_data": 20,
+    "rate": 0.2909,
+    "baseline_rate": 0.194,
+    "ci95": [
+     0.18771037010850328,
+     0.4214097082034393
+    ],
+    "replicated": true,
+    "cost_per_game": 12.8315,
+    "lift": 1.4994845360824742,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S4.early_error.black.own",
+    "kind": "early_error",
+    "subject": "black",
+    "distinct_games": 9,
+    "games_with_data": 20,
+    "rate": 0.3021,
+    "baseline_rate": 0.2681,
+    "ci95": [
+     0.2193102457465474,
+     0.40008687929952563
+    ],
+    "replicated": true,
+    "cost_per_game": 20.359,
+    "lift": 1.1268183513614323,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S4.early_error.white.own",
+    "kind": "early_error",
+    "subject": "white",
+    "distinct_games": 9,
+    "games_with_data": 20,
+    "rate": 0.2871,
+    "baseline_rate": 0.2657,
+    "ci95": [
+     0.2079751430698828,
+     0.38188231809057244
+    ],
+    "replicated": true,
+    "cost_per_game": 17.398500000000002,
+    "lift": 1.080541964621754,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S6.allows_square.outpost.own",
+    "kind": "allows_square",
+    "subject": "outpost",
+    "distinct_games": 3,
+    "games_with_data": 20,
+    "rate": 0.015,
+    "baseline_rate": 0.0111,
+    "ci95": [
+     0.0072949376302069695,
+     0.030678711361282918
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.3513513513513513,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S6.allows_square.rook_seventh.own",
+    "kind": "allows_square",
+    "subject": "rook_seventh",
+    "distinct_games": 5,
+    "games_with_data": 20,
+    "rate": 0.0129,
+    "baseline_rate": 0.0108,
+    "ci95": [
+     0.005913892312388988,
+     0.027803002913576527
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.1944444444444444,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S7.sacrificed_for_attack.own_move.own",
+    "kind": "sacrificed_for_attack",
+    "subject": "own_move",
+    "distinct_games": 3,
+    "games_with_data": 20,
+    "rate": 0.0273,
+    "baseline_rate": 0.0132,
+    "ci95": [
+     0.009317801045153465,
+     0.07713214343911239
+    ],
+    "replicated": false,
+    "cost_per_game": 5.396,
+    "lift": 2.0681818181818183,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S8.allows_pressure.king.own",
+    "kind": "allows_pressure",
+    "subject": "king",
+    "distinct_games": 8,
+    "games_with_data": 20,
+    "rate": 0.0279,
+    "baseline_rate": 0.0196,
+    "ci95": [
+     0.016374195033690364,
+     0.04713997655094582
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.4234693877551021,
+    "n_games": 20
+   }
+  ],
+  "Maximilian_Honigtopf": [
+   {
+    "claim_id": "S1.allowed_motif.fork.own",
+    "kind": "allowed_motif",
+    "subject": "fork",
+    "distinct_games": 9,
+    "games_with_data": 20,
+    "rate": 0.129,
+    "baseline_rate": 0.0793,
+    "ci95": [
+     0.08100761827143556,
+     0.1993518265415205
+    ],
+    "replicated": true,
+    "cost_per_game": 15.407,
+    "lift": 1.6267339218158892,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S1.allowed_motif.pin.own",
+    "kind": "allowed_motif",
+    "subject": "pin",
+    "distinct_games": 13,
+    "games_with_data": 20,
+    "rate": 0.2016,
+    "baseline_rate": 0.0672,
+    "ci95": [
+     0.1404555297898297,
+     0.28070315408146096
+    ],
+    "replicated": true,
+    "cost_per_game": 15.641,
+    "lift": 3.0,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S2.long_think_error.long_think.own",
+    "kind": "long_think_error",
+    "subject": "long_think",
+    "distinct_games": 10,
+    "games_with_data": 20,
+    "rate": 0.5484,
+    "baseline_rate": 0.3485,
+    "ci95": [
+     0.37771879603669134,
+     0.7083851716341388
+    ],
+    "replicated": true,
+    "cost_per_game": 15.938999999999998,
+    "lift": 1.5736011477761838,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S4.early_error.black.own",
+    "kind": "early_error",
+    "subject": "black",
+    "distinct_games": 8,
+    "games_with_data": 20,
+    "rate": 0.4756,
+    "baseline_rate": 0.26,
+    "ci95": [
+     0.37104798284402096,
+     0.5823545632408609
+    ],
+    "replicated": true,
+    "cost_per_game": 27.412,
+    "lift": 1.8292307692307692,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S4.opening_disadvantage.any.own",
+    "kind": "opening_disadvantage",
+    "subject": "any",
+    "distinct_games": 9,
+    "games_with_data": 20,
+    "rate": 0.45,
+    "baseline_rate": 0.2351,
+    "ci95": [
+     0.25819502085709295,
+     0.6579179916924003
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.9140791152700978,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S5.concedes_weakness.backward.own",
+    "kind": "concedes_weakness",
+    "subject": "backward",
+    "distinct_games": 7,
+    "games_with_data": 20,
+    "rate": 0.0297,
+    "baseline_rate": 0.016,
+    "ci95": [
+     0.016196285395013662,
+     0.05375292268287353
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.85625,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S5.concedes_weakness.doubled.own",
+    "kind": "concedes_weakness",
+    "subject": "doubled",
+    "distinct_games": 13,
+    "games_with_data": 20,
+    "rate": 0.0682,
+    "baseline_rate": 0.0339,
+    "ci95": [
+     0.04590495880072812,
+     0.10032601769979294
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 2.0117994100294982,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S5.concedes_weakness.isolated.own",
+    "kind": "concedes_weakness",
+    "subject": "isolated",
+    "distinct_games": 11,
+    "games_with_data": 20,
+    "rate": 0.0475,
+    "baseline_rate": 0.0228,
+    "ci95": [
+     0.029432346533353724,
+     0.07572383158574911
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 2.0833333333333335,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S7.moved_into_attack.own_move.own",
+    "kind": "moved_into_attack",
+    "subject": "own_move",
+    "distinct_games": 19,
+    "games_with_data": 20,
+    "rate": 0.1627,
+    "baseline_rate": 0.1145,
+    "ci95": [
+     0.12719981453977652,
+     0.20582460378730827
+    ],
+    "replicated": true,
+    "cost_per_game": 24.4595,
+    "lift": 1.4209606986899563,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S1.allowed_motif.hangingPawn.own",
+    "kind": "allowed_motif",
+    "subject": "hangingPawn",
+    "distinct_games": 9,
+    "games_with_data": 20,
+    "rate": 0.1048,
+    "baseline_rate": 0.0833,
+    "ci95": [
+     0.06229725933736693,
+     0.17112910578947751
+    ],
+    "replicated": true,
+    "cost_per_game": 12.841999999999999,
+    "lift": 1.2581032412965187,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S1.allowed_motif.hangingPiece.own",
+    "kind": "allowed_motif",
+    "subject": "hangingPiece",
+    "distinct_games": 11,
+    "games_with_data": 20,
+    "rate": 0.0887,
+    "baseline_rate": 0.086,
+    "ci95": [
+     0.05025570175545942,
+     0.151881943580644
+    ],
+    "replicated": true,
+    "cost_per_game": 11.7715,
+    "lift": 1.0313953488372094,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S1.missed_motif.discoveredAttack.own",
+    "kind": "missed_motif",
+    "subject": "discoveredAttack",
+    "distinct_games": 3,
+    "games_with_data": 20,
+    "rate": 0.5,
+    "baseline_rate": 0.28,
+    "ci95": [
+     0.23658959361548731,
+     0.7634104063845126
+    ],
+    "replicated": false,
+    "cost_per_game": 3.0045,
+    "lift": 1.7857142857142856,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S1.missed_motif.fork.own",
+    "kind": "missed_motif",
+    "subject": "fork",
+    "distinct_games": 5,
+    "games_with_data": 20,
+    "rate": 0.4615,
+    "baseline_rate": 0.2784,
+    "ci95": [
+     0.2320575430148814,
+     0.7085656756816796
+    ],
+    "replicated": false,
+    "cost_per_game": 4.625500000000001,
+    "lift": 1.6576867816091956,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S1.missed_motif.pin.own",
+    "kind": "missed_motif",
+    "subject": "pin",
+    "distinct_games": 9,
+    "games_with_data": 20,
+    "rate": 0.3333,
+    "baseline_rate": 0.2875,
+    "ci95": [
+     0.19230295526846194,
+     0.5122027418616973
+    ],
+    "replicated": true,
+    "cost_per_game": 8.853,
+    "lift": 1.159304347826087,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S2.time_pressure_error.clock.own",
+    "kind": "time_pressure_error",
+    "subject": "clock",
+    "distinct_games": 3,
+    "games_with_data": 20,
+    "rate": 0.6364,
+    "baseline_rate": 0.3578,
+    "ci95": [
+     0.35379677689163724,
+     0.8483377638586862
+    ],
+    "replicated": false,
+    "cost_per_game": 6.275,
+    "lift": 1.7786472889882614,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S3.advantage_error.clear.own",
+    "kind": "advantage_error",
+    "subject": "clear",
+    "distinct_games": 9,
+    "games_with_data": 20,
+    "rate": 0.2969,
+    "baseline_rate": 0.2906,
+    "ci95": [
+     0.19904999589075245,
+     0.4177043259412798
+    ],
+    "replicated": true,
+    "cost_per_game": 22.6815,
+    "lift": 1.0216792842395044,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S3.endgame_error.any.own",
+    "kind": "endgame_error",
+    "subject": "any",
+    "distinct_games": 3,
+    "games_with_data": 20,
+    "rate": 0.2931,
+    "baseline_rate": 0.1866,
+    "ci95": [
+     0.1917802782864472,
+     0.42013144456677776
+    ],
+    "replicated": true,
+    "cost_per_game": 13.712,
+    "lift": 1.5707395498392285,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S4.early_error.white.own",
+    "kind": "early_error",
+    "subject": "white",
+    "distinct_games": 12,
+    "games_with_data": 20,
+    "rate": 0.313,
+    "baseline_rate": 0.2601,
+    "ci95": [
+     0.23549261447616676,
+     0.40268122364112546
+    ],
+    "replicated": true,
+    "cost_per_game": 28.8695,
+    "lift": 1.2033833141099577,
+    "n_games": 20
+   }
+  ],
+  "Odin5306": [
+   {
+    "claim_id": "S1.allowed_motif.trappedPiece.own",
+    "kind": "allowed_motif",
+    "subject": "trappedPiece",
+    "distinct_games": 4,
+    "games_with_data": 20,
+    "rate": 0.0568,
+    "baseline_rate": 0.0357,
+    "ci95": [
+     0.024510666532829656,
+     0.1262009935427788
+    ],
+    "replicated": false,
+    "cost_per_game": 5.3415,
+    "lift": 1.5910364145658262,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S7.moved_into_attack.own_move.own",
+    "kind": "moved_into_attack",
+    "subject": "own_move",
+    "distinct_games": 19,
+    "games_with_data": 20,
+    "rate": 0.1168,
+    "baseline_rate": 0.1162,
+    "ci95": [
+     0.09287964706056695,
+     0.1459242660147074
+    ],
+    "replicated": false,
+    "cost_per_game": 6.3875,
+    "lift": 1.0051635111876076,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S8.allows_pressure.king.own",
+    "kind": "allows_pressure",
+    "subject": "king",
+    "distinct_games": 6,
+    "games_with_data": 20,
+    "rate": 0.0268,
+    "baseline_rate": 0.0197,
+    "ci95": [
+     0.016298364236323047,
+     0.04372132923787253
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.3604060913705585,
+    "n_games": 20
+   }
+  ],
+  "Sheriwoyama": [
+   {
+    "claim_id": "S2.long_think_error.long_think.own",
+    "kind": "long_think_error",
+    "subject": "long_think",
+    "distinct_games": 10,
+    "games_with_data": 20,
+    "rate": 0.5405,
+    "baseline_rate": 0.2135,
+    "ci95": [
+     0.38383779524767364,
+     0.6896167217154228
+    ],
+    "replicated": true,
+    "cost_per_game": 15.895,
+    "lift": 2.531615925058548,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S1.allowed_motif.discoveredAttack.own",
+    "kind": "allowed_motif",
+    "subject": "discoveredAttack",
+    "distinct_games": 6,
+    "games_with_data": 20,
+    "rate": 0.0609,
+    "baseline_rate": 0.0422,
+    "ci95": [
+     0.02979473672148799,
+     0.12033451094936126
+    ],
+    "replicated": true,
+    "cost_per_game": 6.1555,
+    "lift": 1.4431279620853081,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S1.allowed_motif.hangingPawn.own",
+    "kind": "allowed_motif",
+    "subject": "hangingPawn",
+    "distinct_games": 5,
+    "games_with_data": 20,
+    "rate": 0.0783,
+    "baseline_rate": 0.0398,
+    "ci95": [
+     0.04171723449969325,
+     0.14207026078815208
+    ],
+    "replicated": false,
+    "cost_per_game": 4.786,
+    "lift": 1.9673366834170851,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S1.allowed_motif.pin.own",
+    "kind": "allowed_motif",
+    "subject": "pin",
+    "distinct_games": 5,
+    "games_with_data": 20,
+    "rate": 0.0957,
+    "baseline_rate": 0.0373,
+    "ci95": [
+     0.054251959476217054,
+     0.16319378342862434
+    ],
+    "replicated": false,
+    "cost_per_game": 5.6385,
+    "lift": 2.5656836461126002,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S1.missed_motif.discoveredAttack.own",
+    "kind": "missed_motif",
+    "subject": "discoveredAttack",
+    "distinct_games": 7,
+    "games_with_data": 20,
+    "rate": 0.52,
+    "baseline_rate": 0.1474,
+    "ci95": [
+     0.334982179531473,
+     0.6996899607103998
+    ],
+    "replicated": true,
+    "cost_per_game": 7.5115,
+    "lift": 3.5278154681139755,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S3.advantage_error.clear.own",
+    "kind": "advantage_error",
+    "subject": "clear",
+    "distinct_games": 11,
+    "games_with_data": 20,
+    "rate": 0.3256,
+    "baseline_rate": 0.3012,
+    "ci95": [
+     0.23585553745183332,
+     0.43022342819437065
+    ],
+    "replicated": true,
+    "cost_per_game": 18.27,
+    "lift": 1.0810092961487383,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S4.opening_disadvantage.any.own",
+    "kind": "opening_disadvantage",
+    "subject": "any",
+    "distinct_games": 6,
+    "games_with_data": 20,
+    "rate": 0.3,
+    "baseline_rate": 0.235,
+    "ci95": [
+     0.14547527396899385,
+     0.5189767762289793
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.2765957446808511,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S6.allows_square.rook_seventh.own",
+    "kind": "allows_square",
+    "subject": "rook_seventh",
+    "distinct_games": 7,
+    "games_with_data": 20,
+    "rate": 0.0168,
+    "baseline_rate": 0.0108,
+    "ci95": [
+     0.008522228888602353,
+     0.03274208767635376
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.5555555555555554,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S7.miscounted_exchange.own_move.own",
+    "kind": "miscounted_exchange",
+    "subject": "own_move",
+    "distinct_games": 4,
+    "games_with_data": 20,
+    "rate": 0.0367,
+    "baseline_rate": 0.0181,
+    "ci95": [
+     0.014361469198727862,
+     0.09057855292077416
+    ],
+    "replicated": false,
+    "cost_per_game": 1.334,
+    "lift": 2.027624309392265,
+    "n_games": 20
+   }
+  ],
+  "bernes": [
+   {
+    "claim_id": "S1.allowed_motif.capturingDefender.own",
+    "kind": "allowed_motif",
+    "subject": "capturingDefender",
+    "distinct_games": 6,
+    "games_with_data": 19,
+    "rate": 0.0755,
+    "baseline_rate": 0.055,
+    "ci95": [
+     0.03873637400565599,
+     0.14190192696592488
+    ],
+    "replicated": true,
+    "cost_per_game": 6.013684210526316,
+    "lift": 1.3727272727272726,
+    "n_games": 19
+   },
+   {
+    "claim_id": "S1.allowed_motif.hangingPiece.own",
+    "kind": "allowed_motif",
+    "subject": "hangingPiece",
+    "distinct_games": 10,
+    "games_with_data": 19,
+    "rate": 0.1226,
+    "baseline_rate": 0.0472,
+    "ci95": [
+     0.07309052037980972,
+     0.19858796937270662
+    ],
+    "replicated": true,
+    "cost_per_game": 10.51842105263158,
+    "lift": 2.597457627118644,
+    "n_games": 19
+   },
+   {
+    "claim_id": "S1.missed_motif.fork.own",
+    "kind": "missed_motif",
+    "subject": "fork",
+    "distinct_games": 3,
+    "games_with_data": 19,
+    "rate": 0.7143,
+    "baseline_rate": 0.1835,
+    "ci95": [
+     0.35892909014821267,
+     0.9177828342909844
+    ],
+    "replicated": false,
+    "cost_per_game": 4.325263157894737,
+    "lift": 3.8926430517711177,
+    "n_games": 19
+   },
+   {
+    "claim_id": "S1.missed_motif.hangingPawn.own",
+    "kind": "missed_motif",
+    "subject": "hangingPawn",
+    "distinct_games": 6,
+    "games_with_data": 19,
+    "rate": 0.2692,
+    "baseline_rate": 0.2,
+    "ci95": [
+     0.13704275525067386,
+     0.46083403419761304
+    ],
+    "replicated": false,
+    "cost_per_game": 4.524736842105263,
+    "lift": 1.3459999999999999,
+    "n_games": 19
+   },
+   {
+    "claim_id": "S3.endgame_error.rook_minor.own",
+    "kind": "endgame_error",
+    "subject": "rook_minor",
+    "distinct_games": 3,
+    "games_with_data": 19,
+    "rate": 0.2812,
+    "baseline_rate": 0.2252,
+    "ci95": [
+     0.15564406845647866,
+     0.4537483693811179
+    ],
+    "replicated": true,
+    "cost_per_game": 7.165789473684211,
+    "lift": 1.2486678507992894,
+    "n_games": 19
+   },
+   {
+    "claim_id": "S4.early_error.white.own",
+    "kind": "early_error",
+    "subject": "white",
+    "distinct_games": 10,
+    "games_with_data": 19,
+    "rate": 0.2661,
+    "baseline_rate": 0.2657,
+    "ci95": [
+     0.1920974014994754,
+     0.3559416195707682
+    ],
+    "replicated": true,
+    "cost_per_game": 14.566842105263158,
+    "lift": 1.0015054572826496,
+    "n_games": 19
+   },
+   {
+    "claim_id": "S6.allows_square.rook_seventh.own",
+    "kind": "allows_square",
+    "subject": "rook_seventh",
+    "distinct_games": 5,
+    "games_with_data": 19,
+    "rate": 0.0117,
+    "baseline_rate": 0.0108,
+    "ci95": [
+     0.005392050764163582,
+     0.025377801555462494
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.0833333333333333,
+    "n_games": 19
+   },
+   {
+    "claim_id": "S8.allows_pressure.king.own",
+    "kind": "allows_pressure",
+    "subject": "king",
+    "distinct_games": 6,
+    "games_with_data": 19,
+    "rate": 0.0215,
+    "baseline_rate": 0.0196,
+    "ci95": [
+     0.012061588817774234,
+     0.03813171335516594
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.096938775510204,
+    "n_games": 19
+   }
+  ],
+  "bjagus": [
+   {
+    "claim_id": "S3.advantage_error.clear.own",
+    "kind": "advantage_error",
+    "subject": "clear",
+    "distinct_games": 14,
+    "games_with_data": 20,
+    "rate": 0.4324,
+    "baseline_rate": 0.3012,
+    "ci95": [
+     0.3440548366745577,
+     0.5253304731783179
+    ],
+    "replicated": true,
+    "cost_per_game": 46.6125,
+    "lift": 1.4355909694555111,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S4.early_error.white.own",
+    "kind": "early_error",
+    "subject": "white",
+    "distinct_games": 8,
+    "games_with_data": 20,
+    "rate": 0.3878,
+    "baseline_rate": 0.2657,
+    "ci95": [
+     0.297263154133494,
+     0.4867151022960987
+    ],
+    "replicated": true,
+    "cost_per_game": 22.9625,
+    "lift": 1.4595408355287918,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S6.allows_square.outpost.own",
+    "kind": "allows_square",
+    "subject": "outpost",
+    "distinct_games": 9,
+    "games_with_data": 20,
+    "rate": 0.0222,
+    "baseline_rate": 0.0111,
+    "ci95": [
+     0.012427652280637023,
+     0.039271926145808475
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 2.0,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S1.allowed_motif.capturingDefender.own",
+    "kind": "allowed_motif",
+    "subject": "capturingDefender",
+    "distinct_games": 6,
+    "games_with_data": 20,
+    "rate": 0.0588,
+    "baseline_rate": 0.0467,
+    "ci95": [
+     0.0312522751489112,
+     0.10800669696052916
+    ],
+    "replicated": true,
+    "cost_per_game": 6.8485,
+    "lift": 1.259100642398287,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S1.allowed_motif.discoveredAttack.own",
+    "kind": "allowed_motif",
+    "subject": "discoveredAttack",
+    "distinct_games": 10,
+    "games_with_data": 20,
+    "rate": 0.0719,
+    "baseline_rate": 0.0448,
+    "ci95": [
+     0.04061618900345252,
+     0.12414622096941183
+    ],
+    "replicated": true,
+    "cost_per_game": 12.0245,
+    "lift": 1.6049107142857144,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S1.allowed_motif.fork.own",
+    "kind": "allowed_motif",
+    "subject": "fork",
+    "distinct_games": 6,
+    "games_with_data": 20,
+    "rate": 0.0719,
+    "baseline_rate": 0.0448,
+    "ci95": [
+     0.04061618900345252,
+     0.12414622096941183
+    ],
+    "replicated": false,
+    "cost_per_game": 15.357499999999998,
+    "lift": 1.6049107142857144,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S1.missed_motif.capturingDefender.own",
+    "kind": "missed_motif",
+    "subject": "capturingDefender",
+    "distinct_games": 6,
+    "games_with_data": 20,
+    "rate": 0.4,
+    "baseline_rate": 0.2051,
+    "ci95": [
+     0.19824228082594664,
+     0.642535572434923
+    ],
+    "replicated": true,
+    "cost_per_game": 4.271,
+    "lift": 1.9502681618722575,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S1.missed_motif.discoveredAttack.own",
+    "kind": "missed_motif",
+    "subject": "discoveredAttack",
+    "distinct_games": 7,
+    "games_with_data": 20,
+    "rate": 0.35,
+    "baseline_rate": 0.2054,
+    "ci95": [
+     0.18118954786794464,
+     0.5671494897805354
+    ],
+    "replicated": false,
+    "cost_per_game": 7.564,
+    "lift": 1.703992210321324,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S2.long_think_error.long_think.own",
+    "kind": "long_think_error",
+    "subject": "long_think",
+    "distinct_games": 19,
+    "games_with_data": 20,
+    "rate": 0.4545,
+    "baseline_rate": 0.2796,
+    "ci95": [
+     0.3481397836005049,
+     0.5652711335510607
+    ],
+    "replicated": true,
+    "cost_per_game": 25.907,
+    "lift": 1.6255364806866952,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S2.time_pressure_error.clock.own",
+    "kind": "time_pressure_error",
+    "subject": "clock",
+    "distinct_games": 6,
+    "games_with_data": 20,
+    "rate": 0.3077,
+    "baseline_rate": 0.3065,
+    "ci95": [
+     0.20886876704271462,
+     0.4279787205229433
+    ],
+    "replicated": false,
+    "cost_per_game": 15.5455,
+    "lift": 1.0039151712887437,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S3.endgame_error.any.own",
+    "kind": "endgame_error",
+    "subject": "any",
+    "distinct_games": 3,
+    "games_with_data": 20,
+    "rate": 0.1944,
+    "baseline_rate": 0.194,
+    "ci95": [
+     0.09752972019453349,
+     0.350283620635152
+    ],
+    "replicated": true,
+    "cost_per_game": 4.3945,
+    "lift": 1.002061855670103,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S4.early_error.any.own",
+    "kind": "early_error",
+    "subject": "any",
+    "distinct_games": 18,
+    "games_with_data": 20,
+    "rate": 0.2877,
+    "baseline_rate": 0.2669,
+    "ci95": [
+     0.23178342936407206,
+     0.35087977176175
+    ],
+    "replicated": true,
+    "cost_per_game": 34.221,
+    "lift": 1.0779318096665418,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S6.allows_square.any.own",
+    "kind": "allows_square",
+    "subject": "any",
+    "distinct_games": 9,
+    "games_with_data": 20,
+    "rate": 0.0323,
+    "baseline_rate": 0.0218,
+    "ci95": [
+     0.01995171847247286,
+     0.05175419796185354
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.481651376146789,
+    "n_games": 20
+   }
+  ],
+  "cademan": [
+   {
+    "claim_id": "S1.allowed_motif.fork.own",
+    "kind": "allowed_motif",
+    "subject": "fork",
+    "distinct_games": 11,
+    "games_with_data": 18,
+    "rate": 0.1835,
+    "baseline_rate": 0.0673,
+    "ci95": [
+     0.12203581560283452,
+     0.2664875658451421
+    ],
+    "replicated": true,
+    "cost_per_game": 17.452222222222222,
+    "lift": 2.726597325408618,
+    "n_games": 18
+   },
+   {
+    "claim_id": "S1.allowed_motif.hangingPawn.own",
+    "kind": "allowed_motif",
+    "subject": "hangingPawn",
+    "distinct_games": 7,
+    "games_with_data": 18,
+    "rate": 0.1193,
+    "baseline_rate": 0.078,
+    "ci95": [
+     0.07103906424729986,
+     0.19341659749446913
+    ],
+    "replicated": true,
+    "cost_per_game": 12.734444444444444,
+    "lift": 1.5294871794871796,
+    "n_games": 18
+   },
+   {
+    "claim_id": "S1.allowed_motif.hangingPiece.own",
+    "kind": "allowed_motif",
+    "subject": "hangingPiece",
+    "distinct_games": 9,
+    "games_with_data": 18,
+    "rate": 0.1376,
+    "baseline_rate": 0.0749,
+    "ci95": [
+     0.08520256971803858,
+     0.21470101193978974
+    ],
+    "replicated": true,
+    "cost_per_game": 15.101666666666667,
+    "lift": 1.8371161548731643,
+    "n_games": 18
+   },
+   {
+    "claim_id": "S1.missed_motif.pin.own",
+    "kind": "missed_motif",
+    "subject": "pin",
+    "distinct_games": 6,
+    "games_with_data": 18,
+    "rate": 0.3333,
+    "baseline_rate": 0.194,
+    "ci95": [
+     0.17971978688379642,
+     0.5329404050591954
+    ],
+    "replicated": false,
+    "cost_per_game": 6.178333333333333,
+    "lift": 1.718041237113402,
+    "n_games": 18
+   },
+   {
+    "claim_id": "S2.long_think_error.long_think.own",
+    "kind": "long_think_error",
+    "subject": "long_think",
+    "distinct_games": 12,
+    "games_with_data": 18,
+    "rate": 0.5122,
+    "baseline_rate": 0.3177,
+    "ci95": [
+     0.36484259315865186,
+     0.657458127600643
+    ],
+    "replicated": true,
+    "cost_per_game": 15.580555555555556,
+    "lift": 1.6122127793515897,
+    "n_games": 18
+   },
+   {
+    "claim_id": "S3.advantage_error.clear.own",
+    "kind": "advantage_error",
+    "subject": "clear",
+    "distinct_games": 9,
+    "games_with_data": 18,
+    "rate": 0.3846,
+    "baseline_rate": 0.2855,
+    "ci95": [
+     0.27594829385374525,
+     0.5061601986856494
+    ],
+    "replicated": true,
+    "cost_per_game": 34.64277777777778,
+    "lift": 1.3471103327495624,
+    "n_games": 18
+   },
+   {
+    "claim_id": "S4.early_error.black.own",
+    "kind": "early_error",
+    "subject": "black",
+    "distinct_games": 8,
+    "games_with_data": 18,
+    "rate": 0.3537,
+    "baseline_rate": 0.2562,
+    "ci95": [
+     0.2588541267448773,
+     0.4615611497644142
+    ],
+    "replicated": true,
+    "cost_per_game": 22.319444444444443,
+    "lift": 1.3805620608899298,
+    "n_games": 18
+   },
+   {
+    "claim_id": "S4.opening_disadvantage.any.own",
+    "kind": "opening_disadvantage",
+    "subject": "any",
+    "distinct_games": 8,
+    "games_with_data": 18,
+    "rate": 0.4444,
+    "baseline_rate": 0.2352,
+    "ci95": [
+     0.24559231101389126,
+     0.6628393057174837
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.8894557823129252,
+    "n_games": 18
+   },
+   {
+    "claim_id": "S5.concedes_weakness.backward.own",
+    "kind": "concedes_weakness",
+    "subject": "backward",
+    "distinct_games": 7,
+    "games_with_data": 18,
+    "rate": 0.0254,
+    "baseline_rate": 0.0156,
+    "ci95": [
+     0.012923810848963702,
+     0.049306462741433535
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.6282051282051282,
+    "n_games": 18
+   },
+   {
+    "claim_id": "S5.concedes_weakness.doubled.own",
+    "kind": "concedes_weakness",
+    "subject": "doubled",
+    "distinct_games": 13,
+    "games_with_data": 18,
+    "rate": 0.054,
+    "baseline_rate": 0.0332,
+    "ci95": [
+     0.033964555741119416,
+     0.08472008264985592
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.6265060240963856,
+    "n_games": 18
+   },
+   {
+    "claim_id": "S5.concedes_weakness.isolated.own",
+    "kind": "concedes_weakness",
+    "subject": "isolated",
+    "distinct_games": 10,
+    "games_with_data": 18,
+    "rate": 0.0444,
+    "baseline_rate": 0.0225,
+    "ci95": [
+     0.026656201294153897,
+     0.07321031549662874
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.9733333333333334,
+    "n_games": 18
+   },
+   {
+    "claim_id": "S7.moved_into_attack.own_move.own",
+    "kind": "moved_into_attack",
+    "subject": "own_move",
+    "distinct_games": 16,
+    "games_with_data": 18,
+    "rate": 0.1195,
+    "baseline_rate": 0.1136,
+    "ci95": [
+     0.08831003322988418,
+     0.1597672818219923
+    ],
+    "replicated": false,
+    "cost_per_game": 14.511666666666665,
+    "lift": 1.0519366197183098,
+    "n_games": 18
+   }
+  ],
+  "goydorak": [
+   {
+    "claim_id": "S1.allowed_motif.hangingPawn.own",
+    "kind": "allowed_motif",
+    "subject": "hangingPawn",
+    "distinct_games": 8,
+    "games_with_data": 19,
+    "rate": 0.0932,
+    "baseline_rate": 0.069,
+    "ci95": [
+     0.05285105557398857,
+     0.1592407094717757
+    ],
+    "replicated": true,
+    "cost_per_game": 6.316842105263158,
+    "lift": 1.3507246376811595,
+    "n_games": 19
+   },
+   {
+    "claim_id": "S1.allowed_motif.hangingPiece.own",
+    "kind": "allowed_motif",
+    "subject": "hangingPiece",
+    "distinct_games": 8,
+    "games_with_data": 19,
+    "rate": 0.0932,
+    "baseline_rate": 0.069,
+    "ci95": [
+     0.05285105557398857,
+     0.1592407094717757
+    ],
+    "replicated": true,
+    "cost_per_game": 10.149473684210527,
+    "lift": 1.3507246376811595,
+    "n_games": 19
+   },
+   {
+    "claim_id": "S1.allowed_motif.pin.own",
+    "kind": "allowed_motif",
+    "subject": "pin",
+    "distinct_games": 12,
+    "games_with_data": 19,
+    "rate": 0.1695,
+    "baseline_rate": 0.0581,
+    "ci95": [
+     0.11248224271964079,
+     0.24734231638004267
+    ],
+    "replicated": true,
+    "cost_per_game": 11.581578947368422,
+    "lift": 2.917383820998279,
+    "n_games": 19
+   },
+   {
+    "claim_id": "S1.missed_motif.discoveredAttack.own",
+    "kind": "missed_motif",
+    "subject": "discoveredAttack",
+    "distinct_games": 4,
+    "games_with_data": 19,
+    "rate": 0.3636,
+    "baseline_rate": 0.1538,
+    "ci95": [
+     0.15166223614131383,
+     0.6462032231083628
+    ],
+    "replicated": false,
+    "cost_per_game": 4.692105263157895,
+    "lift": 2.364109232769831,
+    "n_games": 19
+   },
+   {
+    "claim_id": "S1.missed_motif.hangingPawn.own",
+    "kind": "missed_motif",
+    "subject": "hangingPawn",
+    "distinct_games": 3,
+    "games_with_data": 19,
+    "rate": 0.2105,
+    "baseline_rate": 0.1651,
+    "ci95": [
+     0.08507538491591576,
+     0.43334714240266087
+    ],
+    "replicated": false,
+    "cost_per_game": 1.7142105263157894,
+    "lift": 1.274984857662023,
+    "n_games": 19
+   },
+   {
+    "claim_id": "S3.advantage_error.clear.own",
+    "kind": "advantage_error",
+    "subject": "clear",
+    "distinct_games": 8,
+    "games_with_data": 19,
+    "rate": 0.48,
+    "baseline_rate": 0.2777,
+    "ci95": [
+     0.30031003928960015,
+     0.6650178204685269
+    ],
+    "replicated": true,
+    "cost_per_game": 9.12421052631579,
+    "lift": 1.7284839755131436,
+    "n_games": 19
+   },
+   {
+    "claim_id": "S4.early_error.white.own",
+    "kind": "early_error",
+    "subject": "white",
+    "distinct_games": 9,
+    "games_with_data": 19,
+    "rate": 0.34,
+    "baseline_rate": 0.2531,
+    "ci95": [
+     0.25461379497543,
+     0.43722454341689065
+    ],
+    "replicated": true,
+    "cost_per_game": 19.43,
+    "lift": 1.3433425523508495,
+    "n_games": 19
+   },
+   {
+    "claim_id": "S7.sacrificed_for_attack.own_move.own",
+    "kind": "sacrificed_for_attack",
+    "subject": "own_move",
+    "distinct_games": 4,
+    "games_with_data": 19,
+    "rate": 0.0403,
+    "baseline_rate": 0.0132,
+    "ci95": [
+     0.017344082793805525,
+     0.09092740317007475
+    ],
+    "replicated": false,
+    "cost_per_game": 3.5926315789473686,
+    "lift": 3.053030303030303,
+    "n_games": 19
+   },
+   {
+    "claim_id": "S8.allows_pressure.king.own",
+    "kind": "allows_pressure",
+    "subject": "king",
+    "distinct_games": 7,
+    "games_with_data": 19,
+    "rate": 0.043,
+    "baseline_rate": 0.0208,
+    "ci95": [
+     0.02949360436029551,
+     0.06222417576510984
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 2.067307692307692,
+    "n_games": 19
+   }
+  ],
+  "maikel5": [
+   {
+    "claim_id": "S1.allowed_motif.discoveredAttack.own",
+    "kind": "allowed_motif",
+    "subject": "discoveredAttack",
+    "distinct_games": 3,
+    "games_with_data": 18,
+    "rate": 0.0645,
+    "baseline_rate": 0.0452,
+    "ci95": [
+     0.025372494807644003,
+     0.15447732658187266
+    ],
+    "replicated": false,
+    "cost_per_game": 2.8877777777777776,
+    "lift": 1.426991150442478,
+    "n_games": 18
+   },
+   {
+    "claim_id": "S1.missed_motif.capturingDefender.own",
+    "kind": "missed_motif",
+    "subject": "capturingDefender",
+    "distinct_games": 3,
+    "games_with_data": 18,
+    "rate": 0.2727,
+    "baseline_rate": 0.1596,
+    "ci95": [
+     0.09745880573921467,
+     0.5656502930102463
+    ],
+    "replicated": false,
+    "cost_per_game": 2.2216666666666667,
+    "lift": 1.7086466165413534,
+    "n_games": 18
+   },
+   {
+    "claim_id": "S2.time_pressure_error.clock.own",
+    "kind": "time_pressure_error",
+    "subject": "clock",
+    "distinct_games": 5,
+    "games_with_data": 18,
+    "rate": 0.2239,
+    "baseline_rate": 0.1546,
+    "ci95": [
+     0.1406360851472927,
+     0.33707192822338217
+    ],
+    "replicated": false,
+    "cost_per_game": 9.919444444444444,
+    "lift": 1.4482535575679172,
+    "n_games": 18
+   },
+   {
+    "claim_id": "S3.endgame_error.rook_minor.own",
+    "kind": "endgame_error",
+    "subject": "rook_minor",
+    "distinct_games": 3,
+    "games_with_data": 18,
+    "rate": 0.32,
+    "baseline_rate": 0.2252,
+    "ci95": [
+     0.17204987516891143,
+     0.5159008626542329
+    ],
+    "replicated": true,
+    "cost_per_game": 5.327222222222222,
+    "lift": 1.4209591474245116,
+    "n_games": 18
+   }
+  ],
+  "maxhayastan": [
+   {
+    "claim_id": "S1.allowed_motif.capturingDefender.own",
+    "kind": "allowed_motif",
+    "subject": "capturingDefender",
+    "distinct_games": 5,
+    "games_with_data": 17,
+    "rate": 0.063,
+    "baseline_rate": 0.0461,
+    "ci95": [
+     0.03226130175460205,
+     0.11938465794017394
+    ],
+    "replicated": false,
+    "cost_per_game": 8.933529411764706,
+    "lift": 1.3665943600867678,
+    "n_games": 17
+   },
+   {
+    "claim_id": "S1.allowed_motif.pin.own",
+    "kind": "allowed_motif",
+    "subject": "pin",
+    "distinct_games": 11,
+    "games_with_data": 17,
+    "rate": 0.1024,
+    "baseline_rate": 0.0405,
+    "ci95": [
+     0.060800981516816066,
+     0.16727327009734946
+    ],
+    "replicated": true,
+    "cost_per_game": 13.121764705882352,
+    "lift": 2.528395061728395,
+    "n_games": 17
+   },
+   {
+    "claim_id": "S1.missed_motif.fork.own",
+    "kind": "missed_motif",
+    "subject": "fork",
+    "distinct_games": 6,
+    "games_with_data": 17,
+    "rate": 0.5,
+    "baseline_rate": 0.1441,
+    "ci95": [
+     0.2679886791947528,
+     0.7320113208052472
+    ],
+    "replicated": true,
+    "cost_per_game": 9.406470588235294,
+    "lift": 3.4698126301179735,
+    "n_games": 17
+   },
+   {
+    "claim_id": "S2.time_pressure_error.clock.own",
+    "kind": "time_pressure_error",
+    "subject": "clock",
+    "distinct_games": 6,
+    "games_with_data": 17,
+    "rate": 0.2366,
+    "baseline_rate": 0.213,
+    "ci95": [
+     0.16172548448287755,
+     0.3322936147472054
+    ],
+    "replicated": true,
+    "cost_per_game": 25.55941176470588,
+    "lift": 1.1107981220657277,
+    "n_games": 17
+   },
+   {
+    "claim_id": "S3.endgame_error.rook.own",
+    "kind": "endgame_error",
+    "subject": "rook",
+    "distinct_games": 4,
+    "games_with_data": 17,
+    "rate": 0.2079,
+    "baseline_rate": 0.1464,
+    "ci95": [
+     0.14020699355070065,
+     0.29703929036713345
+    ],
+    "replicated": true,
+    "cost_per_game": 24.58823529411765,
+    "lift": 1.4200819672131146,
+    "n_games": 17
+   },
+   {
+    "claim_id": "S6.allows_square.rook_seventh.own",
+    "kind": "allows_square",
+    "subject": "rook_seventh",
+    "distinct_games": 4,
+    "games_with_data": 17,
+    "rate": 0.0138,
+    "baseline_rate": 0.0108,
+    "ci95": [
+     0.007005303683280079,
+     0.026979256512499047
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.2777777777777777,
+    "n_games": 17
+   },
+   {
+    "claim_id": "S8.allows_pressure.king.own",
+    "kind": "allows_pressure",
+    "subject": "king",
+    "distinct_games": 8,
+    "games_with_data": 17,
+    "rate": 0.0414,
+    "baseline_rate": 0.0196,
+    "ci95": [
+     0.027961941202182386,
+     0.06083200564915538
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 2.112244897959184,
+    "n_games": 17
+   }
+  ],
+  "simonvj": [
+   {
+    "claim_id": "S1.allowed_motif.discoveredAttack.own",
+    "kind": "allowed_motif",
+    "subject": "discoveredAttack",
+    "distinct_games": 5,
+    "games_with_data": 20,
+    "rate": 0.0748,
+    "baseline_rate": 0.0421,
+    "ci95": [
+     0.03836964356083345,
+     0.1406389597072536
+    ],
+    "replicated": false,
+    "cost_per_game": 7.4235,
+    "lift": 1.7767220902612828,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S1.missed_motif.hangingPawn.own",
+    "kind": "missed_motif",
+    "subject": "hangingPawn",
+    "distinct_games": 4,
+    "games_with_data": 20,
+    "rate": 0.2143,
+    "baseline_rate": 0.2043,
+    "ci95": [
+     0.10212321701189422,
+     0.3953894707927388
+    ],
+    "replicated": false,
+    "cost_per_game": 4.534000000000001,
+    "lift": 1.048947626040137,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S1.missed_motif.pin.own",
+    "kind": "missed_motif",
+    "subject": "pin",
+    "distinct_games": 8,
+    "games_with_data": 20,
+    "rate": 0.3226,
+    "baseline_rate": 0.1667,
+    "ci95": [
+     0.18569230747313034,
+     0.49859314440049185
+    ],
+    "replicated": false,
+    "cost_per_game": 8.5465,
+    "lift": 1.9352129574085184,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S2.long_think_error.long_think.own",
+    "kind": "long_think_error",
+    "subject": "long_think",
+    "distinct_games": 12,
+    "games_with_data": 20,
+    "rate": 0.4026,
+    "baseline_rate": 0.1827,
+    "ci95": [
+     0.30021845862969854,
+     0.5142335066950848
+    ],
+    "replicated": true,
+    "cost_per_game": 24.48,
+    "lift": 2.2036124794745486,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S6.allows_square.outpost.own",
+    "kind": "allows_square",
+    "subject": "outpost",
+    "distinct_games": 6,
+    "games_with_data": 20,
+    "rate": 0.0122,
+    "baseline_rate": 0.0101,
+    "ci95": [
+     0.005623623896839387,
+     0.026454678133609244
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.207920792079208,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S6.allows_square.rook_seventh.own",
+    "kind": "allows_square",
+    "subject": "rook_seventh",
+    "distinct_games": 5,
+    "games_with_data": 20,
+    "rate": 0.0122,
+    "baseline_rate": 0.0109,
+    "ci95": [
+     0.005623623896839387,
+     0.026454678133609244
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.1192660550458717,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S7.miscounted_exchange.own_move.own",
+    "kind": "miscounted_exchange",
+    "subject": "own_move",
+    "distinct_games": 3,
+    "games_with_data": 20,
+    "rate": 0.0226,
+    "baseline_rate": 0.0192,
+    "ci95": [
+     0.0077002833384402225,
+     0.06421936682642192
+    ],
+    "replicated": false,
+    "cost_per_game": 1.4449999999999998,
+    "lift": 1.1770833333333333,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S7.moved_into_attack.own_move.own",
+    "kind": "moved_into_attack",
+    "subject": "own_move",
+    "distinct_games": 19,
+    "games_with_data": 20,
+    "rate": 0.1339,
+    "baseline_rate": 0.1122,
+    "ci95": [
+     0.10662924937887258,
+     0.16678102866547795
+    ],
+    "replicated": false,
+    "cost_per_game": 12.856,
+    "lift": 1.1934046345811051,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S7.sacrificed_for_attack.own_move.own",
+    "kind": "sacrificed_for_attack",
+    "subject": "own_move",
+    "distinct_games": 3,
+    "games_with_data": 20,
+    "rate": 0.0226,
+    "baseline_rate": 0.0132,
+    "ci95": [
+     0.0077002833384402225,
+     0.06421936682642192
+    ],
+    "replicated": false,
+    "cost_per_game": 0.7725,
+    "lift": 1.712121212121212,
+    "n_games": 20
+   },
+   {
+    "claim_id": "S8.allows_pressure.king.own",
+    "kind": "allows_pressure",
+    "subject": "king",
+    "distinct_games": 7,
+    "games_with_data": 20,
+    "rate": 0.0245,
+    "baseline_rate": 0.0208,
+    "ci95": [
+     0.014063514670880276,
+     0.0423140768483437
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.1778846153846154,
+    "n_games": 20
+   }
+  ]
+ },
+ "full": {
+  "Crossfire1983": [
+   {
+    "claim_id": "S6.allows_square.rook_seventh.own",
+    "kind": "allows_square",
+    "subject": "rook_seventh",
+    "distinct_games": 17,
+    "games_with_data": 60,
+    "rate": 0.0173,
+    "baseline_rate": 0.0108,
+    "ci95": [
+     0.012007189539258719,
+     0.024912889511032193
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.6018518518518516,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S1.allowed_motif.fork.own",
+    "kind": "allowed_motif",
+    "subject": "fork",
+    "distinct_games": 20,
+    "games_with_data": 60,
+    "rate": 0.0688,
+    "baseline_rate": 0.0462,
+    "ci95": [
+     0.04861929218047383,
+     0.09652750612146033
+    ],
+    "replicated": true,
+    "cost_per_game": 9.231833333333332,
+    "lift": 1.4891774891774892,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S1.allowed_motif.hangingPawn.own",
+    "kind": "allowed_motif",
+    "subject": "hangingPawn",
+    "distinct_games": 26,
+    "games_with_data": 60,
+    "rate": 0.0826,
+    "baseline_rate": 0.0442,
+    "ci95": [
+     0.06023569449051919,
+     0.11219365280177879
+    ],
+    "replicated": false,
+    "cost_per_game": 7.539666666666666,
+    "lift": 1.8687782805429864,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S1.missed_motif.skewer.own",
+    "kind": "missed_motif",
+    "subject": "skewer",
+    "distinct_games": 3,
+    "games_with_data": 60,
+    "rate": 0.375,
+    "baseline_rate": 0.2311,
+    "ci95": [
+     0.13684175946152105,
+     0.6942621454161981
+    ],
+    "replicated": false,
+    "cost_per_game": 0.4735,
+    "lift": 1.6226741670272609,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S1.missed_motif.trappedPiece.own",
+    "kind": "missed_motif",
+    "subject": "trappedPiece",
+    "distinct_games": 7,
+    "games_with_data": 60,
+    "rate": 0.5,
+    "baseline_rate": 0.223,
+    "ci95": [
+     0.2903070395897999,
+     0.7096929604102
+    ],
+    "replicated": false,
+    "cost_per_game": 2.3331666666666666,
+    "lift": 2.242152466367713,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S3.advantage_error.clear.own",
+    "kind": "advantage_error",
+    "subject": "clear",
+    "distinct_games": 36,
+    "games_with_data": 60,
+    "rate": 0.3391,
+    "baseline_rate": 0.2985,
+    "ci95": [
+     0.2911902419756074,
+     0.3906137630513159
+    ],
+    "replicated": true,
+    "cost_per_game": 37.774499999999996,
+    "lift": 1.1360134003350084,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S3.endgame_error.minor.own",
+    "kind": "endgame_error",
+    "subject": "minor",
+    "distinct_games": 7,
+    "games_with_data": 60,
+    "rate": 0.2564,
+    "baseline_rate": 0.1901,
+    "ci95": [
+     0.1725530857155662,
+     0.36313536612310743
+    ],
+    "replicated": true,
+    "cost_per_game": 5.9,
+    "lift": 1.3487638085218308,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S3.endgame_error.rook.own",
+    "kind": "endgame_error",
+    "subject": "rook",
+    "distinct_games": 6,
+    "games_with_data": 60,
+    "rate": 0.1845,
+    "baseline_rate": 0.1491,
+    "ci95": [
+     0.12139442527988081,
+     0.2702283134286373
+    ],
+    "replicated": true,
+    "cost_per_game": 6.444833333333333,
+    "lift": 1.2374245472837022,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S3.endgame_error.rook_minor.own",
+    "kind": "endgame_error",
+    "subject": "rook_minor",
+    "distinct_games": 12,
+    "games_with_data": 60,
+    "rate": 0.2463,
+    "baseline_rate": 0.2216,
+    "ci95": [
+     0.18106846409287522,
+     0.3256116673043228
+    ],
+    "replicated": true,
+    "cost_per_game": 9.573,
+    "lift": 1.111462093862816,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S4.early_error.black.own",
+    "kind": "early_error",
+    "subject": "black",
+    "distinct_games": 29,
+    "games_with_data": 60,
+    "rate": 0.2812,
+    "baseline_rate": 0.266,
+    "ci95": [
+     0.2342305198302199,
+     0.3333767640617942
+    ],
+    "replicated": true,
+    "cost_per_game": 17.0535,
+    "lift": 1.0571428571428572,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S4.early_error.white.own",
+    "kind": "early_error",
+    "subject": "white",
+    "distinct_games": 28,
+    "games_with_data": 60,
+    "rate": 0.288,
+    "baseline_rate": 0.2643,
+    "ci95": [
+     0.24082953020974496,
+     0.34021308588522203
+    ],
+    "replicated": true,
+    "cost_per_game": 16.924666666666667,
+    "lift": 1.0896708286038592,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S4.opening_disadvantage.any.own",
+    "kind": "opening_disadvantage",
+    "subject": "any",
+    "distinct_games": 15,
+    "games_with_data": 60,
+    "rate": 0.25,
+    "baseline_rate": 0.2351,
+    "ci95": [
+     0.1577638557841185,
+     0.372323109454848
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.0633772862611655,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S6.allows_square.any.own",
+    "kind": "allows_square",
+    "subject": "any",
+    "distinct_games": 26,
+    "games_with_data": 60,
+    "rate": 0.0266,
+    "baseline_rate": 0.0217,
+    "ci95": [
+     0.01980181781148129,
+     0.03562716426795201
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.225806451612903,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S7.moved_into_attack.own_move.own",
+    "kind": "moved_into_attack",
+    "subject": "own_move",
+    "distinct_games": 56,
+    "games_with_data": 60,
+    "rate": 0.1251,
+    "baseline_rate": 0.116,
+    "ci95": [
+     0.10989763715100802,
+     0.1420176554375828
+    ],
+    "replicated": false,
+    "cost_per_game": 14.6205,
+    "lift": 1.0784482758620688,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S8.allows_pressure.king.own",
+    "kind": "allows_pressure",
+    "subject": "king",
+    "distinct_games": 21,
+    "games_with_data": 60,
+    "rate": 0.0254,
+    "baseline_rate": 0.0197,
+    "ci95": [
+     0.018745077120051797,
+     0.03421605122216252
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.2893401015228427,
+    "n_games": 60
+   }
+  ],
+  "Hirsican": [
+   {
+    "claim_id": "S1.allowed_motif.fork.own",
+    "kind": "allowed_motif",
+    "subject": "fork",
+    "distinct_games": 25,
+    "games_with_data": 60,
+    "rate": 0.0831,
+    "baseline_rate": 0.0544,
+    "ci95": [
+     0.06009611585062409,
+     0.11392123123842894
+    ],
+    "replicated": true,
+    "cost_per_game": 12.115499999999999,
+    "lift": 1.5275735294117647,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S1.missed_motif.capturingDefender.own",
+    "kind": "missed_motif",
+    "subject": "capturingDefender",
+    "distinct_games": 11,
+    "games_with_data": 60,
+    "rate": 0.5,
+    "baseline_rate": 0.2904,
+    "ci95": [
+     0.32060306315002074,
+     0.6793969368499793
+    ],
+    "replicated": true,
+    "cost_per_game": 3.8329999999999997,
+    "lift": 1.721763085399449,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S1.missed_motif.discoveredAttack.own",
+    "kind": "missed_motif",
+    "subject": "discoveredAttack",
+    "distinct_games": 12,
+    "games_with_data": 60,
+    "rate": 0.5806,
+    "baseline_rate": 0.2785,
+    "ci95": [
+     0.40765964352020967,
+     0.7358469692645074
+    ],
+    "replicated": true,
+    "cost_per_game": 4.568333333333333,
+    "lift": 2.0847396768402153,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S5.concedes_weakness.isolated.own",
+    "kind": "concedes_weakness",
+    "subject": "isolated",
+    "distinct_games": 41,
+    "games_with_data": 60,
+    "rate": 0.0423,
+    "baseline_rate": 0.0234,
+    "ci95": [
+     0.03230897492336646,
+     0.055174874202006646
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.8076923076923075,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S7.sacrificed_for_attack.own_move.own",
+    "kind": "sacrificed_for_attack",
+    "subject": "own_move",
+    "distinct_games": 8,
+    "games_with_data": 60,
+    "rate": 0.0272,
+    "baseline_rate": 0.0132,
+    "ci95": [
+     0.013851176352518195,
+     0.052766784335310506
+    ],
+    "replicated": true,
+    "cost_per_game": 2.7053333333333334,
+    "lift": 2.0606060606060606,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S1.allowed_motif.discoveredAttack.own",
+    "kind": "allowed_motif",
+    "subject": "discoveredAttack",
+    "distinct_games": 20,
+    "games_with_data": 60,
+    "rate": 0.066,
+    "baseline_rate": 0.0565,
+    "ci95": [
+     0.04576227022290012,
+     0.09434376560294687
+    ],
+    "replicated": false,
+    "cost_per_game": 8.247333333333334,
+    "lift": 1.168141592920354,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S1.allowed_motif.hangingPawn.own",
+    "kind": "allowed_motif",
+    "subject": "hangingPawn",
+    "distinct_games": 27,
+    "games_with_data": 60,
+    "rate": 0.0978,
+    "baseline_rate": 0.0526,
+    "ci95": [
+     0.07264477966127811,
+     0.1304394056533801
+    ],
+    "replicated": true,
+    "cost_per_game": 10.2195,
+    "lift": 1.8593155893536122,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S1.allowed_motif.pin.own",
+    "kind": "allowed_motif",
+    "subject": "pin",
+    "distinct_games": 31,
+    "games_with_data": 60,
+    "rate": 0.1051,
+    "baseline_rate": 0.0517,
+    "ci95": [
+     0.07899351710974076,
+     0.13862408731772002
+    ],
+    "replicated": true,
+    "cost_per_game": 10.257333333333333,
+    "lift": 2.0328820116054156,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S1.missed_motif.pin.own",
+    "kind": "missed_motif",
+    "subject": "pin",
+    "distinct_games": 23,
+    "games_with_data": 60,
+    "rate": 0.32,
+    "baseline_rate": 0.3013,
+    "ci95": [
+     0.2366901081545688,
+     0.4166280225367919
+    ],
+    "replicated": true,
+    "cost_per_game": 7.365333333333334,
+    "lift": 1.0620643876535014,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S1.missed_motif.skewer.own",
+    "kind": "missed_motif",
+    "subject": "skewer",
+    "distinct_games": 6,
+    "games_with_data": 60,
+    "rate": 0.5833,
+    "baseline_rate": 0.2965,
+    "ci95": [
+     0.3195073356553728,
+     0.8067425380947535
+    ],
+    "replicated": true,
+    "cost_per_game": 2.3436666666666666,
+    "lift": 1.967284991568297,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S1.missed_motif.trappedPiece.own",
+    "kind": "missed_motif",
+    "subject": "trappedPiece",
+    "distinct_games": 7,
+    "games_with_data": 60,
+    "rate": 0.4375,
+    "baseline_rate": 0.3003,
+    "ci95": [
+     0.2309836333518552,
+     0.6682180439322347
+    ],
+    "replicated": true,
+    "cost_per_game": 1.7974999999999999,
+    "lift": 1.4568764568764567,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S2.long_think_error.long_think.own",
+    "kind": "long_think_error",
+    "subject": "long_think",
+    "distinct_games": 47,
+    "games_with_data": 60,
+    "rate": 0.4635,
+    "baseline_rate": 0.3006,
+    "ci95": [
+     0.405369684379064,
+     0.5226468545409537
+    ],
+    "replicated": true,
+    "cost_per_game": 34.70583333333333,
+    "lift": 1.5419161676646709,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S3.advantage_error.clear.own",
+    "kind": "advantage_error",
+    "subject": "clear",
+    "distinct_games": 44,
+    "games_with_data": 60,
+    "rate": 0.3706,
+    "baseline_rate": 0.3012,
+    "ci95": [
+     0.3248652770682045,
+     0.41887710912384685
+    ],
+    "replicated": true,
+    "cost_per_game": 47.106,
+    "lift": 1.2304116865869852,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S3.endgame_error.any.own",
+    "kind": "endgame_error",
+    "subject": "any",
+    "distinct_games": 6,
+    "games_with_data": 60,
+    "rate": 0.2529,
+    "baseline_rate": 0.194,
+    "ci95": [
+     0.17333087433749278,
+     0.3533177095712012
+    ],
+    "replicated": true,
+    "cost_per_game": 6.628,
+    "lift": 1.3036082474226804,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S4.early_error.black.own",
+    "kind": "early_error",
+    "subject": "black",
+    "distinct_games": 29,
+    "games_with_data": 60,
+    "rate": 0.3026,
+    "baseline_rate": 0.2681,
+    "ci95": [
+     0.25096192168449455,
+     0.3597229236955353
+    ],
+    "replicated": true,
+    "cost_per_game": 16.760833333333334,
+    "lift": 1.1286833271167473,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S4.early_error.white.own",
+    "kind": "early_error",
+    "subject": "white",
+    "distinct_games": 29,
+    "games_with_data": 60,
+    "rate": 0.3135,
+    "baseline_rate": 0.2657,
+    "ci95": [
+     0.2639035840441906,
+     0.3678282280699426
+    ],
+    "replicated": true,
+    "cost_per_game": 20.134,
+    "lift": 1.1799021452766278,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S6.allows_square.outpost.own",
+    "kind": "allows_square",
+    "subject": "outpost",
+    "distinct_games": 11,
+    "games_with_data": 60,
+    "rate": 0.0143,
+    "baseline_rate": 0.0111,
+    "ci95": [
+     0.008975935134256176,
+     0.022854714129699586
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.2882882882882882,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S6.allows_square.rook_seventh.own",
+    "kind": "allows_square",
+    "subject": "rook_seventh",
+    "distinct_games": 9,
+    "games_with_data": 60,
+    "rate": 0.011,
+    "baseline_rate": 0.0108,
+    "ci95": [
+     0.006422245932468616,
+     0.018679163708647577
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.0185185185185184,
+    "n_games": 60
+   },
+   {
+    "claim_id": "S8.allows_pressure.king.own",
+    "kind": "allows_pressure",
+    "subject": "king",
+    "distinct_games": 17,
+    "games_with_data": 60,
+    "rate": 0.0228,
+    "baseline_rate": 0.0196,
+    "ci95": [
+     0.015705575102345395,
+     0.03294817321870931
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.1632653061224492,
+    "n_games": 60
+   }
+  ],
+  "Maximilian_Honigtopf": [
+   {
+    "claim_id": "S1.allowed_motif.fork.own",
+    "kind": "allowed_motif",
+    "subject": "fork",
+    "distinct_games": 15,
+    "games_with_data": 28,
+    "rate": 0.1445,
+    "baseline_rate": 0.0636,
+    "ci95": [
+     0.09983638514782188,
+     0.20462591331588803
+    ],
+    "replicated": true,
+    "cost_per_game": 17.793928571428573,
+    "lift": 2.272012578616352,
+    "n_games": 28
+   },
+   {
+    "claim_id": "S1.allowed_motif.hangingPawn.own",
+    "kind": "allowed_motif",
+    "subject": "hangingPawn",
+    "distinct_games": 14,
+    "games_with_data": 28,
+    "rate": 0.1329,
+    "baseline_rate": 0.065,
+    "ci95": [
+     0.09024916039914545,
+     0.19159402581948187
+    ],
+    "replicated": true,
+    "cost_per_game": 15.219285714285714,
+    "lift": 2.0446153846153843,
+    "n_games": 28
+   },
+   {
+    "claim_id": "S1.allowed_motif.pin.own",
+    "kind": "allowed_motif",
+    "subject": "pin",
+    "distinct_games": 17,
+    "games_with_data": 28,
+    "rate": 0.185,
+    "baseline_rate": 0.0585,
+    "ci95": [
+     0.13417968576824787,
+     0.24944950555325116
+    ],
+    "replicated": true,
+    "cost_per_game": 15.416071428571428,
+    "lift": 3.1623931623931623,
+    "n_games": 28
+   },
+   {
+    "claim_id": "S4.early_error.black.own",
+    "kind": "early_error",
+    "subject": "black",
+    "distinct_games": 10,
+    "games_with_data": 28,
+    "rate": 0.4466,
+    "baseline_rate": 0.2595,
+    "ci95": [
+     0.35423422053918807,
+     0.5428096275499459
+    ],
+    "replicated": true,
+    "cost_per_game": 22.68,
+    "lift": 1.7210019267822736,
+    "n_games": 28
+   },
+   {
+    "claim_id": "S4.early_error.white.own",
+    "kind": "early_error",
+    "subject": "white",
+    "distinct_games": 18,
+    "games_with_data": 28,
+    "rate": 0.3758,
+    "baseline_rate": 0.2597,
+    "ci95": [
+     0.30385317594921624,
+     0.4536722403609922
+    ],
+    "replicated": true,
+    "cost_per_game": 36.118928571428576,
+    "lift": 1.4470542934154795,
+    "n_games": 28
+   },
+   {
+    "claim_id": "S4.opening_disadvantage.any.own",
+    "kind": "opening_disadvantage",
+    "subject": "any",
+    "distinct_games": 13,
+    "games_with_data": 28,
+    "rate": 0.4643,
+    "baseline_rate": 0.2351,
+    "ci95": [
+     0.29531303739659587,
+     0.6418760485789833
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.9749042960442365,
+    "n_games": 28
+   },
+   {
+    "claim_id": "S5.concedes_weakness.doubled.own",
+    "kind": "concedes_weakness",
+    "subject": "doubled",
+    "distinct_games": 16,
+    "games_with_data": 28,
+    "rate": 0.0559,
+    "baseline_rate": 0.0338,
+    "ci95": [
+     0.03869923841361742,
+     0.0801106578647614
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.653846153846154,
+    "n_games": 28
+   },
+   {
+    "claim_id": "S5.concedes_weakness.isolated.own",
+    "kind": "concedes_weakness",
+    "subject": "isolated",
+    "distinct_games": 14,
+    "games_with_data": 28,
+    "rate": 0.0393,
+    "baseline_rate": 0.0228,
+    "ci95": [
+     0.025325703434507935,
+     0.06061929387057034
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.7236842105263157,
+    "n_games": 28
+   },
+   {
+    "claim_id": "S7.moved_into_attack.own_move.own",
+    "kind": "moved_into_attack",
+    "subject": "own_move",
+    "distinct_games": 25,
+    "games_with_data": 28,
+    "rate": 0.1546,
+    "baseline_rate": 0.1144,
+    "ci95": [
+     0.12518668851422973,
+     0.1895197521814885
+    ],
+    "replicated": true,
+    "cost_per_game": 23.63214285714286,
+    "lift": 1.3513986013986012,
+    "n_games": 28
+   },
+   {
+    "claim_id": "S1.allowed_motif.hangingPiece.own",
+    "kind": "allowed_motif",
+    "subject": "hangingPiece",
+    "distinct_games": 13,
+    "games_with_data": 28,
+    "rate": 0.0867,
+    "baseline_rate": 0.0708,
+    "ci95": [
+     0.05324721784157309,
+     0.1381195193967238
+    ],
+    "replicated": false,
+    "cost_per_game": 11.296071428571429,
+    "lift": 1.2245762711864407,
+    "n_games": 28
+   },
+   {
+    "claim_id": "S1.missed_motif.discoveredAttack.own",
+    "kind": "missed_motif",
+    "subject": "discoveredAttack",
+    "distinct_games": 4,
+    "games_with_data": 28,
+    "rate": 0.5,
+    "baseline_rate": 0.2817,
+    "ci95": [
+     0.2537781703934222,
+     0.7462218296065778
+    ],
+    "replicated": false,
+    "cost_per_game": 2.667857142857143,
+    "lift": 1.774937877174299,
+    "n_games": 28
+   },
+   {
+    "claim_id": "S1.missed_motif.fork.own",
+    "kind": "missed_motif",
+    "subject": "fork",
+    "distinct_games": 7,
+    "games_with_data": 28,
+    "rate": 0.4706,
+    "baseline_rate": 0.2774,
+    "ci95": [
+     0.26164801196088106,
+     0.6903710268845051
+    ],
+    "replicated": true,
+    "cost_per_game": 4.902142857142857,
+    "lift": 1.6964671953857249,
+    "n_games": 28
+   },
+   {
+    "claim_id": "S1.missed_motif.pin.own",
+    "kind": "missed_motif",
+    "subject": "pin",
+    "distinct_games": 11,
+    "games_with_data": 28,
+    "rate": 0.325,
+    "baseline_rate": 0.2895,
+    "ci95": [
+     0.20084316962661725,
+     0.4798254191110201
+    ],
+    "replicated": false,
+    "cost_per_game": 10.153214285714286,
+    "lift": 1.1226252158894647,
+    "n_games": 28
+   },
+   {
+    "claim_id": "S1.missed_motif.trappedPiece.own",
+    "kind": "missed_motif",
+    "subject": "trappedPiece",
+    "distinct_games": 3,
+    "games_with_data": 28,
+    "rate": 0.4,
+    "baseline_rate": 0.2917,
+    "ci95": [
+     0.16817758120350967,
+     0.6873304525498135
+    ],
+    "replicated": false,
+    "cost_per_game": 2.674285714285714,
+    "lift": 1.3712718546451834,
+    "n_games": 28
+   },
+   {
+    "claim_id": "S2.long_think_error.long_think.own",
+    "kind": "long_think_error",
+    "subject": "long_think",
+    "distinct_games": 12,
+    "games_with_data": 28,
+    "rate": 0.4118,
+    "baseline_rate": 0.3502,
+    "ci95": [
+     0.28754192992486893,
+     0.5483490725258254
+    ],
+    "replicated": true,
+    "cost_per_game": 13.8125,
+    "lift": 1.1758994860079954,
+    "n_games": 28
+   },
+   {
+    "claim_id": "S2.time_pressure_error.clock.own",
+    "kind": "time_pressure_error",
+    "subject": "clock",
+    "distinct_games": 4,
+    "games_with_data": 28,
+    "rate": 0.5625,
+    "baseline_rate": 0.3497,
+    "ci95": [
+     0.33178195606776517,
+     0.7690163666481448
+    ],
+    "replicated": false,
+    "cost_per_game": 6.271428571428571,
+    "lift": 1.6085215899342293,
+    "n_games": 28
+   },
+   {
+    "claim_id": "S3.endgame_error.any.own",
+    "kind": "endgame_error",
+    "subject": "any",
+    "distinct_games": 5,
+    "games_with_data": 28,
+    "rate": 0.2037,
+    "baseline_rate": 0.1861,
+    "ci95": [
+     0.13854706947558232,
+     0.28921505123799823
+    ],
+    "replicated": true,
+    "cost_per_game": 13.882142857142856,
+    "lift": 1.0945728103170338,
+    "n_games": 28
+   },
+   {
+    "claim_id": "S6.allows_square.outpost.own",
+    "kind": "allows_square",
+    "subject": "outpost",
+    "distinct_games": 4,
+    "games_with_data": 28,
+    "rate": 0.0125,
+    "baseline_rate": 0.0106,
+    "ci95": [
+     0.00575304512746134,
+     0.027056058313501496
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.179245283018868,
+    "n_games": 28
+   }
+  ],
+  "Odin5306": [
+   {
+    "claim_id": "S1.allowed_motif.discoveredAttack.own",
+    "kind": "allowed_motif",
+    "subject": "discoveredAttack",
+    "distinct_games": 13,
+    "games_with_data": 56,
+    "rate": 0.0479,
+    "baseline_rate": 0.0342,
+    "ci95": [
+     0.028771481491629478,
+     0.0788590883808969
+    ],
+    "replicated": false,
+    "cost_per_game": 4.248035714285714,
+    "lift": 1.4005847953216373,
+    "n_games": 56
+   },
+   {
+    "claim_id": "S1.allowed_motif.trappedPiece.own",
+    "kind": "allowed_motif",
+    "subject": "trappedPiece",
+    "distinct_games": 10,
+    "games_with_data": 56,
+    "rate": 0.0411,
+    "baseline_rate": 0.0351,
+    "ci95": [
+     0.023662113526685874,
+     0.07044770740451514
+    ],
+    "replicated": true,
+    "cost_per_game": 5.0075,
+    "lift": 1.170940170940171,
+    "n_games": 56
+   },
+   {
+    "claim_id": "S2.time_pressure_error.clock.own",
+    "kind": "time_pressure_error",
+    "subject": "clock",
+    "distinct_games": 10,
+    "games_with_data": 56,
+    "rate": 0.1832,
+    "baseline_rate": 0.176,
+    "ci95": [
+     0.1263170931455936,
+     0.25814586190685307
+    ],
+    "replicated": false,
+    "cost_per_game": 6.9121428571428565,
+    "lift": 1.040909090909091,
+    "n_games": 56
+   },
+   {
+    "claim_id": "S7.miscounted_exchange.own_move.own",
+    "kind": "miscounted_exchange",
+    "subject": "own_move",
+    "distinct_games": 8,
+    "games_with_data": 56,
+    "rate": 0.0189,
+    "baseline_rate": 0.0182,
+    "ci95": [
+     0.009613624782057219,
+     0.03687106649451938
+    ],
+    "replicated": true,
+    "cost_per_game": 0.9476785714285715,
+    "lift": 1.0384615384615383,
+    "n_games": 56
+   },
+   {
+    "claim_id": "S8.allows_pressure.king.own",
+    "kind": "allows_pressure",
+    "subject": "king",
+    "distinct_games": 20,
+    "games_with_data": 56,
+    "rate": 0.0256,
+    "baseline_rate": 0.0196,
+    "ci95": [
+     0.01901344674723676,
+     0.03445585911889178
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.306122448979592,
+    "n_games": 56
+   }
+  ],
+  "Sheriwoyama": [
+   {
+    "claim_id": "S1.allowed_motif.discoveredAttack.own",
+    "kind": "allowed_motif",
+    "subject": "discoveredAttack",
+    "distinct_games": 13,
+    "games_with_data": 51,
+    "rate": 0.0493,
+    "baseline_rate": 0.0354,
+    "ci95": [
+     0.030126598112272498,
+     0.0798052629487407
+    ],
+    "replicated": false,
+    "cost_per_game": 5.077647058823529,
+    "lift": 1.3926553672316382,
+    "n_games": 52
+   },
+   {
+    "claim_id": "S1.missed_motif.discoveredAttack.own",
+    "kind": "missed_motif",
+    "subject": "discoveredAttack",
+    "distinct_games": 14,
+    "games_with_data": 51,
+    "rate": 0.3846,
+    "baseline_rate": 0.1898,
+    "ci95": [
+     0.26470271334885215,
+     0.5204037305925822
+    ],
+    "replicated": false,
+    "cost_per_game": 4.324313725490196,
+    "lift": 2.0263435194942043,
+    "n_games": 52
+   },
+   {
+    "claim_id": "S1.missed_motif.skewer.own",
+    "kind": "missed_motif",
+    "subject": "skewer",
+    "distinct_games": 3,
+    "games_with_data": 51,
+    "rate": 0.3333,
+    "baseline_rate": 0.216,
+    "ci95": [
+     0.12058159868274293,
+     0.6458026525009102
+    ],
+    "replicated": false,
+    "cost_per_game": 0.463921568627451,
+    "lift": 1.5430555555555554,
+    "n_games": 52
+   },
+   {
+    "claim_id": "S1.missed_motif.trappedPiece.own",
+    "kind": "missed_motif",
+    "subject": "trappedPiece",
+    "distinct_games": 4,
+    "games_with_data": 51,
+    "rate": 0.5,
+    "baseline_rate": 0.2124,
+    "ci95": [
+     0.21521252682444186,
+     0.7847874731755582
+    ],
+    "replicated": false,
+    "cost_per_game": 0.700392156862745,
+    "lift": 2.354048964218456,
+    "n_games": 52
+   },
+   {
+    "claim_id": "S2.long_think_error.long_think.own",
+    "kind": "long_think_error",
+    "subject": "long_think",
+    "distinct_games": 29,
+    "games_with_data": 51,
+    "rate": 0.3969,
+    "baseline_rate": 0.2074,
+    "ci95": [
+     0.3172478522512457,
+     0.48251720541641757
+    ],
+    "replicated": false,
+    "cost_per_game": 13.888823529411766,
+    "lift": 1.9136933461909353,
+    "n_games": 52
+   },
+   {
+    "claim_id": "S4.opening_disadvantage.any.own",
+    "kind": "opening_disadvantage",
+    "subject": "any",
+    "distinct_games": 13,
+    "games_with_data": 51,
+    "rate": 0.2549,
+    "baseline_rate": 0.2351,
+    "ci95": [
+     0.1554562324126639,
+     0.38868544106148706
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.0842194810718844,
+    "n_games": 52
+   },
+   {
+    "claim_id": "S6.allows_square.rook_seventh.own",
+    "kind": "allows_square",
+    "subject": "rook_seventh",
+    "distinct_games": 13,
+    "games_with_data": 51,
+    "rate": 0.012,
+    "baseline_rate": 0.0108,
+    "ci95": [
+     0.0073738877323914235,
+     0.019336865608390374
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.1111111111111112,
+    "n_games": 52
+   }
+  ],
+  "bernes": [
+   {
+    "claim_id": "S1.allowed_motif.capturingDefender.own",
+    "kind": "allowed_motif",
+    "subject": "capturingDefender",
+    "distinct_games": 12,
+    "games_with_data": 53,
+    "rate": 0.0566,
+    "baseline_rate": 0.0486,
+    "ci95": [
+     0.034598927266233995,
+     0.09128040093297328
+    ],
+    "replicated": false,
+    "cost_per_game": 4.556037735849056,
+    "lift": 1.1646090534979423,
+    "n_games": 53
+   },
+   {
+    "claim_id": "S1.allowed_motif.discoveredAttack.own",
+    "kind": "allowed_motif",
+    "subject": "discoveredAttack",
+    "distinct_games": 10,
+    "games_with_data": 53,
+    "rate": 0.0528,
+    "baseline_rate": 0.0491,
+    "ci95": [
+     0.03172705633480661,
+     0.08671294699801091
+    ],
+    "replicated": false,
+    "cost_per_game": 3.8962264150943398,
+    "lift": 1.075356415478615,
+    "n_games": 53
+   },
+   {
+    "claim_id": "S1.allowed_motif.hangingPiece.own",
+    "kind": "allowed_motif",
+    "subject": "hangingPiece",
+    "distinct_games": 20,
+    "games_with_data": 53,
+    "rate": 0.1019,
+    "baseline_rate": 0.0429,
+    "ci95": [
+     0.07097053483006453,
+     0.14418069176581944
+    ],
+    "replicated": true,
+    "cost_per_game": 9.469056603773586,
+    "lift": 2.3752913752913756,
+    "n_games": 53
+   },
+   {
+    "claim_id": "S1.missed_motif.fork.own",
+    "kind": "missed_motif",
+    "subject": "fork",
+    "distinct_games": 10,
+    "games_with_data": 53,
+    "rate": 0.5,
+    "baseline_rate": 0.1765,
+    "ci95": [
+     0.33153851227173764,
+     0.6684614877282624
+    ],
+    "replicated": false,
+    "cost_per_game": 5.107924528301887,
+    "lift": 2.8328611898017,
+    "n_games": 53
+   },
+   {
+    "claim_id": "S3.endgame_error.minor.own",
+    "kind": "endgame_error",
+    "subject": "minor",
+    "distinct_games": 4,
+    "games_with_data": 53,
+    "rate": 0.2903,
+    "baseline_rate": 0.194,
+    "ci95": [
+     0.19223406385395198,
+     0.4128788131113709
+    ],
+    "replicated": true,
+    "cost_per_game": 5.907358490566037,
+    "lift": 1.4963917525773196,
+    "n_games": 53
+   },
+   {
+    "claim_id": "S3.endgame_error.queen.own",
+    "kind": "endgame_error",
+    "subject": "queen",
+    "distinct_games": 4,
+    "games_with_data": 53,
+    "rate": 0.2593,
+    "baseline_rate": 0.226,
+    "ci95": [
+     0.13170208422866778,
+     0.4467893040261568
+    ],
+    "replicated": true,
+    "cost_per_game": 3.2256603773584906,
+    "lift": 1.1473451327433626,
+    "n_games": 53
+   }
+  ],
+  "bjagus": [
+   {
+    "claim_id": "S6.allows_square.outpost.own",
+    "kind": "allows_square",
+    "subject": "outpost",
+    "distinct_games": 21,
+    "games_with_data": 54,
+    "rate": 0.0192,
+    "baseline_rate": 0.0111,
+    "ci95": [
+     0.013249696123466739,
+     0.0278356077914055
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.7297297297297296,
+    "n_games": 54
+   },
+   {
+    "claim_id": "S1.allowed_motif.capturingDefender.own",
+    "kind": "allowed_motif",
+    "subject": "capturingDefender",
+    "distinct_games": 17,
+    "games_with_data": 54,
+    "rate": 0.065,
+    "baseline_rate": 0.0554,
+    "ci95": [
+     0.044092991505070275,
+     0.09495157862873453
+    ],
+    "replicated": true,
+    "cost_per_game": 7.052407407407407,
+    "lift": 1.1732851985559567,
+    "n_games": 54
+   },
+   {
+    "claim_id": "S1.allowed_motif.discoveredAttack.own",
+    "kind": "allowed_motif",
+    "subject": "discoveredAttack",
+    "distinct_games": 20,
+    "games_with_data": 54,
+    "rate": 0.0623,
+    "baseline_rate": 0.0557,
+    "ci95": [
+     0.04188955654315145,
+     0.09179080530488266
+    ],
+    "replicated": false,
+    "cost_per_game": 6.597037037037037,
+    "lift": 1.118491921005386,
+    "n_games": 54
+   },
+   {
+    "claim_id": "S1.allowed_motif.fork.own",
+    "kind": "allowed_motif",
+    "subject": "fork",
+    "distinct_games": 18,
+    "games_with_data": 54,
+    "rate": 0.0759,
+    "baseline_rate": 0.0538,
+    "ci95": [
+     0.05301814058195682,
+     0.1074832626949307
+    ],
+    "replicated": true,
+    "cost_per_game": 12.436481481481483,
+    "lift": 1.4107806691449813,
+    "n_games": 54
+   },
+   {
+    "claim_id": "S1.missed_motif.capturingDefender.own",
+    "kind": "missed_motif",
+    "subject": "capturingDefender",
+    "distinct_games": 14,
+    "games_with_data": 54,
+    "rate": 0.2909,
+    "baseline_rate": 0.1789,
+    "ci95": [
+     0.18771037010850328,
+     0.4214097082034393
+    ],
+    "replicated": true,
+    "cost_per_game": 5.857592592592592,
+    "lift": 1.626048071548351,
+    "n_games": 54
+   },
+   {
+    "claim_id": "S2.long_think_error.long_think.own",
+    "kind": "long_think_error",
+    "subject": "long_think",
+    "distinct_games": 41,
+    "games_with_data": 54,
+    "rate": 0.384,
+    "baseline_rate": 0.2362,
+    "ci95": [
+     0.3243650482762234,
+     0.4472690880191675
+    ],
+    "replicated": false,
+    "cost_per_game": 25.398333333333333,
+    "lift": 1.6257408975444538,
+    "n_games": 54
+   },
+   {
+    "claim_id": "S3.endgame_error.queen.own",
+    "kind": "endgame_error",
+    "subject": "queen",
+    "distinct_games": 5,
+    "games_with_data": 54,
+    "rate": 0.2619,
+    "baseline_rate": 0.226,
+    "ci95": [
+     0.15302485372603591,
+     0.41069019984975563
+    ],
+    "replicated": true,
+    "cost_per_game": 3.543888888888889,
+    "lift": 1.158849557522124,
+    "n_games": 54
+   },
+   {
+    "claim_id": "S6.allows_square.any.own",
+    "kind": "allows_square",
+    "subject": "any",
+    "distinct_games": 23,
+    "games_with_data": 54,
+    "rate": 0.0285,
+    "baseline_rate": 0.0218,
+    "ci95": [
+     0.020991331870051012,
+     0.0385619587842385
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.3073394495412844,
+    "n_games": 54
+   },
+   {
+    "claim_id": "S7.moved_into_attack.own_move.own",
+    "kind": "moved_into_attack",
+    "subject": "own_move",
+    "distinct_games": 52,
+    "games_with_data": 54,
+    "rate": 0.1245,
+    "baseline_rate": 0.1165,
+    "ci95": [
+     0.10827356597825688,
+     0.1427005907963786
+    ],
+    "replicated": true,
+    "cost_per_game": 12.440185185185184,
+    "lift": 1.0686695278969955,
+    "n_games": 54
+   },
+   {
+    "claim_id": "S8.allows_pressure.king.own",
+    "kind": "allows_pressure",
+    "subject": "king",
+    "distinct_games": 19,
+    "games_with_data": 54,
+    "rate": 0.0199,
+    "baseline_rate": 0.0196,
+    "ci95": [
+     0.013833423861884277,
+     0.028672494417558515
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.0153061224489797,
+    "n_games": 54
+   }
+  ],
+  "cademan": [
+   {
+    "claim_id": "S1.allowed_motif.fork.own",
+    "kind": "allowed_motif",
+    "subject": "fork",
+    "distinct_games": 26,
+    "games_with_data": 54,
+    "rate": 0.1126,
+    "baseline_rate": 0.0501,
+    "ci95": [
+     0.08465073196331951,
+     0.14819507833810988
+    ],
+    "replicated": true,
+    "cost_per_game": 13.596481481481483,
+    "lift": 2.2475049900199604,
+    "n_games": 55
+   },
+   {
+    "claim_id": "S2.long_think_error.long_think.own",
+    "kind": "long_think_error",
+    "subject": "long_think",
+    "distinct_games": 34,
+    "games_with_data": 54,
+    "rate": 0.478,
+    "baseline_rate": 0.3218,
+    "ci95": [
+     0.4017825757326531,
+     0.5552308655501642
+    ],
+    "replicated": true,
+    "cost_per_game": 22.972037037037037,
+    "lift": 1.485394655065258,
+    "n_games": 55
+   },
+   {
+    "claim_id": "S3.advantage_error.clear.own",
+    "kind": "advantage_error",
+    "subject": "clear",
+    "distinct_games": 37,
+    "games_with_data": 54,
+    "rate": 0.3806,
+    "baseline_rate": 0.2931,
+    "ci95": [
+     0.32655531206482796,
+     0.43782242661710796
+    ],
+    "replicated": true,
+    "cost_per_game": 47.421481481481486,
+    "lift": 1.2985329239167518,
+    "n_games": 55
+   },
+   {
+    "claim_id": "S4.early_error.black.own",
+    "kind": "early_error",
+    "subject": "black",
+    "distinct_games": 23,
+    "games_with_data": 54,
+    "rate": 0.3586,
+    "baseline_rate": 0.2619,
+    "ci95": [
+     0.300290297863644,
+     0.421518559078014
+    ],
+    "replicated": true,
+    "cost_per_game": 21.469259259259257,
+    "lift": 1.3692248949980907,
+    "n_games": 55
+   },
+   {
+    "claim_id": "S5.concedes_weakness.doubled.own",
+    "kind": "concedes_weakness",
+    "subject": "doubled",
+    "distinct_games": 42,
+    "games_with_data": 54,
+    "rate": 0.0524,
+    "baseline_rate": 0.0342,
+    "ci95": [
+     0.04078432413612408,
+     0.067196490423359
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.5321637426900585,
+    "n_games": 55
+   },
+   {
+    "claim_id": "S1.allowed_motif.hangingPawn.own",
+    "kind": "allowed_motif",
+    "subject": "hangingPawn",
+    "distinct_games": 21,
+    "games_with_data": 54,
+    "rate": 0.0812,
+    "baseline_rate": 0.054,
+    "ci95": [
+     0.05775753302003579,
+     0.11288658622475277
+    ],
+    "replicated": false,
+    "cost_per_game": 8.251296296296296,
+    "lift": 1.5037037037037035,
+    "n_games": 55
+   },
+   {
+    "claim_id": "S1.allowed_motif.hangingPiece.own",
+    "kind": "allowed_motif",
+    "subject": "hangingPiece",
+    "distinct_games": 24,
+    "games_with_data": 54,
+    "rate": 0.0995,
+    "baseline_rate": 0.0517,
+    "ci95": [
+     0.07333438393328248,
+     0.13359405509454655
+    ],
+    "replicated": true,
+    "cost_per_game": 13.562407407407408,
+    "lift": 1.9245647969052224,
+    "n_games": 55
+   },
+   {
+    "claim_id": "S1.allowed_motif.pin.own",
+    "kind": "allowed_motif",
+    "subject": "pin",
+    "distinct_games": 19,
+    "games_with_data": 54,
+    "rate": 0.0916,
+    "baseline_rate": 0.0527,
+    "ci95": [
+     0.06661690167098588,
+     0.12476111459268296
+    ],
+    "replicated": false,
+    "cost_per_game": 11.671111111111111,
+    "lift": 1.7381404174573056,
+    "n_games": 55
+   },
+   {
+    "claim_id": "S1.missed_motif.discoveredAttack.own",
+    "kind": "missed_motif",
+    "subject": "discoveredAttack",
+    "distinct_games": 16,
+    "games_with_data": 54,
+    "rate": 0.4186,
+    "baseline_rate": 0.2738,
+    "ci95": [
+     0.2838433433748524,
+     0.5667168424428823
+    ],
+    "replicated": true,
+    "cost_per_game": 5.696851851851852,
+    "lift": 1.5288531775018264,
+    "n_games": 55
+   },
+   {
+    "claim_id": "S1.missed_motif.fork.own",
+    "kind": "missed_motif",
+    "subject": "fork",
+    "distinct_games": 10,
+    "games_with_data": 54,
+    "rate": 0.3636,
+    "baseline_rate": 0.2829,
+    "ci95": [
+     0.22186966167959873,
+     0.5338412737846591
+    ],
+    "replicated": true,
+    "cost_per_game": 5.1648148148148145,
+    "lift": 1.2852598091198304,
+    "n_games": 55
+   },
+   {
+    "claim_id": "S1.missed_motif.pin.own",
+    "kind": "missed_motif",
+    "subject": "pin",
+    "distinct_games": 22,
+    "games_with_data": 54,
+    "rate": 0.3364,
+    "baseline_rate": 0.2721,
+    "ci95": [
+     0.2539713264752684,
+     0.4302627517047651
+    ],
+    "replicated": false,
+    "cost_per_game": 11.762592592592592,
+    "lift": 1.2363101800808525,
+    "n_games": 55
+   },
+   {
+    "claim_id": "S1.missed_motif.skewer.own",
+    "kind": "missed_motif",
+    "subject": "skewer",
+    "distinct_games": 4,
+    "games_with_data": 54,
+    "rate": 0.4,
+    "baseline_rate": 0.2853,
+    "ci95": [
+     0.19824228082594664,
+     0.642535572434923
+    ],
+    "replicated": false,
+    "cost_per_game": 1.9438888888888888,
+    "lift": 1.4020329477742728,
+    "n_games": 55
+   },
+   {
+    "claim_id": "S3.endgame_error.queen.own",
+    "kind": "endgame_error",
+    "subject": "queen",
+    "distinct_games": 3,
+    "games_with_data": 54,
+    "rate": 0.2941,
+    "baseline_rate": 0.2156,
+    "ci95": [
+     0.13279793865556402,
+     0.5313353332621391
+    ],
+    "replicated": true,
+    "cost_per_game": 2.5724074074074075,
+    "lift": 1.3641001855287567,
+    "n_games": 55
+   },
+   {
+    "claim_id": "S3.endgame_error.rook_minor.own",
+    "kind": "endgame_error",
+    "subject": "rook_minor",
+    "distinct_games": 5,
+    "games_with_data": 54,
+    "rate": 0.2222,
+    "baseline_rate": 0.2144,
+    "ci95": [
+     0.11716192974839595,
+     0.38085019827859085
+    ],
+    "replicated": true,
+    "cost_per_game": 2.4027777777777777,
+    "lift": 1.0363805970149254,
+    "n_games": 55
+   },
+   {
+    "claim_id": "S4.early_error.white.own",
+    "kind": "early_error",
+    "subject": "white",
+    "distinct_games": 29,
+    "games_with_data": 54,
+    "rate": 0.3201,
+    "baseline_rate": 0.2614,
+    "ci95": [
+     0.27013473956624967,
+     0.3746331145969407
+    ],
+    "replicated": true,
+    "cost_per_game": 24.59574074074074,
+    "lift": 1.2245600612088752,
+    "n_games": 55
+   },
+   {
+    "claim_id": "S4.opening_disadvantage.any.own",
+    "kind": "opening_disadvantage",
+    "subject": "any",
+    "distinct_games": 17,
+    "games_with_data": 54,
+    "rate": 0.3148,
+    "baseline_rate": 0.2351,
+    "ci95": [
+     0.2067911428909822,
+     0.44743695591679633
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.3390046788600596,
+    "n_games": 55
+   },
+   {
+    "claim_id": "S7.miscounted_exchange.own_move.own",
+    "kind": "miscounted_exchange",
+    "subject": "own_move",
+    "distinct_games": 6,
+    "games_with_data": 54,
+    "rate": 0.0238,
+    "baseline_rate": 0.0185,
+    "ci95": [
+     0.011580038835282788,
+     0.048322943152458345
+    ],
+    "replicated": true,
+    "cost_per_game": 2.2175925925925926,
+    "lift": 1.2864864864864867,
+    "n_games": 55
+   }
+  ],
+  "goydorak": [
+   {
+    "claim_id": "S8.allows_pressure.king.own",
+    "kind": "allows_pressure",
+    "subject": "king",
+    "distinct_games": 20,
+    "games_with_data": 56,
+    "rate": 0.0283,
+    "baseline_rate": 0.0208,
+    "ci95": [
+     0.02143791091179513,
+     0.037367103643155104
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.3605769230769231,
+    "n_games": 56
+   },
+   {
+    "claim_id": "S1.allowed_motif.hangingPiece.own",
+    "kind": "allowed_motif",
+    "subject": "hangingPiece",
+    "distinct_games": 22,
+    "games_with_data": 56,
+    "rate": 0.0794,
+    "baseline_rate": 0.0514,
+    "ci95": [
+     0.05615597985727559,
+     0.11103795605751211
+    ],
+    "replicated": false,
+    "cost_per_game": 11.761964285714285,
+    "lift": 1.544747081712062,
+    "n_games": 56
+   },
+   {
+    "claim_id": "S1.allowed_motif.pin.own",
+    "kind": "allowed_motif",
+    "subject": "pin",
+    "distinct_games": 26,
+    "games_with_data": 56,
+    "rate": 0.1138,
+    "baseline_rate": 0.0465,
+    "ci95": [
+     0.08555851932647696,
+     0.14972647843175577
+    ],
+    "replicated": true,
+    "cost_per_game": 10.170535714285714,
+    "lift": 2.447311827956989,
+    "n_games": 56
+   },
+   {
+    "claim_id": "S1.missed_motif.hangingPawn.own",
+    "kind": "missed_motif",
+    "subject": "hangingPawn",
+    "distinct_games": 12,
+    "games_with_data": 56,
+    "rate": 0.2237,
+    "baseline_rate": 0.1878,
+    "ci95": [
+     0.1446106442066905,
+     0.3293477934999686
+    ],
+    "replicated": false,
+    "cost_per_game": 3.8164285714285713,
+    "lift": 1.1911608093716721,
+    "n_games": 56
+   },
+   {
+    "claim_id": "S3.advantage_error.clear.own",
+    "kind": "advantage_error",
+    "subject": "clear",
+    "distinct_games": 30,
+    "games_with_data": 56,
+    "rate": 0.2971,
+    "baseline_rate": 0.2777,
+    "ci95": [
+     0.24271656082071194,
+     0.3578461104843692
+    ],
+    "replicated": true,
+    "cost_per_game": 26.582857142857144,
+    "lift": 1.0698595606769894,
+    "n_games": 56
+   },
+   {
+    "claim_id": "S6.allows_square.rook_seventh.own",
+    "kind": "allows_square",
+    "subject": "rook_seventh",
+    "distinct_games": 13,
+    "games_with_data": 56,
+    "rate": 0.0112,
+    "baseline_rate": 0.0109,
+    "ci95": [
+     0.007192052549238888,
+     0.01745194250895735
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.0275229357798166,
+    "n_games": 56
+   },
+   {
+    "claim_id": "S7.miscounted_exchange.own_move.own",
+    "kind": "miscounted_exchange",
+    "subject": "own_move",
+    "distinct_games": 10,
+    "games_with_data": 56,
+    "rate": 0.0284,
+    "baseline_rate": 0.0192,
+    "ci95": [
+     0.015902668536759243,
+     0.050046429261943096
+    ],
+    "replicated": true,
+    "cost_per_game": 1.8889285714285715,
+    "lift": 1.479166666666667,
+    "n_games": 56
+   },
+   {
+    "claim_id": "S7.sacrificed_for_attack.own_move.own",
+    "kind": "sacrificed_for_attack",
+    "subject": "own_move",
+    "distinct_games": 8,
+    "games_with_data": 56,
+    "rate": 0.0232,
+    "baseline_rate": 0.0132,
+    "ci95": [
+     0.012250328125346264,
+     0.04349056309192112
+    ],
+    "replicated": true,
+    "cost_per_game": 1.6273214285714286,
+    "lift": 1.7575757575757576,
+    "n_games": 56
+   }
+  ],
+  "maikel5": [
+   {
+    "claim_id": "S2.time_budget_error.after_overspending.own",
+    "kind": "time_budget_error",
+    "subject": "after_overspending",
+    "distinct_games": 8,
+    "games_with_data": 43,
+    "rate": 0.2597,
+    "baseline_rate": 0.1957,
+    "ci95": [
+     0.19693028873712143,
+     0.334245269544092
+    ],
+    "replicated": true,
+    "cost_per_game": 10.681162790697675,
+    "lift": 1.3270311701584057,
+    "n_games": 44
+   },
+   {
+    "claim_id": "S2.time_pressure_error.clock.own",
+    "kind": "time_pressure_error",
+    "subject": "clock",
+    "distinct_games": 14,
+    "games_with_data": 43,
+    "rate": 0.2532,
+    "baseline_rate": 0.1632,
+    "ci95": [
+     0.2020441319843107,
+     0.3121593943167935
+    ],
+    "replicated": true,
+    "cost_per_game": 18.93186046511628,
+    "lift": 1.551470588235294,
+    "n_games": 44
+   },
+   {
+    "claim_id": "S1.missed_motif.capturingDefender.own",
+    "kind": "missed_motif",
+    "subject": "capturingDefender",
+    "distinct_games": 6,
+    "games_with_data": 43,
+    "rate": 0.25,
+    "baseline_rate": 0.1929,
+    "ci95": [
+     0.12676334942200781,
+     0.433560252407046
+    ],
+    "replicated": false,
+    "cost_per_game": 2.0204651162790697,
+    "lift": 1.2960082944530846,
+    "n_games": 44
+   },
+   {
+    "claim_id": "S1.missed_motif.trappedPiece.own",
+    "kind": "missed_motif",
+    "subject": "trappedPiece",
+    "distinct_games": 5,
+    "games_with_data": 43,
+    "rate": 0.4615,
+    "baseline_rate": 0.1859,
+    "ci95": [
+     0.2320575430148814,
+     0.7085656756816796
+    ],
+    "replicated": false,
+    "cost_per_game": 1.483720930232558,
+    "lift": 2.4825174825174825,
+    "n_games": 44
+   },
+   {
+    "claim_id": "S3.endgame_error.rook.own",
+    "kind": "endgame_error",
+    "subject": "rook",
+    "distinct_games": 3,
+    "games_with_data": 43,
+    "rate": 0.2619,
+    "baseline_rate": 0.1464,
+    "ci95": [
+     0.15302485372603591,
+     0.41069019984975563
+    ],
+    "replicated": true,
+    "cost_per_game": 3.9495348837209305,
+    "lift": 1.7889344262295084,
+    "n_games": 44
+   },
+   {
+    "claim_id": "S7.sacrificed_for_attack.own_move.own",
+    "kind": "sacrificed_for_attack",
+    "subject": "own_move",
+    "distinct_games": 5,
+    "games_with_data": 43,
+    "rate": 0.0212,
+    "baseline_rate": 0.0132,
+    "ci95": [
+     0.009082588371157985,
+     0.048628834501271145
+    ],
+    "replicated": false,
+    "cost_per_game": 0.0,
+    "lift": 1.606060606060606,
+    "n_games": 44
+   }
+  ],
+  "maxhayastan": [
+   {
+    "claim_id": "S8.allows_pressure.king.own",
+    "kind": "allows_pressure",
+    "subject": "king",
+    "distinct_games": 14,
+    "games_with_data": 44,
+    "rate": 0.0296,
+    "baseline_rate": 0.0196,
+    "ci95": [
+     0.02151548463019399,
+     0.0404681285898172
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.5102040816326532,
+    "n_games": 45
+   },
+   {
+    "claim_id": "S1.missed_motif.discoveredAttack.own",
+    "kind": "missed_motif",
+    "subject": "discoveredAttack",
+    "distinct_games": 6,
+    "games_with_data": 44,
+    "rate": 0.4167,
+    "baseline_rate": 0.169,
+    "ci95": [
+     0.24467347246538232,
+     0.6116566235061137
+    ],
+    "replicated": false,
+    "cost_per_game": 5.2704545454545455,
+    "lift": 2.465680473372781,
+    "n_games": 45
+   },
+   {
+    "claim_id": "S2.long_think_error.long_think.own",
+    "kind": "long_think_error",
+    "subject": "long_think",
+    "distinct_games": 25,
+    "games_with_data": 44,
+    "rate": 0.3925,
+    "baseline_rate": 0.2073,
+    "ci95": [
+     0.3052640308627042,
+     0.4872326490841749
+    ],
+    "replicated": false,
+    "cost_per_game": 15.412954545454545,
+    "lift": 1.893391220453449,
+    "n_games": 45
+   },
+   {
+    "claim_id": "S2.time_pressure_error.clock.own",
+    "kind": "time_pressure_error",
+    "subject": "clock",
+    "distinct_games": 14,
+    "games_with_data": 44,
+    "rate": 0.2561,
+    "baseline_rate": 0.218,
+    "ci95": [
+     0.19541060375812164,
+     0.32794951673643985
+    ],
+    "replicated": false,
+    "cost_per_game": 16.009090909090908,
+    "lift": 1.174770642201835,
+    "n_games": 45
+   },
+   {
+    "claim_id": "S3.endgame_error.queen.own",
+    "kind": "endgame_error",
+    "subject": "queen",
+    "distinct_games": 3,
+    "games_with_data": 44,
+    "rate": 0.4375,
+    "baseline_rate": 0.226,
+    "ci95": [
+     0.2309836333518552,
+     0.6682180439322347
+    ],
+    "replicated": true,
+    "cost_per_game": 2.5563636363636366,
+    "lift": 1.9358407079646016,
+    "n_games": 45
+   },
+   {
+    "claim_id": "S3.endgame_error.rook.own",
+    "kind": "endgame_error",
+    "subject": "rook",
+    "distinct_games": 5,
+    "games_with_data": 44,
+    "rate": 0.1964,
+    "baseline_rate": 0.1464,
+    "ci95": [
+     0.13344874797915993,
+     0.2795427852869552
+    ],
+    "replicated": true,
+    "cost_per_game": 9.613636363636363,
+    "lift": 1.3415300546448086,
+    "n_games": 45
+   }
+  ],
+  "simonvj": [
+   {
+    "claim_id": "S7.moved_into_attack.own_move.own",
+    "kind": "moved_into_attack",
+    "subject": "own_move",
+    "distinct_games": 41,
+    "games_with_data": 44,
+    "rate": 0.1479,
+    "baseline_rate": 0.1122,
+    "ci95": [
+     0.12717506639651677,
+     0.1713107854661436
+    ],
+    "replicated": true,
+    "cost_per_game": 14.202499999999999,
+    "lift": 1.3181818181818183,
+    "n_games": 45
+   },
+   {
+    "claim_id": "S1.allowed_motif.hangingPawn.own",
+    "kind": "allowed_motif",
+    "subject": "hangingPawn",
+    "distinct_games": 10,
+    "games_with_data": 44,
+    "rate": 0.0744,
+    "baseline_rate": 0.0471,
+    "ci95": [
+     0.04632312794748628,
+     0.11745560516358583
+    ],
+    "replicated": false,
+    "cost_per_game": 5.944318181818182,
+    "lift": 1.5796178343949043,
+    "n_games": 45
+   },
+   {
+    "claim_id": "S1.allowed_motif.hangingPiece.own",
+    "kind": "allowed_motif",
+    "subject": "hangingPiece",
+    "distinct_games": 18,
+    "games_with_data": 44,
+    "rate": 0.1023,
+    "baseline_rate": 0.0436,
+    "ci95": [
+     0.06854889119254981,
+     0.15006402335386182
+    ],
+    "replicated": true,
+    "cost_per_game": 6.961136363636364,
+    "lift": 2.346330275229358,
+    "n_games": 45
+   },
+   {
+    "claim_id": "S1.missed_motif.pin.own",
+    "kind": "missed_motif",
+    "subject": "pin",
+    "distinct_games": 16,
+    "games_with_data": 44,
+    "rate": 0.2951,
+    "baseline_rate": 0.1276,
+    "ci95": [
+     0.19554865403985322,
+     0.4188963935838945
+    ],
+    "replicated": true,
+    "cost_per_game": 6.268409090909091,
+    "lift": 2.31269592476489,
+    "n_games": 45
+   },
+   {
+    "claim_id": "S6.allows_square.outpost.own",
+    "kind": "allows_square",
+    "subject": "outpost",
+    "distinct_games": 10,
+    "games_with_data": 44,
+    "rate": 0.0112,
+    "baseline_rate": 0.0101,
+    "ci95": [
+     0.006253338860943308,
+     0.01990632074440233
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.108910891089109,
+    "n_games": 45
+   },
+   {
+    "claim_id": "S6.allows_square.rook_seventh.own",
+    "kind": "allows_square",
+    "subject": "rook_seventh",
+    "distinct_games": 9,
+    "games_with_data": 44,
+    "rate": 0.0112,
+    "baseline_rate": 0.0109,
+    "ci95": [
+     0.006253338860943308,
+     0.01990632074440233
+    ],
+    "replicated": true,
+    "cost_per_game": null,
+    "lift": 1.0275229357798166,
+    "n_games": 45
+   }
+  ]
+ }
+}

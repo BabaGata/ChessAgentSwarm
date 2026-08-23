@@ -1,0 +1,56 @@
+
+1. HOW OFTEN IS THE ONLY BLOCKER THE GAMES_WITH_DATA FLOOR?
+rule                           at 20 games   at 60 games
+--------------------------------------------------------
+absolute 20 (shipping)                  15             0
+fraction 0.90                            0             0
+fraction 0.80                            0             0
+fraction 0.70                            0             0
+
+2. WINDOW AGREEMENT - same claim, 20 games vs 60, same verdict?
+rule                             agree    of     rate
+-----------------------------------------------------
+absolute 20 (shipping)              55    83     66%
+fraction 0.90                       62    83     75%
+fraction 0.80                       62    83     75%
+fraction 0.70                       62    83     75%
+
+3. FOCUS_MARGIN SWEEP (at 60 games, fraction 0.80 for the games floor)
+  margin  advised  claims  kinds  material  top-claim share   S5 pooled back?
+------------------------------------------------------------------------------
+    1.10       10      40     13         8             30%     no (4 subdiv)
+    1.15       10      40     13         8             30%     no (4 subdiv)
+    1.20       10      40     13         8             30%     no (4 subdiv)
+    1.25       10      38     13         8             30%     no (4 subdiv)
+    1.30       10      37     12         8             30%     no (4 subdiv)
+    1.40       10      32     10         6             40%     no (4 subdiv)
+
+4. WHAT CHANGES AT 20 GAMES - claims admitted by each fix, named
+  games floor -> 0.80 of corpus: +15 claims
+      cademan              early_error.black                  lift 1.38x  cost 22.3  8/18 games
+      goydorak             early_error.white                  lift 1.34x  cost 19.4  9/19 games
+      cademan              allowed_motif.fork                   lift 2.73x  cost 17.5  11/18 games
+      cademan              long_think_error.long_think             lift 1.61x  cost 15.6  12/18 games
+      cademan              allowed_motif.hangingPiece           lift 1.84x  cost 15.1  9/18 games
+      maxhayastan          allowed_motif.pin                    lift 2.53x  cost 13.1  11/17 games
+      goydorak             allowed_motif.pin                    lift 2.92x  cost 11.6  12/19 games
+      bernes               allowed_motif.hangingPiece           lift 2.60x  cost 10.5  10/19 games
+
+  margin -> 1.15: +0 claims
+
+  both: +15 claims
+      cademan              early_error.black                  lift 1.38x  cost 22.3  8/18 games
+      goydorak             early_error.white                  lift 1.34x  cost 19.4  9/19 games
+      cademan              allowed_motif.fork                   lift 2.73x  cost 17.5  11/18 games
+      cademan              long_think_error.long_think             lift 1.61x  cost 15.6  12/18 games
+      cademan              allowed_motif.hangingPiece           lift 1.84x  cost 15.1  9/18 games
+      maxhayastan          allowed_motif.pin                    lift 2.53x  cost 13.1  11/17 games
+      goydorak             allowed_motif.pin                    lift 2.92x  cost 11.6  12/19 games
+      bernes               allowed_motif.hangingPiece           lift 2.60x  cost 10.5  10/19 games
+
+   players with nothing assertable at 60 games: ['Odin5306', 'Sheriwoyama']
+
+5. COST
+   the sweep re-derives tiers in memory; the engine ran twice per player
+   candidates collected: 122 at 20 games, 123 at 60
+   median games_with_data at 20-game window: 20
