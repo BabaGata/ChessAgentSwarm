@@ -1,67 +1,64 @@
 ﻿Report for Crossfire1983
-60 games (2026.08.07 to 2026.08.10), rating band 1400-1800
+20 games (2026.08.10 to 2026.08.10), rating band 1400-1800
 
 WHAT STANDS OUT
 
-1. You let opponents establish a rook on your second rank more often than players at your level.
+1. Attacks build against your king more readily than against players at your level.
 
-   How often   2% of the time, against 1% for players at your level
-   Seen in     18 of 60 games
-   For example game AUMaACdN, move 19, you played d5d7
-   For example game BwJc2w5g, move 30, you played g1g2
-   For example game KgGYixR0, move 27, you played d2f3
+   How often   5% of the time, against 2% for players at your level
+   Seen in     12 of 20 games
+   For example game HCSdfcrh, move 19, you played e8f7
+   For example game UJQuSlPA, move 24, you played a1e1
+   For example game kQQwhms8, move 46, you played e4f3
 
-2. You go wrong more often than most when you are already better.
+2. When you go wrong, it is often a pawn you simply drop.
 
-   Ordinary for your level, and still what these mistakes cost you most.
+   How often   12% of the time, against 8% for players at your level
+   Seen in     10 of 20 games
+   Costing you about 9.9 points of win probability a game.
+   Players at your level lose about 6.8 to the same thing, so roughly
+   3.1 a game is what fixing this could get back.
+   For example game HCSdfcrh, move 22, you played h8e8 (d3h7 was better)
+   For example game SuvK6tPc, move 10, you played g8f6 (f1c4 was better)
+   For example game UJQuSlPA, move 6, you played e5f6 (g8f6 was better)
 
-   How often   32% of the time, against 30% for players at your level
-   Seen in     36 of 60 games
-   Costing you about 37.7 points of win probability a game.
-   Players at your level lose about 29.2 to the same thing, so roughly
-   8.5 a game is what fixing this could get back.
-   For example game cJek1p4R, move 20, you played f6f5 (d5c3 was better)
-   For example game hBYiWbs2, move 9, you played e5d4 (f8b4 was better)
-   For example game kj2tmlAy, move 61, you played e6e7 (e6d5 was better)
-
-3. You go wrong early as Black.
+3. You put the piece you have just moved on a square where it can be won, more often than players at your level.
 
    Ordinary for your level, and still what these mistakes cost you most.
 
-   How often   30% of the time, against 27% for players at your level
-   Seen in     29 of 60 games
-   Costing you about 18.3 points of win probability a game.
-   Players at your level lose about 16.9 to the same thing, so roughly
-   1.4 a game is what fixing this could get back.
-   For example game DNNAmw5J, move 8, you played b7b6 (f8d6 was better)
-   For example game VaWiK76d, move 8, you played b4c3 (d8e7 was better)
-   For example game cJek1p4R, move 6, you played c7c5 (f8d6 was better)
+   How often   13% of the time, against 12% for players at your level
+   Seen in     19 of 20 games
+   Costing you about 21.6 points of win probability a game.
+   Players at your level lose about 12.7 to the same thing, so roughly
+   8.9 a game is what fixing this could get back.
+   For example game UHtZUK7r, move 27, you played a3b4 (c3b4 was better)
+   For example game UJQuSlPA, move 6, you played e5f6 (f1b5 was better)
+   For example game VaWiK76d, move 14, you played g4f3 (f6e4 was better)
 
 WHAT TO DO
 
-1. Before a pawn move, ask which square it gives up for good — a pawn cannot come back. In the cited games, find the move where the square your opponent later occupied stopped being defensible.
-   Why    seen in 18 of 60 games, at 1.8% against 1.1% for peers at your level
+1. In the cited positions, count your opponent's pieces that can reach your king and compare it with your own defenders. The move to find is the one before they got a third attacker there — that is where the game turned, not the move the attack landed on.
+   Why    seen in 12 of 20 games, at 4.9% against 2.0% for peers at your level
    Start  Do this one first — the others can wait their turn.
 
-2. When you are clearly better, slow down rather than speed up: take the safe line over the quick one, and check your opponent's reply before every move.
-   Why    seen in 36 of 60 games, at 32.4% against 29.8% for peers at your level
-   Note   Ordinary for your level, and still what these mistakes cost you most.
+2. After choosing a move and before playing it, check every pawn you own that no longer has a defender. Dropped pawns rarely lose a game on their own and they are what your mistakes are most often costing you.
+   Why    seen in 10 of 20 games, at 12.2% against 7.6% for peers at your level
 
-3. Play through your own first fifteen moves afterwards, without an engine, and write down where you stopped knowing what you were doing — that move is the edge of your repertoire and it is the one worth learning.
-   Why    seen in 29 of 60 games, at 29.6% against 26.6% for peers at your level
+3. Before you let go of a piece, ask one question about the square you are putting it on: what attacks it, and what defends it. Not the whole position -- one square, every move.
+   Why    seen in 19 of 20 games, at 12.8% against 11.6% for peers at your level
    Note   Ordinary for your level, and still what these mistakes cost you most.
 
 WHAT WOULD SHOW IT WORKED
 
- - moves that let your opponent establish a rook on your second rank: below 1% over your next 20 games
- - mistakes made while you are winning: below 18% over your next 20 games
- - mistakes before move 15 as Black: below 17% over your next 20 games
+ - moves that let an attack build against your king: below 2% over your next 20 games
+ - pawns dropped when you go wrong: below 5% over your next 20 games
+ - moves that leave the piece you moved takeable: below 7% over your next 20 games
 
 WHAT YOUR WHOLE LEVEL LOSES MOST TO
 
- - Players at your level lose about 32.9 points of win probability a game to moves played in under two seconds.
- - Players at your level lose about 16.9 points of win probability a game to mistakes before move 15 with White.
- - Players at your level lose about 16.9 points of win probability a game to mistakes before move 15 with Black.
+ - Players at your level lose about 33.7 points of win probability a game to moves played in under two seconds.
+ - Players at your level lose about 17.0 points of win probability a game to mistakes before move 15 with White.
+ - Players at your level lose about 17.0 points of win probability a game to mistakes before move 15 with Black.
 
    These are not findings about you — they are what the whole rating band
    loses most to, and the stronger players in it lose less. Your own one or

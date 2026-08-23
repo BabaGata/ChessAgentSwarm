@@ -1,5 +1,5 @@
 ﻿Report for bernes
-53 games (2026.02.01 to 2026.07.30), rating band 1400-1800
+19 games (2026.03.31 to 2026.07.30), rating band 1400-1800
 
 WHAT COSTS YOU MOST
 
@@ -7,65 +7,65 @@ Nothing in your games is unusual for your rating band — measured against
 players at your level, you are where you should be. So these are ranked by
 what they cost you rather than by what makes you different.
 
-1. When you go wrong, it is often a hanging piece that punishes you.
+1. You go wrong early as White.
 
    Ordinary for your level, and still what these mistakes cost you most.
 
-   How often   11% of the time, against 8% for players at your level
-   Seen in     20 of 53 games
-   Costing you about 9.4 points of win probability a game.
-   Players at your level lose about 10.2 to the same thing, so this is
+   How often   27% of the time, against 27% for players at your level
+   Seen in     10 of 19 games
+   Costing you about 14.6 points of win probability a game.
+   Players at your level lose about 17.1 to the same thing, so this is
    not costing you your rating — it is costing you the next one.
-   For example game 67QVbxrB, move 15, you played c4b3 (c1c8 was better)
-   For example game CUusrqnj, move 13, you played d7e5 (d4e5 was better)
-   For example game EGKTN6wj, move 22, you played d2e4 (d5e4 was better)
+   For example game 3g6KpqF3, move 10, you played b1c3 (d1c2 was better)
+   For example game V84zhTJT, move 11, you played c1b2 (b1c3 was better)
+   For example game XkSr9VDj, move 7, you played b1d2 (c3c4 was better)
 
-2. Your play falls off in minor-piece endgames.
-
-   Ordinary for your level, and still what these mistakes cost you most.
-
-   How often   29% of the time, against 19% for players at your level
-   Seen in     3 of 53 games
-   Costing you about 6.3 points of win probability a game.
-   Players at your level lose about 2.7 to the same thing, so roughly
-   3.5 a game is what fixing this could get back.
-   For example game 6Rgq7QIU, move 50, you played h4g3 (a3a4 was better)
-   For example game Pr0oM0QR, move 45, you played c3d5 (g8f7 was better)
-   For example game swDGGhHI, move 27, you played e4e5 (c3d5 was better)
-
-3. You miss fork tactics that were available.
+2. When you go wrong, it is often a hanging piece that punishes you.
 
    Ordinary for your level, and still what these mistakes cost you most.
 
-   How often   48% of the time, against 35% for players at your level
-   Seen in     10 of 53 games
-   Costing you about 5.0 points of win probability a game.
-   Players at your level lose about 4.0 to the same thing, so roughly
-   1.0 a game is what fixing this could get back.
-   For example game 2hJaVpb7, move 17, you played e3e4 (c5b7 was better)
-   For example game 2hJaVpb7, move 32, you played f7d8 (h8e8 was better)
-   For example game cZ8EWhYi, move 19, you played f7g8 (c6b4 was better)
+   How often   12% of the time, against 8% for players at your level
+   Seen in     10 of 19 games
+   Costing you about 10.5 points of win probability a game.
+   Players at your level lose about 10.2 to the same thing, so roughly
+   0.3 a game is what fixing this could get back.
+   For example game 3b3fnPO5, move 19, you played b2f6 (h7f6 was better)
+   For example game CnRTxl8D, move 29, you played c8c3 (g3c3 was better)
+   For example game V84zhTJT, move 14, you played d1d8 (c8d8 was better)
+
+3. Your play falls off in rook-and-minor endgames.
+
+   Ordinary for your level, and still what these mistakes cost you most.
+
+   How often   28% of the time, against 23% for players at your level
+   Seen in     3 of 19 games
+   Costing you about 7.2 points of win probability a game.
+   Players at your level lose about 4.3 to the same thing, so roughly
+   2.8 a game is what fixing this could get back.
+   For example game EGKTN6wj, move 42, you played f1e2 (b7f7 was better)
+   For example game XkSr9VDj, move 45, you played c4d4 (c4b4 was better)
+   For example game XkSr9VDj, move 52, you played d5e4 (d5c5 was better)
 
 WHAT TO DO
 
-1. Before committing a move, ask what your opponent's best reply threatens; a hanging piece is what has been punishing you.
-   Why    seen in 20 of 53 games, at 10.8% against 8.4% for peers at your level
+1. Play through your own first fifteen moves afterwards, without an engine, and write down where you stopped knowing what you were doing — that move is the edge of your repertoire and it is the one worth learning.
+   Why    seen in 10 of 19 games, at 26.6% against 26.6% for peers at your level
    Note   Ordinary for your level, and still what these mistakes cost you most.
    Start  Do this one first — the others can wait their turn.
 
-2. Study minor-piece endgames — start with the basic winning and drawing methods rather than with studies, and play out the positions you got wrong.
-   Why    seen in 3 of 53 games, at 29.0% against 19.4% for peers at your level
+2. Before committing a move, ask what your opponent's best reply threatens; a hanging piece is what has been punishing you.
+   Why    seen in 10 of 19 games, at 12.3% against 8.4% for peers at your level
    Note   Ordinary for your level, and still what these mistakes cost you most.
 
-3. Drill `fork` puzzles, and solve to be right rather than fast — review every one you get wrong.
-   Why    seen in 10 of 53 games, at 48.4% against 35.1% for peers at your level
+3. Study rook-and-minor endgames — start with the basic winning and drawing methods rather than with studies, and play out the positions you got wrong.
+   Why    seen in 3 of 19 games, at 28.1% against 22.5% for peers at your level
    Note   Ordinary for your level, and still what these mistakes cost you most.
 
 WHAT WOULD SHOW IT WORKED
 
+ - mistakes before move 15 as White: below 15% over your next 20 games
  - hanging piece conceded when you go wrong: below 5% over your next 20 games
- - mistakes in minor-piece endgames: below 11% over your next 35 games
- - fork missed when available: below 22% over your next 69 games
+ - mistakes in rook-and-minor endgames: below 12% over your next 24 games
 
 WHAT YOUR WHOLE LEVEL LOSES MOST TO
 
@@ -79,8 +79,7 @@ WHAT YOUR WHOLE LEVEL LOSES MOST TO
 
 WHAT THIS DOES NOT KNOW
 
- - 4 of your games were left out because you berserked them — with half your clock, the mistakes are about the handicap rather than about you.
- - 1 of your games were left out because they were abandoned before a real game happened.
+ - 1 of your games were left out because you berserked them — with half your clock, the mistakes are about the handicap rather than about you.
  - This is measured from your own games and nothing else — it says what happened, not why, except where a probe asked you directly.
  - Rates are compared with players in your rating band, so they say you are unusual, not that you are bad.
  - Nothing here estimates your potential or your ceiling, because nothing here could.

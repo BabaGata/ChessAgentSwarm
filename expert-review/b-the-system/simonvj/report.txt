@@ -1,64 +1,71 @@
 ﻿Report for simonvj
-45 games (2026.08.09 to 2026.08.10), rating band 1400-1800
+20 games (2026.08.10 to 2026.08.10), rating band 1400-1800
 
-WHAT STANDS OUT
+WHAT COSTS YOU MOST
 
-1. You put the piece you have just moved on a square where it can be won, more often than players at your level.
+Nothing in your games is unusual for your rating band — measured against
+players at your level, you are where you should be. So these are ranked by
+what they cost you rather than by what makes you different.
 
-   How often   15% of the time, against 11% for players at your level
-   Seen in     41 of 44 games
-   Costing you about 14.1 points of win probability a game.
+1. Your long thinks tend to end in a mistake.
+
+   Ordinary for your level, and still what these mistakes cost you most.
+
+   How often   40% of the time, against 35% for players at your level
+   Seen in     12 of 20 games
+   Costing you about 24.5 points of win probability a game.
+   Players at your level lose about 22.5 to the same thing, so roughly
+   2.0 a game is what fixing this could get back.
+   For example game 29CxQRJu, move 15, you played d1a4 (c3c4 was better)
+   For example game 3kdaqzAV, move 25, you played d4e3 (b3b4 was better)
+   For example game EYvvW4kX, move 19, you played b1c3 (b1d2 was better)
+
+2. You put the piece you have just moved on a square where it can be won, more often than players at your level.
+
+   Ordinary for your level, and still what these mistakes cost you most.
+
+   How often   13% of the time, against 11% for players at your level
+   Seen in     19 of 20 games
+   Costing you about 12.9 points of win probability a game.
    Players at your level lose about 10.7 to the same thing, so roughly
-   3.4 a game is what fixing this could get back.
-   For example game F8fRxDpL, move 28, you played a7a2 (a7b7 was better)
-   For example game QonAB7mj, move 12, you played c5b4 (a5c7 was better)
-   For example game R4HBrccz, move 23, you played f3e1
+   2.2 a game is what fixing this could get back.
+   For example game 29CxQRJu, move 6, you played c4d5 (e4e5 was better)
+   For example game 29CxQRJu, move 19, you played a3e7
+   For example game JSKQNI8L, move 17, you played c4b3 (f6h5 was better)
 
-2. You miss pin tactics that were available.
+3. You miss pin tactics that were available.
 
    Ordinary for your level, and still what these mistakes cost you most.
 
-   How often   30% of the time, against 28% for players at your level
-   Seen in     17 of 44 games
-   Costing you about 6.9 points of win probability a game.
+   How often   32% of the time, against 28% for players at your level
+   Seen in     8 of 20 games
+   Costing you about 8.5 points of win probability a game.
    Players at your level lose about 6.7 to the same thing, so roughly
-   0.2 a game is what fixing this could get back.
+   1.8 a game is what fixing this could get back.
+   For example game 6iNu6ltz, move 19, you played f4h5 (d5b3 was better)
    For example game F8fRxDpL, move 26, you played f7d6 (b7a7 was better)
-   For example game FvSH0ORj, move 20, you played e4g3 (d6f4 was better)
-   For example game QonAB7mj, move 21, you played f6d5 (c5d4 was better)
-
-3. When you go wrong, it is often a hanging piece that punishes you.
-
-   Ordinary for your level, and still what these mistakes cost you most.
-
-   How often   10% of the time, against 8% for players at your level
-   Seen in     17 of 44 games
-   Costing you about 6.8 points of win probability a game.
-   Players at your level lose about 8.4 to the same thing, so this is
-   not costing you your rating — it is costing you the next one.
-   For example game J5gd4sb6, move 24, you played d5b4 (c5b4 was better)
-   For example game JSKQNI8L, move 18, you played f6g4 (d1g4 was better)
-   For example game KIFGwPUo, move 23, you played g6g5 (e4f5 was better)
+   For example game kqTAfT2U, move 17, you played e2g3 (d1d5 was better)
 
 WHAT TO DO
 
-1. Before you let go of a piece, ask one question about the square you are putting it on: what attacks it, and what defends it. Not the whole position -- one square, every move.
-   Why    seen in 41 of 44 games, at 14.8% against 11.2% for peers at your level
+1. When a think runs long, stop and choose between your two best candidate moves rather than searching for a third.
+   Why    seen in 12 of 20 games, at 40.3% against 35.4% for peers at your level
+   Note   Ordinary for your level, and still what these mistakes cost you most.
    Start  Do this one first — the others can wait their turn.
 
-2. Drill `pin` puzzles, and solve to be right rather than fast — review every one you get wrong.
-   Why    seen in 17 of 44 games, at 29.7% against 27.7% for peers at your level
+2. Before you let go of a piece, ask one question about the square you are putting it on: what attacks it, and what defends it. Not the whole position -- one square, every move.
+   Why    seen in 19 of 20 games, at 13.4% against 11.2% for peers at your level
    Note   Ordinary for your level, and still what these mistakes cost you most.
 
-3. Before committing a move, ask what your opponent's best reply threatens; a hanging piece is what has been punishing you.
-   Why    seen in 17 of 44 games, at 10.5% against 7.6% for peers at your level
+3. Drill `pin` puzzles, and solve to be right rather than fast — review every one you get wrong.
+   Why    seen in 8 of 20 games, at 32.3% against 27.7% for peers at your level
    Note   Ordinary for your level, and still what these mistakes cost you most.
 
 WHAT WOULD SHOW IT WORKED
 
- - moves that leave the piece you moved takeable: below 8% over your next 20 games
- - pin missed when available: below 17% over your next 28 games
- - hanging piece conceded when you go wrong: below 5% over your next 20 games
+ - mistakes after a long think: below 22% over your next 20 games
+ - moves that leave the piece you moved takeable: below 7% over your next 20 games
+ - pin missed when available: below 17% over your next 26 games
 
 WHAT YOUR WHOLE LEVEL LOSES MOST TO
 

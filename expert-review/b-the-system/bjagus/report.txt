@@ -1,61 +1,55 @@
 ﻿Report for bjagus
-54 games (2026.05.20 to 2026.07.29), rating band 1400-1800
+20 games (2026.06.28 to 2026.07.29), rating band 1400-1800
 
 WHAT STANDS OUT
 
-1. You let opponents establish a knight you cannot chase away more often than players at your level.
+1. You go wrong more often than most when you are already better.
+
+   How often   43% of the time, against 30% for players at your level
+   Seen in     14 of 20 games
+   Costing you about 46.6 points of win probability a game.
+   Players at your level lose about 29.4 to the same thing, so roughly
+   17.2 a game is what fixing this could get back.
+   For example game KfSRDWUO, move 10, you played d1d2 (b1c3 was better)
+   For example game cAPWWpqR, move 43, you played f5g4 (h4h3 was better)
+   For example game dLJ7B7qB, move 20, you played b4b5 (f3d1 was better)
+
+2. You go wrong early as White.
+
+   How often   39% of the time, against 27% for players at your level
+   Seen in     8 of 20 games
+   Costing you about 23.0 points of win probability a game.
+   Players at your level lose about 17.1 to the same thing, so roughly
+   5.8 a game is what fixing this could get back.
+   For example game 3JoG4ezs, move 15, you played g2d5 (b4b5 was better)
+   For example game EeCq444F, move 13, you played d2e3 (h2h4 was better)
+   For example game PuSoIqHt, move 14, you played f2f4 (b2b4 was better)
+
+3. You let opponents establish a knight you cannot chase away more often than players at your level.
 
    How often   2% of the time, against 1% for players at your level
-   Seen in     21 of 54 games
-   For example game 0roYp34w, move 23, you played f4e5
-   For example game 6lzD0xS3, move 38, you played g5f5
+   Seen in     9 of 20 games
+   For example game 3JoG4ezs, move 30, you played c1d2
    For example game KfSRDWUO, move 50, you played f1d2
-
-2. When you go wrong, it is often a fork that punishes you.
-
-   Ordinary for your level, and still what these mistakes cost you most.
-
-   How often   8% of the time, against 6% for players at your level
-   Seen in     16 of 54 games
-   Costing you about 13.1 points of win probability a game.
-   Players at your level lose about 6.9 to the same thing, so roughly
-   6.2 a game is what fixing this could get back.
-   For example game 6lzD0xS3, move 31, you played f5g4 (f3e5 was better)
-   For example game PVKGuNyz, move 14, you played e2e5 (c5d3 was better)
-   For example game Qm07J5oM, move 35, you played d8c8 (e2b5 was better)
-
-3. You put the piece you have just moved on a square where it can be won, more often than players at your level.
-
-   Ordinary for your level, and still what these mistakes cost you most.
-
-   How often   12% of the time, against 12% for players at your level
-   Seen in     52 of 54 games
-   Costing you about 12.4 points of win probability a game.
-   Players at your level lose about 12.8 to the same thing, so this is
-   not costing you your rating — it is costing you the next one.
-   For example game 2jVB3ZGU, move 8, you played d4e5 (b2b4 was better)
-   For example game 3oXp4eQY, move 40, you played g5h4 (h6f5 was better)
-   For example game BzkJTPhs, move 15, you played d4c5 (d3f5 was better)
+   For example game cAPWWpqR, move 19, you played c5d4
 
 WHAT TO DO
 
-1. Before a pawn move, ask which square it gives up for good — a pawn cannot come back. In the cited games, find the move where the square your opponent later occupied stopped being defensible.
-   Why    seen in 21 of 54 games, at 1.9% against 1.1% for peers at your level
+1. When you are clearly better, slow down rather than speed up: take the safe line over the quick one, and check your opponent's reply before every move.
+   Why    seen in 14 of 20 games, at 43.2% against 30.1% for peers at your level
    Start  Do this one first — the others can wait their turn.
 
-2. Before committing a move, ask what your opponent's best reply threatens; a fork is what has been punishing you.
-   Why    seen in 16 of 54 games, at 8.0% against 5.8% for peers at your level
-   Note   Ordinary for your level, and still what these mistakes cost you most.
+2. Play through your own first fifteen moves afterwards, without an engine, and write down where you stopped knowing what you were doing — that move is the edge of your repertoire and it is the one worth learning.
+   Why    seen in 8 of 20 games, at 38.8% against 26.6% for peers at your level
 
-3. Before you let go of a piece, ask one question about the square you are putting it on: what attacks it, and what defends it. Not the whole position -- one square, every move.
-   Why    seen in 52 of 54 games, at 12.4% against 11.7% for peers at your level
-   Note   Ordinary for your level, and still what these mistakes cost you most.
+3. Before a pawn move, ask which square it gives up for good — a pawn cannot come back. In the cited games, find the move where the square your opponent later occupied stopped being defensible.
+   Why    seen in 9 of 20 games, at 2.2% against 1.1% for peers at your level
 
 WHAT WOULD SHOW IT WORKED
 
+ - mistakes made while you are winning: below 22% over your next 20 games
+ - mistakes before move 15 as White: below 20% over your next 20 games
  - moves that let your opponent establish a knight you cannot chase away: below 1% over your next 20 games
- - fork conceded when you go wrong: below 4% over your next 20 games
- - moves that leave the piece you moved takeable: below 7% over your next 20 games
 
 WHAT YOUR WHOLE LEVEL LOSES MOST TO
 

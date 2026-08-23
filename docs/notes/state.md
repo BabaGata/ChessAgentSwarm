@@ -206,6 +206,15 @@ This is what actually moved this cycle.
    **recovers from +0.19 to +0.54**, the gate having been noise on that measurement. Also surfaced: the **two strongest players
    (1981, 2033) are the only two with nothing assertable at 60 games.**
 
+0. **P0 — Review pack rebuilt to match the reviewer's window.** **Done 2026-08-20.** E39's
+   amendment, outstanding since 2026-08-19, executed by
+   `experiments/e28-expert-review/regenerate.py` (report.txt only; `prepare.py` would re-sample the
+   pack and overwrite the forms). All twelve reports rebuilt from the **same 20 games the reviewer
+   read**, 17–20 after hygiene. No Form B/C existed to invalidate. **8 of 12 now lead with a
+   peer-relative finding** rather than a cost-pool one, and the most-named leading claim is 2/12
+   against 3/12. **The reviewer's six annotated players should be re-graded against these**, since
+   their Form A readings remain valid but the reports they will be judged against have changed.
+
 0. **P0 — D15, defect (a): the five material claims that never become candidates** — now the only
    untouched part, and after E42 and E43 the largest remaining one. A detector-threshold question
    ([[experiments.e31-move-level-agreement]], [[experiments.e32-hanging-pawn-screen]]), not a

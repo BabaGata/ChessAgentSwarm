@@ -1,57 +1,64 @@
 ﻿Report for Hirsican
-60 games (2026.08.08 to 2026.08.10), rating band 1400-1800
+20 games (2026.08.10 to 2026.08.10), rating band 1400-1800
 
 WHAT STANDS OUT
 
-1. You end up with isolated pawns more often than players at your level.
+1. When you go wrong, it is often a fork that punishes you.
 
-   How often   4% of the time, against 2% for players at your level
-   Seen in     41 of 60 games
-   For example game 98JrKGMj, move 15, you played g2h3
-   For example game QwF4g8R7, move 13, you played b7c6
-   For example game rZRSwVcG, move 15, you played c5d4
+   How often   12% of the time, against 6% for players at your level
+   Seen in     13 of 20 games
+   Costing you about 23.3 points of win probability a game.
+   Players at your level lose about 6.9 to the same thing, so roughly
+   16.4 a game is what fixing this could get back.
+   For example game 3pPHPEC4, move 26, you played b2b3 (d5c3 was better)
+   For example game 5853VxPL, move 33, you played d7e7 (d4f5 was better)
+   For example game 8zsVzk0T, move 15, you played c1g5 (e7e4 was better)
 
-2. When you go wrong, it is often a pawn you simply drop.
+2. You go wrong more often than most when you are already better.
 
-   How often   10% of the time, against 8% for players at your level
-   Seen in     26 of 60 games
-   Costing you about 10.8 points of win probability a game.
-   Players at your level lose about 6.8 to the same thing, so roughly
-   4.0 a game is what fixing this could get back.
-   For example game 7Z8v3NMH, move 18, you played c5e4 (c7c4 was better)
-   For example game 98JrKGMj, move 24, you played c4e2 (f4a4 was better)
-   For example game BFRr53W3, move 14, you played d4e5 (g6e5 was better)
+   Ordinary for your level, and still what these mistakes cost you most.
 
-3. You give up material to get at the enemy king more often than players at your level.
+   How often   33% of the time, against 30% for players at your level
+   Seen in     14 of 20 games
+   Costing you about 56.6 points of win probability a game.
+   Players at your level lose about 29.4 to the same thing, so roughly
+   27.2 a game is what fixing this could get back.
+   For example game 8zsVzk0T, move 28, you played a1b1 (d2h6 was better)
+   For example game 9bsVByg5, move 13, you played f1d3 (d4c6 was better)
+   For example game BFRr53W3, move 9, you played d2d3 (f2f5 was better)
 
-   How often   3% of the time, against 1% for players at your level
-   Seen in     8 of 60 games
-   Costing you about 3.0 points of win probability a game.
-   Players at your level lose about 0.9 to the same thing, so roughly
-   2.1 a game is what fixing this could get back.
-   For example game 7Z8v3NMH, move 26, you played d4e6 (f3d2 was better)
-   For example game BFRr53W3, move 72, you played h8h2 (h8g8 was better)
-   For example game BudxKh61, move 33, you played f7g7 (d4f6 was better)
+3. Your long thinks tend to end in a mistake.
 
-(3 further patterns were found but not prioritised — working on one or two things at a time is the point.)
+   Ordinary for your level, and still what these mistakes cost you most.
+
+   How often   43% of the time, against 38% for players at your level
+   Seen in     16 of 20 games
+   Costing you about 33.2 points of win probability a game.
+   Players at your level lose about 21.7 to the same thing, so roughly
+   11.5 a game is what fixing this could get back.
+   For example game 9bsVByg5, move 27, you played h3f3 (d4c4 was better)
+   For example game CCoHBALM, move 14, you played f8e7 (g8f6 was better)
+   For example game KVh1nudO, move 20, you played d8b8 (f5d4 was better)
 
 WHAT TO DO
 
-1. In the cited positions, ask whether you chose the structure or simply allowed it. Conceding a weakness for something concrete is fine; doing it without noticing is the habit worth changing.
-   Why    seen in 41 of 60 games, at 4.3% against 2.3% for peers at your level
+1. Before committing a move, ask what your opponent's best reply threatens; a fork is what has been punishing you.
+   Why    seen in 13 of 20 games, at 11.8% against 5.8% for peers at your level
    Start  Do this one first — the others can wait their turn.
 
-2. After choosing a move and before playing it, check every pawn you own that no longer has a defender. Dropped pawns rarely lose a game on their own and they are what your mistakes are most often costing you.
-   Why    seen in 26 of 60 games, at 10.5% against 7.7% for peers at your level
+2. When you are clearly better, slow down rather than speed up: take the safe line over the quick one, and check your opponent's reply before every move.
+   Why    seen in 14 of 20 games, at 33.3% against 30.1% for peers at your level
+   Note   Ordinary for your level, and still what these mistakes cost you most.
 
-3. Before giving material up for an attack, name the follow-up: which piece joins next, and on which square. If you cannot name it in one sentence, the attack is a hope rather than a plan. Go through the cited games and check which ones you could have answered.
-   Why    seen in 8 of 60 games, at 2.7% against 1.3% for peers at your level
+3. When a think runs long, stop and choose between your two best candidate moves rather than searching for a third.
+   Why    seen in 16 of 20 games, at 42.6% against 38.2% for peers at your level
+   Note   Ordinary for your level, and still what these mistakes cost you most.
 
 WHAT WOULD SHOW IT WORKED
 
- - moves that leave you with isolated pawns: below 2% over your next 20 games
- - pawns dropped when you go wrong: below 5% over your next 20 games
- - material given up to attack the king: below 1% over your next 20 games
+ - fork conceded when you go wrong: below 5% over your next 20 games
+ - mistakes made while you are winning: below 18% over your next 20 games
+ - mistakes after a long think: below 23% over your next 20 games
 
 WHAT YOUR WHOLE LEVEL LOSES MOST TO
 

@@ -1,66 +1,58 @@
 ﻿Report for Odin5306
-56 games (2026.05.27 to 2026.08.04), rating band 1400-1800
+20 games (2026.07.22 to 2026.08.04), rating band 1400-1800
 
-WHAT STANDS OUT
+WHAT COSTS YOU MOST
 
-1. Attacks build against your king more readily than against players at your level.
+Nothing in your games is unusual for your rating band — measured against
+players at your level, you are where you should be. So these are ranked by
+what they cost you rather than by what makes you different.
 
-   How often   3% of the time, against 2% for players at your level
-   Seen in     20 of 56 games
-   For example game 4WAdsucA, move 28, you played h5f4
-   For example game NimtYaGU, move 39, you played d2c3
-   For example game mY9XJS1y, move 28, you played f2g1
+1. You put the piece you have just moved on a square where it can be won, more often than players at your level.
+
+   Ordinary for your level, and still what these mistakes cost you most.
+
+   How often   12% of the time, against 12% for players at your level
+   Seen in     19 of 20 games
+   Costing you about 6.4 points of win probability a game.
+   Players at your level lose about 12.7 to the same thing, so this is
+   not costing you your rating — it is costing you the next one.
+   For example game GlBblfsS, move 22, you played b3c1
+   For example game LZH9NLtu, move 24, you played d8d1
+   For example game Nx5KGmeB, move 11, you played b4c3
 
 2. When you go wrong, it is often a trapped piece that punishes you.
 
    Ordinary for your level, and still what these mistakes cost you most.
 
-   How often   4% of the time, against 3% for players at your level
-   Seen in     11 of 56 games
-   Costing you about 4.3 points of win probability a game.
+   How often   6% of the time, against 3% for players at your level
+   Seen in     4 of 20 games
+   Costing you about 5.3 points of win probability a game.
    Players at your level lose about 3.1 to the same thing, so roughly
-   1.1 a game is what fixing this could get back.
-   For example game 4EZswhjx, move 18, you played d5e6 (b7e7 was better)
-   For example game 6SDh3ygT, move 44, you played g2f3 (g6g1 was better)
-   For example game 97GRiykY, move 16, you played e6d5 (d1d5 was better)
-
-3. Away from the kings, exchanges you start turn out to lose material more often than they do for players at your level.
-
-   Ordinary for your level, and still what these mistakes cost you most.
-
-   How often   2% of the time, against 2% for players at your level
-   Seen in     8 of 56 games
-   Costing you about 0.8 points of win probability a game.
-   Players at your level lose about 1.3 to the same thing, so this is
-   not costing you your rating — it is costing you the next one.
-   For example game 97GRiykY, move 22, you played e8e7 (g7f6 was better)
-   For example game GlBblfsS, move 24, you played c8c1
-   For example game HfHWPjFM, move 34, you played e3f5
+   2.2 a game is what fixing this could get back.
+   For example game 9biHZYZy, move 40, you played a3a5 (e5e2 was better)
+   For example game NTj7ZwWU, move 18, you played c2c3 (b7b5 was better)
+   For example game NTj7ZwWU, move 22, you played d1d2 (b7b5 was better)
 
 WHAT TO DO
 
-1. In the cited positions, count your opponent's pieces that can reach your king and compare it with your own defenders. The move to find is the one before they got a third attacker there — that is where the game turned, not the move the attack landed on.
-   Why    seen in 20 of 56 games, at 2.7% against 2.0% for peers at your level
+1. Before you let go of a piece, ask one question about the square you are putting it on: what attacks it, and what defends it. Not the whole position -- one square, every move.
+   Why    seen in 19 of 20 games, at 11.7% against 11.6% for peers at your level
+   Note   Ordinary for your level, and still what these mistakes cost you most.
    Start  Do this one first — the others can wait their turn.
 
 2. Before committing a move, ask what your opponent's best reply threatens; a trapped piece is what has been punishing you.
-   Why    seen in 11 of 56 games, at 4.5% against 2.9% for peers at your level
-   Note   Ordinary for your level, and still what these mistakes cost you most.
-
-3. Before starting an exchange, count both sides of it: every attacker you have on that square against every defender they have, cheapest first. In the cited games, count them again and see where the total went wrong.
-   Why    seen in 8 of 56 games, at 1.9% against 1.8% for peers at your level
+   Why    seen in 4 of 20 games, at 5.7% against 2.8% for peers at your level
    Note   Ordinary for your level, and still what these mistakes cost you most.
 
 WHAT WOULD SHOW IT WORKED
 
- - moves that let an attack build against your king: below 1% over your next 20 games
- - trapped piece conceded when you go wrong: below 2% over your next 20 games
- - exchanges you start away from the kings that lose material: below 1% over your next 20 games
+ - moves that leave the piece you moved takeable: below 7% over your next 20 games
+ - trapped piece conceded when you go wrong: below 3% over your next 20 games
 
 WHAT YOUR WHOLE LEVEL LOSES MOST TO
 
- - Players at your level lose about 34.1 points of win probability a game to moves played in under two seconds.
- - Players at your level lose about 17.1 points of win probability a game to mistakes before move 15 with White.
+ - Players at your level lose about 33.7 points of win probability a game to moves played in under two seconds.
+ - Players at your level lose about 17.0 points of win probability a game to mistakes before move 15 with White.
  - Players at your level lose about 17.0 points of win probability a game to mistakes before move 15 with Black.
 
    These are not findings about you — they are what the whole rating band
@@ -69,7 +61,6 @@ WHAT YOUR WHOLE LEVEL LOSES MOST TO
 
 WHAT THIS DOES NOT KNOW
 
- - 1 of your games were left out because they were abandoned before a real game happened.
  - This is measured from your own games and nothing else — it says what happened, not why, except where a probe asked you directly.
  - Rates are compared with players in your rating band, so they say you are unusual, not that you are bad.
  - Nothing here estimates your potential or your ceiling, because nothing here could.

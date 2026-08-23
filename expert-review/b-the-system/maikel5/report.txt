@@ -1,73 +1,71 @@
 ﻿Report for maikel5
-44 games (2024.07.10 to 2025.05.21), rating band 1400-1800
+18 games (2025.04.22 to 2025.05.21), rating band 1400-1800
 
-WHAT STANDS OUT
+WHAT COSTS YOU MOST
 
-1. Your play falls off when the clock is short.
+Nothing in your games is unusual for your rating band — measured against
+players at your level, you are where you should be. So these are ranked by
+what they cost you rather than by what makes you different.
 
-   Not because you play it badly — because you are in it so often.
-
-   How often   25% of the time, against 25% for players at your level
-   Seen in     14 of 43 games
-   You meet it about 5.4 times a game, against about 2.5 times for players at your level.
-   Costing you about 19.3 points of win probability a game.
-   Players at your level lose about 11.2 to the same thing, so roughly
-   8.1 a game is what fixing this could get back —
-   and what to change is how often you get there, not what you do
-   once you are there.
-   For example game EGOMa6lY, move 45, you played d5c5 (e5f3 was better)
-   For example game WGSxhODE, move 15, you played a1e1 (h3f4 was better)
-   For example game e7cTUscH, move 23, you played f7f5 (g7g5 was better)
-
-2. When you use up most of your clock before move 15, the rest of that game goes worse — the cost of a long think lands later, not on the move itself.
-
-   Not because you play it badly — because you are in it so often.
-
-   How often   25% of the time, against 35% for players at your level
-   Seen in     8 of 43 games
-   You meet it about 3.5 times a game, against about 0.6 times for players at your level.
-   Costing you about 9.8 points of win probability a game.
-   Players at your level lose about 3.3 to the same thing, so roughly
-   6.5 a game is what fixing this could get back —
-   and what to change is how often you get there, not what you do
-   once you are there.
-   For example game WGSxhODE, move 31, you played e2e3 (d2e1 was better)
-   For example game n78WmqCX, move 27, you played a6a5 (g6e7 was better)
-   For example game ssS6uIix, move 18, you played d1e1 (c2c3 was better)
-
-3. Your play falls off in rook-and-minor endgames.
+1. Your play falls off in rook-and-minor endgames.
 
    Ordinary for your level, and still what these mistakes cost you most.
 
-   How often   25% of the time, against 23% for players at your level
-   Seen in     6 of 43 games
-   Costing you about 5.4 points of win probability a game.
+   How often   32% of the time, against 23% for players at your level
+   Seen in     3 of 18 games
+   Costing you about 5.3 points of win probability a game.
    Players at your level lose about 4.3 to the same thing, so roughly
    1.0 a game is what fixing this could get back.
-   For example game EGOMa6lY, move 40, you played e6f8 (d8d7 was better)
+   For example game 5w0MJrWh, move 32, you played d5d4 (e5e4 was better)
+   For example game Rs4ZoM31, move 24, you played b5d3 (b7b6 was better)
    For example game Rs4ZoM31, move 25, you played c2c1 (c2e2 was better)
-   For example game e7cTUscH, move 28, you played d4b5 (d4f3 was better)
+
+2. When you go wrong, it is often a discovered attack that punishes you.
+
+   Ordinary for your level, and still what these mistakes cost you most.
+
+   How often   6% of the time, against 5% for players at your level
+   Seen in     3 of 18 games
+   Costing you about 2.9 points of win probability a game.
+   Players at your level lose about 4.6 to the same thing, so this is
+   not costing you your rating — it is costing you the next one.
+   For example game Rs4ZoM31, move 25, you played c2c1 (e1f2 was better)
+   For example game hgx0M7Ir, move 15, you played g7g5 (f3e5 was better)
+   For example game hgx0M7Ir, move 16, you played f6g6 (f3e5 was better)
+
+3. You miss capturing the defender tactics that were available.
+
+   Ordinary for your level, and still what these mistakes cost you most.
+
+   How often   27% of the time, against 23% for players at your level
+   Seen in     3 of 18 games
+   Costing you about 2.2 points of win probability a game.
+   Players at your level lose about 2.3 to the same thing, so this is
+   not costing you your rating — it is costing you the next one.
+   For example game 7pZmm5Em, move 28, you played c8f8 (h6c1 was better)
+   For example game FX7viBFV, move 19, you played c6a7 (c6d4 was better)
+   For example game wXt6gfTR, move 8, you played c4b3 (g5f6 was better)
 
 WHAT TO DO
 
-1. You play short-of-time positions about as well as anyone at your level, and you reach them far more often. The fix is upstream: give yourself a clock target for move 20 and take the sound move over the best one whenever you are behind it.
-   Why    seen in 14 of 43 games, at 24.9% against 25.1% for peers at your level
-   Note   Not because you play it badly — because you are in it so often.
+1. Study rook-and-minor endgames — start with the basic winning and drawing methods rather than with studies, and play out the positions you got wrong.
+   Why    seen in 3 of 18 games, at 32.0% against 22.5% for peers at your level
+   Note   Ordinary for your level, and still what these mistakes cost you most.
    Start  Do this one first — the others can wait their turn.
 
-2. Give yourself a clock target for move 15 — half your starting time still on it — and when you are behind that target, take the sound move over the best one until you are back on it.
-   Why    seen in 8 of 43 games, at 25.2% against 34.7% for peers at your level
-   Note   Not because you play it badly — because you are in it so often.
+2. Before committing a move, ask what your opponent's best reply threatens; a discovered attack is what has been punishing you.
+   Why    seen in 3 of 18 games, at 6.5% against 4.6% for peers at your level
+   Note   Ordinary for your level, and still what these mistakes cost you most.
 
-3. Study rook-and-minor endgames — start with the basic winning and drawing methods rather than with studies, and play out the positions you got wrong.
-   Why    seen in 6 of 43 games, at 25.0% against 22.5% for peers at your level
+3. Drill `capturingDefender` puzzles, and solve to be right rather than fast — review every one you get wrong.
+   Why    seen in 3 of 18 games, at 27.3% against 22.5% for peers at your level
    Note   Ordinary for your level, and still what these mistakes cost you most.
 
 WHAT WOULD SHOW IT WORKED
 
- - mistakes when short of time: below 14% over your next 20 games
- - mistakes after move 15 in games where the clock went early: below 15% over your next 20 games
- - mistakes in rook-and-minor endgames: below 12% over your next 31 games
+ - mistakes in rook-and-minor endgames: below 12% over your next 29 games
+ - discovered attack conceded when you go wrong: below 3% over your next 20 games
+ - capturing the defender missed when available: below 13% over your next 66 games
 
 WHAT YOUR WHOLE LEVEL LOSES MOST TO
 

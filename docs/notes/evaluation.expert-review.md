@@ -244,6 +244,19 @@ The reviewer reads 20 games; the reports in `b-the-system/` were built from ~50.
 pre-registered agreement test, as set up, measures **sampling mismatch as much as diagnostic
 quality**, and a disagreement cannot be attributed to judgement.
 
+**Executed 2026-08-20** by `experiments/e28-expert-review/regenerate.py`, which rewrites
+`report.txt` only — `prepare.py` would have re-sampled the pack and overwritten the forms. All twelve
+reports changed; corpora are **17–20 games** after the berserked and abandoned ones are dropped.
+**No Form B/C had been filled in**, so no reviewer judgement was invalidated, and Form A is written
+before the report is opened.
+
+The cost this amendment accepted has since been removed. It said twenty games would put the review at
+the swarm's weakest operating point *"because `FOCUS_GAMES_WITH_DATA` is 20, so `focus` is only just
+reachable"*. [[experiments.e43-focus-gates]] found that gate was refusing **15 claims** for exactly
+that arithmetic and replaced it with a corpus-relative one, so the 20-game window is no longer
+penalised. Eight of twelve reports now lead with a peer-relative finding rather than a cost-pool one,
+and the most-named leading claim is **2 of 12** against 3 of 12 before.
+
 **The reports must be regenerated from the same 20 games the reviewer read.** No Form A work is
 invalidated — those answers are about the games, not the report — and the move-level comparison was
 already matched, because `compare.py` runs the swarm over the same 20.
