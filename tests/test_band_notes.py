@@ -86,7 +86,13 @@ class TestWhichClaimsQualify:
         # A curated list is only defensible if each entry carries the number that
         # put it there.
         assert all(shared.learnable_r < 0 for shared in SHARED_WEAKNESSES)
-        assert len(SHARED_WEAKNESSES) == 5
+        # Three, not five. Re-screened on the full-size reference 2026-08-20:
+        # `early_error.black` fell to -0.13 and `allowed_motif.backRankMate` to
+        # -0.12 against E25's cutoff of -0.2. Neither reads the clock, so the
+        # increment correction that prompted the re-screen is not why — they had
+        # been stale since the 2026-08-19 corpus rebuild.
+        assert len(SHARED_WEAKNESSES) == 3
+        assert all(shared.learnable_r < -0.2 for shared in SHARED_WEAKNESSES)
 
     def test_a_claim_the_population_cannot_price_is_skipped(self):
         assert notes_for(context({})) == ()
@@ -108,12 +114,12 @@ class TestOrderingAndRestraint:
     def test_the_most_expensive_come_first(self):
         notes = notes_for(context({
             INSTANT: 5.0,
-            "early_error.black.own": 11.0,
-            "early_error.white.own": 8.0,
+            "early_error.white.own": 11.0,
+            "missed_motif.hangingPiece.own": 8.0,
         }))
 
         assert [n.claim_key for n in notes] == [
-            "early_error.black.own", "early_error.white.own", INSTANT
+            "early_error.white.own", "missed_motif.hangingPiece.own", INSTANT
         ]
 
     def test_at_most_three_are_shown(self):

@@ -36,7 +36,7 @@ WHAT STANDS OUT
    For example game T7AhF7X3, move 33, you played b2c2 (f4f7 was better)
    For example game WW2QKoJn, move 14, you played d4e5 (d7c5 was better)
 
-(4 further patterns were found but not prioritised — working on one or two things at a time is the point.)
+(3 further patterns were found but not prioritised — working on one or two things at a time is the point.)
 
 WHAT TO DO
 
@@ -58,9 +58,9 @@ WHAT WOULD SHOW IT WORKED
 
 WHAT YOUR WHOLE LEVEL LOSES MOST TO
 
- - Players at your level lose about 26.4 points of win probability a game to moves played in under two seconds.
- - Players at your level lose about 16.1 points of win probability a game to mistakes before move 15 with Black.
+ - Players at your level lose about 22.5 points of win probability a game to moves played in under two seconds.
  - Players at your level lose about 16.1 points of win probability a game to mistakes before move 15 with White.
+ - Players at your level lose about 2.7 points of win probability a game to pieces left hanging by the opponent and not taken.
 
    These are not findings about you — they are what the whole rating band
    loses most to, and the stronger players in it lose less. Your own one or

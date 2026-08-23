@@ -11,11 +11,11 @@ what they cost you rather than by what makes you different.
 
    Ordinary for your level, and still what these mistakes cost you most.
 
-   How often   40% of the time, against 35% for players at your level
+   How often   40% of the time, against 36% for players at your level
    Seen in     12 of 20 games
    Costing you about 24.5 points of win probability a game.
-   Players at your level lose about 22.5 to the same thing, so roughly
-   2.0 a game is what fixing this could get back.
+   Players at your level lose about 19.9 to the same thing, so roughly
+   4.6 a game is what fixing this could get back.
    For example game 29CxQRJu, move 15, you played d1a4 (c3c4 was better)
    For example game 3kdaqzAV, move 25, you played d4e3 (b3b4 was better)
    For example game EYvvW4kX, move 19, you played b1c3 (b1d2 was better)
@@ -49,7 +49,7 @@ what they cost you rather than by what makes you different.
 WHAT TO DO
 
 1. When a think runs long, stop and choose between your two best candidate moves rather than searching for a third.
-   Why    seen in 12 of 20 games, at 40.3% against 35.4% for peers at your level
+   Why    seen in 12 of 20 games, at 40.3% against 35.6% for peers at your level
    Note   Ordinary for your level, and still what these mistakes cost you most.
    Start  Do this one first — the others can wait their turn.
 
@@ -69,9 +69,9 @@ WHAT WOULD SHOW IT WORKED
 
 WHAT YOUR WHOLE LEVEL LOSES MOST TO
 
- - Players at your level lose about 22.4 points of win probability a game to moves played in under two seconds.
- - Players at your level lose about 15.7 points of win probability a game to mistakes before move 15 with Black.
+ - Players at your level lose about 17.7 points of win probability a game to moves played in under two seconds.
  - Players at your level lose about 15.6 points of win probability a game to mistakes before move 15 with White.
+ - Players at your level lose about 2.5 points of win probability a game to pieces left hanging by the opponent and not taken.
 
    These are not findings about you — they are what the whole rating band
    loses most to, and the stronger players in it lose less. Your own one or

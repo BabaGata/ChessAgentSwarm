@@ -16,6 +16,22 @@ import chess.pgn
 STANDARD_VARIANT = "Standard"
 
 
+def increment_seconds(time_control: str | None) -> float:
+    """Seconds credited to the mover's clock after each move.
+
+    Zero for an unreadable or absent tag rather than None: the increment is used
+    to *correct* a time, and a missing correction has to be the identity, not a
+    propagating unknown that disables the fix for the games that need it.
+    """
+    if not time_control or "+" not in time_control:
+        return 0.0
+    _, _, increment = time_control.partition("+")
+    try:
+        return max(0.0, float(increment))
+    except ValueError:
+        return 0.0
+
+
 @dataclass(frozen=True)
 class GameRecord:
     """One game, reduced to what the analysis core and the sections need."""

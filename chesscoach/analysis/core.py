@@ -19,7 +19,7 @@ from chesscoach.analysis.cache import PositionEval
 from chesscoach.analysis.labels import ErrorLabel, classify, move_loss_wp
 from chesscoach.analysis.observations import Observation
 from chesscoach.ingest.corpus import Corpus
-from chesscoach.ingest.pgn import GameRecord
+from chesscoach.ingest.pgn import GameRecord, increment_seconds
 
 # Coarse phase boundaries by remaining non-pawn material. E03 found phase
 # predicts errors better than any positional feature, so it is recorded on every
@@ -90,6 +90,7 @@ def analyse_game(game: GameRecord, analyser: PositionAnalyser) -> tuple[Observat
                 played_best=played_best,
                 clock_before=_clock_before(game, index),
                 clock_after=_clock_at(game, index),
+                increment=increment_seconds(game.time_control),
                 engine=analyser.engine_name,
                 depth=analyser.depth,
             )

@@ -34,6 +34,10 @@ class Observation:
     clock_after: float | None
     engine: str
     depth: int
+    # Seconds credited after each move. Needed because `%clk` is written *after*
+    # the increment lands, so a bare difference of readings is not what the
+    # player spent (D16).
+    increment: float = 0.0
 
     @property
     def is_error(self) -> bool:
@@ -41,7 +45,16 @@ class Observation:
 
     @property
     def seconds_spent(self) -> float | None:
-        """Time taken on this move, when both clock readings are available."""
+        """Time taken on this move, when both clock readings are available.
+
+        The increment is added back because `%clk` records the clock **after** it
+        is credited: with an increment `i` the reading falls by `spent - i`, so
+        the bare difference understates thinking time by exactly `i`. Uncorrected,
+        a 3.5 s move on a 180+2 game reads as 1.5 s and counts as instant
+        (D16, [[experiments.e44-clock-on-noted-moves]]). 14.7 % of the peer
+        corpus carries an increment, so this is a population-level error rather
+        than an edge case.
+        """
         if self.clock_before is None or self.clock_after is None:
             return None
-        return max(0.0, self.clock_before - self.clock_after)
+        return max(0.0, self.clock_before - self.clock_after + self.increment)

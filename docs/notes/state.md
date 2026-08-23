@@ -206,6 +206,17 @@ This is what actually moved this cycle.
    **recovers from +0.19 to +0.54**, the gate having been noise on that measurement. Also surfaced: the **two strongest players
    (1981, 2033) are the only two with nothing assertable at 60 games.**
 
+0. **P0 — D16 fixed, and the band note re-measured.** **Done 2026-08-20** →
+   [[experiments.e45-increment-correction]]. `seconds_spent` now adds the increment back, which
+   14.7 % of the peer corpus needed. `instant_move_error` falls **22.40 → 17.69** wp/game in rapid
+   (−21 %) and 34.33 → 32.16 in blitz, and **still leads the band note in both strata**. Control clean:
+   **0 clock-free cells moved**. Reference rebuilt (both strata) and all twelve reports regenerated;
+   Sheriwoyama's leading finding changed and simonvj's recoverable gain doubled.
+   **Caught on the way, and larger:** `early_error.black` (−0.13) and `allowed_motif.backRankMate`
+   (−0.12) no longer clear E25's −0.2 bar and are **removed from the band note**. Neither reads the
+   clock — they had been stale since the 2026-08-19 corpus rebuild, because E25 was never re-run
+   against it. `band.py` now carries **3** screened claims, not 5.
+
 0. **P1 — The clock, for the moves the reviewer noted.** **Done 2026-08-20** →
    [[experiments.e44-clock-on-noted-moves]]. They annotated without ever opening the clock, so no note
    says "instant move". Joining 263 move-numbered notes to the PGN finds **89 (34 %) played in ≤ 2 s**

@@ -11,10 +11,24 @@ import chess
 
 from chesscoach.analysis.core import analyse_corpus
 from chesscoach.analysis.labels import ErrorLabel
+from chesscoach.analysis.observations import Observation
 from chesscoach.ingest.corpus import build_corpus
-from chesscoach.ingest.pgn import parse_pgn_text
+from chesscoach.ingest.pgn import increment_seconds, parse_pgn_text
+from chesscoach.sections.s2_decision_process import INSTANT_MOVE_SECONDS
 
 from test_ingest import PGN
+
+
+def an_observation(**overrides) -> Observation:
+    """A minimal observation; only the clock fields matter to these tests."""
+    defaults = dict(
+        game_id="g1", ply=20, mover="p", mover_is_white=True,
+        fen_before="8/8/8/8/8/8/8/K6k w - - 0 1", move_played="a1a2",
+        best_move="a1a2", score_cp_before=0, score_cp_after=0, loss_wp=0.0,
+        label=None, phase="middlegame", played_best=True,
+        clock_before=None, clock_after=None, engine="stub", depth=15,
+    )
+    return Observation(**{**defaults, **overrides})
 
 
 class StubAnalyser:
@@ -85,3 +99,65 @@ class TestAnalyseCorpus:
 
         assert observations[0].mover == "alice"
         assert observations[1].mover == "bob"
+
+
+class TestIncrementInThinkingTime:
+    """A move's cost is what the clock lost, plus what the increment gave back.
+
+    Screen: docs/notes/experiments.e44-clock-on-noted-moves.md, question D16.
+
+    `%clk` is written AFTER the increment is credited, so a raw difference of
+    clock readings is `spent - increment`. Left uncorrected, a 3.5 s move on a
+    180+2 game reads as 1.5 s and trips `INSTANT_MOVE_SECONDS`. 14.7 % of the
+    peer corpus carries an increment, so this is a population-level error, not
+    an edge case.
+    """
+
+    def test_a_game_without_increment_is_unchanged(self):
+        move = an_observation(clock_before=100.0, clock_after=97.0, increment=0.0)
+
+        assert move.seconds_spent == 3.0
+
+    def test_the_increment_is_added_back(self):
+        # The clock fell by 1 s, but 2 s were credited after the move, so the
+        # player actually spent 3.
+        move = an_observation(clock_before=100.0, clock_after=99.0, increment=2.0)
+
+        assert move.seconds_spent == 3.0
+
+    def test_a_considered_move_is_no_longer_read_as_instant(self):
+        # The exact case from E44: 3.5 s of thought on a 180+2 game.
+        move = an_observation(clock_before=100.0, clock_after=98.5, increment=2.0)
+
+        assert move.seconds_spent == 3.5
+        assert move.seconds_spent > INSTANT_MOVE_SECONDS
+
+    def test_a_genuinely_instant_move_survives_the_correction(self):
+        move = an_observation(clock_before=100.0, clock_after=100.0, increment=2.0)
+
+        assert move.seconds_spent == 2.0
+        assert move.seconds_spent <= INSTANT_MOVE_SECONDS
+
+    def test_time_spent_is_never_negative(self):
+        # A clock that gained more than the increment means a tag we cannot
+        # trust; zero is honest where a negative number would be nonsense.
+        move = an_observation(clock_before=100.0, clock_after=110.0, increment=2.0)
+
+        assert move.seconds_spent == 0.0
+
+    def test_no_clock_still_means_no_answer(self):
+        assert an_observation(clock_before=None, clock_after=99.0, increment=2.0).seconds_spent is None
+        assert an_observation(clock_before=100.0, clock_after=None, increment=2.0).seconds_spent is None
+
+
+class TestIncrementFromTheTag:
+    def test_reads_the_increment_from_a_time_control(self):
+        assert increment_seconds("180+2") == 2.0
+        assert increment_seconds("600+0") == 0.0
+
+    def test_an_unreadable_or_absent_tag_is_no_increment(self):
+        # Never None: an unknown increment must not silently disable the
+        # correction for games that do have one, nor crash those that do not.
+        assert increment_seconds(None) == 0.0
+        assert increment_seconds("-") == 0.0
+        assert increment_seconds("300+abc") == 0.0

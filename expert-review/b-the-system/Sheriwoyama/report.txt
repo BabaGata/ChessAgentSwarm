@@ -1,20 +1,13 @@
 ﻿Report for Sheriwoyama
 20 games (2025.04.06 to 2026.08.02), rating band 1400-1800
 
-WHAT STANDS OUT
+WHAT COSTS YOU MOST
 
-1. Your long thinks tend to end in a mistake.
+Nothing in your games is unusual for your rating band — measured against
+players at your level, you are where you should be. So these are ranked by
+what they cost you rather than by what makes you different.
 
-   How often   54% of the time, against 38% for players at your level
-   Seen in     10 of 20 games
-   Costing you about 15.9 points of win probability a game.
-   Players at your level lose about 21.7 to the same thing, so this is
-   not costing you your rating — it is costing you the next one.
-   For example game 0VillDCr, move 13, you played d7b6 (e7e5 was better)
-   For example game cZ8R9TJo, move 28, you played f4g5 (f8h6 was better)
-   For example game nev5HKA6, move 20, you played d6g3 (a2a4 was better)
-
-2. You go wrong more often than most when you are already better.
+1. You go wrong more often than most when you are already better.
 
    Ordinary for your level, and still what these mistakes cost you most.
 
@@ -26,6 +19,19 @@ WHAT STANDS OUT
    For example game beIhokzg, move 11, you played a2a3 (e2f3 was better)
    For example game g5Ps2RCx, move 16, you played a2a3 (c3a4 was better)
    For example game q5tHdUaO, move 25, you played e4d6 (a1a4 was better)
+
+2. Your long thinks tend to end in a mistake.
+
+   Ordinary for your level, and still what these mistakes cost you most.
+
+   How often   54% of the time, against 39% for players at your level
+   Seen in     10 of 20 games
+   Costing you about 15.9 points of win probability a game.
+   Players at your level lose about 20.4 to the same thing, so this is
+   not costing you your rating — it is costing you the next one.
+   For example game 0VillDCr, move 13, you played d7b6 (e7e5 was better)
+   For example game cZ8R9TJo, move 28, you played f4g5 (f8h6 was better)
+   For example game nev5HKA6, move 20, you played d6g3 (a2a4 was better)
 
 3. You miss discovered attack tactics that were available.
 
@@ -42,12 +48,13 @@ WHAT STANDS OUT
 
 WHAT TO DO
 
-1. When a think runs long, stop and choose between your two best candidate moves rather than searching for a third.
-   Why    seen in 10 of 20 games, at 54.0% against 38.2% for peers at your level
+1. When you are clearly better, slow down rather than speed up: take the safe line over the quick one, and check your opponent's reply before every move.
+   Why    seen in 11 of 20 games, at 32.6% against 30.1% for peers at your level
+   Note   Ordinary for your level, and still what these mistakes cost you most.
    Start  Do this one first — the others can wait their turn.
 
-2. When you are clearly better, slow down rather than speed up: take the safe line over the quick one, and check your opponent's reply before every move.
-   Why    seen in 11 of 20 games, at 32.6% against 30.1% for peers at your level
+2. When a think runs long, stop and choose between your two best candidate moves rather than searching for a third.
+   Why    seen in 10 of 20 games, at 54.0% against 39.1% for peers at your level
    Note   Ordinary for your level, and still what these mistakes cost you most.
 
 3. Drill `discoveredAttack` puzzles, and solve to be right rather than fast — review every one you get wrong.
@@ -56,15 +63,15 @@ WHAT TO DO
 
 WHAT WOULD SHOW IT WORKED
 
- - mistakes after a long think: below 25% over your next 22 games
  - mistakes made while you are winning: below 18% over your next 20 games
+ - mistakes after a long think: below 26% over your next 22 games
  - discovered attack missed when available: below 24% over your next 32 games
 
 WHAT YOUR WHOLE LEVEL LOSES MOST TO
 
- - Players at your level lose about 34.3 points of win probability a game to moves played in under two seconds.
+ - Players at your level lose about 32.2 points of win probability a game to moves played in under two seconds.
  - Players at your level lose about 17.1 points of win probability a game to mistakes before move 15 with White.
- - Players at your level lose about 17.1 points of win probability a game to mistakes before move 15 with Black.
+ - Players at your level lose about 3.0 points of win probability a game to pieces left hanging by the opponent and not taken.
 
    These are not findings about you — they are what the whole rating band
    loses most to, and the stronger players in it lose less. Your own one or

@@ -25,7 +25,13 @@ exist to prevent:
   * it is phrased as a statement about a **population**, because that is what was
     measured. "Players at your level lose about 16 points a game to moves played
     in under two seconds" is supported; "you play too fast" is not;
-  * only screened claims appear -- five, not twenty-seven.
+  * only screened claims appear -- **three of thirty-two**, re-screened on the
+    full-size reference (2026-08-20). Two that used to appear no longer clear the
+    bar: `early_error.black` fell to -0.13 and `allowed_motif.backRankMate` to
+    -0.12, both against a cutoff of -0.2. Neither reads the clock, so neither
+    moved because of the increment correction that prompted the re-screen -- they
+    were stale from the 2026-08-19 corpus rebuild, and nobody had re-run E25
+    against it.
 """
 
 from __future__ import annotations
@@ -57,28 +63,18 @@ class _Shared:
 SHARED_WEAKNESSES: tuple[_Shared, ...] = (
     _Shared(
         key="instant_move_error.instant_moves.own",
-        learnable_r=-0.41,
+        learnable_r=-0.40,
         wording="moves played in under two seconds",
     ),
     _Shared(
-        key="early_error.black.own",
-        learnable_r=-0.46,
-        wording="mistakes before move 15 with Black",
-    ),
-    _Shared(
         key="early_error.white.own",
-        learnable_r=-0.37,
+        learnable_r=-0.24,
         wording="mistakes before move 15 with White",
     ),
     _Shared(
         key="missed_motif.hangingPiece.own",
-        learnable_r=-0.21,
+        learnable_r=-0.31,
         wording="pieces left hanging by the opponent and not taken",
-    ),
-    _Shared(
-        key="allowed_motif.backRankMate.own",
-        learnable_r=-0.22,
-        wording="back-rank mates",
     ),
 )
 

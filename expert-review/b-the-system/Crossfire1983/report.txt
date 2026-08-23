@@ -56,9 +56,9 @@ WHAT WOULD SHOW IT WORKED
 
 WHAT YOUR WHOLE LEVEL LOSES MOST TO
 
- - Players at your level lose about 33.7 points of win probability a game to moves played in under two seconds.
+ - Players at your level lose about 31.4 points of win probability a game to moves played in under two seconds.
  - Players at your level lose about 17.0 points of win probability a game to mistakes before move 15 with White.
- - Players at your level lose about 17.0 points of win probability a game to mistakes before move 15 with Black.
+ - Players at your level lose about 3.0 points of win probability a game to pieces left hanging by the opponent and not taken.
 
    These are not findings about you — they are what the whole rating band
    loses most to, and the stronger players in it lose less. Your own one or

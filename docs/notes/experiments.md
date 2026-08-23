@@ -62,6 +62,8 @@ An experiment with no consequence was not worth running.
 
 | E44 | were the reviewer's noted mistakes played instantly? | done — **89 of 263 (34 %) were ≤ 2 s**, which is what was asked for, but against a fair denominator the enrichment is **0.77× median** and only 2 of 6 players exceed 1.0, so noticed mistakes are **not** unusually rushed. Surfaced **D16**: `seconds_spent` understates thinking time by the increment | [[experiments.e44-clock-on-noted-moves]] |
 
+| E45 | what does correcting the increment do to the band note? | done — **cuts its headline 21 % and the claim survives.** `instant_move_error` 22.40 → **17.69** wp/game in rapid, still leading; 0 clock-free cells moved. The re-screen caught more: **2 of 5 band claims had been stale since the corpus rebuild** and no longer clear E25's bar | [[experiments.e45-increment-correction]] |
+
 
 ## Conventions
 
