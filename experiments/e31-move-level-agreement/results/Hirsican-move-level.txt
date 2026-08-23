@@ -1,0 +1,82 @@
+ game   move  reviewer noted                                loss  swarm               verdict
+--------------------------------------------------------------------------------------------------------
+    1     13  Not defending properly move 13.                5.7  fork                saw, did not name
+    1     15  Not taking a pawn move 15.                     6.3  hangingPawn         NAMED
+    1         Giving a pawn move 18.                          ?                     UNMAPPED
+    1         Destroying a pawn strucutre move 20.            ?                     UNMAPPED
+    1     23  Not defending properly move 23.               16.8  discoveredAttack,skesaw, did not name
+    1     23  Loosing a piece move 23.                      16.8  discoveredAttack,skesaw, did not name
+    1     26  Loosing a piece move 26.                      49.1  fork,skewer         saw, did not name
+    2     17  Not taking a piece move 17.                    3.8  nothing             MISSED
+    2     19  Missing a fork move 19.                        3.8  nothing             MISSED
+    3         Not attacking properly move 8.                  ?                     UNMAPPED
+    3     13  Not taking a pawn move 13.                     6.1  hangingPawn         NAMED
+    3     18  Pin move 18.                                   7.4  skewer              saw, did not name
+    3     26  Loosing a piece move 26.                      28.8  capturingDefender,haNAMED
+    3     31  Not taking a piece move 31.                   60.8  hangingPiece        NAMED
+    3     33  Not taking a piece move 33.                   63.0  hangingPiece        NAMED
+    3     36  Not taking a piece move 36.                   77.0  backRankMate,hangingNAMED
+    3     36  Missing a checkmate move 36.                  77.0  backRankMate,hangingNAMED
+    3         Giving a pawn move 39.                          ?                     UNMAPPED
+    4         Passive move move 8.                            ?                     UNMAPPED
+    4     28  Not seeing checkmate move 28.                 45.2  error only          saw, did not name
+    5         Loosing a piece 29.                             -                     NO MOVE GIVEN
+    5         Giving up material move 25.                     ?                     UNMAPPED
+    6     15  Not defending properly move 15.               25.2  pin                 saw, did not name
+    7     24  Loosing a piece move 24.                      48.0  error only          saw, did not name
+    8     14  Not taking a pawn move 14.                     3.7  nothing             MISSED
+    8         Giving a pawn move 25.                          ?                     UNMAPPED
+    8     29  Fork move 29.                                 37.5  fork                NAMED
+    8     32  Fork move 32.                                 23.3  fork,trappedPiece   NAMED
+    9     11  Loosing a pawn move 11.                       12.1  discoveredAttack,hansaw, did not name
+    9         Not putting pressure move 11.                   ?                     UNMAPPED
+    9     26  Fork move 26.                                  9.3  fork                NAMED
+    9     36  Not defending properly move 36.               46.0  skewer              saw, did not name
+   10         Weekening king move 11.                         ?                     UNMAPPED
+   10         Giving up early move 14.                        ?                     UNMAPPED
+   11     16  Not taking a pawn move 16.                    22.8  hangingPawn         NAMED
+   11     21  Fork move 21.                                 16.3  fork,hangingPiece   NAMED
+   11     22  Loosing a piece move 22.                      16.3  fork,hangingPiece   NAMED
+   12     26  Not taking material move 26.                  37.4  discoveredAttack,forsaw, did not name
+   12     26  Loosing material move 26.                     37.4  discoveredAttack,forNAMED
+   12     30  Not taking a piece move 30.                   76.7  hangingPiece        NAMED
+   12         Giving a piece move 31.                         ?                     UNMAPPED
+   13     13  Loosing a pawn move 13.                       32.4  fork,hangingPawn    NAMED
+   13     14  Not defending properly move 14.               32.4  fork,hangingPawn    saw, did not name
+   15     14  Loosing a pawn move 14.                       12.3  fork,hangingPawn    NAMED
+   15         Loosing a rook move 16.                         ?                     UNMAPPED
+   15     21  Pin move 21.                                   3.2  nothing             MISSED
+   16         Good piece for a bad piece move 17.             ?                     UNMAPPED
+   16     19  Loosing a pawn move 19.                        8.7  capturingDefender,haNAMED
+   16     30  Not defending properly move 30.               18.7  fork,trappedPiece   saw, did not name
+   17     11  Fork move 11.                                 35.6  fork                NAMED
+   17     19  Not taking a piece move 19.                   46.6  fork,pin            saw, did not name
+   17     23  Not taking material move 23.                  12.0  capturingDefender,haNAMED
+   19     10  Not seeing checkmate move 10.                 16.8  backRankMate        NAMED
+   19     12  Not taking a pawn move 12.                    19.0  backRankMate,hangingNAMED
+   19         Giving a piece move 33.                         ?                     UNMAPPED
+   20         Giving a piece move 10.                         ?                     UNMAPPED
+
+========================================================================================================
+MOVE-LEVEL NOTES — the ones that can actually be checked
+  notes carrying a move number        40
+  the swarm flagged that same move    36  (90%)   <- DETECTION
+    ...and named the same pattern     22  (55%)   <- NAMING
+    ...but could not name it          14  (35%)
+  the swarm saw nothing there          4  (10%)
+
+PAWN MATERIAL
+  notes mentioning a pawn             9
+  of those, unnamed by the swarm      2
+  median loss at those moves          12.1 wp
+  below the 5 wp label threshold      1/9   <- no label means no motif ever runs
+
+ALL NOTED MOVES
+  median loss where you saw a mistake 20.9 wp
+  below the label threshold           4/40
+
+EVERYTHING ELSE
+  game-level 'instant moves' notes     0 confirmed, 0 not
+  no detector exists for              0
+  game-level, no move to check         1
+  wording not mapped                  15

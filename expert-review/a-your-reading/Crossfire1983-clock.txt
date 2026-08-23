@@ -1,0 +1,101 @@
+﻿CLOCK TIMES FOR THE MOVES YOU WROTE DOWN — Crossfire1983
+==============================================================================
+
+Machine-generated from the PGN clock. NOT part of your Form A, and
+nothing here has been written into your notes: if you want any of it in
+your reading, that is your call to make, not the script's.
+
+'Instant' is the system's own threshold: 2 seconds or less.
+Your typical move in these 20 games took 2.0s, and
+56% of ALL your moves were instant — but that count includes
+opening book and forced recaptures. The fair comparison is the
+49% of your post-opening, still-competitive moves that were
+instant, and the 41% of the moves the engine calls mistakes.
+
+ game  move    spent  corrected  note
+------------------------------------------------------------------------------
+    1    11     3.0s       same  Destroying structure of the king's castle mo
+    1    14     5.0s       same  Loosing pawn move 14.
+    1    18     5.0s       same  Loosing pawn move 18.
+    1    23    10.0s       same  Missing fork move 23.
+    1    23    10.0s       same  Missing pawn loosing sequence move 23.
+    2     3     1.0s       same  Giving up a piece move 3.  <-- INSTANT
+    2    19     3.0s       same  Missing pawn loosing sequence move 19.
+    2    21     0.0s       same  Missing loosing a pawn move 21.  <-- INSTANT
+    2    22     5.0s       same  Missing a fork move 22.
+    2    27     2.0s       same  Loosing a pawn move 27.  <-- INSTANT
+    3    17    10.0s       same  Missing a fork move 17.
+    3    18     3.0s       same  Missing loosing additional material move 18.
+    3    34     1.0s       same  Missing loosing pawns move 34.  <-- INSTANT
+    5    15     5.0s       same  Loosing a piece move 15.
+    5    19    10.0s       same  Missing taking a pawn move 19.
+    6    22    21.0s       same  Loosing a piece move 22.
+    6    31     4.0s       same  Missing a pin move 31.
+    7     9     0.0s       same  Loosing a pawn move 9.  <-- INSTANT
+    7    21     3.0s       same  Loosing a pawn move 21.
+    7    36     2.0s       same  Missing a for opportunity move 36.  <-- INSTANT
+    7    38     6.0s       same  Missing a pawn loosing move 38.
+    8     9     2.0s       same  Loosing a pawn move 9.  <-- INSTANT
+    8     9     2.0s       same  Missing a pawn loosing sequence move 9.  <-- INSTANT
+    8    33     5.0s       same  Missing loosing a piece move 33.
+    8    36     5.0s       same  Missing loosing a piece sequence move 36.
+    8    37     1.0s       same  Loosing a piece move 37.  <-- INSTANT
+    9     5     2.0s       same  Missing material loosing sequence move 5.  <-- INSTANT
+    9     9    13.0s       same  Loosing a piece move 9.
+   10     5     0.0s       same  Loosing a pawn move 5.  <-- INSTANT
+   10     9    11.0s       same  Missing a checkmate motif move 9.
+   10    19    13.0s       same  Missing a pin move 19.
+   10    38     1.0s       same  Loosing a piece move 38.  <-- INSTANT
+   11    18     0.0s       same  Missing a pawn loosing sequence move 18.  <-- INSTANT
+   11    30     6.0s       same  Missing a pawn saving defense move 30.
+   12    16     1.0s       same  Destroying pawn structure move 16.  <-- INSTANT
+   12    32     2.0s       same  Loosing a pawn move 32.  <-- INSTANT
+   12    42     0.0s       same  Not taking a pawn move 42.  <-- INSTANT
+   13    14     1.0s       same  Not preventing attack on king move 14.  <-- INSTANT
+   13    21    12.0s       same  Not defending properly move 21.
+   14    11     4.0s       same  Making weakness move 11.
+   14    15     6.0s       same  Fork move 15.
+   14    22     1.0s       same  Fork move 22.  <-- INSTANT
+   15    10    10.0s       same  Loosing space move 10.
+   15    10    10.0s       same  Giving a good piece for undeveloped one move
+   15    11    12.0s       same  Destroying pawn structure move 11.
+   15    13     2.0s       same  Not taking pawn move 13.  <-- INSTANT
+   15    13     2.0s       same  Not defending properly move 13.  <-- INSTANT
+   15    14     5.0s       same  Missing pawn loosing sequence move 14.
+   15    14     5.0s       same  Opening up to attack move 14.
+   15    15     2.0s       same  Missing piece loosing sequence move 15.  <-- INSTANT
+   15    21     7.0s       same  Loosing pawn move 21.
+   15    23     5.0s       same  Loosing pawn move 23.
+   15    23     5.0s       same  Missing a piece loosing sequence move 23.
+   15    24     3.0s       same  Not defending properly move 24.
+   15    30     2.0s       same  Loosing a pawn move 30.  <-- INSTANT
+   15    31     3.0s       same  Missing piece loosing sequence move 31.
+   15    32     9.0s       same  Loosing pawn move 32.
+   15    32     9.0s       same  Missing a piece loosing sequence move 32.
+   15    38     5.0s       same  Not taking a pawn move 38.
+   16    19     6.0s       same  Advancing with pieces prematurely move 19.
+   16    19     6.0s       same  Fork sequence move 19.
+   16    25    10.0s       same  Checkmate move 25.
+   17    12     5.0s       same  Loosing center move 12.
+   17    19     5.0s       same  Missing loosing pawn move 19.
+   18    10     0.0s       same  Missing a pawn moving sequence move 10.  <-- INSTANT
+   18    16     4.0s       same  Not taking a pawn move 16.
+   18    18     5.0s       same  Missing a piece loosing move 18.
+   18    26     8.0s       same  Discovered attack move 26.
+   18    39     2.0s       same  Missing a piece taking move 39.  <-- INSTANT
+   18    53        —          —  (no clock, or not your move)
+   19    21    11.0s       same  Missing a piece loosing move 21.
+   20     9     4.0s       same  Missing a defense move 9.
+------------------------------------------------------------------------------
+  notes with a move number      72
+  of those, with a clock reading  71
+  played in 2s or less          24   (34% of the timed ones)
+  still instant after increment   24
+  your instant rate, all moves   56%
+  ...post-opening & competitive  49%   <-- the fair comparison
+  ...moves the engine calls bad  41%
+  so a mistake YOU noticed was 0.70x as likely to be instant as a typical position you were reading
+
+None of your notes mentions the clock, so these are mistakes you found
+on the board alone. Where the time is very short, the move may be worth
+a second look as a decision-process failure rather than a knowledge gap.

@@ -1,58 +1,98 @@
  game   move  reviewer noted                                loss  swarm               verdict
 --------------------------------------------------------------------------------------------------------
     1         Destroying structure of the king's castle move  ?                     UNMAPPED
-    1     14  Loosing pawn move 14.                          7.0  nothing             MISSED
-    1     18  Loosing pawn move 18.                         30.1  error only          saw, did not name
-    1     23  Missing fork move 23.                          1.4  nothing             MISSED
-    1     23  Missing pawn loosing sequence move 23.         1.4  nothing             MISSED
+    1     14  Loosing pawn move 14.                          6.5  hangingPiece        saw, did not name
+    1     18  Loosing pawn move 18.                         28.3  error only          saw, did not name
+    1     23  Missing fork move 23.                          4.3  nothing             MISSED
+    1     23  Missing pawn loosing sequence move 23.         4.3  nothing             MISSED
     2         Giving up a piece move 3.                       ?                     UNMAPPED
-    2     19  Missing pawn loosing sequence move 19.         9.5  nothing             MISSED
-    2     21  Missing loosing a pawn move 21.                9.5  nothing             MISSED
-    2     22  Missing a fork move 22.                        5.2  nothing             MISSED
-    2     27  Loosing a pawn move 27.                        1.8  nothing             MISSED
-    3     17  Missing a fork move 17.                       16.4  discoveredAttack    saw, did not name
+    2     19  Missing pawn loosing sequence move 19.        13.0  trappedPiece        saw, did not name
+    2     21  Missing loosing a pawn move 21.               13.0  trappedPiece        saw, did not name
+    2     22  Missing a fork move 22.                        4.4  nothing             MISSED
+    2     27  Loosing a pawn move 27.                        1.7  nothing             MISSED
+    3     17  Missing a fork move 17.                       16.5  discoveredAttack    saw, did not name
     3         Missing loosing additional material move 18.    ?                     UNMAPPED
-    3     34  Missing loosing pawns move 34.                 5.4  nothing             MISSED
-    5     15  Loosing a piece move 15.                      36.2  error only          saw, did not name
+    3     34  Missing loosing pawns move 34.                 4.7  nothing             MISSED
+    5     15  Loosing a piece move 15.                      36.4  hangingPiece        NAMED
     5         Missing taking a pawn move 19.                  ?                     UNMAPPED
-    6     22  Loosing a piece move 22.                      10.8  capturingDefender,haNAMED
-    6     31  Missing a pin move 31.                         6.6  nothing             MISSED
-    7      9  Loosing a pawn move 9.                         7.5  nothing             MISSED
-    7     21  Loosing a pawn move 21.                        6.7  nothing             MISSED
+    6     22  Loosing a piece move 22.                       9.3  capturingDefender,haNAMED
+    6     31  Missing a pin move 31.                         4.0  nothing             MISSED
+    7      9  Loosing a pawn move 9.                         8.8  hangingPawn,pin     NAMED
+    7     21  Loosing a pawn move 21.                        9.0  error only          saw, did not name
     7         Missing a for opportunity move 36.              ?                     UNMAPPED
-    7     38  Missing a pawn loosing move 38.               22.9  fork,hangingPawn    NAMED
-    8      9  Loosing a pawn move 9.                        11.3  error only          saw, did not name
-    8      9  Missing a pawn loosing sequence move 9.       11.3  error only          saw, did not name
-    8     33  Missing loosing a piece move 33.               8.2  nothing             MISSED
-    8     36  Missing loosing a piece sequence move 36.     52.7  capturingDefender   saw, did not name
-    8     37  Loosing a piece move 37.                      52.7  capturingDefender   saw, did not name
+    7     38  Missing a pawn loosing move 38.               25.0  fork,hangingPawn    NAMED
+    8      9  Loosing a pawn move 9.                        11.0  error only          saw, did not name
+    8      9  Missing a pawn loosing sequence move 9.       11.0  error only          saw, did not name
+    8     33  Missing loosing a piece move 33.               9.2  pin                 saw, did not name
+    8     36  Missing loosing a piece sequence move 36.     55.5  capturingDefender   saw, did not name
+    8     37  Loosing a piece move 37.                      55.5  capturingDefender   saw, did not name
     9         Missing material loosing sequence move 5.       ?                     UNMAPPED
-    9      9  Loosing a piece move 9.                        4.5  nothing             MISSED
-   10      5  Loosing a pawn move 5.                         7.0  nothing             MISSED
-   10      9  Missing a checkmate motif move 9.             75.9  skewer              saw, did not name
-   10     19  Missing a pin move 19.                         2.3  nothing             MISSED
-   10     38  Loosing a piece move 38.                      39.2  error only          saw, did not name
+    9      9  Loosing a piece move 9.                        4.7  nothing             MISSED
+   10      5  Loosing a pawn move 5.                         5.9  hangingPawn         NAMED
+   10      9  Missing a checkmate motif move 9.             75.7  skewer              saw, did not name
+   10     19  Missing a pin move 19.                         1.9  nothing             MISSED
+   10     38  Loosing a piece move 38.                      39.1  error only          saw, did not name
+   11     18  Missing a pawn loosing sequence move 18.      20.5  hangingPiece        saw, did not name
+   11         Missing a pawn saving defense move 30.          ?                     UNMAPPED
+   12     16  Destroying pawn structure move 16.             7.3  error only          saw, did not name
+   12     32  Loosing a pawn move 32.                       20.8  hangingPawn         NAMED
+   12     42  Not taking a pawn move 42.                    25.7  error only          saw, did not name
+   13         Not preventing attack on king move 14.          ?                     UNMAPPED
+   13     21  Not defending properly move 21.               11.7  hangingPawn,pin     saw, did not name
+   14         Making weakness move 11.                        ?                     UNMAPPED
+   14     15  Fork move 15.                                 13.8  fork,hangingPiece   NAMED
+   14     22  Fork move 22.                                 10.0  fork                NAMED
+   15         Loosing space move 10.                          ?                     UNMAPPED
+   15         Giving a good piece for undeveloped one move 1  ?                     UNMAPPED
+   15     11  Destroying pawn structure move 11.            10.5  error only          saw, did not name
+   15         Not taking pawn move 13.                        ?                     UNMAPPED
+   15     13  Not defending properly move 13.               15.1  hangingPawn,hangingPsaw, did not name
+   15     14  Missing pawn loosing sequence move 14.        15.1  hangingPawn,hangingPNAMED
+   15         Opening up to attack move 14.                   ?                     UNMAPPED
+   15     15  Missing piece loosing sequence move 15.        6.6  error only          saw, did not name
+   15     21  Loosing pawn move 21.                          0.3  nothing             MISSED
+   15     23  Loosing pawn move 23.                          1.8  nothing             MISSED
+   15     23  Missing a piece loosing sequence move 23.      1.8  nothing             MISSED
+   15     24  Not defending properly move 24.                8.1  error only          saw, did not name
+   15     30  Loosing a pawn move 30.                       25.4  error only          saw, did not name
+   15     31  Missing piece loosing sequence move 31.       25.4  error only          saw, did not name
+   15     32  Loosing pawn move 32.                         25.4  error only          saw, did not name
+   15     32  Missing a piece loosing sequence move 32.     25.4  error only          saw, did not name
+   15     38  Not taking a pawn move 38.                    12.6  skewer              saw, did not name
+   16         Advancing with pieces prematurely move 19.      ?                     UNMAPPED
+   16     19  Fork sequence move 19.                         4.6  nothing             MISSED
+   16     25  Checkmate move 25.                            24.5  error only          saw, did not name
+   17         Loosing center move 12.                         ?                     UNMAPPED
+   17     19  Missing loosing pawn move 19.                 29.3  error only          saw, did not name
+   18         Missing a pawn moving sequence move 10.         ?                     UNMAPPED
+   18     16  Not taking a pawn move 16.                     0.4  nothing             MISSED
+   18     18  Missing a piece loosing move 18.              19.4  fork,hangingPawn    saw, did not name
+   18     26  Discovered attack move 26.                     3.9  nothing             MISSED
+   18         Missing a piece taking move 39.                 ?                     UNMAPPED
+   18     53  Loosing a pawn move 53.                        0.0  nothing             MISSED
+   19     21  Missing a piece loosing move 21.               1.8  nothing             MISSED
+   20         Missing a defense move 9.                       ?                     UNMAPPED
 
 ========================================================================================================
 MOVE-LEVEL NOTES — the ones that can actually be checked
-  notes carrying a move number        26
-  the swarm flagged that same move    11  (42%)   <- DETECTION
-    ...and named the same pattern      2  (8%)   <- NAMING
-    ...but could not name it           9  (35%)
-  the swarm saw nothing there         15  (58%)
+  notes carrying a move number        54
+  the swarm flagged that same move    38  (70%)   <- DETECTION
+    ...and named the same pattern      9  (17%)   <- NAMING
+    ...but could not name it          29  (54%)
+  the swarm saw nothing there         16  (30%)
 
 PAWN MATERIAL
-  notes mentioning a pawn             13
-  of those, unnamed by the swarm      12
-  median loss at those moves          7.5 wp
-  below the 10 wp label threshold      9/13   <- no label means no motif ever runs
+  notes mentioning a pawn             27
+  of those, unnamed by the swarm      22
+  median loss at those moves          11.0 wp
+  below the 5 wp label threshold      7/27   <- no label means no motif ever runs
 
 ALL NOTED MOVES
-  median loss where you saw a mistake 8.9 wp
-  below the label threshold           15/26
+  median loss where you saw a mistake 10.8 wp
+  below the label threshold           16/54
 
 EVERYTHING ELSE
   game-level 'instant moves' notes     0 confirmed, 0 not
   no detector exists for              0
   game-level, no move to check         0
-  wording not mapped                  6
+  wording not mapped                  18

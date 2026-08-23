@@ -1,0 +1,46 @@
+ game   move  reviewer noted                                loss  swarm               verdict
+--------------------------------------------------------------------------------------------------------
+    2         Giving a piece move 15.                         ?                     UNMAPPED
+    5     17  Not defending properly move 17.               29.7  discoveredAttack    saw, did not name
+    6         Giving up intiative move 16.                    ?                     UNMAPPED
+    7         Incorrect move move 17.                         ?                     UNMAPPED
+    7     19  Loosing a pawn move 19.                       20.2  capturingDefender,disaw, did not name
+    7         Bad endgame move 31.                            ?                     UNMAPPED
+    8      7  Not taking a pawn move 7.                     12.6  capturingDefender,haNAMED
+   10         Giving a pawn move 23.                          ?                     UNMAPPED
+   10     24  Not taking a pawn move 24.                     0.0  nothing             MISSED
+   12      9  Not taking a pawn move 9.                     17.2  hangingPiece        saw, did not name
+   12         Weakening the king move 11.                     ?                     UNMAPPED
+   12     11  Not taking a pawn move 11.                    17.2  hangingPiece        saw, did not name
+   12         Material loosing move 12.                       ?                     UNMAPPED
+   12     31  Loosing a pawn move 31.                       25.5  capturingDefender,haNAMED
+   15         Opening king too much move 14.                  ?                     UNMAPPED
+   15         leting knight in with tempo move 15.            ?                     UNMAPPED
+   15     20  Pin move 20.                                  42.8  pin                 NAMED
+   16         Not taking the attacking piece move 16.         ?                     UNMAPPED
+   18     21  Fork move 21.                                  0.0  nothing             MISSED
+   19     37  Loosing a pawn move 37.                        5.4  error only          saw, did not name
+
+========================================================================================================
+MOVE-LEVEL NOTES — the ones that can actually be checked
+  notes carrying a move number        10
+  the swarm flagged that same move     8  (80%)   <- DETECTION
+    ...and named the same pattern      3  (30%)   <- NAMING
+    ...but could not name it           5  (50%)
+  the swarm saw nothing there          2  (20%)
+
+PAWN MATERIAL
+  notes mentioning a pawn             7
+  of those, unnamed by the swarm      5
+  median loss at those moves          17.2 wp
+  below the 5 wp label threshold      1/7   <- no label means no motif ever runs
+
+ALL NOTED MOVES
+  median loss where you saw a mistake 17.2 wp
+  below the label threshold           2/10
+
+EVERYTHING ELSE
+  game-level 'instant moves' notes     0 confirmed, 0 not
+  no detector exists for              0
+  game-level, no move to check         0
+  wording not mapped                  10

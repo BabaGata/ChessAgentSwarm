@@ -1,0 +1,49 @@
+﻿CLOCK TIMES FOR THE MOVES YOU WROTE DOWN — maikel5
+==============================================================================
+
+Machine-generated from the PGN clock. NOT part of your Form A, and
+nothing here has been written into your notes: if you want any of it in
+your reading, that is your call to make, not the script's.
+
+'Instant' is the system's own threshold: 2 seconds or less.
+Your typical move in these 20 games took 4.0s, and
+39% of ALL your moves were instant — but that count includes
+opening book and forced recaptures. The fair comparison is the
+30% of your post-opening, still-competitive moves that were
+instant, and the 13% of the moves the engine calls mistakes.
+
+ game  move    spent  corrected  note
+------------------------------------------------------------------------------
+    2    15     9.0s       same  Giving a piece move 15.
+    5    17    11.0s       same  Not defending properly move 17.
+    6    16     5.0s       same  Giving up intiative move 16.
+    7    17     2.0s       same  Incorrect move move 17.  <-- INSTANT
+    7    19     2.0s       same  Loosing a pawn move 19.  <-- INSTANT
+    7    31     2.0s       same  Bad endgame move 31.  <-- INSTANT
+    8     7     6.0s       same  Not taking a pawn move 7.
+   10    23        —          —  (no clock, or not your move)
+   10    24        —          —  (no clock, or not your move)
+   12     9    23.0s       same  Not taking a pawn move 9.
+   12    11    45.0s       same  Weakening the king move 11.
+   12    11    45.0s       same  Not taking a pawn move 11.
+   12    12    18.0s       same  Material loosing move 12.
+   12    31     2.0s       same  Loosing a pawn move 31.  <-- INSTANT
+   15    14     6.0s       same  Opening king too much move 14.
+   15    15     2.0s       same  leting knight in with tempo move 15.  <-- INSTANT
+   15    20    47.0s       same  Pin move 20.
+   16    16    17.0s       same  Not taking the attacking piece move 16.
+   18    21        —          —  (no clock, or not your move)
+   19    37     1.0s       same  Loosing a pawn move 37.  <-- INSTANT
+------------------------------------------------------------------------------
+  notes with a move number      20
+  of those, with a clock reading  17
+  played in 2s or less           6   (35% of the timed ones)
+  still instant after increment    6
+  your instant rate, all moves   39%
+  ...post-opening & competitive  30%   <-- the fair comparison
+  ...moves the engine calls bad  13%
+  so a mistake YOU noticed was 1.18x as likely to be instant as a typical position you were reading
+
+None of your notes mentions the clock, so these are mistakes you found
+on the board alone. Where the time is very short, the move may be worth
+a second look as a decision-process failure rather than a knowledge gap.

@@ -60,6 +60,8 @@ An experiment with no consequence was not worth running.
 
 | E43 | do the two focus gates block claims for the wrong reason? | done — **one yes, one no.** `FOCUS_GAMES_WITH_DATA = 20` blocks **15** claims at a 20-game window and **0** at 60, and any fraction of the corpus fixes it (window agreement 66 % → 75 %). `FOCUS_MARGIN` admits **+0** at 20 games and does not readmit S5's pooled claim even at **1.10** — the margin was never the constraint | [[experiments.e43-focus-gates]] |
 
+| E44 | were the reviewer's noted mistakes played instantly? | done — **89 of 263 (34 %) were ≤ 2 s**, which is what was asked for, but against a fair denominator the enrichment is **0.77× median** and only 2 of 6 players exceed 1.0, so noticed mistakes are **not** unusually rushed. Surfaced **D16**: `seconds_spent` understates thinking time by the increment | [[experiments.e44-clock-on-noted-moves]] |
+
 
 ## Conventions
 

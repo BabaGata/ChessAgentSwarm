@@ -3,23 +3,23 @@ DERIVED RANKING vs THE SWARM - same 20 games, 6 annotated players
 
 bjagus  (36 notes, 2 unmapped)
     reviewer, by count : motif:hangingPiece, motif:hangingPawn, concedes_weakness
-    swarm              : allows_square, advantage_error, early_error
+    swarm              : advantage_error, early_error, allows_square
     swarm's top in reviewer's three: no   overlap 0/3
 
 cademan  (66 notes, 6 unmapped)
     reviewer, by count : motif:hangingPawn, motif:hangingPiece, motif:fork
-    swarm              : advantage_error, early_error, motif:fork
-    swarm's top in reviewer's three: no   overlap 1/3
+    swarm              : motif:fork, early_error, motif:hangingPiece
+    swarm's top in reviewer's three: YES   overlap 2/3
 
 Crossfire1983  (72 notes, 18 unmapped)
     reviewer, by count : motif:hangingPawn, motif:hangingPiece, motif:fork
-    swarm              : allows_pressure, early_error, material:moved_into_attack
-    swarm's top in reviewer's three: no   overlap 0/3
+    swarm              : allows_pressure, motif:hangingPawn, material:moved_into_attack
+    swarm's top in reviewer's three: no   overlap 1/3
 
 goydorak  (41 notes, 23 unmapped)
     reviewer, by count : motif:hangingPawn, motif:hangingPiece, allows_pressure
-    swarm              : early_error, motif:hangingPiece, motif:pin
-    swarm's top in reviewer's three: no   overlap 1/3
+    swarm              : early_error, motif:pin, advantage_error
+    swarm's top in reviewer's three: no   overlap 0/3
 
 Hirsican  (56 notes, 15 unmapped)
     reviewer, by count : motif:hangingPiece, motif:hangingPawn, allows_pressure
@@ -32,6 +32,6 @@ maikel5  (20 notes, 10 unmapped)
     swarm's top in reviewer's three: no   overlap 0/3
 
 ----------------------------------------------------------------------
-  swarm's top finding inside the reviewer's derived three: 0/6  (0%)
+  swarm's top finding inside the reviewer's derived three: 1/6  (17%)
   median overlap of the two top-threes: 0.0/3
   notes the vocabulary could not map: 74/291

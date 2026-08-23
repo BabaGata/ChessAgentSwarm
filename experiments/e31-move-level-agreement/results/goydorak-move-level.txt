@@ -1,0 +1,67 @@
+ game   move  reviewer noted                                loss  swarm               verdict
+--------------------------------------------------------------------------------------------------------
+    1         Missing proper defense move 8.                  ?                     UNMAPPED
+    2         Missing proper defense move 16.                 ?                     UNMAPPED
+    2         Missing proper defense move 21.                 ?                     UNMAPPED
+    2     42  Not taking a pawn move 42.                     2.4  nothing             MISSED
+    3         Missing proper defense move 15.                 ?                     UNMAPPED
+    3     16  Loosing a piece move 16.                      17.3  hangingPawn,pin     saw, did not name
+    3     19  Pin move 19.                                   5.1  skewer              saw, did not name
+    3         Placing a piece on the attacked spot move 24.   ?                     UNMAPPED
+    3     25  Loosing a piece move 25.                      11.4  capturingDefender,haNAMED
+    6     13  Loosing a pawn move 13.                        0.0  nothing             MISSED
+    8         Good piece for a bad piece 21.                  ?                     UNMAPPED
+    8         Worsening pawn structure 24.                    -                     NO MOVE GIVEN
+    8     25  Loosing a pawn move 25.                        0.2  nothing             MISSED
+    8     28  Loosing a pawn move 28.                        6.2  skewer              saw, did not name
+    9         Giving a good square move 11.                   ?                     UNMAPPED
+   10         Bad sacrifice move 11.                          ?                     UNMAPPED
+   10     13  Not taking a pawn move 13.                     3.5  nothing             MISSED
+   11         Loosing center move 22.                         ?                     UNMAPPED
+   11         Not eating a pawn move 24.                      ?                     UNMAPPED
+   12         Loosing a piece 24.                             -                     NO MOVE GIVEN
+   12     11  Not taking a pawn move 11.                     1.9  nothing             MISSED
+   12         Bad sacrifice move 18.                          ?                     UNMAPPED
+   13         Not creating pressure move 46.                  ?                     UNMAPPED
+   14         Bad sacrifice move 5.                           ?                     UNMAPPED
+   14         Bad sacrifice move 12.                          ?                     UNMAPPED
+   15     21  Fork move 21.                                  1.3  nothing             MISSED
+   15     24  Not defending properly move 24.                1.3  nothing             MISSED
+   15         Endgame move 54.                                ?                     UNMAPPED
+   16         Good piece for a bad piece mov 11.              ?                     UNMAPPED
+   16     26  Not taking a piece move 26.                    8.9  capturingDefender,fosaw, did not name
+   17         Bad exchange calculation move 6.                ?                     UNMAPPED
+   17         Inactive move move 23.                          ?                     UNMAPPED
+   18     16  Loosing a pawn move 16.                       12.1  hangingPiece        saw, did not name
+   18         A bad sacrifice move 18.                        ?                     UNMAPPED
+   18         Innacurate play move 19.                        ?                     UNMAPPED
+   19         Not destroying king's castle structure move 8.  ?                     UNMAPPED
+   19         Innacurate move 11.                             ?                     UNMAPPED
+   19     13  Not defending properly move 13.                4.8  nothing             MISSED
+   19     20  Not taking a pawn move 20.                     2.1  nothing             MISSED
+   19     23  Loosing a piece move 23.                       5.9  error only          saw, did not name
+   20         Giving up a pawn move 32.                       ?                     UNMAPPED
+
+========================================================================================================
+MOVE-LEVEL NOTES — the ones that can actually be checked
+  notes carrying a move number        16
+  the swarm flagged that same move     7  (44%)   <- DETECTION
+    ...and named the same pattern      1  (6%)   <- NAMING
+    ...but could not name it           6  (38%)
+  the swarm saw nothing there          9  (56%)
+
+PAWN MATERIAL
+  notes mentioning a pawn             8
+  of those, unnamed by the swarm      8
+  median loss at those moves          2.2 wp
+  below the 5 wp label threshold      6/8   <- no label means no motif ever runs
+
+ALL NOTED MOVES
+  median loss where you saw a mistake 4.2 wp
+  below the label threshold           9/16
+
+EVERYTHING ELSE
+  game-level 'instant moves' notes     0 confirmed, 0 not
+  no detector exists for              0
+  game-level, no move to check         2
+  wording not mapped                  23

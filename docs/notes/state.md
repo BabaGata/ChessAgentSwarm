@@ -206,6 +206,15 @@ This is what actually moved this cycle.
    **recovers from +0.19 to +0.54**, the gate having been noise on that measurement. Also surfaced: the **two strongest players
    (1981, 2033) are the only two with nothing assertable at 60 games.**
 
+0. **P1 — The clock, for the moves the reviewer noted.** **Done 2026-08-20** →
+   [[experiments.e44-clock-on-noted-moves]]. They annotated without ever opening the clock, so no note
+   says "instant move". Joining 263 move-numbered notes to the PGN finds **89 (34 %) played in ≤ 2 s**
+   — delivered as `a-your-reading/<player>-clock.txt`, a **companion file that touches no note**,
+   because the notes are the answer key E31 and E40 score against. **The hypothesis is not supported:**
+   against a post-opening denominator the enrichment is **0.77× median**, only 2 of 6 players above
+   1.0. Unlooked-for: for all six, **engine-flagged errors are instant less often than typical moves**,
+   which sits awkwardly beside E25's band note and should be reconciled. Surfaced **D16**.
+
 0. **P0 — Review pack rebuilt to match the reviewer's window.** **Done 2026-08-20.** E39's
    amendment, outstanding since 2026-08-19, executed by
    `experiments/e28-expert-review/regenerate.py` (report.txt only; `prepare.py` would re-sample the

@@ -1,0 +1,95 @@
+﻿CLOCK TIMES FOR THE MOVES YOU WROTE DOWN — cademan
+==============================================================================
+
+Machine-generated from the PGN clock. NOT part of your Form A, and
+nothing here has been written into your notes: if you want any of it in
+your reading, that is your call to make, not the script's.
+
+'Instant' is the system's own threshold: 2 seconds or less.
+Your typical move in these 20 games took 3.0s, and
+39% of ALL your moves were instant — but that count includes
+opening book and forced recaptures. The fair comparison is the
+28% of your post-opening, still-competitive moves that were
+instant, and the 19% of the moves the engine calls mistakes.
+
+ game  move    spent  corrected  note
+------------------------------------------------------------------------------
+    1     5     2.0s       same  Loosing pawn move 5.  <-- INSTANT
+    1     5     2.0s       same  Missing piece loosing tactic move 5.  <-- INSTANT
+    1    12     4.0s       same  Not taking a piece move 12.
+    1    20     4.0s       same  Loosing a pawn move 20.
+    2    13     2.0s       same  Missing a piece winning motif move 13.  <-- INSTANT
+    2    14     2.0s       same  Missing a piece winning motif move 14.  <-- INSTANT
+    2    20     7.0s       same  Missing a fork move 20.
+    2    21     2.0s       same  Missing additional material loosng defense m  <-- INSTANT
+    3     8     5.0s       same  Loosing a pawn move 8.
+    3     8     5.0s       same  Missing a fork move 8.
+    4     4     3.0s       same  Missing a pawn taking opportunity move 4.
+    4     4     3.0s       same  Missing a material taking motif move 4.
+    4    23     1.0s       same  Missing a pinned piece move 23.  <-- INSTANT
+    4    26     2.0s       same  Missing a preventable checkmate move 26.  <-- INSTANT
+    5    14    32.0s       same  Not taking queen move 14.
+    5    14    32.0s       same  Loosing a queen move 14.
+    5    24    10.0s       same  Loosing a pawn move 24.
+    5    26     2.0s       same  Missing a fork move 26.  <-- INSTANT
+    7    16     4.0s       same  Loosing a piece move 16.
+    7    16     4.0s       same  Missing a fork move 16.
+    7    16     4.0s       same  Quitting the game too early move 16.
+    9    15    17.0s       same  Messing up pawn structure move 15.
+    9    15    17.0s       same  Missing pawn loosing motif move 15.
+    9    20     5.0s       same  Missing hanging pawn move 20.
+    9    32    17.0s       same  Missing material saving defense move 32.
+    9    35     2.0s       same  Missing queen taking treath move 35.  <-- INSTANT
+    9    36     1.0s       same  Missing queen taking opportunity move 36.  <-- INSTANT
+   10    20    24.0s      27.0s  Loosing a pawn move 20.
+   10    22     7.0s      10.0s  Missing a piece loosing treath move 22.
+   11    24    13.0s       same  Placing a piece on the attacked square move 
+   11    27     8.0s       same  Loosing material move 27.
+   12    18    13.0s       same  Loosing a pawn move 18.
+   12    20     9.0s       same  Loosing a pawn move 20.
+   12    23    11.0s       same  Loosing a pawn move 23.
+   12    25     6.0s       same  Loosing a pawn move 25.
+   12    32     3.0s       same  Missing a piece loosing treath move 32.
+   12    35     6.0s       same  Missing a king attack opportunity move 35.
+   12    41    15.0s       same  Missing a fork move 41.
+   13    10    11.0s       same  Developing a piece improperly move 10.
+   13    14     9.0s       same  Missing a checkmate treath motif move 14.
+   13    15     6.0s       same  Missing a checkmate treath move 15.
+   14    18    14.0s       same  Giving up a great square for the opponent kn
+   14    23     2.0s       same  Missing a fork move 23.  <-- INSTANT
+   14    24    20.0s       same  Missing an passant move 24.
+   15    11     2.0s       same  Loosing a pawn move 11.  <-- INSTANT
+   15    14     1.0s       same  Loosing a pawn move 14.  <-- INSTANT
+   15    15     1.0s       same  Missing a pawn taking opportunity move 15.  <-- INSTANT
+   15    15     1.0s       same  Missing a king attack tactic move 15.  <-- INSTANT
+   15    37     2.0s       same  Placing a piece on the attacked square move   <-- INSTANT
+   16    10     4.0s       same  Not taking a pawn back move 10.
+   16    18     3.0s       same  Not taking a pawn move 18.
+   18     4     6.0s       same  Missing a piece loosing motif move 4.
+   18     7     4.0s       same  Missing a loosing pawn move 7.
+   18    14     2.0s       same  Missing a loosing piece move 14.  <-- INSTANT
+   18    17     8.0s       same  Missing a loosing piece move 17.
+   18    26    11.0s       same  Missing a loosing pawn move 26.
+   18    32     3.0s       same  Missing a checkmate treath move 32.
+   19    15     7.0s       same  Missing a piece loosing move 15.
+   19    22     3.0s       same  Missing a pawn loosing move 22.
+   19    22     3.0s       same  Quitting a game too early move 22.
+   20     6     1.0s       same  Missing a forced fork motif move 6.  <-- INSTANT
+   20     9     2.0s       same  Messing up pawn structure move 9.  <-- INSTANT
+   20    11     1.0s       same  Loosing a pawn move 11.  <-- INSTANT
+   20    11     1.0s       same  Missing a piece loosing move 11.  <-- INSTANT
+   20    11     1.0s       same  Missing a fork motif move 11.  <-- INSTANT
+   20    18     1.0s       same  Loosing a piece move 18.  <-- INSTANT
+------------------------------------------------------------------------------
+  notes with a move number      66
+  of those, with a clock reading  66
+  played in 2s or less          23   (35% of the timed ones)
+  still instant after increment   23
+  your instant rate, all moves   39%
+  ...post-opening & competitive  28%   <-- the fair comparison
+  ...moves the engine calls bad  19%
+  so a mistake YOU noticed was 1.25x as likely to be instant as a typical position you were reading
+
+None of your notes mentions the clock, so these are mistakes you found
+on the board alone. Where the time is very short, the move may be worth
+a second look as a decision-process failure rather than a knowledge gap.
