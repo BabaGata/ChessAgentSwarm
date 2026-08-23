@@ -110,12 +110,36 @@ across the range.
   interval where the choice does not matter). It is a units correction, not a loosening: it changes
   **nothing** at 60 games, where the gate already blocks nothing.
 - **Refused:** any change to `FOCUS_MARGIN`. Recorded so it is not revisited on the same reasoning.
-- **Not applied yet.** The author is mid-review with six of twelve players annotated, and this changes
-  the reports being graded. Applying it is their call, not the agent's.
+- **Applied 2026-08-20 at the author's instruction.** `FOCUS_GAMES_WITH_DATA = 20` is retired and
+  replaced by `FOCUS_GAMES_FRACTION = 0.80`, compared against a new `ClaimStats.corpus_games` that
+  eight sections now populate. A corpus size of zero — meaning a section did not report one — is
+  **refused** rather than waved through, so a wiring bug cannot silently loosen the policy.
+
+  **Verified exactly against the prediction**, replaying every candidate from this experiment:
+
+  | window | claims unchanged | changed | newly assertable |
+  |---|--:|--:|--:|
+  | 20 games | 107 | **15** | 15 |
+  | 60 games | **123** | **0** | 0 |
+
+  The production path is byte-identical; only small corpora move. On the twelve review players at 20
+  games the cost pool's share of the three fell **2.1 → 1.5 of 3** — the peer comparison now fills
+  half the slots rather than a third — and agreement with the reviewer's derived ranking rose
+  **0/6 → 1/6** ([[experiments.e40-derived-ranking]]), cademan now being told about
+  `motif:hangingPiece`, which is their reviewer's own top concern.
+
+  **And the author's rating hypothesis, refuted at +0.19 in [[experiments.e41-cost-ranking]], is
+  restored to +0.54.** The gate was noise on that measurement. With n = 12 that is suggestive rather
+  than established, but the refutation no longer stands as stated.
 - **Correction to a cost estimate the agent gave the author:** this was described as "genuinely two
   lines: the constant and the comparison". It is not. `ClaimStats` carries `games_with_data` but not
-  the corpus size, so a fractional rule needs a new field, populated at seven section call sites,
-  plus the comparison. Still small, but not two lines.
+  the corpus size, so a fractional rule needs a new field, populated at **eight** section call sites,
+  plus the comparison. Still small, but not two lines — and the count was wrong twice, because S8 was
+  missed in the first survey.
+- **A separate omission found while wiring it:** S8 had never been given `instances_at` when
+  [[experiments.e42-claim-overlap]] added it to the other seven, which is exactly the "7 candidate
+  claims not reporting instances" that E42 recorded and did not chase. Now wired, so S8's claims can
+  take part in overlap suppression.
 
 ## Honest limitations
 

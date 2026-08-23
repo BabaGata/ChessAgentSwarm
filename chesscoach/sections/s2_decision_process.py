@@ -220,6 +220,7 @@ class S2DecisionProcess:
         stats = ClaimStats(
             distinct_games=len({o.game_id for o in errors}),
             games_with_data=games_with_data,
+            corpus_games=context.corpus.n_games,
             rate=rate,
             baseline_rate=comparison,
             ci95=wilson_interval(len(errors), len(inside)),

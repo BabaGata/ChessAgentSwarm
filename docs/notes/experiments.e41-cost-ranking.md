@@ -48,6 +48,13 @@ while 1340 and 1923 both take 3 of 3. Whatever drives it, it is not playing stre
 The finding that matters is the level, not the trend: **the peer comparison is filling less than one
 slot in three.** The system is already mostly cost-ranked, without saying so.
 
+> **Corrected 2026-08-20 by [[experiments.e43-focus-gates]].** Both numbers in this section were
+> measured through a gate that was blocking 15 claims for having read 20 games rather than 25. With
+> `FOCUS_GAMES_FRACTION` applied, the pool's share falls **2.1 → 1.5 of 3** and the rating
+> correlation rises **+0.19 → +0.54**. The reviewer's hypothesis was right and this experiment could
+> not see it; at n = 12 the correlation is suggestive rather than established, but *"not supported"*
+> no longer stands as a verdict.
+
 ## Result two — the proposal loses, on the reviewer's own notes
 
 Against E40's derived rankings, on the same twenty games:

@@ -232,6 +232,7 @@ def _assess(key: str, counts: _Counts, context: SectionContext) -> Finding | Non
     stats = ClaimStats(
         distinct_games=len(tally.games_hit),
         games_with_data=counts.games_with_data,
+        corpus_games=context.corpus.n_games,
         rate=rate,
         baseline_rate=peer_rate,
         ci95=wilson_interval(tally.instances, tally.opportunities),

@@ -60,6 +60,9 @@ ROOT = Path(__file__).resolve().parents[2] / "expert-review"
 REVIEW_WINDOW = 20
 FULL_WINDOW = 60
 
+# The absolute floor this experiment retired, kept so its own rows reproduce.
+RETIRED_ABSOLUTE = 20
+
 # The claim S5 produces that FOCUS_MARGIN exists to keep quiet (L-023, D12).
 # **The pooled one specifically** -- D12's objection was to S5's large-denominator
 # aggregate deviating 1.24x at the 90th percentile, not to its subdivisions, and
@@ -111,6 +114,7 @@ def collect(session, peers, player: str, window: int) -> tuple[list[Candidate], 
             stats=conf.ClaimStats(
                 distinct_games=m.distinct_games,
                 games_with_data=m.games_with_data,
+                corpus_games=corpus.n_games,
                 rate=m.rate,
                 baseline_rate=baseline,
                 ci95=m.ci95,
@@ -130,14 +134,17 @@ def assertable_under(candidate: Candidate, n_games: int, fraction: float | None,
     of games that fraction implies, which is exactly equivalent and needs no
     change to `ClaimStats`.
     """
-    old_games, old_margin = conf.FOCUS_GAMES_WITH_DATA, conf.FOCUS_MARGIN
+    old_fraction, old_margin = conf.FOCUS_GAMES_FRACTION, conf.FOCUS_MARGIN
     try:
-        if fraction is not None:
-            conf.FOCUS_GAMES_WITH_DATA = math.ceil(fraction * n_games)
+        # `fraction=None` reproduces the **retired** absolute floor of 20, which
+        # is what this experiment was run against. Expressing it as 20/n_games
+        # makes ceil(f * n_games) land exactly on 20, so the historical rows in
+        # experiments.e43-focus-gates still reproduce after the fix shipped.
+        conf.FOCUS_GAMES_FRACTION = (RETIRED_ABSOLUTE / n_games) if fraction is None else fraction
         conf.FOCUS_MARGIN = margin
         return conf.assign_tier(candidate.stats).is_assertable
     finally:
-        conf.FOCUS_GAMES_WITH_DATA, conf.FOCUS_MARGIN = old_games, old_margin
+        conf.FOCUS_GAMES_FRACTION, conf.FOCUS_MARGIN = old_fraction, old_margin
 
 
 def blocked_only_by_games(candidate: Candidate, n_games: int,
@@ -145,12 +152,12 @@ def blocked_only_by_games(candidate: Candidate, n_games: int,
     """Would this be assertable if the games_with_data floor were the only change?"""
     if assertable_under(candidate, n_games, fraction, conf.FOCUS_MARGIN):
         return False
-    old = conf.FOCUS_GAMES_WITH_DATA
+    old = conf.FOCUS_GAMES_FRACTION
     try:
-        conf.FOCUS_GAMES_WITH_DATA = 0
+        conf.FOCUS_GAMES_FRACTION = 0.0
         return conf.assign_tier(candidate.stats).is_assertable
     finally:
-        conf.FOCUS_GAMES_WITH_DATA = old
+        conf.FOCUS_GAMES_FRACTION = old
 
 
 def main() -> int:

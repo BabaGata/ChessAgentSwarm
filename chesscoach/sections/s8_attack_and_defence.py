@@ -44,6 +44,7 @@ from chesscoach.sections.base import (
     SectionContext,
     SectionReport,
     diagnosable,
+    instance_moves,
     split_by_tier,
 )
 
@@ -153,6 +154,7 @@ def _assess(counts: _Counts, context: SectionContext) -> Finding | None:
     stats = ClaimStats(
         distinct_games=len(tally.games_hit),
         games_with_data=counts.games_with_data,
+        corpus_games=context.corpus.n_games,
         rate=rate,
         baseline_rate=peer_rate,
         ci95=wilson_interval(tally.instances, tally.opportunities),
@@ -167,6 +169,7 @@ def _assess(counts: _Counts, context: SectionContext) -> Finding | None:
         claim=Claim.of(kind=ALLOWS_PRESSURE, subject=KING),
         measurement=Measurement(
             instances=tally.instances,
+            instances_at=instance_moves(tally.examples),
             distinct_games=stats.distinct_games,
             games_with_data=counts.games_with_data,
             rate=round(rate, 4),

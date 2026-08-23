@@ -44,6 +44,7 @@ need to know?"
 | **Sections S3–S6, S8** | **built, each screened first** | endgame technique, opening outcomes, pawn structure, squares and files, attack and defence. **Eight sections total** since S7 reopened |
 | **S7 material safety** | **built 2026-08-17** | `moved_into_attack`, `miscounted_exchange` — the only section reading **the move the player actually played**, answering D13. Two further candidates refused for restating the error rate (E34) |
 | **Arbiter + planner** | **built** | one or two priorities, ranked by peer-relative recoverable cost; every step carries a falsifiable target and a check point |
+| **Confidence policy — corpus-relative games floor** | **changed 2026-08-20** | `FOCUS_GAMES_WITH_DATA = 20` retired for `FOCUS_GAMES_FRACTION = 0.80` against `ClaimStats.corpus_games` (E43). The old floor demanded a perfect score from a 20-game corpus. Surgical: 15 claims change at 20 games, **0 at 60** |
 | **Claim overlap suppression** | **built 2026-08-20** | `chesscoach/overlap.py` — every claim now reports `instances_at`, so two sections describing the same moves is **measured** rather than asserted from a table. Threshold 0.60, calibrated against the pairs `drop_redundant_aggregates` already deletes. Effect is small and stated: **1 player of 12** (E42). Profile schema v15 |
 | **Explainer** | **built** | the report a person reads: strength, style, findings with cited positions, plan, band notes, limits |
 | **Prober (V9)** | **built** | probe selection, move check, a local model classifying reasons at kappa 0.74, `gap_type` written back |
@@ -197,8 +198,12 @@ This is what actually moved this cycle.
    agreement rises **66 % → 75 %**, decomposing 9 points of E39's disagreement as artefact rather than
    sampling. Two of the fifteen are the reviewer's own top concern (`allowed_motif.hangingPiece`,
    1.84× and 2.60×). **`FOCUS_MARGIN` is exonerated and stays at 1.25** — +0 claims at 20 games, and
-   S5's pooled claim does not return even at 1.10. **Recommended, deliberately not applied:** it
-   changes the reports the author is mid-review on. Also surfaced: the **two strongest players
+   S5's pooled claim does not return even at 1.10. **Applied 2026-08-20 at the author's instruction:**
+   `FOCUS_GAMES_FRACTION = 0.80` against a new `ClaimStats.corpus_games`, wired at eight sections, with
+   a zero corpus size refused rather than waved through. Verified surgical — **15 of 122 claims change
+   at 20 games, 0 of 123 at 60**, so the production path is byte-identical. Cost pool's share of the
+   three falls **2.1 → 1.5**, reviewer agreement **0/6 → 1/6**, and the author's rating hypothesis
+   **recovers from +0.19 to +0.54**, the gate having been noise on that measurement. Also surfaced: the **two strongest players
    (1981, 2033) are the only two with nothing assertable at 60 games.**
 
 0. **P0 — D15, defect (a): the five material claims that never become candidates** — now the only

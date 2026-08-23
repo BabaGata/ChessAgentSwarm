@@ -15,6 +15,8 @@ Every number here is provisional and flagged for validation against real data.
 
 from __future__ import annotations
 
+import math
+
 from dataclasses import dataclass
 
 from chesscoach.profile.models import ConfidenceTier
@@ -26,7 +28,27 @@ MIN_GAMES_WITH_DATA = 10
 WATCH_DISTINCT_GAMES = 3
 
 FOCUS_DISTINCT_GAMES = 5
-FOCUS_GAMES_WITH_DATA = 20
+
+# How much of the corpus a section must have been able to speak about before its
+# claims may be asserted -- a **fraction**, because the absolute floor it replaces
+# was measuring the window rather than the evidence.
+#
+# `games_with_data` counts the games in which a section found any diagnosable
+# move, so its ceiling is the corpus size. The old `FOCUS_GAMES_WITH_DATA = 20`
+# therefore demanded a perfect score from a 20-game corpus, where ordinary
+# attrition lands at 18-19. Measured across the twelve review players
+# (experiments.e43-focus-gates), it blocked **15 claims at a 20-game window and 0
+# at 60** -- among them the reviewer's own top concern at 1.84x and 2.60x the peer
+# rate, costing 15.1 and 10.5 points of win probability a game.
+#
+# 0.80 is the middle of an interval where the choice does not matter: E43 swept
+# 0.70, 0.80 and 0.90 and all three were indistinguishable, fixing the defect
+# completely and changing nothing at 60 games. Agreement between a 20-game and a
+# 60-game read rose 66 % -> 75 %.
+#
+# This never weakens `MIN_GAMES_WITH_DATA`, which runs first and is what stops a
+# new account producing findings at all.
+FOCUS_GAMES_FRACTION = 0.80
 
 PRIORITY_DISTINCT_GAMES = 8
 
@@ -69,6 +91,12 @@ class ClaimStats:
 
     distinct_games: int
     games_with_data: int
+    # How many games the corpus held at all. `games_with_data` is measured
+    # against this rather than against a constant, so the same coverage is not
+    # judged differently for having been read over a shorter window (E43).
+    # Zero means a section did not report it, and is refused rather than waved
+    # through -- a wiring bug must not silently loosen the policy.
+    corpus_games: int
     rate: float
     baseline_rate: float
     ci95: tuple[float, float]
@@ -147,8 +175,12 @@ def _focus_blockers(stats: ClaimStats) -> list[str]:
     blockers: list[str] = []
     if stats.distinct_games < FOCUS_DISTINCT_GAMES:
         blockers.append(f"fewer than {FOCUS_DISTINCT_GAMES} distinct games")
-    if stats.games_with_data < FOCUS_GAMES_WITH_DATA:
-        blockers.append(f"fewer than {FOCUS_GAMES_WITH_DATA} games with data")
+    needed = math.ceil(FOCUS_GAMES_FRACTION * stats.corpus_games)
+    if stats.corpus_games <= 0 or stats.games_with_data < needed:
+        blockers.append(
+            f"data in {stats.games_with_data} of {stats.corpus_games} games, "
+            f"under {FOCUS_GAMES_FRACTION:.0%} of the corpus"
+        )
     if stats.ci95[0] <= stats.baseline_rate:
         blockers.append("interval does not exclude the baseline rate")
     if stats.rate < stats.baseline_rate * FOCUS_MARGIN:

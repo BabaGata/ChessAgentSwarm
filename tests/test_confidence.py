@@ -7,7 +7,7 @@ disastrous game did not show a pattern, they had a bad day.
 
 from __future__ import annotations
 
-from chesscoach.confidence import ClaimStats, assign_tier
+from chesscoach.confidence import FOCUS_GAMES_FRACTION, ClaimStats, assign_tier
 from chesscoach.profile.models import ConfidenceTier
 
 
@@ -19,6 +19,7 @@ def counts(**overrides) -> ClaimStats:
         baseline_rate=0.10,
         ci95=(0.18, 0.45),
         replicated=True,
+        corpus_games=25,
     )
     return ClaimStats(**{**defaults, **overrides})
 
@@ -152,3 +153,56 @@ class TestReasons:
 
     def test_is_deterministic(self):
         assert assign_tier(counts()) == assign_tier(counts())
+
+
+class TestCorpusFraction:
+    """The games floor must measure the evidence, not the size of the window.
+
+    Screen: docs/notes/experiments.e43-focus-gates.md — the old absolute floor of
+    20 blocked 15 claims at a 20-game corpus and 0 at a 60-game one, because
+    `games_with_data` counts games in which the *section* found a diagnosable
+    move and its ceiling is the corpus size.
+    """
+
+    def test_a_section_covering_most_of_a_short_corpus_reaches_focus(self):
+        # The E43 case: 18 of 20 games is ordinary attrition, not thin evidence.
+        # Under the old absolute floor of 20 this was refused.
+        result = assign_tier(counts(games_with_data=18, corpus_games=20))
+
+        assert result.tier is not ConfidenceTier.NONE
+        assert result.is_assertable
+
+    def test_a_section_covering_little_of_a_long_corpus_does_not(self):
+        # 40 of 60 is 67 %, below the floor — the section was largely silent and
+        # the old absolute rule would have waved it through on the count alone.
+        result = assign_tier(counts(games_with_data=40, corpus_games=60))
+
+        assert not result.is_assertable
+        assert any("of the corpus" in reason for reason in result.reasons)
+
+    def test_the_same_count_can_pass_or_fail_depending_on_the_corpus(self):
+        # The whole point: 18 games with data is strong coverage of 20 games and
+        # weak coverage of 60. The old rule could not tell those apart.
+        assert assign_tier(counts(games_with_data=18, corpus_games=20)).is_assertable
+        assert not assign_tier(counts(games_with_data=18, corpus_games=60)).is_assertable
+
+    def test_the_absolute_minimum_still_applies_beneath_the_fraction(self):
+        # A 5-game corpus would clear any fraction; MIN_GAMES_WITH_DATA is what
+        # stops a new account producing findings, and the fraction never weakens it.
+        result = assign_tier(counts(games_with_data=5, corpus_games=5))
+
+        assert result.tier is ConfidenceTier.NONE
+        assert result.insufficient_data
+
+    def test_the_fraction_is_the_calibrated_one(self):
+        # Stated as a test because it came from measurement: E43 swept 0.70, 0.80
+        # and 0.90 and found them indistinguishable, so 0.80 is the middle of an
+        # interval where the choice does not matter — not a tuned value.
+        assert FOCUS_GAMES_FRACTION == 0.80
+
+    def test_an_unknown_corpus_size_refuses_rather_than_waves_through(self):
+        # Zero means a section did not report it. Treating that as "no floor"
+        # would turn a wiring bug into a silent loosening of the policy.
+        result = assign_tier(counts(games_with_data=25, corpus_games=0))
+
+        assert not result.is_assertable
