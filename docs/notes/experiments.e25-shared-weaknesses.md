@@ -79,6 +79,28 @@ currently advised to precisely nobody.** It appears in no player's plan in any p
 cycle, because everyone does it at a similar rate and it therefore never clears `FOCUS_MARGIN`
 against peers.
 
+> **Figures re-measured 2026-08-20.** The table above is what this experiment found *at the time*, on
+> the five-player-per-stratum throwaway reference, and is kept as the record of that run. Re-run by
+> the same method on the full-size reference with the increment corrected
+> ([[experiments.e45-increment-correction]]):
+>
+> | claim | cost/game then | now | divided r then | now | |
+> |---|--:|--:|--:|--:|---|
+> | `instant_move_error` | 16.1 | **22.8** | −0.41 | **−0.40** | stays |
+> | `missed_motif.hangingPiece` | 2.1 | **2.5** | −0.21 | **−0.31** | stays |
+> | `early_error.white` | 9.5 | **15.5** | −0.37 | **−0.24** | stays |
+> | `early_error.black` | 10.6 | 15.8 | −0.46 | **−0.13** | **fails the −0.2 bar** |
+> | `allowed_motif.backRankMate` | 0.8 | 0.8 | −0.22 | **−0.12** | **fails the −0.2 bar** |
+>
+> **Five survivors became three**, and `band.py` was updated to match. The headline claim holds and
+> its cost is *higher*, not lower, than recorded here — two changes pulled in opposite directions and
+> the corpus rebuild outweighed the increment correction. **They cannot be cleanly decomposed**
+> without reverting the code, so no split is claimed; what is measured is the endpoint.
+>
+> **Note which statistic this is.** 16.1 and 22.8 are the *median across players* of each player's own
+> cost. The number a player actually reads in the band note is the population's pooled cost for their
+> speed — **17.69 rapid, 32.16 blitz** — which is a different quantity and was never 16.1.
+
 That is the author's objection made concrete: the peer comparison is systematically blind to the
 band's biggest shared, learnable weakness, and blind *because* it is shared.
 

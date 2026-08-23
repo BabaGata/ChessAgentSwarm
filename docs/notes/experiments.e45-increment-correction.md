@@ -94,9 +94,12 @@ All twelve rebuilt. Mostly the band-note block, plus two substantive moves:
 
 ## Honest limitations
 
-- **The band note's own cost figure has never been re-recorded since the corpus rebuild.** E25's note
-  still says 16.1 wp/game; the pre-fix figure on the full-size reference was 22.40 and the post-fix
-  one is 17.69. The 16.1 was already stale before this experiment touched anything.
+- ~~**The band note's own cost figure has never been re-recorded since the corpus rebuild.**~~
+  **Done 2026-08-20**, immediately after this note was written. E25's table is kept as the record of
+  what that run found and carries a correction stamp; the median-player figure is **22.8**, not 16.1,
+  and the live claims in `band.py`, `explainer.py`, `state.md`, `domain.expertise-research` and the
+  experiments index were corrected with it. **The figure rose**, because the corpus rebuild outweighed
+  this experiment's 21 % cut, and the two cannot be cleanly decomposed without reverting the code.
 - **`INSTANT_MOVE_SECONDS = 2.0` is still inherited, not examined.** The correction changes which
   moves fall either side of an arbitrary line; it does not defend the line.
 - **A delay increment is not handled**, only a Fischer increment. No game in either corpus uses one,

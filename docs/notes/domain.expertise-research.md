@@ -81,7 +81,8 @@ modestly worse moves. E19 concluded blitz and rapid measure the same player and 
 that decision now has a peer-reviewed precedent rather than only an internal one.
 
 **Also relevant to E25**, which found `instant_move_error` the most expensive shared weakness in the
-band at 16.1 points a game:
+band — 16.1 points a game as first measured, **22.8 on the full-size reference with the increment
+corrected** ([[experiments.e45-increment-correction]]):
 
 > "Calderwood et al. (1988) showed that **masters can make relatively good decisions even under time
 > pressure (about 5 s per move)**."

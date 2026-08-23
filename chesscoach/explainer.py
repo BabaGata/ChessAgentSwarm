@@ -489,7 +489,7 @@ def _band_section(profile: PlayerProfile) -> list[str]:
     population rather than about this player. The peer comparison that makes the
     priorities a diagnosis is blind to anything everyone shares (E17), and
     `instant_move_error` -- the most expensive claim measured anywhere in this
-    project at 16.1 points a game -- is advised to nobody because of it.
+    project at 22.8 points a game -- is advised to nobody because of it.
 
     Saying it here rather than promoting it into the plan keeps both properties:
     the player learns the expensive thing, and their one or two priorities stay

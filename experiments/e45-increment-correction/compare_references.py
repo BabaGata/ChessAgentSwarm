@@ -6,7 +6,7 @@ written *after* the increment is credited, so the stored value was `spent - i`.
 depends on thinking time was measured slightly wrong.
 
 The claim at risk is the largest number this project has produced:
-`instant_move_error` at **16.1 wp/game**, the most expensive weakness measured
+`instant_move_error`, the most expensive weakness measured
 and the headline of the band note ([[experiments.e25-shared-weaknesses]]). The
 bug inflates exactly that claim, by counting considered moves on increment games
 as instant ones.

@@ -380,7 +380,7 @@ This is what actually moved this cycle.
 
 0. **A band-level section, from the author's objection to peer-relative severity** →
    [[experiments.e25-shared-weaknesses]]. A weakness *everyone* at the level shares has almost no
-   excess over peers, so it sinks and is never said — and `instant_move_error`, at **16.1 points of
+   excess over peers, so it sinks and is never said — and `instant_move_error`, at **22.8 points of
    win probability a game, the most expensive claim measured anywhere in this project**, was advised
    to nobody for exactly that reason. E25 screened which shared claims are worth saying anyway:
    the median claim's correlation with rating is **−0.42**, but only **+0.15** once the player's

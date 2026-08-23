@@ -5,9 +5,11 @@ Screen: docs/notes/experiments.e25-shared-weaknesses.md
 Peer-relative severity is what stops the swarm telling 70 % of players the same
 thing (E17), and it has one blind spot by construction: a weakness **everyone**
 at the level shares has almost no excess over peers, so it sinks below everything
-and is never said -- however expensive it is. `instant_move_error` costs 16.1
-points of win probability a game, the most of any claim measured in this project,
-and appears in no player's plan.
+and is never said -- however expensive it is. `instant_move_error` costs the
+median player 22.8 points of win probability a game, the most of any claim
+measured in this project, and appears in no player's plan. (16.1 until
+2026-08-20, on a smaller reference and before the increment correction --
+experiments.e45-increment-correction.)
 
 E25 screened which shared claims are worth saying anyway. Nearly every claim's
 rate falls with rating (median r **-0.42**), and nearly all of that is simply

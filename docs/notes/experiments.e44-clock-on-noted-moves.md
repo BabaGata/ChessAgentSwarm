@@ -66,7 +66,8 @@ mistakes are instant *less* often than post-opening moves in general** — 19 % 
 against 30 %, 13 % against 30 %, and closer but still below for the other three.
 
 That sits awkwardly beside [[experiments.e25-shared-weaknesses]], where `instant_move_error` is the
-most expensive claim measured in this project at 16.1 wp/game and is advised to nobody. It is not a
+most expensive claim measured in this project — 16.1 wp/game as this was written, **22.8 once the
+increment was corrected and the reference rebuilt** ([[experiments.e45-increment-correction]]) — and is advised to nobody. It is not a
 contradiction — a rate can be low while a total is large if instant moves are numerous, and E25 is a
 population measurement where this is six players — but *"these players err on the moves they thought
 about"* is not what the band note implies, and the two should be reconciled rather than left side by

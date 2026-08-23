@@ -5,7 +5,7 @@ Spec: docs/notes/experiments.e25-shared-weaknesses.md
 Peer-relative ranking is what stops the swarm telling 70 % of players the same
 thing (E17), and it has one blind spot: a weakness **everyone** at the level
 shares has almost no excess over peers, so it sinks and is never said — however
-expensive it is. `instant_move_error` costs 16.1 points of win probability a game,
+expensive it is. `instant_move_error` costs the median player 22.8 points of win probability a game,
 the most of any claim measured in this project, and is advised to nobody.
 
 E25 screened which shared claims are worth saying anyway: those whose rate still
