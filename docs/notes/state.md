@@ -61,7 +61,7 @@ need to know?"
 | D1 | V1 skill assessment | **3** | **+1** | **down to 2 on its first external test, and back up now the defect is repaired** → [[experiments.e27-held-out]], [[experiments.e29-attenuation]]. E27 tested it on 30 players fetched after every constant was frozen: **rapid excellent (MAE 79) and blitz barely an estimator (150 against 157 for guessing)**, compressed by slope attenuation that cross-validation structurally could not see (L-036). E29 corrected it by the standard remedy — divide the slope by the predictor's reliability, **0.641 measured on the fitting corpus alone**, a 1.56× stretch that the held-out players **independently demand at 1.48×**. Held out: **MAE 149 → 129**, bias −111 → −97, within 200 points 75 % → 88 %. Rapid was left alone because the same theory says it should not help there and the data agrees (79 → 111 if applied), which is what makes the blitz correction evidence rather than tinkering (L-037). Not 4: **blitz at 129 against 148 for guessing is still weak**, a −97 bias remains, and the vision asks for strength *and its variance* while every player still gets the same error bar |
 | D2 | V2 knowledge assessment | **2** | **+2** | **the prober works end to end** — probe selection, move check, a local model classifying reasons at kappa 0.74 with zero false-ignorance (E07), `gap_type` written back. Not 3: the rubric's answer set is written and labelled by the author and the figure is in-sample, so it may not yet change a real player's finding |
 | D3 | V3 style profiling | **2** | — | **built, half deliberately refused, and now compared against the right population** → [[experiments.e14-style-dimensions]]. One measured tendency — how much of a game is spent with the queens off — that varies between players (1.40) and is **independent of strength** (r = −0.069). Four of six candidates were strength wearing a style label. A live session found it comparing an all-blitz player against the *rapid* population (I-03); it is now mix-matched like every other comparison. Not 3: **the performance half does not survive** — everyone errs ~20 % less with queens off and players barely differ, so the report says what a player tends to do and refuses to say whether it suits them |
-| D4 | V4 gap detection | **5** | — | **eight sections, and the shallow-corpus caveat that held this back is gone.** On 150-game histories 70 of 84 players advised (83 %); on the **24 games a real user brings, 50 % → 79 %** once the player's other speeds are pooled in, with claim kinds 20 → 25 and overlap unchanged at 0.09 ([[experiments.e21-pooled-speeds]]). Groundedness 113/113. The lever was never more sections: six sections moved coverage 24 → 53 %, corpus depth and then speed pooling did the rest. **S7 reopened 2026-08-17** → [[experiments.e34-material-causes]]: the slot E10 emptied, refilled on a different question — not *how deeply do you calculate* but *did you check*. Two claims read **the move the player actually played**, the first detectors here to do so, closing the structural gap E33 named. Two further candidates were refused for correlating +0.917 and +0.914 with the overall error rate, which is where E10 closed the slot in the first place. Anonymous errors 52 % → 49 % |
+| D4 | V4 gap detection | **3** | **−2** | **eight sections, and the shallow-corpus caveat that held this back is gone.** On 150-game histories 70 of 84 players advised (83 %); on the **24 games a real user brings, 50 % → 79 %** once the player's other speeds are pooled in, with claim kinds 20 → 25 and overlap unchanged at 0.09 ([[experiments.e21-pooled-speeds]]). Groundedness 113/113. The lever was never more sections: six sections moved coverage 24 → 53 %, corpus depth and then speed pooling did the rest. **S7 reopened 2026-08-17** → [[experiments.e34-material-causes]]: the slot E10 emptied, refilled on a different question — not *how deeply do you calculate* but *did you check*. Two claims read **the move the player actually played**, the first detectors here to do so, closing the structural gap E33 named. Two further candidates were refused for correlating +0.917 and +0.914 with the overall error rate, which is where E10 closed the slot in the first place. Anonymous errors 52 % → 49 % | **Down 2 on 2026-08-23** → [[decisions.0011-detection-correctness-over-expert-agreement]]. The author read the reports against the games and found the detection itself wrong: forks mis-detected, `moved_into_attack` firing on ordinary exchanges, king-attack claims raised deep in endgames, and every Black move cited a number too high. **Coverage was never the question this score should have been answering** — 83 % of players advised says nothing about whether what they were told is true. The figures above stand; what they measure is reach, not correctness. It returns when D17's re-screen reports precision per detector on hand-verified samples.
 | D5 | V5 prioritisation | **4** | **+1** | **ranks by what a weakness costs *above what it costs peers*** → [[experiments.e15-expected-gain]], corrected by [[experiments.e17-ranking-stability]]: raw cost named one claim to 70 % of players, so the excess over the population is what a plan can honestly promise, and occurrence rate is kept as a gate but **demoted as a ranking signal** (it ranks at chance, 6 % against 4 %). **And the first expert review then found that ranking blind in a way no internal measurement could** → [[decisions.0010-three-priorities-and-the-cost-pool]], L-039. For `bernes` the most expensive pattern in their games (7.3 wp/game, 10 of 53 games) was measured, correctly judged *not statistically unusual*, and **destroyed** — because being unusual was the only route onto the page. Cost now fills the slots unusualness leaves empty, labelled *"ordinary for your level"*, capped at 3 and never displacing a peer-relative finding; the band-level section (E25) still carries the shared weaknesses that pass its learnability screen. Verified across all 12 review players: **18 distinct claims, most-named 4/12**, so E17's degeneracy did not return one level down, and a second defect was caught on the way (a claim the player did *better* than peers was being offered as a priority). Not 5: it is still an **accounting** cost rather than a forecast, plan length is now near-constant at 3 for 11 of 12, **silence went 2/12 → 0/12**, and the vision asks for gain *per unit of study time*, which needs D5's unresolved question about how long anything takes |
 | D6 | V6 path planning | **2** | **+2** | plans built and persisted, every step carrying a machine-checkable progress sign and a derived check point. No time estimates — D5 is unresolved and inventing them was refused |
 | D7 | V7 progress tracking | **3** | **+1** | **restored, on evidence this time.** 57 predictions from 84 players with ~150-game histories; the constant is cross-validated at 2 *and* 5 folds with a fold spread of 0.011, and a held-out false-positive rate of **15 %** is stated in the output. Not 4: the test's **power is unmeasured** — no coached cohort exists, so nothing shows a real improvement could clear the bar (**D8**) |
@@ -71,8 +71,8 @@ need to know?"
 | D11 | Process & documentation health | **3** | **−1** | **down, and the reason is this table.** The cycle kept working — E20 was withdrawn on evidence, step 7 refused before it was built, three lessons recorded about misreading our own measurements. But across seven steps of the short-history plan the **scorecard rows went stale while the narrative below them was updated every cycle**: D4 still claimed 53 % coverage after pooling took it to 79 %, D5 still described raw cost, and *"What exists"* carried `Any agent | no` beneath seven built sections. The rule says close no cycle without updating [[state]]; it was honoured in the part that reads like prose and not in the part that reads like a score. Reconciled 2026-08-08. **Held at 3 on 2026-08-14 rather than restored**, because the same drift was found again one level out: the README still advertised 688 tests, 82 % coverage, "7.6 seconds", "rated rapid and classical games" and *"two of the eleven section agents"* against seven built. And criterion 6 was **ticked without ever being run** — executing it from an empty directory broke the chain twice (L-038). All corrected and the chain re-run end to end, but a process that catches its own drift only when something else forces it to look has not yet earned the point back |
 | D12 | V9 dialogue & active assessment | **3** | **+1** | **the whole interaction exists**: four context questions before the analysis, probes after it, both feeding the profile, and probe results now reaching the diagnosis inside a coaching session. Answers accumulate as a dataset by-product. Not 4: the classifier's rubric is still the author's own (D10), and the dialogue is four fixed questions rather than anything adaptive |
 
-**Total: 39 / 60**, and **no dimension is at zero.** It has gone 17 → 16 → 17 → 16
-→ 17 → 18 → 20 → 22 → 25 → 26 → 27 → 28 → 29 → 32 → 34 → 36 → 37 → 38 → 37 → 38 → **39**, and every move
+**Total: 37 / 60**, and **no dimension is at zero.** It has gone 17 → 16 → 17 → 16
+→ 17 → 18 → 20 → 22 → 25 → 26 → 27 → 28 → 29 → 32 → 34 → 36 → 37 → 38 → 37 → 38 → 39 → **37**, and every move
 was forced by a measurement — including the last two, where **D1 fell to 2 when strangers exposed a
 defect nothing internal had caught, and returned to 3 once it was repaired and re-validated on those
 same strangers**:
@@ -183,6 +183,41 @@ This is what actually moved this cycle.
 | Evaluation design | 4 | +1 | design space mapped; harness built and proven useful. Predictive-validity (A1) and anti-pattern (D) families still unbuilt |
 
 ## Next logical steps (priority order)
+
+**Reordered 2026-08-23** → [[decisions.0011-detection-correctness-over-expert-agreement]]. The author
+filled three Form B/C and found the detectors systematically wrong. **Detection correctness now
+outranks expert agreement**, and the remaining Form A collection is dropped as a requirement.
+
+0. **P0 — D17: rebuild the motif safety test on SEE and re-screen every detector.** The design fault
+   is concrete: `tactics.py:280` `_lands_safely` asks *"attacked → is it defended?"* with no piece
+   values, while `material.py` already has a static exchange evaluator the motifs never call, and
+   `_is_fork` never asks whether the tactic **wins** anything. **Deliverable is precision per
+   detector on hand-verified samples**, the method of [[experiments.e04-motif-precision]] — not a
+   pass/fail.
+
+0. **P0 — D18: make the evidence readable.** SAN instead of UCI, and game citations carrying colours,
+   opponent and date. Cheap, and it is what makes every other check on this list faster for the
+   author, so it comes early rather than last.
+
+0. **P1 — Re-run E31 and E44.** Both joined the author's noted move numbers with the formula fixed in
+   `f5872ff`, so every Black note was matched against the wrong move. **Their figures are not
+   quotable until this is done.**
+
+0. **P2 — D19: locate where the player actually left the opening book**, and replace the "edge of your
+   repertoire" wording with something testable. Needs a free opening book, so it needs a design note
+   before code.
+
+0. **P2 — D20: make the advice actionable**, with sources carrying an evidence class (C7, R-03).
+   Deliberately behind D17 — actionable advice on a wrong detection is worse than vague advice on a
+   right one.
+
+0. **Parked — D21:** whether E33's 5-point floor is what produces incomprehensible examples. **Raised
+   by the agent, deferred by the author for discussion.** Not being worked on; recorded so it is the
+   next place to look if the D17 re-screen finds the detectors sound on the disputed examples.
+
+0. **Dropped as a requirement — the expert review.** Six of twelve Form A and three of twelve
+   Form B/C exist. That is enough to have found what it found; it is no longer the thing being
+   optimised, and the pre-registered 0/6 stands as a measurement of a system since shown defective.
 
 0. **P0 — D15, defect (c): cross-section aggregate suppression.** **Done 2026-08-20** →
    [[experiments.e42-claim-overlap]]. Built as instructed, and **the premise was wrong**: the claims

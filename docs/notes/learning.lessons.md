@@ -45,6 +45,39 @@ a stated defect in [[experiments.e15-expected-gain]] — raw cost must become pe
 
 ---
 
+### L-044 — A test that asserts the current output cannot catch a bug in it
+**Date:** 2026-08-23 · **Cycle / mission step:** M6 · **Class:** technique
+**Context:** The thesis author, reading their own games against the reports, found every Black move
+cited one number too high. `phrasing.move_number` used `ply // 2 + 1`, which is right for a 0-based
+ply; `analysis.core` sets `ply = index + 1`, which is 1-based.
+**Observation:** A test for this existed and passed. It said:
+
+```python
+def test_ply_is_shown_as_a_move_number(self):
+    # Ply 40 is move 21. Players do not count in plies.
+    assert "move 21" in render(a_profile(a_finding()))
+```
+
+Ply 40 is Black's move **20**. The number in the test was not derived from the rule — it was read off
+the implementation and written down as the expectation, comment included. **1040 tests, and this one
+was standing guard over the defect rather than against it.** The same wrong expression had also been
+copy-pasted into `cli.py` twice and into four experiment scripts, two of which
+([[experiments.e31-move-level-agreement]], [[experiments.e44-clock-on-noted-moves]]) used it to join
+the author's noted move numbers to observations — so every Black note in both was compared against
+the wrong move.
+**Lesson:** When a test's expected value is a literal, ask where the literal came from. If the answer
+is "what the code prints", the test pins behaviour and cannot detect a wrong rule; it converts a bug
+into a requirement. **Derive the expectation from an independent source** — here, python-chess's own
+`fullmove_number` walking a real game, which is what the replacement test does. The general form:
+a test whose oracle is the system under test is a regression test, never a correctness test, and the
+two are worth labelling differently. Note also what did catch it: **a domain expert reading real
+output.** No amount of internal testing was going to.
+**Applied to:** the four new numbering tests; the de-duplication of the expression into one helper;
+and the re-run obligation on E31 and E44 recorded in
+[[decisions.0011-detection-correctness-over-expert-agreement]].
+
+---
+
 ### L-043 — "It contains it" is a hypothesis about instances, not a fact about names
 **Date:** 2026-08-20 · **Cycle / mission step:** M6 · **Class:** technique
 **Context:** [[experiments.e41-cost-ranking]] read `s4_opening_outcomes.py:141`, saw `early_error`
