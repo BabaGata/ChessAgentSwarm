@@ -94,6 +94,29 @@ def _swap(board: chess.Board, square: int) -> int:
         board.pop()
 
 
+def wins_material(board: chess.Board, square: int, side: chess.Color) -> int:
+    """What `side` wins by capturing on `square`, whoever is to move.
+
+    `_swap` answers for the side to move. The motifs need to ask about **either**
+    side — "can the opponent take my knight back?" and "can I win that rook?" are
+    both questions about a position where it may not be that side's turn — so the
+    turn is flipped with a null move first.
+
+    This is the single notion of "safe" the detectors were missing. `tactics.py`
+    had its own, built on `is_attacked_by` with no piece values, which called a
+    knight on a square attacked by a pawn and defended by a pawn *safe* (D17).
+    """
+    if board.turn != side:
+        board = board.copy(stack=False)
+        # A null move only flips the turn and clears en passant. Pushed even when
+        # the other side is in check, deliberately: "what could White win on a8?"
+        # is exactly the question a fork detector asks after giving check, and
+        # refusing to answer it there would blind the detector to every fork that
+        # comes with check -- which is most of them.
+        board.push(chess.Move.null())
+    return _swap(board, square)
+
+
 def exchange_value(board: chess.Board, move: chess.Move) -> int:
     """Material the mover nets from this move once the exchange plays out.
 

@@ -1,0 +1,35 @@
+
+FIRINGS ON 8646 PLAYED MOVES, 20-game windows
+motif                   firings  per 1000 moves
+-----------------------------------------------
+pin                         526            60.8
+hangingPiece                488            56.4
+hangingPawn                 454            52.5
+fork                        274            31.7
+capturingDefender           217            25.1
+discoveredAttack            176            20.4
+trappedPiece                119            13.8
+skewer                       50             5.8
+backRankMate                 14             1.6
+TOTAL                      2318
+
+AGAINST THE SAME PLAYERS BEFORE THE CHANGE (E43's stored candidates)
+claim                              rate before  rate now
+--------------------------------------------------------
+allowed_motif.capturingDefender          6.5%  (see sheet)
+allowed_motif.discoveredAttack           6.8%  (see sheet)
+allowed_motif.fork                      11.4%  (see sheet)
+allowed_motif.hangingPawn               10.2%  (see sheet)
+allowed_motif.hangingPiece              10.7%  (see sheet)
+allowed_motif.pin                       14.2%  (see sheet)
+allowed_motif.trappedPiece               5.7%  (see sheet)
+missed_motif.capturingDefender          33.6%  (see sheet)
+missed_motif.discoveredAttack           45.8%  (see sheet)
+missed_motif.fork                       55.9%  (see sheet)
+missed_motif.hangingPawn                23.1%  (see sheet)
+missed_motif.pin                        33.5%  (see sheet)
+missed_motif.trappedPiece               77.8%  (see sheet)
+
+  Rates here are the swarm's own claim rates, which are conditional on
+  opportunity and so not directly comparable to the firing counts above.
+  What settles precision is the sheet, and only the author can fill it.

@@ -25,6 +25,8 @@ from enum import StrEnum
 
 import chess
 
+from chesscoach.material import wins_material
+
 # Values used only for "is this worth winning" comparisons, not for evaluation.
 # The king is given a sentinel so it always outranks material.
 PIECE_VALUE: dict[int, int] = {
@@ -264,24 +266,23 @@ def _is_trapped_piece(
 def _is_winnable(
     after: chess.Board, square: int, piece: chess.Piece, mover: chess.Color
 ) -> bool:
-    """Undefended, or attacked by a piece worth less than it."""
-    if not after.is_attacked_by(not mover, square):
-        return True
-    return any(
-        PIECE_VALUE[attacker.piece_type] < PIECE_VALUE[piece.piece_type]
-        for attacker_square in after.attackers(mover, square)
-        if (attacker := after.piece_at(attacker_square)) is not None
-    )
+    """Can this enemy piece actually be won, once the exchange is counted?"""
+    return wins_material(after, square, mover) > 0
 
 
 # --- shared helpers ---------------------------------------------------------
 
 
 def _lands_safely(after: chess.Board, square: int, mover: chess.Color) -> bool:
-    """Can the piece just be taken? A fork that hangs the forker is not a fork."""
-    if not after.is_attacked_by(not mover, square):
-        return True
-    return after.is_attacked_by(mover, square)
+    """Can the piece be taken **profitably**? A fork that drops it is not a fork.
+
+    This used to ask "attacked? then is it defended?", which has no notion of
+    what the pieces are worth: a knight on a square attacked by a pawn and
+    defended by a pawn passed as safe, and the detector called the resulting
+    piece-drop a fork (D17). Defended and safe are different questions, and only
+    an exchange answers the second.
+    """
+    return wins_material(after, square, not mover) <= 0
 
 
 def _is_worth_winning(
@@ -295,7 +296,9 @@ def _is_worth_winning(
         return True
     if PIECE_VALUE[target.piece_type] > PIECE_VALUE[attacker.piece_type]:
         return True
-    return not after.is_attacked_by(not mover, square)
+    # Not "is it undefended" but "would taking it actually win anything" -- the
+    # difference between a target and a square the opponent is happy to trade on.
+    return wins_material(after, square, mover) > 0
 
 
 def _lined_up_pairs(
