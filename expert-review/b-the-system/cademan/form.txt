@@ -8,35 +8,39 @@ Now read report.txt in this folder, then rate each item 1-5.
   correctness   is the named weakness real?
                 1 contradicted by the games / 3 present but minor
                 5 clearly a main weakness
-                                                            [   ]
+                                                            [ 4 ]
 
   priority      is it what you would work on first?
                 1 would not mention it / 3 reasonable, not my first choice
                 5 exactly my first choice
-                                                            [   ]
+                                                            [ 4 ]
 
   specificity   could the player act on this?
                 1 generic advice / 3 actionable with effort
                 5 concrete and immediately actionable
-                                                            [   ]
+                                                            [ 2 ]
 
   evidence      do the cited positions support the claim?
                 1 they do not show it / 3 mixed / 5 they show it plainly
-                                                            [   ]
+                                                            [ 1 ]
 
   harm          could following this make them worse?
                 1 yes, plainly / 3 neutral / 5 actively helpful
-                                                            [   ]
+                                                            [ 4 ]
 
 The most useful box on this form:
 
   What did the system MISS?
-
-
+Second statement is just vauge and not informative. 2 out of 3 examples show moves that are already in the middle game and are not near the edge of the repertoire of players on this level at all.
+Before committing a move, ask what your opponent's best reply threatens; a fork is what has been punishing you. - this is just some generic advice, I saw before that it was written for forks that the player could practice fork puzzles in your previous versions of the reports. This is much more useful advice.
+Before committing a move, ask what your opponent's best reply threatens; a hanging piece is what has been punishing you. -  this is also really generic, I think there is something more actionable like checking if the last move of the opponent is treating anything, or some mental workout or a mental list that can be used in games and advice hot to practice it best.
 
   Anything it said that is simply wrong?
-
-
+Examples of forks are not correct. Fork is not just having attacked just random piece and a pawn. Nor having 2 different pieces attacked by 2 different pieces. The loss of material in those examples happened just because the player lef pieces hanging. Forks occur when a less worth piece attackes 2 higher worth pieces simultaniously. Like a pawn attacking 2 knights simultaniously after moving it. Or knight attacking queen adn rock simultanuiously after being moved. Also for is when 2 undefendent pieces are attacked simultaniously by any piece and they cannot be defended both.
+For example game Odqpej9W, move 7, you played c6d4 (e5e4 was better) this did not happened in move 7 but in move 6.
+For example game QjeRmzq0, move 18, you played e7b4 (c6b4 was better) this also happened the move before.
+It seems that for black you write the number of move one move later than it happened.
+For example game QjeRmzq0, move 18, you played e7b4 (c6b4 was better) this example show a placing piece on the attacked spot and not just plain hanging piece. Hanging piece happens when the attacked piece was not moved nor defendend since it was attacked. If the piece moved on the attacked spot even if it was attacked before then it should be counted as placing a piece on the attacked spot.
 
   If the report was empty: was there something worth telling this player?
 

@@ -218,5 +218,12 @@ def statement(finding: Finding) -> str:
 
 
 def move_number(ply: int) -> int:
-    """Ply is internal; players count moves."""
-    return ply // 2 + 1
+    """Ply is internal; players count moves.
+
+    `ply` is **1-based** — `analysis.core.analyse_game` sets `ply = index + 1` —
+    so White's first move is ply 1 and Black's is ply 2, and both are move 1.
+    The obvious-looking `ply // 2 + 1` gets White right and reports **every Black
+    move one too high**, which is what the reviewer caught reading their own
+    games against the reports.
+    """
+    return (ply + 1) // 2

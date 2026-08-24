@@ -8,34 +8,38 @@ Now read report.txt in this folder, then rate each item 1-5.
   correctness   is the named weakness real?
                 1 contradicted by the games / 3 present but minor
                 5 clearly a main weakness
-                                                            [   ]
+                                                            [ 4 ]
 
   priority      is it what you would work on first?
                 1 would not mention it / 3 reasonable, not my first choice
                 5 exactly my first choice
-                                                            [   ]
+                                                            [ 4 ]
 
   specificity   could the player act on this?
                 1 generic advice / 3 actionable with effort
                 5 concrete and immediately actionable
-                                                            [   ]
+                                                            [ 4 ]
 
   evidence      do the cited positions support the claim?
                 1 they do not show it / 3 mixed / 5 they show it plainly
-                                                            [   ]
+                                                            [ 1 ]
 
   harm          could following this make them worse?
                 1 yes, plainly / 3 neutral / 5 actively helpful
-                                                            [   ]
+                                                            [ 5 ]
 
 The most useful box on this form:
 
   What did the system MISS?
+In the cited positions, count your opponent's pieces that can reach your king and compare it with your own defenders. The move to find is the one before they got a third attacker there — that is where the game turned, not the move the attack landed on. This advice is not so informative, some questions that could guide the player's evaluation of the position and could help them to understand the cause, after all they are not really good players who are able to evaluate the positions by themselves.
 
 
 
   Anything it said that is simply wrong?
-
+For example game UJQuSlPA, move 24, you played a1e1 and For example game kQQwhms8, move 46, you played e4f3 are not good examples of the king attack, king attack happen when there are queens on board and not in the endgames. Or when ther are multiple lighter pieces attacking the king with a potential of making a checkmate. The couple of connected checks in the endgame with a king in the middle of the board and with each player having 1 or 2 pieces in total should not be considered a king attack.ć
+Moves for black are numbered 1 move to late.
+For example game UJQuSlPA, move 6, you played e5f6 (g8f6 was better) this is just plain exchange, not pawn loss.
+All examples for placing a piece on the attacked spot were just exchanges. For example game UJQuSlPA, move 6, you played e5f6 (f1b5 was better) this is even pawn exchange and not a piece exchange.
 
 
   If the report was empty: was there something worth telling this player?

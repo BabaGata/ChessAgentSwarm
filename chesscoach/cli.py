@@ -27,6 +27,7 @@ from chesscoach.ingest.corpus import build_corpus
 from chesscoach.ingest.lichess import DIAGNOSTIC_PERF_TYPES
 from chesscoach.orchestrator import apply_to_profile, default_agents, diagnose, summarise
 from chesscoach.pipeline import CacheStats, engine_session, load_games
+from chesscoach.phrasing import move_number
 from chesscoach.profile.io import load_profile, save_profile
 from chesscoach.profile.models import ClassifierStatus, PlayerProfile, PlayerRef
 from chesscoach.sections.base import SectionContext
@@ -993,7 +994,7 @@ def _probe_interactively(profile, peers, args):
     for index, probe in enumerate(probes, start=1):
         print(f"--- {index}/{len(probes)} " + "-" * 52)
         print(f"position  {probe.fen}")
-        print(f"from      your game {probe.game_id}, move {probe.ply // 2 + 1}")
+        print(f"from      your game {probe.game_id}, move {move_number(probe.ply)}")
         print(f"\n{probe.asks}\n")
         move = input("  your move    > ").strip()
         reason = input("  why          > ").strip()
@@ -1068,7 +1069,7 @@ def run_probes(args: argparse.Namespace) -> int:
     for index, probe in enumerate(probes, start=1):
         print(f"--- {index}/{len(probes)} " + "-" * 52)
         print(f"position  {probe.fen}")
-        print(f"from      your game {probe.game_id}, move {probe.ply // 2 + 1}")
+        print(f"from      your game {probe.game_id}, move {move_number(probe.ply)}")
         print(f"\n{probe.asks}\n")
         move = input("  your move    > ").strip()
         reason = input("  why          > ").strip()

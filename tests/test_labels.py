@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import pytest
 
+from chesscoach.phrasing import move_number
 from chesscoach.analysis.labels import (
     BLUNDER_WP,
     CLAMP_CP,
@@ -91,3 +92,38 @@ class TestMoveLoss:
         loss = move_loss_wp(before_cp=0, after_cp=300, mover_is_white=True, played_best=False)
 
         assert loss == 0.0
+
+
+class TestMoveNumbering:
+    """Ply is 1-based (`core.analyse_game` sets `ply=index + 1`), so the
+    conversion must be `(ply + 1) // 2`.
+
+    `ply // 2 + 1` reported **every Black move one too high** — the reviewer
+    caught it reading their own games against the reports. It is not a display
+    bug: `experiments/e31-move-level-agreement` and
+    `experiments/e28-expert-review/clock_annotate.py` used the same expression to
+    match the reviewer's noted move numbers, so half of every comparison was
+    joined to the wrong move.
+    """
+
+    def test_white_and_black_share_a_move_number(self):
+        assert move_number(1) == 1   # White's first
+        assert move_number(2) == 1   # Black's first
+        assert move_number(3) == 2
+        assert move_number(4) == 2
+
+    def test_the_first_ply_is_move_one(self):
+        assert move_number(1) == 1
+
+    def test_black_is_not_reported_a_move_ahead(self):
+        # The exact defect: Black's move 15 was printed as move 16.
+        assert move_number(30) == 15
+
+    def test_it_agrees_with_a_real_game_walk(self):
+        import chess
+
+        board = chess.Board()
+        for ply, uci in enumerate(["e2e4", "e7e5", "g1f3", "b8c6", "f1c4"], start=1):
+            expected = board.fullmove_number
+            board.push(chess.Move.from_uci(uci))
+            assert move_number(ply) == expected

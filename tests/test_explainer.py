@@ -129,8 +129,10 @@ class TestEvidence:
         assert "game abc123" in report
 
     def test_ply_is_shown_as_a_move_number(self):
-        # Ply 40 is move 21. Players do not count in plies.
-        assert "move 21" in render(a_profile(a_finding()))
+        # Ply is 1-based, so ply 40 is Black's move 20. This test previously
+        # asserted 21, which is the off-by-one the reviewer caught: it encoded
+        # the bug rather than the rule, and so could never have failed on it.
+        assert "move 20" in render(a_profile(a_finding()))
 
     def test_it_shows_what_was_played_and_what_was_better(self):
         report = render(a_profile(a_finding()))

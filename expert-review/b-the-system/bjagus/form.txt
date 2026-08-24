@@ -8,34 +8,38 @@ Now read report.txt in this folder, then rate each item 1-5.
   correctness   is the named weakness real?
                 1 contradicted by the games / 3 present but minor
                 5 clearly a main weakness
-                                                            [   ]
+                                                            [ 2 ]
 
   priority      is it what you would work on first?
                 1 would not mention it / 3 reasonable, not my first choice
                 5 exactly my first choice
-                                                            [   ]
+                                                            [ 2 ]
 
   specificity   could the player act on this?
                 1 generic advice / 3 actionable with effort
                 5 concrete and immediately actionable
-                                                            [   ]
+                                                            [ 4 ]
 
   evidence      do the cited positions support the claim?
                 1 they do not show it / 3 mixed / 5 they show it plainly
-                                                            [   ]
+                                                            [ 1 ]
 
   harm          could following this make them worse?
                 1 yes, plainly / 3 neutral / 5 actively helpful
-                                                            [   ]
+                                                            [ 3 ]
 
 The most useful box on this form:
 
   What did the system MISS?
-
+Statements about the player's weaknesses are completely vauge and uninformative. They are not explained plainely and simply while the players are not on a high level of chess understanding themselves.
+First advice has examples where moves that are better are not clear why they are better and one example had a better move that is counterintuitive even. I don't understand what those moves would gain and the advice is not helpful for those kind of moves at all.
+Second advice is telling about the edge of repertoire but the move where the mistakes were done were in around move 15, the move when the opening is already done and the players on that level both have moved past the edge of their repertoaire a long time ago. Realistic move at the edge of their repertoire would be move 4-7.
+Game examples could have a bit more information then just game id, like players usernames, who was white and black and timestamp. Also game id should be written that it is game id and not just some random sequence.
 
 
   Anything it said that is simply wrong?
-
+Third advice is said that the player lets good spots for the opponent's knights. The examples were moves where the oponent's knight comes on the spot where the pawns have past way further, or have been taken a long time ago. Of course that the opponent's knight can take a good spot in the endgame, it could be that bjagus just enters more endgames then others. Only ok exaple is cAPWWpqR, but this one is also not the best example.
+The move notation is not good. It should be something like Rd5, Bxb2 and not f2f4, b2b4.
 
 
   If the report was empty: was there something worth telling this player?
