@@ -79,3 +79,66 @@ class TestSafety:
 
         assert board.is_attacked_by(chess.WHITE, chess.D5)   # "defended"
         assert wins_material(board, chess.D5, chess.BLACK) > 0  # and lost anyway
+
+
+# A rook to d5 "pins" the d7 knight to the d8 king — and the c6 pawn takes it.
+PIN_THAT_HANGS = ("3k4/3n4/2p5/8/8/8/8/3R2K1 w - - 0 1", "d1d5")
+# The same geometry with nothing attacking the rook.
+REAL_PIN = ("3qk3/3n4/8/8/8/8/8/3R2K1 w - - 0 1", "d1d2")
+# Ra8#: the king is boxed by its own pawns and the rook mates along the rank.
+REAL_BACK_RANK = ("6k1/5ppp/8/8/8/8/8/R5K1 w - - 0 1", "a1a8")
+# Nf7#: mate on the eighth rank, but smothered — a different motif entirely.
+SMOTHERED = ("6rk/6pp/3N4/8/8/8/8/6K1 w - - 0 1", "d6f7")
+
+
+class TestPin:
+    def test_a_pinning_piece_that_simply_hangs_is_not_a_pin(self):
+        # The rook does pin the knight to the king. It is also just taken by a
+        # pawn, and a pin you cannot keep is not a pin worth naming.
+        assert Motif.PIN not in motifs(*PIN_THAT_HANGS)
+
+    def test_a_real_pin_survives(self):
+        assert Motif.PIN in motifs(*REAL_PIN)
+
+
+class TestBackRankMate:
+    def test_a_mate_along_the_back_rank_is_one(self):
+        assert Motif.BACK_RANK_MATE in motifs(*REAL_BACK_RANK)
+
+    def test_a_smothered_mate_on_the_eighth_rank_is_not_a_back_rank_mate(self):
+        # It is checkmate, and it is on the back rank, and it is a different
+        # motif: nothing is delivering mate *along* the rank.
+        board = chess.Board(SMOTHERED[0])
+        after = board.copy()
+        after.push(chess.Move.from_uci(SMOTHERED[1]))
+        assert after.is_checkmate()
+
+        assert Motif.BACK_RANK_MATE not in motifs(*SMOTHERED)
+
+
+class TestHangingCaptures:
+    def test_taking_a_defended_piece_is_not_taking_a_hanging_one(self):
+        # Nxd5 wins a knight and loses one: an exchange, not a free piece.
+        fen = "rnbqkbnr/ppp2ppp/8/3np3/8/2N2N2/PPPPPPPP/R1BQKB1R w KQkq - 0 1"
+        assert Motif.HANGING_PIECE not in motifs(fen, "c3d5")
+
+    def test_taking_a_genuinely_free_piece_still_counts(self):
+        fen = "rnbqkb1r/pppppppp/8/3n4/8/2N5/PPPPPPPP/R1BQKBNR w KQkq - 0 1"
+        assert Motif.HANGING_PIECE in motifs(fen, "c3d5")
+
+
+class TestKingPressureIsNotAnEndgameClaim:
+    """"Attacks build against your king" is a middlegame statement.
+
+    The author: *"King attacks are recorded deeply in the endgames."* S8 filtered
+    with `diagnosable()` alone — post-opening and still competitive — which says
+    nothing about phase, so a king walking up the board in a rook ending counted
+    as pressure. With three pieces left there is no attack to build.
+    """
+
+    def test_endgame_positions_are_excluded(self):
+        from chesscoach.sections.s8_attack_and_defence import attacking_phase
+
+        assert attacking_phase("opening_middlegame")
+        assert attacking_phase("late_middlegame")
+        assert not attacking_phase("endgame")

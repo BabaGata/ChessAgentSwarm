@@ -109,9 +109,23 @@ class S8AttackAndDefence:
 # --- counting ---------------------------------------------------------------
 
 
+def attacking_phase(phase: str) -> bool:
+    """Is there enough material on the board for an attack to be a thing?
+
+    "Attacks build against your king more readily than against players at your
+    level" is a middlegame claim. `diagnosable()` filters on ply and on the game
+    still being competitive, and says nothing about phase, so a king walking up
+    the board in a rook ending was counted as pressure (D17). With almost nothing
+    left there is no attack to build, and the advice that follows from the claim
+    -- watch your king safety, do not weaken the shelter -- is wrong there.
+    """
+    return phase != "endgame"
+
+
 def _count(context: SectionContext) -> _Counts:
     by_ply = {(o.game_id, o.ply): o for o in context.observations}
-    moves = diagnosable(context.player_observations())
+    moves = [o for o in diagnosable(context.player_observations())
+             if attacking_phase(o.phase)]
     tally = _Tally()
 
     for observation in moves:

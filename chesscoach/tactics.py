@@ -25,7 +25,7 @@ from enum import StrEnum
 
 import chess
 
-from chesscoach.material import wins_material
+from chesscoach.material import exchange_value, wins_material
 
 # Values used only for "is this worth winning" comparisons, not for evaluation.
 # The king is given a sentinel so it always outranks material.
@@ -118,12 +118,31 @@ def _is_pin(board: chess.Board, after: chess.Board, move: chess.Move, mover: che
 
     The piece behind must be worth being pinned *against* -- a rook, queen or
     king. Two minor pieces in a line is geometry, not a pin worth naming.
+
+    Two further tests, both missing until D17 and both cheap. **The pinning piece
+    must survive**: a rook that pins a knight to a king and is taken by a pawn
+    next move has not pinned anything. And the pin must **hold or win
+    something** -- against a king that is exact, because python-chess knows
+    whether the front piece may legally move; otherwise the piece behind has to
+    be winnable once the front one steps aside.
     """
-    return any(
-        PIECE_VALUE[behind.piece_type] > PIECE_VALUE[front.piece_type]
-        and PIECE_VALUE[behind.piece_type] >= PIN_TARGET_MIN_VALUE
-        for front, behind in _lined_up_pairs(after, move.to_square, mover)
-    )
+    if wins_material(after, move.to_square, not mover) > 0:
+        return False
+
+    for front_square, front, behind_square, behind in _lined_up_pairs(
+        after, move.to_square, mover
+    ):
+        if PIECE_VALUE[behind.piece_type] <= PIECE_VALUE[front.piece_type]:
+            continue
+        if PIECE_VALUE[behind.piece_type] < PIN_TARGET_MIN_VALUE:
+            continue
+        if behind.piece_type == chess.KING:
+            if after.is_pinned(not mover, front_square):
+                return True
+            continue
+        if _wins_once_vacated(after, front_square, behind_square, mover):
+            return True
+    return False
 
 
 def _is_skewer(
@@ -132,24 +151,41 @@ def _is_skewer(
     """The same geometry as a pin, with the valuable piece attacked first.
 
     The piece behind must be worth winning once the front one moves; a pawn
-    behind a knight lines up without threatening anything.
+    behind a knight lines up without threatening anything. As with the pin, the
+    skewering piece must itself survive, and "worth winning" is now settled by an
+    exchange rather than by piece values alone (D17).
     """
+    if wins_material(after, move.to_square, not mover) > 0:
+        return False
+
     return any(
         PIECE_VALUE[front.piece_type] > PIECE_VALUE[behind.piece_type]
         and PIECE_VALUE[behind.piece_type] >= SKEWER_TARGET_MIN_VALUE
-        for front, behind in _lined_up_pairs(after, move.to_square, mover)
+        and _wins_once_vacated(after, front_square, behind_square, mover)
+        for front_square, front, behind_square, behind in _lined_up_pairs(
+            after, move.to_square, mover
+        )
     )
 
 
 def _is_discovered_attack(
     board: chess.Board, after: chess.Board, move: chess.Move, mover: chess.Color
 ) -> bool:
-    """Vacating a square lets a friendly slider attack something it could not before."""
+    """Vacating a square lets a friendly slider attack something it could not before.
+
+    The revealed attack has to **threaten** something: a slider that now bears
+    on a defended knight it cannot profitably take has discovered a line, not an
+    attack (D17).
+    """
     for slider in _friendly_sliders(after, mover, exclude=move.to_square):
         revealed = after.attacks(slider) - board.attacks(slider)
         for square in revealed:
             piece = after.piece_at(square)
-            if piece is not None and piece.color != mover and PIECE_VALUE[piece.piece_type] >= 3:
+            if piece is None or piece.color == mover:
+                continue
+            if PIECE_VALUE[piece.piece_type] < 3:
+                continue
+            if piece.piece_type == chess.KING or wins_material(after, square, mover) > 0:
                 return True
     return False
 
@@ -170,7 +206,10 @@ def _is_hanging_piece(
     if captured is None or PIECE_VALUE[captured.piece_type] < HANGING_MIN_VALUE:
         return False
 
-    return not after.is_attacked_by(not mover, move.to_square)
+    # "Free" settled by the exchange rather than by "is anything pointing at it":
+    # a defender that is pinned cannot actually recapture, and the old test
+    # counted it anyway (D17).
+    return exchange_value(board, move) >= PIECE_VALUE[captured.piece_type]
 
 
 def _is_hanging_pawn(
@@ -191,13 +230,13 @@ def _is_hanging_pawn(
         return False
 
     if board.is_en_passant(move):
-        return not after.is_attacked_by(not mover, move.to_square)
+        return exchange_value(board, move) >= PIECE_VALUE[chess.PAWN]
 
     captured = board.piece_at(move.to_square)
     if captured is None or PIECE_VALUE[captured.piece_type] >= HANGING_MIN_VALUE:
         return False
 
-    return not after.is_attacked_by(not mover, move.to_square)
+    return exchange_value(board, move) >= PIECE_VALUE[captured.piece_type]
 
 
 def _is_back_rank_mate(
@@ -213,7 +252,18 @@ def _is_back_rank_mate(
         return False
 
     home_rank = 7 if defender == chess.BLACK else 0
-    return chess.square_rank(king_square) == home_rank
+    if chess.square_rank(king_square) != home_rank:
+        return False
+
+    # Mate must be delivered *along* the rank by a rook or queen. Without this a
+    # smothered mate on the eighth rank -- a different motif, with a different
+    # lesson -- was reported as a back-rank mate (D17).
+    return any(
+        chess.square_rank(checker) == home_rank
+        and (piece := after.piece_at(checker)) is not None
+        and piece.piece_type in (chess.ROOK, chess.QUEEN)
+        for checker in after.checkers()
+    )
 
 
 def _is_removing_the_defender(
@@ -223,15 +273,18 @@ def _is_removing_the_defender(
     if not board.is_capture(move) or board.is_en_passant(move):
         return False
 
+    # A capture that loses material has not removed a defender, it has donated a
+    # piece; and the loosened piece has to be winnable rather than merely looked
+    # at (D17).
+    if exchange_value(board, move) < 0:
+        return False
+
     defended = [
         square
         for square in board.attacks(move.to_square)
         if (piece := board.piece_at(square)) is not None and piece.color != mover
     ]
-    return any(
-        after.is_attacked_by(mover, square) and not after.is_attacked_by(not mover, square)
-        for square in defended
-    )
+    return any(wins_material(after, square, mover) > 0 for square in defended)
 
 
 def _is_trapped_piece(
@@ -303,7 +356,7 @@ def _is_worth_winning(
 
 def _lined_up_pairs(
     after: chess.Board, square: int, mover: chess.Color
-) -> list[tuple[chess.Piece, chess.Piece]]:
+) -> list[tuple[int, chess.Piece, int, chess.Piece]]:
     """(front, behind) enemy pairs lined up behind one another from `square`.
 
     Only the piece that just moved is considered, and only if it is a slider:
@@ -316,7 +369,7 @@ def _lined_up_pairs(
 
     pairs = []
     for direction in _directions(piece.piece_type):
-        found: list[chess.Piece] = []
+        found: list[tuple[int, chess.Piece]] = []
         current = square
         while True:
             current = _step(current, direction)
@@ -327,11 +380,25 @@ def _lined_up_pairs(
                 continue
             if occupant.color == mover:
                 break  # own piece blocks the line
-            found.append(occupant)
+            found.append((current, occupant))
             if len(found) == 2:
-                pairs.append((found[0], found[1]))
+                pairs.append((*found[0], *found[1]))
                 break
     return pairs
+
+
+def _wins_once_vacated(
+    after: chess.Board, front: int, behind: int, mover: chess.Color
+) -> bool:
+    """Would the piece behind be won, if the one in front stepped aside?
+
+    That is what makes a relative pin or a skewer worth naming. Without it the
+    detector reports geometry: two enemy pieces on a line, one of them nominally
+    more valuable, and nothing at stake if either moves.
+    """
+    probe = after.copy(stack=False)
+    probe.remove_piece_at(front)
+    return wins_material(probe, behind, mover) > 0
 
 
 def _friendly_sliders(after: chess.Board, mover: chess.Color, exclude: int) -> list[int]:

@@ -53,14 +53,24 @@ class TestPin:
 
 
 class TestSkewer:
-    def test_rook_skewering_a_queen_in_front_of_a_rook(self):
-        # King on g1: on e1 it stands on the a5-e1 diagonal and is in check,
-        # which makes the rook move illegal for reasons unrelated to skewers.
-        assert Motif.SKEWER in motifs("r3k3/8/8/q7/8/8/8/3R2K1 w - - 0 1", "d1a1")
+    # These two positions were rebuilt on 2026-08-23. The originals put the rook
+    # on a1 attacking a piece on a5 with another behind it on a8 -- and in that
+    # geometry the rear piece defends the front one, so Black simply answers
+    # ...Qxa1 and wins a rook. They were legal, they exercised the geometry, and
+    # they were not tactics. Once the detectors began asking whether the
+    # attacking piece survives, both stopped firing, correctly. See L-044: a
+    # fixture built to exercise a code path is not the same as a fixture that is
+    # true. Diagonal versions with the attacker defended replace them.
+
+    def test_bishop_skewering_a_queen_in_front_of_a_rook(self):
+        # Bb2 hits Qf6 with Rh8 behind it; Rb1 defends b2, so ...Qxb2 Rxb2 is
+        # queen for bishop and the skewer stands.
+        assert Motif.SKEWER in motifs("k6r/8/5q2/8/8/8/6K1/1RB5 w - - 0 1", "c1b2")
 
     def test_the_reverse_arrangement_is_a_pin_not_a_skewer(self):
-        # Rook in front, queen behind -- the less valuable piece is attacked first.
-        found = motifs("q3k3/8/8/r7/8/8/8/3RK3 w - - 0 1", "d1a1")
+        # Rook in front, queen behind -- the less valuable piece is attacked
+        # first. The rook on f6 does not attack b2, so the bishop is safe.
+        found = motifs("k6q/8/5r2/8/8/8/6K1/2B5 w - - 0 1", "c1b2")
 
         assert Motif.SKEWER not in found
         assert Motif.PIN in found

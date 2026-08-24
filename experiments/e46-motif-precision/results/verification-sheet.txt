@@ -8,20 +8,10 @@ You are judging the DETECTOR, not the move. A move can be bad for other
 reasons and still not be the motif named, and that counts as [n].
 
 
-BACKRANKMATE  —  14 firings, 10 sampled
+BACKRANKMATE  —  5 firings, 5 sampled
 ------------------------------------------------------------------------------
-  [ ]  Crossfire1983        move  29 as White Qf7#     late_middlegame lost   0.0wp
-       lichess.org/6VIj14yA#57
-  [ ]  cademan              move  16 as White Qxa6#    opening_middlegame lost   0.0wp
-       lichess.org/bLhjYwVZ#31
-  [ ]  cademan              move  26 as White Qxg7#    endgame    lost   0.0wp
-       lichess.org/liX9MImV#51
-  [ ]  cademan              move  28 as White Qg7#     late_middlegame lost   0.0wp
-       lichess.org/6BjauPfY#55
-  [ ]  goydorak             move  12 as White Qxh7#    opening_middlegame lost   0.0wp
-       lichess.org/S2na9iEV#23
-  [ ]  goydorak             move  29 as Black Qxf3#    opening_middlegame lost   0.0wp
-       lichess.org/ghunXWwg#58
+  [ ]  Sheriwoyama          move  49 as White Re8#     endgame    lost   0.0wp
+       lichess.org/7ZcwpUAm#97
   [ ]  goydorak             move  45 as Black Re1#     endgame    lost   0.0wp
        lichess.org/Ogmcqva7#90
   [ ]  maikel5              move  21 as White Qg8#     late_middlegame lost  95.1wp
@@ -31,51 +21,51 @@ BACKRANKMATE  —  14 firings, 10 sampled
   [ ]  simonvj              move  47 as White Qb8#     endgame    lost   0.0wp
        lichess.org/kqTAfT2U#93
 
-CAPTURINGDEFENDER  —  217 firings, 10 sampled
+CAPTURINGDEFENDER  —  302 firings, 10 sampled
 ------------------------------------------------------------------------------
-  [ ]  Maximilian_Honigtopf move   4 as Black Nxe5     opening_middlegame lost   0.0wp
-       lichess.org/cSse4sLl#8
-  [ ]  Maximilian_Honigtopf move  23 as White Qxa8+    late_middlegame lost   0.0wp
-       lichess.org/sQ2h2BRg#45
-  [ ]  Maximilian_Honigtopf move  37 as White Rxg7+    endgame    lost   0.0wp
-       lichess.org/R9GJUKUy#73
-  [ ]  Odin5306             move  19 as Black Rxe1     late_middlegame lost   0.0wp
-       lichess.org/IiqB2QPs#38
-  [ ]  Odin5306             move  20 as Black Qxc3     opening_middlegame lost   0.0wp
-       lichess.org/Nx5KGmeB#40
+  [ ]  Odin5306             move   9 as Black exf3+    opening_middlegame lost   1.3wp
+       lichess.org/w9NbB3Q6#18
+  [ ]  Odin5306             move  21 as White Bxd4     opening_middlegame lost   0.0wp
+       lichess.org/Ze3vfsXZ#41
+  [ ]  Odin5306             move  40 as Black Rxb5     endgame    lost   0.0wp
+       lichess.org/z6Zw4EtZ#80
+  [ ]  Sheriwoyama          move  18 as White Qxa8+    opening_middlegame lost   0.0wp
+       lichess.org/beIhokzg#35
   [ ]  Sheriwoyama          move  25 as White Rxd8+    opening_middlegame lost   2.1wp
        lichess.org/7ZcwpUAm#49
-  [ ]  bernes               move  35 as Black Rxe3     late_middlegame lost   1.8wp
-       lichess.org/Pr0oM0QR#70
-  [ ]  cademan              move  15 as Black Qxd4     opening_middlegame lost   2.9wp
-       lichess.org/Odqpej9W#30
-  [ ]  goydorak             move  33 as Black Rxf1+    late_middlegame lost   0.0wp
-       lichess.org/UQ71FCe8#66
-  [ ]  simonvj              move  21 as White Nxf6+    opening_middlegame lost   0.0wp
-       lichess.org/6iNu6ltz#41
+  [ ]  bernes               move  22 as White Nxf6+    opening_middlegame lost   2.4wp
+       lichess.org/3g6KpqF3#43
+  [ ]  bjagus               move  21 as Black Bxg4     opening_middlegame lost   0.0wp
+       lichess.org/Ewg2ug2B#42
+  [ ]  cademan              move  14 as White Bxg5     opening_middlegame lost   8.8wp
+       lichess.org/ytkNIOc2#27
+  [ ]  cademan              move  16 as White cxd5     late_middlegame lost   1.6wp
+       lichess.org/6BjauPfY#31
+  [ ]  maxhayastan          move   8 as Black Bxf3     opening_middlegame lost  38.8wp
+       lichess.org/FI5dl8Nd#16
 
-DISCOVEREDATTACK  —  176 firings, 10 sampled
+DISCOVEREDATTACK  —  94 firings, 10 sampled
 ------------------------------------------------------------------------------
-  [ ]  Crossfire1983        move  10 as White Nxc7+    opening_middlegame lost  75.7wp
-       lichess.org/vTYoMMs5#19
-  [ ]  Crossfire1983        move  15 as White Nh4      opening_middlegame lost  11.8wp
-       lichess.org/F5E8p3lR#29
-  [ ]  Hirsican             move  10 as Black Ng3      opening_middlegame lost  29.7wp
-       lichess.org/vyI9oLv3#20
-  [ ]  Maximilian_Honigtopf move  18 as Black exd4     late_middlegame lost  55.7wp
-       lichess.org/Ib5a1BS8#36
-  [ ]  Maximilian_Honigtopf move  21 as White Nxf6+    late_middlegame lost   0.0wp
-       lichess.org/PbdhoGlR#41
-  [ ]  Odin5306             move  18 as Black Nxc3     opening_middlegame lost   0.0wp
-       lichess.org/IiqB2QPs#36
-  [ ]  Sheriwoyama          move  12 as Black Nb6      opening_middlegame lost   7.3wp
-       lichess.org/0VillDCr#24
-  [ ]  bernes               move  22 as White Qe3      late_middlegame lost  14.7wp
-       lichess.org/qa4FPgCK#43
-  [ ]  cademan              move  17 as White Bxb5     opening_middlegame lost   0.0wp
-       lichess.org/P2Jbxf1R#33
-  [ ]  maxhayastan          move  34 as White Bb2      late_middlegame lost   3.6wp
-       lichess.org/Cukv91fm#67
+  [ ]  Crossfire1983        move  15 as White O-O-O+   late_middlegame lost   3.7wp
+       lichess.org/tY3LMtd9#29
+  [ ]  Hirsican             move  12 as Black dxc3     opening_middlegame lost   0.0wp
+       lichess.org/5853VxPL#24
+  [ ]  Maximilian_Honigtopf move   8 as Black dxc6     opening_middlegame lost   0.0wp
+       lichess.org/6RId8MgM#16
+  [ ]  Maximilian_Honigtopf move  14 as White Nxc7     opening_middlegame lost   0.9wp
+       lichess.org/rEJOQ7iq#27
+  [ ]  Maximilian_Honigtopf move  14 as Black Ke7      late_middlegame lost   0.0wp
+       lichess.org/6RId8MgM#28
+  [ ]  Odin5306             move   6 as White hxg3     opening_middlegame lost   0.0wp
+       lichess.org/NTj7ZwWU#11
+  [ ]  bernes               move  24 as White Nd2      late_middlegame lost   1.7wp
+       lichess.org/XkSr9VDj#47
+  [ ]  bjagus               move  30 as White Nh4      late_middlegame lost  42.4wp
+       lichess.org/z8ZCK0dO#59
+  [ ]  maikel5              move  24 as Black Nxf1     opening_middlegame lost  40.5wp
+       lichess.org/7pZmm5Em#48
+  [ ]  simonvj              move  16 as Black Ne4      opening_middlegame lost  14.4wp
+       lichess.org/FvSH0ORj#32
 
 FORK  —  274 firings, 10 sampled
 ------------------------------------------------------------------------------
@@ -100,97 +90,97 @@ FORK  —  274 firings, 10 sampled
   [ ]  simonvj              move  43 as White Qxb6+    endgame    lost   0.0wp
        lichess.org/kqTAfT2U#85
 
-HANGINGPAWN  —  454 firings, 10 sampled
+HANGINGPAWN  —  648 firings, 10 sampled
 ------------------------------------------------------------------------------
-  [ ]  Crossfire1983        move  13 as Black cxd5     opening_middlegame lost   0.0wp
-       lichess.org/HCSdfcrh#26
-  [ ]  Crossfire1983        move  15 as White hxg5     opening_middlegame lost   0.0wp
-       lichess.org/zVMw0ET3#29
-  [ ]  Crossfire1983        move  48 as Black Kxh5     endgame    lost   0.0wp
-       lichess.org/0lTtKHwA#96
-  [ ]  Odin5306             move  32 as White Qxg7     late_middlegame lost   0.0wp
-       lichess.org/NTj7ZwWU#63
-  [ ]  Sheriwoyama          move  44 as White Qxc2     endgame    lost   0.0wp
-       lichess.org/g5Ps2RCx#87
-  [ ]  goydorak             move  45 as Black gxf5     endgame    lost   1.6wp
-       lichess.org/j7bATdrR#90
-  [ ]  goydorak             move  59 as Black Kxh2     endgame    lost   0.0wp
-       lichess.org/4AP4HOjm#118
-  [ ]  maxhayastan          move  20 as White Nxf7     late_middlegame lost   0.6wp
-       lichess.org/Cukv91fm#39
-  [ ]  maxhayastan          move  33 as Black Qxg4+    late_middlegame lost   0.0wp
-       lichess.org/1cpParfM#66
-  [ ]  simonvj              move  44 as White Qxc6+    endgame    lost   0.0wp
-       lichess.org/kqTAfT2U#87
+  [ ]  Crossfire1983        move  22 as White Qxh5     late_middlegame lost  10.0wp
+       lichess.org/F5E8p3lR#43
+  [ ]  Crossfire1983        move  54 as Black Kxf2     endgame    lost   0.0wp
+       lichess.org/SuvK6tPc#108
+  [ ]  Hirsican             move  31 as Black Rxb4     late_middlegame lost   0.0wp
+       lichess.org/vyI9oLv3#62
+  [ ]  Odin5306             move  16 as Black Rxe7     opening_middlegame lost   1.1wp
+       lichess.org/IiqB2QPs#32
+  [ ]  Sheriwoyama          move  10 as Black exd5     opening_middlegame lost   0.0wp
+       lichess.org/WymCY4M1#20
+  [ ]  bernes               move   9 as Black Nxd4     opening_middlegame lost   0.0wp
+       lichess.org/CnRTxl8D#18
+  [ ]  bjagus               move  41 as Black gxh4     endgame    lost   0.0wp
+       lichess.org/cAPWWpqR#82
+  [ ]  maxhayastan          move  26 as Black cxd6     late_middlegame lost   0.0wp
+       lichess.org/3M6ZZnqh#52
+  [ ]  simonvj              move  14 as White exd5     opening_middlegame lost   0.0wp
+       lichess.org/EYvvW4kX#27
+  [ ]  simonvj              move  25 as White Rxb7     endgame    lost   0.0wp
+       lichess.org/F8fRxDpL#49
 
-HANGINGPIECE  —  488 firings, 10 sampled
+HANGINGPIECE  —  568 firings, 10 sampled
 ------------------------------------------------------------------------------
-  [ ]  Maximilian_Honigtopf move  31 as White Rxf4     endgame    lost   0.0wp
-       lichess.org/IGCmSgiy#61
-  [ ]  Odin5306             move  21 as White Rxe7     late_middlegame lost   0.0wp
-       lichess.org/JdtuRmZm#41
-  [ ]  bernes               move  13 as Black Qxd6     opening_middlegame lost   0.0wp
-       lichess.org/Pr0oM0QR#26
-  [ ]  cademan              move  26 as White Rxf3     late_middlegame lost   0.0wp
-       lichess.org/P2Jbxf1R#51
-  [ ]  goydorak             move   7 as White Nxe4     opening_middlegame lost   0.0wp
-       lichess.org/Gwcchhgl#13
+  [ ]  Crossfire1983        move  35 as White Rxd1     late_middlegame lost   0.0wp
+       lichess.org/kQQwhms8#69
+  [ ]  Hirsican             move  18 as White Qxe6     late_middlegame lost   6.1wp
+       lichess.org/0tP1Rbmj#35
+  [ ]  Maximilian_Honigtopf move  28 as Black Kxg8     endgame    lost   0.0wp
+       lichess.org/6RId8MgM#56
+  [ ]  Odin5306             move  29 as White Kxf2     late_middlegame lost  39.0wp
+       lichess.org/rBfHcNcI#57
+  [ ]  Odin5306             move  40 as White Rxd3     late_middlegame lost   0.0wp
+       lichess.org/NTj7ZwWU#79
+  [ ]  Sheriwoyama          move  19 as White Qxd1     late_middlegame lost   3.1wp
+       lichess.org/Zc5TdVPR#37
+  [ ]  bjagus               move  32 as White Rxd1     late_middlegame lost   0.0wp
+       lichess.org/3JoG4ezs#63
   [ ]  goydorak             move  22 as White Qxc3     late_middlegame lost   0.0wp
        lichess.org/Qk594pBd#43
-  [ ]  maikel5              move  11 as White Bxe5     opening_middlegame lost   0.0wp
-       lichess.org/BxY9KkVB#21
-  [ ]  maxhayastan          move  35 as White Rxe1     late_middlegame lost   0.0wp
-       lichess.org/jCs0ObMS#69
-  [ ]  maxhayastan          move  53 as White Qxg2+    endgame    lost   0.0wp
-       lichess.org/Cukv91fm#105
-  [ ]  simonvj              move  26 as White Rxd5     late_middlegame lost   0.0wp
-       lichess.org/29CxQRJu#51
+  [ ]  maikel5              move   6 as White Qxe4     opening_middlegame lost   0.0wp
+       lichess.org/rKaHI5qs#11
+  [ ]  maikel5              move  24 as Black Rxc5     late_middlegame lost   0.0wp
+       lichess.org/5w0MJrWh#48
 
-PIN  —  526 firings, 10 sampled
+PIN  —  332 firings, 10 sampled
 ------------------------------------------------------------------------------
-  [ ]  Crossfire1983        move  27 as White Qh4      late_middlegame lost   0.7wp
-       lichess.org/6VIj14yA#53
-  [ ]  Odin5306             move   2 as Black Bb7      opening_middlegame lost   0.0wp
-       lichess.org/LZH9NLtu#4
-  [ ]  cademan              move  21 as White Rh8      late_middlegame lost   2.9wp
-       lichess.org/44m0CDnV#41
-  [ ]  goydorak             move  21 as Black Rg7      late_middlegame lost   0.0wp
-       lichess.org/XjJaJOwf#42
+  [ ]  Crossfire1983        move  13 as White Qh5      opening_middlegame lost   5.9wp
+       lichess.org/6VIj14yA#25
+  [ ]  Hirsican             move  42 as Black Qe3      late_middlegame lost   9.2wp
+       lichess.org/vyI9oLv3#84
+  [ ]  bernes               move  18 as White Qxd2     late_middlegame lost   0.0wp
+       lichess.org/qa4FPgCK#35
+  [ ]  bernes               move  31 as White Qg2      late_middlegame lost   0.2wp
+       lichess.org/qa4FPgCK#61
+  [ ]  bjagus               move  15 as Black Bb4      opening_middlegame lost   0.0wp
+       lichess.org/Qm07J5oM#30
+  [ ]  cademan              move  26 as Black Qg4      late_middlegame lost   0.6wp
+       lichess.org/qOkzrtOq#52
   [ ]  goydorak             move  21 as Black Qg5      late_middlegame lost   1.7wp
        lichess.org/4AP4HOjm#42
-  [ ]  goydorak             move  23 as Black Qd5      late_middlegame lost   0.0wp
-       lichess.org/4AP4HOjm#46
-  [ ]  maxhayastan          move  25 as Black Qf6      late_middlegame lost   2.2wp
-       lichess.org/1cpParfM#50
-  [ ]  maxhayastan          move  27 as White Rxf6     late_middlegame lost   0.0wp
-       lichess.org/93uLE94a#53
-  [ ]  simonvj              move   8 as White Qxb5     opening_middlegame lost   0.0wp
-       lichess.org/d6skKoFJ#15
-  [ ]  simonvj              move  14 as White Bxf6     opening_middlegame lost   3.8wp
-       lichess.org/kqTAfT2U#27
+  [ ]  maxhayastan          move   4 as Black Bg4      opening_middlegame lost  14.1wp
+       lichess.org/OK82drHY#8
+  [ ]  simonvj              move   3 as White Bg2      opening_middlegame lost   0.0wp
+       lichess.org/F8fRxDpL#5
+  [ ]  simonvj              move  11 as White Qxe3     opening_middlegame lost   0.0wp
+       lichess.org/vwoFne0m#21
 
-SKEWER  —  50 firings, 10 sampled
+SKEWER  —  29 firings, 10 sampled
 ------------------------------------------------------------------------------
   [ ]  Crossfire1983        move  46 as White Bd3#     endgame    lost   0.0wp
        lichess.org/akv2n6B0#91
-  [ ]  Odin5306             move  44 as White Rh6+     endgame    lost   2.7wp
-       lichess.org/EbpyFJj2#87
+  [ ]  Odin5306             move  29 as Black Rg8      late_middlegame lost   0.0wp
+       lichess.org/N4qzfHMA#58
   [ ]  Sheriwoyama          move  18 as Black Bg4      opening_middlegame lost   0.0wp
        lichess.org/0VillDCr#36
-  [ ]  bernes               move   7 as White Qxd8+    opening_middlegame lost   0.0wp
-       lichess.org/swDGGhHI#13
-  [ ]  bjagus               move  36 as White Bc6+     late_middlegame lost   0.0wp
-       lichess.org/PuSoIqHt#71
-  [ ]  maikel5              move  16 as White Qh3      late_middlegame lost   6.5wp
-       lichess.org/wGSyXOdL#31
-  [ ]  maikel5              move  17 as White Qh7+     opening_middlegame lost   0.0wp
-       lichess.org/39udF9wK#33
+  [ ]  bjagus               move  24 as White Rb1      late_middlegame lost   3.5wp
+       lichess.org/IWcNOR0f#47
+  [ ]  cademan              move  37 as Black Rd2+     late_middlegame lost   0.0wp
+       lichess.org/i5zmp6hB#74
+  [ ]  goydorak             move  19 as White Qxa2     opening_middlegame lost   0.0wp
+       lichess.org/iqf2smkO#37
+  [ ]  maikel5              move  24 as Black Rc1+     endgame    lost  14.4wp
+       lichess.org/Rs4ZoM31#48
   [ ]  maikel5              move  50 as Black Rf3+     endgame    lost   0.0wp
        lichess.org/5w0MJrWh#100
-  [ ]  maxhayastan          move  11 as Black Bc4      opening_middlegame lost   0.0wp
-       lichess.org/1cpParfM#22
-  [ ]  maxhayastan          move  49 as White Qb7+     endgame    lost  19.5wp
-       lichess.org/Cukv91fm#97
+  [ ]  maxhayastan          move  31 as White Re7+     late_middlegame lost  11.0wp
+       lichess.org/0smgnXr0#61
+  [ ]  simonvj              move  34 as White Qe4+     late_middlegame lost   0.0wp
+       lichess.org/kqTAfT2U#67
 
 TRAPPEDPIECE  —  119 firings, 10 sampled
 ------------------------------------------------------------------------------

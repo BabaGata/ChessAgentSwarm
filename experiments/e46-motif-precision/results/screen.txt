@@ -2,16 +2,16 @@
 FIRINGS ON 8646 PLAYED MOVES, 20-game windows
 motif                   firings  per 1000 moves
 -----------------------------------------------
-pin                         526            60.8
-hangingPiece                488            56.4
-hangingPawn                 454            52.5
+hangingPawn                 648            74.9
+hangingPiece                568            65.7
+pin                         332            38.4
+capturingDefender           302            34.9
 fork                        274            31.7
-capturingDefender           217            25.1
-discoveredAttack            176            20.4
 trappedPiece                119            13.8
-skewer                       50             5.8
-backRankMate                 14             1.6
-TOTAL                      2318
+discoveredAttack             94            10.9
+skewer                       29             3.4
+backRankMate                  5             0.6
+TOTAL                      2371
 
 AGAINST THE SAME PLAYERS BEFORE THE CHANGE (E43's stored candidates)
 claim                              rate before  rate now
