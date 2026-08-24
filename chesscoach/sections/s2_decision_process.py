@@ -378,14 +378,6 @@ def _sample_evidence(
     )
 
     return tuple(
-        Evidence(
-            game_id=o.game_id,
-            ply=o.ply,
-            fen=o.fen_before,
-            move_played=o.move_played,
-            better_move=o.best_move,
-            loss_wp=round(o.loss_wp, 1),
-            note=condition.describe(o),
-        )
+        Evidence.from_observation(o, note=condition.describe(o))
         for o in chosen
     )

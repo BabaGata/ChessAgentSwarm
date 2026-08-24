@@ -293,17 +293,14 @@ def _sample_evidence(tally: _Tally, seed: str, with_better_move: bool) -> tuple[
         (one_each + remaining)[:EVIDENCE_SAMPLE_SIZE], key=lambda o: (o.game_id, o.ply)
     )
     return tuple(
-        Evidence(
-            game_id=observation.game_id,
-            ply=observation.ply,
-            fen=observation.fen_before,
-            move_played=observation.move_played,
-            # Only where the claim is about a *mistake*. `opening_disadvantage`
-            # says the player was already worse by move 15, and the position it
-            # cites is simply the last one in the window -- often a perfectly
-            # good move, which printed as "you played c8e6 (c8e6 was better)".
+        # Only where the claim is about a *mistake*. `opening_disadvantage`
+        # says the player was already worse by move 15, and the position it
+        # cites is simply the last one in the window -- often a perfectly good
+        # move, which printed as "you played c8e6 (c8e6 was better)".
+        Evidence.from_observation(
+            observation,
             better_move=observation.best_move if with_better_move else None,
-            loss_wp=round(observation.loss_wp, 4),
+            loss_dp=4,
         )
         for observation in chosen
     )

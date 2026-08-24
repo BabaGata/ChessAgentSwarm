@@ -38,6 +38,11 @@ class Observation:
     # the increment lands, so a bare difference of readings is not what the
     # player spent (D16).
     increment: float = 0.0
+    # Who the player was up against, and when. Carried so a citation can be
+    # checked: a bare game id sends the reader hunting, and the report is
+    # supposed to be evidence rather than a puzzle (D18).
+    opponent: str = ""
+    played_on: str | None = None
 
     @property
     def is_error(self) -> bool:

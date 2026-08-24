@@ -10,9 +10,12 @@ WHAT STANDS OUT
    Costing you about 46.6 points of win probability a game.
    Players at your level lose about 29.4 to the same thing, so roughly
    17.2 a game is what fixing this could get back.
-   For example game KfSRDWUO, move 10, you played d1d2 (b1c3 was better)
-   For example game cAPWWpqR, move 43, you played f5g4 (h4h3 was better)
-   For example game dLJ7B7qB, move 20, you played b4b5 (f3d1 was better)
+   For example move 10, you played Qd2 (Nc3 was better)
+      as White, vs Al3xandr, 2026.07.12 — lichess.org/KfSRDWUO#19
+   For example move 42, you played Qg4 (h3 was better)
+      as Black, vs aa24off, 2026.07.29 — lichess.org/cAPWWpqR#84
+   For example move 20, you played b5 (Qd1 was better)
+      as White, vs AzYz, 2026.07.29 — lichess.org/dLJ7B7qB#39
 
 2. You go wrong early as White.
 
@@ -21,17 +24,23 @@ WHAT STANDS OUT
    Costing you about 23.0 points of win probability a game.
    Players at your level lose about 17.1 to the same thing, so roughly
    5.8 a game is what fixing this could get back.
-   For example game 3JoG4ezs, move 15, you played g2d5 (b4b5 was better)
-   For example game EeCq444F, move 13, you played d2e3 (h2h4 was better)
-   For example game PuSoIqHt, move 14, you played f2f4 (b2b4 was better)
+   For example move 15, you played Bd5 (b5 was better)
+      as White, vs jachat2002, 2026.07.29 — lichess.org/3JoG4ezs#29
+   For example move 13, you played Qe3 (h4 was better)
+      as White, vs ledbaH, 2026.07.12 — lichess.org/EeCq444F#25
+   For example move 14, you played f4 (b4 was better)
+      as White, vs Edidiong_Ekanem, 2026.07.12 — lichess.org/PuSoIqHt#27
 
 3. You let opponents establish a knight you cannot chase away more often than players at your level.
 
    How often   2% of the time, against 1% for players at your level
    Seen in     9 of 20 games
-   For example game 3JoG4ezs, move 30, you played c1d2
-   For example game KfSRDWUO, move 50, you played f1d2
-   For example game cAPWWpqR, move 19, you played c5d4
+   For example move 30, you played Bd2
+      as White, vs jachat2002, 2026.07.29 — lichess.org/3JoG4ezs#59
+   For example move 50, you played Nd2
+      as White, vs Al3xandr, 2026.07.12 — lichess.org/KfSRDWUO#99
+   For example move 18, you played cxd4
+      as Black, vs aa24off, 2026.07.29 — lichess.org/cAPWWpqR#36
 
 WHAT TO DO
 

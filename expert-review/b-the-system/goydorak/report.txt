@@ -10,9 +10,12 @@ WHAT STANDS OUT
    Costing you about 19.4 points of win probability a game.
    Players at your level lose about 15.6 to the same thing, so roughly
    3.8 a game is what fixing this could get back.
-   For example game S2na9iEV, move 9, you played f3g5 (b1c3 was better)
-   For example game Tfb8OGuN, move 11, you played f3e5 (e2d3 was better)
-   For example game hN7Tz0KQ, move 8, you played d1d2 (c2c3 was better)
+   For example move 9, you played Ng5 (Nc3 was better)
+      as White, vs aluvalarakesh, 2026.08.10 — lichess.org/S2na9iEV#17
+   For example move 11, you played Ne5 (Bd3 was better)
+      as White, vs ClaireDanes94270, 2026.08.06 — lichess.org/Tfb8OGuN#21
+   For example move 8, you played Qd2 (c3 was better)
+      as White, vs Sahas1234, 2026.07.30 — lichess.org/hN7Tz0KQ#15
 
 2. When you go wrong, it is often a pin that punishes you.
 
@@ -21,9 +24,12 @@ WHAT STANDS OUT
    Costing you about 11.6 points of win probability a game.
    Players at your level lose about 8.7 to the same thing, so roughly
    2.9 a game is what fixing this could get back.
-   For example game Ozsq0Ti7, move 13, you played a2a4 (b6d4 was better)
-   For example game XjJaJOwf, move 33, you played b6b5 (h4h6 was better)
-   For example game j7bATdrR, move 21, you played c5c4 (f1f4 was better)
+   For example move 13, you played a4, and Qxd4 punished it
+      as White, vs napetting_main, 2026.08.10 — lichess.org/Ozsq0Ti7#25
+   For example move 32, you played b5, and Rh6 punished it
+      as Black, vs algubarenko, 2026.08.09 — lichess.org/XjJaJOwf#64
+   For example move 20, you played c4, and Rf4 punished it
+      as Black, vs gangaykar, 2026.08.06 — lichess.org/j7bATdrR#40
 
 3. You go wrong more often than most when you are already better.
 
@@ -32,9 +38,12 @@ WHAT STANDS OUT
    Costing you about 9.1 points of win probability a game.
    Players at your level lose about 28.0 to the same thing, so this is
    not costing you your rating — it is costing you the next one.
-   For example game 7qdPMZLe, move 32, you played e6e7 (e6a6 was better)
-   For example game Qk594pBd, move 19, you played f1d1 (f1e1 was better)
-   For example game S2na9iEV, move 5, you played f1c4 (d4d5 was better)
+   For example move 32, you played Re7+ (Ra6 was better)
+      as White, vs osama1970qashash, 2026.08.08 — lichess.org/7qdPMZLe#63
+   For example move 19, you played Rd1 (Re1 was better)
+      as White, vs boec-666, 2026.08.09 — lichess.org/Qk594pBd#37
+   For example move 5, you played Bc4 (d5 was better)
+      as White, vs aluvalarakesh, 2026.08.10 — lichess.org/S2na9iEV#9
 
 (1 further pattern was found but not prioritised — working on one or two things at a time is the point.)
 

@@ -10,9 +10,12 @@ WHAT STANDS OUT
    Costing you about 17.5 points of win probability a game.
    Players at your level lose about 6.8 to the same thing, so roughly
    10.6 a game is what fixing this could get back.
-   For example game 44m0CDnV, move 12, you played e1c1 (d7e5 was better)
-   For example game T7AhF7X3, move 32, you played b8b2 (g5f6 was better)
-   For example game liX9MImV, move 9, you played d3c4 (b4c2 was better)
+   For example move 12, you played O-O-O, and Nxe5 punished it
+      as White, vs sebastian1979, 2026.08.09 — lichess.org/44m0CDnV#23
+   For example move 31, you played Rb2, and Qf6 punished it
+      as Black, vs vanya-abudabuda, 2026.08.10 — lichess.org/T7AhF7X3#62
+   For example move 9, you played Qc4, and Nxc2+ punished it
+      as White, vs Tjagun, 2026.08.10 — lichess.org/liX9MImV#17
 
 2. You go wrong early as Black.
 
@@ -21,9 +24,12 @@ WHAT STANDS OUT
    Costing you about 22.3 points of win probability a game.
    Players at your level lose about 16.1 to the same thing, so roughly
    6.2 a game is what fixing this could get back.
-   For example game A38Dr6lK, move 16, you played c6c5 (e8g8 was better)
-   For example game Odqpej9W, move 7, you played c6d4 (e5e4 was better)
-   For example game QjeRmzq0, move 11, you played d7e6 (a7a5 was better)
+   For example move 15, you played c5 (O-O was better)
+      as Black, vs castling_freak, 2026.08.09 — lichess.org/A38Dr6lK#30
+   For example move 6, you played Nd4 (e4 was better)
+      as Black, vs Wiz_Ug, 2026.08.10 — lichess.org/Odqpej9W#12
+   For example move 10, you played Be6 (a5 was better)
+      as Black, vs MadDearMagma, 2026.08.10 — lichess.org/QjeRmzq0#20
 
 3. When you go wrong, it is often a hanging piece that punishes you.
 
@@ -32,9 +38,12 @@ WHAT STANDS OUT
    Costing you about 15.1 points of win probability a game.
    Players at your level lose about 9.0 to the same thing, so roughly
    6.1 a game is what fixing this could get back.
-   For example game QjeRmzq0, move 18, you played e7b4 (c6b4 was better)
-   For example game T7AhF7X3, move 33, you played b2c2 (f4f7 was better)
-   For example game WW2QKoJn, move 14, you played d4e5 (d7c5 was better)
+   For example move 17, you played Qxb4, and Nxb4 punished it
+      as Black, vs MadDearMagma, 2026.08.10 — lichess.org/QjeRmzq0#34
+   For example move 32, you played Rc2, and Qxf7 punished it
+      as Black, vs vanya-abudabuda, 2026.08.10 — lichess.org/T7AhF7X3#64
+   For example move 14, you played dxe5, and Nxc5 punished it
+      as White, vs Jayleson, 2026.08.09 — lichess.org/WW2QKoJn#27
 
 (3 further patterns were found but not prioritised — working on one or two things at a time is the point.)
 

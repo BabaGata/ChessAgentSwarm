@@ -16,9 +16,12 @@ what they cost you rather than by what makes you different.
    Costing you about 24.5 points of win probability a game.
    Players at your level lose about 19.9 to the same thing, so roughly
    4.6 a game is what fixing this could get back.
-   For example game 29CxQRJu, move 15, you played d1a4 (c3c4 was better)
-   For example game 3kdaqzAV, move 25, you played d4e3 (b3b4 was better)
-   For example game EYvvW4kX, move 19, you played b1c3 (b1d2 was better)
+   For example move 15, you played Qa4 (c4 was better)
+      as White, vs ziodorry, 2026.08.10 — lichess.org/29CxQRJu#29
+   For example move 25, you played Qe3 (b4 was better)
+      as White, vs Verbier, 2026.08.10 — lichess.org/3kdaqzAV#49
+   For example move 19, you played Nc3 (Nd2 was better)
+      as White, vs Amlrarfi, 2026.08.10 — lichess.org/EYvvW4kX#37
 
 2. You put the piece you have just moved on a square where it can be won, more often than players at your level.
 
@@ -29,9 +32,12 @@ what they cost you rather than by what makes you different.
    Costing you about 12.9 points of win probability a game.
    Players at your level lose about 10.7 to the same thing, so roughly
    2.2 a game is what fixing this could get back.
-   For example game 29CxQRJu, move 6, you played c4d5 (e4e5 was better)
-   For example game 29CxQRJu, move 19, you played a3e7
-   For example game JSKQNI8L, move 17, you played c4b3 (f6h5 was better)
+   For example move 6, you played cxd5 (e5 was better)
+      as White, vs ziodorry, 2026.08.10 — lichess.org/29CxQRJu#11
+   For example move 19, you played Qxe7+
+      as White, vs ziodorry, 2026.08.10 — lichess.org/29CxQRJu#37
+   For example move 16, you played cxb3 (Nh5 was better)
+      as Black, vs ropa1, 2026.08.10 — lichess.org/JSKQNI8L#32
 
 3. You miss pin tactics that were available.
 
@@ -42,9 +48,12 @@ what they cost you rather than by what makes you different.
    Costing you about 8.5 points of win probability a game.
    Players at your level lose about 6.7 to the same thing, so roughly
    1.8 a game is what fixing this could get back.
-   For example game 6iNu6ltz, move 19, you played f4h5 (d5b3 was better)
-   For example game F8fRxDpL, move 26, you played f7d6 (b7a7 was better)
-   For example game kqTAfT2U, move 17, you played e2g3 (d1d5 was better)
+   For example move 19, you played Nh5 (Qb3 was better)
+      as White, vs shpokis, 2026.08.10 — lichess.org/6iNu6ltz#37
+   For example move 26, you played Nd6 (Rxa7 was better)
+      as White, vs Muromet, 2026.08.10 — lichess.org/F8fRxDpL#51
+   For example move 17, you played Nxg3 (Qd5 was better)
+      as White, vs Moryves, 2026.08.10 — lichess.org/kqTAfT2U#33
 
 WHAT TO DO
 

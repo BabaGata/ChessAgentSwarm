@@ -7,9 +7,12 @@ WHAT STANDS OUT
 
    How often   4% of the time, against 2% for players at your level
    Seen in     8 of 17 games
-   For example game 0smgnXr0, move 43, you played e3d4
-   For example game CRNg7hA1, move 28, you played h2g3
-   For example game GInElwNz, move 59, you played c6a6
+   For example move 43, you played Kd4
+      as White, vs ZJZ123SE, 2026.08.10 — lichess.org/0smgnXr0#85
+   For example move 28, you played Kg3
+      as White, vs Saninstruktor, 2026.07.30 — lichess.org/CRNg7hA1#55
+   For example move 58, you played Ra6
+      as Black, vs TheBoonDigga, 2026.08.10 — lichess.org/GInElwNz#116
 
 2. Your play falls off in rook endgames.
 
@@ -20,9 +23,12 @@ WHAT STANDS OUT
    Costing you about 24.6 points of win probability a game.
    Players at your level lose about 2.8 to the same thing, so roughly
    21.8 a game is what fixing this could get back.
-   For example game 0smgnXr0, move 41, you played f3e3 (d4d5 was better)
-   For example game 93uLE94a, move 54, you played d3d2 (d3c2 was better)
-   For example game GInElwNz, move 53, you played f6g7 (f6e7 was better)
+   For example move 41, you played Ke3 (d5 was better)
+      as White, vs ZJZ123SE, 2026.08.10 — lichess.org/0smgnXr0#81
+   For example move 54, you played Kd2 (Kc2 was better)
+      as White, vs MurZik-11, 2026.08.08 — lichess.org/93uLE94a#107
+   For example move 52, you played Kg7 (Ke7 was better)
+      as Black, vs TheBoonDigga, 2026.08.10 — lichess.org/GInElwNz#104
 
 3. When you go wrong, it is often a pin that punishes you.
 
@@ -33,9 +39,12 @@ WHAT STANDS OUT
    Costing you about 13.1 points of win probability a game.
    Players at your level lose about 8.0 to the same thing, so roughly
    5.1 a game is what fixing this could get back.
-   For example game 93uLE94a, move 28, you played a1f1 (c5d4 was better)
-   For example game CRNg7hA1, move 27, you played d4e5 (f8f4 was better)
-   For example game YrwNHqsx, move 12, you played f6h5 (d3g6 was better)
+   For example move 28, you played Raf1, and Qxd4 punished it
+      as White, vs MurZik-11, 2026.08.08 — lichess.org/93uLE94a#55
+   For example move 27, you played dxe5, and Rxf4 punished it
+      as White, vs Saninstruktor, 2026.07.30 — lichess.org/CRNg7hA1#53
+   For example move 11, you played Nh5, and Bxg6 punished it
+      as Black, vs aliozgurkara, 2026.07.30 — lichess.org/YrwNHqsx#22
 
 WHAT TO DO
 

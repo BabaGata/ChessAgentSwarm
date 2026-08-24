@@ -16,9 +16,12 @@ what they cost you rather than by what makes you different.
    Costing you about 6.4 points of win probability a game.
    Players at your level lose about 12.7 to the same thing, so this is
    not costing you your rating — it is costing you the next one.
-   For example game GlBblfsS, move 22, you played b3c1
-   For example game LZH9NLtu, move 24, you played d8d1
-   For example game Nx5KGmeB, move 11, you played b4c3
+   For example move 21, you played Nxc1
+      as Black, vs bravoEdo, 2026.07.28 — lichess.org/GlBblfsS#42
+   For example move 23, you played Rxd1+
+      as Black, vs dpk09, 2026.07.25 — lichess.org/LZH9NLtu#46
+   For example move 10, you played Bxc3+
+      as Black, vs DonSosa666, 2026.07.25 — lichess.org/Nx5KGmeB#20
 
 2. When you go wrong, it is often a trapped piece that punishes you.
 
@@ -29,9 +32,12 @@ what they cost you rather than by what makes you different.
    Costing you about 5.3 points of win probability a game.
    Players at your level lose about 3.1 to the same thing, so roughly
    2.2 a game is what fixing this could get back.
-   For example game 9biHZYZy, move 40, you played a3a5 (e5e2 was better)
-   For example game NTj7ZwWU, move 18, you played c2c3 (b7b5 was better)
-   For example game NTj7ZwWU, move 22, you played d1d2 (b7b5 was better)
+   For example move 40, you played Ra5, and Qe2 punished it
+      as White, vs kevinrutto, 2026.07.28 — lichess.org/9biHZYZy#79
+   For example move 18, you played c3, and b5 punished it
+      as White, vs kingslayer365, 2026.07.25 — lichess.org/NTj7ZwWU#35
+   For example move 22, you played Rd2, and b5 punished it
+      as White, vs kingslayer365, 2026.07.25 — lichess.org/NTj7ZwWU#43
 
 WHAT TO DO
 

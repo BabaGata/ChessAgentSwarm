@@ -10,9 +10,12 @@ WHAT STANDS OUT
    Costing you about 23.3 points of win probability a game.
    Players at your level lose about 6.9 to the same thing, so roughly
    16.4 a game is what fixing this could get back.
-   For example game 3pPHPEC4, move 26, you played b2b3 (d5c3 was better)
-   For example game 5853VxPL, move 33, you played d7e7 (d4f5 was better)
-   For example game 8zsVzk0T, move 15, you played c1g5 (e7e4 was better)
+   For example move 26, you played b3, and Nc3+ punished it
+      as White, vs AndSeSerG, 2026.08.10 — lichess.org/3pPHPEC4#51
+   For example move 32, you played Ke7, and Nf5+ punished it
+      as Black, vs klissima, 2026.08.10 — lichess.org/5853VxPL#64
+   For example move 15, you played Bg5, and Qxe4+ punished it
+      as White, vs Tatarin1959, 2026.08.10 — lichess.org/8zsVzk0T#29
 
 2. You go wrong more often than most when you are already better.
 
@@ -23,9 +26,12 @@ WHAT STANDS OUT
    Costing you about 56.6 points of win probability a game.
    Players at your level lose about 29.4 to the same thing, so roughly
    27.2 a game is what fixing this could get back.
-   For example game 8zsVzk0T, move 28, you played a1b1 (d2h6 was better)
-   For example game 9bsVByg5, move 13, you played f1d3 (d4c6 was better)
-   For example game BFRr53W3, move 9, you played d2d3 (f2f5 was better)
+   For example move 28, you played Rb1 (Bh6 was better)
+      as White, vs Tatarin1959, 2026.08.10 — lichess.org/8zsVzk0T#55
+   For example move 13, you played Bd3 (Nxc6 was better)
+      as White, vs kenota, 2026.08.10 — lichess.org/9bsVByg5#25
+   For example move 9, you played d3 (Qf5+ was better)
+      as White, vs FelixGomez, 2026.08.10 — lichess.org/BFRr53W3#17
 
 3. Your long thinks tend to end in a mistake.
 
@@ -36,9 +42,12 @@ WHAT STANDS OUT
    Costing you about 33.2 points of win probability a game.
    Players at your level lose about 20.4 to the same thing, so roughly
    12.8 a game is what fixing this could get back.
-   For example game 9bsVByg5, move 27, you played h3f3 (d4c4 was better)
-   For example game CCoHBALM, move 14, you played f8e7 (g8f6 was better)
-   For example game KVh1nudO, move 20, you played d8b8 (f5d4 was better)
+   For example move 27, you played Rf3 (Rxc4 was better)
+      as White, vs kenota, 2026.08.10 — lichess.org/9bsVByg5#53
+   For example move 13, you played Qe7 (Nf6 was better)
+      as Black, vs ravi123kirans, 2026.08.10 — lichess.org/CCoHBALM#26
+   For example move 19, you played Rb8 (Nxd4 was better)
+      as Black, vs r1937jaque, 2026.08.10 — lichess.org/KVh1nudO#38
 
 WHAT TO DO
 

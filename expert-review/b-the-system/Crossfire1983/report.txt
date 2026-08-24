@@ -7,9 +7,12 @@ WHAT STANDS OUT
 
    How often   5% of the time, against 2% for players at your level
    Seen in     12 of 20 games
-   For example game HCSdfcrh, move 19, you played e8f7
-   For example game UJQuSlPA, move 24, you played a1e1
-   For example game kQQwhms8, move 46, you played e4f3
+   For example move 18, you played Kf7
+      as Black, vs RahimUg, 2026.08.10 — lichess.org/HCSdfcrh#36
+   For example move 24, you played Rxe1
+      as White, vs IBA74, 2026.08.10 — lichess.org/UJQuSlPA#47
+   For example move 46, you played Kf3
+      as White, vs Lesedi_Matlho, 2026.08.10 — lichess.org/kQQwhms8#91
 
 2. When you go wrong, it is often a pawn you simply drop.
 
@@ -18,9 +21,12 @@ WHAT STANDS OUT
    Costing you about 9.9 points of win probability a game.
    Players at your level lose about 6.8 to the same thing, so roughly
    3.1 a game is what fixing this could get back.
-   For example game HCSdfcrh, move 22, you played h8e8 (d3h7 was better)
-   For example game SuvK6tPc, move 10, you played g8f6 (f1c4 was better)
-   For example game UJQuSlPA, move 6, you played e5f6 (g8f6 was better)
+   For example move 21, you played Rhe8, and Qxh7 punished it
+      as Black, vs RahimUg, 2026.08.10 — lichess.org/HCSdfcrh#42
+   For example move 9, you played Nf6, and Bxc4 punished it
+      as Black, vs aaabbuuuuuh, 2026.08.10 — lichess.org/SuvK6tPc#18
+   For example move 6, you played exf6, and Nxf6 punished it
+      as White, vs IBA74, 2026.08.10 — lichess.org/UJQuSlPA#11
 
 3. You put the piece you have just moved on a square where it can be won, more often than players at your level.
 
@@ -31,9 +37,12 @@ WHAT STANDS OUT
    Costing you about 21.6 points of win probability a game.
    Players at your level lose about 12.7 to the same thing, so roughly
    8.9 a game is what fixing this could get back.
-   For example game UHtZUK7r, move 27, you played a3b4 (c3b4 was better)
-   For example game UJQuSlPA, move 6, you played e5f6 (f1b5 was better)
-   For example game VaWiK76d, move 14, you played g4f3 (f6e4 was better)
+   For example move 27, you played axb4 (cxb4 was better)
+      as White, vs svyat_mikhaylov, 2026.08.10 — lichess.org/UHtZUK7r#53
+   For example move 6, you played exf6 (Bb5 was better)
+      as White, vs IBA74, 2026.08.10 — lichess.org/UJQuSlPA#11
+   For example move 13, you played Bxf3 (Ne4 was better)
+      as Black, vs MityaFomin312, 2026.08.10 — lichess.org/VaWiK76d#26
 
 WHAT TO DO
 

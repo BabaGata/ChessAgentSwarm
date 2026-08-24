@@ -209,14 +209,8 @@ def _sample_evidence(tally: _Tally, seed: str) -> tuple[Evidence, ...]:
         (one_each + remaining)[:EVIDENCE_SAMPLE_SIZE], key=lambda o: (o.game_id, o.ply)
     )
     return tuple(
-        Evidence(
-            game_id=observation.game_id,
-            ply=observation.ply,
-            fen=observation.fen_before,
-            move_played=observation.move_played,
-            # As in S5 and S6: no `better_move`. Nothing here establishes that
-            # allowing the attack was the error.
-            loss_wp=round(observation.loss_wp, 4),
-        )
+        # As in S5 and S6: no `better_move`. Nothing here establishes that
+        # allowing the attack was the error.
+        Evidence.from_observation(observation, better_move=None, loss_dp=4)
         for observation in chosen
     )

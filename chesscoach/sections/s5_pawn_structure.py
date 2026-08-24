@@ -292,15 +292,9 @@ def _sample_evidence(tally: _Tally, seed: str) -> tuple[Evidence, ...]:
         (one_each + remaining)[:EVIDENCE_SAMPLE_SIZE], key=lambda o: (o.game_id, o.ply)
     )
     return tuple(
-        Evidence(
-            game_id=observation.game_id,
-            ply=observation.ply,
-            fen=observation.fen_before,
-            move_played=observation.move_played,
-            # Deliberately no `better_move`: the engine's preferred move is not
-            # evidence about a structural choice, and showing it would imply the
-            # concession was the error -- which E03 says we cannot claim.
-            loss_wp=round(observation.loss_wp, 4),
-        )
+        # Deliberately no `better_move`: the engine's preferred move is not
+        # evidence about a structural choice, and showing it would imply the
+        # concession was the error -- which E03 says we cannot claim.
+        Evidence.from_observation(observation, better_move=None, loss_dp=4)
         for observation in chosen
     )

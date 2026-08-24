@@ -91,6 +91,8 @@ def analyse_game(game: GameRecord, analyser: PositionAnalyser) -> tuple[Observat
                 clock_before=_clock_before(game, index),
                 clock_after=_clock_at(game, index),
                 increment=increment_seconds(game.time_control),
+                opponent=game.black if mover_is_white else game.white,
+                played_on=game.date,
                 engine=analyser.engine_name,
                 depth=analyser.depth,
             )

@@ -308,15 +308,11 @@ def _sample_evidence(tally: _Tally, kind: str, seed_key: str) -> tuple[Evidence,
     }
     note = notes[kind]
     return tuple(
-        Evidence(
-            game_id=o.game_id,
-            ply=o.ply,
-            fen=o.fen_before,
-            move_played=o.move_played,
-            # The engine's move is the alternative worth showing: it is what
-            # keeping the piece safe would have looked like.
+        # The engine's move is the alternative worth showing: it is what
+        # keeping the piece safe would have looked like.
+        Evidence.from_observation(
+            o,
             better_move=o.best_move if o.best_move != o.move_played else None,
-            loss_wp=round(o.loss_wp, 1),
             note=note,
         )
         for o in chosen

@@ -330,13 +330,6 @@ def _sample_evidence(tally: _Tally, seed: str) -> tuple[Evidence, ...]:
         (one_each + remaining)[:EVIDENCE_SAMPLE_SIZE], key=lambda o: (o.game_id, o.ply)
     )
     return tuple(
-        Evidence(
-            game_id=observation.game_id,
-            ply=observation.ply,
-            fen=observation.fen_before,
-            move_played=observation.move_played,
-            better_move=observation.best_move,
-            loss_wp=round(observation.loss_wp, 4),
-        )
+        Evidence.from_observation(observation, loss_dp=4)
         for observation in chosen
     )

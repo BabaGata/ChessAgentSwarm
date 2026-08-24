@@ -259,6 +259,10 @@ def _finding_to_dict(finding: Finding) -> dict[str, Any]:
                 "better_move": e.better_move,
                 "loss_wp": e.loss_wp,
                 "note": e.note,
+                "player_is_white": e.player_is_white,
+                "opponent": e.opponent,
+                "played_on": e.played_on,
+                "opponent_reply": e.opponent_reply,
             }
             for e in finding.evidence
         ],
@@ -338,6 +342,10 @@ def _finding_from_dict(payload: dict[str, Any]) -> Finding:
                 better_move=e.get("better_move"),
                 loss_wp=e.get("loss_wp"),
                 note=e.get("note"),
+                player_is_white=e.get("player_is_white"),
+                opponent=e.get("opponent"),
+                played_on=e.get("played_on"),
+                opponent_reply=e.get("opponent_reply"),
             )
             for e in payload.get("evidence") or ()
         ),

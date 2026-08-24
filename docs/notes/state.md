@@ -195,7 +195,12 @@ outranks expert agreement**, and the remaining Form A collection is dropped as a
    detector on hand-verified samples**, the method of [[experiments.e04-motif-precision]] — not a
    pass/fail.
 
-0. **P0 — D18: make the evidence readable.** SAN instead of UCI, and game citations carrying colours,
+0. **P0 — D18: make the evidence readable.** **Done 2026-08-23.** SAN, and citations carrying
+   colour, opponent, date and a `lichess.org/<id>#<ply>` link. It also exposed a **content** bug: S1
+   put the opponent's punishing move in `better_move`, so every `allowed_motif` example recommended a
+   move the player could not make. Now stated as theirs — *"you played O-O-O, and Nxe5 punished it"*.
+
+0. **~~P0 — D18 (superseded by the line above)~~** SAN instead of UCI, and game citations carrying colours,
    opponent and date. Cheap, and it is what makes every other check on this list faster for the
    author, so it comes early rather than last.
 

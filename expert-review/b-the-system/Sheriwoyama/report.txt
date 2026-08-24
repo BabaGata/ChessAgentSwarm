@@ -16,9 +16,12 @@ what they cost you rather than by what makes you different.
    Costing you about 18.3 points of win probability a game.
    Players at your level lose about 29.4 to the same thing, so this is
    not costing you your rating — it is costing you the next one.
-   For example game beIhokzg, move 11, you played a2a3 (e2f3 was better)
-   For example game g5Ps2RCx, move 16, you played a2a3 (c3a4 was better)
-   For example game q5tHdUaO, move 25, you played e4d6 (a1a4 was better)
+   For example move 11, you played a3 (Bf3 was better)
+      as White, vs babbonasale, 2026.08.01 — lichess.org/beIhokzg#21
+   For example move 16, you played a3 (Na4 was better)
+      as White, vs Debelaf, 2026.08.01 — lichess.org/g5Ps2RCx#31
+   For example move 25, you played Nd6 (Ra4 was better)
+      as White, vs platon2110g, 2026.08.01 — lichess.org/q5tHdUaO#49
 
 2. Your long thinks tend to end in a mistake.
 
@@ -29,9 +32,12 @@ what they cost you rather than by what makes you different.
    Costing you about 15.9 points of win probability a game.
    Players at your level lose about 20.4 to the same thing, so this is
    not costing you your rating — it is costing you the next one.
-   For example game 0VillDCr, move 13, you played d7b6 (e7e5 was better)
-   For example game cZ8R9TJo, move 28, you played f4g5 (f8h6 was better)
-   For example game nev5HKA6, move 20, you played d6g3 (a2a4 was better)
+   For example move 12, you played Nb6 (e5 was better)
+      as Black, vs Konabro, 2026.08.01 — lichess.org/0VillDCr#24
+   For example move 27, you played Qg5 (Bh6 was better)
+      as Black, vs frietimo, 2026.08.02 — lichess.org/cZ8R9TJo#54
+   For example move 20, you played Qg3 (a4 was better)
+      as White, vs Cybermemere, 2026.08.02 — lichess.org/nev5HKA6#39
 
 3. You miss discovered attack tactics that were available.
 
@@ -42,9 +48,12 @@ what they cost you rather than by what makes you different.
    Costing you about 7.5 points of win probability a game.
    Players at your level lose about 3.5 to the same thing, so roughly
    4.0 a game is what fixing this could get back.
-   For example game 0VillDCr, move 27, you played g8f8 (d7f7 was better)
-   For example game 7ZcwpUAm, move 30, you played d3b1 (d3c3 was better)
-   For example game LtQCTqVO, move 13, you played b4b5 (c3e4 was better)
+   For example move 26, you played Kf8 (Rf7 was better)
+      as Black, vs Konabro, 2026.08.01 — lichess.org/0VillDCr#52
+   For example move 30, you played Qb1 (Qc3 was better)
+      as White, vs Faruku, 2026.08.01 — lichess.org/7ZcwpUAm#59
+   For example move 13, you played b5 (Nxe4 was better)
+      as White, vs habbechinho1, 2026.08.02 — lichess.org/LtQCTqVO#25
 
 WHAT TO DO
 

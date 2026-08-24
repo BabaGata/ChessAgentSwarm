@@ -16,9 +16,12 @@ what they cost you rather than by what makes you different.
    Costing you about 14.6 points of win probability a game.
    Players at your level lose about 17.1 to the same thing, so this is
    not costing you your rating — it is costing you the next one.
-   For example game 3g6KpqF3, move 10, you played b1c3 (d1c2 was better)
-   For example game V84zhTJT, move 11, you played c1b2 (b1c3 was better)
-   For example game XkSr9VDj, move 7, you played b1d2 (c3c4 was better)
+   For example move 10, you played Nc3 (Qc2 was better)
+      as White, vs PB156, 2026.06.05 — lichess.org/3g6KpqF3#19
+   For example move 11, you played Bb2 (Nc3 was better)
+      as White, vs Mo_ali_20, 2026.07.07 — lichess.org/V84zhTJT#21
+   For example move 7, you played Nbd2 (c4 was better)
+      as White, vs badchesterton, 2026.04.26 — lichess.org/XkSr9VDj#13
 
 2. When you go wrong, it is often a hanging piece that punishes you.
 
@@ -29,9 +32,12 @@ what they cost you rather than by what makes you different.
    Costing you about 10.5 points of win probability a game.
    Players at your level lose about 10.2 to the same thing, so roughly
    0.3 a game is what fixing this could get back.
-   For example game 3b3fnPO5, move 19, you played b2f6 (h7f6 was better)
-   For example game CnRTxl8D, move 29, you played c8c3 (g3c3 was better)
-   For example game V84zhTJT, move 14, you played d1d8 (c8d8 was better)
+   For example move 19, you played Bxf6, and Nxf6 punished it
+      as White, vs sudharsanR, 2026.04.26 — lichess.org/3b3fnPO5#37
+   For example move 28, you played Rxc3, and Rxc3 punished it
+      as Black, vs ElderlyCent, 2026.03.31 — lichess.org/CnRTxl8D#56
+   For example move 14, you played Qxd8+, and Kxd8 punished it
+      as White, vs Mo_ali_20, 2026.07.07 — lichess.org/V84zhTJT#27
 
 3. Your play falls off in rook-and-minor endgames.
 
@@ -42,9 +48,12 @@ what they cost you rather than by what makes you different.
    Costing you about 7.2 points of win probability a game.
    Players at your level lose about 4.3 to the same thing, so roughly
    2.8 a game is what fixing this could get back.
-   For example game EGKTN6wj, move 42, you played f1e2 (b7f7 was better)
-   For example game XkSr9VDj, move 45, you played c4d4 (c4b4 was better)
-   For example game XkSr9VDj, move 52, you played d5e4 (d5c5 was better)
+   For example move 42, you played Ke2 (Rxf7 was better)
+      as White, vs TrustIn, 2026.06.11 — lichess.org/EGKTN6wj#83
+   For example move 45, you played Kd4 (Kb4 was better)
+      as White, vs badchesterton, 2026.04.26 — lichess.org/XkSr9VDj#89
+   For example move 52, you played Ke4 (Kc5 was better)
+      as White, vs badchesterton, 2026.04.26 — lichess.org/XkSr9VDj#103
 
 WHAT TO DO
 

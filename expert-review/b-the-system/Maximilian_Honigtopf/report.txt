@@ -10,9 +10,12 @@ WHAT STANDS OUT
    Costing you about 27.4 points of win probability a game.
    Players at your level lose about 16.4 to the same thing, so roughly
    11.0 a game is what fixing this could get back.
-   For example game DRPg8Bme, move 15, you played e8g8 (d8b6 was better)
-   For example game Ib5a1BS8, move 14, you played d8e8 (d8c7 was better)
-   For example game cSse4sLl, move 15, you played e6d5 (f8e7 was better)
+   For example move 14, you played O-O (Qb6 was better)
+      as Black, vs TDPowa, 2026.08.01 — lichess.org/DRPg8Bme#28
+   For example move 13, you played Ke8 (Kc7 was better)
+      as Black, vs ayamelisa, 2026.08.09 — lichess.org/Ib5a1BS8#26
+   For example move 14, you played Bd5 (Be7 was better)
+      as Black, vs shreyaskharvi, 2026.08.08 — lichess.org/cSse4sLl#28
 
 2. When you go wrong, it is often a pin that punishes you.
 
@@ -21,17 +24,23 @@ WHAT STANDS OUT
    Costing you about 15.6 points of win probability a game.
    Players at your level lose about 8.3 to the same thing, so roughly
    7.3 a game is what fixing this could get back.
-   For example game 8sbkLvNM, move 11, you played a7a5 (c1g5 was better)
-   For example game DRPg8Bme, move 21, you played g8h8 (e3h6 was better)
-   For example game PbhJDtzW, move 10, you played e7e5 (c1g5 was better)
+   For example move 10, you played a5, and Bxg5 punished it
+      as Black, vs ahmed19712000, 2026.08.06 — lichess.org/8sbkLvNM#20
+   For example move 20, you played Kh8, and Qh6 punished it
+      as Black, vs TDPowa, 2026.08.01 — lichess.org/DRPg8Bme#40
+   For example move 9, you played e5, and Bg5 punished it
+      as Black, vs A-h_m-e-d, 2026.08.02 — lichess.org/PbhJDtzW#18
 
 3. You end up with isolated pawns more often than players at your level.
 
    How often   5% of the time, against 2% for players at your level
    Seen in     11 of 20 games
-   For example game DRPg8Bme, move 7, you played g7f6
-   For example game IGCmSgiy, move 10, you played g2f3
-   For example game R9GJUKUy, move 34, you played a5b6
+   For example move 6, you played gxf6
+      as Black, vs TDPowa, 2026.08.01 — lichess.org/DRPg8Bme#12
+   For example move 10, you played gxf3
+      as White, vs shreyaskharvi, 2026.08.08 — lichess.org/IGCmSgiy#19
+   For example move 34, you played axb6
+      as White, vs BacalhauDoce, 2026.08.07 — lichess.org/R9GJUKUy#67
 
 (6 further patterns were found but not prioritised — working on one or two things at a time is the point.)
 

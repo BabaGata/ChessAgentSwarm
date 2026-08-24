@@ -255,7 +255,7 @@ class TestTheEvidenceRuleStillHolds:
         # different route.
         report = a_report(a_finding("hangingPiece", **ORDINARY))
 
-        assert "For example game g1" in report
+        assert "For example move " in report and "lichess.org/g1#" in report
 
     @pytest.mark.parametrize("tier", [ConfidenceTier.WATCH, ConfidenceTier.FOCUS])
     def test_every_reported_finding_has_a_progress_check(self, tier):

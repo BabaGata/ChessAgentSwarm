@@ -395,18 +395,28 @@ def _finding(index: int, finding: Finding, probes: tuple[ProbeRecord, ...]) -> l
             )
 
     for evidence in finding.evidence[:EVIDENCE_SHOWN]:
-        played = f", you played {evidence.move_played}" if evidence.move_played else ""
-        # Never "you played c8e6 (c8e6 was better)". A section can legitimately
+        # SAN, not UCI. "you played g8f6" is not something a chess player reads;
+        # "you played Nf6" is (D18).
+        played = f", you played {evidence.played_san}" if evidence.played_san else ""
+        # Never "you played Nf6 (Nf6 was better)". A section can legitimately
         # cite a position where the player found the best move — the claim may be
         # about the position rather than the move — and the alternative is only
         # worth printing when it is genuinely an alternative.
         better = (
-            f" ({evidence.better_move} was better)"
+            f" ({evidence.better_san} was better)"
             if evidence.better_move and evidence.better_move != evidence.move_played
             else ""
         )
-        lines.append(f"   For example game {evidence.game_id}, move {move_number(evidence.ply)}"
-                     f"{played}{better}")
+        # The opponent's punishing move is stated as theirs, never as advice.
+        punished = (
+            f", and {evidence.opponent_reply_san} punished it"
+            if evidence.opponent_reply_san
+            else ""
+        )
+        lines.append(
+            f"   For example move {move_number(evidence.ply)}{played}{better}{punished}"
+        )
+        lines.append(f"      {evidence.citation()}")
 
     for line in _gap_meaning(finding, probes):
         lines += ["", f"   {line}"]

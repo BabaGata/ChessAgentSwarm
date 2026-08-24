@@ -338,9 +338,21 @@ class Provenance:
             raise ValueError(f"depth must be positive, got {self.depth}")
 
 
+# Sentinel for `Evidence.from_observation`, so "use the engine's move" and
+# "deliberately show no alternative" are different instructions rather than the
+# same `None`.
+ENGINE_BEST = "<engine>"
+
+
 @dataclass(frozen=True)
 class Evidence:
-    """One position supporting a claim. Sampled uniformly, never cherry-picked."""
+    """One position supporting a claim. Sampled uniformly, never cherry-picked.
+
+    Evidence only works if the reader can check it. Moves are stored in UCI
+    because that is what the engine speaks, and rendered in SAN because that is
+    what a chess player reads; the game is cited with the colour, the opponent
+    and the date so it can be found rather than hunted for (D18).
+    """
 
     game_id: str
     ply: int
@@ -349,6 +361,114 @@ class Evidence:
     better_move: str | None = None
     loss_wp: float | None = None
     note: str | None = None
+    player_is_white: bool | None = None
+    opponent: str | None = None
+    played_on: str | None = None
+    # What the opponent played to punish this move. **Not an alternative for the
+    # player** -- it belongs to the other side and is legal only in the position
+    # *after* `move_played`. S1 used to store it in `better_move`, so every
+    # `allowed_motif` example told the player that a move they could not make
+    # "was better" (D17).
+    opponent_reply: str | None = None
+
+    @classmethod
+    def from_observation(
+        cls,
+        observation,
+        *,
+        better_move: str | None = ENGINE_BEST,
+        opponent_reply: str | None = None,
+        note: str | None = None,
+        loss_dp: int = 1,
+    ) -> Evidence:
+        """Build evidence from a measured move.
+
+        Every section did this by hand and none of them carried the game
+        context, so adding it in nine places was nine chances to forget one.
+
+        `better_move` defaults to the engine's own best move, and **passing
+        `None` explicitly suppresses it** -- which S5, S6 and S8 rely on. Their
+        claims are about a concession rather than a mistake, and printing the
+        engine's preference beside one would imply the concession was the error,
+        which E03 says cannot be claimed. A plain `None` default would have
+        silently deleted that distinction in three sections.
+        """
+        return cls(
+            game_id=observation.game_id,
+            ply=observation.ply,
+            fen=observation.fen_before,
+            move_played=observation.move_played,
+            better_move=(
+                observation.best_move if better_move is ENGINE_BEST else better_move
+            ),
+            loss_wp=round(observation.loss_wp, loss_dp),
+            note=note,
+            opponent_reply=opponent_reply,
+            player_is_white=observation.mover_is_white,
+            opponent=observation.opponent or None,
+            played_on=observation.played_on,
+        )
+
+    @property
+    def played_san(self) -> str | None:
+        return self._san(self.move_played)
+
+    @property
+    def better_san(self) -> str | None:
+        return self._san(self.better_move)
+
+    @property
+    def opponent_reply_san(self) -> str | None:
+        """SAN for the punishing move, read in the position it was played in."""
+        if not self.opponent_reply or not self.move_played:
+            return self._san(self.opponent_reply)
+        try:
+            import chess
+
+            board = chess.Board(self.fen)
+            played = chess.Move.from_uci(self.move_played)
+            if played not in board.legal_moves:
+                return self.opponent_reply
+            board.push(played)
+            reply = chess.Move.from_uci(self.opponent_reply)
+            if reply not in board.legal_moves:
+                return self.opponent_reply
+            return board.san(reply)
+        except (ValueError, IndexError):
+            return self.opponent_reply
+
+    def _san(self, uci: str | None) -> str | None:
+        """SAN for a UCI move, falling back to the UCI itself.
+
+        A bad FEN or a move that is not legal in the position must not take a
+        whole report down, and the UCI is still a true statement about what was
+        played -- less readable, not less correct.
+        """
+        if not uci:
+            return None
+        try:
+            import chess
+
+            board = chess.Board(self.fen)
+            move = chess.Move.from_uci(uci)
+            if move not in board.legal_moves:
+                return uci
+            return board.san(move)
+        except (ValueError, IndexError):
+            return uci
+
+    def citation(self) -> str:
+        """One line a player can act on: where, against whom, and a link."""
+        parts = []
+        if self.player_is_white is not None:
+            parts.append("as White" if self.player_is_white else "as Black")
+        if self.opponent:
+            parts.append(f"vs {self.opponent}")
+        if self.played_on:
+            parts.append(self.played_on)
+        where = ", ".join(parts)
+        link = f"lichess.org/{self.game_id}#{self.ply}"
+        return f"{where} — {link}" if where else link
 
 
 @dataclass(frozen=True)

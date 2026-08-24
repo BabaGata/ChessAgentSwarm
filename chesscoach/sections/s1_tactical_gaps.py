@@ -283,7 +283,10 @@ def _assess(key: str, counts: _Counts, context: SectionContext) -> Finding | Non
         gap_type=GapType(
             hypothesis=GapTypeHypothesis.UNKNOWN, determined_by=DeterminedBy.INFERRED
         ),
-        evidence=_sample_evidence(tally, motif, f"{SECTION}.{key}:{context.corpus.corpus_id}"),
+        evidence=_sample_evidence(
+            tally, motif, f"{SECTION}.{key}:{context.corpus.corpus_id}",
+            allowed=key.startswith(ALLOWED),
+        ),
     )
 
 
@@ -335,8 +338,17 @@ def _legal(board: chess.Board, uci: str | None) -> chess.Move | None:
     return move if move in board.legal_moves else None
 
 
-def _sample_evidence(tally: _Tally, motif: str, seed_key: str) -> tuple[Evidence, ...]:
-    """A uniform sample of supporting positions, reproducibly chosen."""
+def _sample_evidence(
+    tally: _Tally, motif: str, seed_key: str, allowed: bool = False
+) -> tuple[Evidence, ...]:
+    """A uniform sample of supporting positions, reproducibly chosen.
+
+    `allowed` decides what `tally.better_moves` *means*. For a missed motif it is
+    the move the player should have found. For an allowed one it is the move the
+    **opponent** played to punish them, which is not an alternative for the
+    player and is not even legal for their colour -- printing it as "was better"
+    is how the report came to recommend moves nobody could make.
+    """
     digest = hashlib.sha256(seed_key.encode("utf-8")).digest()
     rng = random.Random(int.from_bytes(digest[:8], "big"))
 
@@ -346,14 +358,14 @@ def _sample_evidence(tally: _Tally, motif: str, seed_key: str) -> tuple[Evidence
         key=lambda o: (o.game_id, o.ply),
     )
     return tuple(
-        Evidence(
-            game_id=o.game_id,
-            ply=o.ply,
-            fen=o.fen_before,
-            move_played=o.move_played,
-            better_move=tally.better_moves.get(_ref(o)),
-            loss_wp=round(o.loss_wp, 1),
-            note=f"{motif} was available here",
+        Evidence.from_observation(
+            o,
+            better_move=None if allowed else tally.better_moves.get(_ref(o)),
+            opponent_reply=tally.better_moves.get(_ref(o)) if allowed else None,
+            note=(
+                f"you allowed {motif} here" if allowed
+                else f"{motif} was available here"
+            ),
         )
         for o in chosen
     )
