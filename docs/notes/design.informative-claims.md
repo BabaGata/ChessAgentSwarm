@@ -210,6 +210,49 @@ free, scalable, no jargon. Option 2 supplies *why*, for the small set that matte
 **If only one: Option 2.** It meets the objection directly and is bounded. Option 1 on its own risks
 delivering a move list, which is what the rejected prose already effectively was.
 
+### Searching opening by opening — the author was right, and it does not solve the licence
+
+The generic search was the wrong search. Asked about **one** opening, the web returns exactly the
+register wanted:
+
+> *"Your light-squared bishop must come out before playing …e6, otherwise it stays locked in for the
+> entire game."* · *"In the 3…Qa5 variation, queenside castling is often the best plan… castling
+> queenside immediately posts your rook on the d-file."* · *"Black will have to fight against the pawn
+> on d4, by breaking the centre with e5 or c5."*
+
+Plain, prescriptive, forward-looking, no assumed vocabulary. **This content exists in abundance, per
+opening.**
+
+**And none of it is licensed.** albertochueca.com, kingdomofchess.com, chessforsharks.co,
+chessdoctrine.com, chesscheatsheets.com — all copyright. Even `freechesstrainer.org`, which sounds
+promising, states plainly `© FreeChessTrainer.org` with **no licence declaration**: free to *read*,
+not free to *reuse*.
+
+**Books, checked because the author asked.** Public-domain chess books are 19th century — Staunton's
+*Blue Book*, Edward Lasker. They predate almost every opening these players actually play; the
+Scandinavian Modern, the Caro-Kann Advance Short and the Najdorf did not exist as named lines. They
+would be **wrong**, not merely dated. Archive.org carries modern opening books (Seirawan, Batsford,
+MCO) but **lends** them — that is not a licence.
+
+### The conclusion this forces, and it is a better architecture
+
+The good material cannot be **copied**. It can be **pointed at**.
+
+> *"You play the Scandinavian in 7 of your 20 games and leave theory at move 4. In this line the
+> light-squared bishop is the whole problem — it has to come out before …e6. A guide to the plans:
+> ⟨link⟩."*
+
+- **No licence issue.** Linking is not redistribution.
+- **No folklore risk (R-03).** The system asserts nothing about chess; it says where the player left
+  theory — which it measured — and routes to instruction it did not write.
+- **Costs almost nothing:** a curated map of the ~15 openings that occur → one or two URLs each.
+- **It is the honest division of labour.** This project's expertise is *measurement*, not chess
+  pedagogy. A system that diagnoses precisely and then hands over to someone who teaches well is more
+  defensible than one that paraphrases a blog and calls it knowledge.
+
+**Weaknesses, stated:** link rot; quality varies by site; and **curating is endorsing**, so the fifteen
+choices are the author's judgement — fifteen decisions rather than fifteen essays.
+
 ## Layer 3 after the outage — what else could supply it
 
 `explorer.lichess.ovh` is **401 on every endpoint** (`/lichess`, `/masters`, `/player`), down since a
