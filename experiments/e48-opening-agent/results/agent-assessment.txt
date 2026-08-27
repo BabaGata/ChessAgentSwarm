@@ -1,0 +1,99 @@
+AGENT ASSESSMENT OF THE GUIDE LINKS — a first pass, not an endorsement
+==============================================================================
+
+This is the agent's reading, recorded so the author's pass is a confirm-or-
+override rather than a cold read of ninety links. NOTHING here is marked
+reviewed=true in the library: that flag means the author endorsed it, and it
+still does.
+
+Two levels of evidence, and they are kept apart:
+
+  READ    the page text was actually read
+  METRIC  only the counts were seen — treat as triage, not judgement
+
+THE SCREEN HAS A CONFOUND, FOUND BY READING
+------------------------------------------------------------------------------
+The PLAN metric counts forward-looking second-person language. Marketing uses
+the same grammar. Two of the three highest scores are inflated by it:
+
+  Scandinavian / Chueca      plan 8.7  — but one match is "If you are finding
+                             how to improve your chess level, I recommend you
+                             to check The Chueca Method"
+  London / TheChessWorld     plan 5.3  — matches are meta, not plans:
+                             "How do you study the London System?",
+                             "You want to understand the plans"
+
+So the screen is a reliable filter for what is BAD — thin, storefront,
+jargon-dense — and an unreliable ranking of what is GOOD. Every recommendation
+below that rests on the metric alone says so.
+
+------------------------------------------------------------------------------
+RECOMMENDED — read, and they do what you asked for
+------------------------------------------------------------------------------
+
+Pirc Defense (11 games)            READ   FreeChessTrainer
+  plan 11.9, jargon 4.0, 758w
+  "Black allows White to occupy the center with pawns on e4 and d4, aiming to
+   undermine it later with well timed pawn breaks and piece pressure."
+  "Black aims to stay flexible, first completing development and only later
+   choosing a pawn break."
+  Forward-looking, plain, no assumed vocabulary. The closest match yet to the
+  register you asked for.
+  CAVEAT: it is a trainer product page, so some content may sit behind an
+  interaction the report cannot promise.
+  https://freechesstrainer.org/openings/black/e4/pirc-defense.html
+
+Sicilian Defense (16 games)        METRIC Chess Doctrine (Alapin page)
+  plan 4.0, jargon 0.0, 4224w — the only page in the set with zero jargon hits
+  at that length. Not read in full; the numbers are unusually clean.
+  https://chessdoctrine.com/chess-openings/kings-pawn/sicilian-alapin/
+
+Queen's Pawn / Indian (33 games)   METRIC TheChessWorld London guide
+  plan 5.3, jargon 0.5, 2069w. The sentences sampled were meta rather than
+  plans, so this is a WEAK recommendation — worth your eye before approval.
+  https://thechessworld.com/articles/openings/london-system-the-complete-guide/
+
+------------------------------------------------------------------------------
+REJECT — with reasons
+------------------------------------------------------------------------------
+
+English Opening / Exeter Chess Club          READ
+  9,796 words, plan 0.4. Substantive and written by a club, but it is a
+  reference essay, not a guide, and it assumes "Maroczy bind", "Hedgehog",
+  "Nimzovitch" without explanation. This is objection 3 exactly, from the
+  source I would have expected to be best.
+
+Hungarian Opening / Chess Doctrine           METRIC
+  jargon 15.5 per 1000 words — twice anything else in the set.
+
+Hungarian Opening / US Chess Sales           METRIC
+  136 words, jargon 36.8. A stub. The Italian entry you rejected was 33 words.
+
+English Opening / Chess Doctrine             METRIC
+  jargon 8.2 — the second-worst in the set.
+
+Pirc Defense / Ochess                        METRIC
+  plan 0.0 across 710 words.
+
+French Defense / Chessentials                UNREADABLE
+  The site refuses the fetch (HTTP error). It may be fine in a browser — this
+  is not evidence against it, only an absence of evidence. Needs a human open.
+
+------------------------------------------------------------------------------
+NO CONFIDENT RECOMMENDATION YET
+------------------------------------------------------------------------------
+Caro-Kann (13 games)   all three cluster at plan 2.0-3.1, jargon ~1.2. Nothing
+                       stands out and nothing is disqualified.
+Italian Game (11)      Chessiverse leads on metric (plan 4.6) but jargon 2.5;
+                       the Lichess forum thread has jargon 0.0 and is a forum
+                       post, which is a different kind of risk.
+Scandinavian (16)      Chueca's score is inflated by marketing; FreeChessTrainer
+                       at plan 6.7 / 749w is the better bet on the numbers.
+
+------------------------------------------------------------------------------
+WHAT THIS PASS CANNOT DO
+------------------------------------------------------------------------------
+It cannot tell whether the chess is correct. Every judgement above is about
+register, length and assumed vocabulary — never about whether the plans are the
+right plans. That check needs a strong player and is the reason reviewed=true
+stays yours.

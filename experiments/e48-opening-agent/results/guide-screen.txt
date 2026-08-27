@@ -1,0 +1,88 @@
+GUIDE SCREEN — the author's three objections, made countable
+============================================================================================
+
+PLAN   forward-looking, second-person plan language (higher is better)
+JARGON concepts used as if already known (lower is better)
+SELL   signup/course language (lower is better)
+WORDS  article length
+
+Rates are per 1000 words so a long page is not rewarded for being long.
+A score is a shortlist, not a verdict.
+
+--------------------------------------------------------------------------------------------
+French Defense  —  24 games
+  TheChessWorld         3851w  plan   3.9  jargon   1.0  sell  0
+  Chessentials         UNREADABLE (HTTPError)
+  The Chess Crew         979w  plan   3.1  jargon   2.0  sell  0
+--------------------------------------------------------------------------------------------
+Queen's Pawn Game  —  23 games
+  TheChessWorld         2069w  plan   5.3  jargon   0.5  sell  0  <-- promising
+  FireChess             1416w  plan   4.9  jargon   2.1  sell  0  <-- promising
+  Listudy                625w  plan   3.2  jargon   1.6  sell  0
+--------------------------------------------------------------------------------------------
+English Opening  —  18 games
+  Exeter Chess Club     9796w  plan   0.4  jargon   2.1  sell  0
+  IM Alberto Chueca     1401w  plan   4.3  jargon   1.4  sell  0  <-- promising
+  Chess Doctrine        3758w  plan   2.1  jargon   8.2  sell  1
+--------------------------------------------------------------------------------------------
+Sicilian Defense  —  16 games
+  Chessable             2163w  plan   1.8  jargon   1.8  sell  0
+  Chess Doctrine        3025w  plan   2.6  jargon   0.7  sell  0
+  Chess Doctrine        4224w  plan   4.0  jargon   0.0  sell  0  <-- promising
+--------------------------------------------------------------------------------------------
+Scandinavian Defense  —  16 games
+  IM Alberto Chueca     1386w  plan   8.7  jargon   0.7  sell  0  <-- promising
+  Chess for Sharks      1778w  plan   2.8  jargon   2.8  sell  2
+  FreeChessTrainer       749w  plan   6.7  jargon   2.7  sell  0  <-- promising
+--------------------------------------------------------------------------------------------
+Caro-Kann Defense  —  13 games
+  Kingdom of Chess      4242w  plan   2.6  jargon   1.2  sell  0
+  Attacking Chess       2280w  plan   3.1  jargon   1.3  sell  0
+  OpeningDrills          983w  plan   2.0  jargon   1.0  sell  0
+--------------------------------------------------------------------------------------------
+Italian Game  —  11 games
+  Chessable             3456w  plan   3.5  jargon   1.4  sell  0
+  Chessiverse           1964w  plan   4.6  jargon   2.5  sell  0  <-- promising
+  Lichess forum          809w  plan   2.5  jargon   0.0  sell  0
+--------------------------------------------------------------------------------------------
+Pirc Defense  —  11 games
+  FreeChessTrainer       758w  plan  11.9  jargon   4.0  sell  0  <-- promising
+  US Chess Sales         540w  plan   5.6  jargon   1.9  sell  0  <-- promising
+  Ochess                 710w  plan   0.0  jargon   2.8  sell  0
+--------------------------------------------------------------------------------------------
+Indian Defense  —  10 games
+  TheChessWorld         2069w  plan   5.3  jargon   0.5  sell  0  <-- promising
+  FireChess             1416w  plan   4.9  jargon   2.1  sell  0  <-- promising
+--------------------------------------------------------------------------------------------
+Hungarian Opening  —  9 games
+  Chess Doctrine        3163w  plan   6.6  jargon  15.5  sell  1
+  US Chess Sales         136w  plan   0.0  jargon  36.8  sell  0  <-- thin
+  My Chess Tutor        1561w  plan   3.2  jargon   4.5  sell  0
+
+============================================================================================
+SHORTLIST — most plan language, least assumed knowledge
+
+  Pirc Defense              FreeChessTrainer      plan  11.9  jargon   4.0
+    https://freechesstrainer.org/openings/black/e4/pirc-defense.html
+  Scandinavian Defense      IM Alberto Chueca     plan   8.7  jargon   0.7
+    https://www.albertochueca.com/blog/scandinavian-defense/
+  Scandinavian Defense      FreeChessTrainer      plan   6.7  jargon   2.7
+    https://freechesstrainer.org/openings/black/e4/scandinavian-defense.html
+  Queen's Pawn Game         TheChessWorld         plan   5.3  jargon   0.5
+    https://thechessworld.com/articles/openings/london-system-the-complete-guide/
+  Indian Defense            TheChessWorld         plan   5.3  jargon   0.5
+    https://thechessworld.com/articles/openings/london-system-the-complete-guide/
+  Pirc Defense              US Chess Sales        plan   5.6  jargon   1.9
+    https://www.uscfsales.com/blogs/chess-openings/the-pirc-defense-for-black
+  Sicilian Defense          Chess Doctrine        plan   4.0  jargon   0.0
+    https://chessdoctrine.com/chess-openings/kings-pawn/sicilian-defense/
+  Queen's Pawn Game         FireChess             plan   4.9  jargon   2.1
+    https://www.firechess.com/blog/london-system-guide-club-players
+  Indian Defense            FireChess             plan   4.9  jargon   2.1
+    https://www.firechess.com/blog/london-system-guide-club-players
+  English Opening           IM Alberto Chueca     plan   4.3  jargon   1.4
+    https://www.albertochueca.com/blog/english-opening/
+  French Defense            TheChessWorld         plan   3.9  jargon   1.0
+    https://thechessworld.com/articles/openings/french-defense-complete-guide-for-both-colors/
+  Italian Game              Chessiverse           plan   4.6  jargon   2.5
+    https://chessiverse.com/blog/italian-game-the-complete-guide-to-chesss-oldest-opening
