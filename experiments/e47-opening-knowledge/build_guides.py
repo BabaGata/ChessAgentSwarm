@@ -23,6 +23,7 @@ from collections import Counter
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from chesscoach.opening_guides import DEFAULT_LIBRARY, Guide, GuideLibrary  # noqa: E402
 from chesscoach.openings import OpeningBook  # noqa: E402
@@ -30,33 +31,7 @@ from chesscoach.pipeline import load_games  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2] / "expert-review"
 
-# Candidates actually seen in search results, never guessed. Every one is
-# copyright — which is fine, because these are links rather than copies — and
-# every one still needs the author's eye before a player sees it.
-CANDIDATES: dict[str, list[tuple[str, str, str]]] = {
-    "French Defense": [
-        ("French Defense: complete guide for both colours",
-         "https://thechessworld.com/articles/openings/french-defense-complete-guide-for-both-colors/",
-         "TheChessWorld"),
-        ("What every chess player should know about the French Defence",
-         "https://chessentials.com/the-french-defence/", "Chessentials"),
-        ("French Defense: plans, pawn structures and winning ideas",
-         "https://thechesscrew.com/blog/french-defense-strategy", "The Chess Crew"),
-        ("Learn how to play the French Defense",
-         "https://pawnbreak.com/the-french-defense/", "Pawnbreak"),
-    ],
-    "Scandinavian Defense": [
-        ("Scandinavian Defense — plans and piece placement",
-         "https://www.albertochueca.com/blog/scandinavian-defense/", "IM Alberto Chueca"),
-        ("Scandinavian Defense: complete guide",
-         "https://kingdomofchess.com/scandinavian-defense/", "Kingdom of Chess"),
-        ("How to play the Scandinavian: major ideas for White and Black",
-         "https://chessforsharks.co/scandinavian-defense/", "Chess for Sharks"),
-        ("Scandinavian Defense — ideas, plans and training",
-         "https://freechesstrainer.org/openings/black/e4/scandinavian-defense.html",
-         "FreeChessTrainer"),
-    ],
-}
+from candidates import CANDIDATES  # noqa: E402
 
 # Why the obvious free source is only a candidate: its prose was harvested, read
 # by the author and refused as too advanced for this audience. Linking to it is
