@@ -151,6 +151,65 @@ L1 with A3 gives the distinction, now against theory rather than against the ban
 | late | worse | **the ideas** — knows the moves, not the plans. L2 is the whole answer |
 | early | fine | nothing to say. Leaving theory early is not a fault by itself, and a claim treating it as one would measure conformity rather than skill — the error the peer book made |
 
+## Layer 2 refused on reading — the prose is the wrong genre
+
+The harvest succeeded and the author read it and rejected it:
+
+> *"These ideas are better in explaining what happened than what should be focused on for the rest of
+> the game. They also use sentences that are not really easily understandable for players at 1500 and
+> they should make some conclusions based on the understanding they don't currently have."*
+
+All three parts check out against the text. The Caro-Kann entry says the structure *"resembles a
+Carlsbad structure with reversed colours, so some of the strategic ideas are analogous to the Queen's
+Gambit Declined, Exchange Variation"* — unusable for someone who does not already know both of those.
+The Italian entry is 33 words of move description. Even the strong Sicilian entry annotates the
+**position** rather than prescribing a **plan**.
+
+**Wikibooks *Chess Opening Theory* is theory annotation, not plan instruction**, and the two are
+different genres. Wikipedia is no better: it is encyclopedic, reaches for the same Carlsbad
+comparison, and assumes tempo, transposition and compensation.
+
+**And the genre that is wanted appears not to exist under a free licence.** Everything aimed at
+improvers with explicit middlegame plans — Chess.com lessons, Chessable, thechessworld,
+chessatlas — is commercial, which C7 and R-03 both rule out. That is a real negative and worth
+recording so it is not searched for again.
+
+### What can replace it
+
+**Option 1 — plans from what stronger players actually do.** `fetch-corpus --band LOW-HIGH` already
+exists. From the position where the player leaves theory, show what **2000–2200** players do over the
+next few moves: where the pieces go, when they castle, which pawn break arrives.
+
+- **Zero jargon**, because it is expressed in moves, which the player already understands.
+- The reference is **stronger players, not the band** — so L-045 is respected; this is not "what your
+  peers do".
+- Cost: one corpus fetch of 30–50 players with machinery that exists.
+- **Weakness, and it is the important one: it shows *what*, not *why*.** A move list is not an idea,
+  and the author's objection was precisely about ideas.
+
+**Option 2 — the author writes the plans, for the fifteen openings that actually occur.** Evidence
+class: named expert opinion, which `capacity.knowledge` already supports. Bounded at fifteen short
+entries. Correct for the audience by construction, because a strong player is writing *for* 1500
+rather than for an encyclopedia.
+
+- Cost: **the author's own hours**, at a point when they were weighing whether to stop and write up.
+- Does not generalise past these twelve players' repertoires.
+
+**Option 3 — drafted by a model, verified and signed by the author.** Cheaper in author time.
+**R-03 forbids folklore laundering**, and "verified by a named expert" is a genuinely different
+evidence class from "generated" — but a thesis that defends a no-folklore rule and then ships model
+text needs a very explicit account of the verification. **Would require its own ADR**, not a quiet
+decision.
+
+### Recommendation
+
+**1 and 2 compose, and neither is sufficient alone.** Option 1 supplies *what* stronger players do —
+free, scalable, no jargon. Option 2 supplies *why*, for the small set that matters. Together they are
+"what to focus on for the rest of the game" in plain terms, which is the requirement.
+
+**If only one: Option 2.** It meets the objection directly and is bounded. Option 1 on its own risks
+delivering a move list, which is what the rejected prose already effectively was.
+
 ## Layer 3 after the outage — what else could supply it
 
 `explorer.lichess.ovh` is **401 on every endpoint** (`/lichess`, `/masters`, `/player`), down since a
