@@ -160,18 +160,24 @@ def _winnable_squares(board: chess.Board, owner: chess.Color) -> set[int]:
 
 
 def moved_into_attack(board: chess.Board, move: chess.Move) -> bool:
-    """The piece just moved can now be won for material.
+    """A **quiet** move that puts the moved piece where it can be won.
 
-    Restricted to quiet moves and even-or-better captures, so a deliberate
-    sacrifice that also wins material is not double-counted as a blunder into
-    an attack; a capture that loses material is `miscounted_exchange` instead.
+    Captures are not this claim. They are `miscounted_exchange`, and the two now
+    partition cleanly on capture-versus-quiet with the same test on each side.
+
+    The old version scored **0 of 5** on the author's marks (D23). Its guard
+    excluded only *losing* captures, so an even-or-better capture fell through to
+    a test that measured the recapture **in isolation** and ignored what had just
+    been taken — which meant every ordinary trade fired. `Bxd8+` nets **+6**, wins
+    a queen, and was reported as putting a piece where it can be won.
+
+    `exchange_value` already nets the whole sequence, and for a quiet move it
+    equals `-swap` on the destination, so one test serves both claims and there is
+    no second notion of "loses material" to drift.
     """
-    if exchange_value(board, move) < 0 and board.is_capture(move):
+    if board.is_capture(move):
         return False
-
-    after = board.copy(stack=False)
-    after.push(move)
-    return _swap(after, move.to_square) >= MATERIAL_LOSS
+    return exchange_value(board, move) <= -MATERIAL_LOSS
 
 
 def miscounted_exchange(board: chess.Board, move: chess.Move) -> bool:
