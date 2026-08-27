@@ -1,0 +1,227 @@
+﻿OPENING GUIDES TO REVIEW
+==============================================================================
+
+One entry per opening these twelve players actually reach, most played
+first. For each candidate: open it, and decide whether you would send a
+1500 there to learn this opening's plans.
+
+  [y] approve — set reviewed=true in data/openings/guides.json
+  [n] reject  — delete the line
+
+Nothing reaches a player until it is approved. Openings with NO CANDIDATE
+need a link found; the system stays silent for them rather than guessing.
+
+47 opening families, 240 games — but the
+tail is long and thin, so the whole list is not the job:
+
+    curating the top  5 covers 97/240 games (40%)
+    curating the top  8 covers 132/240 games (55%)
+    curating the top 15 covers 179/240 games (75%)
+    curating the top 25 covers 212/240 games (88%)
+    16 of 47 families appear in a single game.
+
+------------------------------------------------------------------------------
+French Defense  —  24 games
+  played by: maikel5 (9), bjagus (5), maxhayastan (3)
+  [ ] French Defense: complete guide for both colours
+      https://thechessworld.com/articles/openings/french-defense-complete-guide-for-both-colors/  (TheChessWorld)
+  [ ] What every chess player should know about the French Defence
+      https://chessentials.com/the-french-defence/  (Chessentials)
+  [ ] French Defense: plans, pawn structures and winning ideas
+      https://thechesscrew.com/blog/french-defense-strategy  (The Chess Crew)
+  [ ] Learn how to play the French Defense
+      https://pawnbreak.com/the-french-defense/  (Pawnbreak)
+------------------------------------------------------------------------------
+Queen's Pawn Game  —  23 games
+  played by: bernes (7), cademan (5), maxhayastan (4)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+English Opening  —  18 games
+  played by: simonvj (10), bjagus (3), cademan (2)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Sicilian Defense  —  16 games
+  played by: Sheriwoyama (8), goydorak (3), Hirsican (2)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Scandinavian Defense  —  16 games
+  played by: Crossfire1983 (7), Hirsican (4), maxhayastan (2)
+  [ ] Scandinavian Defense — plans and piece placement
+      https://www.albertochueca.com/blog/scandinavian-defense/  (IM Alberto Chueca)
+  [ ] Scandinavian Defense: complete guide
+      https://kingdomofchess.com/scandinavian-defense/  (Kingdom of Chess)
+  [ ] How to play the Scandinavian: major ideas for White and Black
+      https://chessforsharks.co/scandinavian-defense/  (Chess for Sharks)
+  [ ] Scandinavian Defense — ideas, plans and training
+      https://freechesstrainer.org/openings/black/e4/scandinavian-defense.html  (FreeChessTrainer)
+------------------------------------------------------------------------------
+Caro-Kann Defense  —  13 games
+  played by: bernes (8), maxhayastan (2), goydorak (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Italian Game  —  11 games
+  played by: goydorak (4), cademan (3), Maximilian_Honigtopf (3)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Pirc Defense  —  11 games
+  played by: simonvj (4), Crossfire1983 (3), goydorak (2)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Indian Defense  —  10 games
+  played by: cademan (3), bjagus (2), Hirsican (2)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Hungarian Opening  —  9 games
+  played by: Odin5306 (8), bjagus (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Vienna Game  —  8 games
+  played by: Hirsican (4), maikel5 (3), maxhayastan (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+King's Pawn Game  —  6 games
+  played by: maikel5 (2), maxhayastan (2), cademan (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+English Defense  —  5 games
+  played by: Odin5306 (4), cademan (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Owen Defense  —  5 games
+  played by: Odin5306 (5)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Slav Defense  —  4 games
+  played by: goydorak (2), bernes (1), bjagus (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Philidor Defense  —  4 games
+  played by: bjagus (2), Maximilian_Honigtopf (2)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Queen's Gambit Declined  —  4 games
+  played by: maxhayastan (2), cademan (1), simonvj (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Dutch Defense  —  4 games
+  played by: maikel5 (2), simonvj (2)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Benoni Defense  —  3 games
+  played by: bernes (1), Sheriwoyama (1), simonvj (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Bird Opening  —  3 games
+  played by: bjagus (1), Crossfire1983 (1), Sheriwoyama (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Scotch Game  —  3 games
+  played by: cademan (1), goydorak (1), maxhayastan (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Ruy Lopez  —  3 games
+  played by: cademan (2), Sheriwoyama (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Petrov's Defense  —  3 games
+  played by: Maximilian_Honigtopf (2), Crossfire1983 (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Three Knights Opening  —  3 games
+  played by: Maximilian_Honigtopf (2), Crossfire1983 (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Four Knights Game  —  3 games
+  played by: goydorak (2), Maximilian_Honigtopf (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Englund Gambit  —  2 games
+  played by: bernes (2)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Van't Kruijs Opening  —  2 games
+  played by: bjagus (1), Maximilian_Honigtopf (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Vienna Gambit, with Max Lange Defense  —  2 games
+  played by: Hirsican (1), maikel5 (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Nimzo-Indian Defense  —  2 games
+  played by: Hirsican (2)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Zukertort Opening  —  2 games
+  played by: Odin5306 (1), Sheriwoyama (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+King's Indian Defense  —  2 games
+  played by: Sheriwoyama (1), simonvj (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Tarrasch Defense  —  1 games
+  played by: bjagus (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Réti Opening  —  1 games
+  played by: bjagus (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Horwitz Defense  —  1 games
+  played by: cademan (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Blackmar-Diemer Gambit Accepted  —  1 games
+  played by: Crossfire1983 (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Blackmar-Diemer Gambit  —  1 games
+  played by: Crossfire1983 (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Nimzo-Larsen Attack  —  1 games
+  played by: goydorak (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Ponziani Opening  —  1 games
+  played by: goydorak (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Semi-Slav Defense  —  1 games
+  played by: maikel5 (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Bishop's Opening  —  1 games
+  played by: maxhayastan (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+King's Gambit Accepted  —  1 games
+  played by: maxhayastan (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Ware Defense  —  1 games
+  played by: Maximilian_Honigtopf (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+King's Knight Opening  —  1 games
+  played by: Maximilian_Honigtopf (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Kádas Opening  —  1 games
+  played by: Maximilian_Honigtopf (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+King's Gambit Declined  —  1 games
+  played by: Sheriwoyama (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Alekhine Defense  —  1 games
+  played by: Sheriwoyama (1)
+  NO CANDIDATE YET
+------------------------------------------------------------------------------
+Rat Defense  —  1 games
+  played by: simonvj (1)
+  NO CANDIDATE YET
+
+==============================================================================
+2 of 47 families have at least one candidate.
