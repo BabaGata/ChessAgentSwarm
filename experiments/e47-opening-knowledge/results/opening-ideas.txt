@@ -1,0 +1,149 @@
+﻿IDEAS FOR THE OPENINGS THESE PLAYERS ACTUALLY PLAY
+==============================================================================
+
+Source: Wikibooks 'Chess Opening Theory', CC BY-SA 4.0. Text is quoted
+verbatim, never paraphrased, and every entry carries its URL.
+
+Ranked by games played across the twelve review players. 'depth' is how
+many plies deep the article is: at 2 it describes a defence, at 6 a named
+variation. The shallower it is, the less it is about what the player
+actually played.
+
+The question to answer while reading: does this contain a PLAN a 1500
+could act on, or is it a move list with commentary?
+
+==============================================================================
+French Defense  —  24 games
+
+  article depth : 8 plies
+  played by     : maikel5 (9), bjagus (5), maxhayastan (3)
+  source        : https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._e4/1...e6/2._d4/2...d5/3._Nd2/3...Nf6/4._e5/4...Nfd7
+
+  (no extract returned)
+
+==============================================================================
+Queen's Pawn Game  —  23 games
+
+  article depth : 2 plies   <-- generic
+  played by     : bernes (7), cademan (5), maxhayastan (4)
+  source        : https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._d4/1...d5
+
+  (no extract returned)
+
+==============================================================================
+English Opening  —  18 games
+
+  article depth : 3 plies
+  played by     : simonvj (10), bjagus (3), cademan (2)
+  source        : https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._c4/1...e5/2._g3
+
+  (no extract returned)
+
+==============================================================================
+Sicilian Defense  —  16 games
+
+  article depth : 7 plies
+  played by     : Sheriwoyama (8), goydorak (3), Hirsican (2)
+  source        : https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._e4/1...c5/2._Nf3/2...Nc6/3._d4/3...cxd4/4._Nxd4
+
+  (no extract returned)
+
+==============================================================================
+Scandinavian Defense  —  16 games
+
+  article depth : 5 plies
+  played by     : Crossfire1983 (7), Hirsican (4), maxhayastan (2)
+  source        : https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._e4/1...d5/2._exd5/2...Nf6/3._d4
+
+  (no extract returned)
+
+==============================================================================
+Caro-Kann Defense  —  13 games
+
+  article depth : 6 plies
+  played by     : bernes (8), maxhayastan (2), goydorak (1)
+  source        : https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._e4/1...c6/2._d4/2...d5/3._exd5/3...cxd5
+
+  (no extract returned)
+
+==============================================================================
+Italian Game  —  11 games
+
+  article depth : 4 plies
+  played by     : goydorak (4), cademan (3), Maximilian_Honigtopf (3)
+  source        : https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._e4/1...e5/2._Bc4/2...Nc6
+
+  (no extract returned)
+
+==============================================================================
+Pirc Defense  —  11 games
+
+  article depth : 3 plies
+  played by     : simonvj (4), Crossfire1983 (3), goydorak (2)
+  source        : https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._d4/1...Nf6/2._Nc3
+
+  (no extract returned)
+
+==============================================================================
+Indian Defense  —  10 games
+
+  article depth : 4 plies
+  played by     : cademan (3), bjagus (2), Hirsican (2)
+  source        : https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._d4/1...Nf6/2._Nf3/2...g6
+
+  (no extract returned)
+
+==============================================================================
+Hungarian Opening  —  9 games
+
+  article depth : 2 plies   <-- generic
+  played by     : Odin5306 (8), bjagus (1)
+  source        : https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._g3/1...e5
+
+  (no extract returned)
+
+==============================================================================
+Vienna Game  —  8 games
+
+  article depth : 8 plies
+  played by     : Hirsican (4), maikel5 (3), maxhayastan (1)
+  source        : https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._e4/1...e5/2._Nc3/2...Nf6/3._f4/3...d5/4._fxe5/4...Nxe4
+
+  (no extract returned)
+
+==============================================================================
+King's Pawn Game  —  6 games
+
+  article depth : 5 plies
+  played by     : maikel5 (2), maxhayastan (2), cademan (1)
+  source        : https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._e4/1...e5/2._Qh5/2...Nc6/3._Bc4
+
+  (no extract returned)
+
+==============================================================================
+English Defense  —  5 games
+
+  article depth : 2 plies   <-- generic
+  played by     : Odin5306 (4), cademan (1)
+  source        : https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._d4/1...b6
+
+  (no extract returned)
+
+==============================================================================
+Owen Defense  —  5 games
+
+  article depth : 2 plies   <-- generic
+  played by     : Odin5306 (5)
+  source        : https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._e4/1...b6
+
+  (no extract returned)
+
+==============================================================================
+Slav Defense  —  4 games
+
+  article depth : 8 plies
+  played by     : goydorak (2), bernes (1), bjagus (1)
+  source        : https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._d4/1...d5/2._c4/2...c6/3._cxd5/3...cxd5/4._Nc3/4...Nf6
+
+  (no extract returned)
+

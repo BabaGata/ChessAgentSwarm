@@ -116,6 +116,44 @@ coverage and would be worthless.
   reaching for something generic.
 - **CC BY-SA still needs its ADR** before any text is stored or shown.
 
+## Result 5 — the prose is there and is the right kind; the harvest is not yet done
+
+E47b measured whether pages *exist*. This tried to read them, for the fifteen
+opening families these twelve players actually reach, ranked by games.
+
+**Every one of the fifteen has an article**, and the fallback depths are better than the aggregate
+suggested — French 8 plies, Vienna 8, Slav 8, Sicilian 7, Caro-Kann 6, Scandinavian 5. Only four of
+fifteen fall back to the generic 2-ply level.
+
+**And the content is the right kind.** Retrieved for the Italian
+(`.../2. Nf3/2...Nc6/3. Bc4`), **5,754 characters**:
+
+> *"White develops the bishop to a good square where it controls a valuable diagonal. From c4 the
+> Bishop controls d5 and pressures Black's f7-pawn, the most vulnerable pawn in Blacks position."*
+
+with named replies for the opponent — 3…Nf6 Two Knights, 3…Bc5 Giuoco Piano, 3…Be7 Hungarian, and
+four more. That is a plan and a set of expectations, not a move list.
+
+**But the harvest did not complete, and the reason is worth recording precisely**, because two of the
+three failures looked identical to *"Wikibooks has no prose"* and none of them was:
+
+1. **`extracts` returns one extract per request** unless `exintro` is set. Asking for twenty titles
+   returned nineteen blanks. Read as a content problem; it was a request problem.
+2. **`exintro` returns empty on these pages**, because they have **no lead section** — the article
+   begins under a heading like `== 3. Bc4 · Italian game ==`. The intro genuinely is empty; the
+   article is not. Read again as a content problem; again it was not.
+3. **HTTP 429.** Full extracts force one request per title, and across several debugging runs the
+   agent asked Wikimedia for too much too quickly. Backoff was added and did not clear it, because by
+   then the throttle was already in place.
+
+**No result is claimed from the incomplete run.** What is established is that the pages exist at
+usable depth and that one of them, read in full, contains exactly the plans and replies the design
+needs. What is *not* established is the quality across all fifteen.
+
+**The harvest should be re-run once, patiently** — a few seconds between requests, results cached to
+disk, and never during analysis. It is an outer-loop, one-time job of about fifteen requests, and it
+was only rate-limited because it was treated as something to iterate on.
+
 ## Honest limitations
 
 - **Twelve players, 240 games.** The spread figure especially is thin.
@@ -125,8 +163,9 @@ coverage and would be worthless.
   is worded, because the two numbers would produce different sentences.
 - **A traced game confirms the mechanism, not the population.** The French Advance example leaves
   theory at ply 8 on 7…c4, correctly. One game is a sanity check, not evidence about twelve players.
-- **Coverage was measured on titles, not on whether the prose is any good.** A 2 kB article exists;
-  whether it contains usable *plans* rather than a move list is unchecked, and that is the next thing
-  to sample by hand.
+- **Prose quality is established for exactly one article, not fifteen.** The Italian contains real
+  plans; the other fourteen are unread because the harvest was rate-limited. Byte length is a poor
+  proxy — a page can clear 1,500 bytes on theory tables alone — so E47b's coverage figures should be
+  read as an **upper bound** until the text is actually pulled.
 - **Nothing here measures whether leaving theory early is bad.** It is a knowledge-depth measurement,
   not an outcome one; the eval half (A3) is separate and unbuilt.
