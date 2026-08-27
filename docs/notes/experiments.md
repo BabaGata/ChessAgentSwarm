@@ -64,6 +64,8 @@ An experiment with no consequence was not worth running.
 
 | E45 | what does correcting the increment do to the band note? | done — **cuts its headline 21 % and the claim survives.** `instant_move_error` 22.40 → **17.69** wp/game in rapid, still leading; 0 clock-free cells moved. The re-screen caught more: **2 of 5 band claims had been stale since the corpus rebuild** and no longer clear E25's bar | [[experiments.e45-increment-correction]] |
 
+| E47 | does an absolute opening book say anything useful about these players? | done — **240/240 games named**, and the exit ply **does not separate players (1.17×, below the 1.30 screen)**. The right conclusion is that the screen **does not apply**: this is the project's first non-comparative claim, and teaching does not require the pupil to be unusual. **58 % of book exits are the opponent's move**, not the player's | [[experiments.e47-opening-knowledge]] |
+
 
 ## Conventions
 

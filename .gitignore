@@ -39,3 +39,6 @@ docs/build/
 
 # Reference material (third-party texts, kept locally, not redistributed)
 docs/pdf/
+
+# Opening book (CC0, regenerable in under a second)
+data/openings/

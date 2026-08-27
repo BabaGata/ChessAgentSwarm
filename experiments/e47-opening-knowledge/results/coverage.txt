@@ -1,0 +1,31 @@
+OPENING BOOK COVERAGE — 3810 named positions
+
+player                 games  named  exit ply  they left   most-played opening
+------------------------------------------------------------------------------------------------
+bernes                    20     20       5.0     10/20    Caro-Kann Defense (8)
+bjagus                    20     20       6.0     10/20    French Defense (5)
+cademan                   20     20       4.0      8/18    Queen's Pawn Game (5)
+Crossfire1983             20     20       6.0      5/20    Scandinavian Defense (7)
+goydorak                  20     20       7.0     10/19    Italian Game (4)
+Hirsican                  20     20       6.0      3/20    Scandinavian Defense (4)
+maikel5                   20     20       8.0      9/18    French Defense (9)
+maxhayastan               20     20       5.0      9/19    Queen's Pawn Game (4)
+Maximilian_Honigtopf      20     20       6.0      8/20    Italian Game (3)
+Odin5306                  20     20       5.0      8/20    Hungarian Opening (8)
+Sheriwoyama               20     20       6.0     12/20    Sicilian Defense (8)
+simonvj                   20     20       5.0      6/20    English Opening (10)
+
+1. CLASSIFICATION
+   games given a named opening: 240/240 (100%)
+
+2. DOES THE EXIT PLY SEPARATE PLAYERS?
+   per-player median exit ply: min 4.0  median 6.0  p90 7.0  max 8.0
+   spread p90/median = 1.17x   (the screen used elsewhere in this project wants >= 1.30)
+   in MOVES, that is 2.0 to 4.0
+
+3. WHO LEFT THE BOOK?
+   the player: 98/234 (42%)
+   the opponent: 136/234 (58%)
+   A claim about the player must use only the first group.
+
+   exit ply over all games: median 6, i.e. around move 3
