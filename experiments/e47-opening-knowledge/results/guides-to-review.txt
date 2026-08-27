@@ -154,67 +154,145 @@ Slav Defense  —  4 games
 ------------------------------------------------------------------------------
 Philidor Defense  —  4 games
   played by: bjagus (2), Maximilian_Honigtopf (2)
-  NO CANDIDATE YET
+  [ ] Philidor Defense: complete guide
+      https://thechessworld.com/articles/openings/philidor-defense-complete-guide/  (TheChessWorld)
+  [ ] Chess opening basics: the Philidor Defense
+      https://www.chessable.com/blog/chess-opening-basics-the-philidor-defense/  (Chessable)
+  [ ] Philidor Defense explained: ideas, lines and tactics
+      https://chessdoctrine.com/chess-openings/kings-pawn/philidor-defense/  (Chess Doctrine)
 ------------------------------------------------------------------------------
 Queen's Gambit Declined  —  4 games
   played by: maxhayastan (2), cademan (1), simonvj (1)
-  NO CANDIDATE YET
+  [ ] The QGD - how to play it as White and Black
+      https://www.chessable.com/blog/queens-gambit-declined/  (Chessable)
+  [ ] Who is afraid of the big bad minority attack?
+      https://www.exeterchessclub.org.uk/content/whos-afraid-big-bad-minority-attack  (Exeter Chess Club)
+  [ ] The minority attack - an essential weapon
+      https://www.uscfsales.com/blogs/chess-middlegames/chess-minority-attack  (US Chess Sales)
 ------------------------------------------------------------------------------
 Dutch Defense  —  4 games
   played by: maikel5 (2), simonvj (2)
-  NO CANDIDATE YET
+  [ ] Dutch Defense - Leningrad and Stonewall
+      https://www.albertochueca.com/blog/dutch-defense-leningrad-stonewall/  (IM Alberto Chueca)
+  [ ] Dutch Defense guide: variations, ideas and counters
+      https://chessdoctrine.com/chess-openings/queens-pawn/dutch-defense/  (Chess Doctrine)
+  [ ] The Dutch Defense: complete guide
+      https://www.chesslab.academy/openings/dutch-defense/  (Chess Lab Academy)
 ------------------------------------------------------------------------------
 Benoni Defense  —  3 games
   played by: bernes (1), Sheriwoyama (1), simonvj (1)
-  NO CANDIDATE YET
+  [ ] Benoni Defense: complete guide
+      https://thechessworld.com/articles/openings/the-benoni-defense-complete-guide/  (TheChessWorld)
+  [ ] Benoni Defense guide: strategy, traps and variations
+      https://chessdoctrine.com/chess-openings/queens-pawn/benoni-defense/  (Chess Doctrine)
+  [ ] Master the Benoni Defense, Modern Variation
+      https://www.uscfsales.com/blogs/chess-openings/the-benoni-defense-modern-variation  (US Chess Sales)
 ------------------------------------------------------------------------------
 Bird Opening  —  3 games
   played by: bjagus (1), Crossfire1983 (1), Sheriwoyama (1)
-  NO CANDIDATE YET
+  [ ] How to play Bird's Opening
+      https://www.chessable.com/blog/how-to-play-birds-opening/  (Chessable)
+  [ ] Bird's Opening (1.f4): lines, traps and how to counter it
+      https://chessdoctrine.com/chess-openings/flank/birds-opening/  (Chess Doctrine)
+  [ ] Bird's Opening - prep guide for White
+      https://learn.openingdrills.com/white/flank/bird-opening/  (OpeningDrills)
 ------------------------------------------------------------------------------
 Scotch Game  —  3 games
   played by: cademan (1), goydorak (1), maxhayastan (1)
-  NO CANDIDATE YET
+  [ ] The Scotch Game - a how-to-play guide for White and Black
+      https://www.chessable.com/blog/the-scotch-game/  (Chessable)
+  [ ] Scotch Game for the busy player
+      https://chessheritage.com/scotch-game-for-the-busy-player-learning-the-essential-5-minutes-of-theory/  (Chess Heritage)
+  [ ] Scotch Gambit guide: main lines, traps and key ideas
+      https://chessdoctrine.com/chess-openings/kings-pawn/scotch-gambit/  (Chess Doctrine)
 ------------------------------------------------------------------------------
 Ruy Lopez  —  3 games
   played by: cademan (2), Sheriwoyama (1)
-  NO CANDIDATE YET
+  [ ] The Ruy Lopez: complete guide for club players (1200-2000)
+      https://chessatlas.net/blog/opening-guides/the-ruy-lopez-a-complete-guide-for-club-players-1200-2000-elo  (ChessAtlas)
+  [ ] Choose the right plan in the Ruy Lopez
+      https://pawnbreak.com/choose-the-right-plan-in-the-ruy-lopez/  (Pawnbreak)
+  [ ] Ruy Lopez explained: ideas, plans and common mistakes
+      https://www.rashadbabaev.com/ruy-lopez-opening-explained-ideas-plans-and-common-mistakes/  (Rashad Babaev)
 ------------------------------------------------------------------------------
 Petrov's Defense  —  3 games
   played by: Maximilian_Honigtopf (2), Crossfire1983 (1)
-  NO CANDIDATE YET
+  [ ] Petrov Defense: lines, traps and plans
+      https://chessdoctrine.com/chess-openings/kings-pawn/petrov-defense/  (Chess Doctrine)
+  [ ] Petrov Defense: how to play it and how to counter it
+      https://simplifychess.com/petrov-defense/index.html  (Simplify Chess)
+  [ ] Petrov Defense for beginners
+      https://chessklub.com/chess-openings/petrov-defense/  (Chess Klub)
 ------------------------------------------------------------------------------
 Three Knights Opening  —  3 games
   played by: Maximilian_Honigtopf (2), Crossfire1983 (1)
-  NO CANDIDATE YET
+  [ ] Three Knights Game (reference)
+      https://en.wikipedia.org/wiki/Three_Knights_Game  (Wikipedia)
+  [ ] Four Knights system for White (the position this usually becomes)
+      https://thechessworld.com/articles/openings/four-knights-system-for-white-complete-guide/  (TheChessWorld)
 ------------------------------------------------------------------------------
 Four Knights Game  —  3 games
   played by: goydorak (2), Maximilian_Honigtopf (1)
-  NO CANDIDATE YET
+  [ ] Four Knights Game: opening guide for White and Black
+      https://www.chessable.com/blog/four-knights-game/  (Chessable)
+  [ ] Four Knights Game: complete guide
+      https://thechessworld.com/articles/openings/four-knights-game-complete-guide/  (TheChessWorld)
+  [ ] Four Knights Game: traps and plans for both sides
+      https://chessdoctrine.com/chess-openings/kings-pawn/four-knights-game/  (Chess Doctrine)
 ------------------------------------------------------------------------------
 Englund Gambit  —  2 games
   played by: bernes (2)
-  NO CANDIDATE YET
+  [ ] Exploring the Englund Gambit against 1.d4
+      https://chess-teacher.com/englund-gambit/  (Chess-Teacher)
+  [ ] Englund Gambit: traps, best lines and how to counter it
+      https://chessdoctrine.com/chess-openings/queens-pawn/englund-gambit/  (Chess Doctrine)
+  [ ] Englund Gambit - prep guide for Black
+      https://learn.openingdrills.com/black/flank/englund-gambit/  (OpeningDrills)
 ------------------------------------------------------------------------------
 Van't Kruijs Opening  —  2 games
   played by: bjagus (1), Maximilian_Honigtopf (1)
-  NO CANDIDATE YET
+  [ ] Van't Kruijs Opening (1.e3): lines, counters and traps
+      https://chessdoctrine.com/chess-openings/kings-pawn/vant-kruijs/  (Chess Doctrine)
+  [ ] Van't Kruijs Opening 1.e3
+      https://masterinchess.com/vant-kruijs-opening  (Master in Chess)
+  [ ] Van't Kruijs Opening (A00)
+      https://chessiverse.com/resources/openings/van-t-kruijs-opening  (Chessiverse)
 ------------------------------------------------------------------------------
 Vienna Gambit, with Max Lange Defense  —  2 games
   played by: Hirsican (1), maikel5 (1)
-  NO CANDIDATE YET
+  [ ] Vienna Game: ideas, plans and main lines
+      https://betterchess.co/openings/vienna-game  (BetterChess)
+  [ ] How to play the Vienna Game - complete guide
+      https://chess.lc/blog/how-to-play-vienna-game  (Chess.lc)
+  [ ] All you need to know about the Vienna Game
+      https://www.uscfsales.com/chess-blog/all-you-need-to-know-about-the-vienna-game/  (US Chess Sales)
 ------------------------------------------------------------------------------
 Nimzo-Indian Defense  —  2 games
   played by: Hirsican (2)
-  NO CANDIDATE YET
+  [ ] Nimzo-Indian: 10 reasons to play it, for club players
+      https://thechessworld.com/articles/openings/nimzo-indian-defense-10-reasons-to-play-for-club-players/  (TheChessWorld)
+  [ ] Nimzo-Indian - ideas, plans and training
+      https://freechesstrainer.org/openings/black/d4/nimzo-indian-defense.html  (FreeChessTrainer)
+  [ ] Nimzo-Indian: variations, plans and traps for Black
+      https://chessdoctrine.com/chess-openings/queens-pawn/nimzo-indian-defense/  (Chess Doctrine)
 ------------------------------------------------------------------------------
 Zukertort Opening  —  2 games
   played by: Odin5306 (1), Sheriwoyama (1)
-  NO CANDIDATE YET
+  [ ] Zukertort Opening: adviser, plans and model games
+      https://www.chessworld.net/zukertort-opening.asp  (ChessWorld)
+  [ ] Zukertort Opening (A04)
+      https://chessiverse.com/resources/openings/zukertort-opening  (Chessiverse)
+  [ ] Colle-Zukertort system: complete guide for White
+      https://thechessworld.com/articles/openings/colle-zukertort-system-complete-guide-for-white/  (TheChessWorld)
 ------------------------------------------------------------------------------
 King's Indian Defense  —  2 games
   played by: Sheriwoyama (1), simonvj (1)
-  NO CANDIDATE YET
+  [ ] King's Indian: variations, plans and theory guide
+      https://chessdoctrine.com/chess-openings/queens-pawn/kings-indian-defense/  (Chess Doctrine)
+  [ ] A comprehensive guide to the King's Indian Defense
+      https://www.modern-chess.com/opening/kings-indian-defense/  (Modern Chess)
+  [ ] Crush them with the King's Indian Defense
+      https://www.houseofstaunton.com/blogs/chess-openings/kings-indian-defense  (House of Staunton)
 ------------------------------------------------------------------------------
 Tarrasch Defense  —  1 games
   played by: bjagus (1)
@@ -281,4 +359,4 @@ Rat Defense  —  1 games
   NO CANDIDATE YET
 
 ==============================================================================
-15 of 47 families have at least one candidate.
+31 of 47 families have at least one candidate.
