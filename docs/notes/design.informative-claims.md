@@ -151,6 +151,71 @@ L1 with A3 gives the distinction, now against theory rather than against the ban
 | late | worse | **the ideas** — knows the moves, not the plans. L2 is the whole answer |
 | early | fine | nothing to say. Leaving theory early is not a fault by itself, and a claim treating it as one would measure conformity rather than skill — the error the peer book made |
 
+## Layer 3 after the outage — what else could supply it
+
+`explorer.lichess.ovh` is **401 on every endpoint** (`/lichess`, `/masters`, `/player`), down since a
+February 2026 infrastructure incident (R-17). `lichess.org/api` and `database.lichess.org` are both
+**up**, so the data exists; only the ready-made service is gone.
+
+**First, a distinction that matters, because it looks like a rejected idea returning.** The
+peer-derived book was refused for Layer 1 because that layer is **normative** — it must say what is
+*correct*, and a band cannot. Layer 3 is **descriptive**: *"what will you actually face."* A
+peer-derived answer is not a second-best there, it is the **only** kind of answer that is even
+meaningful. L-045 does not apply.
+
+### A — the corpus already on disk
+
+3,908 games from 137 players at 1400–1800, indexed in seconds. Measured against the 240 book-exit
+positions these players actually reach:
+
+| peer games at the exit position | share |
+|---|--:|
+| at least one | 89 % |
+| more than 5 | 59 % |
+| more than 20 | 35 % |
+| more than 50 | 19 % |
+| **median** | **8** |
+
+**Eight games cannot carry a percentage.** *"38 % of opponents play Bd2"* from a sample of eight is
+three games and a rounding error. It could support *"the most common continuation among players at
+your level"*, and even that is shaky at n = 8. **Too thin as it stands.**
+
+### B — the Lichess monthly database dump
+
+`database.lichess.org`, **CC0**. July 2026 is 3.27 GB compressed, **12.3 million games**; January 2013
+is 374 MB. Filterable to band and speed while streaming, and **it does not have to be read to the
+end** — stop once enough in-band games are collected, which cuts the real download well below the
+full file.
+
+Roughly 100,000 in-band games would put ~200 games on a typical exit position, which *is* enough to
+quote a share. That is about 25× the current corpus and a small fraction of one month.
+
+**Old months are not a substitute for recent ones.** 2013 is cheap and describes a different
+population — different rating distribution, different opening fashions. For *"what you will face"*,
+recency is part of the claim.
+
+### C — fetch more players through the working API
+
+The project already has `fetch-corpus`, and `lichess.org/api` is up. But reaching ~100,000 games means
+roughly 3,300 players at 30 games each, against API rate limits — far slower than one dump for a
+worse result.
+
+### Comparison and recommendation
+
+| | games available | enough for a percentage | cost | freshness |
+|---|--:|---|---|---|
+| A own corpus | 3,908 | **no — median 8** | none | current |
+| **B monthly dump** | 12.3 M | **yes** | one partial download | current |
+| C API fetch | ~100 k | yes | very slow | current |
+
+**Recommendation: B, and only if Layer 3 is wanted at all.** It is the only option that supports the
+sentence the layer exists to say, the licence is CC0, and streaming means the cost is a fraction of
+the 3.27 GB.
+
+**But the sequencing does not change.** Layer 3 was always last and easiest to defer, and Layers 1
+and 2 are built and carry the claim without it. A3 and the `moved_into_attack` fix are both cheaper
+and both unstarted; they come first.
+
 ## Problem 3 — `advantage_error` detects real errors and names none
 
 Every one of the five is `[?]`, and the author's notes are the answer: *"didn't defend pawn
