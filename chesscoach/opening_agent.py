@@ -24,6 +24,10 @@ So the searcher is an injected dependency, and two are provided:
   * `WorklistSearcher` finds nothing and records the exact query that would find
     it, for whoever has a search tool. **A recorded gap beats a guessed URL**:
     the gap gets filled, the guess gets trusted.
+  * `SearxSearcher` is real general search, against a SearxNG the author runs
+    locally — the only route that needs no API key and no signup, and the only
+    one that reaches the sites carrying plan-level instruction. It raises when
+    the container is down rather than quietly falling back.
 
 Nothing this agent produces is ever shown to a player. Everything lands as
 `reviewed: false`, because recommending is endorsing and only the author endorses.
@@ -143,6 +147,72 @@ class WikimediaSearcher:
         return results[0]["title"] if results else None
 
 
+class SearxSearcher:
+    """A real web search, from a SearxNG the author runs.
+
+    The only route to general search that stays inside C1 and C7. Brave withdrew
+    its free tier in February 2026 and every other hosted API wants a key, which
+    means a signup an examiner cannot reproduce and a secret to manage. A local
+    container needs neither, and it reaches the sites that actually carry
+    plan-level instruction rather than only Wikimedia.
+
+    Run it with `json` added to `search.formats` in `settings.yml`; the format is
+    off by default and the searcher says so when it is missing.
+
+    **It fails loudly.** There is deliberately no fallback to Wikimedia: swapping
+    a real guide for an encyclopaedia article would look like success and read
+    like a downgrade, which is L-046 with worse consequences because the output
+    would be plausible.
+    """
+
+    name = "searx"
+
+    # A real Ruy Lopez search returned walmart.com. A player cannot read a
+    # product page, and a video cannot be validated as text or summarised from a
+    # meta description.
+    UNUSABLE = (
+        "youtube.com", "youtu.be", "amazon.", "ebay.", "walmart.com",
+        "facebook.com", "twitter.com", "x.com", "pinterest.",
+    )
+
+    def __init__(self, base_url: str = "http://localhost:8080",
+                 limit: int = 3, opener=None) -> None:
+        self._base = base_url.rstrip("/")
+        self._limit = limit
+        self._open = opener or _fetch_json
+
+    def search(self, gap: Gap) -> list[tuple[str, str, str]]:
+        query = urllib.parse.urlencode({"q": gap.query, "format": "json"})
+        payload = self._open(f"{self._base}/search?{query}")
+        if "results" not in payload:
+            # Most often `json` is missing from search.formats, which returns a
+            # body with no results key rather than an error status.
+            raise SearchUnavailable(
+                f"{self._base} returned no 'results' key — is `json` in "
+                f"search.formats?"
+            )
+
+        found: list[tuple[str, str, str]] = []
+        seen: set[str] = set()
+        for result in payload["results"]:
+            url = (result.get("url") or "").strip()
+            title = (result.get("title") or "").strip()
+            if not url or not title:
+                continue
+            publisher = _domain(url)
+            if any(bad in publisher for bad in self.UNUSABLE):
+                continue
+            # One link per site: three pages from one publisher is less useful
+            # than three publishers.
+            if publisher in seen:
+                continue
+            seen.add(publisher)
+            found.append((title, url, publisher))
+            if len(found) >= self._limit:
+                break
+        return found
+
+
 @dataclass(frozen=True)
 class Checked:
     """A candidate after the agent has actually looked at it."""
@@ -250,6 +320,11 @@ class OpeningResourceAgent:
 
 def _family(name: str) -> str:
     return name.split(":")[0].strip()
+
+
+def _domain(url: str) -> str:
+    host = urllib.parse.urlparse(url).netloc.lower()
+    return host[4:] if host.startswith("www.") else host
 
 
 def _summarise(body: str) -> str:

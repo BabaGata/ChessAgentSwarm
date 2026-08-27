@@ -101,6 +101,20 @@ separately from *"found nothing"*. Two tests pin it.
   could happen.
 - **Use the page description as the default summary**, with the hand-written title kept where it is
   better.
+- **`SearxSearcher` added 2026-08-24**, behind the same protocol. A self-hosted SearxNG is the only
+  route to *general* search that stays inside C1 and C7: **Brave withdrew its free tier in February
+  2026** and every other hosted API wants a key — a signup an examiner cannot reproduce and a secret
+  to manage. A local container needs neither and reaches the sites that actually carry plan-level
+  instruction.
+
+  **It raises when the container is down and never falls back.** A silent downgrade from a curated
+  guide to a Wikipedia article would look like success and read like a loss, which is L-046 with
+  worse consequences because the output would be plausible. It also drops shopping and video hosts —
+  a real Ruy Lopez search returned **walmart.com** — and keeps one link per site, since three pages
+  from one publisher is worth less than three publishers.
+
+  **Untested against a live instance.** No SearxNG is running here, so what is verified is the
+  parsing, the filtering and the failure behaviour, not the quality of what it returns.
 - **Do not ship the Wikimedia searcher as a source of guides.** Its correct role is narrow: a new
   player whose opening has no curated guide gets a labelled reference *and* a worklist entry, so the
   gap is visible rather than papered over.

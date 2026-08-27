@@ -187,3 +187,103 @@ class TestAnErrorIsNotAnAbsence:
         searcher = WikimediaSearcher(opener=lambda url: {"query": {"search": []}})
 
         assert searcher.search(Gap(opening="Nonsense", games=8, share=0.8)) == []
+
+
+class TestSearxSearcher:
+    """A real web search, from a container the author runs.
+
+    Brave's free tier was withdrawn in February 2026 and every other hosted API
+    wants a key, so the only route that stays inside C1 and C7 is a self-hosted
+    SearxNG with `search.formats` including `json`.
+
+    The property that matters most here is that it **fails loudly**. Silently
+    falling back to Wikimedia would swap a real guide for a reference and look
+    like success — L-046 with worse consequences, because the output would be
+    plausible.
+    """
+
+    from chesscoach.opening_agent import SearxSearcher
+
+    def a_response(self, results):
+        return lambda url: {"results": results}
+
+    def test_it_turns_results_into_candidates(self):
+        searcher = self.SearxSearcher(opener=self.a_response([
+            {"url": "https://chessentials.com/the-french-defence/",
+             "title": "What every chess player should know about the French",
+             "content": "plans and structures"},
+        ]))
+
+        found = searcher.search(Gap(opening="French Defense", games=9, share=0.5))
+
+        assert found == [(
+            "What every chess player should know about the French",
+            "https://chessentials.com/the-french-defence/",
+            "chessentials.com",
+        )]
+
+    def test_the_publisher_is_the_domain_without_www(self):
+        searcher = self.SearxSearcher(opener=self.a_response([
+            {"url": "https://www.chessable.com/blog/x", "title": "t", "content": ""},
+        ]))
+
+        assert searcher.search(Gap("Italian Game", 5, 0.5))[0][2] == "chessable.com"
+
+    def test_shopping_and_video_hosts_are_dropped(self):
+        # A real Ruy Lopez search returned walmart.com. A player cannot read a
+        # product page, and a video cannot be validated as text.
+        searcher = self.SearxSearcher(opener=self.a_response([
+            {"url": "https://www.walmart.com/ip/25935967", "title": "book", "content": ""},
+            {"url": "https://www.youtube.com/watch?v=abc", "title": "video", "content": ""},
+            {"url": "https://pawnbreak.com/ruy/", "title": "plans", "content": ""},
+        ]))
+
+        found = searcher.search(Gap("Ruy Lopez", 5, 0.5))
+
+        assert [u for _, u, _ in found] == ["https://pawnbreak.com/ruy/"]
+
+    def test_one_link_per_site(self):
+        # Three pages from one publisher is less useful than three publishers.
+        searcher = self.SearxSearcher(opener=self.a_response([
+            {"url": "https://a.com/1", "title": "one", "content": ""},
+            {"url": "https://a.com/2", "title": "two", "content": ""},
+            {"url": "https://b.com/1", "title": "three", "content": ""},
+        ]))
+
+        found = searcher.search(Gap("X", 5, 0.5))
+
+        assert [p for _, _, p in found] == ["a.com", "b.com"]
+
+    def test_it_stops_at_the_limit(self):
+        searcher = self.SearxSearcher(limit=2, opener=self.a_response([
+            {"url": f"https://s{n}.com/x", "title": str(n), "content": ""}
+            for n in range(6)
+        ]))
+
+        assert len(searcher.search(Gap("X", 5, 0.5))) == 2
+
+    def test_no_results_is_a_genuine_empty_not_an_error(self):
+        assert self.SearxSearcher(opener=self.a_response([])).search(
+            Gap("Nonsense Opening", 5, 0.5)
+        ) == []
+
+    def test_an_unreachable_container_raises_rather_than_returning_nothing(self):
+        import pytest
+
+        from chesscoach.opening_agent import SearchUnavailable
+
+        def refused(url):
+            raise SearchUnavailable("connection refused")
+
+        with pytest.raises(SearchUnavailable):
+            self.SearxSearcher(opener=refused).search(Gap("French Defense", 9, 0.5))
+
+    def test_a_malformed_payload_raises_rather_than_reporting_nothing(self):
+        import pytest
+
+        from chesscoach.opening_agent import SearchUnavailable
+
+        with pytest.raises(SearchUnavailable):
+            self.SearxSearcher(opener=lambda url: {"error": "json format disabled"}).search(
+                Gap("French Defense", 9, 0.5)
+            )
