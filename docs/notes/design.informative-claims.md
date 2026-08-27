@@ -72,67 +72,84 @@ defending the king, that is the issue"*, *"he is out of the opening for plenty o
 Three ways to replace the story. All three keep the same detection and change what is concluded from
 it.
 
-### A1 — A real opening book, from a free local file
+> **Options A1–A3 were superseded on 2026-08-23 by the author, and the reason is the important part.**
+> The peer-derived book (A2) was recommended and is **refused**: *"Checking whether they deviate from
+> what they usually do is not something that will help them if what they usually do is not good from
+> the beginning."*
+>
+> That is correct and it generalises. **Peer-relative is the right frame for "is this unusual" and the
+> wrong frame for "is this right."** A band that leaves theory at move 6 is not a standard to measure
+> against; matching it is not a target. Everything else in this project is peer-relative, which is why
+> the mistake was easy to make. Recorded as **L-045**.
+>
+> A3 survives — it refers only to how the player *fares*, never to what peers *play*.
 
-`lichess-org/chess-openings` is a CC0 TSV of ~3,500 named lines. Match each game against it and the
-**exact ply where the player left book** falls out.
+### The replacement — three layers, all free, all verified to exist
 
-> *"Your knowledge of the Scandinavian ends around move 7. Players at your level get to move 10."*
+The requirement is not only *where* knowledge ends but *what is missing*: **the main ideas for the
+player and the main responses for the opponent**, so the system can teach the ideas rather than
+report a deviation.
 
-- **Cost:** one ~1 MB download, cached; zero engine time.
-- **Risk:** it is a *master-line* book, so leaving it at move 7 is unremarkable at 1400–1800 — the
-  claim has to rest on the **peer comparison**, not the absolute depth. Also a new external
-  dependency, and C7 wants sources recorded with an evidence class.
+**Layer 1 — the lines.** `lichess-org/chess-openings`, **CC0 public domain**. Five TSVs, columns
+`ECO`, `name`, `pgn`, `uci`, `epd`. The **`epd` column is the key**: entries are keyed by *position*,
+so transpositions resolve for free and no move-sequence matching is needed.
 
-### A2 — A book derived from the peers themselves
+**Layer 2 — the ideas.** Wikibooks *Chess Opening Theory*, **CC BY-SA 4.0**. The URL path *is* the
+move sequence (`/1._e4/1...e5/2._Nf3/2...Nc6/3._Bc4`), so lookup is direct. Verified on the Italian:
+prose plans for the side to move — *"From c4 the Bishop controls d5 and pressures Black's f7-pawn"*,
+*"a swift attack on f7 and building a big centre with c3 and d4"* — **and named main responses for
+the opponent**: 3…Nf6 Two Knights, 3…Bc5 Giuoco Piano, 3…Be7 Hungarian, 3…h6, 3…d6, 3…Nd4, 3…f5.
+Exactly the pair asked for.
 
-Build a position-frequency table from the **existing 136-player reference corpus**: a position many
-peers reach is book *at this level*. The player leaves shared knowledge where their positions stop
-being common.
+**Layer 3 — what opponents actually play at this level.**
+`explorer.lichess.ovh/lichess?fen=…&speeds=rapid,blitz&ratings=1400,1600` — free, no auth. Returns
+the move distribution **and results** filtered to the player's own band. Theory says what *should* be
+played; this says what they will actually face, and at 1500 the two differ.
 
-> *"By move 8 you are in positions almost nobody at your level plays. Your peers stay on known
-> ground until move 11."*
+### What a claim built on these looks like
 
-- **Cost:** zero new data. One pass over a corpus already on disk, cacheable.
-- **Risk:** ~4,000 games is thin beyond about move 8 — though that is *exactly* where the claim
-  lives, so the thinness may not bite. Untested, and that is the main unknown.
-- **Fit:** measures "known at your level" rather than "known to masters", which is the more
-  defensible comparison for a coaching claim and matches every other claim in this project.
+> *"You play the Scandinavian in 7 of your 20 games. You leave theory at **move 6** — the book
+> continuation is …Nf6 — and in 4 of those 7 you were already worse by move 12. The idea you are
+> missing: [quoted, attributed]. At your level **38 %** of opponents continue with Bd2."*
 
-### A3 — No book at all: outcome per opening
+Against *"you go wrong early as White"*, that is the whole distance being asked for.
 
-ECO code and opening name are **already populated in every game** (Lichess supplies them; verified,
-20/20). Group by opening, measure the evaluation where the opening window ends.
+### The costs, stated before anything is built
 
-> *"In the Scandinavian, which you play in 7 of your 20 games, you come out of the opening worse than
-> your peers do in theirs."*
-
-- **Cost:** almost nothing. The data is parsed and sitting unused.
-- **Risk:** none to speak of.
-- **Weakness:** it cannot separate *"does not know the moves"* from *"knows the moves and not the
-  ideas"* — which is precisely the distinction the author asked for.
+- **Scope.** A download, a parser, a local store, a cached crawler, position→entry matching, and a
+  section to speak it. **Days, not hours** — the largest new capability since the sections themselves.
+- **Licence, and it needs an ADR.** CC0 for Layer 1 is unencumbered. **CC BY-SA 4.0 for Layer 2 is
+  not**: attribution is mandatory and share-alike propagates to whatever embeds the text. Every stored
+  excerpt carries its source URL. This is what keeps the ideas on the right side of **R-03** — quoted
+  from a citable source, never generated and **never paraphrased**, because paraphrase is exactly
+  where folklore re-enters.
+- **Coverage is unknown, and it is the pre-check.** Wikibooks is uneven. **Before building**: take the
+  positions the twelve review players actually reach and measure what fraction have a real page. At
+  20 % Layer 2 is decoration; at 80 % it carries the claim.
+- **Network stays in the outer loop.** Crawl once, cache to disk, never fetch during analysis (C1).
 
 ### Comparison
 
-| | actionable | cost | new dependency | separates line-knowledge from ideas |
+| | actionable | cost | licence | teaches the ideas |
 |---|---|---|---|---|
-| A1 book file | **highest** | low | yes | yes |
-| A2 peer book | high | **none** | no | yes |
-| A3 outcome only | medium | **none** | no | **no** |
+| **L1 lines (CC0)** | high | low | **unencumbered** | no |
+| **L2 ideas (Wikibooks)** | **highest** | moderate | CC BY-SA — attribution + share-alike | **yes** |
+| **L3 explorer API** | high | low | free API | says what they will face |
+| ~~peer-derived book~~ | — | — | — | **refused: a relative reference cannot say what is right** |
+| A3 outcome per opening | medium | **none** | — | no — but free, worth doing anyway |
 
-**Recommendation: A3 first, then A2.** A3 is nearly free, uses parsed data that is currently
-discarded, and is already a large improvement — naming the opening beats naming the move number. A2
-then supplies the missing half, and **the two together give the distinction the author wants for
-free**:
+**Recommendation: A3 now, then L1 + L2, L3 last.** A3 is nearly free and ships regardless. **L1 is
+load-bearing** — it turns "you go wrong early" into "you leave the Scandinavian at move 6", the whole
+change in kind, and CC0 means no licence question. **L2 is what was actually asked for**, gated on the
+coverage pre-check. L3 is the smallest addition and the easiest to defer.
 
-| left book | outcome | conclusion |
+L1 with A3 gives the distinction, now against theory rather than against the band:
+
+| left theory | outcome | conclusion |
 |---|---|---|
-| early | worse | **the line** — learn more moves of it |
-| late | worse | **the ideas** — you know the moves and not the plans |
-| early | fine | nothing to say; leaving book early is not a fault |
-
-A1 is held in reserve: if A2's corpus proves too thin to locate the exit ply, the TSV replaces the
-peer-derived book with no change to the claim shape.
+| early | worse | **the line** — learn more of it, and L2 supplies why the moves matter |
+| late | worse | **the ideas** — knows the moves, not the plans. L2 is the whole answer |
+| early | fine | nothing to say. Leaving theory early is not a fault by itself, and a claim treating it as one would measure conformity rather than skill — the error the peer book made |
 
 ## Problem 3 — `advantage_error` detects real errors and names none
 

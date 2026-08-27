@@ -45,6 +45,31 @@ a stated defect in [[experiments.e15-expected-gain]] — raw cost must become pe
 
 ---
 
+### L-045 — Peer-relative answers "is this unusual", never "is this right"
+**Date:** 2026-08-23 · **Cycle / mission step:** M6 · **Class:** technique
+**Context:** `early_error` tells a player they go wrong early and cannot say what to do about it. The
+agent proposed deriving an opening "book" from the peer corpus — a position many peers reach is
+book *at this level* — and recommended it over a downloadable one on the grounds that it needs no
+external data and calibrates itself to the band.
+**Observation:** The author refused it in one sentence: *"Checking whether they deviate from what
+they usually do is not something that will help them if what they usually do is not good from the
+beginning."* The proposal measured **conformity to the band** and called it knowledge. A 1500-rated
+population leaves theory around move 6; a player who matches that has learned nothing, and a player
+who deviates from it may simply have played a better move.
+**Lesson:** This project is peer-relative in almost every claim, for good reasons — it is what stops
+the swarm telling everyone they blunder. But peer-relative answers exactly one question, **"is this
+unusual for you?"**, and it is silent on **"is this correct?"** Where the coaching content is a
+*standard* — opening theory, endgame technique, mating patterns — the reference has to be
+**absolute**, and the band is not a substitute for it. The tell is when the claim would congratulate
+a player for being average: if matching the population *is* the goal state, the frame is wrong.
+Being fluent in a method makes its blind spot hard to see, and this one survived a written comparison
+of three options before a domain expert killed it in a sentence.
+**Applied to:** [[design.informative-claims]], where the peer book is refused and replaced by
+CC0 opening lines plus CC BY-SA opening *ideas*; and as a standing test for any future claim whose
+subject is a body of knowledge rather than a habit.
+
+---
+
 ### L-044 — A test that asserts the current output cannot catch a bug in it
 **Date:** 2026-08-23 · **Cycle / mission step:** M6 · **Class:** technique
 **Context:** The thesis author, reading their own games against the reports, found every Black move
