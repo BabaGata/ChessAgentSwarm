@@ -134,7 +134,22 @@ fifteen fall back to the generic 2-ply level.
 with named replies for the opponent — 3…Nf6 Two Knights, 3…Bc5 Giuoco Piano, 3…Be7 Hungarian, and
 four more. That is a plan and a set of expectations, not a move list.
 
-**But the harvest did not complete, and the reason is worth recording precisely**, because two of the
+**The harvest completed on the fourth attempt — 15 of 15 with prose**, 33 to 196 words each, once it
+was made **resumable**: every answer written to disk the moment it arrives, so a throttled run loses
+nothing and the next asks only for what is missing. That is the right shape for any harvest against a
+shared resource, and it should have been the first shape rather than the fourth.
+
+Sample, the Scandinavian at 5 plies, played 16 times across three of these players:
+
+> *"With 3. d4, White focuses on controlling as much of the centre as they can, and opens lines to
+> develop their queen and queen's bishop. This offers back the pawn, and Black's main continuation is
+> to take it with 3…Nxd5, the Marshall variation… 3…Bg4 is the Portuguese gambit… With 3…g6!?, the
+> Richter variation, Black prepares to fianchetto their king's bishop."*
+
+Plans for the player, named replies for the opponent, and the idea behind each reply. Only the
+Italian is thin, at 33 words.
+
+**The route there is worth recording precisely**, because two of the
 three failures looked identical to *"Wikibooks has no prose"* and none of them was:
 
 1. **`extracts` returns one extract per request** unless `exintro` is set. Asking for twenty titles
@@ -146,13 +161,23 @@ three failures looked identical to *"Wikibooks has no prose"* and none of them w
    agent asked Wikimedia for too much too quickly. Backoff was added and did not clear it, because by
    then the throttle was already in place.
 
-**No result is claimed from the incomplete run.** What is established is that the pages exist at
-usable depth and that one of them, read in full, contains exactly the plans and replies the design
-needs. What is *not* established is the quality across all fifteen.
+Three of the four failures were mine. Only the throttling was the server's, and it was provoked.
 
-**The harvest should be re-run once, patiently** — a few seconds between requests, results cached to
-disk, and never during analysis. It is an outer-loop, one-time job of about fifteen requests, and it
-was only rate-limited because it was treated as something to iterate on.
+## Result 6 — Layer 3 is unavailable, and not because of anything here
+
+`explorer.lichess.ovh` returns **401 at the nginx layer for every request**, with or without
+parameters. The API is *specified* as needing no authentication, and the search that proposed it said
+so. What the specification does not say is that the service has been **unresponsive since an
+infrastructure incident in February 2026** — reported upstream as
+[a complete outage of the explorer](https://github.com/lichess-org/lila/issues/19610).
+
+So *"what opponents at your level actually play"* cannot be built now, and the reason is external.
+Recorded as **R-17**: Layer 3 depends on a third-party service that has been down for months, and a
+claim resting on it would have been unshippable through no fault of the code.
+
+**The design does not collapse without it.** Layers 1 and 2 give the opening, the exit ply and the
+ideas; Layer 3 was always the smallest addition and the easiest to defer. It should stay deferred
+until the service returns, and the design note's sequencing already put it last.
 
 ## Honest limitations
 

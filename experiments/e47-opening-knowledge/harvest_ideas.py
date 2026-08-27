@@ -48,6 +48,11 @@ AGENT = "ChessAgentSwarm/0.1 (thesis research)"
 LICENCE = "CC BY-SA 4.0"
 MIN_USEFUL_PLIES = 2
 STUB_BYTES = 1500
+# Wikimedia throttles, and rightly. Every answer is written here the moment it
+# arrives, so a run that is cut short loses nothing and the next one asks only
+# for what is still missing. A harvest against a shared resource should be
+# resumable rather than fast.
+CACHE = Path(__file__).parent / "results" / "wikibooks-cache.json"
 
 
 def title_for(sans: list[str]) -> str:
@@ -58,7 +63,18 @@ def title_for(sans: list[str]) -> str:
     return "/".join(parts)
 
 
-def api(params: dict, attempts: int = 5) -> dict:
+def load_cache() -> dict:
+    if CACHE.exists():
+        return json.loads(CACHE.read_text(encoding="utf-8"))
+    return {"length": {}, "extract": {}}
+
+
+def save_cache(cache: dict) -> None:
+    CACHE.parent.mkdir(parents=True, exist_ok=True)
+    CACHE.write_text(json.dumps(cache, indent=1), encoding="utf-8")
+
+
+def api(params: dict, attempts: int = 6) -> dict:
     """One API call, backing off when Wikimedia says to.
 
     A 429 is the server asking for less, not an error to retry immediately.
@@ -81,8 +97,12 @@ def api(params: dict, attempts: int = 5) -> dict:
     return {}
 
 
-def extracts(titles: list[str]) -> dict[str, str]:
-    """Article text as plain prose, per title — one request each, deliberately.
+class Throttled(Exception):
+    """Raised so a partial harvest can be written rather than lost."""
+
+
+def extracts(titles: list[str], cache: dict) -> dict[str, str]:
+    """Article text as plain prose, one request per title, resumable.
 
     Two wrong turns worth recording, because both looked like "Wikibooks has no
     prose" and neither was:
@@ -90,35 +110,46 @@ def extracts(titles: list[str]) -> dict[str, str]:
     * `extracts` returns **one** extract per request unless `exintro` is set, so
       asking for twenty titles produced nineteen blanks;
     * and `exintro` returns **empty on these pages**, because they have no lead
-      section — the content begins under a heading like `== 3. Bc4 · Italian
-      game ==`. The intro is genuinely empty; the article is not.
-
-    So: full extracts, one title per request. Fifteen requests for fifteen
-    openings, in an outer loop that caches — which is affordable, and correct.
+      section — the article begins under a heading like `== 3. Bc4 · Italian
+      game ==`. The intro genuinely is empty; the article is not.
     """
-    out: dict[str, str] = {}
-    for index, title in enumerate(titles, start=1):
-        payload = api({
-            "action": "query", "prop": "extracts", "explaintext": "1",
-            "exsectionformat": "plain", "titles": title,
-        })
+    todo = [t for t in titles if t not in cache["extract"]]
+    print(f"  {len(titles) - len(todo)} cached, {len(todo)} to fetch", flush=True)
+    for index, title in enumerate(todo, start=1):
+        try:
+            payload = api({
+                "action": "query", "prop": "extracts", "explaintext": "1",
+                "exsectionformat": "plain", "titles": title,
+            })
+        except urllib.error.HTTPError:
+            save_cache(cache)
+            raise Throttled(f"stopped after {index - 1} of {len(todo)}") from None
         for page in payload.get("query", {}).get("pages", []):
             if not page.get("missing"):
-                out[page["title"]] = page.get("extract", "") or ""
-        time.sleep(1.5)
-        print(f"  fetched {index}/{len(titles)}", flush=True)
-    return out
+                cache["extract"][page["title"]] = page.get("extract", "") or ""
+        cache["extract"].setdefault(title, "")
+        save_cache(cache)
+        print(f"  fetched {index}/{len(todo)}", flush=True)
+        time.sleep(3.0)
+    return {t: cache["extract"].get(t, "") for t in titles}
 
 
-def lengths_of(titles: list[str]) -> dict[str, int]:
-    out: dict[str, int] = {}
-    for start in range(0, len(titles), 50):
-        chunk = titles[start : start + 50]
-        payload = api({"action": "query", "prop": "info", "titles": "|".join(chunk)})
+def lengths_of(titles: list[str], cache: dict) -> dict[str, int]:
+    todo = [t for t in titles if t not in cache["length"]]
+    for start in range(0, len(todo), 50):
+        chunk = todo[start : start + 50]
+        try:
+            payload = api({"action": "query", "prop": "info", "titles": "|".join(chunk)})
+        except urllib.error.HTTPError:
+            save_cache(cache)
+            raise Throttled("stopped while sizing pages") from None
         for page in payload.get("query", {}).get("pages", []):
-            out[page["title"]] = 0 if page.get("missing") else page.get("length", 0)
-        time.sleep(1.0)
-    return out
+            cache["length"][page["title"]] = 0 if page.get("missing") else page.get("length", 0)
+        for title in chunk:
+            cache["length"].setdefault(title, 0)
+        save_cache(cache)
+        time.sleep(2.0)
+    return {t: cache["length"].get(t, 0) for t in titles}
 
 
 def main() -> int:
@@ -169,7 +200,8 @@ def main() -> int:
         for cut in range(len(parts), MIN_USEFUL_PLIES, -1):
             candidates.append("/".join(parts[:cut]))
     candidates = sorted(set(candidates))
-    sizes = lengths_of(candidates)
+    cache = load_cache()
+    sizes = lengths_of(candidates, cache)
 
     chosen: dict[str, str] = {}
     for family, _ in top:
@@ -181,7 +213,11 @@ def main() -> int:
                 chosen[family] = candidate
                 break
 
-    text = extracts(sorted(set(chosen.values())))
+    try:
+        text = extracts(sorted(set(chosen.values())), cache)
+    except Throttled as stop:
+        print(f"  {stop} — partial results written; re-run to continue")
+        text = {t: cache['extract'].get(t, '') for t in set(chosen.values())}
 
     lines = [
         "IDEAS FOR THE OPENINGS THESE PLAYERS ACTUALLY PLAY",

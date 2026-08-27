@@ -19,7 +19,21 @@ French Defense  —  24 games
   played by     : maikel5 (9), bjagus (5), maxhayastan (3)
   source        : https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._e4/1...e6/2._d4/2...d5/3._Nd2/3...Nf6/4._e5/4...Nfd7
 
-  (no extract returned)
+  4...Nfd7
+  This position has some similarities to the Steinitz variation of the classical French (1. e4 e6 2. d4 d5 3. Nc3 Nf6 4. e5 Nfd7) however White has more ways to defend their pawn centre. They retain the option of c3 and may reroute the queen's knight to f3. 
+  5. Bd3 is the main line. White plays the bishop to a very good diagonal first, so that they have the choice to play Ne2 without preventing the bishop's development. Black continues by pressuring d4: 5...c5 6. c3 Nc6. 
+  5. c3 transposes after 5...c5 6. Bd3 Nc6. 
+  5. f4, the pawn centre variation, is a good alternative where White takes space on the king's side and overprotects e5, so making it more difficult for Black to create pressure e.g. by playing ...f6.
+  
+  
+  Theory table
+  
+  1. e4 e6 2. d4 d5 3. Nd2 Nf6 4. e5 Nfd7
+  
+  
+  References
+  
+  Kasparov, Garry, & Keene, Raymond 1989 Batsford chess openings 2. ISBN 0-8050-3409-9.
 
 ==============================================================================
 Queen's Pawn Game  —  23 games
@@ -28,7 +42,13 @@ Queen's Pawn Game  —  23 games
   played by     : bernes (7), cademan (5), maxhayastan (4)
   source        : https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._d4/1...d5
 
-  (no extract returned)
+  1...d5 · Closed game
+  1...d5 is the classical approach to fighting for the centre: occupying it with pawns. 1...d4 takes some space for Black and opens a line of development for Black's queenside bishop. 
+  
+  
+  Contest the centre with pawns
+  1...d5 controls the e4 square, so preventing White from securing an ideal two-pawn centre and all the space it would control.  White can play 2. e4?! anyway, if they like, but the important thing is they can't keep the pawn there. 2. e4?! is the Blackmar-Diemer gambit, which is considered dubious against best play. After 2...dxe4, White hopes to get a lead in development as compensation for the lost pawn. 
+  2. c4, the Queen's gambit, is the mainline. This is a much better try for getting a big centre. White offers the flanking c pawn to Black. Its threat is positional: if Black takes the free pawn, their d-pawn is deflected from its duty controlling the centre. White can then secure a bigger share of the centre for themselves, and should have no trouble recovering the gambitted pawn down the road. Therefore usually Black declines the gambit in one of a  […]
 
 ==============================================================================
 English Opening  —  18 games
@@ -37,7 +57,17 @@ English Opening  —  18 games
   played by     : simonvj (10), bjagus (3), cademan (2)
   source        : https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._c4/1...e5/2._g3
 
-  (no extract returned)
+  English Opening
+  
+  
+  2.g3
+  White prepares to fianchetto the king's bishop on the long diagonal with 3. Bg2, putting more pressure on the d5-square and discouraging black from moving a pawn to d5. If black is determined to put a pawn d5, they can play 2...c6, leading to the Reversed Alapin, that is, the main line of the Alapin Variation with colours reversed: 1. c4 e5 2. g3 c6 3. Nf3 e4 4. Nd4.
+  Instead of playing  2...c6 black might also immediately play 2...d5, which a good move that (after 3. cxd5 Qxd5) forces white to protect its rook by blocking with 4. Nf3. Unfortunately, a tempting mistake is to play 4...e4? which loses a pawn if 5. Nc3 Qe6 6. Qa4+ Bd7 7. Qxe4. Black can keep material parity with 5...Qc6, but must take care to defend against the pin of 7. Bb5 if white opens the diagonal with 6. e3. If black instead greedily takes with 6...exf3??, white trades the two minor pieces for black's queen.
+  
+  
+  Theory Table
+  
+  1.c4 e5 2.g3
 
 ==============================================================================
 Sicilian Defense  —  16 games
@@ -46,7 +76,12 @@ Sicilian Defense  —  16 games
   played by     : Sheriwoyama (8), goydorak (3), Hirsican (2)
   source        : https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._e4/1...c5/2._Nf3/2...Nc6/3._d4/3...cxd4/4._Nxd4
 
-  (no extract returned)
+  4. Nxd4
+  White recaptures the pawn. They have open lines for their pieces to develop. Black has the positional advantage of two centre pawns to White's one.  
+  The two knights are at a standoff. Neither wants to take first: if Black trades knights, 4...Nxd4!?, after 5. Qxd4 White will have better control of the centre and Black cannot easily chase away the white queen. If White elects to trade, say 4...Nf6 5. Nxc6!? bxc6, Black has brought in another pawn to help control the centre and support playing d5.
+  The main moves here are 4...Nf6, 4...e5, and 4...g6. 
+  4...Nf6 is the main line. This develops a piece while attack the undefended e4-pawn. This elicits White to defend it with 5. Nc3 which prevents White from playing c4 and clamping down on the d5 square, where the major lines are either 5...d6, the classical Sicilian, or 5...e5, the Sveshnikov or Lasker-Pelikan variation, both of which prevent White from trading knights and playing e5 with tempo. A sideline is 5. f3, to retain the option of c4. 
+  4...e5 immediately is the Löwenthal variation. The main line is 5. Nb5, threatening Nd6+, […]
 
 ==============================================================================
 Scandinavian Defense  —  16 games
@@ -55,7 +90,11 @@ Scandinavian Defense  —  16 games
   played by     : Crossfire1983 (7), Hirsican (4), maxhayastan (2)
   source        : https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._e4/1...d5/2._exd5/2...Nf6/3._d4
 
-  (no extract returned)
+  3. d4
+  With 3. d4, White focuses on controlling as much of the centre as they can, and opens lines to develop their queen and queen's bishop. 
+  This offers back the pawn, and Black's main continuation is to take it with 3...Nxd5, the Marshall variation. White usually plays Nf3 and c4, securing control over the centre and Black can end up cramped. If 3...Qxd5 instead, play may transpose into the Scandinavian main line after 4. Nc3 Qa5. 
+  3...Bg4 is the Portuguese gambit. It is a gambit for Black in that Black has chosen not to recapture on d5. Therefore White has chance to defend the d5 pawn instead (e.g. 4. f3 Bf5 5. c4). Though the superficial threat of ...Bxd1 is easily parried (4. Nf3 or 4. f3 are both played), Black hopes to develop quickly and benefit from more active piece placement. If Black wishes to challenge the troublesome d5 pawn and release their king's bishop into the game, they may now play ...e6 without fear of trapping their queen's bishop. 
+  With 3...g6!?, the Richter variation, Black prepares to fianchetto their king's bishop, as White's control of the centre makes it  […]
 
 ==============================================================================
 Caro-Kann Defense  —  13 games
@@ -64,7 +103,27 @@ Caro-Kann Defense  —  13 games
   played by     : bernes (8), maxhayastan (2), goydorak (1)
   source        : https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._e4/1...c6/2._d4/2...d5/3._exd5/3...cxd5
 
-  (no extract returned)
+  Caro-Kann Defence: Exchange Variation
+  
+  
+  Main line: 4. Bd3
+  The main line begins with 4. Bd3 (to prevent ...Bf5 while still developing) 4...Nc6 5. c3 Nf6 6. Bf4 Bg4 7. Qb3. This line was once considered harmless before being used by Bobby Fischer to defeat Tigran Petrosian in 1970. The pawn structure resembles a Carlsbad structure with reversed colours, so some of the strategic ideas are analogous to the Queen's Gambit Declined, Exchange Variation (1. d4 d5 2. c4 e6 3. Nc3 Nf6 4. cxd5 exd5).
+  
+  
+  c4. Panov-Botvinnik Attack
+  The Panov-Botvinnik attack is a sharp alternative for white, with white often accepting long-term weaknesses for a strong direct attack.
+  Note that 4. Nc3?! would be a poor move due to the fact that the knight doesn't do much. e4 is poison, while e6 will turn d5 into a rock. Therefore, c4 followed by Nc3 is far better since then, there would be pressure on d5.
+  
+  
+  Theory table
+  
+  1. e4 c6 2. d4 d5 3. exd5 cxd5
+  
+  
+  References
+  
+  Nunns Chess Openings. 1999. John Nunn (Editor), Graham Burgess, John Emms, Joe Gallagher. ISBN 1-8574-4221-0.
+  Modern Chess Openings: MCO-14. 1999. Nick d […]
 
 ==============================================================================
 Italian Game  —  11 games
@@ -73,7 +132,19 @@ Italian Game  —  11 games
   played by     : goydorak (4), cademan (3), Maximilian_Honigtopf (3)
   source        : https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._e4/1...e5/2._Bc4/2...Nc6
 
-  (no extract returned)
+  Bishop's Opening
+  
+  
+  2...Nc6
+  Black's Queen's Knight defends the e5 pawn and can be a possible threat to move to a5 attacking the White Bishop.
+  
+  
+  Theory table
+  .
+  1. e4 e5 2.Bc4 Nc6
+  
+  
+  References
 
 ==============================================================================
 Pirc Defense  —  11 games
@@ -82,7 +153,19 @@ Pirc Defense  —  11 games
   played by     : simonvj (4), Crossfire1983 (3), goydorak (2)
   source        : https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._d4/1...Nf6/2._Nc3
 
-  (no extract returned)
+  2.Nc3
+  White develops his Queen's Knight to support 3.e4, sometimes called the Veresov Opening.  After Black's usual reply 2...d5, White may respond with 3.Bg5, leading to the Richter-Veresov Attack.  Often transposes into the Chigorin Defence, the French Defence, or less commonly the Pirc Defence.
+  This position may also be reached via the move order 1.Nc3 Nf6 2.d4
+  
+  
+  Theory table
+  .
+  1. d4 Nf6 2. Nc3
+  
+  
+  References
+  
+  Kasparov, Garry, & Keene, Raymond 1989 Batsford chess openings 2. ISBN 0-8050-3409-9.
 
 ==============================================================================
 Indian Defense  —  10 games
@@ -91,7 +174,26 @@ Indian Defense  —  10 games
   played by     : cademan (3), bjagus (2), Hirsican (2)
   source        : https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._d4/1...Nf6/2._Nf3/2...g6
 
-  (no extract returned)
+  East Indian Defence
+  
+  
+  2...g6
+  A transposition position as White has yet to commit to playing c4, and Black has not committed the d-pawn to either d5 or d6.
+  
+  
+  Theory table
+  
+  1. d4 Nf6 2. Nf3 g6
+  
+  
+  References
+  
+  Kasparov, Garry, & Keene, Raymond 1989 Batsford chess openings 2. ISBN 0-8050-3409-9.
+  
+  
+  External links
+  365Chess. 1.d4 Nf6 2.Nf3 g6
+  chessgames. 1.d4 Nf6 2.Nf3 g6
 
 ==============================================================================
 Hungarian Opening  —  9 games
@@ -100,7 +202,24 @@ Hungarian Opening  —  9 games
   played by     : Odin5306 (8), bjagus (1)
   source        : https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._g3/1...e5
 
-  (no extract returned)
+  1...e5 · Hungarian Opening
+  
+  
+  1...e5
+  Black has placed a pawn in the centre of the board, gaining space and taking over the d4- and f4-squares. Black also discourages the natural 2. Nf3, as Black will simply kick the knight with a further pawn advance. 1. g3 e5  2. Nf3 is still sometimes seen anyway, and is known as the Reversed Alekhine, as the strategy from this opening is similar to Alekhine’s Defense but with the colours reversed. More commonly, White will either continue developing with Bg2, Nf3, O-O, etc. and adopt a King’s Indian Attack setup, or will strike back in the centre immediately.
+  
+  
+  Statistics
+  
+  
+  Theory table
+  .
+  1.g3 e5
+  
+  
+  References
+  
+  Kasparov, Garry, & Keene, Raymond 1989 Batsford chess openings 2. ISBN 0-8050-3409-9.
 
 ==============================================================================
 Vienna Game  —  8 games
@@ -109,7 +228,11 @@ Vienna Game  —  8 games
   played by     : Hirsican (4), maikel5 (3), maxhayastan (1)
   source        : https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._e4/1...e5/2._Nc3/2...Nf6/3._f4/3...d5/4._fxe5/4...Nxe4
 
-  (no extract returned)
+  Vienna Game
+  Tension builds up. Black is threatening Qh4+ which will be devastating. Therefore, White needs to be quick. However, White has two center pawns to Black's one, which helps central control.
+  A common mistake is to immediately take the black knight with 5. Nxe4. After 5...dxe4, White has too few options to pursue his development; the f3-square is under control, the queen's bishop is blocked and the d-pawn cannot advance safely. Moreover, it is going to be hard to defend the e5-pawn against Nc6. It looks possible to catch up with 6. d4 but it seems that Black has equalized.
+  5. Nf3 looks like the most solid move. It defends the e5-pawn (who is quite fragile now that he is away from home) and secures the strategic d4-square. It also prevents the Qh4+ threat.
+  5. d3 is a good way to deal with the problem quickly. Black's knight will have to retreat or, more likely, to be traded with White's knight. White should be aware that Black can launch an aggressive attack with Bb4 and Qh4, sacrificing the knight, but preventing castling after 5...Bb4 6. dxe4 Qh4+ 7. Ke2 (7. g3 is bad becau […]
 
 ==============================================================================
 King's Pawn Game  —  6 games
@@ -118,7 +241,26 @@ King's Pawn Game  —  6 games
   played by     : maikel5 (2), maxhayastan (2), cademan (1)
   source        : https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._e4/1...e5/2._Qh5/2...Nc6/3._Bc4
 
-  (no extract returned)
+  Parham Attack
+  
+  
+  3. Bc4
+  With this aggressive move, White now threatens checkmate called "Scholar's Mate" by taking the pawn on f7 with the queen. Black has some ways to adequately prevent this mate from happening. The two decent replies are 3...g6 and 3...Qe7. Kasparov chose Qe7 when he met this position in a game against the actor Woody Harrelson in a consultation game.
+  At the lower level many players may be tempted to play 3…Nf6?? attacking White’s queen. However, Black leaves f7 undefended, and White can play the move they were intending to play when 2. Qh5 was played: 4. Qxf7#!, known as the Scholar’s Mate.
+  
+  
+  Theory table
+  .
+  1. e4 e5 2. Qh5 Nc6
+  
+  
+  References
+  
+  Illustrated Chess for Children. 1960. Harvey Kidder. Publisher, Doubleday ISBN 0-385-05764-4.
+  
+  
+  External links
+  Woody Harrelson vs Garry Kasparov at chessgames.com
 
 ==============================================================================
 English Defense  —  5 games
@@ -127,7 +269,26 @@ English Defense  —  5 games
   played by     : Odin5306 (4), cademan (1)
   source        : https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._d4/1...b6
 
-  (no extract returned)
+  1... b6 - English Defence
+  With the move 1.... b6 Black prepares to develop the Queenside Bishop. It's also a flexible option when played with the e6 development as Black has various ideas involving the e6, Nf6, Bb4, Bb7 moves.
+  
+  
+  White's responses
+  White likely to respond with one of the following:
+  
+  2. c4 A standard reply, White continues in Queen Gambit formation ready to play e4.
+  2. Nf3 May transpose into a Queen's Indian Defence.
+  2. e4 This move order arrives at an Owen's Defence.
+  
+  
+  Theory table
+  
+  1. d4 b6 
+  
+  
+  References
+  
+  Kasparov, Garry, & Keene, Raymond 1989 Batsford chess openings 2. ISBN 0-8050-3409-9.
 
 ==============================================================================
 Owen Defense  —  5 games
@@ -136,7 +297,30 @@ Owen Defense  —  5 games
   played by     : Odin5306 (5)
   source        : https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._e4/1...b6
 
-  (no extract returned)
+  1...b6 · Owen's defence
+  A very rare and uncommon response to the King's pawn game It may transpose to an English opening or other lines.
+  It is offbeat in that Black allows White to play 2. d4 and easily control the centre. Black usually fianchettos the light-squared bishop to b7, and may plan to assault White's big centre with ...c5.
+  
+  
+  History
+  1...b6 is named after John Owen (1827―1901), an English vicar and chess master, who scored a surprise victory with it over Paul Morphy in 1858. 
+  Gioachino Greco, 17th century chess author, published the earliest games in this line. He published two miniatures, one that gave a refutation to 1. e4 b6 2. d4 Bb7 3. Bd3 f5? and another where Black fianchettos both bishops.
+  Owen's defence is sometimes seen among club players.
+  
+  
+  Theory table
+  
+  1. e4 b6
+  
+  
+  References
+  
+  
+  See also
+  
+  Nunn's Chess Openings. 1999. John Nunn (Editor), Graham Burgess, John Emms, Joe Gallagher. ISBN 1-8574-4221-0.
+  Modern Chess Openings: MCO-14. 1999. Nick de Firmian, Walter Korn. ISBN 0-8129-3084-3.
+  Kasparov, Garry, & Keene, Raymond 1989 Batsford chess openings 2. ISBN 0-8050-3409 […]
 
 ==============================================================================
 Slav Defense  —  4 games
@@ -145,5 +329,20 @@ Slav Defense  —  4 games
   played by     : goydorak (2), bernes (1), bjagus (1)
   source        : https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._d4/1...d5/2._c4/2...c6/3._cxd5/3...cxd5/4._Nc3/4...Nf6
 
-  (no extract returned)
+  4...Nf6
+  The most common move for Black. White now has to reveal their opening plan.
+  5. Bf4 is the most common move, delaying Nf3 and developing the bishop.
+  5. Nf3 is the second-most common move. This allows a completely equal position and is often used if playing for a draw, especially the variation 5...Nc6 6. Bf4 Bf5 7. e3 e6 8. Bd3 Bxd3 9. Qxd3 Bd6 10. Bxd6 Qxd6 =
+  5. f3 is the Boor attack, a rare sideline where White tries to take over the center by preparing e4.
+  After both 5. Bf4 and 5. Nf3 Black can try to continue copying their opponent or break the symmetry with the waiting move 6...a6 (played after 5...Nc6). This is a multi-purpose move: it prevents White's light-squared bishop from developing to b5, pinning the knight, and it is useful as a waiting move. If White plays both Nf3 and e3, Black can usefully develop the light-squared bishop to g4 where it pins White's knight to the queen.
+  
+  
+  Theory table
+  
+  1. d4 d5 2. c4 c6 3. cxd5 cxd5 4. Nc3 Nf6
+  
+  
+  References
+  
+  Kasparov, Garry, & Keene, Raymond 1989 Batsford chess openings 2. ISBN 0-8050-3409-9.
 
