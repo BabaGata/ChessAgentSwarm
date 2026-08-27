@@ -85,8 +85,20 @@ separately from *"found nothing"*. Two tests pin it.
 
 ## Consequence
 
-- **Ship the validator.** It is cheap, it works, and it already caught a dead link. Guides should be
-  re-checked periodically rather than assumed.
+- ~~**Ship the validator.**~~ **Shipped 2026-08-24.** `Guide` carries `alive`, `checked_on` and
+  `summary`; `GuideLibrary.validated()` stamps them and `for_opening` hides anything confirmed dead.
+  Run over the real library: **89 reachable, 1 dead, 84 with a page description**, and the Owen
+  Defense link is now hidden from players while staying visible to the author as a `dead` entry to
+  replace.
+
+  **Validation is a maintenance pass and never a read.** Putting the fetch in `for_opening` would be
+  an HTTP call in the report's inner loop — slow, flaky and against C1 — so liveness is stamped into
+  the local file and reads filter on the stamp.
+
+  **`alive=None` is not `alive=False`.** Never-checked links stay visible: the author approved one by
+  opening it, so absence of a check is not evidence of death. Adding the field would otherwise have
+  silently emptied the library, which is L-046's shape again — this time caught in a test before it
+  could happen.
 - **Use the page description as the default summary**, with the hand-written title kept where it is
   better.
 - **Do not ship the Wikimedia searcher as a source of guides.** Its correct role is narrow: a new

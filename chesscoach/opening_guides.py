@@ -40,6 +40,15 @@ class Guide:
     # Curating is endorsing; an unreviewed link is a candidate, not advice.
     reviewed: bool = False
     note: str = ""
+    # Stamped by the maintenance pass. **None means never checked, which is not
+    # the same as dead** — the author approved it by opening it, so absence of a
+    # check is not evidence of absence of a page (L-046).
+    alive: bool | None = None
+    checked_on: str | None = None
+    # The page's own description, kept as a fallback for the hand-written title.
+    # Taken from `meta description` only, never from body text: extracting prose
+    # is how a link turns back into a copy.
+    summary: str = ""
 
 
 class GuideLibrary:
@@ -59,6 +68,43 @@ class GuideLibrary:
     def candidates(self) -> tuple[Guide, ...]:
         return tuple(g for g in self._guides if not g.reviewed)
 
+    @property
+    def dead(self) -> tuple[Guide, ...]:
+        """Links a check has confirmed gone. E48 found one already in here."""
+        return tuple(g for g in self._guides if g.alive is False)
+
+    @property
+    def unchecked(self) -> tuple[Guide, ...]:
+        return tuple(g for g in self._guides if g.alive is None)
+
+    def stale(self, before: str) -> tuple[Guide, ...]:
+        """Checked, but not since `before` — a date string, compared as one."""
+        return tuple(
+            g for g in self._guides
+            if g.checked_on is not None and g.checked_on < before
+        )
+
+    def validated(self, agent, today: str) -> GuideLibrary:
+        """A copy with every link fetched and stamped.
+
+        **A maintenance pass, never a read.** `for_opening` must not touch the
+        network: a report is built in an inner loop, and an HTTP call there would
+        be slow, flaky, and against C1. So liveness is stamped here and filtered
+        at read time.
+        """
+        from dataclasses import replace
+
+        stamped = []
+        for guide in self._guides:
+            checked = agent.check(guide)
+            stamped.append(replace(
+                guide,
+                alive=checked.alive,
+                checked_on=today,
+                summary=checked.summary or guide.summary,
+            ))
+        return GuideLibrary(tuple(stamped))
+
     def for_opening(self, name: str) -> tuple[Guide, ...]:
         """Reviewed guides for this opening, most specific first.
 
@@ -68,7 +114,10 @@ class GuideLibrary:
         subline would be fifteen times the work for no gain.
         """
         family = _family(name)
-        return tuple(g for g in self._guides if g.reviewed and _family(g.opening) == family)
+        return tuple(
+            g for g in self._guides
+            if g.reviewed and g.alive is not False and _family(g.opening) == family
+        )
 
     def openings_without_a_guide(self, names) -> tuple[str, ...]:
         """Families with no reviewed guide, so silence is visible rather than assumed."""
@@ -83,6 +132,8 @@ class GuideLibrary:
                 opening=entry["opening"], title=entry["title"], url=entry["url"],
                 publisher=entry["publisher"], reviewed=entry.get("reviewed", False),
                 note=entry.get("note", ""),
+                alive=entry.get("alive"), checked_on=entry.get("checked_on"),
+                summary=entry.get("summary", ""),
             )
             for entry in payload["guides"]
         ))
@@ -99,6 +150,8 @@ class GuideLibrary:
                 {
                     "opening": g.opening, "title": g.title, "url": g.url,
                     "publisher": g.publisher, "reviewed": g.reviewed, "note": g.note,
+                    "alive": g.alive, "checked_on": g.checked_on,
+                    "summary": g.summary,
                 }
                 for g in sorted(self._guides, key=lambda g: (g.opening, g.url))
             ],
