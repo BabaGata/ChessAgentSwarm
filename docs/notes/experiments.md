@@ -66,6 +66,8 @@ An experiment with no consequence was not worth running.
 
 | E47 | does an absolute opening book say anything useful about these players? | done — **240/240 games named**, and the exit ply **does not separate players (1.17×, below the 1.30 screen)**. The right conclusion is that the screen **does not apply**: this is the project's first non-comparative claim, and teaching does not require the pupil to be unusual. **58 % of book exits are the opponent's move**, not the player's | [[experiments.e47-opening-knowledge]] |
 
+| E48 | can an agent reproduce hand-curated opening resources? | done — **validation yes, acquisition no.** 90 links checked, **1 dead** (Owen Defense, HTTP 410) that would have reached a player; page descriptions beat hand-written titles 84/90. But the agent found a resource for **24 of 24** openings it could ask about and **every one was Wikipedia or Wikibooks** — a 100 % hit rate at references, 0 % at instruction. Produced **L-046** | [[experiments.e48-opening-agent]] |
+
 
 ## Conventions
 

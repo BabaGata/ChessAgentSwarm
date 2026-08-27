@@ -45,6 +45,38 @@ a stated defect in [[experiments.e15-expected-gain]] — raw cost must become pe
 
 ---
 
+### L-046 — An error that returns the same value as "nothing found" is a silent lie
+**Date:** 2026-08-24 · **Cycle / mission step:** M6 · **Class:** technique
+**Context:** Three times in one session, a remote source appeared to have no content when the truth
+was that the request had failed.
+**Observation:**
+
+1. **MediaWiki `extracts`** returns one extract per request unless `exintro` is set. Asking for
+   twenty titles produced nineteen blanks, read as "Wikibooks has no prose".
+2. **`exintro`** returns empty on pages with no lead section — these articles begin under a heading —
+   read again as "no prose".
+3. **`_fetch_json` in the opening agent** caught every exception and returned `{}`. An HTTP 429 was
+   then indistinguishable from a genuine empty search result, and
+   [[experiments.e48-opening-agent]] reported the agent finding resources for **10 of 31** openings.
+   The real figure, once errors were separated, was **24 of 24 asked**. It would have recorded "no
+   resource exists" for the French Defence.
+
+Each time the wrong conclusion was about the *world* — the source is empty, the content is missing —
+when the fact was about the *request*.
+**Lesson:** **Never let a failure path return the same value as a legitimate empty result.** Empty
+list, empty dict, `None` and zero are all answers that mean "I looked and there was nothing"; a
+failure means "I did not look". Raise, or return a distinct sentinel, and make the caller handle the
+difference — then reports can say *"could not ask"* beside *"found nothing"*, which is the line that
+would have caught all three of these on sight. The failure mode is seductive because the code has no
+bug in the ordinary sense: it runs, returns a plausible value, and produces a number that looks like
+a finding. It is the same shape as **L-044** — a wrong expectation that cannot fail — one level out:
+there, a test could not detect a defect; here, a caller cannot detect a failure.
+**Applied to:** `SearchUnavailable` in `chesscoach/opening_agent.py`, with backoff and two tests; the
+"could not ask" column in E48; and retrospectively it explains why the Wikibooks harvest looked
+barren twice before it worked.
+
+---
+
 ### L-045 — Peer-relative answers "is this unusual", never "is this right"
 **Date:** 2026-08-23 · **Cycle / mission step:** M6 · **Class:** technique
 **Context:** `early_error` tells a player they go wrong early and cannot say what to do about it. The

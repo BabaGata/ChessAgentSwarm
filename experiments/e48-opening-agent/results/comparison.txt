@@ -1,0 +1,86 @@
+PART 1 — VALIDATING THE 90 CURATED LINKS
+
+links checked                        90
+  reachable (200)                    86  (96%)
+  refusing a bot (403)                3  (3%)
+  dead or unreachable                 1  (1%)
+  own description extracted          84  (93%)
+
+DEAD OR UNREACHABLE — these would have been printed to a player:
+  HTTP 410        Owen Defense              Owen's Defense
+
+THE PAGE'S OWN DESCRIPTION vs THE HAND-WRITTEN TITLE
+
+  Benoni Defense
+    hand : Benoni Defense: complete guide
+    page : Benoni Defense comes from the Hebrew expression “Ben-Oni”, which means “son of my sorrow.” This might have given you melancholic impressions.
+
+  Benoni Defense
+    hand : Benoni Defense guide: strategy, traps and variations
+    page : Learn the Benoni Defense: Modern, Old and Czech variations, key plans, tactical traps and grandmaster games, with playable boards for both sides.
+
+  Benoni Defense
+    hand : Master the Benoni Defense, Modern Variation
+    page : The Benoni Defense, Modern Variation is an exciting, combative chess opening for Black. Learn how to play it like a pro!
+
+  Bird Opening
+    hand : How to play Bird's Opening
+    page : How to Play Bird&#8217;s Opening &#8211; Chessable Blog
+
+  Bird Opening
+    hand : Bird's Opening (1.f4): lines, traps and how to counter it
+    page : Learn the Bird&#039;s Opening (1.f4): main lines, the From&#039;s Gambit, Dutch setups, key traps, and how to counter it as Black. Clear plans for bot
+
+  Bird Opening
+    hand : Bird's Opening - prep guide for White
+    page : Bird&#39;s Opening — Complete Opening Prep Guide for White (2026) | OpeningDrills
+
+  Caro-Kann Defense
+    hand : Caro-Kann: lines, plans and ideas
+    page : Master the Caro Kann Defense with GM-guided breakdowns of all key lines, middlegame plans, and ideas for both sides. Start your free trial at Kingdom 
+
+  Caro-Kann Defense
+    hand : Complete guide with key lines for both colours
+    page : Master the Caro–Kann Defense with this complete guide. Learn key lines, plans, and traps for both White and Black, from the Classical and Advance to r
+
+==============================================================================
+PART 2 — WHAT THE AGENT FINDS ON ITS OWN, FOR THE SAME OPENINGS
+
+Not a fair comparison, and that is the finding: Wikimedia is a reference
+and the curated links are instruction. The gap is what an autonomous
+agent costs when no free search API exists.
+
+  Benoni Defense                   agent: Wikipedia, Wikibooks     curated: TheChessWorld, Chess Doctrine
+  Bird Opening                     agent: Wikipedia, Wikibooks     curated: Chessable, Chess Doctrine
+  Caro-Kann Defense                agent: Wikipedia, Wikibooks     curated: Kingdom of Chess, Attacking Chess
+  Dutch Defense                    agent: Wikipedia, Wikibooks     curated: IM Alberto Chueca, Chess Doctrine
+  English Defense                  agent: Wikipedia, Wikibooks     curated: Chess-Teacher, Wikipedia
+  English Opening                  agent: Wikipedia, Wikibooks     curated: Exeter Chess Club, IM Alberto Chueca
+  Englund Gambit                   agent: Wikipedia, Wikibooks     curated: Chess-Teacher, Chess Doctrine
+  Four Knights Game                agent: Wikipedia, Wikibooks     curated: Chessable, TheChessWorld
+  French Defense                   agent: Wikipedia, Wikibooks     curated: TheChessWorld, Chessentials
+  Hungarian Opening                COULD NOT ASK (https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Hungarian+Opening&srlimit=1&format=json&formatversion=2 -> HTTP 429)
+  Indian Defense                   COULD NOT ASK (https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Indian+Defense&srlimit=1&format=json&formatversion=2 -> HTTP 429)
+  Italian Game                     agent: Wikipedia, Wikibooks     curated: Chessable, Chessiverse
+  King's Indian Defense            agent: Wikipedia, Wikibooks     curated: Chess Doctrine, Modern Chess
+  King's Pawn Game                 agent: Wikipedia, Wikibooks     curated: TheChessWorld, Kingdom of Chess
+  Nimzo-Indian Defense             agent: Wikipedia, Wikibooks     curated: TheChessWorld, FreeChessTrainer
+  Owen Defense                     agent: Wikipedia, Wikibooks     curated: Chessable, TheChessWorld
+  Petrov's Defense                 COULD NOT ASK (https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Petrov%27s+Defense&srlimit=1&format=json&formatversion=2 -> HTTP 429)
+  Philidor Defense                 COULD NOT ASK (https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Philidor+Defense&srlimit=1&format=json&formatversion=2 -> HTTP 429)
+  Pirc Defense                     COULD NOT ASK (https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Pirc+Defense&srlimit=1&format=json&formatversion=2 -> HTTP 429)
+  Queen's Gambit Declined          agent: Wikipedia, Wikibooks     curated: Chessable, Exeter Chess Club
+  Queen's Pawn Game                agent: Wikipedia, Wikibooks     curated: TheChessWorld, FireChess
+  Ruy Lopez                        agent: Wikipedia, Wikibooks     curated: ChessAtlas, Pawnbreak
+  Scandinavian Defense             agent: Wikipedia, Wikibooks     curated: IM Alberto Chueca, Chess for Sharks
+  Scotch Game                      agent: Wikipedia, Wikibooks     curated: Chessable, Chess Heritage
+  Sicilian Defense                 COULD NOT ASK (https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Sicilian+Defense&srlimit=1&format=json&formatversion=2 -> HTTP 429)
+  Slav Defense                     COULD NOT ASK (https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Slav+Defense&srlimit=1&format=json&formatversion=2 -> HTTP 429)
+  Three Knights Opening            agent: Wikipedia, Wikibooks     curated: Wikipedia, TheChessWorld
+  Van't Kruijs Opening             agent: Wikipedia, Wikibooks     curated: Chess Doctrine, Master in Chess
+  Vienna Gambit, with Max Lange Defense agent: Wikipedia, Wikibooks     curated: BetterChess, Chess.lc
+  Vienna Game                      agent: Wikipedia, Wikibooks     curated: BetterChess, Chess.lc
+  Zukertort Opening                agent: Wikipedia, Wikibooks     curated: ChessWorld, Chessiverse
+
+  families the agent found something for: 24/31
+  families it could not even ask about: 7 — rate limited, NOT an absence
