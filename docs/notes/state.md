@@ -188,7 +188,17 @@ This is what actually moved this cycle.
 filled three Form B/C and found the detectors systematically wrong. **Detection correctness now
 outranks expert agreement**, and the remaining Form A collection is dropped as a requirement.
 
-0. **P0 — D17: rebuild the motif safety test on SEE and re-screen every detector.** The design fault
+0. **P0 — The author's first 23 marks, and what they change** *(2026-08-23)* →
+   [[design.informative-claims]]. Four claims covered: `allowed_motif.hangingPawn` **4/5 — works,
+   leave alone**; `moved_into_attack` **0/5 — broken**, cause verified (even-or-better captures fall
+   through a guard and fire on every ordinary trade, `Bxd8+` at +6 among them); `early_error` **0/4**
+   and `advantage_error` **0✓/5?** — both detect real errors and **name nothing that can be worked
+   on**. Design note has options compared and a sequence: fix `moved_into_attack`, screen "name the
+   error kind when ahead" (free), build per-opening outcomes from the **already-parsed ECO data**,
+   then screen a peer-derived opening book. **D22** generalises the lesson.
+
+0. **~~P0 — D17: rebuild the motif safety test on SEE and re-screen every detector.~~ Done; the
+   re-screen is what produced the marks above.** The design fault
    is concrete: `tactics.py:280` `_lands_safely` asks *"attacked → is it defended?"* with no piece
    values, while `material.py` already has a static exchange evaluator the motifs never call, and
    `_is_fork` never asks whether the tactic **wins** anything. **Deliverable is precision per
