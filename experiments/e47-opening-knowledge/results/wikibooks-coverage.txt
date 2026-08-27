@@ -1,0 +1,59 @@
+WIKIBOOKS COVERAGE OF THE POSITIONS THESE PLAYERS REACH
+
+                            positions   games
+----------------------------------------------
+article (>= 1500 bytes)            60      97
+stub                               35      47
+no page                            89      96
+TOTAL                             184     240
+
+  by position: 33% have an article
+  by GAME:     40% of games land on one
+  (games is the number that matters — a common opening covered well is
+   worth more than a rare one covered badly)
+
+COVERAGE BY DEPTH — where does it thin out?
+ plies  positions  with article
+---------------------------------
+     1          4        4 (100%)
+     2         21       16 (76%)
+     3         22       12 (55%)
+     4         24        9 (38%)
+     5         32        6 (19%)
+     6         23        8 (35%)
+     7         23        4 (17%)
+     8         19        1 ( 5%)
+     9          8        0 ( 0%)
+    10          4        0 ( 0%)
+    11          2        0 ( 0%)
+    13          2        0 ( 0%)
+
+WITH FALLBACK TO THE DEEPEST ANCESTOR THAT HAS AN ARTICLE
+  positions with usable ideas: 168/184 (91%)
+  GAMES with usable ideas:     219/240 (91%)
+  depth of the article used: median 3 plies, i.e. around move 1.5
+  distribution: {2: 62, 3: 27, 4: 27, 5: 15, 6: 25, 7: 8, 8: 4}
+  The deeper the article, the more specific the ideas. A page at 2 plies
+  names a defence; one at 6 names a variation.
+
+  article size: median 2,444 bytes, max 20,019
+
+  most-reached positions that DO have an article:
+      6 games  Queen's Pawn Game: Accelerated London Sy   1. d4/1...d5/2. Bf4
+      5 games  English Opening: King's English Variatio   1. c4/1...e5/2. g3
+      5 games  King's Pawn Game                           1. e4
+      5 games  Scandinavian Defense                       1. e4/1...d5
+      4 games  Indian Defense                             1. d4/1...Nf6
+      4 games  Indian Defense: Accelerated London Syste   1. d4/1...Nf6/2. Bf4
+      3 games  Caro-Kann Defense                          1. e4/1...c6
+      3 games  Scandinavian Defense: Main Line            1. e4/1...d5/2. exd5/2...Qxd5/3. Nc3/3...Qa5
+
+  most-reached positions with NO article:
+      2 games  Nimzo-Indian Defense: Three Knights Vari   1. d4/1...Nf6/2. c4/2...e6/3. Nc3/3...Bb4/4.
+      2 games  Queen's Gambit Declined: Albin Counterga   1. d4/1...d5/2. c4/2...e5/3. dxe5/3...d4/4. 
+      2 games  Pirc Defense                               1. d4/1...d6/2. e4
+      2 games  Scandinavian Defense: Modern Variation     1. e4/1...d5/2. exd5/2...Nf6/3. Nc3
+      2 games  Pirc Defense: Classical Variation          1. e4/1...d6/2. Nf3/2...Nf6/3. Nc3/3...g6/4.
+      2 games  French Defense: Exchange Variation         1. e4/1...e6/2. Nc3/2...d5/3. exd5/3...exd5/
+      2 games  Hungarian Opening                          1. g3/1...d5/2. Bg2
+      1 games  Zukertort Opening: Queenside Fianchetto    1. Nf3/1...b6

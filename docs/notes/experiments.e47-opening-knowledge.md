@@ -71,6 +71,51 @@ There is a second, more interesting reading. When the **opponent** leaves book, 
 their own without preparation — which is precisely when the *ideas* matter more than the moves. Layer
 2 is aimed at exactly that case, so the 58 % is not waste, it is a different claim.
 
+## Result 4 — Wikibooks coverage: 40 % raw, 91 % with a fallback, and the gap is the finding
+
+Layer 2's pre-check, queried through the MediaWiki API (50 titles a request, `missing` reported
+explicitly, `length` returned alongside so a stub is distinguishable from an article).
+
+**Asked about the deepest position still in theory — where the ideas belong — coverage is 40 % of
+games.** And it collapses exactly where it is needed:
+
+| plies | positions | with an article |
+|--:|--:|--:|
+| 1–2 | 25 | **100 %, 76 %** |
+| 3–4 | 46 | 55 %, 38 % |
+| 5–8 | 97 | 19 %, 35 %, 17 %, **5 %** |
+| 9+ | 16 | **0 %** |
+
+Wikibooks is thorough about openings and thin about *variations*, so the coverage curve runs opposite
+to the depth curve. Taken at face value this kills Layer 2: the positions players actually leave
+theory from are 5–8 plies deep, where coverage is 5–35 %.
+
+**The fallback changes the answer.** The ideas of *the Scandinavian* still apply four plies into a
+Scandinavian subline, so walk up the tree to the deepest ancestor that has an article:
+
+| | |
+|---|--:|
+| games with usable ideas | **219 / 240 (91 %)** |
+| depth of the article used, median | **3 plies** |
+
+**But 91 % is not the number to quote, and this is where it would be easy to oversell.** 62 of 168
+positions (**37 %**) fall all the way back to 2 plies — "1. e4 e5" — which names a defence and says
+almost nothing specific. Weighted by whether the article is actually *about* what the player played,
+the honest figure is the **63 % that reach 3 plies or deeper**, and only 22 % get to 6 or more.
+
+A floor of 2 plies is imposed deliberately: an article on `1. e4` alone would technically raise
+coverage and would be worthless.
+
+## Consequence
+
+- **Layer 2 is viable, with the fallback and with the specificity stated.** The claim can carry ideas
+  for roughly six games in ten at a useful level of detail, and should say which opening the ideas
+  are *for* — because at 2 plies that is "the French" and at 6 it is a named variation, and a reader
+  cannot tell the difference from the prose alone.
+- **The remaining 9 % get no ideas at all** and the section must be silent for them rather than
+  reaching for something generic.
+- **CC BY-SA still needs its ADR** before any text is stored or shown.
+
 ## Honest limitations
 
 - **Twelve players, 240 games.** The spread figure especially is thin.
@@ -80,5 +125,8 @@ their own without preparation — which is precisely when the *ideas* matter mor
   is worded, because the two numbers would produce different sentences.
 - **A traced game confirms the mechanism, not the population.** The French Advance example leaves
   theory at ply 8 on 7…c4, correctly. One game is a sanity check, not evidence about twelve players.
+- **Coverage was measured on titles, not on whether the prose is any good.** A 2 kB article exists;
+  whether it contains usable *plans* rather than a move list is unchecked, and that is the next thing
+  to sample by hand.
 - **Nothing here measures whether leaving theory early is bad.** It is a knowledge-depth measurement,
   not an outcome one; the eval half (A3) is separate and unbuilt.
