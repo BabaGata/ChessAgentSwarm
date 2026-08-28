@@ -117,12 +117,16 @@ class TestImportedVocabulary:
 
 
 class TestTheLimitThisCannotReach:
-    def test_negation_is_caught_but_only_by_accident(self):
+    def test_negation_is_not_caught(self):
         """Inverting the advice needs words like "avoid" and "never".
 
-        Those are not in the source, so novelty catches them -- which is luck
-        rather than design, and is recorded as such so it is not mistaken for a
-        semantic check.
+        Those are not in the source, and for a while novelty caught them -- which
+        was luck rather than design and was recorded as such. Fixing the
+        inflection comparison ("aim" must match "aiming") lowered novelty across
+        the board and that accident is gone: this sentence now passes at 40 %.
+
+        Pinned as a failure so nobody reads `grounded` as a semantic check. The
+        checker compares tokens; it has never understood a sentence.
         """
         result = check(
             "Black should avoid the pawn break and never undermine the centre "
@@ -130,7 +134,7 @@ class TestTheLimitThisCannotReach:
             SOURCE,
         )
 
-        assert result.grounded is False
+        assert result.grounded is True  # ...and the advice is inverted.
         assert "avoid" in result.novel_words
 
     def test_swapping_the_colours_passes_both_checks(self):

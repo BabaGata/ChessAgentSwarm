@@ -26,11 +26,15 @@ source's own vocabulary that changes who does what. Swapping the colours —
 both tests against a page saying the opposite, because every word and every
 square is the source's and only the roles moved.
 
-Straightforward negation happens to be caught, since *"avoid"* and *"never"* are
-words a page recommending a break does not use. **That is luck, not design**, and
-it is recorded as such rather than counted as coverage: nothing here understands
-a sentence. That residue is why the output still sits behind `reviewed=true` and
-why the evidence class says `composed`, not `sourced`.
+Straightforward negation is not caught either. For a while it was, because
+*"avoid"* and *"never"* are words a page recommending a break does not use — but
+that was luck, not design, and correcting the inflection comparison ("aim" must
+match "aiming") lowered novelty everywhere and removed the accident. Recorded
+rather than mourned: nothing here understands a sentence, and a check that only
+worked by coincidence was never coverage.
+
+That residue is why the output still sits behind `reviewed=true` and why the
+evidence class says `composed`, not `sourced`.
 """
 
 from __future__ import annotations
@@ -115,12 +119,8 @@ def check(text: str, source: str) -> Grounding:
     ungrounded = tuple(m for m in moves_in(text) if m not in source_moves)
 
     source_words = set(content_words(source))
-    # Substring matching would let "developing" ground itself on "develop", which
-    # is the intent -- a rewrite is allowed to inflect. Prefixes are compared at
-    # a length that keeps "centre"/"center" apart from "central" honestly.
-    stems = {w[:5] for w in source_words}
     used = content_words(text)
-    novel = tuple(w for w in used if w not in source_words and w[:5] not in stems)
+    novel = tuple(w for w in used if not _is_known(w, source_words))
     novelty = len(novel) / len(used) if used else 0.0
 
     return Grounding(
@@ -129,3 +129,47 @@ def check(text: str, source: str) -> Grounding:
         novelty=novelty,
         novel_words=novel,
     )
+
+
+# British and American spellings of the same word are not new content. Kept
+# short and explicit rather than reaching for a stemmer: these are the ones that
+# actually occur on chess pages.
+_SPELLINGS = {
+    "centre": "center", "centres": "centers", "central": "central",
+    "defence": "defense", "defences": "defenses",
+    "colour": "color", "coloured": "colored",
+    "manoeuvre": "maneuver", "manoeuvres": "maneuvers",
+    "counterattack": "counter", "flank": "flank",
+}
+
+# Shortest word for which a prefix relationship is evidence rather than an
+# accident. Below this, "aim" would ground itself on "aimless".
+_MIN_STEM = 3
+
+
+def _normalise(word: str) -> str:
+    return _SPELLINGS.get(word, word)
+
+
+def _is_known(word: str, source_words: set[str]) -> bool:
+    """Is this word the source's, allowing for inflection and spelling?
+
+    A rewrite is allowed to say "developing" where the source said "development",
+    or the checker forbids rewriting. The comparison runs **both ways** -- an
+    earlier version stemmed both sides to five characters, which failed on the
+    pair it most needed to handle: "aim" stems to "aim" and "aiming" to "aimin",
+    so a model told to say what a player aims for was marked as inventing the
+    word.
+    """
+    word = _normalise(word)
+    if word in source_words:
+        return True
+    for other in source_words:
+        other = _normalise(other)
+        if word == other:
+            return True
+        if len(word) >= _MIN_STEM and other.startswith(word):
+            return True
+        if len(other) >= _MIN_STEM and word.startswith(other):
+            return True
+    return False

@@ -185,6 +185,17 @@ class SearxSearcher:
         self._open = opener or _fetch_json
 
     def search(self, gap: Gap) -> list[tuple[str, str, str]]:
+        """The `Searcher` protocol: title, url, publisher."""
+        return [(t, u, p) for t, u, p, _snippet in self.search_detailed(gap)]
+
+    def search_detailed(self, gap: Gap) -> list[tuple[str, str, str, str]]:
+        """The same results, keeping each page's snippet.
+
+        SearxNG returns the engines' own summary in `content`, and it was being
+        discarded. A judge given only a title cannot tell a real guide with a
+        dull heading from a listicle with a promising one, which is the measured
+        cause of E51's false negatives.
+        """
         query = urllib.parse.urlencode({"q": gap.query, "format": "json"})
         payload = self._open(f"{self._base}/search?{query}")
         if "results" not in payload:
@@ -195,11 +206,12 @@ class SearxSearcher:
                 f"search.formats?"
             )
 
-        found: list[tuple[str, str, str]] = []
+        found: list[tuple[str, str, str, str]] = []
         seen: set[str] = set()
         for result in payload["results"]:
             url = (result.get("url") or "").strip()
             title = (result.get("title") or "").strip()
+            snippet = re.sub(r"\s+", " ", (result.get("content") or "")).strip()
             if not url or not title:
                 continue
             publisher = _domain(url)
@@ -210,7 +222,7 @@ class SearxSearcher:
             if publisher in seen:
                 continue
             seen.add(publisher)
-            found.append((title, url, publisher))
+            found.append((title, url, publisher, snippet[:400]))
             if len(found) >= self._limit:
                 break
         return found

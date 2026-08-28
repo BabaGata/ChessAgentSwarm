@@ -1,0 +1,130 @@
+THE OPENING SWARM  model=qwen2.5:3b
+==============================================================================
+
+SCOUT writes queries. ASSESSOR discards. COMPILER writes the brief.
+Every sentence the Compiler works from is verbatim from a page the
+Assessor kept, and both halves of the brief are checked against them.
+
+NOT ENDORSED: no source here is reviewed=true.
+
+==============================================================================
+Bird Opening
+
+  SCOUT      queries run, 11 distinct pages found
+  ASSESSOR   kept 5, discarded 6
+               - uscfsales.com         a list of many different openings
+               - blog.duolingo.com     a forum or comment thread
+               - tiktok.com            a move database or statistics table
+               - chess.com             a shop or product listing
+               - 365chess.com          a video
+               - reddit.com            a post from r/chess
+  READ       1 pages yielded sentences
+               "The e1-h4 diagonal matters immediately after the f-pawn moves."
+
+  PLAN   rejected -- novelty 88% over 45%: prevent, white, controlling, challenge, white's,
+  WATCH  nothing to write from
+  source https://www.chessworld.net/bird-opening.asp
+
+==============================================================================
+Grob Opening
+
+  SCOUT      queries run, 12 distinct pages found
+  ASSESSOR   kept 2, discarded 10
+               - chess.com             a list of many different openings
+               - chessworld.net        a forum or comment thread
+               - uscfsales.com         a shop or product listing
+               - exeterchessclub.org.uka video
+               - en.wikipedia.org      Wikipedia page
+               - chess.com             a list of many different openings
+               - lichess.org           a forum or comment thread
+               - chessworld.net        a shop or product listing
+               - uscfsales.com         a video
+               - chessskill.blogspot.coma shop or product listing
+  READ       0 pages yielded sentences
+
+  PLAN   nothing to write from
+  WATCH  nothing to write from
+
+==============================================================================
+Owen Defense
+
+  SCOUT      queries run, 20 distinct pages found
+  ASSESSOR   kept 8, discarded 12
+               - lichess.org           a list of many different openings
+               - chessmood.com         forum or comment thread
+               - modern-chess.com      move database or statistics table
+               - chess.com             shop or product listing
+               - modern-chess.com      video
+               - chessable.com         clearly about a different opening
+               - reddit.com            clearly about a different opening
+               - chess.fandom.com      clearly about a different opening
+               - thechessworld.com     clearly about a different opening
+               - chess.com             clearly about a different opening
+               - chessable.com         clearly about a different opening
+               - chess.com             clearly about a different opening
+  READ       0 pages yielded sentences
+
+  PLAN   nothing to write from
+  WATCH  nothing to write from
+
+==============================================================================
+Pirc Defense
+
+  SCOUT      queries run, 12 distinct pages found
+  ASSESSOR   kept 2, discarded 10
+               - lichess.org           Czech Pirc: Complete Guide for Black [thechesswo
+               - reddit.com            Short & Sweet: Pirc Defense | Chessable [chessab
+               - en.chessbase.com      How do the King's Indian and Pirc Defence differ
+               - chessclub.com         Ivan Sokolov: Understanding Middlegame Strategy 
+               - chess.com             GM Petrov's New Strategies in the Middlegame - V
+               - uscfsales.com         Crush The Pirc Defense With The Austrian Attack 
+               - chessable.com         Pirc Defense – How to Play (as White & Black) – 
+               - chess.stackexchange.comdealing with the pirc - Chess Stack Exchange [ch
+               - chessmood.com         Attacking the Pirc Defense - ChessMood [chessmoo
+               - lichess.org           Pirc Defense vs The Austrian Attack | Chess Less
+  READ       1 pages yielded sentences
+               "Initially, Black aims to control the center with pawns on d6 and c6, develop pieces harmoniously"
+
+  PLAN   Control the center with pawns on d6 and c6, and develop pieces harmoniously to prepare for counterplay.
+  WATCH  nothing to write from
+  source https://thechessworld.com/articles/openings/czech-pirc-complete-guide-for-black/
+
+==============================================================================
+London System
+
+  SCOUT      queries run, 22 distinct pages found
+  ASSESSOR   kept 15, discarded 7
+               - chessworld.net        a list of many different openings
+               - chessable.com         forum or comment thread
+               - chesscheatsheets.com  move database or statistics table
+               - en.chessbase.com      shop or product listing
+               - chess.com             video
+               - chess.stackexchange.comclearly about a different opening
+               - houseofstaunton.com   House of Staunton
+  READ       1 pages yielded sentences
+               "Central control: When it comes to the fight for the center, White�s main goal is to control the "
+
+  PLAN   rejected -- novelty 56% over 45%: prepare, black's, attempts, challenge, structure
+  WATCH  nothing to write from
+  source https://www.365chess.com/chess-openings/London-System
+
+==============================================================================
+French Defense
+
+  SCOUT      queries run, 0 distinct pages found
+  ASSESSOR   kept 0, discarded 0
+  READ       0 pages yielded sentences
+
+  PLAN   nothing to write from
+  WATCH  nothing to write from
+
+==============================================================================
+WHAT THIS MEASURES
+
+  openings with a usable brief   1 of 6
+  PLAN halves that passed        1
+  WATCH halves that passed       0
+
+A brief is not a good brief. Whether these read well, and whether the
+chess is right, is the author's judgement -- the checks only establish
+that nothing concrete came from outside the cited pages.
