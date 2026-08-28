@@ -25,6 +25,7 @@ from collections import Counter
 from dataclasses import dataclass
 
 from chesscoach.opening_guides import Guide, GuideLibrary
+from chesscoach.opening_summary import Summariser, Summary
 from chesscoach.openings import Opening, OpeningBook
 
 # Enough to show the shape of the opening, few enough to read. A player who
@@ -61,6 +62,17 @@ class OpeningResource:
     # the page carries no plan sentence -- silence, never a substitute.
     plans: tuple[str, ...]
     guide: Guide | None
+    # Present only when a summariser was supplied AND its rewrite passed the
+    # grounding check. `summary.evidence_class` says whether the words are the
+    # publisher's or a local model's, and the report must print that.
+    summary: Summary | None = None
+
+    @property
+    def prose(self) -> str:
+        """What to show: the rewrite when it earned its place, the quotes otherwise."""
+        if self.summary is not None and self.summary.accepted:
+            return self.summary.text
+        return " ".join(self.plans)
 
     @property
     def has_plans(self) -> bool:
@@ -84,6 +96,7 @@ def build_resource(
     book: OpeningBook,
     library: GuideLibrary,
     reached=(),
+    summariser: Summariser | None = None,
 ) -> OpeningResource:
     """Assemble the moves, the quoted plans and the link for one family.
 
@@ -99,12 +112,20 @@ def build_resource(
     guides = library.for_opening(family)
     guide = guides[0] if guides else None
 
+    plans = guide.plans if guide else ()
+    # Never rephrase what was never endorsed. An unreviewed page contributes no
+    # sentences, so there is nothing to hand a model -- and asking it anyway
+    # would be asking it what the opening is about, which is the refused
+    # request (ADR-0013).
+    summary = summariser.summarise(family, plans) if (summariser and plans) else None
+
     return OpeningResource(
         family=family.split(":")[0].strip(),
         main_line=_line(main, played.get(main.name)) if main else None,
         variants=variants,
-        plans=guide.plans if guide else (),
+        plans=plans,
         guide=guide,
+        summary=summary,
     )
 
 

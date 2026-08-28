@@ -194,3 +194,59 @@ class TestTheFamilysOwnRowsAreNotVariations:
 
         labels = [v.variation for v in resource.variants]
         assert len(labels) == len(set(labels))
+
+
+class TestTheOptionalRewrite:
+    """A summariser can improve the prose and must never degrade it.
+
+    Design: docs/notes/decisions.0013-a-local-model-may-rephrase-what-it-cannot-assert.md
+    """
+
+    def test_without_a_summariser_the_prose_is_the_quotes(self):
+        resource = build_resource("Pirc Defense", a_book(), a_library())
+
+        assert resource.summary is None
+        assert resource.prose == " ".join(PLANS)
+
+    def test_an_accepted_rewrite_becomes_the_prose(self):
+        from chesscoach.opening_summary import OllamaSummariser
+
+        summariser = OllamaSummariser(post=lambda _u, _b: {"response": (
+            "Stay flexible, complete development first, and choose a pawn break "
+            "only later."
+        )})
+
+        resource = build_resource("Pirc Defense", a_book(), a_library(),
+                                  summariser=summariser)
+
+        assert resource.summary.accepted is True
+        assert resource.prose.startswith("Stay flexible")
+
+    def test_a_rejected_rewrite_leaves_the_quotes_standing(self):
+        from chesscoach.opening_summary import OllamaSummariser
+
+        summariser = OllamaSummariser(post=lambda _u, _b: {"response": (
+            "Black should break with c5 and attack on the queenside at once."
+        )})
+
+        resource = build_resource("Pirc Defense", a_book(), a_library(),
+                                  summariser=summariser)
+
+        assert resource.summary.accepted is False
+        assert resource.prose == " ".join(PLANS)
+
+    def test_an_unreviewed_page_is_never_handed_to_a_model(self):
+        # Rephrasing something unendorsed would launder it into prose that no
+        # longer looks like an unreviewed quote.
+        asked = []
+
+        from chesscoach.opening_summary import OllamaSummariser
+
+        def post(_url, body):
+            asked.append(body)
+            return {"response": "anything"}
+
+        build_resource("Pirc Defense", a_book(), a_library(reviewed=False),
+                       summariser=OllamaSummariser(post=post))
+
+        assert asked == []

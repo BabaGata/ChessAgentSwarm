@@ -1,0 +1,27 @@
+# A local SearxNG, so the opening agent can actually search.
+#
+# Why this rather than a hosted API (C1, C7): Brave withdrew its free tier in
+# February 2026 and every remaining hosted search API wants a key -- a signup an
+# examiner cannot reproduce and a secret to manage. A container needs neither.
+#
+# Memory: ~200 MB, well inside the 5 GB WSL cap in ~/.wslconfig.
+#
+#   docker compose up -d
+#   curl "http://localhost:8080/search?q=test&format=json"
+services:
+  searxng:
+    image: searxng/searxng:latest
+    container_name: searxng
+    # Loopback only. This instance exists for one script on this machine.
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - ./settings.yml:/etc/searxng/settings.yml:ro
+    environment:
+      - SEARXNG_BASE_URL=http://localhost:8080/
+      # Not a secret in any meaningful sense: a localhost instance with no
+      # accounts and no sessions worth forging. SearxNG refuses to start
+      # without one.
+      - SEARXNG_SECRET=chessagentswarm-local-research-instance
+    restart: unless-stopped
+    mem_limit: 1g

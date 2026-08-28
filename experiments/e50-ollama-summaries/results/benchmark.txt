@@ -1,0 +1,134 @@
+OLLAMA REPHRASING OF THE QUOTED PLANS
+==============================================================================
+
+Every arm rephrases the SAME extracted sentences, so the difference is
+the model. A rewrite that fails the grounding check falls back to the
+quotes, which is what ships today -- trying is never a loss.
+
+EVIDENCE CLASS: 'composed' means a local model wrote these words from
+the cited sentences. It is NOT the publisher's prose and is not endorsed.
+
+==============================================================================
+ARM: quotes
+
+------------------------------------------------------------------------------
+French Defense   [quoted]  0.0s
+  Therefore, Black aims to play the c5 and f6 break. The idea is to open up lines for the pieces where Black is weaker. White aims to play a line resembling the King’s Indian Defense. In subsequent play White tries to utilize his kingside space advantage, while Black tries to attack the center by attacking c3 or d4 (or undermining it with f6).
+
+------------------------------------------------------------------------------
+Queen's Pawn Game   [quoted]  0.0s
+  And, now white’s main plan is to install a knight on e5, maybe push f2-f4, Bd3, transfer the queen to the kingside and then start attacking the black king. You always know what to do: complete development, castle kingside, and decide between a kingside attack or central break with e4. The knights typically go to f3 and d2, keeping the pawn structure intact and preparing a kingside castle. The key strategic challenge for White is deciding when to break with e4 (the central break) or launch a kingside attack with h4-h5.
+
+------------------------------------------------------------------------------
+Indian Defense   [quoted]  0.0s
+  And, now white’s main plan is to install a knight on e5, maybe push f2-f4, Bd3, transfer the queen to the kingside and then start attacking the black king. You always know what to do: complete development, castle kingside, and decide between a kingside attack or central break with e4. The knights typically go to f3 and d2, keeping the pawn structure intact and preparing a kingside castle. The key strategic challenge for White is deciding when to break with e4 (the central break) or launch a kingside attack with h4-h5.
+
+------------------------------------------------------------------------------
+English Opening   [quoted]  0.0s
+  One way of looking at the systems are whether Black aims to keep things closed with ...Nc6 (and often ...Nge7), or instead tries to develop the King's-side starting with ...Nf6. In some rare positions, White could long castle, but that doesn’t happen very often. Both sides will maneuver their pieces to optimal positions before attempting a pawn break, e.g. …b5 or …d5. White is exerting pressure on the b7 pawn and might try to take control of the a-file.
+
+------------------------------------------------------------------------------
+Sicilian Defense   [quoted]  0.0s
+  The idea is to prepare a central pawn push with d4 and fight for the center. White often aims to occupy the center, push the enemy pieces, and stop their advancement. By trying to conquer the center, Black aims to equalize rapidly. To summarize the ideas for both sides, Black typically aims to strike to d4-pawn by going Qb6 and Nc6.
+
+------------------------------------------------------------------------------
+Caro-Kann Defense   [quoted]  0.0s
+  Instead, Black aims to build a solid foundation and outplay the opponent in the long run. Each creates a different type of pawn structure and middlegame plan. White immediately grabs space and tries to restrict Black's pieces. In this variation, Black develops more cautiously with …Nd7 instead of the immediate …Bf5, aiming to avoid early piece exchanges that could create weaknesses.
+
+------------------------------------------------------------------------------
+Scandinavian Defense   [quoted]  0.0s
+  In general if Black can break with the pieces in good squares, they will have at least a balanced middlegame. To castle Kingside, pretending to play a quieter middlegame with some more space in the center. To castle Queenside, thinking about the possibility to play an opposite-side castlings middlegame. In most openings, Black will look to play moves that control other squares.
+
+------------------------------------------------------------------------------
+Italian Game   [quoted]  0.0s
+  In fact, by delaying castling White can often launch a kingside attack and then castle queenside. If Black allows you to close the center with d5, you can close the center and switch your focus to the kingside. White develops the bishop to its best square, targets the weak f7 pawn, and prepares to castle. White wants to develop every piece toward Black's king, castle short, and build pressure on f7 before Black finishes coordinating.
+
+==============================================================================
+ARM: ollama/qwen2.5:3b
+
+------------------------------------------------------------------------------
+French Defense   [composed]  7.7s
+  Black aims to play c5 and f6 to open lines for its pieces. White aims for a King's Indian type setup. White uses its space advantage on the kingside, while Black attacks the center with f6.
+
+------------------------------------------------------------------------------
+Queen's Pawn Game   [composed]  3.3s
+  White aims to develop the knight to e5, possibly pushing f2-f4, playing Bd3, transferring the queen to the kingside, and deciding between a kingside attack or a central break with e4. Knights typically go to f3 and d2, maintaining the pawn structure. The key strategic challenge is deciding when to break with e4 or launch a kingside attack with h4-h5.
+
+------------------------------------------------------------------------------
+Indian Defense   [composed]  3.0s
+  White should aim to develop knights to e5, possibly pushing f2-f4 and playing Bd3. Castle kingside and decide between a kingside attack or central break with e4. Maintain pawn structure and prepare for a kingside castle.
+
+------------------------------------------------------------------------------
+English Opening   [composed]  3.2s
+  Black aims to either keep things closed with ...Nc6 or develop the King's-side with ...Nf6. White should aim to exert pressure on the b7 pawn and control the a-file. Pieces are maneuvered to optimal positions before considering pawn breaks like ...b5 or ...d5.
+
+------------------------------------------------------------------------------
+Sicilian Defense   [composed]  2.8s
+  White aims to push d4 and control the center. Black tries to counter with Qb6 and Nc6 to stop d4. Black also aims to equalize quickly.
+
+------------------------------------------------------------------------------
+Caro-Kann Defense   [composed]  3.0s
+  Black aims to build a solid foundation and outplay the opponent in the long run. Black develops more cautiously with …Nd7 instead of …Bf5 to avoid early piece exchanges. Black creates a different type of pawn structure and middlegame plan.
+
+------------------------------------------------------------------------------
+Scandinavian Defense   [composed]  2.9s
+  Black aims to control key squares with pieces to achieve a balanced middlegame. Black can castle Kingside for a quieter game with more central space. Black can castle Queenside for an opposite-side castling game.
+
+------------------------------------------------------------------------------
+Italian Game   [quoted]  2.9s
+  In fact, by delaying castling White can often launch a kingside attack and then castle queenside. If Black allows you to close the center with d5, you can close the center and switch your focus to the kingside. White develops the bishop to its best square, targets the weak f7 pawn, and prepares to castle. White wants to develop every piece toward Black's king, castle short, and build pressure on f7 before Black finishes coordinating.
+  REJECTED: names moves not in the source: f6
+
+==============================================================================
+ARM: ollama/qwen3:8b
+
+------------------------------------------------------------------------------
+French Defense   [quoted]  16.1s
+  Therefore, Black aims to play the c5 and f6 break. The idea is to open up lines for the pieces where Black is weaker. White aims to play a line resembling the King’s Indian Defense. In subsequent play White tries to utilize his kingside space advantage, while Black tries to attack the center by attacking c3 or d4 (or undermining it with f6).
+  REJECTED: novelty 48% over 45%: try, moves, like, focus, using, create, pressure, needs
+
+------------------------------------------------------------------------------
+Queen's Pawn Game   [quoted]  8.0s
+  And, now white’s main plan is to install a knight on e5, maybe push f2-f4, Bd3, transfer the queen to the kingside and then start attacking the black king. You always know what to do: complete development, castle kingside, and decide between a kingside attack or central break with e4. The knights typically go to f3 and d2, keeping the pawn structure intact and preparing a kingside castle. The key strategic challenge for White is deciding when to break with e4 (the central break) or launch a kingside attack with h4-h5.
+  REJECTED: novelty 48% over 45%: support, strong, center, focus, whether, control, aim, build
+
+------------------------------------------------------------------------------
+Indian Defense   [composed]  7.7s
+  Develop your knights to f3 and d2, keep your pawn structure solid, and prepare to castle kingside. Focus on completing your development before choosing to attack the king or break in the center. Decide early whether to push e4 for a central break or start a kingside attack with h4.
+
+------------------------------------------------------------------------------
+English Opening   [quoted]  7.7s
+  One way of looking at the systems are whether Black aims to keep things closed with ...Nc6 (and often ...Nge7), or instead tries to develop the King's-side starting with ...Nf6. In some rare positions, White could long castle, but that doesn’t happen very often. Both sides will maneuver their pieces to optimal positions before attempting a pawn break, e.g. …b5 or …d5. White is exerting pressure on the b7 pawn and might try to take control of the a-file.
+  REJECTED: novelty 50% over 45%: aim, quickly, decide, early, center, push, space, kingside
+
+------------------------------------------------------------------------------
+Sicilian Defense   [quoted]  5.8s
+  The idea is to prepare a central pawn push with d4 and fight for the center. White often aims to occupy the center, push the enemy pieces, and stop their advancement. By trying to conquer the center, Black aims to equalize rapidly. To summarize the ideas for both sides, Black typically aims to strike to d4-pawn by going Qb6 and Nc6.
+  REJECTED: novelty 45% over 45%: wants, attacking, aim, control, prevent, expanding, plan, develop
+
+------------------------------------------------------------------------------
+Caro-Kann Defense   [quoted]  6.1s
+  Instead, Black aims to build a solid foundation and outplay the opponent in the long run. Each creates a different type of pawn structure and middlegame plan. White immediately grabs space and tries to restrict Black's pieces. In this variation, Black develops more cautiously with …Nd7 instead of the immediate …Bf5, aiming to avoid early piece exchanges that could create weaknesses.
+  REJECTED: novelty 54% over 45%: focus, strong, position, planning, game, take, control, center
+
+------------------------------------------------------------------------------
+Scandinavian Defense   [composed]  6.9s
+  Black should aim to develop pieces to good squares and prepare for a balanced middlegame. Castling kingside can help create space in the center and a quieter position. Castling queenside opens the possibility of a middlegame with opposite-side castling.
+
+------------------------------------------------------------------------------
+Italian Game   [composed]  7.2s
+  White should delay castling to prepare a kingside attack and then castle queenside. White should close the center with d5 to shift focus to the kingside and target the f7 pawn. White should develop pieces toward Black's king, castle short, and build pressure on f7.
+
+
+==============================================================================
+WHAT THIS MEASURES
+
+  arm                     composed   novelty   per opening
+
+  quotes                       0 %       n/a          0.0s
+  ollama/qwen2.5:3b           88 %       18%          3.6s
+  ollama/qwen3:8b             38 %       38%          8.2s
+
+A high acceptance rate alone is not a good result: a model that copies
+its input scores 100 % and achieves nothing. Read it with novelty, and
+read the output instead of both.
