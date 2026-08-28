@@ -277,43 +277,54 @@ class TestWhatTheAssessorMustNotPassOn:
 class TestWhatCountsAsConcrete:
     """A point must name something locatable — not necessarily a square.
 
-    The author's correction: *"this probably still filters out sentences like
-    white should take d file but still keep track of black attacks on king with
-    light squared bishop and a queen ... it doesn't have concrete moves
-    mentioned, only some general ideas which is still good and useful."*
+    Two corrections from the author, both from reading real output:
+
+      *"white should take d file but still keep track of black attacks on king
+      with light squared bishop and a queen ... only some general ideas which is
+      still good and useful"*
+
+      *"control the center, challenge White's pawn structure are ok if they are
+      explained like control the center with knight and rook"*
+
+    So the rule is a **positive scan over the whole sentence**, never a veto on
+    phrases: a point may open generally and qualify on what comes after.
     """
 
-    def test_the_authors_example_is_concrete(self):
+    def test_a_general_opening_clause_does_not_disqualify_a_point(self):
+        # The exact question asked: is such a sentence discarded for containing
+        # a general phrase anywhere? No -- only if it names nothing anywhere.
+        assert names_a_target("control the center with knight and rook")
+        assert names_a_target(
+            "challenge White's pawn structure on the weaker queen side"
+        )
+
+    def test_the_same_phrases_alone_are_discarded(self):
+        assert not names_a_target(
+            "Control the center and challenge White's pawn structure"
+        )
+
+    def test_the_authors_first_example_is_concrete(self):
         assert names_a_target(
             "White should take the d file but still keep track of Black's attacks "
             "on the king with the light squared bishop and a queen."
         )
 
-    def test_a_file_is_locatable(self):
+    def test_files_diagonals_ranks_and_wings_are_locatable(self):
         assert names_a_target("Double rooks on the c file when it opens.")
-
-    def test_a_named_pawn_is_locatable(self):
         assert names_a_target("Push the f-pawn to gain space on that wing.")
-
-    def test_a_diagonal_is_locatable(self):
         assert names_a_target("Contest the long diagonal before castling.")
-
-    def test_a_qualified_piece_is_locatable(self):
-        assert names_a_target("Trade off the dark-squared bishop before it is shut in.")
-        assert names_a_target("Bring the queen's knight to the kingside.")
+        assert names_a_target("Give the king air so the back rank is not weak.")
+        assert names_a_target("Play for a break on the queenside.")
 
     def test_a_square_is_still_locatable(self):
         assert names_a_target("Keep the knight on e5 for as long as possible.")
 
-    def test_the_back_rank_is_locatable(self):
-        assert names_a_target("Give the king air so the back rank is not weak.")
-
-    def test_generic_nouns_are_not(self):
+    def test_collective_nouns_name_nothing(self):
         # Every one of these was produced by the swarm and says nothing.
         assert not names_a_target("Develop pieces in harmony and prepare for counterplay")
-        assert not names_a_target("Control the center and challenge White's pawn structure")
         assert not names_a_target("Counter White's development by controlling key squares")
 
-    def test_a_bare_piece_name_is_not_enough(self):
-        # "the bishop" could be either bishop and does not locate anything.
-        assert not names_a_target("Activate the bishop and improve the position.")
+    def test_bare_pawns_locate_nothing_but_a_named_pawn_does(self):
+        # There are eight pawns, so "locking pawns" points at none of them.
+        assert not names_a_target("Improve by locking pawns and waiting patiently.")
+        assert names_a_target("Trade off the d-pawn before it becomes weak.")

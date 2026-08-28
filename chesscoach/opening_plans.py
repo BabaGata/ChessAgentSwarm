@@ -306,25 +306,39 @@ def is_usable_note(sentence: str) -> bool:
 # Something a player can locate on the board. Wider than a square, because a
 # point can be concrete without naming one: the author's example, *"White should
 # take the d file but still keep track of Black's attacks on the king with the
-# light squared bishop and a queen"*, names a file and a specific bishop and is
-# perfectly actionable.
+# light squared bishop and a queen"*, names a file and a specific bishop.
 #
-# What it must exclude is the generic noun. "Pieces", "the center" and "pawn
-# structure" are what "develop pieces in harmony and prepare for counterplay" is
-# made of, and that point tells a player nothing.
+# It is a POSITIVE scan over the whole sentence, never a veto on phrases. A
+# point may open with "control the center" and still qualify, because "control
+# the center with the knight and rook" names the knight further along -- which
+# is the author's second correction and the case this list originally missed.
 CONCRETE = re.compile(
     r"\b[a-h][1-8]\b"                                  # a square
     r"|\b[a-h][1-8]\s?[-\u2013]\s?[a-h][1-8]\b"        # a diagonal, e1-h4
     r"|\b[a-h][\s-]?(?:file|pawn)\b"                   # the d file, the f-pawn
-    r"|\b(?:light|dark)[\s-]?squared? \w*bishop\b"     # the light-squared bishop
-    r"|\b(?:queen|king)'?s?[\s-](?:knight|bishop|rook|side pawns?)\b"
+    r"|\b(?:knights?|bishops?|rooks?|queens?|king)\b"   # a named piece
+    r"|\b(?:queen|king)[\s-]?side\b"                   # a wing
     r"|\b(?:long|open|half[\s-]open) (?:diagonal|file)\b"
-    r"|\b(?:back rank|seventh rank|eighth rank)\b"
+    r"|\b(?:back|seventh|eighth) rank\b"
     r"|\b[KQRBN][a-h][1-8]\b|\bO-O(?:-O)?\b",          # a move
+    re.I,
+)
+
+# Collective nouns that LOOK like they name something and do not. "Pieces" is
+# what "develop pieces in harmony" is made of, and "pawn structure" is what
+# "challenge White's pawn structure" is made of -- both are removed before the
+# scan, so the rest of the sentence has to earn the verdict on its own.
+#
+# Bare "pawn" and "pawns" are deliberately absent from CONCRETE for the same
+# reason: there are eight of them, so "locking pawns" locates nothing, while
+# "the d-pawn" does.
+_COLLECTIVE = re.compile(
+    r"\b(?:pawn structures?|piece (?:activity|play|placement)|pieces|"
+    r"key squares|the position)\b",
     re.I,
 )
 
 
 def names_a_target(text: str) -> bool:
     """Does this point name something a player can find on the board?"""
-    return bool(CONCRETE.search(text))
+    return bool(CONCRETE.search(_COLLECTIVE.sub(" ", text)))
