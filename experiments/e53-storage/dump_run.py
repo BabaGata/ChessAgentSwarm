@@ -14,12 +14,18 @@ never could.
     python dump_run.py --domains                which sites actually yield notes
     python dump_run.py --unfinished             runs that died partway
     python dump_run.py --pending                briefs waiting to be read
-    python dump_run.py --approve 4              a brief may now reach a player
-    python dump_run.py --withdraw 4             take that back
+    python dump_run.py --approve 4              show every point of run 4
+    python dump_run.py --approve 4 --points 1,3 show only those two
+    python dump_run.py --withdraw 4 --points 2  stop showing that one
+    python dump_run.py --reject 4               read it, approve nothing
 
 Approving is the same act as setting `reviewed: true` on a guide link, and it is
 the author's alone: `RunStore.approved_brief` is the only door the report reads
-through, and it returns nothing for a run nobody has approved.
+through, and it returns only points a person has approved.
+
+**--points takes 1-based numbers over the KEPT points**, exactly as `--run N`
+prints them. Dropped points are not numbered, because numbering something that
+failed its own checks would invite approving it.
 """
 
 from __future__ import annotations
@@ -72,14 +78,26 @@ def one_run(store: RunStore, run_id: int) -> list[str]:
             lines.append(f"               \"{sentence}\"")
     lines.append("")
 
-    for point in store.points(run.id):
-        if point["kept"]:
-            lines.append(f"  - {point['kind'].upper():<6} {point['text']}")
+    # Numbered so --points can refer to them, and marked so a second reading
+    # shows what was already decided.
+    for number, point in enumerate(store.kept_points(run.id), start=1):
+        mark = "  [approved]" if point["approved"] else ""
+        lines.append(f"  {number}. {point['kind'].upper():<6} {point['text']}{mark}")
     for point in store.points(run.id):
         if not point["kept"]:
-            lines.append(f"    dropped ({point['kind']}) -- {point['dropped_for']}")
-    lines.append("")
+            lines.append(f"     dropped ({point['kind']}) -- {point['dropped_for']}")
+    lines += ["", f"  approve all: --approve {run.id}"
+                  f"   |   some: --approve {run.id} --points 1,3"
+                  f"   |   none: --reject {run.id}", ""]
     return lines
+
+
+def _numbers(text: str | None) -> list[int] | None:
+    """Read "1,3" into [1, 3]. None means every point, which is the default."""
+    if not text:
+        return None
+    return [int(part) for part in text.replace(" ", ",").split(",")
+            if part.strip().isdigit()]
 
 
 def main() -> int:
@@ -93,6 +111,10 @@ def main() -> int:
     parser.add_argument("--pending", action="store_true")
     parser.add_argument("--approve", type=int, default=None)
     parser.add_argument("--withdraw", type=int, default=None)
+    parser.add_argument("--reject", type=int, default=None,
+                        help="mark a run read with nothing approved")
+    parser.add_argument("--points", default=None,
+                        help="1-based point numbers, as --run N prints them: 1,3")
     parser.add_argument("--limit", type=int, default=15)
     args = parser.parse_args()
 
@@ -103,12 +125,20 @@ def main() -> int:
     store = RunStore(args.db)
     lines: list[str] = []
 
+    chosen = _numbers(args.points)
+
     if args.approve is not None:
-        store.approve(args.approve)
-        lines = [f"run {args.approve} approved -- its points may now reach a player"]
+        count = store.approve(args.approve, chosen)
+        lines = [f"run {args.approve}: {count} point(s) approved -- they may now "
+                 f"reach a player"]
     elif args.withdraw is not None:
-        store.withdraw(args.withdraw)
-        lines = [f"run {args.withdraw} withdrawn -- nothing deleted, it stops showing"]
+        count = store.withdraw(args.withdraw, chosen)
+        lines = [f"run {args.withdraw}: {count} point(s) withdrawn -- nothing "
+                 f"deleted, they stop showing"]
+    elif args.reject is not None:
+        store.mark_reviewed(args.reject)
+        lines = [f"run {args.reject} marked read with nothing approved -- it will "
+                 f"not appear as pending again"]
     elif args.pending:
         lines += ["BRIEFS WAITING TO BE READ", "=" * 78, "",
                   "Read one with --run N, then --approve N.", ""]
@@ -145,7 +175,10 @@ def main() -> int:
                   f"{'kept':>6}  started", ""]
         for run in store.runs(limit=args.limit):
             mark = "" if run.finished else "  (unfinished)"
-            mark += "  APPROVED" if run.is_approved else ""
+            if run.points_approved:
+                mark += f"  {run.points_approved} SHOWN"
+            elif run.reviewed:
+                mark += "  reviewed, none shown"
             lines.append(f"  {run.id:>4}  {run.opening[:25]:<26}{run.pages:>6}"
                          f"{run.notes:>6}{run.points_kept:>6}  "
                          f"{run.started_at}{mark}")

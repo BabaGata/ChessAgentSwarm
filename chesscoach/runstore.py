@@ -39,9 +39,14 @@ CREATE TABLE IF NOT EXISTS run (
     -- NULL means the run did not finish. Kept rather than deleted: a run that
     -- died halfway still holds everything it had collected.
     finished_at TEXT,
-    -- 0 until a person has read the brief and judged it fit to show. The
-    -- swarm's output is a candidate, exactly as a guide link is, and the same
-    -- rule applies: recommending is endorsing, and only the author endorses.
+    -- Set when a person has been through this run, whatever they decided.
+    -- **This is not the gate** -- `point.approved` is. A run reviewed with
+    -- nothing approved is a real and useful outcome, and it must be
+    -- distinguishable from a run nobody has opened.
+    --
+    -- The column is named `approved` for the same reason it is not renamed: the
+    -- store migrates additively, and a history is not worth rewriting over a
+    -- word. `RunRow.reviewed` is what the code reads it as.
     approved    INTEGER NOT NULL DEFAULT 0,
     approved_at TEXT
 );
@@ -73,7 +78,11 @@ CREATE TABLE IF NOT EXISTS point (
     text        TEXT    NOT NULL,
     kept        INTEGER NOT NULL,
     dropped_for TEXT    NOT NULL DEFAULT '',
-    novelty     REAL
+    novelty     REAL,
+    -- **The gate.** A brief is approved point by point, because a run of five
+    -- points routinely has four worth showing and one that is not, and
+    -- all-or-nothing forced the author to discard the four to be rid of the one.
+    approved    INTEGER NOT NULL DEFAULT 0
 );
 
 """
@@ -87,6 +96,7 @@ ADDED_COLUMNS = (
     ("run", "approved", "INTEGER NOT NULL DEFAULT 0"),
     ("run", "approved_at", "TEXT"),
     ("page", "title", "TEXT NOT NULL DEFAULT ''"),
+    ("point", "approved", "INTEGER NOT NULL DEFAULT 0"),
 )
 
 INDEXES = """
@@ -97,6 +107,7 @@ CREATE INDEX IF NOT EXISTS page_domain   ON page(publisher, outcome);
 CREATE INDEX IF NOT EXISTS note_run      ON note(run_id);
 CREATE INDEX IF NOT EXISTS point_run     ON point(run_id, kind);
 CREATE INDEX IF NOT EXISTS point_dropped ON point(kept, dropped_for);
+CREATE INDEX IF NOT EXISTS point_approved ON point(run_id, approved);
 """
 
 
@@ -128,14 +139,20 @@ class RunRow:
     pages: int
     notes: int
     points_kept: int
+    points_approved: int
 
     @property
     def finished(self) -> bool:
         return self.finished_at is not None
 
     @property
-    def is_approved(self) -> bool:
+    def reviewed(self) -> bool:
+        """Has a person been through this run? Not the same as showing anything."""
         return bool(self.approved)
+
+    @property
+    def shows_anything(self) -> bool:
+        return self.points_approved > 0
 
 
 class RunStore:
@@ -227,34 +244,85 @@ class RunStore:
 
     # --- approval, and what a report may read --------------------------------
 
-    def approve(self, run_id: int) -> None:
-        """A person has read this brief and judged it fit to show a player."""
+    def kept_points(self, run_id: int) -> list[sqlite3.Row]:
+        """The points a person can choose between, in the order they are shown.
+
+        Only points that survived their own checks: a dropped point is not a
+        candidate for approval, so numbering them would invite approving one.
+        """
+        return list(self._db.execute(
+            "SELECT * FROM point WHERE run_id = ? AND kept ORDER BY id", (run_id,)))
+
+    def approve(self, run_id: int, choices=None) -> int:
+        """Approve some of a run's points, or all of them.
+
+        `choices` are **1-based positions among the kept points**, as printed by
+        `dump_run.py --run N`. One-based because a person is reading a numbered
+        list, and only over the kept points because the dropped ones are not on
+        offer. Returns how many points were approved.
+
+        An out-of-range choice is ignored rather than raised: this is a person
+        typing numbers, and losing the whole command to one typo would be worse
+        than silently approving the four that were right.
+        """
+        points = self.kept_points(run_id)
+        if choices is None:
+            wanted = points
+        else:
+            wanted = [points[i - 1] for i in choices if 1 <= i <= len(points)]
+
+        self._db.executemany(
+            "UPDATE point SET approved = 1 WHERE id = ?",
+            [(p["id"],) for p in wanted],
+        )
+        self._mark_reviewed(run_id)
+        self._db.commit()
+        return len(wanted)
+
+    def withdraw(self, run_id: int, choices=None) -> int:
+        """Stop showing some points, or all of them. Nothing is deleted."""
+        points = self.kept_points(run_id)
+        if choices is None:
+            wanted = points
+        else:
+            wanted = [points[i - 1] for i in choices if 1 <= i <= len(points)]
+
+        self._db.executemany(
+            "UPDATE point SET approved = 0 WHERE id = ?",
+            [(p["id"],) for p in wanted],
+        )
+        self._db.commit()
+        return len(wanted)
+
+    def mark_reviewed(self, run_id: int) -> None:
+        """A person read this run and approved nothing. A real outcome.
+
+        Without it, a run judged worthless would stay on the pending list for
+        ever and be read again every time.
+        """
+        self._mark_reviewed(run_id)
+        self._db.commit()
+
+    def _mark_reviewed(self, run_id: int) -> None:
         self._db.execute(
             "UPDATE run SET approved = 1, approved_at = ? WHERE id = ?",
             (_now(), run_id),
         )
-        self._db.commit()
-
-    def withdraw(self, run_id: int) -> None:
-        """Take an approval back. Nothing is deleted; it simply stops being shown."""
-        self._db.execute(
-            "UPDATE run SET approved = 0, approved_at = NULL WHERE id = ?", (run_id,)
-        )
-        self._db.commit()
 
     def pending(self, limit: int = 20) -> list[RunRow]:
-        """Finished runs with kept points that nobody has approved yet."""
+        """Finished runs with points, that nobody has been through yet."""
         return [
             r for r in self.runs(limit=1000)
-            if r.finished and not r.is_approved and r.points_kept
+            if r.finished and not r.reviewed and r.points_kept
         ][:limit]
 
     def approved_brief(self, opening: str) -> StoredBrief | None:
         """The newest approved brief for this opening, or nothing.
 
-        **Nothing unapproved is ever returned**, which is what lets a report read
-        this at all. An opening with no approved run gets silence, which is the
-        same answer the guide library gives for an unreviewed link.
+        **Only points a person approved are returned**, one by one. A run where
+        four points were approved and one was not shows four; a run where the
+        author approved nothing is not a brief at all and returns nothing, the
+        same silence the guide library gives for an unreviewed link.
 
         There is deliberately no age limit. What goes stale is a *link*, and the
         guide library already checks liveness separately; the plans of the Pirc
@@ -262,15 +330,17 @@ class RunStore:
         to re-run and re-approve, and the calendar is not.
         """
         row = self._db.execute(
-            "SELECT id, model, started_at FROM run"
-            " WHERE opening = ? AND approved = 1 AND finished_at IS NOT NULL"
-            " ORDER BY started_at DESC, id DESC LIMIT 1",
+            "SELECT r.id, r.model, r.started_at FROM run r"
+            " WHERE r.opening = ? AND r.finished_at IS NOT NULL"
+            "   AND EXISTS (SELECT 1 FROM point p"
+            "               WHERE p.run_id = r.id AND p.approved)"
+            " ORDER BY r.started_at DESC, r.id DESC LIMIT 1",
             (opening,),
         ).fetchone()
         if row is None:
             return None
 
-        points = self.points(row["id"])
+        points = [p for p in self.points(row["id"]) if p["approved"]]
         sources = [
             p["url"] for p in self.pages(row["id"])
             if p["outcome"] == "read" and p["url"]
@@ -280,10 +350,8 @@ class RunStore:
             opening=opening,
             model=row["model"],
             made_on=row["started_at"][:10],
-            plans=tuple(p["text"] for p in points if p["kept"] and p["kind"] == "plan"),
-            watches=tuple(
-                p["text"] for p in points if p["kept"] and p["kind"] == "watch"
-            ),
+            plans=tuple(p["text"] for p in points if p["kind"] == "plan"),
+            watches=tuple(p["text"] for p in points if p["kind"] == "watch"),
             sources=tuple(dict.fromkeys(sources)),
         )
 
@@ -297,7 +365,9 @@ class RunStore:
                    (SELECT COUNT(*) FROM page  p WHERE p.run_id = r.id) AS pages,
                    (SELECT COUNT(*) FROM note  n WHERE n.run_id = r.id) AS notes,
                    (SELECT COUNT(*) FROM point t WHERE t.run_id = r.id AND t.kept)
-                       AS points_kept
+                       AS points_kept,
+                   (SELECT COUNT(*) FROM point t
+                     WHERE t.run_id = r.id AND t.approved) AS points_approved
             FROM run r
         """
         params: list = []

@@ -241,7 +241,7 @@ class TestTheStoreSurvivesItsOwnSchemaGrowing:
         # The old row survives, and the new column has its default.
         run = store.runs()[0]
         assert run.opening == "Pirc Defense"
-        assert run.is_approved is False
+        assert run.reviewed is False
 
     def test_migrating_does_not_lose_rows(self, tmp_path):
         store = RunStore(tmp_path / "runs.db")

@@ -67,12 +67,17 @@ def main() -> int:
                      + (repr(_opening_section(before)) if before is None
                         else "shown"))
 
-        store.approve(run.id)
+        # Point by point, as the author would: keep the ones that say
+        # something, leave the rest. Approving all of them would demonstrate
+        # less than approving some.
+        kept = store.kept_points(run.id)
+        chosen = [i for i, _p in enumerate(kept, start=1) if i != 3]
+        store.approve(run.id, chosen)
         after = store.approved_brief(run.opening)
         lines += [
             "",
             "-" * 74,
-            "AFTER -- one person has read it and approved it",
+            f"AFTER -- a person approved points {chosen} and left point 3 out",
             "",
         ]
         lines += _opening_section(after)

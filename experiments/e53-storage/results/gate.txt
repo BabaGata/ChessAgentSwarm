@@ -10,14 +10,13 @@ BEFORE -- the run exists, is finished, and nobody has approved it
   report section   -> []
 
 --------------------------------------------------------------------------
-AFTER -- one person has read it and approved it
+AFTER -- a person approved points [1, 2, 4, 5] and left point 3 out
 
 YOUR OPENING -- Bird Opening
 
   Aim for    Develop the f-pawn to f4 and consider a kingside fianchetto
   Aim for    Maintain king safety and control the e1-h4 diagonal
   Aim for    Support the e5 square and prepare for a potential pawn storm
-  Watch for  Counter White's development and prepare for a kingside attack
   Watch for  Prevent White from establishing a strong kingside pawn structure
 
   Written from:

@@ -106,5 +106,16 @@ model or a dead source is a reason to re-run and re-approve; the date is not.
 which is correct and is also the whole remaining gap: the gate works and nobody has walked through
 it.
 
-**Approval is per run, not per point.** A brief with four good points and one weak one is approved or
-not as a unit, and the author's likely wish — *"keep these three"* — has nowhere to go.
+~~**Approval is per run, not per point.**~~ **Fixed the same day.** The gate is now `point.approved`,
+chosen by 1-based number over the **kept** points as `dump_run.py --run N` prints them:
+`--approve 4 --points 1,2,4,5`. Dropped points are not numbered, because numbering something that
+failed its own checks would invite approving it, and an out-of-range number is ignored rather than
+raised — a person typing numbers should not lose four good choices to one typo.
+
+**`run.approved` stops being the gate and becomes "reviewed".** A run read and rejected must not
+return to the pending list for ever, so *reviewed with nothing approved* is a recorded outcome
+distinct from *nobody has opened it*. The column keeps its name because the store migrates additively
+and a history is not worth rewriting over a word; `RunRow.reviewed` is what the code reads it as.
+
+Demonstrated on Bird Opening: approving points 1, 2, 4 and 5 shows four, and the vague third —
+*"Counter White's development and prepare for a kingside attack"* — simply does not appear.
