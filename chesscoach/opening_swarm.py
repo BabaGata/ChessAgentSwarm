@@ -1,26 +1,34 @@
 """Three agents that turn an opening name into a brief a player can act on.
 
-Design: [[decisions.0014-three-agents-for-the-opening-brief]]
+Design: [[decisions.0014-three-agents-for-the-opening-brief]], revised by
+[[decisions.0015-a-learned-skip-list-and-a-bullet-brief]].
 
-    SCOUT      writes search queries and casts a wide net.     judges nothing
-    ASSESSOR   reads what came back and discards the unusable. writes nothing
-    COMPILER   writes the player's brief from what survived.   searches nothing
+    SCOUT      searches, and never fetches what the skip list already refuses
+    ASSESSOR   reads the TEXT, keeps the sentences that matter, and adds
+               unusable sites to the skip list
+    COMPILER   turns what survived into bullet points
 
 Each has one job, one prompt stating its role, and a failure mode it must not
-have. The separation is not decoration: an agent that both searched and judged
+have. The separation is load-bearing: an agent that both searched and judged
 would have no reason to discard its own results, and one that both judged and
 wrote could quietly replace a weak source with its own knowledge.
 
-**Every chess claim still traces to a fetched page.** The Compiler works only
-from sentences the Assessor kept, which are verbatim from those pages, and its
-output is checked against them by `grounding.check` before anyone sees it. That
-is what keeps a swarm of language models inside R-03: the models decide *which
-text* and *which words*, never *what is true about chess*.
+**The Assessor works on sentences, not on titles.** The first design had it
+judging search results from a title and a domain: that measured 10/12 against a
+person, rejected genuine guides, and spent a model call to conclude that TikTok
+hosts videos. The cheap permanent judgement is now a **deterministic skip list**
+the Assessor maintains, and the model's attention goes where only a reader helps
+— deciding which of a page's sentences say something a player can use.
 
-**The brief has two halves because a plan is only half of what a player needs.**
-The author asked for *"a short description of the plan for the player and what
-should be careful as a response of the opponent"* — so `PLAN` and `WATCH` are
-produced and checked separately, and a brief can keep one and lose the other.
+**The brief is bullet points, not prose.** Each point is checked on its own, so
+one bad point is dropped instead of a whole paragraph, and the agent that finally
+speaks to the player joins the points into sentences alongside everything else it
+knows about that player.
+
+**Every chess claim still traces to a fetched page.** The Compiler works only
+from sentences the Assessor kept, which are verbatim, and every bullet is checked
+by `grounding.check` before it survives. The models decide *which text* and
+*which words*, never *what is true about chess*.
 """
 
 from __future__ import annotations
@@ -31,24 +39,28 @@ from dataclasses import dataclass, field
 from chesscoach import ollama
 from chesscoach.grounding import Grounding, check, content_words
 from chesscoach.opening_agent import Gap
-from chesscoach.plan_selector import LlmSelector
+from chesscoach.opening_plans import MAX_WORDS, MIN_WORDS, is_admissible, text_blocks
+from chesscoach.skiplist import REASONS, SkipList, domain_of
 
 MODEL = "qwen2.5:3b"
 
-# Above this share of shared content words, WATCH is the PLAN said again rather
-# than a different claim. Measured on a real run: the Pirc brief's WATCH was its
-# PLAN with the colour flipped -- "Black will aim to control the center with
-# pawns on d6 and c6" against "Control the center with pawns on d6 and c6" --
-# and it passed the grounding check, because every word was the source's. The
-# checker cannot see a restatement; this can.
+# Above this share of shared content words, a WATCH point is a PLAN point said
+# again. Measured on a real run: the Pirc brief's opponent half was its plan with
+# the colour flipped and passed the grounding check, because every word was the
+# source's. The checker cannot see a restatement; this can.
 MAX_RESTATEMENT = 0.60
 
-# The brief has two halves, so the search needs two angles. Measured: with only
-# the plans query, **0 of 6** WATCH halves survived -- every one was either the
-# PLAN restated or invented and caught, because no retrieved sentence described
-# what the other side does. A missing half of the brief was a missing half of
-# the search.
+# The brief has two halves, so the search needs two angles.
 OPPONENT_QUERY = "how to play against the {opening} main responses"
+
+# Sentences offered to the Assessor from one page. Beyond this a 3B model's
+# attention degrades, and the tail of an article is mostly navigation.
+OFFERED = 50
+
+# A page with fewer readable words than this is not an article: a video page, a
+# paywall, or a fetch that returned a shell.
+MIN_PAGE_WORDS = 120
+
 
 # --- the Scout ---------------------------------------------------------------
 
@@ -64,8 +76,8 @@ HOW TO WRITE A SEARCH QUERY
 - 3 to 6 words, lowercase, no punctuation, no colons
 - name the opening, then words like: plans, ideas, strategy, middlegame, \
 typical plans, how to play
-- vary the angle between queries: one about plans, one about the middlegame, \
-one about what each side wants
+- vary the angle: one about the player's plans, one about the middlegame, one \
+about what the opponent does
 - a query is not a title and not a sentence
 
 Opening: {opening}
@@ -78,27 +90,41 @@ Write {count} different search queries, one per line. Nothing else.
 ASSESSOR = """You are the ASSESSOR in a chess coaching system.
 
 YOUR ROLE
-The Scout found these pages. You decide which are worth reading for a club \
-player rated about 1500 who wants to learn what to AIM FOR in this opening. \
-A later agent writes the player's brief using only what you keep, so what you \
-discard is gone — but discarding everything leaves the player with nothing.
+You read one web page and keep only the sentences a club player rated about \
+1500 could actually use. A later agent writes the player's brief from what you \
+keep and sees nothing else, so a sentence you drop is gone, and a weak sentence \
+you keep wastes a line of the brief.
 
-KEEP a page that explains ideas, plans, typical structures, pawn breaks, or \
-what each side is trying to do.
-DISCARD a page that is: a list of many different openings, a forum or comment \
-thread, a move database or statistics table, a shop or product listing, a \
-video, or clearly about a different opening.
+KEEP a sentence that says:
+- what a side should aim for, or the plan in this opening
+- where the pieces belong, or which pawn break to play
+- what the OPPONENT tries to do, and what to be ready for
 
-WHEN UNSURE, KEEP. Everything you keep is reviewed by a person before any \
-player sees it, so a mediocre page costs little and a discarded good page is \
-lost.
+DROP a sentence that is:
+- history, trivia, or who played the opening
+- a definition of what the opening is
+- a move list or an annotated variation
+- advertising a course, a book or a site
+- about studying the opening rather than playing it
 
-Pages found for "{opening}":
-{results}
+Sentences from a page about the {opening}:
+{sentences}
 
-Answer one line per page, in order, exactly like this:
-<number> KEEP <short reason>
-<number> DISCARD <short reason>
+Answer with ONLY the numbers to keep, most useful first, separated by commas.
+Keep at most {limit}. If none are useful, answer NONE.
+"""
+
+UNUSABLE = """You are the ASSESSOR in a chess coaching system.
+
+This page could not be read as an article. Say what kind of site it is, so the \
+system stops fetching pages from it.
+
+Site: {domain}
+Title: {title}
+What was found: {found}
+
+Answer with ONE word from this list: {reasons}
+If it looks like an ordinary article that simply failed to load, answer NONE.
 """
 
 # --- the Compiler ------------------------------------------------------------
@@ -106,23 +132,26 @@ Answer one line per page, in order, exactly like this:
 COMPILER = """You are the COMPILER in a chess coaching system.
 
 YOUR ROLE
-You write the short brief a player reads before studying this opening. You work \
-ONLY from the notes below, which were taken from pages the Assessor approved. \
-You must NOT add chess knowledge of your own: a check compares your text against \
-these notes and throws away anything naming a square, a move or an idea they do \
-not contain.
+You turn approved notes into short bullet points. Another agent joins your \
+points into sentences for the player later, so do NOT write paragraphs, \
+introductions or conclusions — only the points.
+
+You work ONLY from the notes below. You must NOT add chess knowledge of your \
+own: a check compares each point against these notes and throws away any point \
+naming a square, a move or an idea they do not contain.
 
 Do not change who does what. If a note says White does something, do not write \
 that Black does it.
 
-WRITE EXACTLY TWO PARTS, using these labels:
+Write up to {plans} points on what the player should aim for, then up to \
+{watches} points on what the opponent will try. Use exactly these labels:
 
-PLAN: two short sentences on what the player should aim for in this opening.
-WATCH: one or two short sentences on what the opponent will try, and what the \
-player should be ready for.
+PLAN: <one short point>
+WATCH: <one short point>
 
-Plain words only. No term a 1500 would have to look up. No move numbers. No \
-preamble, no headings beyond the two labels.
+One line each. Plain words. No term a 1500 would have to look up. No move \
+numbers. If the notes say nothing about what the opponent does, write no WATCH \
+lines at all — that is correct, not a failure.
 
 Notes about the {opening}:
 {notes}
@@ -138,42 +167,78 @@ class Candidate:
 
 
 @dataclass(frozen=True)
-class Verdict:
-    """One page, judged, with the Assessor's reason kept for the author."""
+class Reading:
+    """What the Assessor made of one page."""
 
     candidate: Candidate
-    keep: bool
-    reason: str
+    sentences: tuple[str, ...]
+    # Set only when the page was not an article, and names why the domain should
+    # be skipped from now on.
+    skip_reason: str = ""
+
+    @property
+    def useful(self) -> bool:
+        return bool(self.sentences)
+
+
+@dataclass(frozen=True)
+class Point:
+    """One bullet, and whether it survived its own check."""
+
+    text: str
+    kind: str  # "plan" or "watch"
+    grounding: Grounding | None = None
+    dropped_for: str = ""
+
+    @property
+    def kept(self) -> bool:
+        return not self.dropped_for
 
 
 @dataclass(frozen=True)
 class Brief:
-    """What a player would read, and everything needed to argue with it."""
+    """What a player would be told, as points, with everything to argue with."""
 
     opening: str
-    plan: str
-    watch: str
-    sources: tuple[str, ...]
-    plan_grounding: Grounding | None = None
-    watch_grounding: Grounding | None = None
+    points: tuple[Point, ...] = ()
+    sources: tuple[str, ...] = ()
     notes: tuple[str, ...] = ()
+
+    def of(self, kind: str) -> tuple[str, ...]:
+        return tuple(p.text for p in self.points if p.kind == kind and p.kept)
+
+    @property
+    def plans(self) -> tuple[str, ...]:
+        return self.of("plan")
+
+    @property
+    def watches(self) -> tuple[str, ...]:
+        return self.of("watch")
+
+    @property
+    def dropped(self) -> tuple[Point, ...]:
+        return tuple(p for p in self.points if not p.kept)
 
     @property
     def accepted(self) -> bool:
-        """At least one half survived its check."""
-        return bool(self.plan or self.watch)
+        """A brief with no plan points is not a brief. WATCH is a bonus."""
+        return bool(self.plans)
 
 
 @dataclass
 class Scout:
-    """Writes queries and runs them. Judges nothing."""
+    """Searches and hands over candidates. Judges nothing, fetches nothing."""
 
     searcher: object
+    skiplist: SkipList = field(default_factory=SkipList.seeded)
     model: str = MODEL
     host: str = ollama.OLLAMA_URL
     queries: int = 3
     transport: object | None = None
     name: str = "scout"
+
+    def __post_init__(self) -> None:
+        self.skipped: list[str] = []
 
     def propose(self, opening: str, tried: tuple[str, ...] = ()) -> list[str]:
         seen = ("Already tried, do not repeat:\n"
@@ -187,159 +252,216 @@ class Scout:
         return _queries(answer, self.queries)
 
     def find(self, opening: str) -> list[Candidate]:
-        """Every distinct page the proposed queries turn up, deduplicated by URL.
+        """Distinct pages worth fetching, with skipped domains never returned.
 
-        The Scout's own default query runs first and always: a model that writes
-        three bad queries must not be able to make the search worse than not
-        having asked it.
+        The two default queries run first and always: a model that writes bad
+        queries must not be able to make the search worse than not asking it.
         """
-        gap = Gap(opening=opening, games=0, share=0.0)
-        queries = [gap.query, OPPONENT_QUERY.format(opening=opening)]
+        queries = [
+            Gap(opening=opening, games=0, share=0.0).query,
+            OPPONENT_QUERY.format(opening=opening),
+        ]
         try:
             queries += [q for q in self.propose(opening) if q not in queries]
         except ollama.OllamaUnavailable:
             pass
 
         found: dict[str, Candidate] = {}
+        self.skipped = []
         for query in queries:
             asked = Gap(opening=opening, games=0, share=0.0, query_override=query)
-            for row in _detailed(self.searcher, asked):
-                title, url, publisher, snippet = row
+            for title, url, publisher, snippet in _detailed(self.searcher, asked):
+                if self.skiplist.skips(url):
+                    self.skipped.append(publisher)
+                    continue
                 found.setdefault(url, Candidate(title, url, publisher, snippet))
         return list(found.values())
 
 
 @dataclass
 class Assessor:
-    """Reads what the Scout brought and discards the unusable. Writes nothing."""
+    """Reads a page's text and keeps what matters. Writes no prose.
+
+    Its second job is maintenance: a page that is not an article at all puts its
+    **domain** on the skip list, so the Scout stops bringing it back and no model
+    call is ever spent on that site again.
+    """
 
     model: str = MODEL
     host: str = ollama.OLLAMA_URL
+    keep: int = 4
     transport: object | None = None
     name: str = "assessor"
 
-    def assess(self, opening: str, candidates: list[Candidate]) -> list[Verdict]:
-        if not candidates:
-            return []
-        listing = "\n".join(
-            f"{i}. {c.title[:90]}  [{c.publisher}]\n   {c.snippet[:220]}"
-            for i, c in enumerate(candidates)
+    def read(self, opening: str, candidate: Candidate, body: str) -> Reading:
+        sentences = self.candidates(body)
+        if len(_words(body)) < MIN_PAGE_WORDS or not sentences:
+            return Reading(candidate, (), self.classify(candidate, body))
+
+        numbered = "\n".join(f"{i}. {s}" for i, s in enumerate(sentences))
+        answer = ollama.generate(
+            self.model,
+            ASSESSOR.format(opening=opening, sentences=numbered, limit=self.keep),
+            host=self.host, num_predict=60, transport=self.transport,
         )
+        if "none" in answer.strip().lower()[:8]:
+            return Reading(candidate, ())
+
+        # Indices, never text -- so a kept sentence is the page's own words by
+        # construction and cannot be something the model composed. The non-plan
+        # filters stay as a veto over its choice (E51).
+        chosen = ollama.indices(answer, len(sentences))[: self.keep]
+        kept = tuple(sentences[i] for i in chosen if is_admissible(sentences[i]))
+        return Reading(candidate, kept)
+
+    def classify(self, candidate: Candidate, body: str) -> str:
+        """What kind of site is this, given it is not an article?
+
+        Only ever asked about a page that already failed to yield readable prose,
+        so the model never gets the chance to condemn a site it merely disliked.
+        """
+        found = f"{len(_words(body))} words of readable text"
         try:
             answer = ollama.generate(
                 self.model,
-                ASSESSOR.format(opening=opening, results=listing),
-                host=self.host, num_predict=60 * len(candidates),
-                transport=self.transport,
+                UNUSABLE.format(domain=domain_of(candidate.url),
+                                title=candidate.title[:90], found=found,
+                                reasons=", ".join(REASONS)),
+                host=self.host, num_predict=10, transport=self.transport,
             )
         except ollama.OllamaUnavailable:
-            # Unjudged, not approved -- and said so in the reason, because a
-            # blank verdict reading as approval is how this goes wrong.
-            return [Verdict(c, True, "not assessed: model unavailable")
-                    for c in candidates]
-        return _verdicts(answer, candidates)
+            return ""
+        first = answer.strip().lower().split()
+        word = first[0].strip(".,:*") if first else ""
+        return word if word in REASONS else ""
+
+    def candidates(self, body: str) -> list[str]:
+        """Sentences worth offering: plausible length, real punctuation."""
+        found: list[str] = []
+        for block in text_blocks(body):
+            for sentence in _SPLIT.split(block):
+                sentence = sentence.strip()
+                if not (MIN_WORDS <= len(sentence.split()) <= MAX_WORDS):
+                    continue
+                if not sentence.endswith((".", "!")):
+                    continue
+                found.append(sentence)
+                if len(found) >= OFFERED:
+                    return found
+        return found
 
 
 @dataclass
 class Compiler:
-    """Writes the brief from what survived. Searches nothing, adds nothing."""
+    """Turns approved notes into bullet points. Searches nothing, adds nothing."""
 
     model: str = MODEL
     host: str = ollama.OLLAMA_URL
+    plans: int = 3
+    watches: int = 2
     transport: object | None = None
-    name: str = field(default="compiler")
+    name: str = "compiler"
 
     def compile(self, opening: str, notes: tuple[str, ...]) -> Brief:
         if not notes:
-            # Nothing approved means nothing to say. Asking the model anyway is
-            # asking it what it believes about the opening, which is refused.
-            return Brief(opening=opening, plan="", watch="", sources=())
+            # Nothing approved means nothing to say. Asking anyway is asking the
+            # model what it believes about the opening, which is refused.
+            return Brief(opening=opening)
 
         answer = ollama.generate(
             self.model,
-            COMPILER.format(opening=opening, notes="\n".join(f"- {n}" for n in notes)),
-            host=self.host, num_predict=300, transport=self.transport,
+            COMPILER.format(opening=opening, plans=self.plans,
+                            watches=self.watches,
+                            notes="\n".join(f"- {n}" for n in notes)),
+            host=self.host, num_predict=320, transport=self.transport,
         )
-        plan, watch = _two_parts(answer)
-        # "none" is the Compiler declining, which the prompt asks for when the
-        # notes do not cover what the opponent does. Silence is a real answer
-        # and must not be checked as if it were a claim.
-        if watch.strip().lower().rstrip(".") == "none":
-            watch = ""
         source = " ".join(notes)
+        points: list[Point] = []
+        kept_plans: list[str] = []
 
-        # Checked separately: a good plan should not be thrown away because the
-        # opponent half wandered, and vice versa.
-        plan_grounding = check(plan, source) if plan else None
-        # A WATCH that merely repeats the PLAN tells the player nothing about
-        # the opponent, which is the half of the brief it exists to supply.
-        if watch and plan and _restates(watch, plan):
-            watch = ""
-        watch_grounding = check(watch, source) if watch else None
-        return Brief(
-            opening=opening,
-            plan=plan if plan_grounding and plan_grounding.grounded else "",
-            watch=watch if watch_grounding and watch_grounding.grounded else "",
-            sources=(),
-            plan_grounding=plan_grounding,
-            watch_grounding=watch_grounding,
-            notes=notes,
-        )
+        for kind, text in _bullets(answer):
+            grounding = check(text, source)
+            dropped = "" if grounding.grounded else grounding.reason
+            # A WATCH point repeating a PLAN point tells the player nothing about
+            # the opponent, which is the only reason that half exists.
+            if not dropped and kind == "watch" and _restates(text, kept_plans):
+                dropped = "repeats a plan point"
+            points.append(Point(text, kind, grounding, dropped))
+            if kind == "plan" and not dropped:
+                kept_plans.append(text)
+
+        return Brief(opening=opening, points=tuple(points), notes=notes)
 
 
 @dataclass
 class OpeningSwarm:
-    """Scout -> Assessor -> read the kept pages -> Compiler."""
+    """Scout -> Assessor (per page) -> Compiler, with the skip list learned."""
 
     searcher: object
     fetch: object
+    skiplist: SkipList = field(default_factory=SkipList.seeded)
     model: str = MODEL
-    # How many approved pages to read. Each costs a fetch and a selection call.
-    # Raised from 3 after a real run: the Compiler was given ONE sentence and
-    # filled the rest from its own knowledge, which the checker then rejected --
-    # a safe failure that still leaves the player with nothing. Note supply, not
-    # the checker, was the binding constraint.
+    # How many surviving pages to read. Each costs a fetch and a model call.
     read: int = 5
     transport: object | None = None
 
     def __post_init__(self) -> None:
-        self.scout = Scout(searcher=self.searcher, model=self.model,
-                           transport=self.transport)
+        self.scout = Scout(searcher=self.searcher, skiplist=self.skiplist,
+                           model=self.model, transport=self.transport)
         self.assessor = Assessor(model=self.model, transport=self.transport)
         self.compiler = Compiler(model=self.model, transport=self.transport)
-        self.selector = LlmSelector(model=self.model, transport=self.transport)
         self.trace: list[dict] = []
 
     def run(self, opening: str) -> Brief:
         candidates = self.scout.find(opening)
-        verdicts = self.assessor.assess(opening, candidates)
-        kept = [v for v in verdicts if v.keep]
-        self.trace.append({
-            "opening": opening, "found": len(candidates), "kept": len(kept),
-            "discarded": [(v.candidate.publisher, v.reason)
-                          for v in verdicts if not v.keep],
-        })
 
         notes: list[str] = []
         sources: list[str] = []
-        for verdict in kept[: self.read]:
-            body = self.fetch(verdict.candidate.url)
-            if not body:
-                continue
-            picked = self.selector.select(opening, body, limit=3)
-            if picked:
-                notes += list(picked)
-                sources.append(verdict.candidate.url)
+        learned: list[tuple[str, str]] = []
+        for candidate in candidates[: self.read]:
+            body = self.fetch(candidate.url) or ""
+            reading = self.assessor.read(opening, candidate, body)
+            if reading.skip_reason:
+                before = len(self.skiplist)
+                self.skiplist = self.skiplist.add(
+                    candidate.url, reading.skip_reason, "assessor", _today()
+                )
+                if len(self.skiplist) > before:
+                    learned.append((domain_of(candidate.url), reading.skip_reason))
+            if reading.useful:
+                notes += list(reading.sentences)
+                sources.append(candidate.url)
+                # Guard 3: a site that has helped can never be skipped later.
+                self.skiplist = self.skiplist.mark_useful(candidate.url)
 
         brief = self.compiler.compile(opening, tuple(notes))
-        return Brief(
-            opening=brief.opening, plan=brief.plan, watch=brief.watch,
-            sources=tuple(sources), plan_grounding=brief.plan_grounding,
-            watch_grounding=brief.watch_grounding, notes=brief.notes,
-        )
+        self.trace.append({
+            "opening": opening,
+            "found": len(candidates),
+            "skipped_before_fetch": list(self.scout.skipped),
+            "read": min(len(candidates), self.read),
+            "yielded": len(sources),
+            "learned": learned,
+        })
+        # Keep the Scout's view of the list current within a run.
+        self.scout.skiplist = self.skiplist
+        return Brief(opening=brief.opening, points=brief.points,
+                     sources=tuple(sources), notes=brief.notes)
 
 
 # --- reading what the agents say ---------------------------------------------
+
+_SPLIT = re.compile(r"(?<=[.!?])\s+")
+_BULLET = re.compile(r"^\s*[-*]?\s*(PLAN|WATCH)\s*:?\s*(.+?)\s*$", re.I)
+
+
+def _today() -> str:
+    from datetime import date
+    return date.today().isoformat()
+
+
+def _words(text: str) -> list[str]:
+    return " ".join(text_blocks(text)).split()
 
 
 def _detailed(searcher, gap):
@@ -357,9 +479,7 @@ def _queries(answer: str, limit: int) -> list[str]:
         line = line.strip().lstrip("-*0123456789. ").strip().strip('"').strip("'")
         line = re.sub(r"\s+", " ", line).strip()
         # A model explaining itself writes a sentence; a query is short and bare.
-        if not (2 <= len(line.split()) <= 8):
-            continue
-        if line.endswith((".", ":", "?")):
+        if not (2 <= len(line.split()) <= 8) or line.endswith((".", ":", "?")):
             continue
         if line not in out:
             out.append(line)
@@ -368,61 +488,37 @@ def _queries(answer: str, limit: int) -> list[str]:
     return out
 
 
-_VERDICT = re.compile(r"^\s*(\d+)\D{0,4}\b(KEEP|DISCARD)\b[:\s-]*(.*)$", re.I)
-
-
-def _verdicts(answer: str, candidates: list[Candidate]) -> list[Verdict]:
-    """One verdict per candidate, defaulting to KEEP for anything unjudged.
-
-    The default is not neutrality. A page the Assessor never mentioned has not
-    been rejected, and treating silence as rejection is how a parse failure
-    becomes an empty report (L-046).
-    """
-    said: dict[int, tuple[bool, str]] = {}
-    for line in answer.splitlines():
-        match = _VERDICT.match(line)
-        if not match:
-            continue
-        index = int(match.group(1))
-        if 0 <= index < len(candidates):
-            said[index] = (match.group(2).upper() == "KEEP",
-                           match.group(3).strip()[:80])
-    return [
-        Verdict(c, *said.get(i, (True, "not judged"))) for i, c in enumerate(candidates)
-    ]
-
-
-def _two_parts(answer: str) -> tuple[str, str]:
-    """The PLAN and WATCH halves, or blanks if the labels never appeared."""
+def _bullets(answer: str) -> list[tuple[str, str]]:
+    """(kind, text) for every labelled line, ignoring everything else."""
     text = answer.strip()
     if "</think>" in text:
-        text = text.split("</think>", 1)[1].strip()
-    plan = watch = ""
-    match = re.search(r"PLAN\s*:?\s*(.+?)(?=WATCH\s*:|$)", text, re.I | re.S)
-    if match:
-        plan = _tidy(match.group(1))
-    match = re.search(r"WATCH\s*:?\s*(.+)$", text, re.I | re.S)
-    if match:
-        watch = _tidy(match.group(1))
-    return plan, watch
+        text = text.split("</think>", 1)[1]
+    out: list[tuple[str, str]] = []
+    for line in text.splitlines():
+        match = _BULLET.match(line)
+        if not match:
+            continue
+        point = re.sub(r"\s+", " ", match.group(2)).strip().strip("*").strip()
+        if len(point.split()) >= 4:
+            out.append((match.group(1).lower(), point))
+    return out
 
 
-def _tidy(text: str) -> str:
-    text = re.sub(r"\s+", " ", text).strip().strip("*").strip()
-    return text
+def _restates(watch: str, plans: list[str]) -> bool:
+    """Is this point one of the plan points said again?
 
-
-def _restates(watch: str, plan: str) -> bool:
-    """Is this the plan said again, rather than something about the opponent?
-
-    The denominator is the **shorter** of the two. Dividing by the WATCH's own
-    length lets a model escape by padding: the real Pirc failure shared 6 words
-    with a 12-word WATCH (50 %, allowed) and those 6 were 75 % of the entire
-    PLAN, which is what "it said the same thing again" actually looks like.
+    The denominator is the **shorter** text. Dividing by the WATCH's own length
+    lets a model escape by padding: a real failure shared six words with a
+    twelve-word point (50 %, allowed) and those six were 75 % of the plan.
     """
     watch_words = set(content_words(watch))
-    plan_words = set(content_words(plan))
-    if not watch_words or not plan_words:
+    if not watch_words:
         return False
-    shared = watch_words & plan_words
-    return len(shared) / min(len(watch_words), len(plan_words)) > MAX_RESTATEMENT
+    for plan in plans:
+        plan_words = set(content_words(plan))
+        if not plan_words:
+            continue
+        shared = watch_words & plan_words
+        if len(shared) / min(len(watch_words), len(plan_words)) > MAX_RESTATEMENT:
+            return True
+    return False

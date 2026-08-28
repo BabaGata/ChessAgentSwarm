@@ -19,7 +19,11 @@ import urllib.request
 
 OLLAMA_URL = "http://localhost:11434"
 
-_NUMBERS = re.compile(r"\d+")
+# A list item stands alone. Matching bare digits read the "5" out of "c5" and
+# selected sentence five, so a model answering with prose about a pawn break
+# silently became a selection -- exactly what answering by index is meant to
+# prevent.
+_NUMBERS = re.compile(r"(?<![A-Za-z0-9])\d{1,3}(?![A-Za-z0-9])")
 
 # Deliberation is cost without benefit for every task here: the model is given
 # text and asked about words. Left on, a reasoning model spent its whole token

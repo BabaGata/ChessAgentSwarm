@@ -191,3 +191,19 @@ class TestTheVetoOverTheModelsChoice:
             "many beautiful and convincing wins is Gata Kamsky.",
             veto=False,
         ) != ()
+
+
+class TestChessNotationIsNotAnIndex:
+    def test_a_square_in_prose_does_not_select_a_sentence(self):
+        # "c5" carries a 5, and reading bare digits turned a model's prose into
+        # a selection -- the one thing answering by index exists to prevent.
+        selector = LlmSelector(transport=answering(
+            "I think Black should break with c5 immediately."
+        ))
+
+        assert selector.select("Pirc Defense", PAGE, limit=3) == ()
+
+    def test_ordinary_number_lists_still_parse(self):
+        for answer in ("0, 2", "[0,2]", "0. 2.", "0 and 2"):
+            selector = LlmSelector(transport=answering(answer))
+            assert len(selector.select("Pirc Defense", PAGE, limit=3)) >= 1

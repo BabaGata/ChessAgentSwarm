@@ -1,15 +1,18 @@
 """Three agents with three roles, and the boundaries between them.
 
-Design: docs/notes/decisions.0014-three-agents-for-the-opening-brief.md
+Design: docs/notes/decisions.0014-three-agents-for-the-opening-brief.md, revised
+by docs/notes/decisions.0015-a-learned-skip-list-and-a-bullet-brief.md
 
 No model runs here. What these hold is the separation of duties and the failure
-behaviour of each role — which is the part that decides whether a swarm of
-language models can be trusted with a player-facing brief:
+behaviour of each role — the part that decides whether a swarm of language models
+can be trusted with a player-facing brief:
 
-  the Scout may not make the search worse than not asking it;
-  the Assessor's silence is not rejection;
-  the Compiler may not speak when nothing was approved, and its two halves are
-    kept or dropped independently.
+  the Scout may not make the search worse than not asking it, and never fetches
+    what the skip list already refuses;
+  the Assessor reads TEXT, keeps the page's own sentences, and may put a site on
+    the skip list only when the page was not an article at all;
+  the Compiler may not speak when nothing was approved, and each of its bullets
+    is kept or dropped on its own.
 """
 
 from __future__ import annotations
@@ -24,9 +27,10 @@ from chesscoach.opening_swarm import (
     Compiler,
     OpeningSwarm,
     Scout,
+    _bullets,
     _queries,
-    _two_parts,
 )
+from chesscoach.skiplist import SkipEntry, SkipList
 
 NOTES = (
     "Black allows White to occupy the center with pawns on e4 and d4, aiming to "
@@ -34,6 +38,8 @@ NOTES = (
     "Black aims to stay flexible, first completing development and only later "
     "choosing a pawn break.",
 )
+
+ARTICLE = "<p>" + "Black aims to stay flexible and choose a pawn break later. " * 30 + "</p>"
 
 
 def answering(*replies: str):
@@ -51,272 +57,262 @@ def failing(_url, _body):
 class FakeSearcher:
     name = "fake"
 
-    def __init__(self, by_query=None, default=()) -> None:
-        self._by_query = by_query or {}
+    def __init__(self, default=()) -> None:
         self._default = list(default)
         self.queries: list[str] = []
 
     def search_detailed(self, gap):
         self.queries.append(gap.query)
-        return list(self._by_query.get(gap.query, self._default))
+        return list(self._default)
 
 
 PAGE_A = ("Pirc plans", "https://a.org/pirc", "a.org", "the plans explained")
-PAGE_B = ("33 openings you should know", "https://b.org/list", "b.org", "a list")
+TIKTOK = ("Pirc in 60 seconds", "https://www.tiktok.com/@x/video/1", "tiktok.com", "")
 
 
-class TestTheScoutCastsAWideNet:
-    def test_its_queries_are_run_as_well_as_the_defaults(self):
+class TestTheScoutNeverFetchesWhatIsSkipped:
+    def test_a_skipped_domain_never_becomes_a_candidate(self):
+        scout = Scout(searcher=FakeSearcher(default=[PAGE_A, TIKTOK]),
+                      transport=answering("pirc defense plans"))
+
+        found = scout.find("Pirc Defense")
+
+        assert [c.publisher for c in found] == ["a.org"]
+        assert "tiktok.com" in scout.skipped
+
+    def test_both_default_queries_run(self):
         searcher = FakeSearcher(default=[PAGE_A])
-        scout = Scout(searcher=searcher, transport=answering("pirc defense plans"))
-
-        scout.find("Pirc Defense")
+        Scout(searcher=searcher, transport=answering("pirc defense plans")).find("Pirc")
 
         assert len(searcher.queries) == 3
-        assert "pirc defense plans" in searcher.queries
 
     def test_one_default_query_asks_about_the_opponent(self):
-        # The brief has a WATCH half, so the search needs an angle that can
-        # supply it. Without this, 0 of 6 WATCH halves survived.
         searcher = FakeSearcher(default=[PAGE_A])
         Scout(searcher=searcher, transport=failing).find("Pirc Defense")
 
         assert any("against" in q for q in searcher.queries)
 
-    def test_the_default_query_runs_even_if_the_model_is_down(self):
-        # A model that cannot be reached must not be able to make the search
-        # worse than never having asked it.
+    def test_the_defaults_run_even_if_the_model_is_down(self):
+        # A model that cannot be reached must not make the search worse than
+        # never having asked it.
         searcher = FakeSearcher(default=[PAGE_A])
         scout = Scout(searcher=searcher, transport=failing)
 
         assert len(scout.find("Pirc Defense")) == 1
-        assert len(searcher.queries) == 2  # both defaults, no model queries
-
-    def test_the_same_page_from_two_queries_is_one_candidate(self):
-        searcher = FakeSearcher(default=[PAGE_A])
-        scout = Scout(searcher=searcher, transport=answering("pirc plans ideas"))
-
-        assert len(scout.find("Pirc Defense")) == 1
+        assert len(searcher.queries) == 2
 
     def test_a_sentence_is_not_a_query(self):
         assert _queries("Here is a good search you could try:", 3) == []
 
     def test_a_title_cased_heading_is_too_long_to_be_a_query(self):
-        # The real failure: "Bird Opening Strategy for Club Players: Middlegame
-        # Guide" is a heading, and search engines do worse with those.
         assert _queries("Bird Opening Strategy for Club Players Middlegame Guide "
                         "And More Words", 3) == []
 
-    def test_plain_queries_are_taken_in_order(self):
-        assert _queries("pirc defense plans\npirc middlegame ideas", 2) == [
-            "pirc defense plans", "pirc middlegame ideas"
-        ]
 
-
-class TestTheAssessorDiscards:
-    def test_a_discarded_page_is_dropped_with_its_reason(self):
-        verdicts = Assessor(transport=answering(
-            "0 KEEP explains the plans\n1 DISCARD a list of many openings"
-        )).assess("Pirc Defense", [Candidate(*PAGE_A), Candidate(*PAGE_B)])
-
-        assert [v.keep for v in verdicts] == [True, False]
-        assert "list of many openings" in verdicts[1].reason
-
-    def test_silence_about_a_page_is_not_rejection(self):
-        # A parse failure must not read as a verdict.
-        verdicts = Assessor(transport=answering("0 KEEP good")).assess(
-            "Pirc Defense", [Candidate(*PAGE_A), Candidate(*PAGE_B)]
+class TestTheAssessorReadsText:
+    def test_it_keeps_the_pages_own_sentences_by_index(self):
+        reading = Assessor(transport=answering("0")).read(
+            "Pirc Defense", Candidate(*PAGE_A), ARTICLE
         )
 
-        assert verdicts[1].keep is True
-        assert verdicts[1].reason == "not judged"
+        assert reading.useful
+        assert reading.sentences[0] in " ".join(ARTICLE.split())
 
-    def test_an_unavailable_model_keeps_everything_and_says_so(self):
-        verdicts = Assessor(transport=failing).assess(
-            "Pirc Defense", [Candidate(*PAGE_A)]
+    def test_prose_in_the_answer_selects_nothing(self):
+        # Only indices can reach the output, so nothing the model writes can.
+        reading = Assessor(transport=answering(
+            "I think Black should break with c5 immediately."
+        )).read("Pirc Defense", Candidate(*PAGE_A), ARTICLE)
+
+        assert reading.sentences == ()
+
+    def test_the_veto_still_applies_to_the_models_choice(self):
+        page = ("<p>One of the players who has been using it for many years, "
+                "producing many convincing wins is Gata Kamsky. </p>" + ARTICLE)
+
+        reading = Assessor(transport=answering("0")).read(
+            "Pirc Defense", Candidate(*PAGE_A), page
         )
 
-        assert verdicts[0].keep is True
-        assert "unavailable" in verdicts[0].reason
+        assert all("Kamsky" not in s for s in reading.sentences)
 
-    def test_nothing_to_assess_is_not_a_question_for_the_model(self):
-        asked = []
+    def test_none_means_none(self):
+        reading = Assessor(transport=answering("NONE")).read(
+            "Pirc Defense", Candidate(*PAGE_A), ARTICLE
+        )
 
-        def transport(_url, body):
-            asked.append(body)
-            return {"response": "0 KEEP"}
-
-        assert Assessor(transport=transport).assess("Pirc", []) == []
-        assert asked == []
+        assert reading.sentences == ()
+        assert reading.skip_reason == ""
 
 
-class TestTheCompilerWritesOnlyFromWhatSurvived:
-    def test_both_halves_are_produced(self):
-        compiler = Compiler(transport=answering(
-            "PLAN: Let White build the centre with pawns on e4 and d4, then "
-            "undermine it. Complete development before choosing a pawn break.\n"
-            "WATCH: White will aim to keep the centre, so be ready to time the "
-            "break well."
-        ))
+class TestTheAssessorMaintainsTheSkipList:
+    def test_a_page_with_no_article_is_classified(self):
+        reading = Assessor(transport=answering("video")).read(
+            "Pirc Defense", Candidate(*TIKTOK), "<p>Watch now</p>"
+        )
 
-        brief = compiler.compile("Pirc Defense", NOTES)
+        assert reading.skip_reason == "video"
+        assert reading.sentences == ()
 
-        assert brief.plan.startswith("Let White build")
-        assert brief.watch.startswith("White will aim")
+    def test_a_reason_outside_the_list_is_not_a_reason(self):
+        reading = Assessor(transport=answering("it was rubbish")).read(
+            "Pirc Defense", Candidate(*TIKTOK), "<p>Watch now</p>"
+        )
+
+        assert reading.skip_reason == ""
+
+    def test_an_article_is_never_classified_for_skipping(self):
+        # The model is only ever asked about a page that already failed to yield
+        # prose, so it cannot condemn a site it merely disliked.
+        reading = Assessor(transport=answering("0")).read(
+            "Pirc Defense", Candidate(*PAGE_A), ARTICLE
+        )
+
+        assert reading.skip_reason == ""
+
+    def test_an_unreachable_model_proposes_no_skip(self):
+        reading = Assessor(transport=failing).read(
+            "Pirc Defense", Candidate(*TIKTOK), "<p>x</p>"
+        )
+
+        assert reading.skip_reason == ""
+
+
+class TestTheCompilerWritesBullets:
+    def test_points_are_produced_under_their_labels(self):
+        brief = Compiler(transport=answering(
+            "PLAN: Let White build the centre with pawns on e4 and d4.\n"
+            "PLAN: Complete development before choosing a pawn break.\n"
+            "WATCH: White will occupy the centre and keep the pressure on."
+        )).compile("Pirc Defense", NOTES)
+
+        assert len(brief.plans) == 2
+        assert len(brief.watches) == 1
         assert brief.accepted is True
 
-    def test_an_ungrounded_half_is_dropped_and_the_other_kept(self):
-        # The reason the two are checked separately: a good plan should not be
-        # lost because the opponent half wandered.
-        compiler = Compiler(transport=answering(
-            "PLAN: Let White build the centre with pawns on e4 and d4 and "
-            "undermine it later after completing development.\n"
-            "WATCH: White will push c5 and h5 to open the queenside quickly."
-        ))
+    def test_one_bad_point_is_dropped_and_the_rest_survive(self):
+        # The reason for bullets: a paragraph fails whole, a point fails alone.
+        brief = Compiler(transport=answering(
+            "PLAN: Complete development before choosing a pawn break.\n"
+            "PLAN: Push c5 and h5 to open the queenside at once."
+        )).compile("Pirc Defense", NOTES)
 
-        brief = compiler.compile("Pirc Defense", NOTES)
+        assert len(brief.plans) == 1
+        assert len(brief.dropped) == 1
+        assert "c5" in brief.dropped[0].dropped_for
 
-        assert brief.plan
-        assert brief.watch == ""
-        assert "c5" in brief.watch_grounding.reason
+    def test_a_watch_point_repeating_a_plan_point_is_dropped(self):
+        brief = Compiler(transport=answering(
+            "PLAN: Black aims to stay flexible and choose a pawn break later.\n"
+            "WATCH: Black will stay flexible and will choose a pawn break later."
+        )).compile("Pirc Defense", NOTES)
+
+        assert len(brief.plans) == 1
+        assert brief.watches == ()
+        assert "repeats" in brief.dropped[0].dropped_for
+
+    def test_no_opponent_points_is_not_a_failure(self):
+        # WATCH is wanted, not required.
+        brief = Compiler(transport=answering(
+            "PLAN: Complete development before choosing a pawn break."
+        )).compile("Pirc Defense", NOTES)
+
+        assert brief.accepted is True
+        assert brief.watches == ()
+
+    def test_prose_around_the_points_is_ignored(self):
+        brief = Compiler(transport=answering(
+            "Here is the brief you asked for:\n"
+            "PLAN: Complete development before choosing a pawn break.\n"
+            "I hope this helps!"
+        )).compile("Pirc Defense", NOTES)
+
+        assert len(brief.plans) == 1
 
     def test_nothing_approved_means_nothing_said(self):
         asked = []
 
         def transport(_url, body):
             asked.append(body)
-            return {"response": "PLAN: something. WATCH: something."}
+            return {"response": "PLAN: something."}
 
-        brief = Compiler(transport=transport).compile("Pirc Defense", ())
-
-        assert brief.accepted is False
+        assert Compiler(transport=transport).compile("Pirc", ()).accepted is False
         assert asked == []
 
-    def test_missing_labels_produce_no_brief_rather_than_a_guess(self):
-        brief = Compiler(transport=answering(
-            "Black should develop and then break in the centre."
-        )).compile("Pirc Defense", NOTES)
+    def test_a_bullet_needs_words_to_be_a_point(self):
+        assert _bullets("PLAN: yes\nWATCH: Black will try to hold the centre.") == [
+            ("watch", "Black will try to hold the centre.")
+        ]
 
-        assert brief.plan == ""
-        assert brief.watch == ""
-
-    def test_the_labels_are_read_case_insensitively(self):
-        plan, watch = _two_parts("plan: aim for the centre.\nwatch: be ready.")
-
-        assert plan == "aim for the centre."
-        assert watch == "be ready."
+    def test_list_markers_before_the_label_are_allowed(self):
+        assert _bullets("- PLAN: Complete development before the break.") == [
+            ("plan", "Complete development before the break.")
+        ]
 
 
 class TestTheSwarmEndToEnd:
-    def test_a_discarded_page_is_never_read(self):
+    def test_a_skipped_site_is_never_fetched(self):
         fetched: list[str] = []
 
         def fetch(url):
             fetched.append(url)
-            return "<p>Black aims to stay flexible and choose a pawn break later.</p>"
+            return ARTICLE
 
-        swarm = OpeningSwarm(
-            searcher=FakeSearcher(default=[PAGE_A, PAGE_B]),
-            fetch=fetch,
+        OpeningSwarm(
+            searcher=FakeSearcher(default=[PAGE_A, TIKTOK]), fetch=fetch,
             transport=answering(
-                "pirc defense plans",                       # scout
-                "0 KEEP explains plans\n1 DISCARD a list",  # assessor
-                "0",                                        # selector
-                "PLAN: Black aims to stay flexible and choose a pawn break "
-                "later.\nWATCH: nothing.",                  # compiler
+                "pirc defense plans", "0",
+                "PLAN: Black aims to stay flexible and choose a pawn break later."
             ),
-        )
-
-        swarm.run("Pirc Defense")
+        ).run("Pirc Defense")
 
         assert fetched == ["https://a.org/pirc"]
 
-    def test_the_trace_records_what_was_discarded_and_why(self):
+    def test_a_site_that_helped_is_protected_from_later_skipping(self):
         swarm = OpeningSwarm(
-            searcher=FakeSearcher(default=[PAGE_A, PAGE_B]),
-            fetch=lambda _url: "",
+            searcher=FakeSearcher(default=[PAGE_A]), fetch=lambda _u: ARTICLE,
             transport=answering(
-                "pirc defense plans",
-                "0 KEEP explains plans\n1 DISCARD a list of many openings",
-                "NONE",
-                "PLAN: x.\nWATCH: y.",
+                "pirc defense plans", "0",
+                "PLAN: Black aims to stay flexible and choose a pawn break later."
             ),
         )
 
         swarm.run("Pirc Defense")
 
-        assert swarm.trace[0]["found"] == 2
-        assert swarm.trace[0]["kept"] == 1
-        assert swarm.trace[0]["discarded"][0][0] == "b.org"
+        assert "a.org" in swarm.skiplist.useful
 
-    def test_pages_that_yield_no_sentences_contribute_no_source(self):
+    def test_an_unreadable_page_teaches_the_skip_list(self):
         swarm = OpeningSwarm(
-            searcher=FakeSearcher(default=[PAGE_A]),
-            fetch=lambda _url: "<p>The opening is named after a player.</p>",
-            transport=answering(
-                "pirc defense plans", "0 KEEP good", "NONE", "PLAN: x.\nWATCH: y."
-            ),
+            searcher=FakeSearcher(default=[("Clip", "https://clips.example/x",
+                                            "clips.example", "")]),
+            fetch=lambda _u: "<p>Watch now</p>",
+            skiplist=SkipList((SkipEntry("tiktok.com", "video", "seed"),)),
+            transport=answering("pirc defense plans", "video", "PLAN: nothing."),
         )
 
-        brief = swarm.run("Pirc Defense")
+        swarm.run("Pirc Defense")
 
-        assert brief.sources == ()
-        assert brief.accepted is False
+        assert swarm.skiplist.skips("https://clips.example/other")
+        assert swarm.trace[0]["learned"] == [("clips.example", "video")]
+
+    def test_the_trace_records_what_was_skipped_before_fetching(self):
+        swarm = OpeningSwarm(
+            searcher=FakeSearcher(default=[PAGE_A, TIKTOK]),
+            fetch=lambda _u: ARTICLE,
+            transport=answering("pirc defense plans", "0", "PLAN: x y z w."),
+        )
+
+        swarm.run("Pirc Defense")
+
+        assert "tiktok.com" in swarm.trace[0]["skipped_before_fetch"]
 
 
 class TestTheBrief:
-    def test_a_brief_with_neither_half_is_not_accepted(self):
-        assert Brief("Pirc", "", "", ()).accepted is False
+    def test_a_brief_with_no_plan_points_is_not_accepted(self):
+        assert Brief("Pirc").accepted is False
 
 
 def test_the_compiler_raises_when_the_model_is_down():
     # Distinct from "it wrote something bad", which returns an empty brief.
     with pytest.raises(ollama.OllamaUnavailable):
         Compiler(transport=failing).compile("Pirc Defense", NOTES)
-
-
-class TestTheWatchHalfMustSaySomethingNew:
-    """A WATCH that repeats the PLAN is the failure a real run produced.
-
-    The Pirc brief's WATCH was its PLAN with the colour flipped, and it passed
-    the grounding check because every word came from the source. The checker
-    compares tokens against a source; it cannot see a restatement.
-    """
-
-    def test_a_restated_plan_is_dropped(self):
-        compiler = Compiler(transport=answering(
-            "PLAN: Black aims to stay flexible and choose a pawn break later "
-            "after completing development.\n"
-            "WATCH: Black will aim to stay flexible and will choose a pawn break "
-            "later after completing development."
-        ))
-
-        brief = compiler.compile("Pirc Defense", NOTES)
-
-        assert brief.plan
-        assert brief.watch == ""
-
-    def test_a_genuinely_different_watch_survives(self):
-        compiler = Compiler(transport=answering(
-            "PLAN: Complete development first, then choose a pawn break.\n"
-            "WATCH: White will occupy the center with pawns on e4 and d4 and try "
-            "to keep the pressure."
-        ))
-
-        brief = compiler.compile("Pirc Defense", NOTES)
-
-        assert brief.plan
-        assert brief.watch.startswith("White will occupy")
-
-    def test_the_compiler_may_decline_the_watch_half(self):
-        # "none" is the prompt's escape hatch, and silence is a real answer.
-        compiler = Compiler(transport=answering(
-            "PLAN: Complete development first, then choose a pawn break.\n"
-            "WATCH: none"
-        ))
-
-        brief = compiler.compile("Pirc Defense", NOTES)
-
-        assert brief.plan
-        assert brief.watch == ""
-        assert brief.watch_grounding is None

@@ -37,6 +37,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from chesscoach.opening_agent import SearchUnavailable, SearxSearcher  # noqa: E402
 from chesscoach.opening_swarm import OpeningSwarm  # noqa: E402
+from chesscoach.skiplist import DEFAULT_PATH, SkipList  # noqa: E402
 
 CACHE = Path(__file__).parent / "results" / "pages.json"
 AGENT = "ChessAgentSwarm/0.1 (thesis research; opening brief)"
@@ -81,8 +82,11 @@ def main() -> int:
     args = parser.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
 
+    # The skip list persists between runs, so a later run does less work than an
+    # earlier one -- that is the point of it being learned rather than fixed.
+    skiplist = SkipList.load(DEFAULT_PATH)
     swarm = OpeningSwarm(searcher=SearxSearcher(limit=6), fetch=Fetcher(CACHE),
-                         model=args.model)
+                         skiplist=skiplist, model=args.model)
 
     lines = [
         f"THE OPENING SWARM  model={args.model}",
@@ -108,31 +112,28 @@ def main() -> int:
             continue
         trace = swarm.trace[-1]
 
-        lines.append(f"  SCOUT      queries run, {trace['found']} distinct pages found")
-        lines.append(f"  ASSESSOR   kept {trace['kept']}, discarded "
-                     f"{trace['found'] - trace['kept']}")
-        for publisher, reason in trace["discarded"]:
-            lines.append(f"               - {publisher:<22}{reason[:48]}")
-        lines.append(f"  READ       {len(brief.sources)} pages yielded sentences")
-        for note in brief.notes[:4]:
-            lines.append(f"               \"{note[:96]}\"")
+        lines.append(f"  SCOUT      {trace['found']} pages to read; "
+                     f"{len(trace['skipped_before_fetch'])} skipped before fetching"
+                     + (f" ({', '.join(sorted(set(trace['skipped_before_fetch'])))})"
+                        if trace["skipped_before_fetch"] else ""))
+        lines.append(f"  ASSESSOR   read {trace['read']}, "
+                     f"{trace['yielded']} yielded usable sentences")
+        for domain, reason in trace["learned"]:
+            lines.append(f"               learned to skip {domain} ({reason})")
+        for note in brief.notes[:5]:
+            lines.append(f"               \"{note[:92]}\"")
         lines.append("")
 
-        if brief.plan:
-            grounded_plans += 1
-            lines.append(f"  PLAN   {brief.plan}")
-        elif brief.plan_grounding is not None:
-            lines.append(f"  PLAN   rejected -- {brief.plan_grounding.reason[:70]}")
-        else:
-            lines.append("  PLAN   nothing to write from")
-
-        if brief.watch:
-            grounded_watches += 1
-            lines.append(f"  WATCH  {brief.watch}")
-        elif brief.watch_grounding is not None:
-            lines.append(f"  WATCH  rejected -- {brief.watch_grounding.reason[:70]}")
-        else:
-            lines.append("  WATCH  nothing to write from")
+        for point in brief.plans:
+            lines.append(f"  - PLAN   {point}")
+        for point in brief.watches:
+            lines.append(f"  - WATCH  {point}")
+        for point in brief.dropped:
+            lines.append(f"    dropped ({point.kind}) -- {point.dropped_for[:62]}")
+        if not brief.points:
+            lines.append("  (no points -- nothing approved to write from)")
+        grounded_plans += len(brief.plans)
+        grounded_watches += len(brief.watches)
 
         briefs += int(brief.accepted)
         for url in brief.sources:
@@ -145,13 +146,16 @@ def main() -> int:
         "WHAT THIS MEASURES",
         "",
         f"  openings with a usable brief   {briefs} of {len(OPENINGS)}",
-        f"  PLAN halves that passed        {grounded_plans}",
-        f"  WATCH halves that passed       {grounded_watches}",
+        f"  plan points kept               {grounded_plans}",
+        f"  opponent points kept           {grounded_watches}",
+        f"  sites on the skip list         {len(swarm.skiplist)} "
+        f"({len(swarm.skiplist.learned)} learned)",
         "",
         "A brief is not a good brief. Whether these read well, and whether the",
         "chess is right, is the author's judgement -- the checks only establish",
         "that nothing concrete came from outside the cited pages.",
     ]
+    swarm.skiplist.save(DEFAULT_PATH)
     out = args.out / "briefs.txt"
     out.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"\nwritten {out}")

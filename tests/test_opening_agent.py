@@ -18,6 +18,8 @@ from __future__ import annotations
 from chesscoach.opening_agent import (
     Gap,
     OpeningResourceAgent,
+    SearchUnavailable,
+    SearxSearcher,
     WikimediaSearcher,
     WorklistSearcher,
 )
@@ -287,3 +289,43 @@ class TestSearxSearcher:
             self.SearxSearcher(opener=lambda url: {"error": "json format disabled"}).search(
                 Gap("French Defense", 9, 0.5)
             )
+
+
+class TestAThrottledSearchIsNotAnEmptyWeb:
+    """SearxNG reports which engines refused. Ignoring that field made a rate
+    limit indistinguishable from "there is nothing about this opening".
+
+    Real payload, from a session that had queried too often: results [], with
+    brave and google cse "Suspended: too many requests", startpage "CAPTCHA".
+    """
+
+    def searcher(self, payload):
+        return SearxSearcher(opener=lambda _url: payload)
+
+    def test_no_results_with_dead_engines_raises(self):
+        searcher = self.searcher({
+            "results": [],
+            "unresponsive_engines": [["brave", "Suspended: too many requests"],
+                                     ["startpage", "Suspended: CAPTCHA"]],
+        })
+
+        try:
+            searcher.search(Gap(opening="Pirc Defense", games=5, share=0.3))
+        except SearchUnavailable as error:
+            assert "brave" in str(error)
+            return
+        raise AssertionError("expected SearchUnavailable")
+
+    def test_no_results_with_healthy_engines_is_a_genuine_absence(self):
+        searcher = self.searcher({"results": [], "unresponsive_engines": []})
+
+        assert searcher.search(Gap(opening="Zzz Opening", games=5, share=0.3)) == []
+
+    def test_results_are_returned_even_if_one_engine_died(self):
+        searcher = self.searcher({
+            "results": [{"url": "https://a.org/x", "title": "Pirc plans",
+                         "content": "the plans"}],
+            "unresponsive_engines": [["brave", "timeout"]],
+        })
+
+        assert len(searcher.search(Gap(opening="Pirc", games=5, share=0.3))) == 1

@@ -86,6 +86,29 @@ tried. Briefs went 2 → 1. **That comparison is inconclusive**: the Scout runs 
 one run against one run cannot separate a change from noise. The query is kept because it is
 principled and cheap; the claim that it helps is not made.
 
+## Revised the same day → [[decisions.0015-a-learned-skip-list-and-a-bullet-brief]]
+
+The author read the trace above and redirected the design: sites like TikTok belong on a **skip
+list** the Scout consults before fetching and the Assessor maintains; the Assessor's real job is
+**reading text and keeping the sentences that matter**; and the Compiler should emit **bullet
+points**, leaving prose to whichever agent finally speaks to the player.
+
+Built and tested. **Not validated live**: by the time it was finished every engine SearxNG queries
+was rate-limited — brave and google cse *"Suspended: too many requests"*, startpage *"CAPTCHA"* — so
+the live run reports zero pages and says nothing about the design either way. `SearxSearcher` now
+raises on that instead of returning empty, which is **L-046's fifth instance here**.
+
+Run offline against cached pages, the Assessor keeps sentences and classifies a text-free page as
+`no-text`, and **every Compiler bullet was dropped** — *"names moves not in the source: e5, d5"* —
+because it had two weak notes to work from. The checker behaving correctly on bad input.
+
+**The finding that survives every variation tried today: the binding constraint is note supply.**
+Invented bullets, restated opponent halves and empty briefs all trace to the same place, and no
+change to the agents' logic has moved it.
+
+*(One flaw in the offline harness, stated rather than hidden: it matches cached pages to openings by
+a word in the URL, and paired an alexcolovic Pirc page with the London System.)*
+
 ## Consequence
 
 - **The swarm ships as the acquisition path for openings with no curated guide**, behind

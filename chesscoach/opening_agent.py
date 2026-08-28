@@ -206,6 +206,20 @@ class SearxSearcher:
                 f"search.formats?"
             )
 
+        # Zero results with every engine suspended is a rate limit, not an
+        # absence. SearxNG reports it and the field was being ignored, so a
+        # throttled run read as "the web has nothing on the Pirc Defense" --
+        # L-046 for the fifth time in this project.
+        if not payload["results"] and payload.get("unresponsive_engines"):
+            engines = ", ".join(
+                str(entry[0]) for entry in payload["unresponsive_engines"][:4]
+                if entry
+            )
+            raise SearchUnavailable(
+                f"{self._base} returned no results and every engine is "
+                f"unresponsive ({engines})"
+            )
+
         found: list[tuple[str, str, str, str]] = []
         seen: set[str] = set()
         for result in payload["results"]:

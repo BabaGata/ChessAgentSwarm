@@ -1,0 +1,79 @@
+ASSESSOR AND COMPILER, OFFLINE  model=qwen2.5:3b
+==============================================================================
+
+Live search is rate-limited, so these run against pages already
+fetched. Nothing here says anything about the Scout or the skip list.
+
+Every kept sentence is verbatim from the page. Every bullet is checked
+against those sentences and dropped on its own if it fails.
+
+==============================================================================
+Pirc Defense   (2 cached pages)
+
+  ASSESSOR  thechessworld.com         nothing usable
+  ASSESSOR  chessable.com             not an article -> skip as no-text
+
+  (no sentences approved, so the Compiler is not called)
+
+==============================================================================
+London System   (9 cached pages)
+
+  ASSESSOR  365chess.com              nothing usable
+  ASSESSOR  chessworld.net            nothing usable
+  ASSESSOR  alexcolovic.com           2 kept
+              "The authors grouped the material based on Black’s set-ups."
+              "In this Pirc with a bishop already on f4 they go for the natural Qd2, 0-0-0 plan with ki"
+  ASSESSOR  chess.com                 nothing usable
+  ASSESSOR  uscfsales.com             not an article -> skip as no-text
+
+    dropped (plan) -- names moves not in the source: g7
+    dropped (watch) -- novelty 75% over 45%: prevent, white, castling
+    dropped (plan) -- names moves not in the source: e5, d5
+    dropped (watch) -- names moves not in the source: e6, d5
+    dropped (plan) -- names moves not in the source: c6, c5
+    dropped (watch) -- names moves not in the source: d5, c5
+
+==============================================================================
+French Defense   (3 cached pages)
+
+  ASSESSOR  modern-chess.com          nothing usable
+  ASSESSOR  365chess.com              nothing usable
+  ASSESSOR  uscfsales.com             nothing usable
+
+  (no sentences approved, so the Compiler is not called)
+
+==============================================================================
+Bird Opening   (5 cached pages)
+
+  ASSESSOR  chessworld.net            nothing usable
+  ASSESSOR  uscfsales.com             not an article -> skip as no-text
+  ASSESSOR  chessable.com             not an article -> skip as forum
+  ASSESSOR  chess.com                 nothing usable
+  ASSESSOR  thechessworld.com         nothing usable
+
+  (no sentences approved, so the Compiler is not called)
+
+==============================================================================
+Owen Defense   (6 cached pages)
+
+  ASSESSOR  chessiverse.com           nothing usable
+  ASSESSOR  chess.com                 nothing usable
+  ASSESSOR  thechessworld.com         1 kept
+              "First, let’s look at what Black shouldn’t do and learn why."
+  ASSESSOR  listudy.org               nothing usable
+  ASSESSOR  en.wikipedia.org          nothing usable
+
+    dropped (plan) -- names moves not in the source: e5
+    dropped (watch) -- names moves not in the source: e5, e4
+    dropped (plan) -- names moves not in the source: f6, f5
+    dropped (watch) -- names moves not in the source: d5, d4
+
+==============================================================================
+WHAT THIS MEASURES
+
+  openings with a usable brief   0
+  plan points kept               0
+  opponent points kept           0
+
+Points passing their checks is not points being right. Whether the
+chess holds is the author's judgement and has not happened.
