@@ -7,59 +7,39 @@ Results are unreviewed candidates, never advice.
 ------------------------------------------------------------------------------
 Bird Opening
   query: Bird Opening plans ideas explained club players middlegame guide
-  chessworld.net             Bird's Opening Adviser, Setup Builder & 23 Replays - ChessWo
+  chessworld.net             Bird's Opening Adviser, 1.f4 Plans & Replay Lab
     https://www.chessworld.net/bird-opening.asp
-  uscfsales.com              Surprise Your Opponent With Bird's Opening - US Chess Sales
-    https://www.uscfsales.com/blogs/chess-openings/birds-opening
-  chessable.com              Why Bird's Opening is a Bad Opening (And Why That Does Not M
-    https://www.chessable.com/discussion/thread/864009/why-birds-opening-is-a-bad-opening-and-why-that-does-not-matter/864386/
+  chess.lc                   How to Play Bird's Opening — Complete Guide | Chess.lc
+    https://chess.lc/blog/how-to-play-birds-opening
+  365chess.com               Bird's Opening: A Comprehensive Guide | 365Chess
+    https://www.365chess.com/chess-openings/Birds-Opening
 ------------------------------------------------------------------------------
 Grob Opening
   query: Grob Opening plans ideas explained club players middlegame guide
-  blog.duolingo.com          33 Chess Openings You Should Know - Duolingo Blog
-    https://blog.duolingo.com/popular-chess-openings/
-  chess.com                  Openings with simple logic behind them - Chess Forums
-    https://www.chess.com/forum/view/chess-openings/openings-with-simple-logic-behind-them
-  chessworld.net             Chess Openings Explorer: Adviser, Search & A-Z - ChessWorld.
-    https://www.chessworld.net/chessclubs/openingguide/chess-openings-glossary.asp
+  logicalchess.com           Grob Opening - Logical Chess
+    https://logicalchess.com/learn/lessons/openings/grob.html
+  chess.stackexchange.com    Grob Opening lines - Chess Stack Exchange
+    https://chess.stackexchange.com/questions/31952/grob-opening-lines
+  chessworld.net             How do open files influence middlegame planning?
+    https://www.chessworld.net/chessclubs/openingguide/middlegameplanning.asp
 ------------------------------------------------------------------------------
 Nimzo-Larsen Attack
   query: Nimzo-Larsen Attack plans ideas explained club players middlegame guide
-  chessworld.net             Nimzowitsch Larsen Attack: 1.b3 Plans & Games - ChessWorld.n
-    https://www.chessworld.net/nimzo-larsen.asp
-  uscfsales.com              Rack up Wins With the Nimzowitsch-Larsen Attack - US Chess S
-    https://www.uscfsales.com/blogs/chess-strategies/rack-up-wins-with-the-nimzowitsch-larsen-attack
-  chess.com                  Advocating for 1.b3 and 1...b6: The Nimzo-Larsen Attack and 
-    https://www.chess.com/forum/view/chess-openings/advocating-for-1-b3-and-1-b6-the-nimzo-larsen-attack-and-the-modern-defense
+  COULD NOT ASK -- http://localhost:8080 returned no results and every engine is unresponsive (brave, duckduckgo, google cse, startpage)
 ------------------------------------------------------------------------------
 Owen Defense
   query: Owen Defense plans ideas explained club players middlegame guide
-  chessiverse.com            Owen's Defense (B00) - Chessiverse
-    https://chessiverse.com/resources/openings/owens-defense
-  lichess.org                The Modernized Owen | English Defence | b6 Against Everythin
-    https://lichess.org/study/WAcXinQJ/bkISJ6IT
-  chess.com                  Advocating for 1.b3 and 1...b6: The Nimzo-Larsen Attack and 
-    https://www.chess.com/forum/view/chess-openings/advocating-for-1-b3-and-1-b6-the-nimzo-larsen-attack-and-the-modern-defense
+  COULD NOT ASK -- http://localhost:8080 returned no results and every engine is unresponsive (brave, duckduckgo, google cse, startpage)
 ------------------------------------------------------------------------------
 Alekhine Defense
   query: Alekhine Defense plans ideas explained club players middlegame guide
-  chesscheatsheets.com       Complete Alekhine's Defense Chess Opening Guide
-    https://chesscheatsheets.com/pages/alekhines-defense-chess-opening-guide
-  uscfsales.com              Alekhine's Defense: Is It Right For You? - US Chess Sales
-    https://www.uscfsales.com/blogs/chess-openings/alekhines-defense-is-it-right-for-you
-  modern-chess.com           The Revamped Alekhine Defense - Jobava's Repertoire
-    https://www.modern-chess.com/course/the-revamped-alekhine-defense-jobavas-repertoire/30138/
+  COULD NOT ASK -- http://localhost:8080 returned no results and every engine is unresponsive (brave, duckduckgo, google cse, startpage)
 ------------------------------------------------------------------------------
 Benoni Defense
   query: Benoni Defense plans ideas explained club players middlegame guide
-  wholesalechess.com         The Best Answer to 1.d4: The Old Benoni Defense - Wholesale 
-    https://www.wholesalechess.com/blogs/chess-openings/the-old-benoni-defense
-  uscfsales.com              Master The Benoni Defense, Modern Variation - US Chess Sales
-    https://www.uscfsales.com/blogs/chess-openings/the-benoni-defense-modern-variation
-  modern-chess.com           Complete Modern Benoni Repertoire - Part 2
-    https://www.modern-chess.com/course/complete-modern-benoni-repertoire-part-2/48193/
+  COULD NOT ASK -- http://localhost:8080 returned no results and every engine is unresponsive (brave, duckduckgo, google cse, startpage)
 ==============================================================================
-openings with at least one candidate: 6 of 6
+openings with at least one candidate: 2 of 6
 
 Finding a link is not finding a guide -- E48's whole result. Whether
 these pages carry plan-level instruction is what the extractor and the

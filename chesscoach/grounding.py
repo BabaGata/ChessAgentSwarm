@@ -173,3 +173,21 @@ def _is_known(word: str, source_words: set[str]) -> bool:
         if len(other) >= _MIN_STEM and word.startswith(other):
             return True
     return False
+
+
+def overlap(text: str, other: str) -> float:
+    """Share of the SHORTER text's content words that also appear in the longer.
+
+    Inflection-tolerant, like `check` -- and for the same reason. Comparing exact
+    strings made "Black stays flexible and breaks against d4" and "Black will
+    stay flexible and will break against d4" look 60 % alike when they are the
+    same sentence twice.
+
+    The shorter text is the denominator so a model cannot escape a
+    "you said that already" test by padding.
+    """
+    mine, theirs = set(content_words(text)), set(content_words(other))
+    if not mine or not theirs:
+        return 0.0
+    shared = sum(1 for word in mine if _is_known(word, theirs))
+    return shared / min(len(mine), len(theirs))

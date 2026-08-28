@@ -182,8 +182,8 @@ class TestTheCompilerWritesBullets:
     def test_points_are_produced_under_their_labels(self):
         brief = Compiler(transport=answering(
             "PLAN: Let White build the centre with pawns on e4 and d4.\n"
-            "PLAN: Complete development before choosing a pawn break.\n"
-            "WATCH: White will occupy the centre and keep the pressure on."
+            "PLAN: Complete development before breaking against the d4 pawn.\n"
+            "WATCH: White will occupy the centre with pawns on e4 and keep the pressure."
         )).compile("Pirc Defense", NOTES)
 
         assert len(brief.plans) == 2
@@ -193,7 +193,7 @@ class TestTheCompilerWritesBullets:
     def test_one_bad_point_is_dropped_and_the_rest_survive(self):
         # The reason for bullets: a paragraph fails whole, a point fails alone.
         brief = Compiler(transport=answering(
-            "PLAN: Complete development before choosing a pawn break.\n"
+            "PLAN: Complete development before breaking against the d4 pawn.\n"
             "PLAN: Push c5 and h5 to open the queenside at once."
         )).compile("Pirc Defense", NOTES)
 
@@ -203,8 +203,8 @@ class TestTheCompilerWritesBullets:
 
     def test_a_watch_point_repeating_a_plan_point_is_dropped(self):
         brief = Compiler(transport=answering(
-            "PLAN: Black aims to stay flexible and choose a pawn break later.\n"
-            "WATCH: Black will stay flexible and will choose a pawn break later."
+            "PLAN: Black stays flexible and breaks against d4 later.\n"
+            "WATCH: Black will stay flexible and will break against d4 later."
         )).compile("Pirc Defense", NOTES)
 
         assert len(brief.plans) == 1
@@ -215,8 +215,8 @@ class TestTheCompilerWritesBullets:
         # Real output gave three plan points that were "challenge White's pawn
         # structure" three ways, each spending a line of the brief.
         brief = Compiler(transport=answering(
-            "PLAN: Black aims to stay flexible and choose a pawn break later.\n"
-            "PLAN: Black stays flexible and chooses a pawn break later on."
+            "PLAN: Black stays flexible and breaks against d4 later.\n"
+            "PLAN: Black stays flexible and breaks against the d4 pawn later on."
         )).compile("Pirc Defense", NOTES)
 
         assert len(brief.plans) == 1
@@ -225,7 +225,7 @@ class TestTheCompilerWritesBullets:
     def test_no_opponent_points_is_not_a_failure(self):
         # WATCH is wanted, not required.
         brief = Compiler(transport=answering(
-            "PLAN: Complete development before choosing a pawn break."
+            "PLAN: Complete development before breaking against the d4 pawn."
         )).compile("Pirc Defense", NOTES)
 
         assert brief.accepted is True
@@ -234,7 +234,7 @@ class TestTheCompilerWritesBullets:
     def test_prose_around_the_points_is_ignored(self):
         brief = Compiler(transport=answering(
             "Here is the brief you asked for:\n"
-            "PLAN: Complete development before choosing a pawn break.\n"
+            "PLAN: Complete development before breaking against the d4 pawn.\n"
             "I hope this helps!"
         )).compile("Pirc Defense", NOTES)
 
@@ -273,7 +273,7 @@ class TestTheSwarmEndToEnd:
             searcher=FakeSearcher(default=[PAGE_A, TIKTOK]), fetch=fetch,
             transport=answering(
                 "pirc defense plans", "0",
-                "PLAN: Black aims to stay flexible and choose a pawn break later."
+                "PLAN: Black stays flexible and breaks against d4 later."
             ),
         ).run("Pirc Defense")
 
@@ -284,7 +284,7 @@ class TestTheSwarmEndToEnd:
             searcher=FakeSearcher(default=[PAGE_A]), fetch=lambda _u: ARTICLE,
             transport=answering(
                 "pirc defense plans", "0",
-                "PLAN: Black aims to stay flexible and choose a pawn break later."
+                "PLAN: Black stays flexible and breaks against d4 later."
             ),
         )
 
@@ -310,7 +310,7 @@ class TestTheSwarmEndToEnd:
         swarm = OpeningSwarm(
             searcher=FakeSearcher(default=[PAGE_A, TIKTOK]),
             fetch=lambda _u: ARTICLE,
-            transport=answering("pirc defense plans", "0", "PLAN: x y z w."),
+            transport=answering("pirc defense plans", "0", "PLAN: Black breaks against d4 later on."),
         )
 
         swarm.run("Pirc Defense")
@@ -327,3 +327,36 @@ def test_the_compiler_raises_when_the_model_is_down():
     # Distinct from "it wrote something bad", which returns an empty brief.
     with pytest.raises(ollama.OllamaUnavailable):
         Compiler(transport=failing).compile("Pirc Defense", NOTES)
+
+
+class TestAPointMustNameSomethingOnTheBoard:
+    """The author, reading real output: *"vague words like harmony and
+    counterplay when there is nowhere stated what counterplay is not valuable at
+    all."*
+
+    Both sentences below were produced by the swarm on the same run.
+    """
+
+    def test_a_point_naming_no_square_is_dropped(self):
+        brief = Compiler(transport=answering(
+            "PLAN: Black completes development first and stays flexible."
+        )).compile("Pirc Defense", NOTES)
+
+        assert brief.plans == ()
+        assert "names no square" in brief.dropped[0].dropped_for
+
+    def test_a_point_anchored_to_a_square_survives(self):
+        brief = Compiler(transport=answering(
+            "PLAN: Undermine the pawns on e4 and d4 once development is complete."
+        )).compile("Pirc Defense", NOTES)
+
+        assert len(brief.plans) == 1
+
+    def test_abstract_words_are_fine_when_anchored(self):
+        # The objection is to vagueness, not to vocabulary: a point may say
+        # "pressure" if it also says where the pressure falls.
+        brief = Compiler(transport=answering(
+            "PLAN: Keep the pressure on d4 and time the pawn break well."
+        )).compile("Pirc Defense", NOTES)
+
+        assert len(brief.plans) == 1

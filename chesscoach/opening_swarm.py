@@ -37,7 +37,7 @@ import re
 from dataclasses import dataclass, field
 
 from chesscoach import ollama
-from chesscoach.grounding import Grounding, check, content_words
+from chesscoach.grounding import Grounding, check, moves_in, overlap
 from chesscoach.opening_agent import Gap
 from chesscoach.opening_plans import (
     MAX_WORDS,
@@ -161,6 +161,12 @@ PLAN: <one short point>
 WATCH: <one short point>
 
 One line each. No move numbers.
+
+EVERY point must name a square, a pawn or a piece move — d4, e5, c5, Nf3, the
+e1-h4 diagonal. A point like "develop in harmony and prepare for counterplay"
+names nothing a player can do and is worthless; "develop the light-squared bishop
+to d3 or e2" is a point. If a note is too vague to anchor to a square, leave it
+out rather than repeating its vague words.
 
 The notes are written for stronger players and may use terms a club player would \
 have to look up — "Maroczy bind", "prophylaxis", "minority attack". Do not \
@@ -420,6 +426,13 @@ class Compiler:
             # which is the only reason that half exists.
             if not dropped and _restates(text, kept_plans + kept_watches):
                 dropped = "repeats a point already made"
+            # A point that names no square names nothing a player can do. The
+            # author, on real output: *"vague words like harmony and counterplay
+            # when there is nowhere stated what counterplay is not valuable at
+            # all."* Measured on that run, this halves the points and every
+            # survivor is actionable.
+            if not dropped and not moves_in(text):
+                dropped = "names no square or move"
             points.append(Point(text, kind, grounding, dropped))
             if not dropped:
                 (kept_plans if kind == "plan" else kept_watches).append(text)
@@ -538,21 +551,12 @@ def _bullets(answer: str) -> list[tuple[str, str]]:
     return out
 
 
-def _restates(watch: str, plans: list[str]) -> bool:
-    """Is this point one of the plan points said again?
+def _restates(point: str, already: list[str]) -> bool:
+    """Is this point one already made, in different words?
 
-    The denominator is the **shorter** text. Dividing by the WATCH's own length
-    lets a model escape by padding: a real failure shared six words with a
-    twelve-word point (50 %, allowed) and those six were 75 % of the plan.
+    Uses the same inflection-tolerant comparison as the grounding check: exact
+    string matching read "Black stays flexible and breaks against d4" and "Black
+    will stay flexible and will break against d4" as 60 % alike, just under the
+    threshold, when they are one sentence written twice.
     """
-    watch_words = set(content_words(watch))
-    if not watch_words:
-        return False
-    for plan in plans:
-        plan_words = set(content_words(plan))
-        if not plan_words:
-            continue
-        shared = watch_words & plan_words
-        if len(shared) / min(len(watch_words), len(plan_words)) > MAX_RESTATEMENT:
-            return True
-    return False
+    return any(overlap(point, made) > MAX_RESTATEMENT for made in already)

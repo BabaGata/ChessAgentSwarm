@@ -78,6 +78,8 @@ class Fetcher:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", default="qwen2.5:3b")
+    parser.add_argument("--only", default=None,
+                        help="one opening, for a paced live confirmation")
     parser.add_argument("--out", type=Path, default=Path(__file__).parent / "results")
     args = parser.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
@@ -88,6 +90,7 @@ def main() -> int:
     swarm = OpeningSwarm(searcher=SearxSearcher(limit=6), fetch=Fetcher(CACHE),
                          skiplist=skiplist, model=args.model)
 
+    openings = (args.only,) if args.only else OPENINGS
     lines = [
         f"THE OPENING SWARM  model={args.model}",
         "=" * 78,
@@ -101,7 +104,7 @@ def main() -> int:
     ]
     briefs = grounded_plans = grounded_watches = 0
 
-    for opening in OPENINGS:
+    for opening in openings:
         lines.append("=" * 78)
         lines.append(opening)
         lines.append("")
@@ -145,7 +148,7 @@ def main() -> int:
         "=" * 78,
         "WHAT THIS MEASURES",
         "",
-        f"  openings with a usable brief   {briefs} of {len(OPENINGS)}",
+        f"  openings with a usable brief   {briefs} of {len(openings)}",
         f"  plan points kept               {grounded_plans}",
         f"  opponent points kept           {grounded_watches}",
         f"  sites on the skip list         {len(swarm.skiplist)} "

@@ -178,11 +178,20 @@ class SearxSearcher:
         "facebook.com", "twitter.com", "x.com", "pinterest.",
     )
 
+    # Seconds between searches. The upstream engines SearxNG queries suspend
+    # themselves under load -- measured: two queries in quick succession
+    # succeeded and the next four came back "Suspended: too many requests". The
+    # swarm asks five queries per opening, so pacing is the difference between a
+    # run that works and a run that reports an empty web.
+    SPACING = 6.0
+
     def __init__(self, base_url: str = "http://localhost:8080",
-                 limit: int = 3, opener=None) -> None:
+                 limit: int = 3, opener=None, spacing: float | None = None) -> None:
         self._base = base_url.rstrip("/")
         self._limit = limit
         self._open = opener or _fetch_json
+        self._spacing = self.SPACING if spacing is None else spacing
+        self._last = 0.0
 
     def search(self, gap: Gap) -> list[tuple[str, str, str]]:
         """The `Searcher` protocol: title, url, publisher."""
@@ -196,6 +205,13 @@ class SearxSearcher:
         dull heading from a listicle with a promising one, which is the measured
         cause of E51's false negatives.
         """
+        # Only paced when a real opener is in use; an injected one is a test.
+        if self._spacing and self._open is _fetch_json:
+            elapsed = time.monotonic() - self._last
+            if elapsed < self._spacing:
+                time.sleep(self._spacing - elapsed)
+            self._last = time.monotonic()
+
         query = urllib.parse.urlencode({"q": gap.query, "format": "json"})
         payload = self._open(f"{self._base}/search?{query}")
         if "results" not in payload:

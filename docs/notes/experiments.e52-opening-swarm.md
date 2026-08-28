@@ -172,6 +172,45 @@ the ceiling was measured rather than assumed:
 Raising it to 0.55 would have recovered four dropped points at **2.5× the false-claim rate**. With
 the supply fixed the system is no longer starved, so the trade is refused and 0.45 stands.
 
+## Confirmed live, on a paced run
+
+The rate limiting was pacing, not breakage. `SearxSearcher` now spaces searches **6 s** apart —
+measured: two queries in quick succession succeed and the next four come back *"Suspended: too many
+requests"*. One opening, end to end, everything live:
+
+    SCOUT      10 pages found, 1 skipped before fetching (reddit.com)
+    ASSESSOR   read 5, all 5 yielded usable sentences
+    COMPILER   2 plan points, 3 opponent points, 1 dropped as vague
+               5 sources cited
+
+> **PLAN** Push the f-pawn to contest the e5 square
+> **WATCH** Castle early and keep an eye on f2
+
+The skip list persisted with **5 domains marked useful**, which by guard 3 can now never be skipped.
+
+## A point must name a square
+
+The author, on real output: *"vague words like harmony and counterplay when there is nowhere stated
+what counterplay is not valuable at all."*
+
+Calibrated against one run's fourteen points, the split is clean and needs no vocabulary list:
+
+| | |
+|---|---|
+| *"Develop the light-squared bishop to **d3** or **e2**"* | actionable |
+| *"Force White to invest in defending the **e1-h4** diagonal"* | actionable |
+| *"Develop pieces in harmony and prepare for counterplay"* | says nothing |
+| *"Control the center and challenge White's pawn structure"* | says nothing |
+
+So a point that names **no square and no move** is dropped. It halves the output and every survivor
+is something a player can do. The rule is about vagueness, not vocabulary — *"keep the pressure on
+d4"* is fine, because it says where.
+
+**And it exposed an inconsistency:** `_restates` compared exact strings while the grounding check
+compared stems, so *"Black stays flexible and breaks against d4"* and *"Black will stay flexible and
+will break against d4"* measured 60 % alike — just under the threshold — when they are one sentence
+written twice. Both now use `grounding.overlap`.
+
 ## Consequence
 
 - **The swarm ships as the acquisition path for openings with no curated guide**, behind
