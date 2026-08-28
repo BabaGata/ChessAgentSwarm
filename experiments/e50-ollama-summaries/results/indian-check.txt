@@ -1,0 +1,17 @@
+DOES THE SICILIAN DEFENSE REACH A LONDON STRUCTURE?
+==============================================================================
+
+games classified Sicilian Defense: 16
+White plays an early Bf4 (London): 0  (0 %)
+
+named lines actually reached:
+    4  Sicilian Defense: Delayed Alapin Variation, with d6
+    3  Sicilian Defense: McDonnell Attack
+    2  Sicilian Defense: Old Sicilian
+    2  Sicilian Defense: Delayed Alapin Variation, with e6
+    2  Sicilian Defense: Bowdler Attack
+    1  Sicilian Defense: Taimanov Variation
+    1  Sicilian Defense: Modern Variations
+    1  Sicilian Defense: Alapin Variation
+
+A guide is right for a family when it describes what the player faces.

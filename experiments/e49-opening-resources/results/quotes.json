@@ -210,5 +210,13 @@
   "quotes": [
    "Both moves look to control the center and prepare to develop the pieces off their starting squares."
   ]
+ },
+ "https://chess-teacher.com/english-defense/": {
+  "status": "HTTP 403",
+  "quotes": []
+ },
+ "https://en.wikipedia.org/wiki/English_Defence": {
+  "status": "200",
+  "quotes": []
  }
 }

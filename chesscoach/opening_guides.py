@@ -116,16 +116,29 @@ class GuideLibrary:
     def for_opening(self, name: str) -> tuple[Guide, ...]:
         """Reviewed guides for this opening, most specific first.
 
-        Matched on the **family** — the part of an opening name before the colon —
-        because "Scandinavian Defense: Mieses-Kotroc Variation" and "Scandinavian
+        Usually matched on the **family** — the part before the colon — because
+        "Scandinavian Defense: Mieses-Kotroc Variation" and "Scandinavian
         Defense: Modern Variation" want the same guide, and curating one per
         subline would be fifteen times the work for no gain.
+
+        **A guide may name a subline instead, and then it only reaches players
+        who play that subline.** Some families are not openings anyone studies:
+        "Indian Defense" is `1. d4 Nf6`, and half those games become a London
+        while the rest go elsewhere. Serving a London guide to the whole family
+        is right for half the players and wrong for the other half, which is
+        worse than covering neither ([[experiments.e50-ollama-summaries]]).
+
+        Subline guides sort ahead of family ones, which is what "most specific
+        first" always claimed and did not do.
         """
         family = _family(name)
-        return tuple(
+        available = [
             g for g in self._guides
             if g.reviewed and g.alive is not False and _family(g.opening) == family
-        )
+        ]
+        specific = [g for g in available if ":" in g.opening and _covers(g.opening, name)]
+        general = [g for g in available if ":" not in g.opening]
+        return tuple(specific + general)
 
     def openings_without_a_guide(self, names) -> tuple[str, ...]:
         """Families with no reviewed guide, so silence is visible rather than assumed."""
@@ -170,3 +183,15 @@ class GuideLibrary:
 
 def _family(name: str) -> str:
     return name.split(":")[0].strip()
+
+
+def _covers(scope: str, played: str) -> bool:
+    """Does a subline-scoped guide apply to the line the player actually reached?
+
+    Exact, or a deeper variant of it: a guide for the "Accelerated London
+    System" also covers "Accelerated London System, Something Variation". The
+    separator must be part of the comparison, or "London System" would claim
+    "London Systematic" and any other line that happens to start the same way.
+    """
+    scope, played = scope.strip(), played.strip()
+    return played == scope or played.startswith(scope + ",") or played.startswith(scope + ":")

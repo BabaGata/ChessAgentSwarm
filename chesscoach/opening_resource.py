@@ -32,6 +32,12 @@ from chesscoach.openings import Opening, OpeningBook
 # wants the twentieth Sicilian sideline is past what this resource is for.
 MAX_VARIANTS = 4
 
+# A main line advances a move or two at a time. A bigger jump means the deeper
+# row is a different line that shares the family's name, not a continuation of
+# it -- which is how the Indian Defense came to present `1. d4 Nf6 2. c4 e6
+# 3. Qb3` as its main line.
+MAX_MAINLINE_STEP = 2
+
 
 @dataclass(frozen=True)
 class Line:
@@ -109,7 +115,12 @@ def build_resource(
     main = _pick_main_line(lines, family)
     variants = _pick_variants(lines, main, played)
 
-    guides = library.for_opening(family)
+    # Ask with the line the player most often reaches, not the bare family.
+    # A subline-scoped guide can only be matched against a subline, and
+    # "Indian Defense" on its own is `1. d4 Nf6` -- a move, not something anyone
+    # studies. The most-played line is what a guide has to be right about.
+    asked_about = played.most_common(1)[0][0] if played else family
+    guides = library.for_opening(asked_about)
     guide = guides[0] if guides else None
 
     plans = guide.plans if guide else ()
@@ -135,18 +146,38 @@ def _pick_main_line(lines: tuple[Opening, ...], family: str) -> Opening | None:
     Preferring a row named exactly for the family matters: the shallowest row
     overall can be a one-move ancestor shared with a dozen other openings.
 
-    Among those, the **deepest** — a player asking what the Pirc is wants
-    `1. e4 d6 2. d4 Nf6 3. Nc3 g6`, not `1. e4 d6`. No depth cap is needed
-    rather than none is wanted: measured across the families these players
-    actually reach, the deepest plain-named row runs 1 to 6 plies.
+    Among those, the deepest **reached in small steps** — a player asking what
+    the Pirc is wants `1. e4 d6 2. d4 Nf6 3. Nc3 g6`, not `1. e4 d6`.
+
+    "Small steps" is the correction. Taking the deepest row outright gave the
+    Indian Defense `1. d4 Nf6 2. c4 e6 3. Qb3` as its main line — an obscure
+    sideline that the source data also happens to name plainly. It is a genuine
+    continuation of `1. d4 Nf6`, so checking that the rows form a chain does not
+    catch it; what marks it is the **jump**, three plies in one go where the Pirc
+    and the Sicilian advance one or two at a time
+    ([[experiments.e50-ollama-summaries]]).
     """
     if not lines:
         return None
     bare = family.split(":")[0].strip()
-    exact = [o for o in lines if o.name.strip() == bare]
-    if exact:
-        return exact[-1]
-    return lines[0]
+    # Sorted by moves as well as depth so the walk is deterministic when several
+    # rows share a name and a length, which happens in the Queen's Pawn Game.
+    exact = sorted((o for o in lines if o.name.strip() == bare),
+                   key=lambda o: (o.plies, o.pgn))
+    if not exact:
+        return lines[0]
+
+    current = exact[0]
+    while True:
+        deeper = [
+            o for o in exact
+            if o.plies > current.plies
+            and o.plies - current.plies <= MAX_MAINLINE_STEP
+            and o.pgn.startswith(current.pgn + " ")
+        ]
+        if not deeper:
+            return current
+        current = deeper[0]
 
 
 def _pick_variants(

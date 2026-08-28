@@ -167,3 +167,70 @@ class TestStamping:
         stamped = library.validated(FakeAgent(), today="2026-08-24")
 
         assert stamped._guides[0].summary == "Learn the plans and pawn breaks."
+
+
+class TestASublineGuideOnlyReachesThatSubline:
+    """Some families are not openings anyone studies.
+
+    Measured: of ten "Indian Defense" games, five became a London and five did
+    not. A London guide on the whole family is right for half the players and
+    wrong for the other half, which is worse than covering neither
+    (docs/notes/experiments.e50-ollama-summaries.md).
+    """
+
+    def a_library(self) -> GuideLibrary:
+        return GuideLibrary((
+            Guide(opening="Indian Defense: Accelerated London System",
+                  title="London System guide", url="https://example.org/london",
+                  publisher="Example", reviewed=True),
+        ))
+
+    def test_a_player_who_reaches_the_subline_gets_the_guide(self):
+        found = self.a_library().for_opening("Indian Defense: Accelerated London System")
+
+        assert [g.title for g in found] == ["London System guide"]
+
+    def test_a_player_elsewhere_in_the_family_gets_nothing(self):
+        # The defect this exists to stop: a Przepiorka player handed a London
+        # guide because both games start 1. d4 Nf6.
+        assert self.a_library().for_opening("Indian Defense: Przepiorka Variation") == ()
+
+    def test_the_bare_family_gets_nothing(self):
+        assert self.a_library().for_opening("Indian Defense") == ()
+
+    def test_a_deeper_variant_of_the_scope_is_still_covered(self):
+        found = self.a_library().for_opening(
+            "Indian Defense: Accelerated London System, Modern Variation"
+        )
+
+        assert len(found) == 1
+
+    def test_a_name_that_merely_starts_the_same_is_not_covered(self):
+        # Without the separator in the comparison, "London System" would claim
+        # "London Systematic" and anything else sharing a prefix.
+        library = GuideLibrary((
+            Guide(opening="Indian Defense: London", title="g",
+                  url="https://example.org/x", publisher="E", reviewed=True),
+        ))
+
+        assert library.for_opening("Indian Defense: Londonderry Variation") == ()
+
+    def test_a_family_guide_still_covers_every_subline(self):
+        library = GuideLibrary((
+            Guide(opening="Pirc Defense", title="family", url="https://example.org/p",
+                  publisher="E", reviewed=True),
+        ))
+
+        assert len(library.for_opening("Pirc Defense: Austrian Attack")) == 1
+
+    def test_the_specific_guide_sorts_ahead_of_the_general_one(self):
+        library = GuideLibrary((
+            Guide(opening="Sicilian Defense", title="whole family",
+                  url="https://example.org/sicilian", publisher="E", reviewed=True),
+            Guide(opening="Sicilian Defense: Alapin Variation", title="alapin",
+                  url="https://example.org/alapin", publisher="E", reviewed=True),
+        ))
+
+        found = library.for_opening("Sicilian Defense: Alapin Variation")
+
+        assert [g.title for g in found] == ["alapin", "whole family"]

@@ -250,3 +250,99 @@ class TestTheOptionalRewrite:
                        summariser=OllamaSummariser(post=post))
 
         assert asked == []
+
+
+class TestTheGuideMustFitTheLineActuallyPlayed:
+    """Measured defect: half the "Indian Defense" games are Londons and half are not.
+
+    Design: docs/notes/experiments.e50-ollama-summaries.md
+    """
+
+    ROWS = (
+        ("A45", "Indian Defense", "1. d4 Nf6"),
+        ("A45", "Indian Defense: Accelerated London System", "1. d4 Nf6 2. Bf4"),
+        ("A45", "Indian Defense: Przepiorka Variation", "1. d4 Nf6 2. Nf3 e6 3. g3"),
+    )
+
+    def a_london_library(self) -> GuideLibrary:
+        return GuideLibrary((
+            Guide(opening="Indian Defense: Accelerated London System",
+                  title="London plans", url="https://example.org/london",
+                  publisher="Example", reviewed=True,
+                  plans=("White aims to develop the bishop to f4 early.",)),
+        ))
+
+    def test_a_london_player_gets_the_london_guide(self):
+        resource = build_resource(
+            "Indian Defense", OpeningBook.from_rows(self.ROWS), self.a_london_library(),
+            reached=["Indian Defense: Accelerated London System"] * 5,
+        )
+
+        assert resource.guide is not None
+        assert resource.plans
+
+    def test_a_player_elsewhere_in_the_family_is_told_nothing(self):
+        # Silence beats a guide for an opening they do not play.
+        resource = build_resource(
+            "Indian Defense", OpeningBook.from_rows(self.ROWS), self.a_london_library(),
+            reached=["Indian Defense: Przepiorka Variation"] * 4,
+        )
+
+        assert resource.guide is None
+        assert resource.plans == ()
+        # ...and the moves still come through, since they need no endorsement.
+        assert resource.main_line is not None
+
+    def test_with_no_games_the_family_is_asked_about_and_finds_nothing(self):
+        resource = build_resource(
+            "Indian Defense", OpeningBook.from_rows(self.ROWS), self.a_london_library(),
+        )
+
+        assert resource.guide is None
+
+
+class TestTheMainLineDoesNotJump:
+    """A row can carry the family's bare name and be a different line entirely.
+
+    Design: docs/notes/experiments.e50-ollama-summaries.md
+    """
+
+    INDIAN = (
+        ("A45", "Indian Defense", "1. d4 Nf6"),
+        # Named plainly, a genuine continuation, and an obscure sideline.
+        ("A45", "Indian Defense", "1. d4 Nf6 2. c4 e6 3. Qb3"),
+        ("A45", "Indian Defense: Accelerated London System", "1. d4 Nf6 2. Bf4"),
+    )
+
+    def test_a_three_ply_jump_is_not_a_continuation(self):
+        resource = build_resource(
+            "Indian Defense", OpeningBook.from_rows(self.INDIAN), a_library(reviewed=False)
+        )
+
+        assert resource.main_line.moves == "1. d4 Nf6"
+
+    def test_small_steps_are_followed_to_the_end(self):
+        rows = (
+            ("B07", "Pirc Defense", "1. e4 d6"),
+            ("B07", "Pirc Defense", "1. e4 d6 2. d4"),
+            ("B07", "Pirc Defense", "1. e4 d6 2. d4 Nf6"),
+            ("B07", "Pirc Defense", "1. e4 d6 2. d4 Nf6 3. Nc3 g6"),
+        )
+
+        resource = build_resource(
+            "Pirc Defense", OpeningBook.from_rows(rows), a_library(reviewed=False)
+        )
+
+        assert resource.main_line.moves == "1. e4 d6 2. d4 Nf6 3. Nc3 g6"
+
+    def test_a_deeper_row_on_a_different_branch_is_not_followed(self):
+        rows = (
+            ("A00", "Test Opening", "1. e4 e5"),
+            ("A00", "Test Opening", "1. d4 d5 2. c4"),
+        )
+
+        resource = build_resource(
+            "Test Opening", OpeningBook.from_rows(rows), a_library(reviewed=False)
+        )
+
+        assert resource.main_line.moves == "1. e4 e5"

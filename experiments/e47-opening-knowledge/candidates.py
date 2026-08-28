@@ -39,8 +39,13 @@ CANDIDATES: dict[str, list[tuple[str, str, str]]] = {
         ("London System - interactive study",
          "https://listudy.org/en/openings/london-system", "Listudy"),
     ],
-    "Indian Defense": [
-        ("London System: the complete guide (the structure these games reach)",
+    # Scoped to the SUBLINE, not the family. "Indian Defense" is `1. d4 Nf6`,
+    # which nobody studies: measured on the review games, 5 of 10 became a
+    # London and 5 went elsewhere, so a family-wide London guide is right for
+    # half the players and wrong for the other half. `for_opening` now honours
+    # subline scope, so these reach only the players who actually get there.
+    "Indian Defense: Accelerated London System": [
+        ("London System: the complete guide",
          "https://thechessworld.com/articles/openings/london-system-the-complete-guide/",
          "TheChessWorld"),
         ("The London System: complete guide for club players",

@@ -101,7 +101,13 @@ def main() -> int:
     families, reached = repertoires(book)
     cache = json.loads(QUOTE_CACHE.read_text(encoding="utf-8")) if QUOTE_CACHE.exists() else {}
 
-    wanted = [f for f, _ in families.most_common() if f in CANDIDATES][: args.families]
+    # Candidate keys may name a SUBLINE now ("Indian Defense: Accelerated
+    # London System"), so a family is covered when any key falls inside it.
+    by_family: dict[str, list] = {}
+    for key, entries in CANDIDATES.items():
+        by_family.setdefault(key.split(":")[0].strip(), []).extend(entries)
+
+    wanted = [f for f, _ in families.most_common() if f in by_family][: args.families]
 
     lines = [
         "OPENING RESOURCES — moves, quoted plans, and a link",
@@ -136,7 +142,7 @@ def main() -> int:
         lines.append("")
 
         found_here = False
-        for title, url, publisher in CANDIDATES[family]:
+        for title, url, publisher in by_family[family]:
             entry = quotes_for(url, cache, args.refetch)
             if entry["status"].startswith("HTTP") or not entry["status"].isdigit():
                 lines.append(f"  [{publisher}] not read — {entry['status']}")

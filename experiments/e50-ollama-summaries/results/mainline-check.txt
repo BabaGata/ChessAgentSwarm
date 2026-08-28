@@ -1,0 +1,62 @@
+ROWS NAMED PLAINLY FOR THE FAMILY
+==============================================================================
+
+A chain means each row extends the one before it, so the deepest is a
+continuation of the main line rather than a different line entirely.
+
+------------------------------------------------------------------------------
+Indian Defense   2 rows   chain=True
+    2 plies  1. d4 Nf6  <-- CHOSEN
+    5 plies  1. d4 Nf6 2. c4 e6 3. Qb3
+------------------------------------------------------------------------------
+Pirc Defense   4 rows   chain=True
+    2 plies  1. e4 d6
+    3 plies  1. e4 d6 2. d4
+    4 plies  1. e4 d6 2. d4 Nf6
+    6 plies  1. e4 d6 2. d4 Nf6 3. Nc3 g6  <-- CHOSEN
+------------------------------------------------------------------------------
+Sicilian Defense   4 rows   chain=True
+    2 plies  1. e4 c5
+    3 plies  1. e4 c5 2. Nf3
+    5 plies  1. e4 c5 2. Nf3 d6 3. d4
+    6 plies  1. e4 c5 2. Nf3 d6 3. d4 cxd4  <-- CHOSEN
+------------------------------------------------------------------------------
+French Defense   2 rows   chain=True
+    2 plies  1. e4 e6
+    4 plies  1. e4 e6 2. d4 d5  <-- CHOSEN
+------------------------------------------------------------------------------
+Italian Game   1 rows   chain=True
+    5 plies  1. e4 e5 2. Nf3 Nc6 3. Bc4  <-- CHOSEN
+------------------------------------------------------------------------------
+Queen's Pawn Game   5 rows   chain=False
+    1 plies  1. d4
+    2 plies  1. d4 d6
+    2 plies  1. d4 d5
+    3 plies  1. d4 d5 2. e3
+    4 plies  1. d4 d5 2. e3 Nf6  <-- CHOSEN
+------------------------------------------------------------------------------
+Caro-Kann Defense   7 rows   chain=False
+    2 plies  1. e4 c6
+    3 plies  1. e4 c6 2. Nc3
+    3 plies  1. e4 c6 2. d4
+    4 plies  1. e4 c6 2. Nc3 d5  <-- CHOSEN
+    4 plies  1. e4 c6 2. d4 d5
+    5 plies  1. e4 c6 2. d4 d5 3. Nc3
+    6 plies  1. e4 c6 2. d4 d5 3. Nc3 dxe4
+------------------------------------------------------------------------------
+English Opening   1 rows   chain=True
+    1 plies  1. c4  <-- CHOSEN
+------------------------------------------------------------------------------
+Scandinavian Defense   2 rows   chain=True
+    2 plies  1. e4 d5
+    3 plies  1. e4 d5 2. b3  <-- CHOSEN
+------------------------------------------------------------------------------
+King's Pawn Game   2 rows   chain=True
+    1 plies  1. e4
+    2 plies  1. e4 e5  <-- CHOSEN
+------------------------------------------------------------------------------
+Vienna Game   1 rows   chain=True
+    3 plies  1. e4 e5 2. Nc3  <-- CHOSEN
+------------------------------------------------------------------------------
+Hungarian Opening   1 rows   chain=True
+    1 plies  1. g3  <-- CHOSEN

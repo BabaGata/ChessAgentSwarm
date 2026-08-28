@@ -122,7 +122,7 @@ Scandinavian Defense  —  16 games
 ------------------------------------------------------------------------------
 Caro-Kann Defense  —  13 games
 
-  MAIN LINE   1. e4 c6 2. d4 d5 3. Nc3 dxe4
+  MAIN LINE   1. e4 c6 2. Nc3 d5
     Exchange Variation                  1. e4 c6 2. d4 d5 3. exd5                     2 games
     Hillbilly Attack                    1. e4 c6 2. Bc4                               1 games
     Advance Variation                   1. e4 c6 2. d4 d5 3. e5                       1 games
@@ -184,7 +184,7 @@ Pirc Defense  —  11 games
 ------------------------------------------------------------------------------
 Indian Defense  —  10 games
 
-  MAIN LINE   1. d4 Nf6 2. c4 e6 3. Qb3
+  MAIN LINE   1. d4 Nf6
     Accelerated London System           1. d4 Nf6 2. Bf4                              4 games
     Przepiorka Variation                1. d4 Nf6 2. Nf3 g6 3. g3                     1 games
     Gibbins-Weidenhagen Gambit          1. d4 Nf6 2. g4                               not played

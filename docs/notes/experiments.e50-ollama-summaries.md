@@ -87,6 +87,59 @@ real output on the first run, and it is why `grounded` never means *correct*.
 The adversarial case pinned in the tests is the same shape and worse: swapping White and Black
 throughout passes both checks against a page saying the opposite.
 
+## Part 5 — the stray finding was a structural defect, not a typo
+
+The Indian Defense summary described the London System. The candidate entry's own title asserted
+why — *"(the structure these games reach)"* — so it was a claim, and it half held:
+
+| | |
+|---|--:|
+| games classified `Indian Defense` | 10 |
+| **reaching a London (early Bf4)** | **5 (50 %)** |
+
+4 of them are named `Indian Defense: Accelerated London System` outright.
+
+**Half right is worse than wrong here.** A family-wide London guide is correct for five players and
+misleading for five, and the misled five have no way to tell.
+
+**The unit was the defect.** `Indian Defense` is `1. d4 Nf6` — a move, not something anyone sits down
+to study. And it is systematic: the Sicilian candidates include a **Chess Doctrine Alapin page**,
+right for 7 of 16 games and wrong for the other 9 (McDonnell, Old Sicilian, Bowdler, Taimanov).
+
+So `for_opening` now honours **subline scope**: a guide naming a subline reaches only players who
+play it, and sorts ahead of family-level guides — which is what its docstring always claimed and
+never did. `build_resource` asks with the player's **most-played line** rather than the bare family.
+The London entries are re-keyed under `Indian Defense: Accelerated London System`, so a Przepiorka
+player is now told nothing, which is the right answer.
+
+**The Sicilian is left for the author.** Deciding which Alapin page covers `Delayed Alapin Variation,
+with d6` is curation, not code, and the mechanism is now there for it.
+
+## Part 6 — and the main line was wrong for the same family
+
+With the mapping fixed, the Indian Defense still printed
+**`MAIN LINE 1. d4 Nf6 2. c4 e6 3. Qb3`** — an obscure sideline the source data also names plainly.
+
+E49's rule took the *deepest* row carrying the family's bare name. Checking whether those rows form a
+chain does not catch it, because this one **is** a continuation of `1. d4 Nf6`. What marks it is the
+**jump**: three plies in one step, where the Pirc and Sicilian advance one or two at a time.
+
+`MAX_MAINLINE_STEP = 2`, and the walk stops at a bigger gap:
+
+| family | main line |
+|---|---|
+| Indian Defense | `1. d4 Nf6` ✔ corrected |
+| Pirc Defense | `1. e4 d6 2. d4 Nf6 3. Nc3 g6` ✔ unchanged |
+| Sicilian Defense | `1. e4 c5 2. Nf3 d6 3. d4 cxd4` ✔ unchanged |
+| French Defense | `1. e4 e6 2. d4 d5` ✔ unchanged |
+| **Caro-Kann Defense** | `1. e4 c6 2. Nc3 d5` — **legitimate, not the main line** |
+| **Queen's Pawn Game** | `1. d4 d5 2. e3 Nf6` — same |
+
+**The residue is stated rather than papered over.** Those two branch at equal depth, and the tie is
+broken **alphabetically** — which puts `2. Nc3` ahead of `2. d4`. The players' own games cannot break
+it either, since every branch here carries the same bare family name. Fixing it needs chess judgement
+about which branch is the main one, which is the author's call and not this code's.
+
 ## Consequence
 
 - **Adopt `qwen2.5:3b`** behind the `Summariser` protocol, optional everywhere. With no summariser
@@ -95,9 +148,11 @@ throughout passes both checks against a page saying the opposite.
   something to beat — the shape `classifiers.py` uses.
 - **`MAX_NOVELTY = 0.45`** sits above qwen2.5's mean of 18 % and below qwen3's 38 %, so it separates
   the arms on measured output rather than on a guess.
-- **A stray finding for E49's candidate list:** the Indian Defense entry is served by a *London
-  System* guide, so its summary describes the wrong opening. The extractor and the model both did
-  their jobs; the candidate mapping is wrong.
+- **Guides may be scoped to a subline** (`for_opening`, `_covers`), and `build_resource` asks with
+  the most-played line. Indian Defense re-keyed; **the Sicilian Alapin mis-scope is recorded and left
+  for the author**, since which page covers which subline is curation.
+- **`MAX_MAINLINE_STEP = 2`** stops the main line jumping onto a sideline that shares the family
+  name. Two families still resolve an equal-depth branch alphabetically, and it is stated.
 
 ## Honest limitations
 
