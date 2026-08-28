@@ -740,6 +740,10 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="skip the four context questions (they size the plan, so the default is to ask)",
     )
+    session.add_argument(
+        "--runs", default=None,
+        help="run store to read an approved opening brief from (data/runs.db)",
+    )
     session.set_defaults(handler=coach)
 
     report = subcommands.add_parser("report", help="render a profile for a person to read")
@@ -766,6 +770,46 @@ def build_parser() -> argparse.ArgumentParser:
     probe.set_defaults(handler=run_probes)
 
     return parser
+
+
+
+def _opening_brief(games, runs_path):
+    """The approved brief for the opening this player leans on, if there is one.
+
+    Two ways to get nothing, and both are correct rather than errors: no store,
+    or no run for this opening that a person has approved. The report simply
+    omits the section -- a gap in our curation is not news to the player.
+
+    The opening is the family they play most, which is the same unit the guide
+    library and the swarm both key on.
+    """
+    if not runs_path:
+        return None
+    path = Path(runs_path)
+    if not path.exists():
+        return None
+
+    from collections import Counter
+
+    from chesscoach.openings import OpeningBook
+    from chesscoach.runstore import RunStore
+
+    try:
+        book = OpeningBook.load()
+    except (OSError, ValueError):
+        # No book downloaded is a setup gap, not a reason to lose the report.
+        return None
+
+    played: Counter = Counter()
+    for game in games:
+        walk = book.walk(list(game.moves))
+        if walk.opening:
+            played[walk.opening.name.split(":")[0].strip()] += 1
+    if not played:
+        return None
+
+    with RunStore(path) as store:
+        return store.approved_brief(played.most_common(1)[0][0])
 
 
 def coach(args: argparse.Namespace) -> int:
@@ -845,7 +889,7 @@ def coach(args: argparse.Namespace) -> int:
     out = args.out or f"{args.player}-profile.json"
     save_profile(profile, out)
     print("\n" + "=" * 68 + "\n")
-    print(render(profile))
+    print(render(profile, opening=_opening_brief(games, args.runs)))
     print("\n" + "=" * 68)
     print(f"profile  {out}")
     return 0

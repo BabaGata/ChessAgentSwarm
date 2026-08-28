@@ -1,0 +1,31 @@
+THE APPROVAL GATE, ON A COPY OF THE STORE
+==========================================================================
+
+run 4: Bird Opening, 5 points kept
+
+--------------------------------------------------------------------------
+BEFORE -- the run exists, is finished, and nobody has approved it
+
+  approved_brief() -> None
+  report section   -> []
+
+--------------------------------------------------------------------------
+AFTER -- one person has read it and approved it
+
+YOUR OPENING -- Bird Opening
+
+  Aim for    Develop the f-pawn to f4 and consider a kingside fianchetto
+  Aim for    Maintain king safety and control the e1-h4 diagonal
+  Aim for    Support the e5 square and prepare for a potential pawn storm
+  Watch for  Counter White's development and prepare for a kingside attack
+  Watch for  Prevent White from establishing a strong kingside pawn structure
+
+  Written from:
+    https://www.chessworld.net/bird-opening.asp
+    https://www.chess.com/forum/view/chess-openings/why-lower-rated-players-should-learn-birds-opening
+
+
+--------------------------------------------------------------------------
+
+The real store at data\runs.db is untouched: every run is still
+pending, because approving is the author's act and not this script's.

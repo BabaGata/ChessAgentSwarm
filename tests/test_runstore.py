@@ -210,3 +210,46 @@ class TestAFailedSearchIsVisible:
         assert run.opening == "Owen Defense"
         assert run.finished is False
         assert run.pages == 0
+
+
+class TestTheStoreSurvivesItsOwnSchemaGrowing:
+    """A store is a history, so it must open after the schema gains a column.
+
+    This is not hypothetical: a store written before `approved` existed raised
+    "no such column: approved" on the very next run, because CREATE TABLE IF NOT
+    EXISTS does nothing to a table that is already there.
+    """
+
+    def test_a_store_missing_a_newer_column_is_migrated_in_place(self, tmp_path):
+        import sqlite3
+
+        path = tmp_path / "old.db"
+        # The first version of the schema, without `approved`.
+        old = sqlite3.connect(path)
+        old.executescript(
+            "CREATE TABLE run (id INTEGER PRIMARY KEY, opening TEXT NOT NULL,"
+            " model TEXT NOT NULL, searcher TEXT NOT NULL DEFAULT '',"
+            " started_at TEXT NOT NULL, finished_at TEXT);"
+            "INSERT INTO run (opening, model, started_at)"
+            " VALUES ('Pirc Defense', 'm', '2026-01-01T00:00:00+00:00');"
+        )
+        old.commit()
+        old.close()
+
+        store = RunStore(path)
+
+        # The old row survives, and the new column has its default.
+        run = store.runs()[0]
+        assert run.opening == "Pirc Defense"
+        assert run.is_approved is False
+
+    def test_migrating_does_not_lose_rows(self, tmp_path):
+        store = RunStore(tmp_path / "runs.db")
+        store.start_run("Pirc Defense", "m")
+        store.close()
+
+        # Opening twice must be idempotent -- the migration runs every time.
+        again = RunStore(tmp_path / "runs.db")
+        again.close()
+
+        assert len(RunStore(tmp_path / "runs.db").runs()) == 1

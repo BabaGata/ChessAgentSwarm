@@ -13,6 +13,13 @@ never could.
     python dump_run.py --dropped                why points are lost, everywhere
     python dump_run.py --domains                which sites actually yield notes
     python dump_run.py --unfinished             runs that died partway
+    python dump_run.py --pending                briefs waiting to be read
+    python dump_run.py --approve 4              a brief may now reach a player
+    python dump_run.py --withdraw 4             take that back
+
+Approving is the same act as setting `reviewed: true` on a guide link, and it is
+the author's alone: `RunStore.approved_brief` is the only door the report reads
+through, and it returns nothing for a run nobody has approved.
 """
 
 from __future__ import annotations
@@ -83,6 +90,9 @@ def main() -> int:
     parser.add_argument("--dropped", action="store_true")
     parser.add_argument("--domains", action="store_true")
     parser.add_argument("--unfinished", action="store_true")
+    parser.add_argument("--pending", action="store_true")
+    parser.add_argument("--approve", type=int, default=None)
+    parser.add_argument("--withdraw", type=int, default=None)
     parser.add_argument("--limit", type=int, default=15)
     args = parser.parse_args()
 
@@ -93,7 +103,21 @@ def main() -> int:
     store = RunStore(args.db)
     lines: list[str] = []
 
-    if args.dropped:
+    if args.approve is not None:
+        store.approve(args.approve)
+        lines = [f"run {args.approve} approved -- its points may now reach a player"]
+    elif args.withdraw is not None:
+        store.withdraw(args.withdraw)
+        lines = [f"run {args.withdraw} withdrawn -- nothing deleted, it stops showing"]
+    elif args.pending:
+        lines += ["BRIEFS WAITING TO BE READ", "=" * 78, "",
+                  "Read one with --run N, then --approve N.", ""]
+        for run in store.pending(limit=args.limit):
+            lines.append(f"  run {run.id:<5} {run.opening:<26}"
+                         f"{run.points_kept} points   {run.started_at}")
+        if not store.pending():
+            lines.append("  none")
+    elif args.dropped:
         lines += ["WHY POINTS ARE DROPPED, ACROSS EVERY RUN", "=" * 78, ""]
         for row in store.drop_reasons(limit=args.limit):
             lines.append(f"  {row['n']:>5}  {row['dropped_for']}")
@@ -121,6 +145,7 @@ def main() -> int:
                   f"{'kept':>6}  started", ""]
         for run in store.runs(limit=args.limit):
             mark = "" if run.finished else "  (unfinished)"
+            mark += "  APPROVED" if run.is_approved else ""
             lines.append(f"  {run.id:>4}  {run.opening[:25]:<26}{run.pages:>6}"
                          f"{run.notes:>6}{run.points_kept:>6}  "
                          f"{run.started_at}{mark}")

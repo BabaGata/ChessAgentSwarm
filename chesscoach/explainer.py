@@ -26,6 +26,7 @@ from __future__ import annotations
 from chesscoach.arbiter import NEGLIGIBLE_COST_PER_GAME
 from chesscoach.context import FOCUSED_EFFORT_HOURS
 from chesscoach.phrasing import move_number, quantity, statement
+from chesscoach.runstore import StoredBrief
 from chesscoach.profile.models import (
     ConfidenceTier,
     DeterminedBy,
@@ -109,18 +110,57 @@ LIMITS = (
 )
 
 
-def render(profile: PlayerProfile) -> str:
-    """The whole report, as text."""
+def render(profile: PlayerProfile, opening: StoredBrief | None = None) -> str:
+    """The whole report, as text.
+
+    `opening` is an **approved** brief from the run store, or nothing. The
+    caller does the lookup, because the report has no business opening a
+    database — and because `RunStore.approved_brief` is the only door, an
+    unapproved brief cannot reach here even by mistake.
+    """
     return "\n".join(
         _header(profile)
         + _what_you_said(profile)
         + _how_you_play(profile)
         + _findings_section(profile)
         + _plan_section(profile)
+        + _opening_section(opening)
         + _band_section(profile)
         + _not_assessed(profile)
         + _limits(profile)
     )
+
+
+def _opening_section(brief: StoredBrief | None) -> list[str]:
+    """What to aim for in the opening this player actually plays.
+
+    Nothing at all when there is no approved brief, which is the same silence
+    the guide library gives for an unreviewed link. An opening nobody has
+    approved is not mentioned, rather than mentioned as missing: the player did
+    not ask about it, and a gap in our curation is not news to them.
+
+    **It sits after WHAT TO DO deliberately.** The plan comes from the player's
+    own games and is the report's point; this is background reading, and putting
+    it above would say the opposite.
+    """
+    if brief is None or not brief.has_points:
+        return []
+
+    lines = [f"YOUR OPENING -- {brief.opening}", ""]
+    for point in brief.plans:
+        lines.append(f"  Aim for    {point}")
+    for point in brief.watches:
+        lines.append(f"  Watch for  {point}")
+    lines.append("")
+
+    # Where every one of those sentences came from. The points are a local model's
+    # wording of sentences quoted from these pages, and saying so is the
+    # difference between a citation and a claim of expertise (R-03).
+    lines.append("  Written from:")
+    for url in brief.sources[:4]:
+        lines.append(f"    {url}")
+    lines += ["", ""]
+    return lines
 
 
 def _what_you_said(profile: PlayerProfile) -> list[str]:

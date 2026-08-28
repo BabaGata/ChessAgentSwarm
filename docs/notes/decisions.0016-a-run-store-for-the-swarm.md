@@ -74,8 +74,37 @@ examiner reproducing the work from an empty directory.
   form, and it prints sentences in full where the old reports cropped them to 88 characters for
   column alignment.
 
+## The report reads it, through one door
+
+`explainer.render(profile, opening=...)` prints a **YOUR OPENING** section, and the only way to get a
+brief into it is `RunStore.approved_brief`, which returns nothing for a run nobody has approved.
+
+**Approving is the same act as setting `reviewed: true` on a guide link**, and belongs to the same
+person. The swarm's brief is a candidate; recommending is endorsing. `dump_run.py --pending` lists
+what is waiting, `--run N` prints it in full, `--approve N` opens the gate and `--withdraw N` closes
+it again without deleting anything.
+
+Three properties, each tested because each could break silently:
+
+- an **unapproved** run is never returned;
+- an **unfinished** run is never returned *even if approved*, since a run that died halfway holds a
+  partial brief;
+- **dropped points never reach the brief** — only what survived its own checks.
+
+The section sits **after** WHAT TO DO. The plan comes from the player's own games and is the report's
+point; this is background reading, and putting it above would say the opposite. With no approved
+brief the section is absent entirely rather than present and empty: a gap in our curation is not news
+to the player.
+
+**There is deliberately no staleness rule.** What goes stale is a *link*, and the guide library
+already checks liveness separately — the plans of the Pirc do not expire on a calendar. A better
+model or a dead source is a reason to re-run and re-approve; the date is not.
+
 ## What this does not settle
 
-**Nothing reads the store yet.** The report still re-derives a brief rather than looking for a recent
-one, so the cost saving the store makes possible has not been taken. That is the next step and it
-needs a staleness rule — how old a brief may be before it is worth paying for again.
+**Nothing is approved.** Five runs sit pending and no player would see an opening section today,
+which is correct and is also the whole remaining gap: the gate works and nobody has walked through
+it.
+
+**Approval is per run, not per point.** A brief with four good points and one weak one is approved or
+not as a unit, and the author's likely wish — *"keep these three"* — has nowhere to go.
