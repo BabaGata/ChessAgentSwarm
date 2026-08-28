@@ -37,12 +37,13 @@ import re
 from dataclasses import dataclass, field
 
 from chesscoach import ollama
-from chesscoach.grounding import Grounding, check, moves_in, overlap
+from chesscoach.grounding import Grounding, check, overlap
 from chesscoach.opening_agent import Gap
 from chesscoach.opening_plans import (
     MAX_WORDS,
     MIN_WORDS,
     is_usable_note,
+    names_a_target,
     text_blocks,
 )
 from chesscoach.skiplist import REASONS, SkipList, domain_of
@@ -426,13 +427,15 @@ class Compiler:
             # which is the only reason that half exists.
             if not dropped and _restates(text, kept_plans + kept_watches):
                 dropped = "repeats a point already made"
-            # A point that names no square names nothing a player can do. The
+            # A point must name something a player can find on the board. The
             # author, on real output: *"vague words like harmony and counterplay
             # when there is nowhere stated what counterplay is not valuable at
-            # all."* Measured on that run, this halves the points and every
-            # survivor is actionable.
-            if not dropped and not moves_in(text):
-                dropped = "names no square or move"
+            # all."* A square is not required -- a file, a diagonal or a named
+            # piece is equally locatable, and "take the d file while watching
+            # Black's light-squared bishop" is a real point. What is refused is
+            # the generic noun: "pieces", "the center", "pawn structure".
+            if not dropped and not names_a_target(text):
+                dropped = "names nothing on the board"
             points.append(Point(text, kind, grounding, dropped))
             if not dropped:
                 (kept_plans if kind == "plan" else kept_watches).append(text)

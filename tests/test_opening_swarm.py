@@ -337,18 +337,28 @@ class TestAPointMustNameSomethingOnTheBoard:
     Both sentences below were produced by the swarm on the same run.
     """
 
-    def test_a_point_naming_no_square_is_dropped(self):
+    def test_a_point_naming_nothing_locatable_is_dropped(self):
         brief = Compiler(transport=answering(
             "PLAN: Black completes development first and stays flexible."
         )).compile("Pirc Defense", NOTES)
 
         assert brief.plans == ()
-        assert "names no square" in brief.dropped[0].dropped_for
+        assert "names nothing" in brief.dropped[0].dropped_for
 
     def test_a_point_anchored_to_a_square_survives(self):
         brief = Compiler(transport=answering(
             "PLAN: Undermine the pawns on e4 and d4 once development is complete."
         )).compile("Pirc Defense", NOTES)
+
+        assert len(brief.plans) == 1
+
+    def test_a_file_anchors_a_point_without_any_square(self):
+        # The author's correction: a point can be concrete without a square.
+        brief = Compiler(transport=answering(
+            "PLAN: Take the d file and watch the light squared bishop."
+        )).compile("Pirc Defense", NOTES + (
+            "Take the d file and watch the light squared bishop.",
+        ))
 
         assert len(brief.plans) == 1
 

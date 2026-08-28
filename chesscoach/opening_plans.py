@@ -301,3 +301,30 @@ def is_usable_note(sentence: str) -> bool:
     if is_analysis_line(sentence):
         return False
     return bool(BOARD.search(sentence))
+
+
+# Something a player can locate on the board. Wider than a square, because a
+# point can be concrete without naming one: the author's example, *"White should
+# take the d file but still keep track of Black's attacks on the king with the
+# light squared bishop and a queen"*, names a file and a specific bishop and is
+# perfectly actionable.
+#
+# What it must exclude is the generic noun. "Pieces", "the center" and "pawn
+# structure" are what "develop pieces in harmony and prepare for counterplay" is
+# made of, and that point tells a player nothing.
+CONCRETE = re.compile(
+    r"\b[a-h][1-8]\b"                                  # a square
+    r"|\b[a-h][1-8]\s?[-\u2013]\s?[a-h][1-8]\b"        # a diagonal, e1-h4
+    r"|\b[a-h][\s-]?(?:file|pawn)\b"                   # the d file, the f-pawn
+    r"|\b(?:light|dark)[\s-]?squared? \w*bishop\b"     # the light-squared bishop
+    r"|\b(?:queen|king)'?s?[\s-](?:knight|bishop|rook|side pawns?)\b"
+    r"|\b(?:long|open|half[\s-]open) (?:diagonal|file)\b"
+    r"|\b(?:back rank|seventh rank|eighth rank)\b"
+    r"|\b[KQRBN][a-h][1-8]\b|\bO-O(?:-O)?\b",          # a move
+    re.I,
+)
+
+
+def names_a_target(text: str) -> bool:
+    """Does this point name something a player can find on the board?"""
+    return bool(CONCRETE.search(text))

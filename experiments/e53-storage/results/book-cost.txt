@@ -1,0 +1,22 @@
+IS JSON GOOD ENOUGH FOR THE OPENING BOOK?
+==========================================================================
+
+  file size                            1.46 MB
+  named lines                          3810
+  positions in theory                  7854
+
+LOAD -- paid once per process
+  parse + index                        0.04 s
+  peak memory while loading             4.4 MB
+
+QUERY -- what the theory check does per game
+  games walked                          120
+  total                               0.143 s
+  per game                             1189 us
+
+EXTEND -- adding one opening rewrites the whole document
+  read + append + write               0.018 s
+
+==========================================================================
+The query number is the one that matters for the thesis: a walk is a
+dict lookup, and the storage format has already been paid for by then.
