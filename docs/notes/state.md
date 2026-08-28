@@ -52,6 +52,7 @@ need to know?"
 | **Band-level notes** | **built** | what the whole rating band loses most to — five screened claims, never competing for a priority (E25) |
 | **Speed pooling** | **built** | blitz joins the corpus; the baseline stays per-speed by direct standardisation. 24-game coverage 50 % → **79 %** |
 | **Corpus hygiene** | **built** | berserked and abandoned games excluded, counted, and disclosed to the player |
+| **Opening resources** | **built 2026-08-28** | `chesscoach/opening_plans.py` + `opening_resource.py` — the shape the author approved on the Pirc entry, for every family: the **main line and a few variants** from the CC0 book (`Opening` now keeps `pgn`), **two plan sentences quoted verbatim** from the linked page, and the link. **The system selects sentences and never writes one** ([[decisions.0012-quote-the-plans-rather-than-write-them]]) — checked first that the sentences the author endorsed were the page's own words. 26 of 35 pages yield a plan sentence; the nine that do not are references, which is E48's finding measured page by page |
 | **One-command session** | **built** | `cli coach` — username in, report out; verified end to end on a live player, deterministic across runs |
 
 ## Distance to vision
@@ -213,6 +214,17 @@ outranks expert agreement**, and the remaining Form A collection is dropped as a
 0. **~~P0 — D18 (superseded by the line above)~~** SAN instead of UCI, and game citations carrying colours,
    opponent and date. Cheap, and it is what makes every other check on this list faster for the
    author, so it comes early rather than last.
+
+0. **P1 — The author's read of the opening resources** *(2026-08-28)* →
+   `experiments/e49-opening-resources/results/resources.txt`. Twelve families, each with its main
+   line, up to four variants ordered by the player's own games, and the plan sentences quoted from
+   each candidate page. **Nothing is `reviewed=true`, so none of it reaches a player**, and quoting
+   now rides on that flag as well as linking does — approving a page means "these sentences may be
+   repeated in my name". The extractor cannot judge chess: a confidently wrong plan, plainly
+   written, passes every rule in it.
+
+0. **P1 — Wire `build_resource` into the report.** The resource exists and nothing consumes it. It
+   attaches to D19, where the player left the book.
 
 0. **P1 — Re-run E31 and E44.** Both joined the author's noted move numbers with the formula fixed in
    `f5872ff`, so every Black note was matched against the wrong move. **Their figures are not

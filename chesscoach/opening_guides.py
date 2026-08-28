@@ -46,9 +46,13 @@ class Guide:
     alive: bool | None = None
     checked_on: str | None = None
     # The page's own description, kept as a fallback for the hand-written title.
-    # Taken from `meta description` only, never from body text: extracting prose
-    # is how a link turns back into a copy.
+    # Taken from `meta description` only.
     summary: str = ""
+    # Sentences quoted verbatim from the page, saying what to aim for. Bounded
+    # and attributed -- see [[decisions.0012-quote-the-plans-rather-than-write-them]],
+    # which reverses this module's original "never from body text" rule and
+    # gives the reasons. Never shown without `url` and `publisher` beside them.
+    plans: tuple[str, ...] = ()
 
 
 class GuideLibrary:
@@ -102,6 +106,10 @@ class GuideLibrary:
                 alive=checked.alive,
                 checked_on=today,
                 summary=checked.summary or guide.summary,
+                # A fetch that found no plan sentence must not erase ones a
+                # previous pass found: 403 and a timeout both return nothing,
+                # and nothing is not a finding of absence (L-046).
+                plans=checked.plans or guide.plans,
             ))
         return GuideLibrary(tuple(stamped))
 
@@ -134,6 +142,7 @@ class GuideLibrary:
                 note=entry.get("note", ""),
                 alive=entry.get("alive"), checked_on=entry.get("checked_on"),
                 summary=entry.get("summary", ""),
+                plans=tuple(entry.get("plans") or ()),
             )
             for entry in payload["guides"]
         ))
@@ -151,7 +160,7 @@ class GuideLibrary:
                     "opening": g.opening, "title": g.title, "url": g.url,
                     "publisher": g.publisher, "reviewed": g.reviewed, "note": g.note,
                     "alive": g.alive, "checked_on": g.checked_on,
-                    "summary": g.summary,
+                    "summary": g.summary, "plans": list(g.plans),
                 }
                 for g in sorted(self._guides, key=lambda g: (g.opening, g.url))
             ],

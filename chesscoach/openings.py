@@ -55,6 +55,10 @@ class Opening:
     name: str
     epd: str
     plies: int
+    # The moves that reach it, in the source's own SAN with move numbers. Kept
+    # because a player asking "what is the Pirc" wants the moves, and the EPD
+    # they are indexed by cannot be replayed back into them.
+    pgn: str = ""
 
 
 @dataclass(frozen=True)
@@ -113,12 +117,25 @@ class OpeningBook:
             existing = by_epd.get(epd)
             # Deepest wins, so a subline beats the parent it transposes from.
             if existing is None or plies > existing.plies:
-                by_epd[epd] = Opening(eco=eco, name=name, epd=epd, plies=plies)
+                by_epd[epd] = Opening(eco=eco, name=name, epd=epd, plies=plies,
+                                      pgn=" ".join(pgn.split()))
         return cls(by_epd, in_book)
 
     def classify(self, board: chess.Board) -> Opening | None:
         """The named line this exact position is, if any."""
         return self._by_epd.get(board.epd())
+
+    def lines_for(self, family: str) -> tuple[Opening, ...]:
+        """Every named line in one family, shallowest first.
+
+        **Data, not a selection.** The Sicilian has 391 named lines and the Pirc
+        28, so something must choose the few a player is shown — but that choice
+        belongs where the player's own games are known, not here. This returns
+        the lot in a stable order and lets the caller decide.
+        """
+        wanted = _family(family)
+        found = [o for o in self._by_epd.values() if _family(o.name) == wanted and o.pgn]
+        return tuple(sorted(found, key=lambda o: (o.plies, o.name)))
 
     def walk(self, moves, max_plies: int = 30) -> BookWalk:
         """Replay a game and report the deepest named position it reached.
@@ -175,7 +192,8 @@ class OpeningBook:
             "licence": SOURCE_LICENCE,
             "in_book": sorted(self._in_book),
             "openings": [
-                {"eco": o.eco, "name": o.name, "epd": o.epd, "plies": o.plies}
+                {"eco": o.eco, "name": o.name, "epd": o.epd, "plies": o.plies,
+                 "pgn": o.pgn}
                 for o in sorted(self._by_epd.values(), key=lambda o: (o.eco, o.name))
             ],
         }
@@ -188,7 +206,20 @@ class OpeningBook:
             entry["epd"]: Opening(
                 eco=entry["eco"], name=entry["name"],
                 epd=entry["epd"], plies=entry["plies"],
+                # Absent in books built before the moves were kept. A book
+                # without them still classifies; it just cannot show a line.
+                pgn=entry.get("pgn", ""),
             )
             for entry in payload["openings"]
         }
         return cls(by_epd, set(payload.get("in_book") or by_epd))
+
+
+def _family(name: str) -> str:
+    """The part of an opening name before the colon.
+
+    "Pirc Defense: Classical Variation" and "Pirc Defense: Austrian Attack" are
+    the same opening to a player choosing what to study, and the guide library
+    keys on the same rule.
+    """
+    return name.split(":")[0].strip()

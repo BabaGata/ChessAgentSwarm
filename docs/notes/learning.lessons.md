@@ -24,6 +24,25 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 
 ---
 
+### L-047 - A yield rate measured before reading the output overstates it
+**Date:** 2026-08-28 - **Cycle / mission step:** M6 - **Class:** technique
+**Context:** Extracting plan sentences from opening guides ([[experiments.e49-opening-resources]]).
+The acceptance measure was "what share of pages yield at least one plan sentence".
+**Observation:** The first run scored **85 %**. Reading the 60 extracted sentences found six
+distinct ways the extractor shipped junk: a sentence cut in half at `e.g.`, an annotated variation
+quoted as prose, generic encouragement that names nothing on the board, marketing that wears
+instruction's grammar, a plural that slipped a singular blocklist, and advice about *studying* the
+opening rather than *playing* it. Every one of them counted as a success in the 85 %. After the
+fixes the figure is **74 %**, and the drop is the improvement.
+**Lesson:** **For an extraction pipeline, the count of outputs is not a measure of the outputs.** A
+yield rate answers "did the mechanism fire" and is silently a *ceiling* on quality, never an
+estimate of it. The acceptance criterion must be the artefact itself, read - and the failures found
+that way belong in tests **as the verbatim strings that produced them**, because a rule rewritten to
+pass its own restatement proves nothing (L-044). This is the same shape as [[decisions.0011-detection-correctness-over-expert-agreement]]:
+coverage said 83 % of players were advised and could not say whether the advice was true.
+**Applied to:** `tests/test_opening_plans.py` class `TestWhatARealRunLetThrough`, one test per
+verbatim sentence; [[experiments.e49-opening-resources]] result three.
+
 ### L-030 — Stability and specificity trade against each other, and one metric hides the other
 **Date:** 2026-08-06 · **Cycle / mission step:** M6 · **Class:** technique
 **Context:** Testing whether weakness rankings can be trusted on 20-game histories

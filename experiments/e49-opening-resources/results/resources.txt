@@ -1,0 +1,264 @@
+OPENING RESOURCES — moves, quoted plans, and a link
+==============================================================================
+
+The shape the author approved on the Pirc entry, built for every family.
+
+Every sentence below is QUOTED VERBATIM from the page credited beside it.
+Nothing here is written by the system. Move lists are from
+lichess-org/chess-openings (CC0). Variants are ordered by how often these
+players actually reached them.
+
+NOT ENDORSED: no page here is reviewed=true, so none of it reaches a
+player yet. This is the material for that review.
+
+------------------------------------------------------------------------------
+French Defense  —  24 games
+
+  MAIN LINE   1. e4 e6 2. d4 d5
+    Advance Variation                   1. e4 e6 2. d4 d5 3. e5                       4 games
+    Exchange Variation                  1. e4 e6 2. d4 d5 3. exd5                     3 games
+    Advance Variation, Paulsen Attack   1. e4 e6 2. d4 d5 3. e5 c5 4. c3 Nc6 5. Nf3   3 games
+    Steinitz Attack                     1. e4 e6 2. e5                                2 games
+
+  PLANS, quoted from TheChessWorld:
+    "Therefore, Black aims to play the c5 and f6 break."
+    "The idea is to open up lines for the pieces where Black is weaker."
+    "White aims to play a line resembling the King’s Indian Defense."
+    further reading: https://thechessworld.com/articles/openings/french-defense-complete-guide-for-both-colors/
+  PLANS, quoted from Chessentials:
+    "In subsequent play White tries to utilize his kingside space advantage, while Black tries to attack the center by attacking c3 or d4 (or undermining it with f6)."
+    "White tries to win on the kingside where he has space (f4-f5 advance) or to undermine the structure on the other side with b3."
+    "Black usually tries to bring his pieces to the kingside and use the opening of the position to create threats against White’s king."
+    further reading: https://chessentials.com/the-french-defence/
+  [The Chess Crew] read, no plan sentence found
+
+------------------------------------------------------------------------------
+Queen's Pawn Game  —  23 games
+
+  MAIN LINE   1. d4 d5 2. e3 Nf6
+    Accelerated London System           1. d4 d5 2. Bf4                               6 games
+    Modern Defense                      1. d4 g6                                      1 games
+    Chigorin Variation                  1. d4 d5 2. Nc3                               1 games
+    Mason Attack                        1. d4 d5 2. f4                                1 games
+
+  PLANS, quoted from TheChessWorld:
+    "And, now white’s main plan is to install a knight on e5, maybe push f2-f4, Bd3, transfer the queen to the kingside and then start attacking the black king."
+    further reading: https://thechessworld.com/articles/openings/london-system-the-complete-guide/
+  PLANS, quoted from FireChess:
+    "You always know what to do: complete development, castle kingside, and decide between a kingside attack or central break with e4."
+    "The knights typically go to f3 and d2, keeping the pawn structure intact and preparing a kingside castle."
+    "The key strategic challenge for White is deciding when to break with e4 (the central break) or launch a kingside attack with h4-h5."
+    further reading: https://www.firechess.com/blog/london-system-guide-club-players
+  [Listudy] read, no plan sentence found
+
+------------------------------------------------------------------------------
+English Opening  —  18 games
+
+  MAIN LINE   1. c4
+    King's English Variation            1. c4 e5                                      9 games
+    Anglo-Dutch Defense                 1. c4 f5                                      1 games
+    King's English Variation, Nimzowit  1. c4 e5 2. Nf3                               1 games
+    King's English Variation, Reversed  1. c4 e5 2. Nc3                               1 games
+
+  PLANS, quoted from Exeter Chess Club:
+    "One way of looking at the systems are whether Black aims to keep things closed with ...Nc6 (and often ...Nge7), or instead tries to develop the King's-side starting with ...Nf6."
+    further reading: https://www.exeterchessclub.org.uk/content/ideas-behind-english-opening
+  PLANS, quoted from IM Alberto Chueca:
+    "In some rare positions, White could long castle, but that doesn’t happen very often."
+    further reading: https://www.albertochueca.com/blog/english-opening/
+  PLANS, quoted from Chess Doctrine:
+    "Both sides will maneuver their pieces to optimal positions before attempting a pawn break, e.g. …b5 or …d5."
+    "White is exerting pressure on the b7 pawn and might try to take control of the a-file."
+    further reading: https://chessdoctrine.com/chess-openings/flank/english-opening/
+
+------------------------------------------------------------------------------
+Sicilian Defense  —  16 games
+
+  MAIN LINE   1. e4 c5 2. Nf3 d6 3. d4 cxd4
+    Delayed Alapin Variation, with d6   1. e4 c5 2. Nf3 d6 3. c3                      4 games
+    McDonnell Attack                    1. e4 c5 2. f4                                3 games
+    Bowdler Attack                      1. e4 c5 2. Bc4                               2 games
+    Old Sicilian                        1. e4 c5 2. Nf3 Nc6                           2 games
+
+  PLANS, quoted from Chessable:
+    "The idea is to prepare a central pawn push with d4 and fight for the center."
+    further reading: https://www.chessable.com/blog/the-alapin-variation/
+  PLANS, quoted from Chess Doctrine:
+    "White often aims to occupy the center, push the enemy pieces, and stop their advancement."
+    "By trying to conquer the center, Black aims to equalize rapidly."
+    "To summarize the ideas for both sides, Black typically aims to strike to d4-pawn by going Qb6 and Nc6."
+    further reading: https://chessdoctrine.com/chess-openings/kings-pawn/sicilian-alapin/
+  PLANS, quoted from Chess Doctrine:
+    "With this flexible approach, Black aims to look out for the opposing side’s next attempt."
+    "From this moment, both sides will aim to put their King into different places and move with a-b and f-g-h pawns to create a fierce assault on the rival."
+    "White typically aims to attack on the short side by moving the pawns forward, whereas Black aims to create chances on the long side by moving the a-b-c pawns down the board."
+    further reading: https://chessdoctrine.com/chess-openings/kings-pawn/sicilian-defense/
+
+------------------------------------------------------------------------------
+Scandinavian Defense  —  16 games
+
+  MAIN LINE   1. e4 d5 2. b3
+    Main Line                           1. e4 d5 2. exd5 Qxd5 3. Nc3 Qa5              3 games
+    Modern Variation                    1. e4 d5 2. exd5 Nf6                          2 games
+    Icelandic-Palme Gambit              1. e4 d5 2. exd5 Nf6 3. c4 e6                 2 games
+    Mieses-Kotroc Variation             1. e4 d5 2. exd5 Qxd5                         1 games
+
+  PLANS, quoted from IM Alberto Chueca:
+    "In general if Black can break with the pieces in good squares, they will have at least a balanced middlegame."
+    "To castle Kingside, pretending to play a quieter middlegame with some more space in the center."
+    "To castle Queenside, thinking about the possibility to play an opposite-side castlings middlegame."
+    further reading: https://www.albertochueca.com/blog/scandinavian-defense/
+  PLANS, quoted from Chess for Sharks:
+    "In most openings, Black will look to play moves that control other squares."
+    "Since the game features opposite-side castling, both sides will target their opponent’s king and look to win the game."
+    "This gambit aims to sacrifice a pawn for activity and rapid development."
+    further reading: https://chessforsharks.co/scandinavian-defense/
+  PLANS, quoted from FreeChessTrainer:
+    "After exd5 Qxd5, Black brings the queen out early but aims to complete development quickly and reach solid structures."
+    "Black aims to relocate the queen to a safer square, such as a5 or d6, while developing pieces smoothly."
+    "White tries to use the lead in development to create pressure, often by placing rooks on the d and e files and keeping an eye on weak squares in Black's camp."
+    further reading: https://freechesstrainer.org/openings/black/e4/scandinavian-defense.html
+
+------------------------------------------------------------------------------
+Caro-Kann Defense  —  13 games
+
+  MAIN LINE   1. e4 c6 2. d4 d5 3. Nc3 dxe4
+    Exchange Variation                  1. e4 c6 2. d4 d5 3. exd5                     2 games
+    Hillbilly Attack                    1. e4 c6 2. Bc4                               1 games
+    Advance Variation                   1. e4 c6 2. d4 d5 3. e5                       1 games
+    Maróczy Variation                   1. e4 c6 2. d4 d5 3. f3                       1 games
+
+  PLANS, quoted from Kingdom of Chess:
+    "Instead, Black aims to build a solid foundation and outplay the opponent in the long run."
+    "Each creates a different type of pawn structure and middlegame plan."
+    "White immediately grabs space and tries to restrict Black's pieces."
+    further reading: https://kingdomofchess.com/caro-kann-defense/
+  PLANS, quoted from Attacking Chess:
+    "In this variation, Black develops more cautiously with …Nd7 instead of the immediate …Bf5, aiming to avoid early piece exchanges that could create weaknesses."
+    further reading: https://www.attackingchess.com/caro-kann-defense-complete-guide-with-key-lines-for-both-white-and-black/
+  PLANS, quoted from OpeningDrills:
+    "A typical Caro-Kann structure where Black completes development with ...Be7, preparing to castle kingside."
+    "Black exchanges pieces and retreats the knight to b6, aiming to neutralize White's central pressure while maintaining piece coordination."
+    further reading: https://learn.openingdrills.com/black/semi-open/caro-kann-defense/
+
+------------------------------------------------------------------------------
+Italian Game  —  11 games
+
+  MAIN LINE   1. e4 e5 2. Nf3 Nc6 3. Bc4
+    Giuoco Piano                        1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5                2 games
+    Hungarian Defense                   1. e4 e5 2. Nf3 Nc6 3. Bc4 Be7                2 games
+    Paris Defense                       1. e4 e5 2. Nf3 Nc6 3. Bc4 d6                 1 games
+    Two Knights Defense                 1. e4 e5 2. Nf3 Nc6 3. Bc4 Nf6                1 games
+
+  PLANS, quoted from Chessable:
+    "In fact, by delaying castling White can often launch a kingside attack and then castle queenside."
+    "If Black allows you to close the center with d5, you can close the center and switch your focus to the kingside."
+    further reading: https://www.chessable.com/blog/the-italian-game/
+  PLANS, quoted from Chessiverse:
+    "White develops the bishop to its best square, targets the weak f7 pawn, and prepares to castle."
+    "White wants to develop every piece toward Black's king, castle short, and build pressure on f7 before Black finishes coordinating."
+    "After the quiet c3 and d3 setup, the thematic pawn break is d4 at the right moment."
+    further reading: https://chessiverse.com/blog/italian-game-the-complete-guide-to-chesss-oldest-opening
+  [Lichess forum] read, no plan sentence found
+
+------------------------------------------------------------------------------
+Pirc Defense  —  11 games
+
+  MAIN LINE   1. e4 d6 2. d4 Nf6 3. Nc3 g6
+    Classical Variation                 1. e4 d6 2. d4 Nf6 3. Nc3 g6 4. Nf3           4 games
+    Austrian Attack                     1. e4 d6 2. d4 Nf6 3. Nc3 g6 4. f4            1 games
+    Byrne Variation                     1. e4 d6 2. d4 Nf6 3. Nc3 g6 4. Bg5           1 games
+    Roscher Gambit                      1. e4 d6 2. d4 Nf6 3. Nf3                     not played
+
+  PLANS, quoted from FreeChessTrainer:
+    "Black allows White to occupy the center with pawns on e4 and d4, aiming to undermine it later with well timed pawn breaks and piece pressure."
+    "Black aims to stay flexible, first completing development and only later choosing a pawn break."
+    "The Trainer will present key Pirc structures so that you can practice handling different aggressive systems from White."
+    further reading: https://freechesstrainer.org/openings/black/e4/pirc-defense.html
+  PLANS, quoted from US Chess Sales:
+    "Instead of occupying the center immediately with pawns, Black will look to exert pressure from the flanks."
+    "Black must eventually look to make a central pawn thrust of their own."
+    further reading: https://www.uscfsales.com/blogs/chess-openings/the-pirc-defense-for-black
+  [Ochess] read, no plan sentence found
+
+------------------------------------------------------------------------------
+Indian Defense  —  10 games
+
+  MAIN LINE   1. d4 Nf6 2. c4 e6 3. Qb3
+    Accelerated London System           1. d4 Nf6 2. Bf4                              4 games
+    Przepiorka Variation                1. d4 Nf6 2. Nf3 g6 3. g3                     1 games
+    Gibbins-Weidenhagen Gambit          1. d4 Nf6 2. g4                               not played
+    Knights Variation                   1. d4 Nf6 2. Nf3                              not played
+
+  PLANS, quoted from TheChessWorld:
+    "And, now white’s main plan is to install a knight on e5, maybe push f2-f4, Bd3, transfer the queen to the kingside and then start attacking the black king."
+    further reading: https://thechessworld.com/articles/openings/london-system-the-complete-guide/
+  PLANS, quoted from FireChess:
+    "You always know what to do: complete development, castle kingside, and decide between a kingside attack or central break with e4."
+    "The knights typically go to f3 and d2, keeping the pawn structure intact and preparing a kingside castle."
+    "The key strategic challenge for White is deciding when to break with e4 (the central break) or launch a kingside attack with h4-h5."
+    further reading: https://www.firechess.com/blog/london-system-guide-club-players
+
+------------------------------------------------------------------------------
+Hungarian Opening  —  9 games
+
+  MAIN LINE   1. g3
+    Catalan Formation                   1. g3 d5 2. Bg2 e6                            1 games
+    Slav Formation                      1. g3 d5 2. Bg2 c6                            1 games
+    Dutch Defense                       1. g3 f5                                      not played
+    Indian Defense                      1. g3 Nf6                                     not played
+
+  PLANS, quoted from Chess Doctrine:
+    "By not committing the center, White usually aims to control the center through minor pieces from stable locations."
+    "White usually aims to go for the typical c4-pawn break to create problems on the long ‘a8-h1’ diagonal."
+    "This way, they can control the ‘a1-h8’ diagonal and prevent Black’s one of the main ideas, which is the e5-pawn break."
+    further reading: https://chessdoctrine.com/chess-openings/flank/kings-fianchetto/
+  [US Chess Sales] read, no plan sentence found
+  [My Chess Tutor] read, no plan sentence found
+
+------------------------------------------------------------------------------
+Vienna Game  —  8 games
+
+  MAIN LINE   1. e4 e5 2. Nc3
+    Omaha Gambit                        1. e4 e5 2. Nc3 d6 3. f4                      2 games
+    Vienna Gambit                       1. e4 e5 2. Nc3 Nf6 3. f4                     2 games
+    Anderssen Defense                   1. e4 e5 2. Nc3 Bc5                           1 games
+    Vienna Gambit, Paulsen Attack       1. e4 e5 2. Nc3 Nf6 3. f4 d5 4. fxe5 Nxe4 5.  1 games
+
+  [BetterChess] read, no plan sentence found
+  [Chess.lc] read, no plan sentence found
+  [US Chess Sales] read, no plan sentence found
+
+------------------------------------------------------------------------------
+King's Pawn Game  —  6 games
+
+  MAIN LINE   1. e4 e5
+    Wayward Queen Attack                1. e4 e5 2. Qh5                               1 games
+    Alapin Opening                      1. e4 e5 2. Ne2                               not played
+    King's Head Opening                 1. e4 e5 2. f3                                not played
+    Leonardis Variation                 1. e4 e5 2. d3                                not played
+
+  PLANS, quoted from TheChessWorld:
+    "The idea is to control the center (often with f4) and prepare for play along the f-file."
+    "White takes Black head-on and tries to disprove his concept."
+    "Here, White opts for the f3 system, where the main plan is to attack the Kingside with a pawn storm."
+    further reading: https://thechessworld.com/articles/openings/kings-pawn-game-1-e4-practical-repertoire-for-white/
+  PLANS, quoted from Kingdom of Chess:
+    "King safety via castling: By developing quickly, White can castle early."
+    "Castle early and maintain solid central control with d4 at the right time."
+    "Black avoids the direct central fight but aims to counter-attack later."
+    further reading: https://kingdomofchess.com/kings-pawn-opening/
+  PLANS, quoted from US Chess Sales:
+    "Both moves look to control the center and prepare to develop the pieces off their starting squares."
+    further reading: https://www.uscfsales.com/blogs/chess-openings/kings-pawn-opening-what-to-know-before-you-use-it
+
+==============================================================================
+WHAT THIS MEASURES
+
+  pages read                          35
+  pages yielding a plan sentence      26  (74 %)
+  families with at least one          11 of 12
+
+A page yielding nothing is a finding, not a failure of the extractor:
+a reference article explains what an opening IS and never what to aim
+for, which is exactly the distinction E48 could not measure.

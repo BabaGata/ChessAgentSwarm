@@ -26,6 +26,7 @@ real work, or if a future reader would otherwise ask *"why on earth is it like t
 | [[decisions.0009-prober-before-breadth]] | 2026-08-03 | Build the prober before sections S3–S11 — four scorecard dimensions are at zero and all four need the player to be asked something | accepted |
 | [[decisions.0010-three-priorities-and-the-cost-pool]] | 2026-08-15 | Three priorities, and a second pool ranked by cost for what the peer comparison leaves empty — after the first expert review found the most expensive pattern in a player's games measured and discarded | accepted |
 | [[decisions.0011-detection-correctness-over-expert-agreement]] | 2026-08-23 | Detection correctness outranks expert agreement. Three Form B/C found the detectors systematically wrong — Black move numbers off by one, UCI not SAN, bare game ids, mis-detected motifs, incomprehensible examples. The review becomes a defect-finding instrument rather than a scoreboard |
+| [[decisions.0012-quote-the-plans-rather-than-write-them]] | 2026-08-28 | The plan summaries the author endorsed were the source page's own words, checked before designing. So the system selects and quotes sentences - bounded at 3 and 90 words, always attributed, always behind reviewed=true - and never writes one. Reverses opening_guides' "never from body text" rule and gives the bounds that answer it |
 
 
 ## Template

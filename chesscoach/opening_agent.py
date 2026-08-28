@@ -47,6 +47,7 @@ from pathlib import Path
 from typing import Protocol
 
 from chesscoach.opening_guides import Guide
+from chesscoach.opening_plans import plan_quotes
 
 AGENT = "ChessAgentSwarm/0.1 (thesis research; opening guide lookup)"
 # How much of a player's repertoire an opening must be before a missing guide is
@@ -221,6 +222,10 @@ class Checked:
     alive: bool
     status: str
     summary: str = ""
+    # Bounded, attributed quotations of the page's plan sentences. Empty is a
+    # normal outcome -- a reference page explains what an opening is and never
+    # what to aim for, and that distinction is the whole finding of E48.
+    plans: tuple[str, ...] = ()
 
 
 class OpeningResourceAgent:
@@ -284,6 +289,7 @@ class OpeningResourceAgent:
             alive=cached["alive"],
             status=cached["status"],
             summary=cached.get("summary", ""),
+            plans=tuple(cached.get("plans") or ()),
         )
 
     def _fetch(self, url: str) -> dict:
@@ -292,14 +298,16 @@ class OpeningResourceAgent:
             with urllib.request.urlopen(request, timeout=30) as response:
                 body = response.read(200_000).decode("utf-8", "replace")
                 return {"alive": True, "status": str(response.status),
-                        "summary": _summarise(body)}
+                        "summary": _summarise(body),
+                        "plans": list(plan_quotes(body))}
         except urllib.error.HTTPError as error:
             # 403 is a site refusing a bot, not a dead page. Recorded as its own
             # outcome so it is not confused with a broken link.
             return {"alive": error.code == 403, "status": f"HTTP {error.code}",
-                    "summary": ""}
+                    "summary": "", "plans": []}
         except Exception as error:  # DNS, TLS, timeout
-            return {"alive": False, "status": type(error).__name__, "summary": ""}
+            return {"alive": False, "status": type(error).__name__,
+                    "summary": "", "plans": []}
 
     # --- cache --------------------------------------------------------------
 
