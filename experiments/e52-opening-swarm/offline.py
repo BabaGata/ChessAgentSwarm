@@ -28,6 +28,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from chesscoach.opening_swarm import Assessor, Candidate, Compiler  # noqa: E402
+from chesscoach.runstore import RunStore  # noqa: E402
 from chesscoach.skiplist import domain_of  # noqa: E402
 
 CACHE = Path(__file__).parent / "results" / "pages.json"
@@ -46,6 +47,8 @@ OPENINGS = {
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", default="qwen2.5:3b")
+    parser.add_argument("--store", type=Path, default=None,
+                        help="SQLite file to record every agent's output into")
     parser.add_argument("--out", type=Path, default=Path(__file__).parent / "results")
     args = parser.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
@@ -57,6 +60,7 @@ def main() -> int:
 
     assessor = Assessor(model=args.model)
     compiler = Compiler(model=args.model)
+    store = RunStore(args.store) if args.store else None
 
     lines = [
         f"ASSESSOR AND COMPILER, OFFLINE  model={args.model}",
@@ -79,6 +83,7 @@ def main() -> int:
         lines.append(f"{opening}   ({len(urls)} cached pages)")
         lines.append("")
 
+        run_id = store.start_run(opening, args.model, "cache") if store else None
         notes: list[str] = []
         for url in urls[:5]:
             candidate = Candidate(title=url[:60], url=url, publisher=domain_of(url))
@@ -91,6 +96,15 @@ def main() -> int:
             for sentence in reading.sentences:
                 lines.append(f"              \"{sentence[:88]}\"")
             notes += list(reading.sentences)
+            if run_id is not None:
+                page_id = store.record_page(
+                    run_id, url, candidate.publisher,
+                    "read" if reading.useful
+                    else ("unusable" if reading.skip_reason else "nothing"),
+                    skip_reason=reading.skip_reason,
+                )
+                if reading.sentences:
+                    store.record_notes(run_id, page_id, reading.sentences)
         lines.append("")
 
         if not notes:
@@ -100,6 +114,9 @@ def main() -> int:
             continue
 
         brief = compiler.compile(opening, tuple(notes))
+        if run_id is not None:
+            store.record_points(run_id, brief.points)
+            store.finish_run(run_id)
         for point in brief.plans:
             lines.append(f"  - PLAN   {point}")
         for point in brief.watches:
@@ -124,6 +141,8 @@ def main() -> int:
         "Points passing their checks is not points being right. Whether the",
         "chess holds is the author's judgement and has not happened.",
     ]
+    if store is not None:
+        store.close()
     out = args.out / "offline.txt"
     out.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"\nwritten {out}")

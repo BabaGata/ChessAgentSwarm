@@ -42,3 +42,7 @@ docs/pdf/
 
 # Opening book (CC0, regenerable in under a second)
 data/openings/
+
+# The swarm's run history. Regenerable in the sense that it is a log of
+# machine-local runs, and binary, so dump_run.py is the reviewable form.
+data/runs.db*

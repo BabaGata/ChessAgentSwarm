@@ -39,7 +39,11 @@ NOTES = (
     "choosing a pawn break.",
 )
 
-ARTICLE = "<p>" + "Black aims to stay flexible and choose a pawn break later. " * 30 + "</p>"
+# Names d4, so a point about d4 is grounded against it. Without a square in
+# the page, every point the Compiler writes is correctly rejected and the
+# tests would be exercising the checker rather than the swarm.
+ARTICLE = ("<p>" + "Black stays flexible and breaks against the d4 pawn later. " * 30
+           + "</p>")
 
 
 def answering(*replies: str):
@@ -370,3 +374,77 @@ class TestAPointMustNameSomethingOnTheBoard:
         )).compile("Pirc Defense", NOTES)
 
         assert len(brief.plans) == 1
+
+
+class TestTheSwarmWritesAsItGoes:
+    """A run that dies halfway must leave what it had.
+
+    Design: docs/notes/decisions.0016-a-run-store-for-the-swarm.md
+    """
+
+    def a_swarm(self, store, fetch=None):
+        return OpeningSwarm(
+            searcher=FakeSearcher(default=[PAGE_A, TIKTOK]),
+            fetch=fetch or (lambda _u: ARTICLE),
+            store=store,
+            transport=answering(
+                "pirc defense plans", "0",
+                "PLAN: Black stays flexible and breaks against d4 later."
+            ),
+        )
+
+    def test_pages_notes_and_points_are_all_recorded(self, tmp_path):
+        from chesscoach.runstore import RunStore
+
+        store = RunStore(tmp_path / "runs.db")
+        self.a_swarm(store).run("Pirc Defense")
+
+        run = store.runs()[0]
+        assert run.opening == "Pirc Defense"
+        assert run.finished is True
+        assert run.notes >= 1
+        assert run.points_kept == 1
+
+    def test_a_domain_skipped_before_fetching_is_recorded(self, tmp_path):
+        from chesscoach.runstore import RunStore
+
+        store = RunStore(tmp_path / "runs.db")
+        self.a_swarm(store).run("Pirc Defense")
+
+        pages = store.pages(store.runs()[0].id)
+        assert any(p["publisher"] == "tiktok.com" and p["outcome"] == "skipped"
+                   for p in pages)
+
+    def test_a_crash_while_reading_leaves_the_run_unfinished_with_its_pages(
+        self, tmp_path
+    ):
+        from chesscoach.runstore import RunStore
+
+        store = RunStore(tmp_path / "runs.db")
+
+        def fetch(_url):
+            raise RuntimeError("the engine suspended itself")
+
+        try:
+            self.a_swarm(store, fetch=fetch).run("Pirc Defense")
+        except RuntimeError:
+            pass
+
+        run = store.runs()[0]
+        assert run.finished is False
+        # The skipped domain was committed before the fetch that died.
+        assert run.pages >= 1
+
+    def test_without_a_store_nothing_is_persisted_and_the_swarm_still_works(self):
+        brief = self.a_swarm(store=None).run("Pirc Defense")
+
+        assert brief.accepted is True
+
+    def test_the_run_id_is_on_the_trace(self, tmp_path):
+        from chesscoach.runstore import RunStore
+
+        store = RunStore(tmp_path / "runs.db")
+        swarm = self.a_swarm(store)
+        swarm.run("Pirc Defense")
+
+        assert swarm.trace[0]["run_id"] == store.runs()[0].id

@@ -37,6 +37,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from chesscoach.opening_agent import SearchUnavailable, SearxSearcher  # noqa: E402
 from chesscoach.opening_swarm import OpeningSwarm  # noqa: E402
+from chesscoach.runstore import RunStore  # noqa: E402
 from chesscoach.skiplist import DEFAULT_PATH, SkipList  # noqa: E402
 
 CACHE = Path(__file__).parent / "results" / "pages.json"
@@ -78,6 +79,8 @@ class Fetcher:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", default="qwen2.5:3b")
+    parser.add_argument("--store", type=Path, default=None,
+                        help="SQLite file to record every agent's output into")
     parser.add_argument("--only", default=None,
                         help="one opening, for a paced live confirmation")
     parser.add_argument("--out", type=Path, default=Path(__file__).parent / "results")
@@ -87,8 +90,9 @@ def main() -> int:
     # The skip list persists between runs, so a later run does less work than an
     # earlier one -- that is the point of it being learned rather than fixed.
     skiplist = SkipList.load(DEFAULT_PATH)
+    store = RunStore(args.store) if args.store else None
     swarm = OpeningSwarm(searcher=SearxSearcher(limit=6), fetch=Fetcher(CACHE),
-                         skiplist=skiplist, model=args.model)
+                         skiplist=skiplist, model=args.model, store=store)
 
     openings = (args.only,) if args.only else OPENINGS
     lines = [
@@ -159,6 +163,8 @@ def main() -> int:
         "that nothing concrete came from outside the cited pages.",
     ]
     swarm.skiplist.save(DEFAULT_PATH)
+    if store is not None:
+        store.close()
     out = args.out / "briefs.txt"
     out.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"\nwritten {out}")

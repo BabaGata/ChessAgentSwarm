@@ -46,6 +46,7 @@ from chesscoach.opening_plans import (
     names_a_target,
     text_blocks,
 )
+from chesscoach.runstore import RunStore
 from chesscoach.skiplist import REASONS, SkipList, domain_of
 
 MODEL = "qwen2.5:3b"
@@ -453,6 +454,9 @@ class OpeningSwarm:
     model: str = MODEL
     # How many surviving pages to read. Each costs a fetch and a model call.
     read: int = 5
+    # Optional: with none supplied the swarm behaves exactly as before and
+    # persists nothing, which keeps the tests fast and the class usable alone.
+    store: RunStore | None = None
     transport: object | None = None
 
     def __post_init__(self) -> None:
@@ -463,7 +467,23 @@ class OpeningSwarm:
         self.trace: list[dict] = []
 
     def run(self, opening: str) -> Brief:
+        # Opened BEFORE the search, and every page committed as it is handled,
+        # so a rate limit or a crash leaves everything collected up to that
+        # point. Opening it after `find` was the first version and it was wrong
+        # for the reason this store exists: a search that failed left no row at
+        # all, so the commonest failure here was invisible rather than visible
+        # as a run with no pages.
+        run_id = None
+        if self.store is not None:
+            run_id = self.store.start_run(
+                opening, self.model,
+                searcher=getattr(self.searcher, "name", type(self.searcher).__name__),
+            )
+
         candidates = self.scout.find(opening)
+        if run_id is not None:
+            for publisher in dict.fromkeys(self.scout.skipped):
+                self.store.record_page(run_id, "", publisher, "skipped")
 
         notes: list[str] = []
         sources: list[str] = []
@@ -484,9 +504,26 @@ class OpeningSwarm:
                 # Guard 3: a site that has helped can never be skipped later.
                 self.skiplist = self.skiplist.mark_useful(candidate.url)
 
+            if run_id is not None:
+                page_id = self.store.record_page(
+                    run_id, candidate.url, candidate.publisher,
+                    "read" if reading.useful
+                    else ("unusable" if reading.skip_reason else "nothing"),
+                    title=candidate.title, skip_reason=reading.skip_reason,
+                )
+                if reading.sentences:
+                    self.store.record_notes(run_id, page_id, reading.sentences)
+
         brief = self.compiler.compile(opening, tuple(notes))
+        if run_id is not None:
+            # Dropped points are stored too: why the swarm rejects things is the
+            # question tuning needs, and it is invisible in the brief itself.
+            self.store.record_points(run_id, brief.points)
+            self.store.finish_run(run_id)
+
         self.trace.append({
             "opening": opening,
+            "run_id": run_id,
             "found": len(candidates),
             "skipped_before_fetch": list(self.scout.skipped),
             "read": min(len(candidates), self.read),

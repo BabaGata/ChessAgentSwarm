@@ -8,34 +8,15 @@ Assessor kept, and both halves of the brief are checked against them.
 NOT ENDORSED: no source here is reviewed=true.
 
 ==============================================================================
-Bird Opening
+Owen Defense
 
-  SCOUT      10 pages to read; 1 skipped before fetching (reddit.com)
-  ASSESSOR   read 5, 5 yielded usable sentences
-               "It is a provocative first move that fights for e5 , creates immediate imbalance, and can lea"
-               "d4 Structure Stonewall Bird A compact centre supports e5 and kingside pressure."
-               "...e5 Warning From's Gambit Black challenges White before development is complete."
-               "The move f4 immediately supports the e5 square."
-               "Black contests the center and asks whether White can make the extra tempo count in reversed "
-
-  - PLAN   Keep e5 covered and push pieces toward Black's kingside
-  - PLAN   Push the f-pawn to contest the e5 square
-  - WATCH  Contain the d5 pawn break
-  - WATCH  Castle early and keep an eye on f2
-  - WATCH  Prevent Black from controlling the center with c5
-    dropped (plan) -- names no square or move
-  source https://www.chessworld.net/bird-opening.asp
-  source https://chess.lc/blog/how-to-play-birds-opening
-  source https://www.365chess.com/chess-openings/Birds-Opening
-  source https://chessopenings.online/bird-opening.html
-  source https://chessdoctrine.com/chess-openings/flank/birds-opening/
-
+  COULD NOT SEARCH -- http://localhost:8080 returned no results and every engine is unresponsive (brave, duckduckgo, google cse, startpage)
 ==============================================================================
 WHAT THIS MEASURES
 
-  openings with a usable brief   1 of 1
-  plan points kept               2
-  opponent points kept           3
+  openings with a usable brief   0 of 1
+  plan points kept               0
+  opponent points kept           0
   sites on the skip list         17 (0 learned)
 
 A brief is not a good brief. Whether these read well, and whether the
