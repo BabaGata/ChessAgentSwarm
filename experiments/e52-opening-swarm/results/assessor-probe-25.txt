@@ -1,0 +1,35 @@
+WHY A PAGE YIELDS NOTHING  offered=25 keep=4
+==============================================================================
+
+------------------------------------------------------------------------------
+blog.duolingo.com/popular-chess-openings/
+  offered 25   parsed 4   kept after veto 1
+  raw answer: '12,17,21,24'
+    "Attacking the opponent’s king is common, but players may also focus on improving their"
+------------------------------------------------------------------------------
+chesscheatsheets.com/pages/alekhines-defense-chess-opening-guide
+  offered 25   parsed 4   kept after veto 0
+  raw answer: '1,3,20,22'
+------------------------------------------------------------------------------
+chessiverse.com/resources/openings/owens-defense
+  offered 25   parsed 4   kept after veto 1
+  raw answer: '0,7,14,19'
+    "On the Black side, notable exponents include Viktor Korchnoi (999 games), Loek Van Wel"
+------------------------------------------------------------------------------
+dokumen.pub/chess-cafe-middlegame-motifs.html
+  offered 25   parsed 4   kept after veto 2
+  raw answer: '1,4,14,19'
+    "With the use of a pawn lever he then tries to make the file fully open, creating weakn"
+    "Whatever Black does he will end up with some pawn weaknesses; for example, capturing o"
+------------------------------------------------------------------------------
+en.chessbase.com/post/learn-to-play-the-london-system-opening
+  offered 25   parsed 0   kept after veto 0
+  raw answer: 'NONE'
+------------------------------------------------------------------------------
+en.wikipedia.org/wiki/Owen%27s_Defence
+  offered 25   parsed 4   kept after veto 1
+  raw answer: '1,4,11,23'
+    "0-0 c5 (see diagram), another French-type handling of the opening."
+
+==============================================================================
+  pages yielding at least one note: 4 of 6

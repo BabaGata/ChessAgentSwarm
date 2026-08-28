@@ -16,6 +16,7 @@ from __future__ import annotations
 
 from chesscoach.opening_plans import (
     MAX_QUOTES,
+    is_usable_note,
     MAX_TOTAL_WORDS,
     is_plan_sentence,
     plan_quotes,
@@ -213,4 +214,60 @@ class TestWhatARealRunLetThrough:
         assert not is_plan_sentence(
             "Note: If Black plays 4…Nf6, you can try to counter with the "
             "Alien Gambit, just for fun."
+        )
+
+
+class TestWhatTheAssessorMustNotPassOn:
+    """Notes are raw material for the Compiler, so they may be hard to read.
+
+    The author's correction: *"this doesn't has to be disregarded, compiler will
+    be the one that writes something understandable, more information is better
+    than just disregarding it."* So `is_usable_note` drops the readability tests
+    and keeps the relevance ones. Every case below is verbatim from a real run.
+    """
+
+    def test_hard_vocabulary_is_kept_for_the_compiler_to_translate(self):
+        sentence = ("Black allows White the Maroczy bind and aims for counterplay "
+                    "on the queenside later.")
+
+        assert is_plan_sentence(sentence) is False   # too advanced to show as-is
+        assert is_usable_note(sentence) is True      # ...but worth passing on
+
+    def test_a_win_rate_is_not_information_about_how_to_play(self):
+        assert not is_usable_note(
+            "Across 50.8 million Lichess games, White wins 50.2% of the time."
+        )
+
+    def test_a_rating_table_line_is_refused(self):
+        assert not is_usable_note(
+            "At 1200 Elo the top reply is d4, and the second is Nf3 for White."
+        )
+
+    def test_a_forum_comment_in_lower_case_is_refused(self):
+        # FIRST_PERSON was case-sensitive, so this reached the Compiler as a note.
+        assert not is_usable_note(
+            "Oh me i also play it against d4 and c4 whenever White allows it."
+        )
+
+    def test_a_breadcrumb_trail_is_not_a_sentence(self):
+        assert not is_usable_note(
+            "Home / Articles / Openings / Czech Pirc Complete Guide for Black"
+        )
+
+    def test_a_menu_item_with_an_emoji_is_not_a_sentence(self):
+        assert not is_usable_note(
+            "\U0001F9E0 Fianchetto London vs King's Indian Setup Adapt the London "
+            "when Black plays g6"
+        )
+
+    def test_a_tag_list_is_refused(self):
+        assert not is_usable_note(
+            "Tags: Complete Guide , flexible hypermodern opening , for Black , "
+            "White pieces"
+        )
+
+    def test_a_real_plan_sentence_survives_all_of_it(self):
+        assert is_usable_note(
+            "Usually the c and e pawns are placed on the third rank, supporting "
+            "the d4 pawn."
         )

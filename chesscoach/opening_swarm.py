@@ -39,7 +39,12 @@ from dataclasses import dataclass, field
 from chesscoach import ollama
 from chesscoach.grounding import Grounding, check, content_words
 from chesscoach.opening_agent import Gap
-from chesscoach.opening_plans import MAX_WORDS, MIN_WORDS, is_admissible, text_blocks
+from chesscoach.opening_plans import (
+    MAX_WORDS,
+    MIN_WORDS,
+    is_usable_note,
+    text_blocks,
+)
 from chesscoach.skiplist import REASONS, SkipList, domain_of
 
 MODEL = "qwen2.5:3b"
@@ -53,9 +58,16 @@ MAX_RESTATEMENT = 0.60
 # The brief has two halves, so the search needs two angles.
 OPPONENT_QUERY = "how to play against the {opening} main responses"
 
-# Sentences offered to the Assessor from one page. Beyond this a 3B model's
-# attention degrades, and the tail of an article is mostly navigation.
-OFFERED = 50
+# Sentences offered in ONE question. Measured, not guessed: handed 50 numbered
+# sentences, qwen2.5:3b answered NONE on four pages of six; at 25 it answers with
+# indices. So a long article is asked about in chunks rather than truncated, and
+# the whole page is read instead of its first fifty sentences.
+CHUNK = 25
+
+# Sentences taken from any one chunk, and from any one page. The page cap bounds
+# cost; the chunk cap stops one dense paragraph filling the brief.
+PER_CHUNK = 4
+PER_PAGE = 6
 
 # A page with fewer readable words than this is not an article: a video page, a
 # paywall, or a fetch that returned a shell.
@@ -90,28 +102,27 @@ Write {count} different search queries, one per line. Nothing else.
 ASSESSOR = """You are the ASSESSOR in a chess coaching system.
 
 YOUR ROLE
-You read one web page and keep only the sentences a club player rated about \
-1500 could actually use. A later agent writes the player's brief from what you \
-keep and sees nothing else, so a sentence you drop is gone, and a weak sentence \
-you keep wastes a line of the brief.
+You read one web page and pick the sentences that carry the most information about how this opening is played. A later agent turns what you pick into a short brief for the player, so **more material is better than less** — you are choosing the richest sentences, not deciding whether the page is good enough.
 
-KEEP a sentence that says:
-- what a side should aim for, or the plan in this opening
+Do NOT reject a sentence for being hard to read or for using a term a beginner would not know. The next agent rewrites it in plain words, and it cannot rewrite what you did not pass on.
+
+The most informative sentences say:
+- what a side aims for, or the plan
 - where the pieces belong, or which pawn break to play
-- what the OPPONENT tries to do, and what to be ready for
+- what the OPPONENT does, and what to be ready for
+- what kind of position each side is trying to reach
 
-DROP a sentence that is:
-- history, trivia, or who played the opening
-- a definition of what the opening is
-- a move list or an annotated variation
-- advertising a course, a book or a site
-- about studying the opening rather than playing it
+A sentence carries no information about how the opening is PLAYED if it is:
+- a win rate, a rating, or how often a move is chosen
+- who has played the opening, or when it was invented
+- a comment someone left, or a list of tags
+Never pick one of those, however confident it sounds.
 
 Sentences from a page about the {opening}:
 {sentences}
 
-Answer with ONLY the numbers to keep, most useful first, separated by commas.
-Keep at most {limit}. If none are useful, answer NONE.
+Pick the {limit} most informative, best first, and answer with ONLY their numbers separated by commas.
+Answer NONE only if the page is not about chess at all.
 """
 
 UNUSABLE = """You are the ASSESSOR in a chess coaching system.
@@ -149,9 +160,16 @@ Write up to {plans} points on what the player should aim for, then up to \
 PLAN: <one short point>
 WATCH: <one short point>
 
-One line each. Plain words. No term a 1500 would have to look up. No move \
-numbers. If the notes say nothing about what the opponent does, write no WATCH \
-lines at all — that is correct, not a failure.
+One line each. No move numbers.
+
+The notes are written for stronger players and may use terms a club player would \
+have to look up — "Maroczy bind", "prophylaxis", "minority attack". Do not \
+repeat those terms. Say what they MEAN in plain words, using the rest of the \
+note to work out what is happening on the board. Making the notes understandable \
+is your job; nobody after you will do it.
+
+If the notes say nothing about what the opponent does, write no WATCH lines at \
+all — that is correct, not a failure.
 
 Notes about the {opening}:
 {notes}
@@ -289,7 +307,7 @@ class Assessor:
 
     model: str = MODEL
     host: str = ollama.OLLAMA_URL
-    keep: int = 4
+    keep: int = PER_PAGE
     transport: object | None = None
     name: str = "assessor"
 
@@ -298,21 +316,30 @@ class Assessor:
         if len(_words(body)) < MIN_PAGE_WORDS or not sentences:
             return Reading(candidate, (), self.classify(candidate, body))
 
-        numbered = "\n".join(f"{i}. {s}" for i, s in enumerate(sentences))
+        kept: list[str] = []
+        for start in range(0, len(sentences), CHUNK):
+            kept += self._pick(opening, sentences[start:start + CHUNK])
+            if len(kept) >= self.keep:
+                break
+        return Reading(candidate, tuple(kept[: self.keep]))
+
+    def _pick(self, opening: str, chunk: list[str]) -> list[str]:
+        """The most informative few from one chunk, chosen by index."""
+        numbered = "\n".join(f"{i}. {s}" for i, s in enumerate(chunk))
         answer = ollama.generate(
             self.model,
-            ASSESSOR.format(opening=opening, sentences=numbered, limit=self.keep),
-            host=self.host, num_predict=60, transport=self.transport,
+            ASSESSOR.format(opening=opening, sentences=numbered, limit=PER_CHUNK),
+            host=self.host, num_predict=40, transport=self.transport,
         )
         if "none" in answer.strip().lower()[:8]:
-            return Reading(candidate, ())
-
+            return []
         # Indices, never text -- so a kept sentence is the page's own words by
-        # construction and cannot be something the model composed. The non-plan
-        # filters stay as a veto over its choice (E51).
-        chosen = ollama.indices(answer, len(sentences))[: self.keep]
-        kept = tuple(sentences[i] for i in chosen if is_admissible(sentences[i]))
-        return Reading(candidate, kept)
+        # construction and cannot be something the model composed. The veto is
+        # `is_usable_note`, which refuses advertising, study advice and annotated
+        # variations but **not** hard vocabulary: judging readability here would
+        # starve the agent whose job is to make things readable.
+        chosen = ollama.indices(answer, len(chunk))[:PER_CHUNK]
+        return [chunk[i] for i in chosen if is_usable_note(chunk[i])]
 
     def classify(self, candidate: Candidate, body: str) -> str:
         """What kind of site is this, given it is not an article?
@@ -339,15 +366,18 @@ class Assessor:
         """Sentences worth offering: plausible length, real punctuation."""
         found: list[str] = []
         for block in text_blocks(body):
-            for sentence in _SPLIT.split(block):
+            fragments = _SPLIT.split(block)
+            for sentence in fragments:
                 sentence = sentence.strip()
                 if not (MIN_WORDS <= len(sentence.split()) <= MAX_WORDS):
                     continue
-                if not sentence.endswith((".", "!")):
+                # A whole block with no full stop is a list item or a heading,
+                # and chess guides put plans in bullet lists -- "King safety:
+                # often castle queenside in sharp lines". Requiring terminal
+                # punctuation dropped every one of them.
+                if not sentence.endswith((".", "!")) and len(fragments) > 1:
                     continue
                 found.append(sentence)
-                if len(found) >= OFFERED:
-                    return found
         return found
 
 
@@ -378,17 +408,21 @@ class Compiler:
         source = " ".join(notes)
         points: list[Point] = []
         kept_plans: list[str] = []
+        kept_watches: list[str] = []
 
         for kind, text in _bullets(answer):
             grounding = check(text, source)
             dropped = "" if grounding.grounded else grounding.reason
-            # A WATCH point repeating a PLAN point tells the player nothing about
-            # the opponent, which is the only reason that half exists.
-            if not dropped and kind == "watch" and _restates(text, kept_plans):
-                dropped = "repeats a plan point"
+            # A point that repeats one already kept spends a line of the brief
+            # saying nothing new. Real output gave three plan points that were
+            # "challenge White's pawn structure" three ways; and a WATCH point
+            # repeating a PLAN point says nothing about the opponent at all,
+            # which is the only reason that half exists.
+            if not dropped and _restates(text, kept_plans + kept_watches):
+                dropped = "repeats a point already made"
             points.append(Point(text, kind, grounding, dropped))
-            if kind == "plan" and not dropped:
-                kept_plans.append(text)
+            if not dropped:
+                (kept_plans if kind == "plan" else kept_watches).append(text)
 
         return Brief(opening=opening, points=tuple(points), notes=notes)
 

@@ -84,7 +84,9 @@ SELL = re.compile(
 )
 
 # A page speaking as itself is selling or editorialising, not teaching a plan.
-FIRST_PERSON = re.compile(r"\b(I|we|us|our|my)\b")
+# Case-insensitive, or a forum comment written in lower case walks past it:
+# "Oh me i also play it against d4 and c4" reached the Compiler as a note.
+FIRST_PERSON = re.compile(r"\b(i|we|us|our|my)\b", re.I)
 
 # Sentences about *studying* the opening rather than *playing* it. Real output:
 # "If you feel comfortable with the positions in the game then you can continue
@@ -105,6 +107,30 @@ BOARD = re.compile(
     r"[a-h][1-8])\b",
     re.I,
 )
+
+# Numbers about how OFTEN something happens, rather than about what to do. A
+# database page is full of true sentences a player cannot act on -- "At 1200 Elo,
+# the top reply is d4, played 33.4% of the time", "Across 50.8 million Lichess
+# games, White wins 50.2%" -- and they survived every content rule because they
+# name squares and sides.
+STATISTIC = re.compile(
+    r"\d+(?:\.\d+)?\s*%"
+    r"|\(\s*\d[\d\s.,]*\w*\s*\)"
+    r"|\b(?:elo|ratings?|win rate|winrate|million|database|statistics)\b",
+    re.I,
+)
+
+# Navigation the tag stripper flattens into prose: a breadcrumb trail
+# ("Home / Articles / Openings / Czech Pirc") and menu items, which on chess
+# sites carry an emoji and no full stop.
+NAVIGATION = re.compile(
+    r"\s[/|>\u203a\u00bb]\s"
+    r"|[\U0001F300-\U0001FAFF\u2600-\u27BF\u2190-\u21FF]"
+)
+
+# A tag list or a byline, which the tag stripper turns into one long "sentence":
+# "Tags: Complete Guide , flexible hypermodern opening , FM Zaur Tekeyev".
+_TAG_LIST = re.compile(r"(\s,\s.*){2,}")
 
 # An annotated variation is not a sentence. "(this is the key) exf6 5.Nc3 Bg7
 # 6.g3 O-O 7.Bg2" survived every content rule because it is grammatical.
@@ -244,3 +270,34 @@ def plan_quotes(body: str, limit: int = 2) -> tuple[str, ...]:
             if len(chosen) >= limit:
                 return tuple(chosen)
     return tuple(chosen)
+
+
+def is_usable_note(sentence: str) -> bool:
+    """Is this sentence worth passing to the Compiler as raw material?
+
+    **Relevance and information, never readability.** The author's correction:
+    *"It keeps sentences a 1500 can use, this doesn't has to be disregarded,
+    compiler will be the one that writes something understandable, more
+    information is better than just disregarding it."*
+
+    So a sentence naming the Maroczy bind is kept here and explained later, where
+    `is_plan_sentence` would have dropped it. What is still refused is material
+    the Compiler cannot use at all: advertising, advice about studying, annotated
+    variations, and sentences that name nothing on the board.
+    """
+    words = len(sentence.split())
+    if words < MIN_WORDS or words > MAX_WORDS:
+        return False
+    if sentence.endswith("?"):
+        return False
+    if SELL.search(sentence) or META.search(sentence):
+        return False
+    if FIRST_PERSON.search(sentence):
+        return False
+    if STATISTIC.search(sentence) or _TAG_LIST.search(sentence):
+        return False
+    if NAVIGATION.search(sentence):
+        return False
+    if is_analysis_line(sentence):
+        return False
+    return bool(BOARD.search(sentence))

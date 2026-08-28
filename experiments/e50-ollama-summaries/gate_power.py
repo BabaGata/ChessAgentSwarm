@@ -38,6 +38,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "e47-opening-knowle
 
 from candidates import CANDIDATES  # noqa: E402
 
+from chesscoach import grounding  # noqa: E402
 from chesscoach.grounding import check  # noqa: E402
 
 QUOTES = Path(__file__).resolve().parents[1] / "e49-opening-resources" / "results" / "quotes.json"
@@ -127,6 +128,34 @@ def main() -> int:
         "The selection step is not only a filter on what the model reads. It is",
         "what makes the check on what the model writes mean anything.",
     ]
+
+    # The Compiler now paraphrases more, because the Assessor passes on hard
+    # vocabulary for it to translate. So the novelty ceiling has to be chosen
+    # against evidence rather than left where it happened to be.
+    lines += ["", "=" * 78, "NOVELTY CEILING SWEEP", "",
+              "  A higher ceiling lets the Compiler explain a term in words the",
+              "  source never used -- and lets a false claim through.", "",
+              f"  {'ceiling':>9}{'false claims passing':>24}", ""]
+    original = grounding.MAX_NOVELTY
+    try:
+        for ceiling in (0.35, 0.45, 0.55, 0.65, 0.75):
+            grounding.MAX_NOVELTY = ceiling
+            rates = []
+            for family in families:
+                small, _full = by_family[family]
+                probes = []
+                for other in families:
+                    if other == family:
+                        continue
+                    probes += [s.strip() for s in by_family[other][0].split(". ")
+                               if len(s.split()) >= 8]
+                if probes:
+                    rates.append(
+                        sum(1 for p in probes if check(p, small).grounded) / len(probes)
+                    )
+            lines.append(f"  {ceiling:>9.2f}{statistics.mean(rates):>23.0%}")
+    finally:
+        grounding.MAX_NOVELTY = original
 
     text = "\n".join(lines)
     print(text)

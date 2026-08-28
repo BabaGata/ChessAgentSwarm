@@ -1,0 +1,31 @@
+WHY A PAGE YIELDS NOTHING  offered=50 keep=4
+==============================================================================
+
+------------------------------------------------------------------------------
+blog.duolingo.com/popular-chess-openings/
+  offered 50   parsed 0   kept after veto 0
+  raw answer: 'NONE'
+------------------------------------------------------------------------------
+chesscheatsheets.com/pages/alekhines-defense-chess-opening-guide
+  offered 38   parsed 4   kept after veto 1
+  raw answer: '4, 13, 27, 30'
+    "This creates sharp, unbalanced positions where understanding typical pawn structures a"
+------------------------------------------------------------------------------
+chessiverse.com/resources/openings/owens-defense
+  offered 50   parsed 0   kept after veto 0
+  raw answer: 'NONE'
+------------------------------------------------------------------------------
+dokumen.pub/chess-cafe-middlegame-motifs.html
+  offered 50   parsed 0   kept after veto 0
+  raw answer: 'NONE'
+------------------------------------------------------------------------------
+en.chessbase.com/post/learn-to-play-the-london-system-opening
+  offered 50   parsed 0   kept after veto 0
+  raw answer: 'NONE'
+------------------------------------------------------------------------------
+en.wikipedia.org/wiki/Owen%27s_Defence
+  offered 50   parsed 0   kept after veto 0
+  raw answer: 'NONE'
+
+==============================================================================
+  pages yielding at least one note: 1 of 6

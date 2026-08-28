@@ -211,6 +211,17 @@ class TestTheCompilerWritesBullets:
         assert brief.watches == ()
         assert "repeats" in brief.dropped[0].dropped_for
 
+    def test_a_plan_point_repeating_an_earlier_one_is_dropped(self):
+        # Real output gave three plan points that were "challenge White's pawn
+        # structure" three ways, each spending a line of the brief.
+        brief = Compiler(transport=answering(
+            "PLAN: Black aims to stay flexible and choose a pawn break later.\n"
+            "PLAN: Black stays flexible and chooses a pawn break later on."
+        )).compile("Pirc Defense", NOTES)
+
+        assert len(brief.plans) == 1
+        assert "repeats" in brief.dropped[0].dropped_for
+
     def test_no_opponent_points_is_not_a_failure(self):
         # WATCH is wanted, not required.
         brief = Compiler(transport=answering(

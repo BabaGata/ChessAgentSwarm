@@ -109,6 +109,69 @@ change to the agents' logic has moved it.
 *(One flaw in the offline harness, stated rather than hidden: it matches cached pages to openings by
 a word in the URL, and paired an alexcolovic Pirc page with the London System.)*
 
+## The note supply, located and fixed
+
+The author's correction: *"It keeps sentences a 1500 can use, this doesn't has to be disregarded,
+compiler will be the one that writes something understandable, more information is better than just
+disregarding it. Fix the note supply."*
+
+**Both halves were right.** The Assessor was filtering for *readability*, which is the Compiler's
+job, and the supply was three notes from seventeen pages.
+
+The loss was located stage by stage before anything was changed, with no model involved:
+
+| stage | count across 38 cached pages |
+|---|--:|
+| blocks | 5,653 |
+| sentences | 11,161 |
+| inside the length window | 4,223 |
+| passing the veto | **1,061** |
+| **reaching the Compiler** | **3** |
+
+**So the filters were never the constraint.** Probing the Assessor directly found it: handed 50
+numbered sentences, `qwen2.5:3b` answered **`NONE` on four pages of six**. At 25 it answered with
+indices; at 12 it answered `NONE` on six of six. Batch size was not the variable — **the prompt was**.
+It listed six DROP rules against three KEEP rules and offered an explicit `NONE`, so *filtering* was
+the frame and refusal the attractor. One answer came back `'3, NONE'`.
+
+Reframed as **ranking** — *"pick the {limit} most informative"* — pages yielding notes went
+**1 of 6 → 4 of 6** with no other change.
+
+Four fixes, each from something observed:
+
+- **`is_usable_note`** replaces `is_admissible` at this stage: relevance and information, never
+  readability. A sentence naming the Maroczy bind is now kept and translated later.
+- **Chunking**, 25 sentences per question, so the whole article is read instead of its first 50.
+- **`FIRST_PERSON` was case-sensitive**, so *"Oh me i also play it against d4 and c4"* reached the
+  Compiler as a note.
+- **`STATISTIC` and `NAVIGATION`**, after loosening the veto let through *"At 1200 Elo, the top reply
+  is d4, played 33.4% of the time"*, *"Across 50.8 million Lichess games…"*, a breadcrumb trail and
+  an emoji menu item. Loosening a filter is not free and the cost showed up immediately.
+
+| | before | after |
+|---|--:|--:|
+| notes reaching the Compiler | 3 | **~30** |
+| openings with a brief | 0 of 5 | **5 of 5** |
+| plan points | 0 | **8** |
+| **opponent points** | **0** | **8** |
+
+**The opponent half now works**, having been 0 in every previous run.
+
+## The novelty ceiling was swept and left alone
+
+The Compiler is now told to translate hard terms, which introduces words the source never used — so
+the ceiling was measured rather than assumed:
+
+| ceiling | false claims passing |
+|---|--:|
+| 0.35 | 2 % |
+| **0.45 (shipping)** | **4 %** |
+| 0.55 | 10 % |
+| 0.65 | 23 % |
+
+Raising it to 0.55 would have recovered four dropped points at **2.5× the false-claim rate**. With
+the supply fixed the system is no longer starved, so the trade is refused and 0.45 stands.
+
 ## Consequence
 
 - **The swarm ships as the acquisition path for openings with no curated guide**, behind

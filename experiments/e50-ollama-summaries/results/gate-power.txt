@@ -28,3 +28,17 @@ A probe that PASSES is a false claim the check would have let through.
 
 The selection step is not only a filter on what the model reads. It is
 what makes the check on what the model writes mean anything.
+
+==============================================================================
+NOVELTY CEILING SWEEP
+
+  A higher ceiling lets the Compiler explain a term in words the
+  source never used -- and lets a false claim through.
+
+    ceiling    false claims passing
+
+       0.35                     2%
+       0.45                     4%
+       0.55                    10%
+       0.65                    23%
+       0.75                    37%

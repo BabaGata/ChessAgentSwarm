@@ -1,0 +1,54 @@
+WHERE THE NOTE SUPPLY GOES
+========================================================================================
+
+blocks -> fragments -> windowed -> admissible (current) / usable (proposed)
+
+  page                                          blocks   frags  window   admis  usable
+
+  blog.duolingo.com/popular-chess-openings/        166     208      80      16      19
+  chesscheatsheets.com/pages/alekhines-defen       445     483     142       6      50
+  chessiverse.com/resources/openings/owens-d       498     569      92      17      22
+  dokumen.pub/chess-cafe-middlegame-motifs.h       898    3119    1724     431     507
+  en.chessbase.com/post/learn-to-play-the-lo       131     195      83       1       2
+  en.wikipedia.org/wiki/Owen%27s_Defence           620     814      75       9      10
+  lichess.org/study/8BEPnpMU/ABB68wTT                1       1       1       0       0
+  lichess.org/ta/video/oCmXsjjSlYo                  45      56      21       0       3
+  listudy.org/en/studies/9xnlny-the-moderniz        47      54      10       2       3
+  thechessworld.com/articles/openings/5-best       123     134      25       2       3
+  thechessworld.com/articles/openings/czech-       153     190      49      17      21
+  thechessworld.com/articles/openings/owens-       151     227      96      30      33
+  www.365chess.com/chess-openings/French-Def       269     571     134      38      40
+  www.365chess.com/chess-openings/London-Sys       285     333     116      33      49
+  www.alexcolovic.com/2018/11/the-london-sys        38      52      31       7       7
+  www.chess.com/blog/Blue74/unorthodox-openi        18      30      14       4       5
+  www.chess.com/forum/view/chess-openings/ad       150     182      68       7      19
+  www.chess.com/forum/view/chess-openings/op       174     296     116      12      22
+  www.chess.com/forum/view/chess-openings/wh       131     243     118      40      51
+  www.chess.com/forum/view/chess-openings/wh       163     335     181      33      61
+  www.chess.com/forum/view/general/best-midd       200     224      50       2       9
+  www.chess.com/openings/London-System              76     112      46      18      23
+  www.chessable.com/blog/the-london-system/         84     106      63      27      29
+  www.chessable.com/discussion/thread/864009         1       1       0       0       0
+  www.chessable.com/short-sweet-pirc-defense         1       1       0       0       0
+  www.chessworld.net/bird-opening.asp              123     630     164      61      73
+  www.chessworld.net/chessclubs/openingguide       229     800     332      75     172
+  www.chessworld.net/london-system.asp             149     520     182     104     116
+  www.chessworld.net/nimzo-larsen.asp               87     424     135      52      66
+  www.modern-chess.com/course/french-defense        71      90      24       2       3
+  www.reddit.com/r/chess/comments/1g9xxub/wh         1       1       0       0       0
+  www.reddit.com/r/chessbeginners/comments/1         1       1       0       0       0
+  www.tiktok.com/@thetempolion/video/7655585         2       2       0       0       0
+  www.uscfsales.com/blogs/chess-openings/abo        29      40      15       2       3
+  www.uscfsales.com/blogs/chess-openings/ale        30      47      19      10      12
+  www.uscfsales.com/blogs/chess-openings/bir        20      20       3       0       1
+  www.uscfsales.com/blogs/chess-openings/kee        25      32      11       3       6
+  www.uscfsales.com/blogs/chess-strategies/h        18      18       3       0       1
+
+========================================================================================
+  TOTAL                                           5653   11161    4223    1061    1441
+
+  pages yielding at least one admissible sentence:  29 of 38
+  pages yielding at least one usable sentence:      32 of 38
+
+The gap between the last two columns is what the readability test was
+costing, and it is material the Compiler could have worked from.

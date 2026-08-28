@@ -1,0 +1,30 @@
+WHY A PAGE YIELDS NOTHING  offered=12 keep=3
+==============================================================================
+
+------------------------------------------------------------------------------
+blog.duolingo.com/popular-chess-openings/
+  offered 12   parsed 0   kept after veto 0
+  raw answer: 'NONE'
+------------------------------------------------------------------------------
+chesscheatsheets.com/pages/alekhines-defense-chess-opening-guide
+  offered 12   parsed 3   kept after veto 0
+  raw answer: '3, 9, 10'
+------------------------------------------------------------------------------
+chessiverse.com/resources/openings/owens-defense
+  offered 12   parsed 0   kept after veto 0
+  raw answer: 'NONE'
+------------------------------------------------------------------------------
+dokumen.pub/chess-cafe-middlegame-motifs.html
+  offered 12   parsed 0   kept after veto 0
+  raw answer: 'NONE'
+------------------------------------------------------------------------------
+en.chessbase.com/post/learn-to-play-the-london-system-opening
+  offered 12   parsed 0   kept after veto 0
+  raw answer: 'NONE'
+------------------------------------------------------------------------------
+en.wikipedia.org/wiki/Owen%27s_Defence
+  offered 12   parsed 0   kept after veto 0
+  raw answer: 'NONE'
+
+==============================================================================
+  pages yielding at least one note: 0 of 6
