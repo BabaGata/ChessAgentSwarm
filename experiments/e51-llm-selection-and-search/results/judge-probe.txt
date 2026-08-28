@@ -1,0 +1,29 @@
+CAN THE SEARCH JUDGE SAY YES?  model=qwen3:8b
+==============================================================================
+
+------------------------------------------------------------------------------
+asked about: Pirc Defense
+  model answered: ''
+  KEPT    ok     (a guide)  Pirc Defense: plans, ideas and typical structures
+  KEPT    WRONG  (junk)     33 Chess Openings You Should Know - Duolingo Blog
+  KEPT    WRONG  (junk)     Openings with simple logic behind them - Chess For
+  KEPT    WRONG  (junk)     Bird's Opening Adviser, Setup Builder & 23 Replays
+------------------------------------------------------------------------------
+asked about: London System
+  model answered: '0'
+  KEPT    ok     (a guide)  The London System: complete guide for club players
+  reject  ok     (junk)     33 Chess Openings You Should Know - Duolingo Blog
+  reject  ok     (junk)     Openings with simple logic behind them - Chess For
+  reject  ok     (junk)     Bird's Opening Adviser, Setup Builder & 23 Replays
+------------------------------------------------------------------------------
+asked about: English Opening
+  model answered: '0'
+  KEPT    ok     (a guide)  The ideas behind the English Opening
+  reject  ok     (junk)     33 Chess Openings You Should Know - Duolingo Blog
+  reject  ok     (junk)     Openings with simple logic behind them - Chess For
+  reject  ok     (junk)     Bird's Opening Adviser, Setup Builder & 23 Replays
+
+  agreement with a person: 9 of 12
+
+If the guides are kept and the junk rejected, a run of all-zeroes is a
+fact about the search results, not about the judge.

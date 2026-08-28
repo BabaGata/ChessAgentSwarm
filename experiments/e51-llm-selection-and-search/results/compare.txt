@@ -1,0 +1,111 @@
+LLM SELECTION AND LLM-GUIDED SEARCH
+==============================================================================
+
+==============================================================================
+SELECTION -- eight regexes against a local model
+
+------------------------------------------------------------------------------
+Queen's Pawn Game  [TheChessWorld]
+  REGEX ONLY And, now white’s main plan is to install a knight on e5, maybe push f2-f4, Bd3, transfer the queen to the kingside and then start attacking the black king.
+  REGEX ONLY White will develop the Queen to d2, play g4, h4, e3, and castle long.
+  LLM ONLY   This gives white flexibility to later choose between two main plans: strike in the center or start an attack on the kingside.
+             ^ filters would have REJECTED by filters
+------------------------------------------------------------------------------
+Queen's Pawn Game  [FireChess]
+  REGEX ONLY The key strategic challenge for White is deciding when to break with e4 (the central break) or launch a kingside attack with h4-h5.
+  REGEX ONLY The knights typically go to f3 and d2, keeping the pawn structure intact and preparing a kingside castle.
+  REGEX ONLY You always know what to do: complete development, castle kingside, and decide between a kingside attack or central break with e4.
+  LLM ONLY   The core idea is simple: White develops the dark-squared bishop to f4 before blocking it with e3, then builds a solid pawn chain with c3 and e3.
+             ^ filters would have REJECTED by filters
+------------------------------------------------------------------------------
+English Opening  [Exeter Chess Club]
+  REGEX ONLY One way of looking at the systems are whether Black aims to keep things closed with ...Nc6 (and often ...Nge7), or instead tries to develop the King's-side starting with ...Nf6.
+------------------------------------------------------------------------------
+English Opening  [IM Alberto Chueca]
+  REGEX ONLY In some rare positions, White could long castle, but that doesn’t happen very often.
+  LLM ONLY   Breaking over f4 is also a possibility, trying to fight against Black’s central pawn and to open the “f” file for the rook.
+             ^ filters would have REJECTED by filters
+  LLM ONLY   But the black Bishop on g7 might turn really dangerous after this break, so, White must be careful with this idea.
+             ^ filters would have REJECTED by filters
+------------------------------------------------------------------------------
+Sicilian Defense  [Chessable]
+  REGEX ONLY The idea is to prepare a central pawn push with d4 and fight for the center.
+  LLM ONLY   Without pawns on adjacent files it can be tough to defend.
+             ^ filters would have REJECTED by filters
+------------------------------------------------------------------------------
+Sicilian Defense  [Chess Doctrine]
+  REGEX ONLY By trying to conquer the center, Black aims to equalize rapidly.
+  REGEX ONLY To summarize the ideas for both sides, Black typically aims to strike to d4-pawn by going Qb6 and Nc6.
+  REGEX ONLY White often aims to occupy the center, push the enemy pieces, and stop their advancement.
+  LLM ONLY   Some variations can transition to a quick endgame, where the better pawn structure is favored.
+             ^ filters would have REJECTED by filters
+------------------------------------------------------------------------------
+Caro-Kann Defense  [Kingdom of Chess]
+  BOTH       Instead, Black aims to build a solid foundation and outplay the opponent in the long run.
+  REGEX ONLY Each creates a different type of pawn structure and middlegame plan.
+  REGEX ONLY White immediately grabs space and tries to restrict Black’s pieces.
+  LLM ONLY   It gives Black a healthy pawn structure, a free light-squared bishop, and clear plans to follow all the way into the endgame.
+             ^ filters would have REJECTED by filters
+  LLM ONLY   This supports d5 on the next turn, but it also locks in the bishop on c8 behind the pawn chain.
+             ^ filters would have REJECTED by filters
+------------------------------------------------------------------------------
+Caro-Kann Defense  [Attacking Chess]
+  REGEX ONLY In this variation, Black develops more cautiously with …Nd7 instead of the immediate …Bf5, aiming to avoid early piece exchanges that could create weaknesses.
+  REGEX ONLY The idea is disarmingly simple: White must play Be3 at some point, but if the bishop moves too soon, the b2 pawn hangs.
+  REGEX ONLY You can see how Gata Kamsky (as White) used this attack to beat Anatoly Karpov in one of the games from 1996 FIDE World Chess Championship: You must activate JavaScript to enhance chess game visualization.
+  LLM ONLY   White often gets more space but must work hard to break Black’s defense.
+             ^ filters would have REJECTED by filters
+------------------------------------------------------------------------------
+Scandinavian Defense  [IM Alberto Chueca]
+  BOTH       Typical Plans White can play two different ideas against Scandinavian: To castle Kingside, pretending to play a quieter middlegame with some more space in the center.
+  REGEX ONLY In general if Black can break with the pieces in good squares, they will have at least a balanced middlegame.
+  REGEX ONLY To castle Queenside, thinking about the possibility to play an opposite-side castlings middlegame.
+------------------------------------------------------------------------------
+Scandinavian Defense  [Chess for Sharks]
+  REGEX ONLY In most openings, Black will look to play moves that control other squares.
+  REGEX ONLY Since the game features opposite-side castling, both sides will target their opponent’s king and look to win the game.
+  REGEX ONLY This gambit aims to sacrifice a pawn for activity and rapid development.
+------------------------------------------------------------------------------
+Italian Game  [Chessable]
+  REGEX ONLY If Black allows you to close the center with d5, you can close the center and switch your focus to the kingside.
+  REGEX ONLY In fact, by delaying castling White can often launch a kingside attack and then castle queenside.
+  REGEX ONLY White Plays Nbd2-c4 In the Italian Opening If you want to keep your opponents guessing about your opening strategy, it pays to have a second plan you can unleash as a surprise weapon.
+------------------------------------------------------------------------------
+Italian Game  [Chessiverse]
+  BOTH       White develops the bishop to its best square, targets the weak f7 pawn, and prepares to castle.
+  REGEX ONLY The d3-d4 break After the quiet c3 and d3 setup, the thematic pawn break is d4 at the right moment.
+  REGEX ONLY The main idea in one sentence White wants to develop every piece toward Black's king, castle short, and build pressure on f7 before Black finishes coordinating.
+------------------------------------------------------------------------------
+Pirc Defense  [FreeChessTrainer]
+  REGEX ONLY Black allows White to occupy the center with pawns on e4 and d4, aiming to undermine it later with well timed pawn breaks and piece pressure.
+  REGEX ONLY Black's goals Black aims to stay flexible, first completing development and only later choosing a pawn break.
+  REGEX ONLY What you will train The Trainer will present key Pirc structures so that you can practice handling different aggressive systems from White.
+  LLM ONLY   These positions are slightly less sharp but require a good sense of timing to choose the right pawn break.
+             ^ filters would have kept
+------------------------------------------------------------------------------
+Pirc Defense  [US Chess Sales]
+  BOTH       Black must eventually look to make a central pawn thrust of their own.
+  REGEX ONLY Instead of occupying the center immediately with pawns, Black will look to exert pressure from the flanks.
+  LLM ONLY   Either e5 or c5 are thematic moves in the early middlegame for Black to challenge White’s center.
+             ^ filters would have REJECTED by filters
+------------------------------------------------------------------------------
+Hungarian Opening  [Chess Doctrine]
+  REGEX ONLY By not committing the center, White usually aims to control the center through minor pieces from stable locations.
+  REGEX ONLY This way, they can control the ‘a1-h8’ diagonal and prevent Black’s one of the main ideas, which is the e5-pawn break.
+  REGEX ONLY White usually aims to go for the typical c4-pawn break to create problems on the long ‘a8-h1’ diagonal.
+  LLM ONLY   By not playing the orthodox e4- or d4- moves , White seeks to strike back and utilize its g2-Bishop .
+             ^ filters would have REJECTED by filters
+------------------------------------------------------------------------------
+Hungarian Opening  [US Chess Sales]
+
+==============================================================================
+SELECTION SUMMARY
+
+  chosen by both                 4  (8%)
+  regex only                    33
+  model only                    12
+  seconds per page (model)       3.1
+
+The disagreement is the result. A count cannot say which selector was
+right, and the sentences above can.
+

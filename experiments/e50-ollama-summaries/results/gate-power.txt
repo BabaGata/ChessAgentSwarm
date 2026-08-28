@@ -1,0 +1,30 @@
+DOES THE GATE STILL BITE IF THE SOURCE IS THE WHOLE PAGE?
+==============================================================================
+
+Probe sentences are real quotes from OTHER openings' pages: true there,
+false here, and shaped exactly like a plausible hallucination.
+
+  SMALL = the extracted quotes (ships today)
+  FULL  = the entire page text (what dropping the selection step gives)
+
+A probe that PASSES is a false claim the check would have let through.
+
+  family                    words S  words F   pass S   pass F
+
+  Caro-Kann Defense              94     7505      0%      79%
+  English Opening                79    14955      0%      98%
+  French Defense                110     4830      2%      72%
+  Hungarian Opening              57     4860      0%      80%
+  Indian Defense                 91     3485     10%      78%
+  Italian Game                   92     6229      0%      71%
+  Pirc Defense                   89     2008      0%      54%
+  Queen's Pawn Game              91     4110     10%      78%
+  Scandinavian Defense          162     3913     11%      66%
+  Sicilian Defense              137     9412      0%      87%
+
+==============================================================================
+  mean false-claim pass rate, SMALL source : 3%
+  mean false-claim pass rate, FULL source  : 76%
+
+The selection step is not only a filter on what the model reads. It is
+what makes the check on what the model writes mean anything.

@@ -112,7 +112,11 @@ BOARD = re.compile(
 # bare full stop. Matching only the ASCII form let "If Black plays 4…Nf6" through.
 _MOVE_NUMBER = re.compile(r"\b\d{1,3}(?:\.{1,3}|…|\.…)\s?[KQRBNa-hO]")
 _SAN = re.compile(r"^(?:[KQRBN]?[a-h]?[1-8]?x?[a-h][1-8](?:=[QRBN])?|O-O(?:-O)?)[+#!?]*$")
-MAX_MOVE_TOKENS = 3
+# Raised from 3 after a real disagreement: "White develops the dark-squared
+# bishop to f4 before blocking it with e3, then builds a solid pawn chain with c3
+# and e3" names four squares and is plain prose. The numbered-move check below is
+# the strong signal for an annotated variation; this one is the backstop.
+MAX_MOVE_TOKENS = 5
 
 # Splitting on ". " cuts "e.g." in half and yields "either side can try an early
 # break with the d-Pawn (e.g." -- a real quote from a real run.
@@ -175,8 +179,19 @@ def is_analysis_line(sentence: str) -> bool:
     return moves > MAX_MOVE_TOKENS
 
 
-def is_plan_sentence(sentence: str) -> bool:
-    """Does this sentence tell a 1500 what to aim for, in words they have?"""
+def is_admissible(sentence: str) -> bool:
+    """Could this sentence be shown to a 1500 at all?
+
+    Everything `is_plan_sentence` checks **except** whether it is forward-looking.
+    Split out because the two halves behave differently when a model does the
+    judging: measured against the regexes, a model finds real plan sentences the
+    `PLAN` pattern misses, and also admits marketing, trivia and annotated
+    variations that these rules correctly refuse
+    ([[experiments.e51-llm-selection-and-search]]).
+
+    So this is the half that stays a veto over a model's choice, and `PLAN` is
+    the half a model replaces.
+    """
     words = len(sentence.split())
     if words < MIN_WORDS or words > MAX_WORDS:
         return False
@@ -197,9 +212,12 @@ def is_plan_sentence(sentence: str) -> bool:
         return False
     if is_analysis_line(sentence):
         return False
-    if not BOARD.search(sentence):
-        return False
-    return bool(PLAN.search(sentence))
+    return bool(BOARD.search(sentence))
+
+
+def is_plan_sentence(sentence: str) -> bool:
+    """Does this sentence tell a 1500 what to aim for, in words they have?"""
+    return is_admissible(sentence) and bool(PLAN.search(sentence))
 
 
 def plan_quotes(body: str, limit: int = 2) -> tuple[str, ...]:

@@ -75,14 +75,16 @@ class Gap:
     opening: str
     games: int
     share: float
+    # A reworded query, when something has proposed one. Empty means the default
+    # below, which is the phrasing the author used by hand -- so a comparison is
+    # between the agent and the author rather than between two questions.
+    query_override: str = ""
 
     @property
     def query(self) -> str:
-        """The search that found usable material for the openings already done.
-
-        Kept identical to the one used by hand, so a later comparison is between
-        the agent and the author rather than between two different questions.
-        """
+        """The search to run for this gap."""
+        if self.query_override:
+            return self.query_override
         return (f"{self.opening} plans ideas explained club players "
                 f"middlegame guide")
 
