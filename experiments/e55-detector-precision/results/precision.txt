@@ -1,0 +1,37 @@
+PRECISION PER DETECTOR
+======================================================================================
+
+Floor 70%, from the author's own two verdicts: 4/5 accepted ("works, leave alone"),
+0/5 rejected ("broken"). Provisional, and labelled so.
+
+Intervals are Wilson 95 %. At n=5 a perfect score still spans roughly 57-100 %,
+so the screen can CONDEMN and cannot CONFIRM; that needs about n=20.
+
+Includes 20 marks recovered from design.informative-claims.md (2026-08-23), each
+checked against the date its module last changed -- a detector rebuilt since
+carries no measured precision, however many marks it has.
+
+  detector                             fired  marks   prec    95% interval  verdict
+
+  early_error.white.own                  200      4     0%        0% - 49%  unmarked  (1 unsure)
+  advantage_error.clear.own              182      0      -               -  unmarked  (5 unsure)
+  allowed_motif.hangingPawn.own          121      5    80%       38% - 96%  unmarked
+  moved_into_attack.own_move.own          36      5     0%        0% - 43%  unmarked
+
+======================================================================================
+WHAT TO DO WITH THIS
+
+  stale          4   marked, then the detector changed -- re-mark before trusting either way
+      advantage_error.clear.own         marked 2026-08-23, but chesscoach/sections/ changed 2026-08-24 -- must be re-marked
+      allowed_motif.hangingPawn.own     marked 2026-08-23, but chesscoach/tactics.py changed 2026-08-24 -- must be re-marked
+      early_error.white.own             marked 2026-08-23, but chesscoach/sections/ changed 2026-08-24 -- must be re-marked
+      moved_into_attack.own_move.own    marked 2026-08-23, but chesscoach/material.py changed 2026-08-27 -- must be re-marked
+
+  condemned      0   fix or retire before anything downstream is trusted
+  confirmed      0
+  unsettled      0   where the next marks are worth most
+
+A precision figure says how often a detector is right when it fires. It
+says nothing about what it MISSES, which needs a different screen and is
+the reason D15 defect (a) -- five claims that never become candidates --
+is a separate item and not answered here.

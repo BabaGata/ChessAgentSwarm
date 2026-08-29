@@ -64,6 +64,7 @@ need to know?"
 | **Run store** | **built 2026-08-28** | `chesscoach/runstore.py` — SQLite, stdlib, one file: every page the Scout found, every sentence the Assessor kept, every point the Compiler wrote **and every one it dropped, with the reason** ([[decisions.0016-a-run-store-for-the-swarm]]). Written as the run proceeds and the run row opened **before** the search, so a rate limit leaves a visible unfinished run rather than nothing. It paid immediately: across five runs the top drop reason is *"repeats a point already made"* (7), more than every grounding failure combined. `dump_run.py` turns any run back into the text report and answers what a text file cannot. **The opening book stays JSON**, measured: 0.04 s to load, 1.2 ms per game walked — a load format, not a query format |
 | **Report reads the store** | **wired 2026-08-28** | `render(profile, opening=...)` prints a **YOUR OPENING** section, and `RunStore.approved_brief` is the only door into it — nothing unapproved, nothing unfinished, and no dropped point can reach a player. **Approving is the same act as `reviewed: true` on a guide link** and belongs to the author, **point by point**: `dump_run.py --run N` numbers the kept points and `--approve N --points 1,3` shows only those. A run read and rejected is recorded as reviewed rather than returning to the pending list. Five runs sit pending and nothing is approved, so no report shows the section yet — the gate works and nobody has walked through it. The store also gained an additive migration, after a file written an hour earlier failed to open once the schema grew |
 | **Structured outputs** | **built 2026-08-29** | Every agent asks with a JSON Schema (`ollama.generate(schema=...)`), so `NONE` where a list was required, `"3, NONE"` and prose-read-as-indices become unrepresentable ([[decisions.0017-constrain-the-answer-with-a-schema]]). **Adopted on construction, not measurement** — the parse rate was already 100 % because the prose fallback was catching everything, and the fallback is kept and tested on both paths. The change also *caused* a regression worth more than the feature: the format example anchored the model to answer `{"keep": [3, 11, 24]}` on every page, costing three briefs of five until it was found by reading raw answers. **L-048** |
+| **Detector precision screen** | **apparatus built 2026-08-29, nothing measured** | `chesscoach/precision.py` — Wilson intervals and three verdicts, sized on the asymmetry that **five samples can condemn a detector and cannot exonerate one** ([[experiments.e55-detector-precision]]). Floor 0.70, anchored on the author's own 4/5-accepted and 0/5-rejected. **The 23 existing marks cannot be dated against the code they judged** — the motifs were rebuilt 08-24 and `moved_into_attack` fixed 08-27, and no marking date was ever recorded — so the project has no valid precision data, which is worse than none because it looks like some. The sheet now stamps its generating commit so this cannot recur |
 | **One-command session** | **built** | `cli coach` — username in, report out; verified end to end on a live player, deterministic across runs |
 
 ## Distance to vision
@@ -225,6 +226,13 @@ outranks expert agreement**, and the remaining Form A collection is dropped as a
 0. **~~P0 — D18 (superseded by the line above)~~** SAN instead of UCI, and game citations carrying colours,
    opponent and date. Cheap, and it is what makes every other check on this list faster for the
    author, so it comes early rather than last.
+
+0. **P0 — Mark the detection sheet** *(2026-08-29)* →
+   `experiments/e55-detector-precision/results/detection-sheet.txt`, 33 claims, 165 boxes, stamped
+   with the commit it judges. Change `[ ]` to `[y]`, `[n]` or `[?]` and run
+   `experiments/e55-detector-precision/score.py`. **The top ten by firing count are where it
+   matters** — `early_error.white.own` alone fires 200 times. Until this produces numbers D4 cannot
+   move off 3 and nothing downstream of a detector can be trusted.
 
 0. **P1 — The author's read of the opening resources** *(2026-08-28)* →
    `experiments/e49-opening-resources/results/resources.txt`. Twelve families, each with its main

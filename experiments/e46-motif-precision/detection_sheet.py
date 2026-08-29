@@ -28,7 +28,9 @@ from __future__ import annotations
 import argparse
 import hashlib
 import random
+import subprocess
 import sys
+from datetime import date
 from collections import defaultdict
 from pathlib import Path
 
@@ -70,6 +72,24 @@ these games, which is worth knowing too.
 
 ==============================================================================
 """
+
+
+def provenance() -> str:
+    """Which commit produced this sheet, so marks on it can be dated."""
+    root = Path(__file__).resolve().parents[2]
+    try:
+        done = subprocess.run(
+            ["git", "rev-parse", "--short", "HEAD"],
+            cwd=root, capture_output=True, text=True, timeout=20, check=False,
+        )
+        commit = done.stdout.strip() if done.returncode == 0 else "unknown"
+    except (OSError, subprocess.SubprocessError):
+        commit = "unknown"
+    return (
+        f"GENERATED {date.today().isoformat()} from commit {commit}.\n"
+        f"Marks on this sheet judge THAT code. If a detector changes afterwards its\n"
+        f"marks stop being evidence about it -- record this line with them."
+    )
 
 
 def main() -> int:
@@ -131,7 +151,12 @@ def main() -> int:
             print(f"  {player}: {len(result.findings)} asserted, "
                   f"{len(result.sub_threshold)} measured", flush=True)
 
-    lines = [HEADER.format(n=args.examples)]
+    # Stamped so a mark can be dated against the code it judged. Without this
+    # the twenty-three marks of 2026-08-23 could not be checked for staleness at
+    # all -- the detectors were rebuilt the next day and nobody could say
+    # whether the marks came before or after, which made them unusable rather
+    # than merely old.
+    lines = [HEADER.format(n=args.examples), provenance(), ""]
     ordered = sorted(claims.items(), key=lambda kv: (-len(kv[1]["hits"]), kv[0]))
 
     for key, entry in ordered:

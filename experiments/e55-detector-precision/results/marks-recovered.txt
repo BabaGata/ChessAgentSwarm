@@ -1,0 +1,13 @@
+# Marks the author made on 2026-08-23, recovered from the table in
+# docs/notes/design.informative-claims.md so they are counted rather than
+# re-done. Twenty-three marks across four claims.
+#
+# Kept apart from the sheet on purpose: the sheet is what the author edits, and
+# a transcription of mine sitting in it would be indistinguishable from their
+# own marking a week later.
+#
+# detector                         right wrong unsure
+allowed_motif.hangingPawn.own          4     1      0
+advantage_error.clear.own              0     0      5
+early_error.white.own                  0     4      1
+moved_into_attack.own_move.own         0     5      0
