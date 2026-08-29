@@ -9,7 +9,7 @@ created: 1788652800000
 # Six detectors, corrected
 
 **Source:** the author, 2026-08-29, reading the precision sheet ·
-**Status:** design only — no code yet, per the M4 rule
+**Status:** 2 of 6 built (`advantage_error` retired, `fork` rebuilt); 4 designed
 
 ## The fault they share
 
@@ -116,6 +116,12 @@ So a fork against two *defended* pieces is not a fork. That is a real search: fo
 does the best case still lose material? Bounded — the defender's plausible replies are moving either
 target, capturing the attacker, or defending — and `wins_material` already exists in `material.py`.
 
+**BUILT — see [[experiments.e57-fork-rebuilt]].** Nine fixtures pass, including the negative
+case. Building the positives by hand failed three times: over random positions only **3 of
+1,014** knight double-attacks on a rook and bishop are genuine forks, and the old detector
+counted all 1,014. The claim now fires **zero** times on the review corpus, down from 146,
+which is arithmetically consistent with a rule that strict but is not yet known to be right.
+
 **Testable:** the author's three examples become fixtures — pawn forking knight and bishop one square
 apart; knight forking queen and rook; knight forking rook and undefended bishop. **And the negative
 case is the important one:** knight forking rook and *defended* bishop must NOT fire.
@@ -212,9 +218,12 @@ tactical, must. A three-move run where the first drop is a hung piece must count
 
 Ordered by what unblocks what, not by size:
 
-1. **`advantage_error` retired.** Cheapest, and it changes the arbiter's ranking, so it should land
+1. ~~**`advantage_error` retired.**~~ **Done** — [[experiments.e56-retire-advantage-error]].
+   Cheapest, and it changes the arbiter's ranking, so it should land
    before anything is re-measured against it.
-2. **`fork` rebuilt.** The author's oldest complaint, the clearest specification, and the one whose
+2. ~~**`fork` rebuilt.**~~ **Done** — [[experiments.e57-fork-rebuilt]], and it now needs the
+   author's eye on a few positions before the zero count can be trusted.
+   The author's oldest complaint, the clearest specification, and the one whose
    fixtures are already written in their own words.
 3. **`doubled` and `rook_seventh`.** Both are filters over existing detectors; both cheap.
 4. **`endgame_error`.** Needs the residual relationship with S1 built first.

@@ -24,6 +24,25 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 
 ---
 
+### L-049 — If you cannot hand-build a positive fixture, the rule is telling you something
+**Date:** 2026-08-29 · **Cycle / mission step:** M6 · **Class:** technique
+**Context:** Rebuilding `fork` on the author's definition ([[experiments.e57-fork-rebuilt]]). Three
+attempts to construct a knight forking a rook and a bishop produced positions the new detector
+rejected, and each time the first instinct was that the detector was broken.
+**Observation:** it was not. A search over random positions found that **3 of 1,014** such double
+attacks are genuine forks — the rook almost always has a square that escapes *and* defends the
+bishop. The difficulty of building the fixture **was the measurement**: the old detector counted all
+1,014, and the reason a positive was hard to construct is exactly the reason the old one was wrong.
+**Lesson:** When a tightened rule refuses a fixture built by hand, generate a population and count
+before touching the rule. A rule that is hard to satisfy by construction is either too strict or
+correctly rare, and **counting distinguishes them in minutes** while arguing from intuition does not.
+The corollary: for a rule this strict, the **negative** fixtures are the test file — they encode why
+the previous version was wrong, and the positives merely show it still fires.
+**Applied to:** `tests/test_fork.py` (six negatives to three positives), and the remaining four
+corrections in [[design.detectors-name-consequences]], each of which tightens a rule the same way.
+
+---
+
 ### L-048 - A format example in a prompt is few-shot data, not documentation
 **Date:** 2026-08-29 - **Cycle / mission step:** M6 - **Class:** technique
 **Context:** Adding JSON schemas to the swarm's agents ([[experiments.e54-structured-outputs]]). The

@@ -92,25 +92,101 @@ def detect_motifs(board: chess.Board, move: chess.Move) -> frozenset[str]:
 # --- individual detectors ---------------------------------------------------
 
 
-def _is_fork(board: chess.Board, after: chess.Board, move: chess.Move, mover: chess.Color) -> bool:
-    """The moved piece attacks two or more things worth winning, and survives.
+def _is_fork(board: chess.Board, after: chess.Board, move: chess.Move,
+             mover: chess.Color) -> bool:
+    """Two pieces newly attacked by the piece that just moved, and material lost.
 
-    "Worth winning" excludes defended pieces no more valuable than the attacker:
-    a rook attacking two protected pawns has not forked anything.
+    The author's definition, after marking the old detector wrong:
+
+    > *"Forks are moves that occur when at least 2 pieces were newly (so they
+    > weren't attacked before) attacked by one single piece after moving that
+    > piece and the result is definite loss of material."*
+
+    Four conditions, and the old detector asked only the third:
+
+    1. the targets are attacked by **the piece that moved** -- a discovered
+       attack from a piece standing still is a different motif;
+    2. at least two of them were **not attacked before**, so a piece wandering
+       into a double attack that already existed is not a fork;
+    3. the attacker survives, which `_lands_safely` answers on exchange values;
+    4. **material is definitely lost** -- the defender has no reply that saves
+       everything.
+
+    Condition 4 is the one that changes the count, and the author gave the case
+    that discriminates: a knight attacking a rook and an *undefended* bishop is
+    a fork, because moving either loses the other. Attacking a rook and a
+    *defended* bishop is **not**: the rook steps away and what follows is an
+    exchange, not a loss.
     """
     if not _lands_safely(after, move.to_square, mover):
         return False
-
-    attacker = after.piece_at(move.to_square)
-    if attacker is None:
+    if after.piece_at(move.to_square) is None:
         return False
 
-    targets = [
-        square
-        for square in after.attacks(move.to_square)
-        if _is_worth_winning(after, square, attacker, mover)
-    ]
-    return len(targets) >= 2
+    targets = _newly_attacked(board, after, move, mover)
+    if len(targets) < 2:
+        return False
+    return _loses_material_whatever_the_defender_does(after, targets, mover)
+
+
+def _newly_attacked(board: chess.Board, after: chess.Board, move: chess.Move,
+                    mover: chess.Color) -> tuple[int, ...]:
+    """Enemy pieces this move put under attack that were not under attack before.
+
+    Worth winning is checked here too: a rook "attacking" a defended pawn has
+    put nothing at risk, and counting it would make every developing move a
+    fork.
+    """
+    found = []
+    for square in after.attacks(move.to_square):
+        piece = after.piece_at(square)
+        if piece is None or piece.color == mover:
+            continue
+        # `board` still has the mover's piece on its old square, so this asks
+        # exactly the right question: was it already attacked, from anywhere?
+        if board.is_attacked_by(mover, square):
+            continue
+        # The king counts as a target without being winnable -- it cannot be
+        # captured, so `wins_material` says nothing about it. Excluding it would
+        # blind the detector to the family fork, which is the commonest fork
+        # there is: the check forces the king to move and the other piece falls.
+        if piece.piece_type == chess.KING or wins_material(after, square, mover) > 0:
+            found.append(square)
+    return tuple(found)
+
+
+def _loses_material_whatever_the_defender_does(
+    after: chess.Board, targets: tuple[int, ...], mover: chess.Color
+) -> bool:
+    """Can the defender save every target? If so, this is not a fork.
+
+    One ply of the defender's legal replies, which is what "definite" means here
+    -- a fork wins because *no* answer saves both, not because the obvious
+    answer does not.
+
+    Replies that lose material are skipped rather than counted as saves. The
+    commonest is capturing the forking piece: `_lands_safely` has already
+    established that loses material, and treating it as a rescue would refuse
+    every genuine fork.
+    """
+    # A king is a target but never a prize: the loss has to land on something
+    # capturable, so the check is made against the other targets only.
+    winnable = tuple(
+        square for square in targets
+        if (piece := after.piece_at(square)) is not None
+        and piece.piece_type != chess.KING
+    )
+    if not winnable:
+        return False
+
+    for reply in after.legal_moves:
+        if exchange_value(after, reply) < 0:
+            continue
+        defended = after.copy(stack=False)
+        defended.push(reply)
+        if not any(wins_material(defended, square, mover) > 0 for square in winnable):
+            return False
+    return True
 
 
 def _is_pin(board: chess.Board, after: chess.Board, move: chess.Move, mover: chess.Color) -> bool:

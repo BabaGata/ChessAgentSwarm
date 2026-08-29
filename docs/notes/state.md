@@ -66,6 +66,7 @@ need to know?"
 | **Structured outputs** | **built 2026-08-29** | Every agent asks with a JSON Schema (`ollama.generate(schema=...)`), so `NONE` where a list was required, `"3, NONE"` and prose-read-as-indices become unrepresentable ([[decisions.0017-constrain-the-answer-with-a-schema]]). **Adopted on construction, not measurement** — the parse rate was already 100 % because the prose fallback was catching everything, and the fallback is kept and tested on both paths. The change also *caused* a regression worth more than the feature: the format example anchored the model to answer `{"keep": [3, 11, 24]}` on every page, costing three briefs of five until it was found by reading raw answers. **L-048** |
 | **Detector precision screen** | **apparatus built 2026-08-29, nothing measured** | `chesscoach/precision.py` — Wilson intervals and three verdicts, sized on the asymmetry that **five samples can condemn a detector and cannot exonerate one** ([[experiments.e55-detector-precision]]). Floor 0.70, anchored on the author's own 4/5-accepted and 0/5-rejected. **The 23 existing marks cannot be dated against the code they judged** — the motifs were rebuilt 08-24 and `moved_into_attack` fixed 08-27, and no marking date was ever recorded — so the project has no valid precision data, which is worse than none because it looks like some. The sheet now stamps its generating commit so this cannot recur |
 | **`advantage_error` retired** | **done 2026-08-29** | The second-commonest claim in the system stops being counted ([[experiments.e56-retire-advantage-error]]). Measured before shipping, as the design note promised: it fired for **6 of 12** players, **nobody** loses a priority or is left with nothing, and **two players were being told about it first** — `bjagus` and `Sheriwoyama` now lead with something else. The cost pool refilled the freed slots invisibly, which is the mechanism working. Uncomfortable half: `bjagus` swapped it for `early_error.white`, which is **also** on the correction list at 0/4 |
+| **`fork` rebuilt** | **done 2026-08-29 — and it now never fires** | Four conditions where there were two: the targets must be **newly** attacked, and no defender reply may save them ([[experiments.e57-fork-rebuilt]]). The strictness is the whole correction, measured: over random positions only **3 of 1,014** knight double-attacks on a rook and bishop are genuine forks, and **the old detector counted all 1,014** — a rook attacked beside a bishop usually steps to a square that defends it. Nine fixtures, and the **negatives carry the file**; hand-building positives failed three times because most double attacks are not forks. **`allowed_motif.fork` 113 → 0 and `missed_motif.fork` 33 → 0**, both now in the sheet's NEVER FIRED list. Consistent — a direct scan finds 65 forks in 3,908 best moves (1.7 %), and S1's populations are a few hundred positions, not thousands — but **consistent is not correct**, and the claim is currently unmakeable for every player. `allowed_motif.pin` 32 → 43 is unexplained |
 | **One-command session** | **built** | `cli coach` — username in, report out; verified end to end on a live player, deterministic across runs |
 
 ## Distance to vision
@@ -243,7 +244,12 @@ outranks expert agreement**, and the remaining Form A collection is dropped as a
    preventable; `doubled` needs adjacency and persistence past three moves; `endgame_error` becomes a
    **residual** claim — consecutive drops that the motif detectors do not already explain;
    `early_error` is replaced by two opening-knowledge claims and absorbs **A3**. Sequence and the
-   parameters still needing calibration are in the note. **Design only — no code yet.**
+   parameters still needing calibration are in the note. **2 of 6 built** — `advantage_error`
+   retired ([[experiments.e56-retire-advantage-error]]) and `fork` rebuilt
+   ([[experiments.e57-fork-rebuilt]]); `doubled`, `rook_seventh`, `endgame_error` and the two
+   opening claims remain. **The fork rebuild needs the author's eye before the next one starts:**
+   it went from 146 firings to zero, and only a person reading positions can say whether that is
+   the correction working or the rule being unreachable.
 
 0. **P0 — Mark the detection sheet** *(2026-08-29)* →
    `experiments/e55-detector-precision/results/detection-sheet.txt`, 33 claims, 165 boxes, stamped
