@@ -1,0 +1,102 @@
+PER-OPENING DEVELOPMENT NORMS, DERIVED FROM THE CORPUS
+==============================================================================
+
+games read            2019
+opening not named     0
+families measured     97
+minimum games to show 20
+
+Median MOVE NUMBER by which the side had castled, and by which all
+four minor pieces had left home. `-` means fewer than half the games
+got there at all.
+
+opening                           side       n  castle  develop  never  book  repeat   pawn
+-------------------------------------------------------------------------------------------
+Sicilian Defense                  White    241      11       12    15%     3     34%    33%
+Sicilian Defense                  Black    241      12       15    25%     3     34%    41%
+Queen's Pawn Game                 White    177      11       14    28%     2     33%    36%
+Queen's Pawn Game                 Black    177      10       13    17%     2     30%    36%
+Italian Game                      White    157       8       16    22%     4     38%    32%
+Italian Game                      Black    157      13       15    34%     4     37%    30%
+French Defense                    White    134      10       14    20%     3     35%    38%
+French Defense                    Black    134      12       15    25%     3     36%    37%
+Caro-Kann Defense                 White    123      11       14    18%     3     37%    35%
+Caro-Kann Defense                 Black    123      16       15    27%     3     37%    39%
+King's Pawn Game                  White     88      12       18    30%     2     41%    32%
+King's Pawn Game                  Black     88      16       22    47%     2     42%    30%
+Scandinavian Defense              White     76      11       13    22%     3     37%    35%
+Scandinavian Defense              Black     76      12       20    22%     3     42%    30%
+Scotch Game                       White     68      11       16    15%     5     41%    27%
+Scotch Game                       Black     68      13       17    34%     5     40%    35%
+English Opening                   White     59       9       15    22%     3     30%    40%
+English Opening                   Black     59       9       14    24%     3     29%    36%
+Bishop's Opening                  White     57      17        -    47%     2     45%    28%
+Bishop's Opening                  Black     57      15       16    35%     2     38%    29%
+Ruy Lopez                         White     48       7       14     8%     4     39%    29%
+Ruy Lopez                         Black     48      10       12    12%     4     29%    34%
+Philidor Defense                  White     47       8       13     2%     3     32%    30%
+Philidor Defense                  Black     47      14       15    34%     3     36%    37%
+Four Knights Game                 White     45       9       12    18%     4     31%    31%
+Four Knights Game                 Black     45       8       15    27%     4     33%    29%
+Petrov's Defense                  White     44      11       14    16%     3     37%    27%
+Petrov's Defense                  Black     44      11       15    25%     3     40%    27%
+Queen's Gambit Declined           White     38      13       10    11%     3     34%    37%
+Queen's Gambit Declined           Black     38      10       16    24%     3     37%    34%
+Indian Defense                    White     32      12       15    16%     2     38%    35%
+Indian Defense                    Black     32      10       14    16%     2     32%    35%
+Modern Defense                    White     31      10       13    16%     3     29%    39%
+Modern Defense                    Black     31      10       14    23%     3     30%    39%
+Horwitz Defense                   White     31      11       12     6%     1     27%    40%
+Horwitz Defense                   Black     31      10       16    19%     1     40%    37%
+Pirc Defense                      White     28      11       13    11%     3     36%    36%
+Pirc Defense                      Black     28       9       16    18%     3     34%    37%
+Zukertort Opening                 White     27      13       14    15%     2     37%    32%
+Zukertort Opening                 Black     27      11       16    22%     2     35%    35%
+Vienna Game                       White     27       9       21    33%     2     38%    32%
+Vienna Game                       Black     27      11       18    33%     2     35%    34%
+Van't Kruijs Opening              White     24      15        -    38%     1     42%    33%
+Van't Kruijs Opening              Black     24      14       19    29%     1     39%    33%
+Englund Gambit                    White     23      14       18    30%     2     46%    33%
+Englund Gambit                    Black     23      13       15    22%     2     40%    27%
+Queen's Gambit Accepted           White     22      12       14    18%     3     32%    35%
+Queen's Gambit Accepted           Black     22      14       16    18%     3     39%    36%
+Nimzo-Larsen Attack               White     21      10       16    24%     2     36%    35%
+Nimzo-Larsen Attack               Black     21      13       11    24%     2     38%    32%
+Nimzowitsch Defense               White     20      11       12    20%     2     31%    38%
+Nimzowitsch Defense               Black     20      12       18    30%     2     43%    25%
+
+==============================================================================
+THE AUTHOR'S TWO NUMBERS
+==============================================================================
+
+Stated before the corpus was asked, so this is a prediction being
+checked and not a threshold being fitted:
+
+  Italian Game   White castles around move 5
+  Ruy Lopez      White castles between moves 8 and 10
+
+  Italian Game     n=157   corpus says White castles on move 8
+  Ruy Lopez        n=48    corpus says White castles on move 7
+
+==============================================================================
+IS THERE PER-OPENING VARIATION AT ALL?
+==============================================================================
+
+The claim only needs a per-opening norm if openings actually differ.
+Spread across the families shown, White and Black separately:
+
+  castles by move                      7  (Ruy Lopez, W)
+                                      17  (Bishop's Opening, W)
+
+  develops by move                    10  (Queen's Gambit Declined, W)
+                                      22  (King's Pawn Game, B)
+
+  pawn share of opening moves         25  (Nimzowitsch Defense, B)
+                                      41  (Sicilian Defense, B)
+
+  repeat share of opening moves       27  (Horwitz Defense, W)
+                                      46  (Englund Gambit, W)
+
+  moves still in book                  1  (Horwitz Defense, B)
+                                       5  (Scotch Game, W)
+

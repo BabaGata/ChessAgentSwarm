@@ -363,12 +363,15 @@ opening_disadvantage.any.own
   [?] Maximilian_Honigtopf  move   9  White d3       lost   5.2 wp
       lichess.org/sQ2h2BRg#17
       This is result of invalid piece sacrifice before, not directly because of not understanding of the opening.
-  [ ] Sheriwoyama           move  15  White Qb2      lost   9.9 wp
+  [y] Sheriwoyama           move  15  White Qb2      lost   9.9 wp
       lichess.org/7ZcwpUAm#29
-  [ ] Sheriwoyama           move  15  Black Qxb4     lost   0.0 wp
+      This is an early middle game, one king is castled, more pieces should be developed but there was multiple moves by the same pieces and unnecessary movement of the pawns. Not directly sign of not understanding the opening lines but general not understanding of how to develop properly. This should be reviewed as potential separate test from test for the knowledge of the opening lines.
+  [?] Sheriwoyama           move  15  Black Qxb4     lost   0.0 wp
       lichess.org/TY5dVNfv#30
-  [ ] cademan               move  15  White Be3      lost   0.0 wp
+      This is a middlegame much later after the probable edge of the opening line knowledge (around 7th move). It could be product of not knowing the opening ideas. Sign for the edge of opening line knowledge would be first castling (or 1 or 2 moves after). If both kings castle after the move 10, or if the player regularly castles after that move it is probable that the player does not know the opening.
+  [n] cademan               move  15  White Be3      lost   0.0 wp
       lichess.org/liX9MImV#29
+      This is already a middlegame, the white didn't castled because he was breaced and this went out of the theory multiple moves before.
 
 missed_motif.hangingPawn.own
     claims: You leave free pawns on the board — material that was there for the taking.

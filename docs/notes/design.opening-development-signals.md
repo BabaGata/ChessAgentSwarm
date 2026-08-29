@@ -1,15 +1,30 @@
 ---
 id: cas-design-development
-title: 'Design — opening knowledge measured as development behaviour, not as book depth'
-desc: 'The author''s proposal: castling time, development completion, repeated piece moves and pawn moves. It replaces the book-depth half of correction 1 with something cheaper, more actionable, and free of asserted chess rules — the thresholds come from peers, not from principle. One headline measure, three explanations, and a correlation screen that decides whether all four survive.'
+title: 'Design — opening knowledge as development behaviour, with per-opening norms'
+desc: 'The author''s proposal: castling time, development completion, repeated piece moves and pawn moves, each judged against the norm for THAT opening rather than a global rule. No threshold is written down — every one is derived from peers, which E58 shows is both possible and necessary. Book depth stays beside it as learning feedback.'
 updated: 1788739200000
 created: 1788739200000
 ---
 
 # Opening knowledge as development behaviour
 
-**Source:** the author, 2026-08-29 · **Supersedes:** claim **1a** of
-[[design.detectors-name-consequences]] · **Status:** design only — no code yet, per the M4 rule
+**Source:** the author, 2026-08-29 · **Beside:** claim **1a** of
+[[design.detectors-name-consequences]] · **Status:** measurement built —
+[[experiments.e58-opening-development]]
+
+> **Revised 2026-08-29, twice, both by the author.**
+>
+> **1a is reinstated.** This note first proposed superseding book depth. The author kept it: *"checking
+> the played moves with the real opening lines should remain and can be used to test when the player
+> usually stops knowing what to play by the book and use this as a potential learning feedback."*
+> That is a different job from diagnosis — **feedback about what to study**, not a claim about a
+> weakness — and it does not compete for a plan slot, so the correlation screen no longer decides its
+> life. E58 confirms it is usable: median 1–5 moves in book with clear per-opening spread.
+>
+> **Norms are per opening, not global.** *"The tests should not be general for all opening but general
+> rules per opening. Like in italian game the castles should occur around move 5 and in ruy lopez in
+> between moves 8-10."* Confirmed as necessary by E58 — castling norms range from move 7 to move 17
+> across families — and the norms are **derived** rather than written down, so every opening gets one.
 
 ## The proposal
 
@@ -19,23 +34,26 @@ created: 1788739200000
 > in general allow more moves with pawns. Beginner players that don't know opening lines tend to not
 > develop pieces but move already developed pieces and move too many pawns unnecessarily."*
 
-## Why this replaces 1a rather than joining it
+## Why this sits beside 1a rather than replacing it
 
 Correction 1 split `early_error` into **1a** *you leave theory earlier than your peers* and **1b**
 *you score worse in this opening than in your others*. 1b is unaffected and still merges A3.
 
-**1a should be dropped in favour of this.** Book depth answers *"you stopped knowing the line at move
-6"*, which names a moment and no action — the player cannot go and know more theory this week. This
-proposal answers *"you moved a piece that was already out while a knight sat at home"*, which is a
-behaviour and repairable in one game. That is exactly the distinction the six corrections were built
-on: **a detector that recognises a position is not a finding; one that recognises a consequence is**
-([[design.detectors-name-consequences]]), and D22 one level further down.
+**They answer different questions and only one of them is a diagnosis.**
 
-It is also **cheaper**. 1a needed a new peer statistic *and* the CC0 book walked over the peer
-corpus. This needs a new peer statistic and nothing else.
+Book depth answers *"you stopped knowing the line at move 6"*. As a **claim** that is weak — it names
+a moment and no action, and the player cannot go and know more theory this week. But as **feedback**
+it is strong and the author is right to keep it: it says *what to study*, it points at a specific
+line, and it needs no plan slot to be useful. It is the natural companion to the opening brief the
+swarm already produces.
 
-Book depth is not deleted — it is **held**, and the correlation screen below will say whether it has
-anything left to add.
+The development signals answer *"you moved a piece that was already out while a knight sat at home"*,
+which is a behaviour, repairable in one game, and therefore the diagnosis half. That is the
+distinction the six corrections were built on: **a detector that recognises a position is not a
+finding; one that recognises a consequence is** ([[design.detectors-name-consequences]]).
+
+So: **book depth is learning feedback, development is diagnosis.** They are reported in different
+places and neither displaces the other.
 
 ## The central design move: peers supply every threshold
 
@@ -124,8 +142,9 @@ same screen applies here, and it is the first thing to run:
   are one signal with two names, and only the more actionable one ships.
 - **all four against the overall error rate**, for the E10 reason: a "development" claim that is
   really a proxy for *is a weaker player* teaches nobody anything.
-- **`slow_development` against `plies_in_book`**, which settles whether 1a is dead or merely
-  redundant.
+- **`slow_development` against `plies_in_book`** — no longer to decide 1a's life, since it is
+  feedback rather than a competing claim, but because a strong correlation would mean the swarm can
+  say *why* a player leaves book early instead of only that they do.
 
 **Only claims that survive the screen are built.** Designing four and shipping two is the expected
 outcome, not a failure.
