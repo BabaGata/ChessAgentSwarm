@@ -251,6 +251,19 @@ outranks expert agreement**, and the remaining Form A collection is dropped as a
    it went from 146 firings to zero, and only a person reading positions can say whether that is
    the correction working or the rule being unreachable.
 
+0. **P0 — Opening knowledge as development behaviour** *(2026-08-29)* →
+   [[design.opening-development-signals]]. The author's proposal, and it **supersedes correction 1a**
+   (book depth): castling time, development completion, **repeated moves of an already-developed
+   piece**, and pawn-move share — all inside a window that ends when the player has castled and all
+   four minors have moved, rather than at a constant ply. **Every threshold comes from the player's
+   band, none is asserted**, which is what keeps *"castle by move 10"* out of the system and disposes
+   of the French/King's Indian objection at the same time: peers who also leave that bishop home make
+   the deviation zero. Measured separately, presented together — `overlap.drop_covered_claims` gives
+   the headline the plan slot and the largest of the three explanations supplies the *why*. **The
+   correlation screen runs first** (E10's precedent, |r| > 0.85), because the three explanations will
+   overlap and the screen, not an argument, decides how many ship. No engine work of its own; the
+   cost is a peer-reference rebuild, free on a warm cache. **Design only — no code yet.**
+
 0. **P0 — Mark the detection sheet** *(2026-08-29)* →
    `experiments/e55-detector-precision/results/detection-sheet.txt`, 33 claims, 165 boxes, stamped
    with the commit it judges. Change `[ ]` to `[y]`, `[n]` or `[?]` and run

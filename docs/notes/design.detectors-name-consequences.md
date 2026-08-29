@@ -48,6 +48,15 @@ the player cannot act on it.
 CC0 book is loaded; what does not exist is a **peer baseline for book depth**. That is new work on
 the peer corpus, not a threshold change.
 
+> **Superseded 2026-08-29 by [[design.opening-development-signals]].** The author proposed measuring
+> opening knowledge as **development behaviour** — castling time, development completion, repeated
+> piece moves, pawn moves — instead of book depth. It is cheaper (no book walk over the peer corpus),
+> more actionable (*"you moved a piece that was already out while a knight sat at home"* names
+> something repairable this week; *"you left theory at move 6"* names a moment), and it fires on a
+> deviation from peers rather than on a state of the board, which is the fault this whole note
+> corrects. **1a is held, not deleted**: a correlation screen against `plies_in_book` decides whether
+> book depth has anything left to add.
+
 **1b — you score worse in this opening than in your others.** This is **A3**, already on the list as
 unstarted and free, and it merges here rather than staying separate.
 
