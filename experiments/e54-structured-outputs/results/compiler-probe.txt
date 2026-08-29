@@ -1,0 +1,68 @@
+THE COMPILER, SAME NOTES, WITH AND WITHOUT THE SCHEMA  model=qwen2.5:3b
+==============================================================================
+
+Notes replayed verbatim from stored runs, so the ONLY difference is the
+`format` field. The offline run's fall from five briefs to two changed
+the Assessor at the same time; this does not.
+
+------------------------------------------------------------------------------
+run 2  London System   19 notes
+  schema  2 kept, 2 dropped
+           PLAN   Control the center with e4 and develop pieces
+           WATCH  Black's response to c3 and e3
+           dropped -- novelty 60% over 45%: c-file, prepare, expansion
+           dropped -- names nothing on the board
+  free    2 kept, 2 dropped
+           PLAN   Develop the light-squared bishop to d3 or e2
+           PLAN   Play e4 to consolidate the center
+           dropped -- names nothing on the board
+           dropped -- names nothing on the board
+------------------------------------------------------------------------------
+run 3  French Defense   10 notes
+  schema  4 kept, 0 dropped
+           PLAN   Develop the c3 pawn to control e5 and support the e5 pawn
+           PLAN   Launch a kingside attack with moves like f4 and Nf3
+           WATCH  Black’s response to White’s e5 pawn and c3 pawn
+           WATCH  Black’s attempts to avoid pinning the knight on d2
+  free    4 kept, 0 dropped
+           PLAN   Develop the c3 pawn to control d4 and support e5
+           PLAN   Launch a kingside attack with f4 and Nf3
+           WATCH  Black's response to White's e5 pawn and c3 pawn
+           WATCH  White's attempts to regain the e4 pawn
+------------------------------------------------------------------------------
+run 4  Bird Opening   12 notes
+  schema  3 kept, 2 dropped
+           PLAN   Develop the f-pawn to f4 to support e5 and kingside pressure
+           PLAN   Prepare for a kingside attack or fianchettoed bishop
+           WATCH  Black's development and king safety
+           dropped -- novelty 80% over 45%: prevent, black, avoid, weakening
+           dropped -- novelty 100% over 45%: black's, response
+  free    2 kept, 2 dropped
+           PLAN   Develop the f-pawn to f4 and consider a kingside fianchetto.
+           PLAN   Prevent f2-f4 by Black, focusing on king safety and e1-h4 diagonal development.
+           dropped -- novelty 67% over 45%: prepare, tactical, opportunities, 
+           dropped -- novelty 80% over 45%: black's, response, black's, pieces
+------------------------------------------------------------------------------
+run 5  Owen Defense   21 notes
+  schema  3 kept, 2 dropped
+           PLAN   Develop the light-squared bishop to b6 and keep tension on the center
+           PLAN   Attack White's center with ...c7-c5
+           WATCH  Black’s plan is to fianchetto the dark-squared bishop to b7
+           dropped -- names nothing on the board
+           dropped -- names nothing on the board
+  free    4 kept, 1 dropped
+           PLAN   Develop the dark-squared bishop to b6 and keep tension on the center
+           PLAN   Attack the pawn on d4 and control the b4-square
+           PLAN   Play for c4-c5 expansion or not based on White's play
+           WATCH  Black’s fianchetto of the dark-squared bishop to b7
+           dropped -- novelty 50% over 45%: response
+
+==============================================================================
+  arm         points kept   dropped
+
+  schema               12         6
+  free                 12         5
+
+Constrained decoding restricts which tokens are legal at each step. If
+the schema costs point quality, this is where it shows -- and if the
+arms match, the offline fall was the Assessor's changed notes instead.

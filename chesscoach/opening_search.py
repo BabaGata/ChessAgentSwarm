@@ -31,6 +31,9 @@ from dataclasses import dataclass, field, replace
 from chesscoach import ollama
 from chesscoach.opening_agent import Gap, Searcher
 
+JUDGE_SCHEMA = ollama.schema_of(keep=ollama.array_of("integer"))
+REWORD_SCHEMA = ollama.schema_of(query={"type": "string"})
+
 JUDGE = """You are choosing web pages that teach a chess opening's PLANS to a \
 club player rated about 1500.
 
@@ -43,8 +46,8 @@ different opening.
 Numbered results for "{opening}":
 {results}
 
-Answer with ONLY the numbers to keep, separated by commas. No other words.
-If none should be kept, answer NONE.
+Answer with the numbers of the pages to keep, in the "keep" field.
+If none should be kept, keep nothing.
 """
 
 REWORD = """A web search for chess opening guides returned poor results.
@@ -55,7 +58,7 @@ The search used was: {query}
 Write ONE different web search that would find a page teaching this opening's \
 plans and ideas to a club player. Use different words from the search above.
 
-Answer with ONLY the search text, on one line.
+Answer as JSON: {{"query": "grob opening plans"}}
 """
 
 
@@ -138,12 +141,20 @@ class GuidedSearcher:
             answer = ollama.generate(
                 self.model,
                 JUDGE.format(opening=opening, results=listing),
-                host=self.host, num_predict=40, transport=self.transport,
+                host=self.host, num_predict=60, schema=JUDGE_SCHEMA,
+                transport=self.transport,
             )
         except ollama.OllamaUnavailable:
             # The model is an improvement, never a dependency.
             return list(results)
         self.last_answer = answer.strip()
+
+        data = ollama.as_json(answer)
+        if data is not None:
+            # An empty list under a schema is a real verdict of "keep nothing",
+            # where an empty *parse* was only ever "I could not read that".
+            return [results[i] for i in ollama.ints(data, "keep", len(results))]
+
         if "none" in answer.strip().lower()[:8]:
             return []
         chosen = ollama.indices(answer, len(results))
@@ -164,11 +175,13 @@ class GuidedSearcher:
                 self.model,
                 REWORD.format(opening=opening, query=query, seen=seen),
                 host=self.host, num_predict=60, temperature=0.7,
-                transport=self.transport,
+                schema=REWORD_SCHEMA, transport=self.transport,
             )
         except ollama.OllamaUnavailable:
             return ""
-        return _one_line(answer)
+        data = ollama.as_json(answer)
+        # The shape rules still apply: a schema guarantees a string, not a query.
+        return _one_line(str(data.get("query", "")) if data else answer)
 
 
 def _one_line(answer: str) -> str:

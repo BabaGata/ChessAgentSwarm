@@ -31,7 +31,7 @@ real work, or if a future reader would otherwise ask *"why on earth is it like t
 | [[decisions.0014-three-agents-for-the-opening-brief]] | 2026-08-28 | Scout, Assessor and Compiler, each with a stated role and a forbidden failure mode. Answers the author's objection that the swarm was mostly deterministic Python: the models now decide which pages, which sentences and which words, while the grounding check still decides whether the words survive. Each role fails toward doing nothing |
 | [[decisions.0015-a-learned-skip-list-and-a-bullet-brief]] | 2026-08-28 | The Assessor stops judging titles and starts reading sentences; the cheap permanent judgement becomes a deterministic skip list it maintains, under four guards — the load-bearing one being that a site which has ever helped can never be skipped. The brief becomes bullet points, so one bad point is dropped instead of a paragraph |
 | [[decisions.0016-a-run-store-for-the-swarm]] | 2026-08-28 | SQLite (stdlib, no dependency) for what the agents did, written as the run proceeds so a rate limit leaves what it had; JSON stays for the opening book, measured at 0.04 s to load and 1.2 ms per game walked, because it is a load format rather than a query format |
-
+| [[decisions.0017-constrain-the-answer-with-a-schema]] | 2026-08-29 | Ollama's `format` field makes a malformed answer unrepresentable rather than unlikely, at no dependency cost. The prose parsers stay as the fallback and are tested on both paths. Adopted on construction rather than measurement: the parse rate was already 100 % |\n
 
 ## Template
 

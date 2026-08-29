@@ -44,6 +44,9 @@ from chesscoach.opening_plans import (
     text_blocks,
 )
 
+# Indices only, so prose can never be read as a selection.
+SELECT_SCHEMA = ollama.schema_of(keep=ollama.array_of("integer"))
+
 PROMPT = """Below are numbered sentences from a web page about the {opening}.
 
 Pick the {limit} sentences that best tell a club player rated about 1500 WHAT TO \
@@ -55,8 +58,8 @@ Reject a sentence if it:
 - advertises a course, a book or a website
 - is about studying the opening rather than playing it
 
-Answer with ONLY the numbers, separated by commas. No other words.
-If none of them say what to aim for, answer NONE.
+Answer with the numbers of the sentences you picked, in the "keep" field.
+If none of them say what to aim for, keep nothing.
 
 {sentences}
 """
@@ -116,12 +119,16 @@ class LlmSelector:
             PROMPT.format(opening=opening, limit=limit, sentences=numbered),
             host=self.host,
             num_predict=60,
+            schema=SELECT_SCHEMA,
             transport=self.transport,
         )
-        if "none" in answer.strip().lower()[:8]:
+        data = ollama.as_json(answer)
+        if data is not None:
+            chosen = ollama.ints(data, "keep", len(candidates))[:limit]
+        elif "none" in answer.strip().lower()[:8]:
             return ()
-
-        chosen = ollama.indices(answer, len(candidates))[:limit]
+        else:
+            chosen = ollama.indices(answer, len(candidates))[:limit]
         # Re-verified against the page even though indexing already guarantees
         # it. The guarantee is one refactor away from being untrue, and the
         # thing it protects -- that a checker's ground truth is really the

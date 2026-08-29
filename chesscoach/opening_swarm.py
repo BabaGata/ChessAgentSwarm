@@ -75,6 +75,20 @@ PER_PAGE = 6
 # paywall, or a fetch that returned a shell.
 MIN_PAGE_WORDS = 120
 
+# What each agent is allowed to answer. Ollama constrains decoding to these, so
+# the model cannot emit NONE where a list is required, cannot answer "3, NONE",
+# and cannot return prose a number-scraper then misreads -- all measured
+# failures in E51 and E52.
+#
+# Every prose parser below survives as the fallback: a schema is a request, not
+# a guarantee, and a model that ignores it must behave as it did before.
+SCOUT_SCHEMA = ollama.schema_of(queries=ollama.array_of("string"))
+ASSESSOR_SCHEMA = ollama.schema_of(keep=ollama.array_of("integer"))
+UNUSABLE_SCHEMA = ollama.schema_of(kind={"type": "string", "enum": [*REASONS, "none"]})
+COMPILER_SCHEMA = ollama.schema_of(
+    plans=ollama.array_of("string"), watches=ollama.array_of("string")
+)
+
 
 # --- the Scout ---------------------------------------------------------------
 
@@ -96,7 +110,9 @@ about what the opponent does
 
 Opening: {opening}
 {tried}
-Write {count} different search queries, one per line. Nothing else.
+Write {count} different search queries.
+
+Answer as JSON: {{"queries": ["first search", "second search"]}}
 """
 
 # --- the Assessor ------------------------------------------------------------
@@ -123,8 +139,10 @@ Never pick one of those, however confident it sounds.
 Sentences from a page about the {opening}:
 {sentences}
 
-Pick the {limit} most informative, best first, and answer with ONLY their numbers separated by commas.
-Answer NONE only if the page is not about chess at all.
+Pick the {limit} most informative, best first.
+
+Answer with the numbers of the sentences you picked, in the "keep" field.
+If the page is not about chess at all, keep nothing.
 """
 
 UNUSABLE = """You are the ASSESSOR in a chess coaching system.
@@ -136,8 +154,12 @@ Site: {domain}
 Title: {title}
 What was found: {found}
 
-Answer with ONE word from this list: {reasons}
-If it looks like an ordinary article that simply failed to load, answer NONE.
+Answer as JSON with one word from this list: {reasons}
+
+    {{"kind": "video"}}
+
+If it looks like an ordinary article that simply failed to load, answer
+{{"kind": "none"}}.
 """
 
 # --- the Compiler ------------------------------------------------------------
@@ -156,13 +178,14 @@ naming a square, a move or an idea they do not contain.
 Do not change who does what. If a note says White does something, do not write \
 that Black does it.
 
-Write up to {plans} points on what the player should aim for, then up to \
-{watches} points on what the opponent will try. Use exactly these labels:
+Write up to {plans} points on what the player should aim for, and up to \
+{watches} points on what the opponent will try.
 
-PLAN: <one short point>
-WATCH: <one short point>
+Answer as JSON:
 
-One line each. No move numbers.
+    {{"plans": ["first point", "second point"], "watches": ["what to expect"]}}
+
+One short sentence per point. No move numbers.
 
 EVERY point must name a square, a pawn or a piece move — d4, e5, c5, Nf3, the
 e1-h4 diagonal. A point like "develop in harmony and prepare for counterplay"
@@ -176,8 +199,8 @@ repeat those terms. Say what they MEAN in plain words, using the rest of the \
 note to work out what is happening on the board. Making the notes understandable \
 is your job; nobody after you will do it.
 
-If the notes say nothing about what the opponent does, write no WATCH lines at \
-all — that is correct, not a failure.
+If the notes say nothing about what the opponent does, answer with an empty \
+"watches" list — that is correct, not a failure.
 
 Notes about the {opening}:
 {notes}
@@ -273,9 +296,13 @@ class Scout:
             self.model,
             SCOUT.format(opening=opening, tried=seen, count=self.queries),
             host=self.host, num_predict=120, temperature=0.7,
-            transport=self.transport,
+            schema=SCOUT_SCHEMA, transport=self.transport,
         )
-        return _queries(answer, self.queries)
+        found = ollama.strings(ollama.as_json(answer), "queries")
+        # Even a schema cannot stop a model writing a sentence into a string
+        # field, so the shape rules still apply to what comes out of it.
+        return _queries("\n".join(found), self.queries) if found \
+            else _queries(answer, self.queries)
 
     def find(self, opening: str) -> list[Candidate]:
         """Distinct pages worth fetching, with skipped domains never returned.
@@ -337,8 +364,14 @@ class Assessor:
         answer = ollama.generate(
             self.model,
             ASSESSOR.format(opening=opening, sentences=numbered, limit=PER_CHUNK),
-            host=self.host, num_predict=40, transport=self.transport,
+            host=self.host, num_predict=60, schema=ASSESSOR_SCHEMA,
+            transport=self.transport,
         )
+        data = ollama.as_json(answer)
+        if data is not None:
+            chosen = ollama.ints(data, "keep", len(chunk))[:PER_CHUNK]
+            return [chunk[i] for i in chosen if is_usable_note(chunk[i])]
+
         if "none" in answer.strip().lower()[:8]:
             return []
         # Indices, never text -- so a kept sentence is the page's own words by
@@ -362,10 +395,16 @@ class Assessor:
                 UNUSABLE.format(domain=domain_of(candidate.url),
                                 title=candidate.title[:90], found=found,
                                 reasons=", ".join(REASONS)),
-                host=self.host, num_predict=10, transport=self.transport,
+                host=self.host, num_predict=20, schema=UNUSABLE_SCHEMA,
+                transport=self.transport,
             )
         except ollama.OllamaUnavailable:
             return ""
+        data = ollama.as_json(answer)
+        if data is not None:
+            kind = str(data.get("kind", "")).strip().lower()
+            return kind if kind in REASONS else ""
+
         first = answer.strip().lower().split()
         word = first[0].strip(".,:*") if first else ""
         return word if word in REASONS else ""
@@ -411,14 +450,15 @@ class Compiler:
             COMPILER.format(opening=opening, plans=self.plans,
                             watches=self.watches,
                             notes="\n".join(f"- {n}" for n in notes)),
-            host=self.host, num_predict=320, transport=self.transport,
+            host=self.host, num_predict=320, schema=COMPILER_SCHEMA,
+            transport=self.transport,
         )
         source = " ".join(notes)
         points: list[Point] = []
         kept_plans: list[str] = []
         kept_watches: list[str] = []
 
-        for kind, text in _bullets(answer):
+        for kind, text in _points(answer):
             grounding = check(text, source)
             dropped = "" if grounding.grounded else grounding.reason
             # A point that repeats one already kept spends a line of the brief
@@ -573,6 +613,17 @@ def _queries(answer: str, limit: int) -> list[str]:
         if len(out) >= limit:
             break
     return out
+
+
+def _points(answer: str) -> list[tuple[str, str]]:
+    """(kind, text) pairs, from the schema when it held and the labels when not."""
+    data = ollama.as_json(answer)
+    if data is not None:
+        return (
+            [("plan", t) for t in ollama.strings(data, "plans")]
+            + [("watch", t) for t in ollama.strings(data, "watches")]
+        )
+    return _bullets(answer)
 
 
 def _bullets(answer: str) -> list[tuple[str, str]]:

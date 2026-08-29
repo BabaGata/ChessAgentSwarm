@@ -1,0 +1,61 @@
+SCHEMA-CONSTRAINED ANSWERS  model=qwen2.5:3b  chunk=50
+==============================================================================
+
+The same question, on the same pages, with and without a JSON Schema.
+
+------------------------------------------------------------------------------
+blog.duolingo.com/popular-chess-openings/
+  old       2.8s  readable   4 chosen   '47,25,26,30'
+  asked     2.5s  readable   3 chosen   '{"keep": [3, 11, 24]}'
+  forced    2.4s  readable   3 chosen   '{"keep": [3, 11, 24]}'
+------------------------------------------------------------------------------
+chess.lc/blog/how-to-play-birds-opening
+  old       2.8s  readable   4 chosen   '1,4,21,44'
+  asked     2.6s  readable   3 chosen   '{"keep": [3, 11, 24]}'
+  forced    2.4s  readable   3 chosen   '{"keep": [3, 11, 24]}'
+------------------------------------------------------------------------------
+chesscheatsheets.com/pages/alekhines-defense-chess-opening-guide
+  old       2.7s  readable   4 chosen   '4,6,25,31'
+  asked     2.5s  readable   3 chosen   '{"keep": [3, 11, 24]}'
+  forced    2.4s  readable   3 chosen   '{"keep": [3, 11, 24]}'
+------------------------------------------------------------------------------
+chessdoctrine.com/chess-openings/flank/birds-opening/
+  old       3.0s  readable   4 chosen   '1,10,14,29'
+  asked     2.6s  readable   3 chosen   '{"keep": [3, 11, 24]}'
+  forced    2.4s  readable   3 chosen   '{"keep": [3, 11, 24]}'
+------------------------------------------------------------------------------
+chessiverse.com/resources/openings/owens-defense
+  old       2.8s  readable   4 chosen   '0,5,11,28'
+  asked     2.6s  readable   3 chosen   '{"keep": [3, 11, 24]}'
+  forced    2.4s  readable   3 chosen   '{"keep": [3, 11, 24]}'
+------------------------------------------------------------------------------
+chessopenings.online/bird-opening.html
+  old       2.9s  readable   4 chosen   '1,4,21,44'
+  asked     2.5s  readable   3 chosen   '{"keep": [3, 11, 24]}'
+  forced    2.5s  readable   3 chosen   '{"keep": [3, 11, 24]}'
+------------------------------------------------------------------------------
+dokumen.pub/chess-cafe-middlegame-motifs.html
+  old       3.0s  readable   4 chosen   '4,11,12,13'
+  asked     2.5s  readable   3 chosen   '{"keep": [3, 11, 24]}'
+  forced    2.5s  readable   3 chosen   '{"keep": [3, 11, 24]}'
+------------------------------------------------------------------------------
+en.chessbase.com/post/learn-to-play-the-london-system-opening
+  old       2.6s  readable   0 chosen   'NONE'
+  asked     2.6s  readable   4 chosen   '{"keep": [17, 25, 26, 30]}'
+  forced    2.6s  readable   4 chosen   '{"keep": [17, 25, 26, 30]}'
+
+==============================================================================
+  arm         parsed  selected  refused   s/call
+
+  old              8         7        1      2.8
+  asked            8         8        0      2.5
+  forced           8         8        0      2.5
+
+  pages asked about: 8
+
+'parsed' is the number that matters: an answer the caller cannot read is
+a wasted fetch and a wasted model call. 'refused' is a real verdict --
+the page had nothing worth keeping -- and is not a failure.
+
+old -> asked isolates the PROMPT's effect; asked -> forced isolates the
+SCHEMA's. A two-arm test would have credited the schema with both.

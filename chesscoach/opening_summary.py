@@ -31,6 +31,7 @@ import urllib.request
 from dataclasses import dataclass, field
 from typing import Protocol
 
+from chesscoach import ollama
 from chesscoach.grounding import Grounding, check
 
 OLLAMA_URL = "http://localhost:11434"
@@ -45,6 +46,9 @@ SEED = 7
 # how a reasoning model came back empty and looked like a bad model.
 NUM_PREDICT = 400
 
+# One field, so a model cannot preface the rewrite with "Here is your summary".
+SUMMARY_SCHEMA = ollama.schema_of(summary={"type": "string"})
+
 PROMPT = """Rewrite the chess notes below as {sentences} short sentences for a \
 club player rated about 1500.
 
@@ -54,6 +58,8 @@ Rules:
 - Plain words. No chess jargon the reader would have to look up.
 - Say what the player should aim for, not what happened.
 - Write only the sentences. No preamble, no heading, no list markers.
+
+Answer as JSON: {{"summary": "the rewritten sentences"}}
 
 Notes about the {opening}:
 {notes}
@@ -161,6 +167,7 @@ class OllamaSummariser:
                 "num_predict": NUM_PREDICT,
             },
         }
+        body["format"] = SUMMARY_SCHEMA
         if self.think is not None:
             body["think"] = self.think
         try:
@@ -174,7 +181,9 @@ class OllamaSummariser:
             body.pop("think")
             payload = self.post(f"{self.host}/api/generate", body)
 
-        text = _clean(payload.get("response", ""))
+        raw = payload.get("response", "")
+        data = ollama.as_json(raw)
+        text = _clean(str(data["summary"]) if data and "summary" in data else raw)
         grounding = check(text, source)
         if not text or not grounding.grounded:
             return Summary(

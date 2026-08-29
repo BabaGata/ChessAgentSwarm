@@ -24,6 +24,27 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 
 ---
 
+### L-048 - A format example in a prompt is few-shot data, not documentation
+**Date:** 2026-08-29 - **Cycle / mission step:** M6 - **Class:** technique
+**Context:** Adding JSON schemas to the swarm's agents ([[experiments.e54-structured-outputs]]). The
+rewritten prompt showed the output shape by example: *"Answer as JSON with their numbers:
+{"keep": [3, 11, 24]}"*.
+**Observation:** Across three different pages, with different sentences, the model answered
+`{"keep": [3, 11, 24]}` every time. It was copying the example rather than choosing. The previous
+prompt, which gave no example, returned varied indices on the same pages. The cost was invisible in
+any parse-rate metric -- the answers were perfectly well-formed -- and showed up only as the offline
+swarm falling from **five briefs of five to two**, which reproduced on a re-run.
+**Lesson:** **An example in a prompt is training data for that call, not a specification.** A model
+copies what it is shown, and the more precisely the example resembles a valid answer the more likely
+it is to be returned verbatim. Where a schema already carries the shape, an example carries only an
+answer -- so describe the field and let the schema do the format. Where no schema exists and an
+example is genuinely needed, its content must be impossible to mistake for a real answer.
+**Corollary:** this class of failure is invisible to output-validity checks. It cost three briefs and
+was found by reading raw answers side by side, which is [[learning.lessons]] L-047 again: the count
+said everything was fine.
+**Applied to:** every index-bearing prompt in `opening_swarm.py`, `plan_selector.py` and
+`opening_search.py`; recorded in [[decisions.0017-constrain-the-answer-with-a-schema]].
+
 ### L-047 - A yield rate measured before reading the output overstates it
 **Date:** 2026-08-28 - **Cycle / mission step:** M6 - **Class:** technique
 **Context:** Extracting plan sentences from opening guides ([[experiments.e49-opening-resources]]).

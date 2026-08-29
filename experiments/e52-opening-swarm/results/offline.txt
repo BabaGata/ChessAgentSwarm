@@ -10,16 +10,18 @@ against those sentences and dropped on its own if it fails.
 ==============================================================================
 Pirc Defense   (2 cached pages)
 
-  ASSESSOR  thechessworld.com         1 kept
+  ASSESSOR  thechessworld.com         4 kept
               "Initially, Black aims to control the center with pawns on d6 and c6, develop pieces harm"
+              "Here, it is important not to castle too soon to the Kingside."
+              "The idea is to quickly generate counterplay on the Queenside."
+              "The Knight vacated the d7 square for the f6 Knight."
   ASSESSOR  chessable.com             not an article -> skip as no-text
 
-    dropped (plan) -- names moves not in the source: c5
-    dropped (watch) -- names moves not in the source: c5, c4
-    dropped (plan) -- names moves not in the source: c5
-    dropped (watch) -- novelty 60% over 45%: light-squared, bishop, support
-    dropped (plan) -- names moves not in the source: f6
-    dropped (watch) -- names moves not in the source: f7, f5
+  - PLAN   Prepare for counterplay on the Queenside
+  - WATCH  Black's pawn on d6 and c6
+  - WATCH  Black's Knight vacating the d7 square
+    dropped (plan) -- names moves not in the source: d3, e2
+    dropped (plan) -- novelty 50% over 45%: prevent, castling
 
 ==============================================================================
 London System   (9 cached pages)
@@ -27,64 +29,58 @@ London System   (9 cached pages)
   ASSESSOR  365chess.com              6 kept
               "Central control: When it comes to the fight for the center, White�s main goal is to cont"
               "Flexible pawn structure: The London System allows for various pawn structures depending "
+              "Avoids main theoretical lines: Sidesteps heavy theory in popular openings like the Sicil"
+              "This means the bishop is active right away, instead of having to wait until the middlega"
               "Usually the c and e pawns are placed on the third rank, supporting the d4 pawn, which co"
-              "Finally, Black can choose to play a Slav setup with 3�c6 (diagram):"
-              "By playing c3, e3, and eventually Nbd2, White is clearly stating its intentions of stick"
-              "White�s plan is to consolidate the center with e4 and Black can go for an exchange of pa"
+              "The light-squared bishop will usually be placed on the d3 square and directly pointing t"
   ASSESSOR  chessworld.net            6 kept
-              "Study tip: start with the Main Line and Early Bf4 pages, then use the ...c5/...Qb6 and f"
-              "Choose Black's setup, your main goal, your playing level, and your study time."
+              "It is called a system because White often aims for a similar piece setup against many di"
+              "It is a family of positions where White develops the dark-squared bishop outside the paw"
+              "The classical London setup usually places White’s pieces and pawns on familiar squares s"
               "This gives a compact center and supports piece development."
-              "The light-squared bishop often goes to d3 , but against some fianchetto setups e2 is mor"
               "The opening is strongest when White adapts: against some setups White should attack, aga"
               "After an early ...c5, queen pressure against b2 is a standard annoyance if White is too "
-  ASSESSOR  alexcolovic.com           2 kept
+  ASSESSOR  alexcolovic.com           3 kept
               "The London System as an opening has the major upside of White playing more or less the s"
               "It has however the downside of allowing Black to react in pretty much any way he likes."
-  ASSESSOR  chess.com                 5 kept
-              "The London is considered a system because White can play the same basic setup for almost"
+              "It can also become other openings, as the authors do not remain contained in the typical"
+  ASSESSOR  chess.com                 4 kept
+              "This opening's main idea is to create a solid pawn structure in the center by pushing pa"
               "One of the most common responses from Black to the London System is to play an Indian Se"
-              "The Jobava London can turn into a much sharper game, and White can get a significant adv"
-              "Another good try for Black is to go with the Indian setup with ...g6."
-              "White will try to expand on the kingside and Black on the queenside."
+              "Black puts pressure on the b-pawn and the center, later fianchettoing their dark-squared"
+              "As with the other line, the prepared White player will know that deviating from the Lond"
   ASSESSOR  uscfsales.com             not an article -> skip as no-text
 
-  - PLAN   Control the center with e4 and develop pieces
-  - PLAN   Open the c-file and play on the queenside
-  - PLAN   Counter Black's early ...c5 by attacking on b2
-  - WATCH  Black may fianchetto the dark-squared bishop
-  - WATCH  Black may play ...c5 and ...Qb6 to pressure White's pawns
-    dropped (watch) -- repeats a point already made
+  - PLAN   Develop the light-squared bishop to d3 or e2
+  - WATCH  Black's reaction to early c5 pawn push
+    dropped (plan) -- repeats a point already made
+    dropped (plan) -- repeats a point already made
+    dropped (watch) -- names nothing on the board
 
 ==============================================================================
 French Defense   (3 cached pages)
 
-  ASSESSOR  modern-chess.com          1 kept
+  ASSESSOR  modern-chess.com          2 kept
               "A player who has memorized 20 moves of the Advance Variation but cannot explain why Whit"
+              "e6–d5 complex alone branches into six distinct subtypes — from the semi-fixed structure,"
   ASSESSOR  365chess.com              6 kept
               "One of the main ideas behind it is provoking weaknesses in White's pawn structure , caus"
-              "It allows White to avoid the pinning of the knight after Bb4, which occurs in other main"
-              "The knight on d2 provides extra support to the center pawns, and it opens up the possibi"
+              "On the other hand, Black can exploit the slower development of White's knight to mount a"
               "Kingside Attack: Common plans involve launching an attack on the kingside, often with mo"
               "Central Control: White aims to maintain control of the central squares, particularly d4 "
-              "Regaining the Pawn: White will typically aim to regain the pawn on e4 with moves like Nx"
-  ASSESSOR  uscfsales.com             3 kept
+              "Breaks and Exchanges: Key pawn breaks for Black include ...c5 and ...f6."
+              "In the French Defense, pawn structures are as crucial as the Eiffel Tower to the Paris s"
+  ASSESSOR  uscfsales.com             4 kept
               "It all begins with Black meeting the King’s Pawn Opening ( 1."
               "e4) with a move that may seem a little odd at first: 1."
               "By advancing the e-pawn one square rather than two, Black intends to play 2."
+              "…d5 next, staking a claim in the center of the board in a different way than the direct "
 
-  - PLAN   Counter White's e5 pawn with f4 and open e-file for bishop
-  - PLAN   Gain control of d4 and e5 squares with pawn and knight moves
-  - PLAN   Counter White's e5 pawn with f4 and prepare for kingside attack
-  - WATCH  Develop knight to d2 and prepare for kingside attack
-  - WATCH  Develop knight to d2 and prepare for pawn recapture
-    dropped (plan) -- names moves not in the source: d3
-    dropped (watch) -- novelty 80% over 45%: prevent, doubled, prepare, counterplay
-    dropped (watch) -- names moves not in the source: f6
-    dropped (plan) -- repeats a point already made
-    dropped (watch) -- names moves not in the source: f6
-    dropped (plan) -- repeats a point already made
-    dropped (watch) -- repeats a point already made
+  - PLAN   Develop the e5 pawn to control key central squares
+  - PLAN   Support the e5 pawn with moves like c3
+  - PLAN   Prevent White from developing their knight to the f6 square
+  - WATCH  Black's pawn breaks, particularly c5 and f6
+    dropped (watch) -- novelty 67% over 45%: attempts, harmony, prepare, counterpla
 
 ==============================================================================
 Bird Opening   (9 cached pages)
@@ -92,73 +88,71 @@ Bird Opening   (9 cached pages)
   ASSESSOR  chessworld.net            6 kept
               "It is a provocative first move that fights for e5 , creates immediate imbalance, and can"
               "d4 Structure Stonewall Bird A compact centre supports e5 and kingside pressure."
+              "...e5 Warning From's Gambit Black challenges White before development is complete."
               "The move f4 immediately supports the e5 square."
-              "Study development, king safety, and the e1-h4 diagonal."
-              "White uses the f-pawn to fight for e5 early and often aims for a kingside fianchetto, St"
-              "The move can support ideas such as e4, Qe1-h4, or a later pawn storm, but only if White "
+              "Many Bird attacks only work because White has enough central grip to justify kingside pl"
+              "Most practical Bird preparation should begin with Black's replies, not White's dream att"
   ASSESSOR  uscfsales.com             not an article -> skip as no-text
   ASSESSOR  chessable.com             not an article -> skip as forum
   ASSESSOR  chess.com                 6 kept
+              "There is not a lot of theory to study and black has a hard time preventing you from achi"
               "This allowed me to study 3 lines of the bird instead the shelves full of books e4 has to"
+              "Your opponent will show you how to deal with fianchettoed bishop by locking pawns at a p"
               "#1 - There are many, MANY lines where White fundamentally weakens both diagonals with f2"
-              "Furthermore, even in lines where f2-f4 is not played, there are still tactics involving "
-              "Kh1 is actually a reasonably popular concept, to vacate the king off of the g-file, whic"
               "Part of it deals with the lack of flexibility in the first few moves, and what White is "
-              "Keep in mind that White at ANY time can give back that pawn for development purposes!"
-  ASSESSOR  thechessworld.com         nothing usable
+              "However, sometimes White must be ready for setups like 1."
+  ASSESSOR  thechessworld.com         2 kept
+              "White’s main idea involves controlling the strategic e5 square."
+              "This offers great attacking possibilities, but slightly weakens the king ’s side."
 
-  - PLAN   Develop the f-pawn to f4 and consider a kingside fianchetto
-  - PLAN   Maintain king safety and control the e1-h4 diagonal
-  - PLAN   Support the e5 square and prepare for a potential pawn storm
-  - WATCH  Counter White's development and prepare for a kingside attack
-  - WATCH  Prevent White from establishing a strong kingside pawn structure
-    dropped (watch) -- novelty 100% over 45%: prevent, maintain, control, f-file
-    dropped (plan) -- names nothing on the board
-    dropped (watch) -- novelty 67% over 45%: counter, prepare, tactical, opportunit
+  - PLAN   Prevent the opponent from locking pawns at a particular color to regain the bishop’s activity.
+  - PLAN   Control the e5 square to create threats and leverage the bishop's activity.
+  - WATCH  What to expect is a compact centre that supports e5 and kingside pressure.
+    dropped (plan) -- names moves not in the source: c6, d5
+    dropped (watch) -- repeats a point already made
 
 ==============================================================================
 Owen Defense   (6 cached pages)
 
   ASSESSOR  chessiverse.com           4 kept
               "Black’s plan is typically to fianchetto the dark-squared bishop to b7, aiming for long-d"
-              "d4 and usually black fianchettos the dark-squared bishop, the Owen’s defence is still po"
+              "This opening, named after John Owen, is a very rare and uncommon response to the King’s "
               "Notable master practitioners on the White side include Viswanathan Anand and Vlastimil J"
               "On the Black side, Viktor Korchnoi and Loek Van Wely are among the most frequent practit"
   ASSESSOR  chess.com                 6 kept
               "If c4 is played, it's the English Defense (Similar to the difference between a Pirc and "
-              "If white studied this opening, you will get a cramped but playable position."
               "is surprisingly challenging for black if white knows how to put pressure ."
-              "It plays like a french rubinstein where black successful got the queen flank but is a te"
-              "the reason you mentioned (the misplaced knight on a6 ) is exactly one of the reasons the"
-              "he can try for g5 , castle either side, play for c4-c5 expansion or not ,etc."
+              "Compared to the ...b6 French advance (who has gone completely out of favor) both sides h"
+              "Its a headache how much black has to memorize here but in truth , he should be much bett"
+              "White really has to think twice about f4-f5, h4 plans here because he can end up with a "
+              "where despite the engine not liking the position , white really struggles to find a cohe"
   ASSESSOR  thechessworld.com         6 kept
-              "Overall, Black seems to get enough counterplay here."
-              "Black attacks the pawn on d4 and gets the b4-square under control to ensure that the bis"
-              "First, let’s look at what Black shouldn’t do and learn why."
+              "Black allows the first player to conquer the center and plans to counterattack it later."
+              "Trading the light-squared bishops is usually a good idea for Black in French pawn struct"
+              "Black attacks the center, thinking that White can’t take the pawn because then …Bxg2 wou"
               "But Black plans to attack White’s center with …c7-c5 and hopes to get a typical French c"
+              "But actually, that is exactly what Black wants!"
               "Will it be …c7-c5, …d7-d5, …e7-e5, …f7-f5, or …g7-g5 – depends on White’s play."
-              "Black’s position is flexible and can be played against any White’s setup."
   ASSESSOR  listudy.org               2 kept
               "Black wants to fianchetto his bishop to b6 and keep the tension on the center."
-              "In the starting game of the Owen Defence black would usually be overwhelmed by white's e"
-  ASSESSOR  en.wikipedia.org          3 kept
+              "The Owen Defence is a very strong opening in which black tempts white to expand on the c"
+  ASSESSOR  en.wikipedia.org          4 kept
               "e4 b6 It is named after John Owen ."
+              "The downside of this plan is that White can occupy the centre with pawns and gain a spat"
+              "0-0 c5 (see diagram), another French-type handling of the opening."
               "The main 3rd move alternative for White has been to defend the e4-pawn with 3."
-              "[ 18 ] A better move for Black is 6..."
 
-  - PLAN   d7-d5 to control d4 and create counterplay
-  - PLAN   b6-b4 to fianchetto the dark-squared bishop and control d4
-  - WATCH  c5-c4 to counter b6-b4 and expand the center
-    dropped (watch) -- repeats a point already made
-    dropped (plan) -- repeats a point already made
-    dropped (watch) -- repeats a point already made
+  - PLAN   Develop the dark-squared bishop to b7 and exert long-diagonal pressure
+  - WATCH  Black’s fianchetto of the dark-squared bishop to b7
+    dropped (plan) -- names nothing on the board
+    dropped (watch) -- names nothing on the board
 
 ==============================================================================
 WHAT THIS MEASURES
 
-  openings with a usable brief   4
-  plan points kept               11
-  opponent points kept           7
+  openings with a usable brief   5
+  plan points kept               8
+  opponent points kept           6
 
 Points passing their checks is not points being right. Whether the
 chess holds is the author's judgement and has not happened.

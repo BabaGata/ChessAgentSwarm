@@ -6,8 +6,22 @@ Nothing here decides anything. It posts a prompt and returns text, raising when
 the backend cannot be reached — because *"Ollama is not running"* and *"the model
 answered badly"* need different actions and must never look identical (L-046).
 
+**Answers are constrained by a JSON Schema where one fits.** Ollama's `format`
+field restricts decoding at the token level, so the model cannot emit `NONE`
+where a list of integers is required, cannot answer `"3, NONE"`, and cannot
+return prose that a number-scraper then misreads as indices — every one of which
+was a measured failure in E51 and E52.
+
+**The text parsers stay as a fallback and are not deleted.** A schema is a
+request, not a guarantee: support varies by model, and Ollama Cloud does not
+support structured outputs at all. So the order is: ask with a schema, parse the
+JSON, and fall back to reading the prose if that fails. A model that ignores the
+schema behaves exactly as it did before rather than breaking.
+
 `classifiers.py` predates this and keeps its own client; it is left alone rather
-than refactored in the same cycle as a feature.
+than refactored in the same cycle as a feature — and deliberately, since its
+agreement with the author is measured at kappa 0.74 (E07) and changing how its
+answer is read would put that figure back in question.
 """
 
 from __future__ import annotations
@@ -59,9 +73,15 @@ def generate(
     num_predict: int = 400,
     temperature: float = 0.3,
     seed: int = 7,
+    schema: dict | None = None,
     transport=None,
 ) -> str:
     """One completion, with the thinking field disabled by default.
+
+    `schema` is a JSON Schema passed to Ollama's `format`, which constrains
+    decoding rather than asking politely. The raw text still comes back — the
+    caller decides whether to read it as JSON — so a model that ignores the
+    schema is not a crash.
 
     A model that rejects `think` outright is retried without it, so an
     unsupported *option* is not mistaken for an unsupported *model*.
@@ -77,6 +97,8 @@ def generate(
             "num_predict": num_predict,
         },
     }
+    if schema is not None:
+        body["format"] = schema
     if think is not None:
         body["think"] = think
     try:
@@ -103,3 +125,72 @@ def indices(text: str, limit: int) -> tuple[int, ...]:
         if 0 <= value < limit and value not in found:
             found.append(value)
     return tuple(found)
+
+
+def as_json(text: str, expect: type = dict):
+    """Read a schema-constrained answer, or `None` if it is not one.
+
+    **`None` means "not JSON", never "the model said nothing useful."** The
+    caller falls back to reading the prose, which is what every agent did before
+    schemas existed, so an unsupported model degrades instead of failing.
+
+    A fenced block is tolerated because a model told to answer in JSON sometimes
+    wraps it in markdown even under a schema.
+    """
+    stripped = text.strip()
+    if stripped.startswith("```"):
+        stripped = stripped.strip("`")
+        _, _, stripped = stripped.partition("\n")
+    if not stripped:
+        return None
+    try:
+        found = json.loads(stripped)
+    except (ValueError, TypeError):
+        return None
+    return found if isinstance(found, expect) else None
+
+
+def ints(data: dict | None, key: str, limit: int) -> tuple[int, ...]:
+    """Integers from a parsed answer, bounded and deduplicated.
+
+    The same contract as `indices` and for the same reason: an out-of-range
+    index is a hallucination rather than a near miss, so it is dropped. A schema
+    can require integers; it cannot know how many sentences were offered.
+    """
+    if not data:
+        return ()
+    found: list[int] = []
+    for value in data.get(key) or ():
+        if isinstance(value, bool) or not isinstance(value, int):
+            continue
+        if 0 <= value < limit and value not in found:
+            found.append(value)
+    return tuple(found)
+
+
+def strings(data: dict | None, key: str) -> tuple[str, ...]:
+    """Non-empty strings from a parsed answer, in order."""
+    if not data:
+        return ()
+    return tuple(
+        value.strip() for value in (data.get(key) or ())
+        if isinstance(value, str) and value.strip()
+    )
+
+
+def array_of(item_type: str) -> dict:
+    """The schema for a bare list, which is most of what is asked for here."""
+    return {"type": "array", "items": {"type": item_type}}
+
+
+def schema_of(**properties: dict) -> dict:
+    """An object schema with every property required.
+
+    Required by default because an optional field is how a model returns half an
+    answer, and half an answer is what schemas are here to prevent.
+    """
+    return {
+        "type": "object",
+        "properties": properties,
+        "required": list(properties),
+    }
