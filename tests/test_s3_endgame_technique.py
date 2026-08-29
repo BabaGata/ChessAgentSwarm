@@ -181,63 +181,42 @@ class TestTheAggregate:
 
 
 class TestAdvantageRetention:
-    def test_it_counts_moves_where_the_player_is_clearly_better(self):
+    """Retired 2026-08-29 — measured, uninformative, and no longer counted.
+
+    The tests are kept and inverted rather than deleted: they are what would
+    catch the claim coming back by accident, and they document that the
+    machinery still works if the author revives it.
+    """
+
+    def test_it_is_not_counted_at_all(self):
+        # Was 24 opportunities. The author marked all five sampled instances
+        # "cannot tell" -- it fires on real errors and names nothing.
         observations = games(12, score_cp=ADVANTAGE_CP + 50)
 
         measured = {m.claim_key: m for m in S3EndgameTechnique().measure(a_context(observations))}
-        key = Claim.of(kind="advantage_error", subject="clear").key()
-
-        assert measured[key].opportunities == 24
-
-    def test_a_level_position_is_not_an_advantage(self):
-        # The claim is absent rather than present-with-zero: a row with no
-        # opportunities would go into the peer reference and mean nothing.
-        observations = games(12, score_cp=0)
-
-        measured = {m.claim_key: m for m in S3EndgameTechnique().measure(a_context(observations))}
 
         assert Claim.of(kind="advantage_error", subject="clear").key() not in measured
 
-    def test_being_worse_is_not_an_advantage_either(self):
-        observations = games(12, score_cp=-(ADVANTAGE_CP + 50))
+    def test_the_machinery_that_made_it_still_works(self):
+        # Kept for the use the author named: checking whether the ORIGIN of
+        # these errors is detected elsewhere. If `_is_clearly_better` rots, that
+        # question becomes expensive to ask again.
+        from chesscoach.sections.s3_endgame_technique import _is_clearly_better
+
+        better = games(1, score_cp=ADVANTAGE_CP + 50)[0]
+        level = games(1, score_cp=0)[0]
+
+        assert _is_clearly_better(better) is True
+        assert _is_clearly_better(level) is False
+
+    def test_retiring_it_does_not_disturb_the_endgame_claim(self):
+        # The two shared a pass over the same moves, so the risk of the change
+        # is here rather than in the claim being removed.
+        observations = games(12, score_cp=ADVANTAGE_CP + 50, phase="endgame")
 
         measured = {m.claim_key: m for m in S3EndgameTechnique().measure(a_context(observations))}
 
-        assert Claim.of(kind="advantage_error", subject="clear").key() not in measured
-
-    def test_a_black_player_ahead_is_ahead(self):
-        # score_cp is white-relative, so black being better is negative. Reading
-        # it without flipping would invert the whole claim for half of all games.
-        observations = [
-            an_observation(game_id=f"g{n}", ply=40 + m, score_cp=-(ADVANTAGE_CP + 50),
-                           erred=(m == 0))
-            for n in range(12)
-            for m in range(2)
-        ]
-        observations = [
-            Observation(**{**o.__dict__, "mover_is_white": False}) for o in observations
-        ]
-
-        measured = {m.claim_key: m for m in S3EndgameTechnique().measure(a_context(observations))}
-        key = Claim.of(kind="advantage_error", subject="clear").key()
-
-        assert measured[key].opportunities == 24
-
-    def test_it_is_not_restricted_to_the_endgame(self):
-        # Going wrong when on top is a habit, not a phase.
-        observations = [
-            an_observation(game_id=f"g{n}", ply=20 + m, phase="late_middlegame",
-                           score_cp=ADVANTAGE_CP + 50, erred=(m == 0))
-            for n in range(12)
-            for m in range(2)
-        ]
-
-        measured = {m.claim_key: m for m in S3EndgameTechnique().measure(a_context(observations))}
-        key = Claim.of(kind="advantage_error", subject="clear").key()
-
-        assert measured[key].opportunities == 24
-
-
+        assert Claim.of(kind=ENDGAME_ERROR, subject=ANY).key() in measured
 class TestReporting:
     def test_too_few_games_is_insufficient_data_not_silence(self):
         # "We could not assess your endgames" and "your endgames are fine" are
@@ -261,18 +240,24 @@ class TestReporting:
         assert not report.insufficient_data
         assert "endgame findings are not available" in report.notes[0]
 
-    def test_the_endgame_note_does_not_block_the_advantage_claim(self):
-        # The bug this replaced: gating the section on endgame games suppressed
-        # a real advantage finding backed by 12 games and 130 opportunities.
+    def test_the_denominator_counts_every_diagnosable_game(self):
+        # Was written for `advantage_error`, which is now retired, and kept
+        # because the rule outlived the claim: the section counts every
+        # diagnosable game rather than only those reaching an endgame. The bug
+        # it guards against suppressed a finding backed by 12 games and 130
+        # opportunities because only 3 games reached an endgame.
+        #
+        # It matters again shortly: `endgame_error` is becoming a residual of
+        # the motif detectors and will want this same denominator.
         observations = [
-            an_observation(game_id=f"g{n}", ply=20 + m, phase="late_middlegame",
+            an_observation(game_id=f"g{n}", ply=20 + m, phase="endgame",
                            score_cp=ADVANTAGE_CP + 50, erred=(m == 0))
             for n in range(20)
             for m in range(2)
         ]
 
         measured = {m.claim_key: m for m in S3EndgameTechnique().measure(a_context(observations))}
-        key = Claim.of(kind="advantage_error", subject="clear").key()
+        key = Claim.of(kind=ENDGAME_ERROR, subject=ANY).key()
 
         assert measured[key].games_with_data == 20
 

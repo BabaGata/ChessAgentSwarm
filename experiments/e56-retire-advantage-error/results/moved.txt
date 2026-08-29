@@ -1,0 +1,33 @@
+RETIRING advantage_error — WHAT MOVED
+========================================================================================
+
+Measured as before and dropped afterwards, which is what retirement does.
+
+  player                    fired   priorities     top finding
+
+  bernes                        0      3 ->  3            same
+  bjagus                        1      3 ->  3         CHANGED
+      was  advantage_error.clear.own
+      now  early_error.white.own
+  cademan                       1      3 ->  3            same
+  Crossfire1983                 0      3 ->  3            same
+  goydorak                      1      3 ->  3            same
+  Hirsican                      1      3 ->  3            same
+  maikel5                       0      2 ->  2            same
+  maxhayastan                   0      3 ->  3            same
+  Maximilian_Honigtopf          1      3 ->  3            same
+  Odin5306                      0      1 ->  1            same
+  Sheriwoyama                   1      3 ->  3         CHANGED
+      was  advantage_error.clear.own
+      now  long_think_error.long_think.own
+  simonvj                       0      3 ->  3            same
+
+========================================================================================
+  players where it fired at all        6 of 12
+  headline finding changed             2
+  plan got shorter                     0
+  **left with nothing to work on**     0
+
+The last line is the one that matters. Silence went 2/12 to 0/12 when the
+cost pool was built (ADR-0010) and must not come back unnoticed; a claim
+that named nothing actionable is still better removed, but not silently.

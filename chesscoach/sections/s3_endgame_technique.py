@@ -60,6 +60,24 @@ SECTION = "S3"
 ENDGAME_ERROR = "endgame_error"
 ADVANTAGE_ERROR = "advantage_error"
 
+# **Retired 2026-08-29, not deleted.** The author, having marked all five sampled
+# instances "cannot tell": *"Advantage error should be totally removed, or kept
+# for future but not used nor calculated. It is completely uninformative."*
+#
+# It fired 182 times across six players -- the second-commonest claim in the
+# system -- and named a circumstance ("you go wrong when you are winning") that
+# no player can act on. Every error it counted was already counted by the
+# detector that explains it.
+#
+# The code stays because the author named a future use: as a way to check
+# whether the ORIGIN of such errors is detected elsewhere -- improper defence
+# and the like -- which is a question about the swarm's coverage rather than a
+# claim about a player. Deleting the section would make that question expensive
+# to ask again.
+#
+# → [[design.detectors-name-consequences]] § 2
+ADVANTAGE_ERROR_RETIRED = True
+
 # The pooled claim. Named rather than absent so a report can say "endgames"
 # without implying a particular material class.
 ANY = "any"
@@ -189,15 +207,15 @@ def _count(context: SectionContext) -> _Counts:
             _tally(tallies, _key(ENDGAME_ERROR, ANY), observation)
             _tally(tallies, _key(ENDGAME_ERROR, material_class(observation.fen_before)), observation)
 
-        if _is_clearly_better(observation):
+        if not ADVANTAGE_ERROR_RETIRED and _is_clearly_better(observation):
             _tally(tallies, _key(ADVANTAGE_ERROR, CLEAR), observation)
 
     # The section gate counts **every** diagnosable game, not only those that
-    # reached an endgame. Gating on endgame games blocked `advantage_error`,
-    # which is not an endgame claim -- one real player had 12 games and 130
-    # opportunities of it suppressed by an endgame count of 3. Per-claim
-    # specificity is `distinct_games`' job, and the confidence policy already
-    # enforces it.
+    # reached an endgame. That rule was written for `advantage_error`, which is
+    # not an endgame claim -- one real player had 12 games and 130 opportunities
+    # suppressed by an endgame count of 3. It is kept now that the claim is
+    # retired, because `endgame_error` is about to become a residual of the
+    # motif detectors and will want the same denominator.
     return _Counts(
         tallies=dict(tallies),
         games_with_data=len({o.game_id for o in moves}),
