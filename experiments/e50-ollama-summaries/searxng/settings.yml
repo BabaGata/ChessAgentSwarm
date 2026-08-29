@@ -1,6 +1,6 @@
 # Minimal SearxNG settings for a LOCAL, single-user research instance.
 #
-# `json` is the only reason this file exists: SearxNG serves HTML only by
+# `json` is the only reason this file exists at all: SearxNG serves HTML only by
 # default, and `SearxSearcher` needs the JSON format. Without it the search
 # endpoint returns a body with no `results` key, which is why the searcher
 # raises SearchUnavailable naming this setting rather than reporting "found
@@ -25,3 +25,21 @@ search:
   # Politeness toward the upstream engines SearxNG queries on our behalf.
   autocomplete: ""
   default_lang: "en"
+
+# The big four throttle a single researcher hard: measured over one day, brave
+# and google cse return "too many requests" and duckduckgo and startpage return
+# CAPTCHA, after which every query comes back empty and the swarm reports an
+# empty web (L-046 again, which is why SearxSearcher now raises on it).
+#
+# These four are smaller indexes that do not rate-limit at this volume. They are
+# a worse index and an available one, and an available worse index is what makes
+# the difference between a swarm that runs and a swarm that cannot.
+engines:
+  - name: mojeek
+    disabled: false
+  - name: marginalia
+    disabled: false
+  - name: stract
+    disabled: false
+  - name: wikipedia
+    disabled: false

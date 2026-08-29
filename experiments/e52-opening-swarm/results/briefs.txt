@@ -8,14 +8,29 @@ Assessor kept, and both halves of the brief are checked against them.
 NOT ENDORSED: no source here is reviewed=true.
 
 ==============================================================================
-Owen Defense
+Alekhine Defense
 
-  COULD NOT SEARCH -- http://localhost:8080 returned no results and every engine is unresponsive (brave, duckduckgo, google cse, startpage)
+  SCOUT      2 pages to read; 0 skipped before fetching
+  ASSESSOR   read 2, 2 yielded usable sentences
+               "Although opposing to all tenets of the classical school, Black allows his King's Knight to b"
+               "Finally, Black can play ...Be7 with ...0-0 and ...f6 attacking the centre."
+               "Black must also play vigorously because passive play will be crushed by the white centre."
+               "In addition, while White has built a crushing centre, it also becomes undesirable to advance"
+               "While the main target of Black is d4, the pawn on c4 also can be pressurized considerably vi"
+
+  - PLAN   Maintain pressure on c4 and d4 pawns
+    dropped (plan) -- names moves not in the source: c6
+    dropped (plan) -- novelty 50% over 45%: support, prepare
+    dropped (watch) -- names nothing on the board
+    dropped (watch) -- names nothing on the board
+  source https://en.wikipedia.org/wiki/Alekhine%27s_Defence
+  source https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._e4/1...Nf6
+
 ==============================================================================
 WHAT THIS MEASURES
 
-  openings with a usable brief   0 of 1
-  plan points kept               0
+  openings with a usable brief   1 of 1
+  plan points kept               1
   opponent points kept           0
   sites on the skip list         17 (0 learned)
 

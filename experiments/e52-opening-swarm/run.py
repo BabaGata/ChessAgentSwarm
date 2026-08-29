@@ -35,7 +35,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from chesscoach.opening_agent import SearchUnavailable, SearxSearcher  # noqa: E402
+from chesscoach.opening_agent import (  # noqa: E402
+    SearchUnavailable,
+    SearxSearcher,
+    WikimediaSearcher,
+)
 from chesscoach.opening_swarm import OpeningSwarm  # noqa: E402
 from chesscoach.runstore import RunStore  # noqa: E402
 from chesscoach.skiplist import DEFAULT_PATH, SkipList  # noqa: E402
@@ -79,6 +83,12 @@ class Fetcher:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", default="qwen2.5:3b")
+    parser.add_argument(
+        "--searcher", choices=("searx", "wikimedia"), default="searx",
+        help="wikimedia needs no container and is not rate limited, and returns "
+             "references rather than guides -- E48's finding, so a brief built "
+             "from it says less about the swarm than about the source",
+    )
     parser.add_argument("--store", type=Path, default=None,
                         help="SQLite file to record every agent's output into")
     parser.add_argument("--only", default=None,
@@ -91,7 +101,9 @@ def main() -> int:
     # earlier one -- that is the point of it being learned rather than fixed.
     skiplist = SkipList.load(DEFAULT_PATH)
     store = RunStore(args.store) if args.store else None
-    swarm = OpeningSwarm(searcher=SearxSearcher(limit=6), fetch=Fetcher(CACHE),
+    searcher = (WikimediaSearcher() if args.searcher == "wikimedia"
+                else SearxSearcher(limit=6))
+    swarm = OpeningSwarm(searcher=searcher, fetch=Fetcher(CACHE),
                          skiplist=skiplist, model=args.model, store=store)
 
     openings = (args.only,) if args.only else OPENINGS
