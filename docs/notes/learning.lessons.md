@@ -104,7 +104,7 @@ a stated defect in [[experiments.e15-expected-gain]] — raw cost must become pe
 
 ---
 
-### L-046 — An error that returns the same value as "nothing found" is a silent lie
+### L-046 — An empty case that answers like a populated one is a silent lie
 **Date:** 2026-08-24 · **Cycle / mission step:** M6 · **Class:** technique
 **Context:** Three times in one session, a remote source appeared to have no content when the truth
 was that the request had failed.
@@ -122,6 +122,20 @@ was that the request had failed.
 
 Each time the wrong conclusion was about the *world* — the source is empty, the content is missing —
 when the fact was about the *request*.
+
+**Three more instances, 2026-08-29, all in one week and none of them remote:**
+
+4. **E54's control arm.** The baseline prompt had already been rewritten, so the "before" arm and the
+   "after" arm were the same thing, and the schema was credited with both changes.
+5. **E56's baseline.** `advantage_error` was filtered out of a diagnosis that had *already* retired
+   it. An empty arm compared against a real one reported **0 of 12 changed** — perfect safety.
+6. **`_is_fork` on checkmate.** *"No defender reply saved the targets"* is vacuously true when there
+   are **no** defender replies, so every mate was a fork: **104 of 1,779** corpus hits.
+
+The shape widened with them. It is not only *failure* returning what *empty* returns — it is **any
+empty case reaching the same answer as a populated one**: an empty loop, an empty comparison arm, an
+empty result set. And all three were found by **reading output**, never by a test, because a
+hand-built fixture is by construction not empty.
 **Lesson:** **Never let a failure path return the same value as a legitimate empty result.** Empty
 list, empty dict, `None` and zero are all answers that mean "I looked and there was nothing"; a
 failure means "I did not look". Raise, or return a distinct sentinel, and make the caller handle the
@@ -131,8 +145,10 @@ bug in the ordinary sense: it runs, returns a plausible value, and produces a nu
 a finding. It is the same shape as **L-044** — a wrong expectation that cannot fail — one level out:
 there, a test could not detect a defect; here, a caller cannot detect a failure.
 **Applied to:** `SearchUnavailable` in `chesscoach/opening_agent.py`, with backoff and two tests; the
-"could not ask" column in E48; and retrospectively it explains why the Wikibooks harvest looked
-barren twice before it worked.
+"could not ask" column in E48; the restored baseline arms in
+[[experiments.e54-structured-outputs]] and [[experiments.e56-retire-advantage-error]]; the
+`if not any(after.legal_moves)` guard in `chesscoach/tactics.py`; and retrospectively it explains
+why the Wikibooks harvest looked barren twice before it worked.
 
 ---
 
