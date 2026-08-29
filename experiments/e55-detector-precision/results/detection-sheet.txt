@@ -31,31 +31,39 @@ early_error.white.own
     claims: You go wrong early as White.
     200 instances across 6 players
 ------------------------------------------------------------------------------
-  [ ] Crossfire1983         move   9  White O-O      lost   5.4 wp
+  [?] Crossfire1983         move   9  White O-O      lost   5.4 wp
       lichess.org/F5E8p3lR#17
-  [ ] Crossfire1983         move  10  White b3       lost   6.3 wp
+  [y] Crossfire1983         move  10  White b3       lost   6.3 wp
       lichess.org/akv2n6B0#19
-  [ ] Maximilian_Honigtopf  move  13  White Nxc7     lost  17.2 wp
+  [n] Maximilian_Honigtopf  move  13  White Nxc7     lost  17.2 wp
       lichess.org/IGCmSgiy#25
-  [ ] Maximilian_Honigtopf  move  14  White O-O      lost  10.1 wp
+      This is a move inside late middlegame.
+  [n] Maximilian_Honigtopf  move  14  White O-O      lost  10.1 wp
       lichess.org/XRE3pBif#27
-  [ ] bjagus                move  10  White Rc1      lost  10.0 wp
+      This is a miss of a tactic to take material.
+  [n] bjagus                move  10  White Rc1      lost  10.0 wp
       lichess.org/5scMbTac#19
+      Counterintuitive move is the best here, no player on this level would ever decide to play it.
 
 advantage_error.clear.own
     claims: You go wrong more often than most when you are already better.
     182 instances across 6 players
 ------------------------------------------------------------------------------
-  [ ] Hirsican              move  15  White Bg5      lost  31.9 wp
+  [?] Hirsican              move  15  White Bg5      lost  31.9 wp
       lichess.org/8zsVzk0T#29
-  [ ] Hirsican              move  20  White h5       lost  11.9 wp
+      This is a move that loses material.
+  [?] Hirsican              move  20  White h5       lost  11.9 wp
       lichess.org/zU1S5uVh#39
-  [ ] Hirsican              move  31  White g5       lost   6.5 wp
+      This is a move that lets the opponet ruin the pawn structure.
+  [y] Hirsican              move  31  White g5       lost   6.5 wp
       lichess.org/3pPHPEC4#61
-  [ ] bjagus                move  12  Black cxd5     lost  18.5 wp
+      Here player is not defending properly.
+  [?] bjagus                move  12  Black cxd5     lost  18.5 wp
       lichess.org/Ewg2ug2B#24
-  [ ] bjagus                move  28  Black Kf6      lost  70.0 wp
+      Black ruined his pawn structure.
+  [?] bjagus                move  28  Black Kf6      lost  70.0 wp
       lichess.org/Gr3BwOJu#56
+      Wrong defense move.
 
 long_think_error.long_think.own
     claims: Your long thinks tend to end in a mistake.
@@ -76,30 +84,35 @@ early_error.black.own
     claims: You go wrong early as Black.
     126 instances across 4 players
 ------------------------------------------------------------------------------
-  [ ] Crossfire1983         move  14  Black Be7      lost   8.7 wp
+  [n] Crossfire1983         move  14  Black Be7      lost   8.7 wp
       lichess.org/wiwekygE#28
-  [ ] Crossfire1983         move  15  Black f6       lost  13.7 wp
+      This would be more advantage error the early error as black, this is a middlegame.
+  [n] Crossfire1983         move  15  Black f6       lost  13.7 wp
       lichess.org/HCSdfcrh#30
-  [ ] Hirsican              move  13  Black Qe7      lost   9.6 wp
+      This is a middlegame and just loose of a pawn.
+  [?] Hirsican              move  13  Black Qe7      lost   9.6 wp
       lichess.org/CCoHBALM#26
-  [ ] Maximilian_Honigtopf  move   9  Black Bxf3     lost  12.5 wp
+      This is most probably not related to the opening at all.
+  [n] Maximilian_Honigtopf  move   9  Black Bxf3     lost  12.5 wp
       lichess.org/DRPg8Bme#18
-  [ ] Maximilian_Honigtopf  move   9  Black Qe7      lost   5.9 wp
+      This is a move in a middlegame and just exchange of the good piece for a bad piece.
+  [y] Maximilian_Honigtopf  move   9  Black Qe7      lost   5.9 wp
       lichess.org/Zd44hQwN#18
 
 allowed_motif.hangingPawn.own
     claims: When you go wrong, it is often a pawn you simply drop.
     121 instances across 6 players
 ------------------------------------------------------------------------------
-  [ ] Crossfire1983         move  13  White Bg5      lost  18.3 wp
+  [y] Crossfire1983         move  13  White Bg5      lost  18.3 wp
       lichess.org/F5E8p3lR#25
-  [ ] Hirsican              move  24  White Qb2      lost  24.8 wp
+  [y] Hirsican              move  24  White Qb2      lost  24.8 wp
       lichess.org/9bsVByg5#47
-  [ ] Maximilian_Honigtopf  move   9  White O-O      lost   9.5 wp
+  [y] Maximilian_Honigtopf  move   9  White O-O      lost   9.5 wp
       lichess.org/R9GJUKUy#17
-  [ ] Maximilian_Honigtopf  move  19  White dxc5     lost  19.9 wp
+  [n] Maximilian_Honigtopf  move  19  White dxc5     lost  19.9 wp
       lichess.org/KvIYSreC#37
-  [ ] Sheriwoyama           move  14  Black b5       lost  15.3 wp
+      Pawn exchange.
+  [y] Sheriwoyama           move  14  Black b5       lost  15.3 wp
       lichess.org/cZ8R9TJo#28
 
 early_error.any.own
@@ -121,46 +134,55 @@ allowed_motif.fork.own
     claims: When you go wrong, it is often a fork that punishes you.
     113 instances across 7 players
 ------------------------------------------------------------------------------
-  [ ] cademan               move  15  Black c5       lost  11.8 wp
+  [n] cademan               move  15  Black c5       lost  11.8 wp
       lichess.org/A38Dr6lK#30
-  [ ] goydorak              move   7  White O-O      lost   9.0 wp
+      Not really a fork, just a checkmate, only hanging piece here would be 1 pawn.
+  [n] goydorak              move   7  White O-O      lost   9.0 wp
       lichess.org/S2na9iEV#13
-  [ ] goydorak              move  54  White d4       lost  33.8 wp
+      Fork attack here is a pawn attacking a bishop and a pawn, pawn can easily take the attacking pawn and the bishop can move later, not a real fork.
+  [n] goydorak              move  54  White d4       lost  33.8 wp
       lichess.org/7qdPMZLe#107
-  [ ] maikel5               move   8  White f4       lost  26.6 wp
+      Here ther are only 2 different pieces, pawn and bishop attacked by 2 different pieces, pawn and a king.
+  [?] maikel5               move   8  White f4       lost  26.6 wp
       lichess.org/nPFAgwVG#15
-  [ ] maikel5               move  17  Black a5       lost   8.5 wp
+      This would be considered a fork but no material loss occured because one piece was defended and the other piece was able to move.
+  [?] maikel5               move  17  Black a5       lost   8.5 wp
       lichess.org/FX7viBFV#34
+      Not a real fork, usually forks are considered attacks on pieces, not on pawns. Here the attacked pieces were a horse and a pawn. The pawn was attacked a move before also so the new move by a rock only attacked a knight newly. A fork would be simultanious new attack on at least 2 pieces that results with a material loss.
 
 allowed_motif.hangingPiece.own
     claims: When you go wrong, it is often a hanging piece that punishes you.
     81 instances across 5 players
 ------------------------------------------------------------------------------
-  [ ] Crossfire1983         move  22  White Bd5      lost   9.3 wp
+  [y] Crossfire1983         move  22  White Bd5      lost   9.3 wp
       lichess.org/kQQwhms8#43
-  [ ] Maximilian_Honigtopf  move  15  Black Be7      lost  73.9 wp
+  [y] Maximilian_Honigtopf  move  15  Black Be7      lost  73.9 wp
       lichess.org/cSse4sLl#30
-  [ ] Maximilian_Honigtopf  move  16  Black Ng6      lost  13.1 wp
+  [y] Maximilian_Honigtopf  move  16  Black Ng6      lost  13.1 wp
       lichess.org/8sbkLvNM#32
-  [ ] cademan               move  14  Black Na5      lost  36.4 wp
+      This would also be considered a pin of the pawn that defends the knight.
+  [y] cademan               move  14  Black Na5      lost  36.4 wp
       lichess.org/qOkzrtOq#28
-  [ ] cademan               move  22  Black Rd7      lost  27.9 wp
+  [y] cademan               move  22  Black Rd7      lost  27.9 wp
       lichess.org/xGJzDV3d#44
 
 allowed_motif.capturingDefender.own
     claims: When you go wrong, it is often a capturing the defender that punishes you.
     75 instances across 6 players
 ------------------------------------------------------------------------------
-  [ ] bernes                move   6  Black Bxf3     lost   9.4 wp
+  [n] bernes                move   6  Black Bxf3     lost   9.4 wp
       lichess.org/CnRTxl8D#12
-  [ ] bernes                move  23  White Bd4      lost  17.2 wp
+      When the bishop actually captured the knight it was a bad move for black. Not pushing away the black bishop was the mistake of the white.
+  [n] bernes                move  23  White Bd4      lost  17.2 wp
       lichess.org/swDGGhHI#45
-  [ ] bjagus                move  12  Black b5       lost  15.2 wp
+      This is just plain hanging pawn.
+  [y] bjagus                move  12  Black b5       lost  15.2 wp
       lichess.org/G6PdRQrg#24
-  [ ] maxhayastan           move  24  Black Qg7      lost   6.9 wp
+  [y] maxhayastan           move  24  Black Qg7      lost   6.9 wp
       lichess.org/OK82drHY#48
-  [ ] simonvj               move  25  White g4       lost  14.4 wp
+  [n] simonvj               move  25  White g4       lost  14.4 wp
       lichess.org/EYvvW4kX#49
+      This is a pin.
 
 time_pressure_error.clock.own
     claims: Your play falls off when the clock is short.
@@ -181,46 +203,56 @@ allows_square.rook_seventh.own
     claims: You let opponents establish a rook on your second rank more often than players at your level.
     43 instances across 6 players
 ------------------------------------------------------------------------------
-  [ ] Crossfire1983         move  35  Black Na6      lost   4.9 wp
+  [n] Crossfire1983         move  35  Black Na6      lost   4.9 wp
       lichess.org/0lTtKHwA#70
-  [ ] Crossfire1983         move  45  Black Kg7      lost   0.0 wp
+      Not defensible in the late endgames.
+  [n] Crossfire1983         move  45  Black Kg7      lost   0.0 wp
       lichess.org/0lTtKHwA#90
-  [ ] Hirsican              move  21  Black Kb8      lost   0.0 wp
+      Not defensible in the late endgames.
+  [n] Hirsican              move  21  Black Kb8      lost   0.0 wp
       lichess.org/b3xwTVVW#42
-  [ ] bernes                move  26  Black Bxd3     lost  19.4 wp
+      Going on 7th rank was a bad move for white.
+  [?] bernes                move  26  Black Bxd3     lost  19.4 wp
       lichess.org/j1wYFwEn#52
-  [ ] simonvj               move  36  Black e4       lost   4.9 wp
+      This was hanging piece/pin.
+  [y] simonvj               move  36  Black e4       lost   4.9 wp
       lichess.org/R4HBrccz#72
 
 concedes_weakness.doubled.own
     claims: You end up with doubled pawns more often than players at your level.
     40 instances across 2 players
 ------------------------------------------------------------------------------
-  [ ] Maximilian_Honigtopf  move   5  White exd5     lost   0.0 wp
+  [?] Maximilian_Honigtopf  move   5  White exd5     lost   0.0 wp
       lichess.org/MRoyx5uZ#9
-  [ ] Maximilian_Honigtopf  move   9  White gxf6     lost   0.0 wp
+      This was just a capture of a pawn.
+  [?] Maximilian_Honigtopf  move   9  White gxf6     lost   0.0 wp
       lichess.org/XRE3pBif#17
-  [ ] Maximilian_Honigtopf  move  15  Black dxc5     lost   0.0 wp
+      This was a capture of a pawn.
+  [n] Maximilian_Honigtopf  move  15  Black dxc5     lost   0.0 wp
       lichess.org/DRPg8Bme#30
-  [ ] cademan               move  12  Black dxc5     lost  29.7 wp
+      This double pawns lasted only 1 move.
+  [y] cademan               move  12  Black dxc5     lost  29.7 wp
       lichess.org/qOkzrtOq#24
-  [ ] cademan               move  14  White bxc5     lost   5.3 wp
+  [n] cademan               move  14  White bxc5     lost   5.3 wp
       lichess.org/g747oUmG#27
+      This was just pawn capture.
 
 endgame_error.any.own
     claims: Your play falls off in the endgame.
     40 instances across 3 players
 ------------------------------------------------------------------------------
-  [ ] Hirsican              move  47  White Rg1      lost  15.3 wp
+  [y] Hirsican              move  47  White Rg1      lost  15.3 wp
       lichess.org/BFRr53W3#93
-  [ ] Hirsican              move  54  White Kb6      lost   8.8 wp
+  [y] Hirsican              move  54  White Kb6      lost   8.8 wp
       lichess.org/BFRr53W3#107
-  [ ] Hirsican              move  58  White a6       lost  24.9 wp
+  [y] Hirsican              move  58  White a6       lost  24.9 wp
       lichess.org/BFRr53W3#115
-  [ ] Maximilian_Honigtopf  move  29  White Ke4      lost   5.7 wp
+  [n] Maximilian_Honigtopf  move  29  White Ke4      lost   5.7 wp
       lichess.org/R9GJUKUy#57
-  [ ] Maximilian_Honigtopf  move  60  White Rd1      lost   5.5 wp
+      This wasn't much bad.
+  [n] Maximilian_Honigtopf  move  60  White Rd1      lost   5.5 wp
       lichess.org/R9GJUKUy#119
+      This was definitely ok play.
 
 moved_into_attack.own_move.own
     claims: You put the piece you have just moved on a square where it can be won, more often than players at your level.

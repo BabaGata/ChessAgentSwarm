@@ -197,6 +197,11 @@ This is what actually moved this cycle.
 
 ## Next logical steps (priority order)
 
+**Reordered 2026-08-29.** The author's six corrections ([[design.detectors-name-consequences]])
+supersede marking for four of the claims on the sheet: a detector about to be rebuilt is not worth
+marking first, and `advantage_error` is not worth marking at all. Mark the **motifs** — that is where
+the sheet still buys information, since the SEE rebuild has never been checked.
+
 **Reordered 2026-08-23** → [[decisions.0011-detection-correctness-over-expert-agreement]]. The author
 filled three Form B/C and found the detectors systematically wrong. **Detection correctness now
 outranks expert agreement**, and the remaining Form A collection is dropped as a requirement.
@@ -226,6 +231,18 @@ outranks expert agreement**, and the remaining Form A collection is dropped as a
 0. **~~P0 — D18 (superseded by the line above)~~** SAN instead of UCI, and game citations carrying colours,
    opponent and date. Cheap, and it is what makes every other check on this list faster for the
    author, so it comes early rather than last.
+
+0. **P0 — Six detectors, corrected by the author** *(2026-08-29)* →
+   [[design.detectors-name-consequences]]. Reading the precision sheet they rewrote the
+   specifications for six claims at once, and **five share one fault**: they fire on a *state of the
+   board* rather than on something that happened to the player. `advantage_error` is **retired**
+   (uninformative, 182 instances stop being counted — the arbiter's ranking will move and must be
+   inspected); `fork` is redefined around **newly** attacked pieces and **definite** material loss,
+   so a fork against two defended pieces is not one; `rook_seventh` fires only when arrival was
+   preventable; `doubled` needs adjacency and persistence past three moves; `endgame_error` becomes a
+   **residual** claim — consecutive drops that the motif detectors do not already explain;
+   `early_error` is replaced by two opening-knowledge claims and absorbs **A3**. Sequence and the
+   parameters still needing calibration are in the note. **Design only — no code yet.**
 
 0. **P0 — Mark the detection sheet** *(2026-08-29)* →
    `experiments/e55-detector-precision/results/detection-sheet.txt`, 33 claims, 165 boxes, stamped
