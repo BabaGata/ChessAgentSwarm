@@ -168,7 +168,15 @@ def _loses_material_whatever_the_defender_does(
     commonest is capturing the forking piece: `_lands_safely` has already
     established that loses material, and treating it as a rescue would refuse
     every genuine fork.
+
+    **A defender with no reply at all has not lost material -- the game ended.**
+    Without this guard the loop is vacuously true and every checkmate is a fork,
+    which is exactly what it counted: **104 of 1,779** corpus hits were mate or
+    stalemate. Sixth instance of L-046 -- an empty case answering like a real one.
     """
+    if not any(after.legal_moves):
+        return False
+
     # A king is a target but never a prize: the loss has to land on something
     # capturable, so the check is made against the other targets only.
     winnable = tuple(

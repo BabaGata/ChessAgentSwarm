@@ -90,3 +90,14 @@ class TestTheAttackerMustSurvive:
     def test_a_forking_piece_that_is_simply_captured_wins_nothing(self):
         # b5 covers c4, so the knight is taken and there is no fork to speak of.
         assert not forks("4k3/8/3r4/1p6/8/N3b3/8/4K3 w - - 0 1", "Nc4")
+
+
+class TestTheGameMustContinue:
+    def test_checkmate_is_not_a_fork(self):
+        # Q8c3# from a real game, which the detector counted as a fork because
+        # "no reply saves the targets" is vacuously true when there is no reply.
+        # Mate wins the game, not material. 104 of 1,779 corpus hits were this.
+        assert not forks("2Q5/8/8/p7/P7/k7/2Q4K/8 w - - 5 60", "Q8c3#")
+
+        # No stalemate fixture: a stalemating move leaves the king un-attacked,
+        # so it never reaches two targets and would pass for the wrong reason.
