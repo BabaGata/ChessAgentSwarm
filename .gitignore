@@ -61,3 +61,6 @@ data/search-quota.json
 
 # Knowledge base: drafted entries, regenerable, author-reviewed
 data/knowledge.json
+
+# Drafted knowledge entries: regenerable, author-reviewed
+data/knowledge.json

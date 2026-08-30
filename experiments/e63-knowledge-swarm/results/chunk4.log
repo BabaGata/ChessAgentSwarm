@@ -1,0 +1,15 @@
+8 entries already; drafting 4
+missing: fork, late_castling, pawn_error, repeat_move
+
+  late_castling        nothing usable found (0 source(s) read)
+  pawn_error           nothing usable found (0 source(s) read)
+  repeat_move          nothing usable found (0 source(s) read)
+  fork                 drafted from 3 source(s)
+                         A fork in chess is a tactic when a piece attacks two or more enemy pieces simultaneously
+
+drafted   1
+could not ask  0
+still missing  3
+
+5 entries are waiting for review.
+Nothing here reaches a player until it is endorsed.

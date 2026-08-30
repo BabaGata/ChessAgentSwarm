@@ -27,6 +27,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
+from chesscoach import ollama  # noqa: E402
 from chesscoach.knowledge import KnowledgeBase  # noqa: E402
 from chesscoach.knowledge_swarm import KnowledgeSwarm, topic_for  # noqa: E402
 from chesscoach.opening_agent import (  # noqa: E402
@@ -98,6 +99,8 @@ def main() -> int:
     parser.add_argument("--searcher", choices=("searx", "wikimedia"), default="searx")
     parser.add_argument("--keys", default="", help="comma-separated; default is WANTED")
     parser.add_argument("--out", type=Path, default=OUT)
+    parser.add_argument("--redraft", action="store_true",
+                        help="re-draft keys that already have a complete entry")
     args = parser.parse_args()
 
     keys = tuple(k.strip() for k in args.keys.split(",") if k.strip()) or WANTED
@@ -126,16 +129,32 @@ def main() -> int:
         if existing is not None and existing.reviewed:
             print(f"  {key:20} already reviewed, left alone")
             continue
+        # Resumable. Long runs here have been killed twice partway through, and
+        # each entry costs three searches, four fetches and two model calls --
+        # so a re-run continues rather than starting again. `--redraft` is the
+        # way to deliberately redo one.
+        if existing is not None and existing.complete and not args.redraft:
+            print(f"  {key:20} already drafted, skipped (--redraft to redo)")
+            continue
         try:
             entry = swarm.draft(key)
-        except SearchUnavailable as exc:
+        except (SearchUnavailable, ollama.OllamaUnavailable) as exc:
             # "Could not ask" is not "nothing to say", and the difference has to
             # survive into the report of the run (L-046).
-            print(f"  {key:20} COULD NOT ASK: {exc}")
+            #
+            # **And it must not end the run.** A first batch died on claim 7
+            # when Ollama returned HTTP 500, losing six claims of completed
+            # work -- a recoverable failure treated as fatal, which is the same
+            # family of mistake as an empty case answering like a real one.
+            print(f"  {key:20} COULD NOT ASK: {type(exc).__name__}: {exc}")
             failed += 1
             continue
 
         base.draft(entry)
+        # Saved per claim, not at the end. Each entry costs three searches, four
+        # fetches and two model calls; losing a batch's work to its last claim
+        # is not a trade worth making for one less file write.
+        base.save(args.out)
         fell_back = getattr(searcher, "fell_back", False)
         if entry.complete:
             drafted += 1

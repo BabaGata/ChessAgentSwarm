@@ -152,9 +152,49 @@ wrongly. And *"may lose their king"* is loose in a way a chess reader will notic
 author.** The swarm found a real definition from a real source, and it is still the wrong definition
 for the job the author wanted it for.
 
+## The full batch: 3 of 14, and four leaks in one gate
+
+Run over the fourteen claims that reach players. **3 drafted, 9 refused, 2 lost to
+`allows_square`/`late_castling` having no reachable source at all.**
+
+| claim | definition |
+|---|---|
+| `fork` | *"A fork in chess is a tactic when a piece attacks two or more enemy pieces simultaneously."* ✅ |
+| `hangingPiece` | *"A hanging piece is an attacked piece not defended by own man exposed to capture."* ✅ |
+| `hangingPawn` | *"Indeed, there is an avalanche of pawns hanging over Black's head!"* ❌ prose, not a definition |
+
+**The refusals are the feature.** Nine claims produced nothing rather than something plausible, and
+an incomplete entry cannot be endorsed, so none of them can reach a player.
+
+### The relevance gate leaked four times, and each leak was found by reading output
+
+| leak | what it produced | fix |
+|---|---|---|
+| no gate at all | *hanging piece* defined from **Black Is King**, a Beyonce film | require a topic term |
+| shared vocabulary | *endgame technique* from **Sensei's Library**, the **Go** wiki, which says "chess" zero times | require the page to be about chess |
+| a flat threshold | a constructed-language grammar (4 mentions in 400 KB) and a **libertarian-communism essay** (3 in 55 KB) | require a *rate*, one mention per 5 KB |
+| the title short-circuited it | a result *titled* for chess pointing at that same essay, which supplied *"They cater for the moment, and the moment is capitalism"* as a definition of king-side pressure | **an address is structural; a title is written to attract a click** |
+
+Also `against` had to leave the key terms: *"allowing pressure against the king"* matched that essay
+on **`against`** and **`king`**.
+
+**Every one of the four was invisible in the counts.** Each run reported entries drafted from sources
+read; only reading the sentences showed a Beyonce film, a Go wiki and a communism essay defining
+chess terms. L-050 four more times in one afternoon.
+
+### And three entries were stale
+
+`capturingDefender` sat in the base defined from a **Windows Sysprep** page, drafted before the chess
+gate existed and never re-checked, because the runner skips keys that already have a complete entry.
+Resumability and correctness pull opposite ways here: `--redraft` exists, and forgetting it leaves
+yesterday's leak in today's output.
+
 ## Honest limitations
 
-- **Three claims, and one good entry.** Everything here rests on a handful of drafting attempts.
+- **3 usable definitions from 14 claims**, and one of the three is prose rather than a definition.
+  The knowledge base is a long way from covering what the swarm detects.
+- **The nine refusals are not verified.** Nobody has checked that a definition really was absent
+  rather than filtered out by a gate that is now considerably stricter than it started.
 - **The model comparison is one prompt on one set of notes.** `phi4-mini:3.8b` did as well as
   `qwen3:8b` and is smaller; nothing here establishes which is better in general.
 - **"Correctly refused" is my judgement, not a marked result.** Nobody has read the kept notes to

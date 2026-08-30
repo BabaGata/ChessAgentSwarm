@@ -173,15 +173,17 @@ class TestTopics:
 
 class TestEndToEnd:
     def test_it_drafts_an_unreviewed_entry_from_a_page(self):
-        # The Assessor refuses a page under MIN_PAGE_WORDS (120), so the fixture
-        # has to be a real page's worth of text rather than three sentences.
-        page = " ".join(NOTES * 12)
+        # Two things the fixture has to satisfy: the Assessor refuses a page
+        # under MIN_PAGE_WORDS (120), and the relevance gate refuses one that is
+        # not about chess -- which a page of three sentences about forks, with
+        # the word "chess" nowhere in it, is not.
+        page = "Chess tactics. " + " ".join(NOTES * 12) + " A chess fork wins chess games."
 
         class Searcher:
             name = "fake"
 
             def search(self, gap):
-                return [("Forks", "https://example.org/forks", "Example")]
+                return [("Forks in chess", "https://example.org/chess-forks", "Example")]
 
         answers = [
             json.dumps({"keep": [0, 1, 2]}),          # assessor
@@ -230,3 +232,140 @@ class TestItCanSayNoneOfThese:
         transport = FakeTransport(json.dumps({"definition": -1, "why": "", "practice": []}))
         KnowledgeCompiler(transport=transport).compile("fork", NOTES, sources())
         assert "-1" in transport.prompts[0]
+
+
+class TestThePromptIsBounded:
+    def test_only_the_first_notes_are_offered_to_the_judge(self):
+        # A first batch died on an HTTP 500 from a long prompt, losing six
+        # claims of completed work. A definition, if the pages contain one, is
+        # not in the twentieth sentence.
+        many = tuple(f"Sentence number {i} about forks." for i in range(40))
+        transport = FakeTransport(json.dumps({"definition": 0, "why": "", "practice": []}))
+        KnowledgeCompiler(transport=transport, limit=5).compile("fork", many, sources())
+        prompt = transport.prompts[0]
+        assert "4. Sentence number 4" in prompt
+        assert "Sentence number 5" not in prompt
+
+    def test_the_index_still_refers_to_the_capped_list(self):
+        many = tuple(f"Sentence number {i} about forks." for i in range(40))
+        entry = KnowledgeCompiler(
+            transport=FakeTransport(json.dumps(
+                {"definition": 3, "why": "", "practice": []})),
+            limit=5,
+        ).compile("fork", many, sources())
+        assert entry.definition == many[3]
+
+
+class TestTheRelevanceGate:
+    """A page that is not about the topic cannot define it.
+
+    Live runs sourced a "definition" of hanging piece from the Wikipedia article
+    for **Black Is King**, a Beyonce film, and one of hanging pawn from **TCEC
+    Season 18**. Both mention chess words; neither is about the motif. The
+    Assessor picks the best sentences WITHIN a page and never asks whether the
+    page is about the thing, so the judge was choosing the least-bad sentence
+    from pages that were never relevant.
+    """
+
+    from chesscoach.knowledge_swarm import is_about, key_terms, topic_for
+    from chesscoach.opening_swarm import Candidate
+
+    def page(self, title, url):
+        from chesscoach.opening_swarm import Candidate
+        return Candidate(title, url, "example.org", "")
+
+    def test_an_unrelated_page_is_refused(self):
+        from chesscoach.knowledge_swarm import is_about, topic_for
+        assert not is_about(
+            topic_for("hangingPiece"),
+            self.page("Black Is King", "https://en.wikipedia.org/wiki/Black_Is_King"),
+            "A visual album. It was praised. Chess of life. Beyonce.",
+        )
+
+    def test_a_page_about_the_topic_is_kept(self):
+        from chesscoach.knowledge_swarm import is_about, topic_for
+        assert is_about(
+            topic_for("hangingPiece"),
+            self.page("Hanging Piece", "http://chessprogramming.org/Hanging_Piece"),
+            "A hanging piece is one that is undefended and attacked.",
+        )
+
+    def test_the_url_alone_is_enough(self):
+        # A page whose title is unhelpful but whose URL names the topic.
+        from chesscoach.knowledge_swarm import is_about, topic_for
+        assert is_about(topic_for("fork"),
+                        self.page("Chess Journal", "https://x.org/chess-royal-fork/"), "")
+
+    def test_the_word_chess_alone_does_not_make_a_page_relevant(self):
+        # "in chess" is in every query, so matching on it would pass everything.
+        from chesscoach.knowledge_swarm import key_terms, topic_for
+        assert "chess" not in key_terms(topic_for("fork"))
+
+
+class TestThePageMustBeAboutChess:
+    """Shared vocabulary is not shared subject matter.
+
+    A live run defined *endgame technique* from **Sensei's Library**, the Go
+    wiki: "endgame" and "technique" are Go words too. Measured on the fetched
+    pages, that page says "chess" zero times while real chess pages say it 35 to
+    3,310 times -- and a flat threshold is not enough either, since a
+    constructed-language grammar mentioned chess 4 times in 400 KB.
+    """
+
+    def page(self, title="T", url="https://example.org/x"):
+        from chesscoach.opening_swarm import Candidate
+        return Candidate(title, url, "example.org", "")
+
+    def test_a_go_page_sharing_the_words_is_refused(self):
+        from chesscoach.knowledge_swarm import is_about, topic_for
+        go = "The endgame in Go rewards technique. " * 40
+        assert "chess" not in go.lower()
+        assert not is_about(topic_for("endgame_error"), self.page(), go)
+
+    def test_a_chess_page_is_kept(self):
+        from chesscoach.knowledge_swarm import is_about, topic_for
+        body = "Chess endgame technique is about king activity. " * 40
+        assert is_about(topic_for("endgame_error"), self.page(), body)
+
+    def test_a_long_page_mentioning_chess_in_passing_is_refused(self):
+        # 4 mentions in 400 KB was a real page: a grammar of a constructed
+        # language with a section naming the chess pieces.
+        from chesscoach.knowledge_swarm import about_chess
+        body = "grammar and vocabulary. " * 20000 + "chess " * 4
+        assert len(body) > 400_000
+        assert not about_chess(self.page(), body)
+
+    def test_a_short_page_needs_only_a_few_mentions(self):
+        from chesscoach.knowledge_swarm import about_chess
+        assert about_chess(self.page(), "A chess fork. Chess tactics. Chess.")
+
+    def test_a_fragment_naming_chess_does_not_make_the_page_about_chess(self):
+        # The real case: a grammar of a constructed language whose address ends
+        # "#Chess_Piece_". A fragment names one section, not the page.
+        from chesscoach.knowledge_swarm import about_chess
+        body = "grammar and vocabulary. " * 20000 + "chess " * 4
+        assert not about_chess(
+            self.page(title="Mirad Grammar",
+                      url="https://en.wikibooks.org/wiki/Mirad_Grammar#Chess_Piece_"),
+            body,
+        )
+
+    def test_a_chess_domain_settles_it_however_short_the_page(self):
+        from chesscoach.knowledge_swarm import about_chess
+        assert about_chess(
+            self.page(title="Hanging Piece", url="http://chessprogramming.org/Hanging_Piece"),
+            "A hanging piece is undefended.",
+        )
+
+    def test_a_title_naming_chess_does_not_settle_it(self):
+        # The fourth leak in this gate: a search result titled for chess pointed
+        # at a libertarian-communism essay, which supplied "They cater for the
+        # moment, and the moment is capitalism" as a definition of king-side
+        # pressure. A title is written to attract a click.
+        from chesscoach.knowledge_swarm import about_chess
+        body = "capitalism and the state. " * 4000 + "chess " * 3
+        assert not about_chess(
+            self.page(title="Chess and the strategy of pressure",
+                      url="http://libcom.org/book/export/html/1185"),
+            body,
+        )

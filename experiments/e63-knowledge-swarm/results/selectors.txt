@@ -1,0 +1,24 @@
+THREE WAYS OF CHOOSING THE NOTES
+========================================================================================
+
+Same pages, same relevance gate, same judge. Only the selection differs.
+
+  fork             assessor    The Knight forks the King and Rook, forcing the King to move and limit
+  fork             definition  A fork in chess is a tactic when a piece attacks two or more enemy pie
+  fork             none        As with any fairly common chess tactic, it is impossible to pinpoint w
+
+  hangingPiece     assessor    To avoid confusion with hanging pawns , which refer a duo of open and 
+  hangingPiece     definition  A hanging piece is an attacked piece not defended by own man exposed t
+  hangingPiece     none        A hanging piece is an attacked piece not defended by own man exposed t
+
+========================================================================================
+SUMMARY
+========================================================================================
+
+claim           assessor    definition  none        
+----------------------------------------------------
+fork            yes         yes         yes         
+hangingPiece    yes         yes         yes         
+
+'yes' only means something was produced. Whether it is a DEFINITION
+rather than an example is a judgement, and it is the author's.

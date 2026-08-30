@@ -30,6 +30,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
+import re
+
 from chesscoach import ollama
 from chesscoach.grounding import check
 from chesscoach.knowledge import Entry, Source
@@ -61,6 +63,9 @@ TOPICS = {
     "repeat_move": "moving the same piece twice in the chess opening",
     "pawn_error": "pawn moves instead of developing in the chess opening",
     "endgame_error": "endgame technique in chess",
+    # Without this the fallback produces "long think error in chess", which is
+    # this project's own jargon and matches nothing anyone has written.
+    "long_think_error": "spending too long thinking on a chess move",
     "moved_into_attack": "moving a piece where it can be attacked in chess",
     "concedes_weakness": "creating a pawn weakness in chess",
     "allows_square": "allowing an outpost square in chess",
@@ -81,7 +86,110 @@ TOPICS = {
 # sentence it returned a plausible wrong one, and told that refusing was usually
 # right it refused a page that did contain a definition. The distinction is a
 # capability, not a wording.
-JUDGE_MODEL = "qwen3:8b"
+# phi4-mini rather than qwen3:8b, after both got the discriminating test right:
+# qwen3 is a THINKING model, so its reasoning eats the token budget before any
+# JSON appears -- asked to reply "ok" in 10 tokens it returned an empty string --
+# and it was the model loaded when Ollama answered HTTP 500 twice on longer
+# prompts. phi4-mini is smaller, not a reasoning model, and its answers are
+# roughly half the length for the same verdict.
+JUDGE_MODEL = "phi4-mini:3.8b"
+
+# --- choosing the notes a definition is picked from -------------------------
+#
+# The opening Assessor is the wrong instrument here, and measurably so. Its veto
+# `is_usable_note` ends with `return bool(BOARD.search(sentence))` -- a sentence
+# must name something locatable on the board -- and `BOARD` matches specific
+# pieces, squares, files and ranks but **not the generic word "piece"**. Every
+# definition tested was rejected before any model saw it:
+#
+#     "A fork is a move that attacks two or more enemy pieces..."   rejected
+#     "A hanging piece is one that is undefended..."                rejected
+#     "Practice recognising forks by studying tactics puzzles."     rejected (META)
+#
+# The judge was choosing from the survivors -- plan-shaped sentences naming
+# squares -- which is why it kept returning examples. Those were not bad
+# choices; they were the only ones left. Reusing the Assessor unchanged, which
+# this module presented as a virtue, was the bug.
+
+# Algebraic squares and move notation. A sentence carrying these is about ONE
+# position, and a definition is about all of them.
+_SPECIFIC = re.compile(
+    # Standard algebraic notation: an optional piece letter, optional
+    # disambiguation by file and/or rank, an optional capture marker, then the
+    # destination square. Written three times before it was tested:
+    #
+    #   v1  `[a-h]x?`   put the capture after the FILE, missing `Nxf3+`
+    #   v2  no trailing guard, so `b12` and `e40` matched `b1` and `e4`
+    #
+    # Case matters and is not a mistake: SAN squares are lower case and piece
+    # letters upper, so `H1` is a heading and `h1` is a square.
+    r"\b[KQRBN]?[a-h]?[1-8]?x?[a-h][1-8](?![0-9])(?:=[QRBN])?[+#]?"
+    # Castling, spelled with letters or with zeros -- both are common in print.
+    r"|\b[O0]-[O0](?:-[O0])?\b"
+    # A result belongs to one game, so it is specific by the same rule.
+    r"|\b[01\u00bd]-[01\u00bd]\b"
+    # Numbered moves: "12. Nf3", "5...c5", "1.e4".
+    r"|\b\d+\.{1,3}\s*[KQRBNa-h]"
+)
+
+
+SELECTORS = ("assessor", "definition", "none")
+
+
+def is_broad(sentence: str) -> bool:
+    """Is this a general statement rather than a comment on one position?
+
+    **The inverse of the opening veto**, which is the author's own framing:
+    *"remove specifics and keep the broad definitions"*. Where `is_usable_note`
+    REQUIRES something locatable on the board, this REFUSES it -- a sentence
+    naming b5 or Nxf3+ is about one game, and a definition is about all of them.
+
+    Everything else the opening veto refuses is still refused, except two:
+    `META` (study advice), because the `practice` field is made of exactly that,
+    and `FIRST_PERSON`, because *"we call this a fork"* is a normal way to write
+    a definition.
+    """
+    from chesscoach.opening_plans import (
+        MAX_WORDS,
+        MIN_WORDS,
+        NAVIGATION,
+        SELL,
+        STATISTIC,
+        is_analysis_line,
+    )
+
+    words = len(sentence.split())
+    if words < MIN_WORDS or words > MAX_WORDS:
+        return False
+    if sentence.endswith("?"):
+        return False
+    if SELL.search(sentence) or STATISTIC.search(sentence):
+        return False
+    if NAVIGATION.search(sentence) or is_analysis_line(sentence):
+        return False
+    return not _SPECIFIC.search(sentence)
+
+
+DEFINITION_ASSESSOR = """You are the ASSESSOR in a chess coaching system.
+
+You read one web page and pick the sentences that say WHAT {topic} IS.
+
+A sentence that defines it would still make sense to someone who had never
+heard the term. Prefer:
+- a sentence of the form "X is ..." or "X refers to ..." or "X happens when ..."
+- a sentence saying what makes it good or bad, in general
+- a sentence saying how a player practises or recognises it
+
+Do NOT pick:
+- a comment on one particular position or game
+- a sentence that only makes sense if you already know the term
+
+Sentences from a page about {topic}:
+{sentences}
+
+Pick the {limit} that best say what {topic} is, best first.
+Answer with the numbers in the "keep" field. If none of them says what {topic}
+is, keep nothing."""
 
 COMPILER_SCHEMA = ollama.schema_of(
     definition={"type": "integer"},
@@ -113,6 +221,106 @@ what the sentences above say. If the sentences do not say, answer "".
 "practice": up to {practice} short suggestions for how to practise this, each
 supported by the sentences above. If the sentences suggest none, answer with an
 empty list. Do not invent training advice."""
+
+
+# Words that carry no topic. "in chess" is in every query, so a page mentioning
+# "chess" is not thereby about forks.
+_EMPTY = frozenset({
+    # Grammar. `against` is here because "allowing pressure against the king"
+    # matched a libertarian-communism essay on both `against` and `king`.
+    "in", "the", "a", "an", "of", "on", "to", "and", "for", "with", "against",
+    "when", "that", "this", "from", "into", "your", "их",
+    # Chess words so common they identify nothing: every query says "in chess",
+    # and almost every chess page says "move" and "piece".
+    "chess", "move", "moves", "piece", "pieces", "player", "opening", "game",
+    "games", "position", "positions",
+})
+
+
+def key_terms(topic: str) -> frozenset[str]:
+    """The words a page must actually contain to be about this topic."""
+    return frozenset(
+        word.strip(".,()").lower() for word in topic.split()
+        if word.strip(".,()").lower() not in _EMPTY and len(word) > 2
+    )
+
+
+# A page has to be about chess, not merely share vocabulary with it. Measured on
+# the fetched pages: Sensei's Library -- the **Go** wiki, which supplied a
+# "definition" of endgame technique -- says "chess" **zero** times, while real
+# chess pages say it 35 to 3,310 times.
+#
+# A flat threshold is not enough. A constructed-language grammar said "chess" 4
+# times in 400 KB, and a libertarian-communism essay said it 3 times in 55 KB
+# and supplied the sentence *"They cater for the moment, and the moment is
+# capitalism."* as a definition of king-side pressure. Both cleared a floor of
+# three; neither clears one mention per 5 KB.
+CHESS_MENTIONS = 3
+CHARS_PER_MENTION = 5_000
+
+
+def about_chess(candidate: Candidate, body: str) -> bool:
+    """Is this page about chess at all?
+
+    Separate from the topic check because the two failures are different. A page
+    can be about chess and not about forks (the Assessor's problem), or about
+    forks-in-another-sense and not chess at all -- "endgame" and "technique" are
+    Go words too, and that is how a Go wiki came to define a chess claim.
+
+    **An address naming chess settles it** -- `chessprogramming.org` and
+    `/chess-royal-fork/` are chess pages however short their text, because a
+    domain and a path are structural claims about the whole page.
+
+    **A title does not**, and letting it was the fourth leak in this gate: a
+    search result titled for chess pointed at a libertarian-communism essay,
+    which then supplied *"They cater for the moment, and the moment is
+    capitalism"* as a definition of king-side pressure. A title is a line of
+    text like any other and is written to attract a click.
+
+    **The URL fragment is stripped first.** The page that made this necessary is
+    a grammar of a constructed language whose address ends `#Chess_Piece_` -- a
+    fragment names one section, not the page, and taking it as the page's
+    subject is how 400 KB about grammar became a source about chess.
+
+    Otherwise it falls back to a rate in the body, not a count: that same page
+    said "chess" four times in 400 KB.
+    """
+    address = candidate.url.split("#", 1)[0].lower()
+    if "chess" in address:
+        return True
+    mentions = body.lower().count("chess")
+    needed = max(CHESS_MENTIONS, len(body) // CHARS_PER_MENTION)
+    return mentions >= needed
+
+
+def is_about(topic: str, candidate: Candidate, body: str) -> bool:
+    """Is this page about the topic, on a page that is about chess?
+
+    **A mechanical veto, not a model judgement**, in the same idiom as
+    `is_usable_note`: it refuses a page rather than ranking it, and it is cheap
+    enough to run before any model call is spent.
+
+    It exists because the Assessor picks the most informative sentences *within*
+    a page and never asks whether the page is about the thing. Live runs drafted
+    a "definition" of *hanging piece* whose sources included the Wikipedia
+    article for **Black Is King**, a Beyonce film, one of *hanging pawn* from
+    **TCEC Season 18**, and one of *endgame technique* from a **Go** wiki. All
+    three mention chess words; none is about the motif.
+
+    Two conditions, because there are two ways to fail:
+
+    - the page must **mention the topic** -- generous, one key term anywhere in
+      title, URL or body, since ranking chess pages against each other is the
+      Assessor's job and it is better at it than a word count;
+    - the page must **be about chess**, which is what the Go wiki fails.
+    """
+    if not about_chess(candidate, body):
+        return False
+    terms = key_terms(topic)
+    if not terms:
+        return True
+    haystack = f"{candidate.title} {candidate.url} {body[:20000]}".lower()
+    return any(term in haystack for term in terms)
 
 
 def topic_for(key: str) -> str:
@@ -177,6 +385,11 @@ class KnowledgeCompiler:
     model: str = JUDGE_MODEL
     host: str = ollama.OLLAMA_URL
     practice: int = 2
+    # Notes offered to the judge. Four pages at six sentences each is 24, and a
+    # first batch met an HTTP 500 from Ollama on a long prompt. A definition, if
+    # the pages contain one, is not in the twentieth sentence -- and a cap keeps
+    # the one call that decides each entry inside a size that is known to work.
+    limit: int = 16
     transport: object | None = None
     name: str = "knowledge-compiler"
 
@@ -189,6 +402,7 @@ class KnowledgeCompiler:
             return Entry(key=key, drafted_by=self.model, checked_on=_today())
 
         topic = topic_for(key)
+        notes = notes[: self.limit]
         numbered = "\n".join(f"{i}. {n}" for i, n in enumerate(notes))
         answer = ollama.generate(
             self.model,
@@ -275,6 +489,13 @@ class KnowledgeSwarm:
     model: str = MODEL
     judge: str = JUDGE_MODEL
     read: int = 4
+    # How the sentences offered to the judge are chosen:
+    #   "assessor"   the opening Assessor, unchanged -- the arm that fails
+    #   "definition" a model pick with the veto INVERTED to keep broad sentences
+    #   "none"       no model selection at all; the mechanical filter only
+    select: str = "definition"
+    # Sentences taken per page when no model selects them.
+    per_page: int = 6
     transport: object | None = None
 
     def __post_init__(self) -> None:
@@ -301,7 +522,12 @@ class KnowledgeSwarm:
             body = self._body(candidate)
             if not body:
                 continue
-            reading = self.assessor.read(topic, candidate, body)
+            if not is_about(topic, candidate, body):  # noqa: E501
+                # Refused before any model call: a page that is not about the
+                # topic cannot contain a definition of it, and its sentences
+                # would only give the judge something plausible to pick.
+                continue
+            reading = self._read(topic, candidate, body)
             if reading.skip_reason:
                 # A page that is not an article puts its DOMAIN on the skip
                 # list, so no model call is ever spent on that site again.
@@ -318,6 +544,47 @@ class KnowledgeSwarm:
                                   evidence_class="single-expert"))
 
         return self.compiler.compile(key, tuple(notes), tuple(sources))
+
+    def _read(self, topic: str, candidate: Candidate, body: str):
+        """Sentences from one page, by whichever selector is configured."""
+        from chesscoach.opening_swarm import Reading
+
+        if self.select == "assessor":
+            return self.assessor.read(topic, candidate, body)
+
+        broad = [s for s in self.assessor.candidates(body) if is_broad(s)]
+        if not broad:
+            return Reading(candidate, ())
+        if self.select == "none":
+            # No model judgement at all. Page order is kept, because a
+            # definition is near the top of an article far more often than not,
+            # and any other order would be a selection wearing a disguise.
+            return Reading(candidate, tuple(broad[: self.per_page]))
+        return Reading(candidate, self._pick_definitions(topic, broad, candidate))
+
+    def _pick_definitions(self, topic: str, sentences, candidate) -> tuple[str, ...]:
+        """The Assessor's index trick, asked for definitions instead of plans."""
+        from chesscoach.opening_swarm import ASSESSOR_SCHEMA, CHUNK
+
+        kept: list[str] = []
+        for start in range(0, len(sentences), CHUNK):
+            chunk = sentences[start:start + CHUNK]
+            numbered = "\n".join(f"{i}. {s}" for i, s in enumerate(chunk))
+            try:
+                answer = ollama.generate(
+                    self.model,
+                    DEFINITION_ASSESSOR.format(topic=topic, sentences=numbered,
+                                               limit=self.per_page),
+                    host=ollama.OLLAMA_URL, num_predict=60,
+                    schema=ASSESSOR_SCHEMA, transport=self.transport,
+                )
+            except ollama.OllamaUnavailable:
+                break
+            chosen = ollama.ints(ollama.as_json(answer), "keep", len(chunk))
+            kept += [chunk[i] for i in chosen[: self.per_page]]
+            if len(kept) >= self.per_page:
+                break
+        return tuple(kept[: self.per_page])
 
     def _body(self, candidate: Candidate) -> str:
         try:
