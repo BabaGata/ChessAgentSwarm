@@ -139,6 +139,10 @@ class Tally:
     # claims first reached a report saying nothing at all: right numbers,
     # nothing to point at, silence.
     examples: list[Observation] = None  # type: ignore[assignment]
+    # Win probability lost on the moves this habit names, summed across the
+    # opening. The arbiter's own cost model, so it is comparable with every
+    # other claim rather than a second currency.
+    cost_wp: float = 0.0
 
     def __post_init__(self) -> None:
         if self.games is None:
@@ -153,6 +157,41 @@ class Tally:
             self.games.add(game_id)
             if example is not None:
                 self.examples.append(example)
+
+
+def habit_costs(game: GameDevelopment) -> dict[str, float]:
+    """What each habit cost in this game, in win probability.
+
+    The author's method, and their reason for it:
+
+    > *"In the games of weaker players they don't have to eventually end opening
+    > worse because their opponent also plays badly."*
+
+    Two weak players' errors cancel, so where the opening ENDS says nothing about
+    how it was played. Summing what the habit's own moves lost never touches the
+    opponent.
+
+    **The three overlap** -- a pawn move while a minor is home and castling is
+    available is an instance of two of them -- so the headline takes the
+    **union** of the flags. Adding them would count the same lost move twice and
+    inflate the claim that competes for the plan slot.
+    """
+    by_ply = {o.ply: o for o in game.mine}
+    castle = repeat = union = 0.0
+    for window_move in game.development.window_moves:
+        observation = by_ply.get(window_move.ply)
+        if observation is None:
+            continue
+        loss = observation.loss_wp
+        if window_move.declined_available_castle:
+            castle += loss
+        if window_move.repeat_instead_of_developing:
+            repeat += loss
+        if (window_move.declined_available_castle
+                or window_move.repeat_instead_of_developing
+                or window_move.pawn_instead_of_developing):
+            union += loss
+    return {LATE_CASTLING: castle, REPEAT_MOVE: repeat, SLOW_DEVELOPMENT: union}
 
 
 def count(
@@ -198,19 +237,21 @@ def count(
             example = game.at_ply(game.development.ready_at)
             if example is not None:
                 repeats.examples.append(example)
+        repeats.cost_wp += habit_costs(game)[REPEAT_MOVE]
 
     return dict(tallies)
 
 
 def _record(tallies: dict[str, Tally], basis: str, game: GameDevelopment, verdict) -> None:
-    """Each claim cites the move that decided it: the castle, or the last one."""
+    """Each claim cites the move that decided it, and carries what it cost."""
+    costs = habit_costs(game)
     if verdict.slow_development is not None:
-        tallies[f"{SLOW_DEVELOPMENT}.{basis}"].add(
-            verdict.slow_development, game.game_id,
-            game.at_ply(game.development.ready_at),
-        )
+        tally = tallies[f"{SLOW_DEVELOPMENT}.{basis}"]
+        tally.add(verdict.slow_development, game.game_id,
+                  game.at_ply(game.development.ready_at))
+        tally.cost_wp += costs[SLOW_DEVELOPMENT]
     if verdict.late_castling is not None:
-        tallies[f"{LATE_CASTLING}.{basis}"].add(
-            verdict.late_castling, game.game_id,
-            game.at_ply(game.development.castled_at),
-        )
+        tally = tallies[f"{LATE_CASTLING}.{basis}"]
+        tally.add(verdict.late_castling, game.game_id,
+                  game.at_ply(game.development.castled_at))
+        tally.cost_wp += costs[LATE_CASTLING]

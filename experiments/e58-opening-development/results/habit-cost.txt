@@ -1,0 +1,72 @@
+  AGM_EliasBelmonte035: 16 games
+  babakorisko: 20 games
+  Barsa1984: 18 games
+  BASHENDI: 11 games
+  bidochon: 19 games
+  BLITZ_GRIEK: 19 games
+  CheckZILLA1: 20 games
+  chessmanuz2023: 20 games
+  Chloekalypse: 17 games
+  der_zocker09: 18 games
+  Dhananjay2106: 20 games
+  Drexy2525: 20 games
+  ege_tagil: 18 games
+  engin_demir007: 20 games
+  ergili: 19 games
+  FANG_2013: 18 games
+  g_sarp: 20 games
+  GarryMcwormeater: 19 games
+  garvitbhalla: 20 games
+  GERDBAD92: 5 games
+  Hamza29: 20 games
+  harshak12: 16 games
+  hhussie: 19 games
+  igorgg88: 20 games
+  Ik_chih: 19 games
+  JamesJB2017: 17 games
+  jeffouille7: 4 games
+  kamilerden: 20 games
+  karliderfl: 19 games
+  Keshav-Kumar-Gautam: 13 games
+  khall74: 20 games
+  Kirillinyo: 20 games
+  ledlnakdfmn: 20 games
+  leoausin: 20 games
+  levit79: 17 games
+  LogicT37: 19 games
+  manlikefinbar: 13 games
+  MeryemZ: 19 games
+  miguelsuperzing: 16 games
+  mira2004: 8 games
+
+WHAT EACH HABIT COSTS, IN WIN PROBABILITY PER GAME
+==========================================================================
+
+players measured  40
+
+Summed loss_wp over the moves the habit names -- the arbiter's own
+cost model, so these are comparable with every other claim.
+
+habit            median      p90      max   share of opening loss
+------------------------------------------------------------------
+repeat           20.432   43.036   54.025                    36%
+pawn             12.826   26.684   28.696                    22%
+no_castle         9.702   32.204   45.293                    17%
+
+ALL THREE        46.906   82.586  106.226
+whole opening    55.699  107.244  133.926
+
+==========================================================================
+IS THIS JUST THE GENERAL ERROR RATE WEARING A HABIT'S NAME?
+==========================================================================
+
+A player who errs more errs more on pawn moves too. If a habit cost
+tracks the overall opening error rate it carries no new information,
+which is what closed a section slot in E10 at +0.917.
+
+habit            r with opening error rate
+--------------------------------------------
+repeat                                0.64
+pawn                                  0.64
+no_castle                             0.44
+ALL THREE                             0.74

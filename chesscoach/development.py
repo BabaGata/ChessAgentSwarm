@@ -44,6 +44,30 @@ HOME_SQUARES: dict[chess.Color, tuple[int, ...]] = {
 
 
 @dataclass(frozen=True)
+class WindowMove:
+    """One of the player's opening moves, labelled by the habit it belongs to.
+
+    The labels carry the **"instead of"** condition the author's wording
+    requires: *"the same piece was moved repeatedly **instead of developing the
+    other piece**"*, *"every pawn move **when the piece should be developed
+    instead**"*, *"every move when the player **should castle** the king but he
+    did something else"*.
+
+    Without that condition the labels degenerate into "this was a pawn move",
+    and summing their cost would re-measure the player's general error rate
+    wearing a habit's name.
+    """
+
+    ply: int
+    # Moved a piece that had already moved, while a minor still sat at home.
+    repeat_instead_of_developing: bool
+    # A pawn move, while a minor still sat at home.
+    pawn_instead_of_developing: bool
+    # Castling was legal on this move and the player played something else.
+    declined_available_castle: bool
+
+
+@dataclass(frozen=True)
 class Development:
     """One player's opening, as facts. No judgement, no thresholds."""
 
@@ -64,6 +88,10 @@ class Development:
     # False when the game ended before the player had castled and developed.
     # **Read this before averaging anything above.**
     completed: bool
+
+    # Every move the player made inside the window, labelled. Joined against the
+    # observations by ply to price each habit by what its own moves cost.
+    window_moves: tuple[WindowMove, ...] = ()
 
     @property
     def ready_at(self) -> int | None:
@@ -110,6 +138,7 @@ def measure_development(
     castled_at: int | None = None
     developed_at: int | None = None
     moves_in_window = repeat_moves = pawn_moves = 0
+    window_moves: list[WindowMove] = []
 
     for index, move in enumerate(moves):
         ply = index + 1
@@ -117,11 +146,32 @@ def measure_development(
 
         if ours and _still_open(castled_at, developed_at):
             moves_in_window += 1
-            if move.from_square in has_moved:
+            repeat = move.from_square in has_moved
+            if repeat:
                 repeat_moves += 1
             piece = board.piece_at(move.from_square)
-            if piece is not None and piece.piece_type == chess.PAWN:
+            is_pawn = piece is not None and piece.piece_type == chess.PAWN
+            if is_pawn:
                 pawn_moves += 1
+
+            # The "instead of" conditions. A repeat move once every piece is out
+            # is not this habit, and a pawn move with nothing left to develop is
+            # an ordinary opening move.
+            undeveloped = any(_minor_at_home(board, sq, mover) for sq in home)
+            castling_available = (
+                castled_at is None
+                and any(board.is_castling(m) for m in board.legal_moves)
+            )
+            window_moves.append(
+                WindowMove(
+                    ply=ply,
+                    repeat_instead_of_developing=repeat and undeveloped,
+                    pawn_instead_of_developing=is_pawn and undeveloped,
+                    declined_available_castle=(
+                        castling_available and not board.is_castling(move)
+                    ),
+                )
+            )
 
         if ours and board.is_castling(move):
             castled_at = ply
@@ -147,6 +197,7 @@ def measure_development(
         repeat_moves=repeat_moves,
         pawn_moves=pawn_moves,
         completed=castled_at is not None and developed_at is not None,
+        window_moves=tuple(window_moves),
     )
 
 

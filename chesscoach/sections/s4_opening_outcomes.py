@@ -24,6 +24,7 @@ from dataclasses import dataclass, field
 from chesscoach.analysis.observations import Observation
 from chesscoach.development_norms import DevelopmentNorms
 from chesscoach.confidence import MIN_GAMES_WITH_DATA, ClaimStats, assign_tier
+from chesscoach.opening_development import LATE_CASTLING, REPEAT_MOVE, SLOW_DEVELOPMENT
 from chesscoach.opening_development import count as count_development
 from chesscoach.openings import OpeningBook
 from chesscoach.peers import ConditionMeasurement
@@ -78,6 +79,8 @@ OPENING_DISADVANTAGE = "opening_disadvantage"
 
 ANY = "any"
 
+_DEVELOPMENT_KINDS = (SLOW_DEVELOPMENT, LATE_CASTLING, REPEAT_MOVE)
+
 # Move 15, in plies. The catalogue's own figure and conventional rather than
 # derived -- the real end of the opening varies by opening and by player. Named
 # here so that if it is ever tuned, the tuning is visible rather than buried.
@@ -126,7 +129,9 @@ class S4OpeningOutcomes:
                 # Only `early_error` prices itself. `opening_disadvantage`
                 # counts outcomes, not mistakes, and has no cost to pool.
                 cost_wp=(
-                    round(tally.cost_wp, 2) if key.startswith(f"{EARLY_ERROR}.") else None
+                    round(tally.cost_wp, 2)
+                    if key.startswith(f"{EARLY_ERROR}.") or _is_development(key)
+                    else None
                 ),
             )
             for key, tally in sorted(counts.tallies.items())
@@ -205,9 +210,11 @@ def _count_development(tallies: dict[str, _Tally], context: SectionContext) -> N
         # refusal (V8), and exactly what silenced these claims when they were
         # first wired up: correct numbers, nothing citable, nothing said.
         tally.examples.extend(counts.examples)
-        # No cost: these are not mistakes with a win probability attached.
-        # Developing slowly is a habit, not a move that lost something
-        # measurable, and inventing a cost would price a claim that has none.
+        # The habit's own moves DO lose win probability, and summing what they
+        # lost is the arbiter's own cost model rather than a second currency.
+        # Without it these claims sort below every costed claim and reach no
+        # plan at all ([[experiments.e60-peer-reference-rebuild]]).
+        tally.cost_wp += counts.cost_wp
 
 
 def _count_disadvantage(tallies: dict[str, _Tally], early: tuple[Observation, ...]) -> None:
@@ -254,6 +261,11 @@ def _score_for_mover(observation: Observation) -> int:
     """`score_cp_before` is white-relative; a black player's advantage is negative."""
     score = observation.score_cp_before
     return score if observation.mover_is_white else -score
+
+
+def _is_development(key: str) -> bool:
+    """Claims priced by what their own moves cost, rather than left costless."""
+    return any(key.startswith(f"{kind}.") for kind in _DEVELOPMENT_KINDS)
 
 
 def _key(kind: str, subject: str) -> str:
@@ -304,13 +316,18 @@ def _assess(key: str, counts: _Counts, context: SectionContext) -> Finding | Non
             baseline_rate=round(peer_rate, 4),
             peer_rate=round(peer_rate, 4),
             ci95=stats.ci95,
-            # Only `early_error` counts mistakes. `opening_disadvantage` counts
-            # games the player was already worse in by move 15, which is an
-            # outcome rather than a move that lost something — so it has no
+            # `early_error` and the development claims count moves that lost
+            # win probability, so both can state a cost. `opening_disadvantage`
+            # counts games the player was already worse in by move 15, which is
+            # an outcome rather than a move that lost something -- it has no
             # measurable cost and must not be given one.
-            cost_wp=round(tally.cost_wp, 2) if kind == EARLY_ERROR else None,
+            cost_wp=(
+                round(tally.cost_wp, 2)
+                if kind == EARLY_ERROR or _is_development(key) else None
+            ),
             peer_cost_per_game=(
-                context.peer_cost_per_game(key) if kind == EARLY_ERROR else None
+                context.peer_cost_per_game(key)
+                if kind == EARLY_ERROR or _is_development(key) else None
             ),
             opportunities=tally.opportunities,
             peer_opportunities_per_game=context.peer_opportunities_per_game(key),
@@ -326,7 +343,8 @@ def _assess(key: str, counts: _Counts, context: SectionContext) -> Finding | Non
             tier=decision.tier, replicated=stats.replicated, reasons=decision.reasons
         ),
         evidence=_sample_evidence(
-            tally, f"{SECTION}.{key}:{context.corpus.corpus_id}", kind == EARLY_ERROR
+            tally, f"{SECTION}.{key}:{context.corpus.corpus_id}",
+            kind == EARLY_ERROR or _is_development(key),
         ),
     )
 

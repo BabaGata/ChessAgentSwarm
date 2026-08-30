@@ -17,6 +17,7 @@ from chesscoach.opening_development import (
     count,
     developments,
     games_from,
+    habit_costs,
 )
 from chesscoach.openings import OpeningBook
 
@@ -228,3 +229,59 @@ class TestEvidence:
         assert tally.instances == 1
         assert tally.examples[0].mover == PLAYER
         assert tally.examples[0].ply == 19
+
+
+def observations_with_loss(sans, game_id, losses, player_is_white=True):
+    """A game where named plies lost win probability."""
+    rows = observations_for(sans, game_id, player_is_white)
+    return tuple(
+        Observation(**{**o.__dict__, "loss_wp": losses.get(o.ply, 0.0)})
+        for o in rows
+    )
+
+
+class TestHabitCost:
+    """The author's costing method.
+
+    > *"Combining cost of the moves when the same piece was moved repeatedly
+    > instead of developing the other piece, combining the cost of every pawn
+    > move when the piece should be developed instead and combining the cost for
+    > every move when the player should castle the king but he did something
+    > else."*
+
+    Their reason for it, which is what rules out an end-of-opening measure:
+    *"in the games of weaker players they don't have to eventually end opening
+    worse because their opponent also plays badly."*
+    """
+
+    def test_it_sums_what_the_habits_own_moves_lost(self, book):
+        # Ply 7 is a3, a pawn move with minors still at home and castling legal.
+        rows = observations_with_loss(SLOW_ITALIAN, "g1", {7: 5.0})
+        game, = developments(rows, PLAYER, book)
+        costs = habit_costs(game)
+        assert costs["late_castling"] == 5.0    # castling was available, declined
+        assert costs["slow_development"] == 5.0  # the union counts it once
+
+    def test_the_headline_takes_the_union_and_never_double_counts(self, book):
+        # One move that is BOTH a declined castle and a pawn-instead-of-develop
+        # must contribute its loss once, not twice.
+        rows = observations_with_loss(SLOW_ITALIAN, "g1", {7: 4.0, 9: 6.0})
+        game, = developments(rows, PLAYER, book)
+        costs = habit_costs(game)
+        assert costs["slow_development"] == 10.0
+        assert costs["slow_development"] <= sum(
+            o.loss_wp for o in game.mine
+        )
+
+    def test_a_move_that_lost_nothing_costs_nothing(self, book):
+        rows = observations_with_loss(SLOW_ITALIAN, "g1", {})
+        game, = developments(rows, PLAYER, book)
+        assert habit_costs(game) == {
+            "late_castling": 0.0, "repeat_move": 0.0, "slow_development": 0.0,
+        }
+
+    def test_the_cost_reaches_the_tally(self, book):
+        expectation = norms({("Italian Game", True): (7, 13, 50)})
+        rows = observations_with_loss(SLOW_ITALIAN, "g1", {7: 5.0})
+        tallies = count(rows, PLAYER, book, expectation)
+        assert tallies[f"slow_development.{BY_BOOK}"].cost_wp == 5.0

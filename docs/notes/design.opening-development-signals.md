@@ -151,7 +151,13 @@ opening mix, so a difference in repertoire cannot masquerade as a difference in 
 | `slow_development` | **+10.6 pp** | 32/36 | **0.76** | **ships — headline** |
 | `late_castling` | **+9.8 pp** | 30/36 | 0.73 | **ships** (r = 0.68 with headline, under the ceiling) |
 | `repeat_move_in_opening` | +2.0 pp | 26/36 | 0.70 | ships at half the strength first measured |
-| `pawn_moves_in_opening` | −0.13 count | 17/36 | — | **dropped — no within-opening effect** |
+| `pawn_moves_in_opening` | −0.13 count | 17/36 | — | **dropped as a rate** — but see below |
+
+> **The pawn claim may return in a different form.** E59 dropped it because the *rate* does not
+> discriminate: 1600s push the same number of pawns as 2600s once the opening is held fixed. But
+> [[experiments.e61-habit-cost]] finds those pawn moves **cost** a median 12.8 wp/game — 22 % of
+> all opening loss, at r = 0.64 with the general error rate. Same number of pawn moves, worse
+> ones. That is a different claim from the one dropped and it has not been tested.
 
 | | claim | instances | opportunities |
 |---|---|---|---|
