@@ -189,6 +189,51 @@ gate existed and never re-checked, because the runner skips keys that already ha
 Resumability and correctness pull opposite ways here: `--redraft` exists, and forgetting it leaves
 yesterday's leak in today's output.
 
+## Filtering out commentary
+
+The author, on the entry that read *"Indeed, there is an avalanche of pawns hanging over Black's
+head!"*:
+
+> *"Can you define filters of the assessor so that it filters out prose like for hanging pawn"*
+
+**`_SPECIFIC` removes sentences about one position; these remove sentences about one moment.** Running
+commentary names no square, so it passed the first filter untouched. The principle is that **a
+definition stands on its own**, and each filter is a way a sentence announces that it does not:
+
+| filter | what it catches |
+|---|---|
+| ends with `!` | *"...an avalanche of pawns hanging over Black's head!"* |
+| opens with a connective | *"However, another equally strong idea is available."*, *"Here's an example..."* |
+| opens with a demonstrative | *"These structures have dynamism to them."*, *"They are in a family fork."* |
+| a demonstrative main clause | *"As any general knows, this is a recipe for disaster."* |
+| narrates a player as *he* | *"Instead, he plays a move which wastes time."* |
+| points at a board | *"...available in the position."*, *"At right is the game Unzicker–Taimanov."* |
+
+**`Because`, `When`, `If`, `Although` and `While` are deliberately NOT connectives.** They subordinate
+inside the sentence rather than reaching back to the previous one, and dropping them would lose the
+best *why* sentences there are — *"Because the opponent can only save one of them, a fork usually
+wins material."*
+
+Checked against the ten commentary sentences a live run actually kept and eight definitions: **all
+ten dropped, all eight kept.**
+
+**And the runner now reports what it threw away**, by reason, on every claim — because *"the Assessor
+discards some sentences"* is not an answer to *"what does the Assessor discard"*:
+
+```
+fork   dropped  26  junk: length, advertising, navigation or an analysis line
+       dropped  19  names a square or a move: about one position
+       dropped  19  opens by connecting to the previous sentence
+       dropped  17  opens with a reference to something outside it
+```
+
+### It fixed the sentence and not the entry
+
+`hangingPawn` no longer draws the avalanche sentence — and still is not a definition. Its only
+surviving source is a Wikibooks page about **the centre**, which matched the topic on the word
+*"hanging"* and never defines a hanging pawn. **The prose filter did its job; the page was wrong all
+along**, and no sentence filter can fix a page that does not contain the answer.
+
 ## Honest limitations
 
 - **3 usable definitions from 14 claims**, and one of the three is prose rather than a definition.

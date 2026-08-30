@@ -133,6 +133,77 @@ _SPECIFIC = re.compile(
 )
 
 
+# --- what a definition is not ------------------------------------------------
+#
+# `_SPECIFIC` removes sentences about one position. These remove sentences about
+# one MOMENT: running commentary, which names no square and so passes the first
+# filter untouched. The sentence that forced this was drafted as the definition
+# of a hanging pawn:
+#
+#     "Indeed, there is an avalanche of pawns hanging over Black's head!"
+#
+# Verbatim from a real chess page, about pawns, naming no square -- and useless,
+# because it describes a moment in one game rather than saying what the thing
+# is. **A definition stands on its own.** Each filter below is a way a sentence
+# announces that it does not.
+
+# A sentence that opens by connecting to the previous one is not self-contained:
+# whatever it says depends on what came before. "Because" and "When" are absent
+# on purpose -- they subordinate within the sentence rather than reaching back.
+_CONNECTIVE = re.compile(
+    r"^\s*(indeed|however|but|so|then|now|here|there|instead|thus|therefore|"
+    r"also|moreover|yet|still|meanwhile|finally|next|again|furthermore|"
+    r"nevertheless|nonetheless|besides|otherwise|conversely|likewise|"
+    r"in fact|of course|for example|for instance|as such|at right|at left|"
+    r"in this case|in the diagram|as we|as you)\b",
+    re.I,
+)
+
+# A sentence opening with a demonstrative points at something outside itself.
+_ANAPHORA = re.compile(r"^\s*(this|that|these|those|it|they|he|she|his|her)\b", re.I)
+
+# A demonstrative can be the main clause's subject without opening the sentence:
+# "As any general knows, this is a recipe for disaster." The opening clause is
+# decoration and "this" still points outside.
+_ANAPHORA_MID = re.compile(
+    r",\s*(this|that|these|those|it)\s+(?:is|are|was|were)\b", re.I
+)
+
+# Chess writing says "White" and "Black". A sentence narrating what "he" did is
+# telling the story of one game.
+_NARRATOR = re.compile(r"\b(he|she|him|her|his|hers)\b")
+
+# Deixis: the writer pointing at a board the reader is looking at.
+_DEIXIS = re.compile(
+    r"\b(the position|the diagram|the game|this position|this game|shown above|"
+    r"shown below|see above|see below|at right|at left|in the picture)\b",
+    re.I,
+)
+
+
+def reads_as_commentary(sentence: str) -> str:
+    """Why this sentence is about a moment rather than about the thing, or "".
+
+    Returned as a reason rather than a boolean so a run can report what it threw
+    away -- the author asked what the Assessor discards, and "some sentences"
+    is not an answer.
+    """
+    if sentence.rstrip().endswith("!"):
+        return "exclamation: commentary, not definition"
+    if _CONNECTIVE.match(sentence):
+        return f"opens by connecting to the previous sentence: {_CONNECTIVE.match(sentence).group(1)!r}"
+    if _ANAPHORA.match(sentence):
+        return f"opens with a reference to something outside it: {_ANAPHORA.match(sentence).group(1)!r}"
+    if _ANAPHORA_MID.search(sentence):
+        return (f"its main clause points outside itself: "
+                f"{_ANAPHORA_MID.search(sentence).group(1)!r}")
+    if _NARRATOR.search(sentence):
+        return "narrates a player as 'he' or 'she' rather than White or Black"
+    if _DEIXIS.search(sentence):
+        return f"points at a particular board: {_DEIXIS.search(sentence).group(1)!r}"
+    return ""
+
+
 SELECTORS = ("assessor", "definition", "none")
 
 
@@ -166,6 +237,8 @@ def is_broad(sentence: str) -> bool:
     if SELL.search(sentence) or STATISTIC.search(sentence):
         return False
     if NAVIGATION.search(sentence) or is_analysis_line(sentence):
+        return False
+    if reads_as_commentary(sentence):
         return False
     return not _SPECIFIC.search(sentence)
 
@@ -499,6 +572,11 @@ class KnowledgeSwarm:
     transport: object | None = None
 
     def __post_init__(self) -> None:
+        # What the filters threw away on the last draft, by reason. Kept because
+        # "the Assessor discards some sentences" is not an answer to "what does
+        # the Assessor discard" -- and because every defect in this pipeline so
+        # far was found by reading what it produced, not by counting it.
+        self.discarded: dict[str, int] = {}
         self.scout = KnowledgeScout(self.searcher, self.skiplist)
         self.assessor = Assessor(model=self.model, transport=self.transport)
         # The judgement step gets the stronger model; the Assessor keeps the
@@ -506,13 +584,14 @@ class KnowledgeSwarm:
         self.compiler = KnowledgeCompiler(model=self.judge,
                                           transport=self.transport)
 
-    def draft(self, key: str) -> Entry:
+    def draft(self, key: str) -> Entry:  # noqa: D401
         """One unreviewed entry for one claim.
 
         Never returns a reviewed entry, and cannot: `Entry` defaults to
         `reviewed=False` and nothing here sets it. Endorsement is the author's
         act alone.
         """
+        self.discarded = {}
         candidates = self.scout.find(key)
         topic = topic_for(key)
 
@@ -552,7 +631,14 @@ class KnowledgeSwarm:
         if self.select == "assessor":
             return self.assessor.read(topic, candidate, body)
 
-        broad = [s for s in self.assessor.candidates(body) if is_broad(s)]
+        offered = self.assessor.candidates(body)
+        broad = []
+        for sentence in offered:
+            reason = self._why_dropped(sentence)
+            if reason:
+                self.discarded[reason] = self.discarded.get(reason, 0) + 1
+            else:
+                broad.append(sentence)
         if not broad:
             return Reading(candidate, ())
         if self.select == "none":
@@ -561,6 +647,18 @@ class KnowledgeSwarm:
             # and any other order would be a selection wearing a disguise.
             return Reading(candidate, tuple(broad[: self.per_page]))
         return Reading(candidate, self._pick_definitions(topic, broad, candidate))
+
+    @staticmethod
+    def _why_dropped(sentence: str) -> str:
+        """The filter that refused this sentence, or "" if it survived."""
+        if is_broad(sentence):
+            return ""
+        commentary = reads_as_commentary(sentence)
+        if commentary:
+            return commentary.split(":")[0]
+        if _SPECIFIC.search(sentence):
+            return "names a square or a move: about one position"
+        return "junk: length, advertising, navigation or an analysis line"
 
     def _pick_definitions(self, topic: str, sentences, candidate) -> tuple[str, ...]:
         """The Assessor's index trick, asked for definitions instead of plans."""

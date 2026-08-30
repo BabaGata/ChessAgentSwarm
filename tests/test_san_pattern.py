@@ -38,7 +38,7 @@ PROSE = [
     "The knight is the most common forking piece because of its unusual move.",
     "Castling is a move involving the king and one of the rooks.",
     "An outpost is a square that cannot be attacked by an enemy pawn.",
-    "This costs material and is hard to recover from.",
+    "Losing a piece this way costs material and is hard to recover from.",
 ]
 
 

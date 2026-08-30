@@ -164,6 +164,12 @@ def main() -> int:
         else:
             print(f"  {key:20} nothing usable found"
                   f" ({len(entry.sources)} source(s) read)")
+        # What the filters refused, so a run that produces nothing still says
+        # what it saw. Ordered by count: the commonest reason is the one worth
+        # arguing with.
+        for reason, count in sorted(swarm.discarded.items(),
+                                    key=lambda kv: -kv[1])[:4]:
+            print(f"  {'':20}   dropped {count:>4}  {reason}")
 
     base.save(args.out)
     swarm.skiplist.save()
