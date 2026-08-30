@@ -67,6 +67,22 @@ TOPICS = {
     "allows_pressure": "allowing pressure against the king in chess",
 }
 
+# The Assessor picks sentences by the hundred and `qwen2.5:3b` does it well
+# enough. The Compiler makes ONE judgement that decides the entry -- is this
+# sentence a definition, or an example of the thing? -- and measured on the same
+# eight notes, the 3b model picked the example while both larger models picked
+# the definition:
+#
+#     qwen2.5:3b       "The Knight forks the King and Rook, forcing..."   example
+#     qwen3:8b         "An absolute fork is when a piece attacks two..."  definition
+#     phi4-mini:3.8b   "An absolute fork is when a piece attacks two..."  definition
+#
+# Two attempts at fixing this in the prompt failed first: told to pick the best
+# sentence it returned a plausible wrong one, and told that refusing was usually
+# right it refused a page that did contain a definition. The distinction is a
+# capability, not a wording.
+JUDGE_MODEL = "qwen3:8b"
+
 COMPILER_SCHEMA = ollama.schema_of(
     definition={"type": "integer"},
     why={"type": "string"},
@@ -84,11 +100,12 @@ material you may use. You may not add chess knowledge of your own.
 
 Answer as JSON with three fields:
 
-"definition": the NUMBER of the single sentence that says what {topic} actually
-is. Choose a number from the list. Do not write a sentence.
-If NONE of the sentences says what {topic} is, answer -1. Most pages are about
-something else, so -1 is the right answer more often than not. Do not pick the
-closest sentence -- a sentence about a different subject is worse than none.
+"definition": the NUMBER of the sentence that says what {topic} IS -- a sentence
+that would still make sense to someone who had never heard the term. An example
+of it happening ("the knight forks the king and rook") is NOT a definition, and
+neither is a sentence about a different subject.
+Choose a number from the list. Do not write a sentence.
+If no sentence defines {topic}, answer -1.
 
 "why": one sentence on what it costs a player who gets this wrong, using only
 what the sentences above say. If the sentences do not say, answer "".
@@ -157,7 +174,7 @@ class KnowledgeScout:
 class KnowledgeCompiler:
     """Assembles one entry. Chooses a definition, writes at most two fields."""
 
-    model: str = MODEL
+    model: str = JUDGE_MODEL
     host: str = ollama.OLLAMA_URL
     practice: int = 2
     transport: object | None = None
@@ -214,8 +231,17 @@ By index, so the definition is the page's own words by construction and
         field** is the model ignoring the one instruction that matters here.
         Clamping either would silently pick a sentence nobody chose.
 
-        **-1 means no sentence defines the topic, and it is the important
-        answer.** The first live run drafted a "definition" of castling that read
+        **-1 means no sentence defines the topic**, and getting the instruction
+        for it right took two attempts. Told merely to pick the best sentence,
+        the model returned a plausible wrong one; told that refusing was *usually*
+        right, it refused a page containing *"an absolute fork is when a piece
+        attacks two or more enemy pieces simultaneously, one of them being the
+        King"*. **A refusal option needs a criterion, not a bias** -- the prompt
+        now says what a definition is (a sentence that would make sense to
+        someone who had never heard the term) rather than how often to expect
+        one.
+
+        The first live run drafted a "definition" of castling that read
         *"There are two possible moves that place a pawn in the centre of the
         board"* -- a real sentence, verbatim from a real page, about something
         else entirely. Choosing by index guarantees provenance; it cannot
@@ -247,13 +273,16 @@ class KnowledgeSwarm:
     fetch: object
     skiplist: SkipList = field(default_factory=SkipList.seeded)
     model: str = MODEL
+    judge: str = JUDGE_MODEL
     read: int = 4
     transport: object | None = None
 
     def __post_init__(self) -> None:
         self.scout = KnowledgeScout(self.searcher, self.skiplist)
         self.assessor = Assessor(model=self.model, transport=self.transport)
-        self.compiler = KnowledgeCompiler(model=self.model,
+        # The judgement step gets the stronger model; the Assessor keeps the
+        # cheap one, where it is measured to be adequate.
+        self.compiler = KnowledgeCompiler(model=self.judge,
                                           transport=self.transport)
 
     def draft(self, key: str) -> Entry:

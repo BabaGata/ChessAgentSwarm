@@ -34,23 +34,51 @@
 use_default_settings:
   engines:
     keep_only:
-      # Two small independent indexes that tolerate a low-volume metasearch.
+      # Small independent indexes that tolerate a low-volume metasearch. mwmbl
+      # is the one that earns its place: it is the only engine that reached
+      # "Hanging Piece - Chess Terms - Chess.com", which is exactly the genre
+      # the knowledge base needs (E63).
       - mojeek
       - mwmbl
-      # Keyless, reliable, and the right genre for motif definitions -- which is
-      # what the knowledge base needs (design.knowledge-base). For opening
-      # *plans* the author read Wikimedia prose and refused it as too advanced,
-      # so this is a reference of last resort there and a primary source here.
+      - crowdview
+      # Measured and REMOVED: `yep` and `fireball` were unresponsive on every
+      # motif query tried, so they cost a request each and a timeout wait, and
+      # returned nothing. An engine that never answers is worse than an engine
+      # that is absent, because SearxNG reports it as unresponsive and the
+      # searcher treats a fully unresponsive result set as "could not ask".
+      # Encyclopaedic and definition-shaped, which is what a motif entry is.
+      - encyclosearch
+      - ddg definitions
+      - curlie
+      # Keyless and reliable. `wikipedia` contributes almost nothing in practice
+      # -- its engine answers on near-exact titles rather than questions -- but
+      # it costs one cheap request and occasionally lands the right article.
       - wikipedia
       - wikibooks
+      # Deliberately ABSENT: google, google cse, duckduckgo, startpage, brave.
+      # Measured over a day, those four CAPTCHA or 403 a metasearch container,
+      # after which every query returns empty and the swarm reports an empty
+      # web. They are the reason the fan-out looked like the problem.
 
 # `keep_only` decides which engines survive; this decides how they behave.
 # `mwmbl` and `wikibooks` ship disabled by default, so keeping them is not
 # enough -- they have to be switched on as well.
+# `keep_only` decides which engines survive; this decides how they behave. Most
+# of these ship disabled, so keeping them is not enough -- they have to be
+# switched on as well. An unknown name here is ignored silently, which is how
+# the previous config believed it had enabled `marginalia` and `stract`.
 engines:
   - name: mojeek
     disabled: false
   - name: mwmbl
+    disabled: false
+  - name: crowdview
+    disabled: false
+  - name: encyclosearch
+    disabled: false
+  - name: ddg definitions
+    disabled: false
+  - name: curlie
     disabled: false
   - name: wikipedia
     disabled: false
