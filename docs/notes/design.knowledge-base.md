@@ -9,7 +9,8 @@ created: 1788912000000
 # A knowledge base for the detectors
 
 **Source:** the author, 2026-08-30 · **Fills:** the *"runtime knowledge store — does not exist;
-designed in M3"* row in [[capacity.knowledge]] · **Status:** **Option C chosen by the author 2026-08-30** — the swarm drafts, the author approves, and LLM agents are used as far as they can be. Design only, no code
+designed in M3"* row in [[capacity.knowledge]] · **Status:** **Option C chosen by the author 2026-08-30** — the swarm drafts, the author approves, and LLM agents are used as far as they can be. **Foundation built 2026-08-30**: `chesscoach/knowledge.py` (schema, store, review gate),
+`FallbackSearcher`, and the SearxNG fix. The drafting swarm is next
 
 ## The request
 
@@ -305,6 +306,28 @@ to defeat bot detection, and rotating proxies to evade IP blocks, are circumvent
 controls the sites deliberately put up. They are also self-defeating here: the honest User-Agent is
 *why* the Lichess and Wikimedia APIs work reliably, and an evasive one puts that at risk to gain
 access to engines that have already said no.
+
+## What is built
+
+| piece | state |
+|---|---|
+| retrieval unblocked | **done** — 84 engines → 4, verified live |
+| Wikimedia fallback, **labelled** | **done** — `FallbackSearcher.fell_back` records the substitution |
+| entry schema + store + review gate | **done** — `chesscoach/knowledge.py`, 13 tests |
+| free-tier cap for a keyed provider | **done** — `chesscoach/quota.py`, 12 tests |
+| the drafting swarm | next |
+| the cost template | after that |
+
+**The fallback reverses `SearxSearcher`'s "no fallback" rule, deliberately and only here.** That rule
+is about *genre*: Wikimedia prose was refused for opening plans as too advanced. For motif
+definitions the judgement goes the other way, and a live comparison confirmed it — Wikibooks'
+*Chess Strategy/Pawn structure/Doubled pawns* was the best hit returned for any query tried. What
+makes it safe is that the substitution is **recorded** rather than silent, which is precisely the
+property whose absence made the original rule necessary.
+
+**Retrieval quality is uneven and that is expected.** The same run that returned the doubled-pawns
+page returned *Scouting/BSA/Chess Merit Badge* for "fork". Discarding that is the Assessor's job and
+the reason the swarm has one.
 
 ## Sequencing
 

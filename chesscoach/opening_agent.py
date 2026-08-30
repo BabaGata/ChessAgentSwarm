@@ -419,3 +419,57 @@ def _fetch_json(url: str, attempts: int = 4) -> dict:
         except Exception as error:
             raise SearchUnavailable(f"{url} -> {type(error).__name__}") from None
     raise SearchUnavailable(f"{url} -> gave up after {attempts} attempts")
+
+
+class FallbackSearcher:
+    """Try a real web search; fall back to Wikimedia, and say that it did.
+
+    **This deliberately reverses `SearxSearcher`'s "no fallback" rule, and only
+    for one use.** That rule exists because swapping a real opening guide for an
+    encyclopaedia article *"would look like success and read like a downgrade,
+    which is L-046 with worse consequences because the output would be
+    plausible"*. That reasoning is about **genre**: Wikimedia's prose was read by
+    the author and refused as too advanced for a 1500-rated player's opening
+    plans.
+
+    For **motif definitions** the genre judgement goes the other way. Wikibooks'
+    *Chess Strategy/Pawn structure/Doubled pawns* is exactly the right kind of
+    page, and it was the single best hit in a live comparison. So a fallback is
+    a downgrade for opening plans and is not one here.
+
+    The protection that makes it safe is `fell_back`: the substitution is
+    **recorded**, never silent. A caller that stores which searcher answered can
+    tell a Wikimedia entry from a web one afterwards, which is the property
+    whose absence made the original rule necessary.
+    """
+
+    def __init__(self, primary, fallback=None) -> None:
+        self.primary = primary
+        self.fallback = fallback or WikimediaSearcher()
+        self.name = (f"{getattr(primary, 'name', 'searcher')}"
+                     f"+{getattr(self.fallback, 'name', 'fallback')}")
+        # Which searcher answered the last query. Read it before trusting the
+        # results to be what you asked for.
+        self.fell_back = False
+
+    def search(self, gap: Gap) -> list[tuple[str, str, str]]:
+        return [(t, u, p) for t, u, p, *_ in self.search_detailed(gap)]
+
+    def search_detailed(self, gap: Gap):
+        self.fell_back = False
+        try:
+            found = _detailed_results(self.primary, gap)
+            if found:
+                return found
+        except SearchUnavailable:
+            pass  # recorded below, not swallowed
+        self.fell_back = True
+        return _detailed_results(self.fallback, gap)
+
+
+def _detailed_results(searcher, gap: Gap):
+    """Results with snippets, from a searcher that may not offer them."""
+    detailed = getattr(searcher, "search_detailed", None)
+    if detailed is not None:
+        return list(detailed(gap))
+    return [(t, u, p, "") for t, u, p in searcher.search(gap)]

@@ -58,3 +58,6 @@ data/raw/out/peers-strict*.json
 
 # Search quota ledger: local spending record, not shared state
 data/search-quota.json
+
+# Knowledge base: drafted entries, regenerable, author-reviewed
+data/knowledge.json
