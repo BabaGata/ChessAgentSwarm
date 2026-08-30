@@ -64,3 +64,6 @@ data/knowledge.json
 
 # Drafted knowledge entries: regenerable, author-reviewed
 data/knowledge.json
+
+# Public-domain books: 1.4 MB, reproducible from experiments/e64-books/fetch.py
+data/books/

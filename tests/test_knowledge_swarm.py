@@ -194,7 +194,13 @@ class TestEndToEnd:
             def __call__(self, url, body, timeout=None):
                 return {"response": answers.pop(0) if answers else "{}"}
 
-        swarm = KnowledgeSwarm(Searcher(), lambda url: page, transport=Transport())
+        # An empty shelf, so this tests the WEB path. Book coverage has its own
+        # tests; mixing them here would leave the web path unexercised the day
+        # the shelf happens to answer.
+        from chesscoach.books import BookLibrary
+
+        swarm = KnowledgeSwarm(Searcher(), lambda url: page, transport=Transport(),
+                               library=BookLibrary({}))
         entry = swarm.draft("fork")
         assert entry.key == "fork"
         assert entry.reviewed is False

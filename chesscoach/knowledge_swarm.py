@@ -33,6 +33,7 @@ from dataclasses import dataclass, field
 import re
 
 from chesscoach import ollama
+from chesscoach.books import BookLibrary, is_book
 from chesscoach.grounding import check
 from chesscoach.knowledge import Entry, Source
 from chesscoach.opening_agent import Gap, SearchUnavailable
@@ -130,7 +131,17 @@ _SPECIFIC = re.compile(
     r"|\b[01\u00bd]-[01\u00bd]\b"
     # Numbered moves: "12. Nf3", "5...c5", "1.e4".
     r"|\b\d+\.{1,3}\s*[KQRBNa-h]"
+    # DESCRIPTIVE notation, which is what the public-domain books use: "P-K4",
+    # "Kt-KB3", "QR-Q1", "B x Kt", and the spaced forms Capablanca's typesetter
+    # preferred, "Kt - K B 3". Added when the books came in: the algebraic
+    # pattern caught none of it, so "Kt - Q B 3 This developing move at the same
+    # time defends the King's Pawn" read as a general statement about
+    # development when it is a note on one move of one game.
+    r"|\b(?:Kt|[KQRBNP])\s*[-x]\s*(?:Kt|[KQRBNP1-8])"
+    # A bare descriptive square: "K 4", "Q B 3", "KB3", "K R 1".
+    r"|\b[KQ]\s?[KQRBN]?\s?[RBNP]?\s?[1-8]\b"
 )
+
 
 
 # --- what a definition is not ------------------------------------------------
@@ -559,6 +570,12 @@ class KnowledgeSwarm:
     searcher: object
     fetch: object
     skiplist: SkipList = field(default_factory=SkipList.seeded)
+    # Public-domain chess books, read before the web. A book by a world
+    # champion is about chess by construction, so it needs none of the
+    # machinery built to keep out a Beyonce film -- and it is strong in
+    # exactly the places the web returned nothing: castling, development,
+    # pins.
+    library: BookLibrary = field(default_factory=BookLibrary.load)
     model: str = MODEL
     judge: str = JUDGE_MODEL
     read: int = 4
@@ -577,6 +594,8 @@ class KnowledgeSwarm:
         # the Assessor discard" -- and because every defect in this pipeline so
         # far was found by reading what it produced, not by counting it.
         self.discarded: dict[str, int] = {}
+        # Book text by locator, so `_body` serves a passage without a fetch.
+        self._passages: dict[str, str] = {}
         self.scout = KnowledgeScout(self.searcher, self.skiplist)
         self.assessor = Assessor(model=self.model, transport=self.transport)
         # The judgement step gets the stronger model; the Assessor keeps the
@@ -592,8 +611,10 @@ class KnowledgeSwarm:
         act alone.
         """
         self.discarded = {}
-        candidates = self.scout.find(key)
         topic = topic_for(key)
+        # Books first. They are fewer, better, and free of the failure modes
+        # the web keeps producing, so they take the first `read` slots.
+        candidates = self._from_books(topic) + self.scout.find(key)
 
         notes: list[str] = []
         sources: list[Source] = []
@@ -601,7 +622,10 @@ class KnowledgeSwarm:
             body = self._body(candidate)
             if not body:
                 continue
-            if not is_about(topic, candidate, body):  # noqa: E501
+            # A curated shelf needs no relevance gate: the author chose the
+            # books, and a passage of Capablanca can say "chess" zero times
+            # and still be Capablanca.
+            if not is_book(candidate.url) and not is_about(topic, candidate, body):
                 # Refused before any model call: a page that is not about the
                 # topic cannot contain a definition of it, and its sentences
                 # would only give the judge something plausible to pick.
@@ -684,7 +708,19 @@ class KnowledgeSwarm:
                 break
         return tuple(kept[: self.per_page])
 
+    def _from_books(self, topic: str) -> list[Candidate]:
+        """Book passages about this topic, as candidates the pipeline reads."""
+        if not len(self.library):
+            return []
+        found = []
+        for book, locator, passage in self.library.passages(key_terms(topic)):
+            self._passages[locator] = passage
+            found.append(Candidate(book.title, locator, book.publisher, ""))
+        return found
+
     def _body(self, candidate: Candidate) -> str:
+        if is_book(candidate.url):
+            return self._passages.get(candidate.url, "")
         try:
             return self.fetch(candidate.url) or ""
         except Exception:
