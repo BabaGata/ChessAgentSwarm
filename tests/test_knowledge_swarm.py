@@ -380,3 +380,79 @@ class TestThePageMustBeAboutChess:
                       url="http://libcom.org/book/export/html/1185"),
             body,
         )
+
+
+class TestNeitherSourceStarvesTheOther:
+    """Books and the web fail in opposite places, so both must be read.
+
+    Prepending books to one shared budget of four meant the web was never
+    reached: across fourteen redrafted entries the sources were 34 books and
+    ZERO pages, and `fork` lost a real definition to a game annotation.
+    """
+
+    def test_the_web_is_still_read_when_the_shelf_answers(self):
+        from chesscoach.books import SHELF, BookLibrary
+
+        page = "Chess forks. " + "A fork is a move attacking two enemy pieces. " * 30
+        shelf = {SHELF[0].slug: "A fork attacks two pieces at once in chess. " * 60}
+
+        class Searcher:
+            name = "fake"
+
+            def search(self, gap):
+                return [("Forks in chess", "https://example.org/chess-forks", "Web")]
+
+        answers = [json.dumps({"keep": [0, 1, 2]})] * 8 + [
+            json.dumps({"definition": 0, "why": "", "practice": []})
+        ]
+
+        class Transport:
+            def __call__(self, url, body, timeout=None):
+                return {"response": answers.pop(0) if answers else "{}"}
+
+        swarm = KnowledgeSwarm(Searcher(), lambda url: page, transport=Transport(),
+                               library=BookLibrary(shelf))
+        entry = swarm.draft("fork")
+        publishers = {s.publisher for s in entry.sources}
+        assert any("Web" in p for p in publishers), publishers
+
+    def test_the_budgets_are_separate_numbers(self):
+        from chesscoach.books import BookLibrary
+
+        swarm = KnowledgeSwarm(None, None, library=BookLibrary({}))
+        assert swarm.read_books and swarm.read_web
+
+
+class TestADefinitionOfTheWrongThing:
+    """A page about tactics defines several of them.
+
+    Asked for `fork`, the judge returned "a skewer happens when a chess piece
+    attacks an opponent's chessman, which hides a less important piece behind
+    it" -- a correct definition, verbatim from a relevant page, of a DIFFERENT
+    tactic. Nothing upstream of the judge can see that: the page is about chess,
+    the sentence is broad, and it defines something.
+    """
+
+    def test_a_definition_of_another_tactic_is_refused(self):
+        notes = ("A skewer happens when a piece attacks a man with a less "
+                 "important piece behind it.",)
+        entry = compiler({"definition": 0, "why": "", "practice": []}).compile(
+            "fork", notes, sources()
+        )
+        assert entry.definition == ""
+
+    def test_a_definition_naming_the_claim_is_kept(self):
+        notes = ("A fork is a move that attacks two enemy pieces at once.",)
+        entry = compiler({"definition": 0, "why": "", "practice": []}).compile(
+            "fork", notes, sources()
+        )
+        assert entry.definition == notes[0]
+
+    def test_it_matches_the_claims_vocabulary_not_its_key(self):
+        # `hangingPiece` is named by "en prise" as readily as by "hanging" --
+        # the key is this project's jargon and the sentence will not use it.
+        notes = ("To put a piece en prise is to play it so that it may be captured.",)
+        entry = compiler({"definition": 0, "why": "", "practice": []}).compile(
+            "hangingPiece", notes, sources()
+        )
+        assert entry.definition == notes[0]

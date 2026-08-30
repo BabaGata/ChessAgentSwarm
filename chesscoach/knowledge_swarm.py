@@ -467,6 +467,33 @@ def is_about(topic: str, candidate: Candidate, body: str) -> bool:
     return any(term in haystack for term in terms)
 
 
+# Chess words general enough to appear in a definition of anything. They are
+# useful for FINDING a page and useless for VERIFYING what a sentence is about:
+# "attack", from `fork`'s phrase "double attack", matched "a skewer happens when
+# a piece ATTACKS a man" and let a skewer through as a fork.
+_GENERIC = frozenset({
+    "attack", "attacks", "attacked", "attacking", "tactic", "tactics",
+    "defend", "defender", "defence", "defense", "square", "squares",
+    "capture", "captured", "material", "advantage", "weakness", "weak",
+})
+
+
+def _names(sentence: str, key: str) -> bool:
+    """Does this sentence mention the thing it is supposed to define?
+
+    Checked against the claim's own vocabulary rather than its key, since the
+    key is this project's jargon: `late_castling` is named by "castling" and
+    `hangingPiece` by "en prise" as readily as by "hanging".
+
+    **Broad for finding, narrow for verifying.** The generic half of that
+    vocabulary is dropped here: it earns its place in a query and gives a false
+    match in a check.
+    """
+    low = sentence.lower()
+    distinctive = all_terms(key) - _GENERIC
+    return any(term in low for term in (distinctive or all_terms(key)))
+
+
 def topic_for(key: str) -> str:
     """The single best phrase for a claim key."""
     return terms_for(key)[0]
@@ -560,6 +587,15 @@ class KnowledgeCompiler:
         data = ollama.as_json(answer)
 
         quote = self._quote(data, notes)
+        # **A definition of the wrong thing is not a definition.** A page about
+        # chess tactics defines several of them, and asked for `fork` the judge
+        # returned "a skewer happens when a chess piece attacks an opponent's
+        # chessman, which hides a less important piece behind it" -- a correct
+        # definition, verbatim, of a different tactic. The page was relevant and
+        # the sentence was a definition; only the subject was wrong, which no
+        # filter upstream of here can see.
+        if quote and not _names(quote, key):
+            quote = ""
         source_text = " ".join(notes)
         why = self._grounded(str((data or {}).get("why", "")).strip(), source_text)
         practice = tuple(
@@ -641,7 +677,15 @@ class KnowledgeSwarm:
     library: BookLibrary = field(default_factory=BookLibrary.load)
     model: str = MODEL
     judge: str = JUDGE_MODEL
-    read: int = 4
+    # Read budget, SPLIT rather than shared. Prepending books to one list of
+    # four meant the web was never reached: across fourteen redrafted entries
+    # the sources were 34 books and **zero** pages, and `fork` lost a real
+    # definition from chessmood to a Lasker game annotation.
+    #
+    # The two sources fail in opposite places -- books have no word for a skewer
+    # and the web has no Capablanca -- so neither may starve the other.
+    read_books: int = 2
+    read_web: int = 3
     # How the sentences offered to the judge are chosen:
     #   "assessor"   the opening Assessor, unchanged -- the arm that fails
     #   "definition" a model pick with the veto INVERTED to keep broad sentences
@@ -677,11 +721,13 @@ class KnowledgeSwarm:
         topic = topic_for(key)
         # Books first. They are fewer, better, and free of the failure modes
         # the web keeps producing, so they take the first `read` slots.
-        candidates = self._from_books(key) + self.scout.find(key)
+        from_books = self._from_books(key)[: self.read_books]
+        from_web = self.scout.find(key)[: self.read_web]
+        candidates = from_books + from_web
 
         notes: list[str] = []
         sources: list[Source] = []
-        for candidate in candidates[: self.read]:
+        for candidate in candidates:
             body = self._body(candidate)
             if not body:
                 continue
