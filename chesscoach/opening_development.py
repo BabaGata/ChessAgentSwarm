@@ -34,7 +34,7 @@ from dataclasses import dataclass
 import chess
 
 from chesscoach.analysis.observations import Observation
-from chesscoach.development import Development, measure_development
+from chesscoach.development import HOME_SQUARES, Development, measure_development
 from chesscoach.development_norms import DevelopmentNorms
 from chesscoach.openings import OpeningBook, _family
 
@@ -168,6 +168,44 @@ class Tally:
                 self.examples.append(example)
 
 
+def engine_wanted_development(observation: Observation) -> bool:
+    """Did the engine want a piece developed, or the king castled, right here?
+
+    **The condition that makes the claim's NAME true**, added after reading the
+    positions rather than the counts. Across the review corpus the engine wanted
+    another *pawn* move on 40 % of the moves `pawn_error` charged, 28 % of
+    `repeat_move`'s and 31 % of the castling claim's -- and wanted castling on
+    only 26 % of the moves the castling claim was built from.
+
+    Those instances are real errors. They are simply not errors *of this habit*:
+    "you pushed the wrong pawn" is not "you pushed a pawn instead of
+    developing", and a plan built on the second would send the player to fix the
+    wrong thing. The statistics were sound and the sentence they would produce
+    was not, which no count could have revealed.
+
+    Deliberately broader than "the engine wanted exactly this": a plan to castle
+    is a slow preference, and the engine rarely insists on it at one specific
+    ply. Wanting *development or castling* is the habit's own claim.
+    """
+    if not observation.best_move:
+        return False
+    board = chess.Board(observation.fen_before)
+    try:
+        move = chess.Move.from_uci(observation.best_move)
+    except ValueError:
+        return False
+    if board.is_castling(move):
+        return True
+    piece = board.piece_at(move.from_square)
+    if piece is None or piece.piece_type not in (chess.KNIGHT, chess.BISHOP):
+        return False
+    # **From its home square.** A bishop already on b4 playing Bxc3 moves a
+    # minor without developing one, and counting it would let the claim say
+    # "you should have developed" about a capture. Found by reading the first
+    # sampled position, after the counts had already been believed once.
+    return move.from_square in HOME_SQUARES[piece.color]
+
+
 def _is_theory(game: GameDevelopment, ply: int) -> bool:
     """Was this move still inside named theory?
 
@@ -211,6 +249,8 @@ def habit_costs(game: GameDevelopment) -> dict[str, float]:
     for window_move in game.development.window_moves:
         observation = by_ply.get(window_move.ply)
         if observation is None or _is_theory(game, window_move.ply):
+            continue
+        if not engine_wanted_development(observation):
             continue
         loss = observation.loss_wp
         if window_move.pawn_instead_of_developing:
@@ -276,7 +316,7 @@ def count(
             if observation is None:
                 continue
             pawns.opportunities += 1
-            if observation.is_error:
+            if observation.is_error and engine_wanted_development(observation):
                 pawns.instances += 1
                 pawns.games.add(game.game_id)
                 pawns.examples.append(observation)

@@ -49,27 +49,26 @@ cost model, so these are comparable with every other claim.
 
 habit            median      p90      max   share of opening loss
 ------------------------------------------------------------------
-repeat            3.219    7.979   11.641                     6%
-pawn              2.526    8.653   11.369                     5%
-no_castle         2.790    7.491   14.709                     5%
+repeat           19.862   43.006   53.796                    36%
+pawn             11.440   25.507   27.096                    19%
+no_castle         9.335   32.201   45.293                    17%
 
-Charging a habit ONLY where the engine wanted development or
-castling instead -- the condition that makes the claim's name true.
-What it removes:
+The author's gambit guard: a move the book still names is theory,
+not the player's mistake. What excluding it changes:
 
-habit               loose    strict    change
+habit           unguarded   guarded    change
 ---------------------------------------------
-repeat             19.862     3.219     -84%
-pawn               11.440     2.526     -78%
-no_castle           9.335     2.790     -70%
+repeat             20.432    19.862      -3%
+pawn               12.826    11.440     -11%
+no_castle           9.702     9.335      -4%
 
 And the pawn claim as a RATE OF ERROR rather than a rate of pawn
 moves -- the question E59's dropped claim could not ask:
 
-  pawn moves that were errors: p10 8%  median 28%  p90 50%  spread 42%
-  r with the overall opening error rate: 0.31
+  pawn moves that were errors: p10 12%  median 25%  p90 36%  spread 24%
+  r with the overall opening error rate: 0.69
 
-ALL THREE         9.807   22.273   31.258
+ALL THREE        45.535   82.289  105.450
 whole opening    55.699  107.244  133.926
 
 ==========================================================================
@@ -82,7 +81,7 @@ which is what closed a section slot in E10 at +0.917.
 
 habit            r with opening error rate
 --------------------------------------------
-repeat                                0.54
-pawn                                  0.36
-no_castle                             0.35
-ALL THREE                             0.52
+repeat                                0.64
+pawn                                  0.65
+no_castle                             0.44
+ALL THREE                             0.73

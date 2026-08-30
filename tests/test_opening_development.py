@@ -232,11 +232,23 @@ class TestEvidence:
         assert tally.examples[0].ply == 19
 
 
-def observations_with_loss(sans, game_id, losses, player_is_white=True):
-    """A game where named plies lost win probability."""
+# Nc3 -- a developing move, legal throughout the SLOW_ITALIAN window. A habit is
+# only charged where the engine wanted development instead, so a fixture that
+# leaves `best_move` empty measures nothing.
+DEVELOPS = "b1c3"
+ANOTHER_PAWN = "d2d4"
+
+
+def observations_with_loss(sans, game_id, losses, player_is_white=True,
+                           best=DEVELOPS):
+    """A game where named plies lost win probability, and what was better."""
     rows = observations_for(sans, game_id, player_is_white)
     return tuple(
-        Observation(**{**o.__dict__, "loss_wp": losses.get(o.ply, 0.0)})
+        Observation(**{
+            **o.__dict__,
+            "loss_wp": losses.get(o.ply, 0.0),
+            "best_move": best if o.ply in losses else o.best_move,
+        })
         for o in rows
     )
 
@@ -330,6 +342,35 @@ class TestTheoryIsNotThePlayersMistake:
         assert habit_costs(game)["slow_development"] == 0.0
 
 
+class TestOnlyChargedWhenDevelopingWasBetter:
+    """The condition that makes each claim's NAME true.
+
+    Found by reading positions, not counts: across the review corpus the engine
+    wanted another *pawn* move on 40 % of the moves `pawn_error` charged. Those
+    are real errors and not errors of this habit -- "you pushed the wrong pawn"
+    is not "you pushed a pawn instead of developing", and a plan built on the
+    second sends the player to fix the wrong thing.
+    """
+
+    def test_a_move_the_engine_would_have_answered_with_a_pawn_is_not_charged(self, book):
+        rows = observations_with_loss(SLOW_ITALIAN, "g1", {7: 5.0},
+                                      best=ANOTHER_PAWN)
+        game, = developments(rows, PLAYER, book)
+        assert set(habit_costs(game).values()) == {0.0}
+
+    def test_the_same_move_is_charged_when_developing_was_better(self, book):
+        rows = observations_with_loss(SLOW_ITALIAN, "g1", {7: 5.0}, best=DEVELOPS)
+        game, = developments(rows, PLAYER, book)
+        assert habit_costs(game)["slow_development"] == 5.0
+
+    def test_an_unanalysed_move_is_never_charged(self, book):
+        # No engine opinion means no evidence that developing was better, and a
+        # missing answer must not read as a positive one (L-046).
+        rows = observations_with_loss(SLOW_ITALIAN, "g1", {7: 5.0}, best=None)
+        game, = developments(rows, PLAYER, book)
+        assert set(habit_costs(game).values()) == {0.0}
+
+
 class TestPawnErrorClaim:
     def test_it_counts_bad_pawn_moves_not_pawn_moves(self, book):
         # E59 measured that 1600s push as many pawns as 2600s in the same
@@ -339,8 +380,11 @@ class TestPawnErrorClaim:
         from chesscoach.analysis.observations import ErrorLabel
         rows = observations_for(SLOW_ITALIAN, "g1")
         marked = tuple(
-            Observation(**{**o.__dict__,
-                           "label": ErrorLabel.MISTAKE if o.ply == 7 else None})
+            Observation(**{
+                **o.__dict__,
+                "label": ErrorLabel.MISTAKE if o.ply == 7 else None,
+                "best_move": DEVELOPS if o.ply == 7 else o.best_move,
+            })
             for o in rows
         )
         tallies = count(marked, PLAYER, book, norms())

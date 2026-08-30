@@ -54,3 +54,4 @@ data/raw/corpus-strong/
 data/raw/out/peers-dev*.json
 data/raw/out/peers-cost*.json
 data/raw/out/peers-pawn*.json
+data/raw/out/peers-strict*.json

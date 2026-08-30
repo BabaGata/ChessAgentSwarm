@@ -1,0 +1,319 @@
+PAWN MOVES THE CLAIM CALLS ERRORS
+==============================================================================
+
+pawn-instead-of-developing moves examined   850
+of those, called errors                     98
+
+What the engine wanted instead, across ALL of them:
+    90  develops a minor   (92%)
+     8  castling   (8%)
+
+Every instance now has development or castling as the engine's own
+preference -- that condition was ADDED after a first reading of these
+positions found the engine wanting another pawn move 40 % of the
+time. So what is left for a person to judge is the chess: was
+developing really better here, or is the engine's preference thin?
+
+Mark each position:  [y] developing was better   [n] it was not
+                     [?] cannot tell
+
+==============================================================================
+[ ]  1.  Maximilian_Honigtopf plays 5...b5   (English Opening)
+
+  8  r . b q k . n r
+  7  . p p p . p p p
+  6  p . n . . . . .
+  5  . . . . p . . .
+  4  Q b P . . . . .
+  3  . . N . . . P .
+  2  P P . P P P B P
+  1  R . B . K . N R
+
+     a b c d e f g h
+
+     engine wanted   Bxc3   (develops a minor)
+     cost            26.9 win probability
+     still at home   bishop on c8, knight on g8
+     left book after ply 4
+     FEN  r1bqk1nr/1ppp1ppp/p1n5/4p3/QbP5/2N3P1/PP1PPPBP/R1B1K1NR b KQkq - 1 5
+
+==============================================================================
+[ ]  2.  cademan plays 12...c6   (Ruy Lopez)
+
+  8  r . b q k . n r
+  7  . p p p . p p p
+  6  p b . . . . . .
+  5  . . . . P . . .
+  4  B . . P . B . .
+  3  . . N . . . . .
+  2  P P . . . P P P
+  1  R . . Q . R K .
+
+     a b c d e f g h
+
+     engine wanted   Ne7   (develops a minor)
+     cost            6.4 win probability
+     still at home   bishop on c8, knight on g8
+     left book after ply 8
+     FEN  r1bqk1nr/1ppp1ppp/pb6/4P3/B2P1B2/2N5/PP3PPP/R2Q1RK1 b kq - 2 12
+
+==============================================================================
+[ ]  3.  Maximilian_Honigtopf plays 8.g5   (Philidor Defense)
+
+  8  r n . q k b . r
+  7  p . . . . p p p
+  6  . . p p . n . .
+  5  . p . . p . . .
+  4  . . B . P . P .
+  3  . . N . . Q . P
+  2  P P P P . P . .
+  1  R . B . K . . R
+
+     a b c d e f g h
+
+     engine wanted   Bb3   (develops a minor)
+     cost            12.3 win probability
+     still at home   bishop on c1
+     left book after ply 4
+     FEN  rn1qkb1r/p4ppp/2pp1n2/1p2p3/2B1P1P1/2N2Q1P/PPPP1P2/R1B1K2R w KQkq - 0 8
+
+==============================================================================
+[ ]  4.  Hirsican plays 5.f4   (Scandinavian Defense)
+
+  8  r n . q k b . r
+  7  p p p . . p p p
+  6  . . . . b n . .
+  5  . . . . . . . .
+  4  . . . P . . . .
+  3  . . . . . . . .
+  2  P P P . . P P P
+  1  R N B Q K B N R
+
+     a b c d e f g h
+
+     engine wanted   Nf3   (develops a minor)
+     cost            15.6 win probability
+     still at home   knight on b1, bishop on c1, bishop on f1, knight on g1
+     left book after ply 6
+     FEN  rn1qkb1r/ppp2ppp/4bn2/8/3P4/8/PPP2PPP/RNBQKBNR w KQkq - 1 5
+
+==============================================================================
+[ ]  5.  Odin5306 plays 5.b3   (Scandinavian Defense)
+
+  8  r n . q k b . r
+  7  p p p . . p p p
+  6  . . . . b n . .
+  5  . . . . . . . .
+  4  . . P . . . . .
+  3  . . . . . . . .
+  2  P P . P . P P P
+  1  R N B Q K B N R
+
+     a b c d e f g h
+
+     engine wanted   Nf3   (develops a minor)
+     cost            19.3 win probability
+     still at home   knight on b1, bishop on c1, bishop on f1, knight on g1
+     left book after ply 6
+     FEN  rn1qkb1r/ppp2ppp/4bn2/8/2P5/8/PP1P1PPP/RNBQKBNR w KQkq - 0 5
+
+==============================================================================
+[ ]  6.  Odin5306 plays 12...h6   (French Defense)
+
+  8  r n . . . k . r
+  7  p b . . . p p p
+  6  . p . b . q . .
+  5  . . p . . . . .
+  4  . . . p . . . .
+  3  . B . P . N . P
+  2  P P P . . P P .
+  1  R . B Q R . K .
+
+     a b c d e f g h
+
+     engine wanted   Bxf3   (develops a minor)
+     cost            5.7 win probability
+     still at home   knight on b8
+     left book after ply 2
+     FEN  rn3k1r/pb3ppp/1p1b1q2/2p5/3p4/1B1P1N1P/PPP2PP1/R1BQR1K1 b - - 0 12
+
+==============================================================================
+[ ]  7.  Odin5306 plays 7.e3   (Hungarian Opening)
+
+  8  r . . q k b . r
+  7  p p p b . p p p
+  6  . . n . p n . .
+  5  . . . . . . . .
+  4  . . Q . . . . .
+  3  . . N . . . P .
+  2  P P . P P P B P
+  1  R . B . K . N R
+
+     a b c d e f g h
+
+     engine wanted   Nf3   (develops a minor)
+     cost            10.1 win probability
+     still at home   bishop on c1, knight on g1
+     left book after ply 3
+     FEN  r2qkb1r/pppb1ppp/2n1pn2/8/2Q5/2N3P1/PP1PPPBP/R1B1K1NR w KQkq - 0 7
+
+==============================================================================
+[ ]  8.  goydorak plays 5.d4   (Four Knights Game)
+
+  8  r . b q k b . r
+  7  p p p . . p p p
+  6  . . n p . n . .
+  5  . . . . p . . .
+  4  . . B . P . . .
+  3  . . N . . N . .
+  2  P P P P . P P P
+  1  R . B Q K . . R
+
+     a b c d e f g h
+
+     engine wanted   Ng5   (develops a minor)
+     cost            6.2 win probability
+     still at home   bishop on c1
+     left book after ply 7
+     FEN  r1bqkb1r/ppp2ppp/2np1n2/4p3/2B1P3/2N2N2/PPPP1PPP/R1BQK2R w KQkq - 0 5
+
+==============================================================================
+[ ]  9.  bernes plays 8...a6   (Caro-Kann Defense)
+
+  8  r . . q k b n r
+  7  p p . . . p p p
+  6  . . n . p . . .
+  5  . . . p . . . .
+  4  . . . P . B . .
+  3  . . N B . Q . .
+  2  P P P . . P P P
+  1  R . . . K . . R
+
+     a b c d e f g h
+
+     engine wanted   Nxd4   (develops a minor)
+     cost            11.2 win probability
+     still at home   bishop on f8, knight on g8
+     left book after ply 6
+     FEN  r2qkbnr/pp3ppp/2n1p3/3p4/3P1B2/2NB1Q2/PPP2PPP/R3K2R b KQkq - 1 8
+
+==============================================================================
+[ ]  10.  Crossfire1983 plays 17.f5   (French Defense)
+
+  8  r . . . k . n r
+  7  . b . n q p p .
+  6  p . . . p . . .
+  5  . p . p P . . .
+  4  . P p P . P . .
+  3  . . P . . Q . .
+  2  P . . . K . B .
+  1  R N B . . R . .
+
+     a b c d e f g h
+
+     engine wanted   Bd2   (develops a minor)
+     cost            5.4 win probability
+     still at home   knight on b1, bishop on c1
+     left book after ply 7
+     FEN  r3k1nr/1b1nqpp1/p3p3/1p1pP3/1PpP1P2/2P2Q2/P3K1B1/RNB2R2 w kq - 4 17
+
+==============================================================================
+[ ]  11.  bjagus plays 8.a3   (French Defense)
+
+  8  r . b . k . n r
+  7  p p . . . p p p
+  6  . q n . p . . .
+  5  . . . p P . . .
+  4  . b . P . . . .
+  3  . . . . . N . .
+  2  P P . B . P P P
+  1  R N . Q K B . R
+
+     a b c d e f g h
+
+     engine wanted   Bxb4   (develops a minor)
+     cost            6.7 win probability
+     still at home   knight on b1, bishop on f1
+     left book after ply 9
+     FEN  r1b1k1nr/pp3ppp/1qn1p3/3pP3/1b1P4/5N2/PP1B1PPP/RN1QKB1R w KQkq - 3 8
+
+==============================================================================
+[ ]  12.  Sheriwoyama plays 13.b5   (King's Gambit Declined)
+
+  8  r . n q k . . r
+  7  . p p b n . b p
+  6  . . . . . . p .
+  5  p . P P . p . .
+  4  . P . . p P . .
+  3  . Q N . . . P .
+  2  P B . P N . . P
+  1  . . R . K B . R
+
+     a b c d e f g h
+
+     engine wanted   Nxe4   (develops a minor)
+     cost            5.6 win probability
+     still at home   bishop on f1
+     left book after ply 6
+     FEN  r1nqk2r/1ppbn1bp/6p1/p1PP1p2/1P2pP2/1QN3P1/PB1PN2P/2R1KB1R w Kkq - 0 13
+
+==============================================================================
+[ ]  13.  Maximilian_Honigtopf plays 15.b4   (Philidor Defense)
+
+  8  r . . q k . . r
+  7  p . . n . p . p
+  6  . . . . . p . .
+  5  . . b N p . . .
+  4  . . . . . . . .
+  3  . P . . . Q . P
+  2  P . . P . P . .
+  1  R . B . . R K .
+
+     a b c d e f g h
+
+     engine wanted   Nc7+   (develops a minor)
+     cost            14.1 win probability
+     still at home   bishop on c1
+     left book after ply 4
+     FEN  r2qk2r/p2n1p1p/5p2/2bNp3/8/1P3Q1P/P2P1P2/R1B2RK1 w kq - 3 15
+
+==============================================================================
+[ ]  14.  Crossfire1983 plays 5...e5   (Queen's Pawn Game)
+
+  8  r n . q k b n r
+  7  p p p . p p p p
+  6  . . . . . . . .
+  5  . . . . . . . .
+  4  . . p P . . . .
+  3  . . . . . P . P
+  2  P P . . . P P .
+  1  R N B Q K B . R
+
+     a b c d e f g h
+
+     engine wanted   Nd7   (develops a minor)
+     cost            9.0 win probability
+     still at home   knight on b8, bishop on f8, knight on g8
+     left book after ply 4
+     FEN  rn1qkbnr/ppp1pppp/8/8/2pP4/5P1P/PP3PP1/RNBQKB1R b KQkq - 0 5
+
+==============================================================================
+[ ]  15.  simonvj plays 4.e3   (English Opening)
+
+  8  r . b q k b . r
+  7  p p p p . p p p
+  6  . . n . . n . .
+  5  . . . . p . . .
+  4  . . P . . . . .
+  3  . . . . . . P .
+  2  P P . P P P B P
+  1  R N B Q K . N R
+
+     a b c d e f g h
+
+     engine wanted   Nc3   (develops a minor)
+     cost            9.3 win probability
+     still at home   knight on b1, bishop on c1, knight on g1
+     left book after ply 6
+     FEN  r1bqkb1r/pppp1ppp/2n2n2/4p3/2P5/6P1/PP1PPPBP/RNBQK1NR w KQkq - 3 4
+

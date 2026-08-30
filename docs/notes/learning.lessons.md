@@ -24,6 +24,31 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 
 ---
 
+### L-050 — A screen can show that a claim discriminates, never that its name is true
+**Date:** 2026-08-30 · **Cycle / mission step:** M6 · **Class:** technique
+**Context:** `pawn_error` shipped on good numbers — 24 % pooled rate, 18 of 71 players clearing the
+margin, r = 0.69 with the general error rate, one plan slot taken
+([[experiments.e61-habit-cost]]). The author asked for it to be checked.
+**Observation:** the first thing a sample of real instances printed was that **40 % of them had the
+engine preferring another *pawn* move** — so they were *"you pushed the wrong pawn"* filed under
+*"you pushed a pawn instead of developing"*. The same check found the castling claim wanting castling
+on only 26 % of the moves it charged. A second defect appeared in the **first position read**: a
+bishop already on b4 counted as "developing a minor". 850 instances, four screens and a peer
+reference had revealed neither ([[experiments.e62-reading-the-pawn-claim]]).
+**Lesson:** Every statistical screen asks whether a claim **discriminates**. None of them can ask
+whether it discriminates **for the reason its name gives**, because that needs a judgement about what
+the alternative was. So a claim's *name* is a separate hypothesis from its *signal*, and it is tested
+by reading instances — never by more counting. **A number that is correct and an interpretation
+that is wrong are indistinguishable from inside the numbers.** The practical rule: before a claim
+reaches a player, print what the alternative should have been on a sample of what it fires on, and
+read it. The fix here made the claims smaller and strictly better on every axis, so this is not a
+tax on shipping — it is how the borrowed strength gets taken out.
+**Applied to:** `engine_wanted_development` in `chesscoach/opening_development.py`,
+`experiments/e58-opening-development/pawn_sample.py`, and the standing debt that the other three
+development claims have not been read this way.
+
+---
+
 ### L-049 — If you cannot hand-build a positive fixture, the rule is telling you something
 **Date:** 2026-08-29 · **Cycle / mission step:** M6 · **Class:** technique
 **Context:** Rebuilding `fork` on the author's definition ([[experiments.e57-fork-rebuilt]]). Three

@@ -40,7 +40,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from chesscoach.analysis.core import analyse_corpus  # noqa: E402
 from chesscoach.ingest.corpus import build_corpus  # noqa: E402
-from chesscoach.opening_development import _is_theory, developments  # noqa: E402
+from chesscoach.opening_development import (  # noqa: E402
+    _is_theory,
+    developments,
+    engine_wanted_development,
+)
 from chesscoach.openings import OpeningBook  # noqa: E402
 from chesscoach.pipeline import engine_session, load_games  # noqa: E402
 
@@ -53,7 +57,8 @@ HABITS = (
 )
 
 
-def costs_for(observations, username, book, skip_theory: bool = True):
+def costs_for(observations, username, book, skip_theory: bool = True,
+              strict: bool = True):
     """Per-game cost of each habit, and the player's overall opening cost.
 
     `skip_theory` is the author's gambit guard: a move the book still names is
@@ -83,6 +88,12 @@ def costs_for(observations, username, book, skip_theory: bool = True):
             opening_loss += observation.loss_wp
             opening_errors += int(observation.is_error)
             if skip_theory and _is_theory(game, window_move.ply):
+                continue
+            # Charge the habit only where the engine wanted development or
+            # castling instead. Without this, 40 % of the pawn instances are
+            # "you pushed the wrong pawn" wearing this claim's name.
+            wanted = engine_wanted_development(observation)
+            if strict and not wanted:
                 continue
             if window_move.pawn_instead_of_developing:
                 pawn_opportunities += 1
@@ -127,8 +138,10 @@ def main() -> int:
             if corpus.n_games == 0:
                 continue
             observations = analyse_corpus(corpus, games, session.analyser)
-            guarded = costs_for(observations, path.stem, book, skip_theory=True)
-            raw = costs_for(observations, path.stem, book, skip_theory=False)
+            guarded = costs_for(observations, path.stem, book, skip_theory=True,
+                                strict=True)
+            raw = costs_for(observations, path.stem, book, skip_theory=True,
+                            strict=False)
             if guarded and raw:
                 rows.append((path.stem, guarded))
                 unguarded.append((path.stem, raw))
@@ -155,10 +168,11 @@ def main() -> int:
               f"{statistics.median(share):>23.0%}")
 
     print()
-    print("The author's gambit guard: a move the book still names is theory,")
-    print("not the player's mistake. What excluding it changes:")
+    print("Charging a habit ONLY where the engine wanted development or")
+    print("castling instead -- the condition that makes the claim's name true.")
+    print("What it removes:")
     print()
-    print(f"{'habit':<14}{'unguarded':>11}{'guarded':>10}{'change':>10}")
+    print(f"{'habit':<14}{'loose':>11}{'strict':>10}{'change':>10}")
     print("-" * 45)
     for name, _ in HABITS:
         before = statistics.median([r[1]["per_game"][name] for r in unguarded])
