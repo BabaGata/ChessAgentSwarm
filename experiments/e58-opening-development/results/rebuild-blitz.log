@@ -1,0 +1,183 @@
+  Aclr99: 29 games, 53 conditions
+  AGM_EliasBelmonte035: 27 games, 56 conditions
+  altaham: 28 games, 53 conditions
+  babakorisko: 30 games, 54 conditions
+  BASHENDI: 29 games, 53 conditions
+  bidochon: 30 games, 54 conditions
+  BLITZ_GRIEK: 29 games, 55 conditions
+  cafelitosolo: 29 games, 54 conditions
+  CheckZILLA1: 29 games, 55 conditions
+  chessmanuz2023: 29 games, 55 conditions
+  der_zocker09: 14 games, 55 conditions
+  Dhananjay2106: 30 games, 55 conditions
+  Drexy2525: 30 games, 55 conditions
+  ege_tagil: 30 games, 55 conditions
+  ElderlyCent: 30 games, 52 conditions
+  engin_demir007: 30 games, 54 conditions
+  ergili: 28 games, 54 conditions
+  FANG_2013: 28 games, 53 conditions
+  FeatureNotBug: 16 games, 52 conditions
+  g_sarp: 30 games, 49 conditions
+  garvitbhalla: 30 games, 53 conditions
+  goldmafia: 29 games, 50 conditions
+  Hamza29: 30 games, 51 conditions
+  hhussie: 30 games, 54 conditions
+  igorgg88: 30 games, 54 conditions
+  Ik_chih: 30 games, 54 conditions
+  JamesJB2017: 12 games, 48 conditions
+  kamilerden: 30 games, 53 conditions
+  karliderfl: 29 games, 51 conditions
+  khall74: 30 games, 54 conditions
+  Kirillinyo: 28 games, 53 conditions
+  ledlnakdfmn: 21 games, 48 conditions
+  leoausin: 30 games, 55 conditions
+  Lethal_Velociraptor: 28 games, 54 conditions
+  levit79: 30 games, 52 conditions
+  Mermed: 30 games, 54 conditions
+  MeryemZ: 29 games, 55 conditions
+  mira2004: 29 games, 51 conditions
+  Mishhking: 29 games, 55 conditions
+  mohansapa: 29 games, 55 conditions
+  MoisesEntenza: 24 games, 53 conditions
+  mooz1873: 28 games, 50 conditions
+  Moscadeiro97: 15 games, 52 conditions
+  Muhemmed_055: 30 games, 54 conditions
+  PawnSnatch2025: 17 games, 51 conditions
+  pooo94: 26 games, 54 conditions
+  Raddy7_best: 28 games, 54 conditions
+  RadinAhanin: 30 games, 55 conditions
+  Ramphoma: 29 games, 54 conditions
+  ronavjaswal: 26 games, 51 conditions
+  Sadi2016: 30 games, 54 conditions
+  SamLyn2023: 30 games, 54 conditions
+  Savely-2015: 28 games, 54 conditions
+  SerhiiNe: 22 games, 54 conditions
+  sinobaba: 29 games, 52 conditions
+  superkiko624: 29 games, 55 conditions
+  The_Nameless_Knight: 30 games, 55 conditions
+  Thehas0405: 22 games, 52 conditions
+  TheQueensVictory: 30 games, 52 conditions
+  tinoz21: 28 games, 53 conditions
+  Tobi-DE: 30 games, 53 conditions
+  Tom-Bombadil-0: 15 games, 51 conditions
+  TrustyPenguin: 29 games, 54 conditions
+  Vahramavakian: 30 games, 50 conditions
+  vinhhienbkhn196085: 28 games, 52 conditions
+merged into data/raw/out/peers-dev-rapid.json
+
+players  65
+band     1400-1800 / blitz at depth 15
+  allowed_motif.backRankMate.own             0.7%  (16/2395 moves, 14 players)
+  allowed_motif.capturingDefender.own        7.2%  (765/10670 moves, 65 players)
+  allowed_motif.discoveredAttack.own         2.9%  (302/10445 moves, 64 players)
+  allowed_motif.fork.own                     3.3%  (349/10523 moves, 64 players)
+  allowed_motif.hangingPawn.own             11.8%  (1262/10670 moves, 65 players)
+  allowed_motif.hangingPiece.own            10.5%  (1120/10670 moves, 65 players)
+  allowed_motif.pin.own                      5.1%  (549/10670 moves, 65 players)
+  allowed_motif.skewer.own                   1.0%  (84/8341 moves, 49 players)
+  allowed_motif.trappedPiece.own             3.5%  (362/10419 moves, 63 players)
+  allows_pressure.king.own                   1.3%  (422/32932 moves, 65 players)
+  allows_square.any.own                      2.2%  (855/39208 moves, 65 players)
+  allows_square.outpost.own                  1.1%  (434/39208 moves, 65 players)
+  allows_square.rook_seventh.own             1.1%  (422/39208 moves, 65 players)
+  concedes_weakness.any.own                  6.0%  (2352/39465 moves, 65 players)
+  concedes_weakness.backward.own             1.7%  (662/39465 moves, 65 players)
+  concedes_weakness.doubled.own              3.5%  (1398/39465 moves, 65 players)
+  concedes_weakness.isolated.own             2.3%  (923/39465 moves, 65 players)
+  early_error.any.own                       26.7%  (4774/17889 moves, 65 players)
+  early_error.black.own                     26.8%  (2337/8718 moves, 65 players)
+  early_error.white.own                     26.6%  (2437/9171 moves, 65 players)
+  endgame_error.any.own                     19.4%  (1250/6442 moves, 65 players)
+  endgame_error.minor.own                   19.4%  (239/1232 moves, 51 players)
+  endgame_error.pawn.own                    13.4%  (35/261 moves, 30 players)
+  endgame_error.queen.own                   22.6%  (228/1009 moves, 60 players)
+  endgame_error.rook.own                    14.6%  (259/1769 moves, 52 players)
+  endgame_error.rook_minor.own              22.5%  (489/2171 moves, 64 players)
+  executed_motif.capturingDefender.own      64.7%  (906/1401 moves, 65 players)
+  executed_motif.discoveredAttack.own       39.6%  (231/583 moves, 65 players)
+  executed_motif.fork.own                   46.4%  (205/442 moves, 64 players)
+  executed_motif.hangingPawn.own            59.5%  (1677/2819 moves, 65 players)
+  executed_motif.hangingPiece.own           80.8%  (2359/2921 moves, 65 players)
+  executed_motif.pin.own                    37.8%  (668/1769 moves, 65 players)
+  executed_motif.skewer.own                 39.3%  (35/89 moves, 45 players)
+  executed_motif.trappedPiece.own           39.5%  (247/625 moves, 65 players)
+  instant_move_error.instant_moves.own      21.0%  (4164/19807 moves, 65 players)
+  late_castling.book                        41.9%  (587/1400 moves, 65 players)
+  late_castling.own                         42.2%  (148/351 moves, 62 players)
+  long_think_error.long_think.own           39.1%  (2332/5969 moves, 65 players)
+  miscounted_exchange.own_move.own           1.8%  (181/9977 moves, 65 players)
+  missed_motif.capturingDefender.own        22.6%  (317/1401 moves, 65 players)
+  missed_motif.discoveredAttack.own         36.4%  (212/583 moves, 65 players)
+  missed_motif.fork.own                     36.2%  (160/442 moves, 64 players)
+  missed_motif.hangingPawn.own              23.8%  (670/2819 moves, 65 players)
+  missed_motif.hangingPiece.own              9.9%  (289/2921 moves, 65 players)
+  missed_motif.pin.own                      29.6%  (524/1769 moves, 65 players)
+  missed_motif.skewer.own                   32.6%  (29/89 moves, 45 players)
+  missed_motif.trappedPiece.own             38.7%  (242/625 moves, 65 players)
+  moved_into_attack.own_move.own             1.9%  (758/39661 moves, 65 players)
+  opening_disadvantage.any.own              23.5%  (412/1753 moves, 65 players)
+  plays_queenless.any.own                   26.6%  (10541/39661 moves, 65 players)
+  repeat_move.any                           45.1%  (14243/31610 moves, 65 players)
+  sacrificed_for_attack.own_move.own         1.3%  (132/9977 moves, 65 players)
+  slow_development.book                     47.9%  (670/1400 moves, 65 players)
+  slow_development.own                      51.9%  (182/351 moves, 62 players)
+  time_budget_error.after_overspending.own  34.7%  (111/320 moves, 21 players)
+  time_pressure_error.clock.own             25.0%  (1080/4312 moves, 64 players)
+  allowed_motif.backRankMate.own             0.8%  (14/1662 moves, 11 players)
+  allowed_motif.capturingDefender.own        6.8%  (698/10327 moves, 71 players)
+  allowed_motif.discoveredAttack.own         3.0%  (300/9961 moves, 68 players)
+  allowed_motif.fork.own                     3.2%  (322/10082 moves, 68 players)
+  allowed_motif.hangingPawn.own             10.9%  (1123/10327 moves, 71 players)
+  allowed_motif.hangingPiece.own             9.4%  (974/10327 moves, 71 players)
+  allowed_motif.pin.own                      5.9%  (606/10287 moves, 70 players)
+  allowed_motif.skewer.own                   1.2%  (84/7186 moves, 46 players)
+  allowed_motif.trappedPiece.own             3.3%  (338/10155 moves, 70 players)
+  allows_pressure.king.own                   1.3%  (428/33216 moves, 71 players)
+  allows_square.any.own                      2.1%  (866/41200 moves, 71 players)
+  allows_square.outpost.own                  1.0%  (415/41200 moves, 71 players)
+  allows_square.rook_seventh.own             1.1%  (451/41200 moves, 71 players)
+  concedes_weakness.any.own                  5.5%  (2273/41476 moves, 71 players)
+  concedes_weakness.backward.own             1.5%  (623/41476 moves, 71 players)
+  concedes_weakness.doubled.own              3.2%  (1328/41476 moves, 71 players)
+  concedes_weakness.isolated.own             2.2%  (916/41476 moves, 71 players)
+  early_error.any.own                       25.2%  (4601/18280 moves, 71 players)
+  early_error.black.own                     25.0%  (2272/9079 moves, 71 players)
+  early_error.white.own                     25.3%  (2329/9201 moves, 71 players)
+  endgame_error.any.own                     17.8%  (1444/8133 moves, 69 players)
+  endgame_error.minor.own                   16.1%  (180/1118 moves, 46 players)
+  endgame_error.pawn.own                     9.7%  (41/424 moves, 27 players)
+  endgame_error.queen.own                   19.6%  (270/1378 moves, 61 players)
+  endgame_error.rook.own                    16.9%  (401/2367 moves, 59 players)
+  endgame_error.rook_minor.own              19.4%  (552/2846 moves, 67 players)
+  executed_motif.capturingDefender.own      62.5%  (950/1520 moves, 71 players)
+  executed_motif.discoveredAttack.own       42.4%  (267/629 moves, 70 players)
+  executed_motif.fork.own                   58.7%  (246/419 moves, 68 players)
+  executed_motif.hangingPawn.own            64.2%  (1834/2858 moves, 71 players)
+  executed_motif.hangingPiece.own           81.6%  (2507/3071 moves, 71 players)
+  executed_motif.pin.own                    38.1%  (713/1869 moves, 71 players)
+  executed_motif.skewer.own                 50.8%  (62/122 moves, 54 players)
+  executed_motif.trappedPiece.own           40.2%  (241/600 moves, 70 players)
+  instant_move_error.instant_moves.own      17.4%  (2467/14179 moves, 71 players)
+  late_castling.book                        41.3%  (615/1488 moves, 71 players)
+  late_castling.own                         52.6%  (190/361 moves, 67 players)
+  long_think_error.long_think.own           35.7%  (2461/6903 moves, 71 players)
+  miscounted_exchange.own_move.own           1.9%  (201/10494 moves, 71 players)
+  missed_motif.capturingDefender.own        21.8%  (332/1520 moves, 71 players)
+  missed_motif.discoveredAttack.own         32.0%  (201/629 moves, 70 players)
+  missed_motif.fork.own                     27.9%  (117/419 moves, 68 players)
+  missed_motif.hangingPawn.own              21.3%  (610/2858 moves, 71 players)
+  missed_motif.hangingPiece.own              9.7%  (297/3071 moves, 71 players)
+  missed_motif.pin.own                      28.2%  (527/1869 moves, 71 players)
+  missed_motif.skewer.own                   27.0%  (33/122 moves, 54 players)
+  missed_motif.trappedPiece.own             36.7%  (220/600 moves, 70 players)
+  moved_into_attack.own_move.own             1.7%  (717/41676 moves, 71 players)
+  opening_disadvantage.any.own              23.5%  (431/1832 moves, 71 players)
+  plays_queenless.any.own                   29.1%  (12118/41676 moves, 71 players)
+  repeat_move.any                           45.2%  (14634/32349 moves, 71 players)
+  sacrificed_for_attack.own_move.own         1.3%  (138/10494 moves, 71 players)
+  slow_development.book                     46.8%  (696/1488 moves, 71 players)
+  slow_development.own                      55.1%  (199/361 moves, 67 players)
+  time_budget_error.after_overspending.own  25.6%  (33/129 moves, 5 players)
+  time_pressure_error.clock.own             22.7%  (142/626 moves, 31 players)
+
+written  data/raw/out/peers-dev.json

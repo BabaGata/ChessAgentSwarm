@@ -49,3 +49,6 @@ data/runs.db*
 
 # Fetched reference corpus: 5,917 games, reproducible via fetch_strong.py
 data/raw/corpus-strong/
+
+# Rebuilt peer references carrying the development claims (large, reproducible)
+data/raw/out/peers-dev*.json

@@ -1,0 +1,59 @@
+DO THE DEVELOPMENT CLAIMS SEPARATE 1600 FROM 1600?
+==========================================================================
+
+1. SPREAD WITHIN THE BAND
+
+Per-player rates from the peer reference itself. A claim whose
+players all sit at the same rate cannot rank anyone, however big its
+gap against 2600s was.
+
+claim                        players    p10  median    p90  spread
+------------------------------------------------------------------
+late_castling.book                61    14%     39%    87%     73%
+late_castling.own                  8   too few players to judge
+repeat_move.any                   65    31%     42%    55%     24%
+slow_development.book             61    20%     44%    88%     68%
+slow_development.own               8   too few players to judge
+late_castling.book                69    16%     43%    67%     51%
+late_castling.own                  8   too few players to judge
+repeat_move.any                   71    33%     44%    57%     24%
+slow_development.book             69    27%     48%    73%     45%
+slow_development.own               8   too few players to judge
+
+==========================================================================
+2. WHAT THE REVIEW TWELVE ARE TOLD
+==========================================================================
+
+  bernes: 3 priorities
+  bjagus: 3 priorities
+  cademan: 3 priorities
+  Crossfire1983: 3 priorities
+  goydorak: 3 priorities
+  Hirsican: 3 priorities
+  maikel5: 1 priorities
+  maxhayastan: 2 priorities
+  Maximilian_Honigtopf: 3 priorities
+  Odin5306: 1 priorities
+  Sheriwoyama: 3 priorities
+  simonvj: 3 priorities
+
+player                    new asserted  new watched  in plan   headline
+------------------------------------------------------------------------------
+bernes                               0            0        0   allowed_motif.capturingDefender.own
+bjagus                               0            0        0   allows_square.outpost.own
+cademan                              1            0        0   allowed_motif.hangingPawn.own
+Crossfire1983                        0            1        0   allows_pressure.king.own
+goydorak                             0            0        0   early_error.white.own
+Hirsican                             0            1        0   allows_pressure.king.own
+maikel5                              0            0        0   endgame_error.rook_minor.own
+maxhayastan                          0            0        0   endgame_error.rook.own
+Maximilian_Honigtopf                 0            0        0   moved_into_attack.own_move.own
+Odin5306                             0            0        0   allowed_motif.trappedPiece.own
+Sheriwoyama                          0            0        0   long_think_error.long_think.own
+simonvj                              0            0        0   long_think_error.long_think.own
+
+  players with a development claim in their plan: 0/12
+  development claims occupying plan slots:        0
+
+  asserted, by claim:
+    late_castling.book.own              1/12 players

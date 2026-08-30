@@ -1,0 +1,216 @@
+"""Counting a player's opening development, as claims the peer machinery accepts.
+
+Design: docs/notes/design.opening-development-signals.md
+Evidence: docs/notes/experiments.e59-strong-player-expectation.md
+
+Three claims survived the screen, and the numbers they survived at are worth
+carrying here because they govern how loudly each may speak:
+
+| claim | standardised gap | openings | verdict |
+|---|--:|--:|---|
+| `slow_development` | +10.6 pp | 32/36 | headline |
+| `late_castling` | +9.8 pp | 30/36 | ships beside it, r = 0.68 |
+| `repeat_move` | +2.0 pp | 26/36 | **half** the strength first measured |
+
+A fourth, pawn moves, was dropped: no within-opening effect once the opening mix
+was held fixed.
+
+**The two bases are separate claim keys, never merged.** Judged against the
+strong-player norm, the claim says *you are late by this opening's standard*.
+Judged against the player's own median -- the fallback for openings nobody strong
+plays -- it can only say *you are later here than in your own other openings*.
+Blurring them would put two kinds of evidence behind one sentence.
+
+Games are rebuilt from the observations rather than taken from PGN: every ply
+gets an observation, so grouping by game and ordering by ply reproduces the move
+list exactly, and no section needs a second source of games.
+"""
+
+from __future__ import annotations
+
+from collections import defaultdict
+from dataclasses import dataclass
+
+import chess
+
+from chesscoach.analysis.observations import Observation
+from chesscoach.development import Development, measure_development
+from chesscoach.development_norms import DevelopmentNorms
+from chesscoach.openings import OpeningBook, _family
+
+SLOW_DEVELOPMENT = "slow_development"
+LATE_CASTLING = "late_castling"
+REPEAT_MOVE = "repeat_move"
+
+# The basis a claim was judged on, and part of its key so the two can never be
+# pooled into one number.
+BY_BOOK = "book"
+BY_SELF = "own"
+
+
+@dataclass(frozen=True)
+class GameDevelopment:
+    """One game, ready to be judged, with the moves that can be cited."""
+
+    game_id: str
+    family: str
+    colour: chess.Color
+    development: Development
+    # The player's own observations, by ply. Carried because **V8 requires every
+    # claim to cite the player's own games**, and a claim about a game needs a
+    # move to point at.
+    mine: tuple[Observation, ...] = ()
+
+    def at_ply(self, ply: int | None) -> Observation | None:
+        """The move that decided this claim, or the last one if it never came.
+
+        A player who never castled is cited by their last opening move, which is
+        the honest evidence: *"and here the king was still in the centre"*.
+        """
+        if not self.mine:
+            return None
+        if ply is not None:
+            for observation in self.mine:
+                if observation.ply == ply:
+                    return observation
+        return self.mine[-1]
+
+
+def games_from(observations: tuple[Observation, ...], username: str):
+    """Rebuild (game_id, moves, colour) from per-ply observations.
+
+    A game is skipped when the player never moved in it, which cannot happen in
+    a real corpus and does happen in fixtures.
+    """
+    by_game: dict[str, list[Observation]] = defaultdict(list)
+    for observation in observations:
+        by_game[observation.game_id].append(observation)
+
+    for game_id, rows in sorted(by_game.items()):
+        rows.sort(key=lambda o: o.ply)
+        mine = [o for o in rows if o.mover.lower() == username.lower()]
+        if not mine:
+            continue
+        colour = chess.WHITE if mine[0].mover_is_white else chess.BLACK
+        try:
+            moves = [chess.Move.from_uci(o.move_played) for o in rows]
+        except ValueError:
+            continue  # a malformed game is not a measurement
+        yield game_id, moves, colour
+
+
+def developments(
+    observations: tuple[Observation, ...],
+    username: str,
+    book: OpeningBook,
+) -> tuple[GameDevelopment, ...]:
+    """Every game the player played, measured and named by its opening."""
+    found = []
+    mine_by_game: dict[str, list[Observation]] = defaultdict(list)
+    for observation in observations:
+        if observation.mover.lower() == username.lower():
+            mine_by_game[observation.game_id].append(observation)
+
+    for game_id, moves, colour in games_from(observations, username):
+        if len(moves) < 8:
+            continue
+        walk = book.walk([m.uci() for m in moves])
+        if walk.opening is None:
+            continue
+        found.append(
+            GameDevelopment(
+                game_id=game_id,
+                family=_family(walk.opening.name),
+                colour=colour,
+                development=measure_development(moves, colour),
+                mine=tuple(sorted(mine_by_game[game_id], key=lambda o: o.ply)),
+            )
+        )
+    return tuple(found)
+
+
+@dataclass
+class Tally:
+    instances: int = 0
+    opportunities: int = 0
+    games: set[str] = None  # type: ignore[assignment]
+    # One citable move per instance. **A claim with no examples is refused
+    # downstream**, which is correct behaviour (V8) and is exactly why these
+    # claims first reached a report saying nothing at all: right numbers,
+    # nothing to point at, silence.
+    examples: list[Observation] = None  # type: ignore[assignment]
+
+    def __post_init__(self) -> None:
+        if self.games is None:
+            self.games = set()
+        if self.examples is None:
+            self.examples = []
+
+    def add(self, hit: bool, game_id: str, example: Observation | None = None) -> None:
+        self.opportunities += 1
+        if hit:
+            self.instances += 1
+            self.games.add(game_id)
+            if example is not None:
+                self.examples.append(example)
+
+
+def count(
+    observations: tuple[Observation, ...],
+    username: str,
+    book: OpeningBook,
+    norms: DevelopmentNorms,
+) -> dict[str, Tally]:
+    """Tally the three development claims, both bases kept apart.
+
+    Two passes, and the order matters. The player's **own** median is taken from
+    their games in openings that DO have a strong-player norm -- their
+    established habit. Taking it from every game including the unusual ones would
+    let a single strange opening set the baseline it is then judged against.
+    """
+    played = developments(observations, username, book)
+    tallies: dict[str, Tally] = defaultdict(Tally)
+
+    covered, uncovered = [], []
+    for game in played:
+        verdict = norms.judge(game.family, game.colour, game.development)
+        if verdict.basis == "strong":
+            covered.append(game)
+            _record(tallies, BY_BOOK, game, verdict)
+        else:
+            uncovered.append(game)
+
+    habit = [g.development for g in covered]
+    for game in uncovered:
+        verdict = norms.judge_against_self(habit, game.development)
+        if verdict.basis == "own":
+            _record(tallies, BY_SELF, game, verdict)
+
+    # Repeat moves need no expectation: it is a rate over the player's own
+    # opening moves, compared directly with peers. Every game contributes,
+    # covered or not, because nothing here depends on knowing the opening.
+    repeats = tallies[f"{REPEAT_MOVE}.any"]
+    for game in played:
+        repeats.opportunities += game.development.moves_in_window
+        repeats.instances += game.development.repeat_moves
+        if game.development.repeat_moves:
+            repeats.games.add(game.game_id)
+            example = game.at_ply(game.development.ready_at)
+            if example is not None:
+                repeats.examples.append(example)
+
+    return dict(tallies)
+
+
+def _record(tallies: dict[str, Tally], basis: str, game: GameDevelopment, verdict) -> None:
+    """Each claim cites the move that decided it: the castle, or the last one."""
+    if verdict.slow_development is not None:
+        tallies[f"{SLOW_DEVELOPMENT}.{basis}"].add(
+            verdict.slow_development, game.game_id,
+            game.at_ply(game.development.ready_at),
+        )
+    if verdict.late_castling is not None:
+        tallies[f"{LATE_CASTLING}.{basis}"].add(
+            verdict.late_castling, game.game_id,
+            game.at_ply(game.development.castled_at),
+        )

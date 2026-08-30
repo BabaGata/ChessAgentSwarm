@@ -22,7 +22,10 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 
 from chesscoach.analysis.observations import Observation
+from chesscoach.development_norms import DevelopmentNorms
 from chesscoach.confidence import MIN_GAMES_WITH_DATA, ClaimStats, assign_tier
+from chesscoach.opening_development import count as count_development
+from chesscoach.openings import OpeningBook
 from chesscoach.peers import ConditionMeasurement
 from chesscoach.profile.models import (
     Claim,
@@ -48,6 +51,29 @@ from chesscoach.sections.base import (
 SECTION = "S4"
 
 EARLY_ERROR = "early_error"
+
+# Loaded once. The book is 1.4 MB and the norms a few kB, and rebuilding either
+# per player would dominate a section that otherwise costs nothing.
+_BOOK: OpeningBook | None = None
+_NORMS: DevelopmentNorms | None = None
+
+
+def _references() -> tuple[OpeningBook, DevelopmentNorms] | tuple[None, None]:
+    """The opening book and the strong-player expectation, or nothing.
+
+    **Missing data must silence the claims, never fake them.** A player judged
+    against an absent expectation would be judged against zero, and every game
+    would read as late -- the L-046 shape, an empty case answering like a real
+    one.
+    """
+    global _BOOK, _NORMS
+    if _BOOK is None or _NORMS is None:
+        try:
+            _BOOK = OpeningBook.load()
+            _NORMS = DevelopmentNorms.load()
+        except (OSError, ValueError, KeyError):
+            return None, None
+    return _BOOK, _NORMS
 OPENING_DISADVANTAGE = "opening_disadvantage"
 
 ANY = "any"
@@ -143,11 +169,45 @@ def _count(context: SectionContext) -> _Counts:
         _tally(tallies, _key(EARLY_ERROR, _colour(observation)), observation)
 
     _count_disadvantage(tallies, early)
+    _count_development(tallies, context)
 
     return _Counts(
         tallies=dict(tallies),
         games_with_data=len({o.game_id for o in early}),
     )
+
+
+def _count_development(tallies: dict[str, _Tally], context: SectionContext) -> None:
+    """Slow development, late castling and repeated piece moves.
+
+    Design: [[design.opening-development-signals]]. These replace `early_error`,
+    which the author marked 0/4 for explaining real errors wrongly. Unlike every
+    other claim here they read the **moves** rather than the engine's opinion of
+    them, so they cost nothing beyond the walk.
+
+    The expectation is per opening and comes from players who know it
+    ([[experiments.e59-strong-player-expectation]]); how often a player misses it
+    is what the peer reference answers.
+    """
+    book, norms = _references()
+    if book is None or norms is None:
+        return
+
+    counted = count_development(
+        context.observations, context.corpus.username, book, norms
+    )
+    for key, counts in counted.items():
+        tally = tallies[key]
+        tally.instances += counts.instances
+        tally.opportunities += counts.opportunities
+        tally.games_hit |= counts.games
+        # Without these the claim is refused for having no evidence -- the right
+        # refusal (V8), and exactly what silenced these claims when they were
+        # first wired up: correct numbers, nothing citable, nothing said.
+        tally.examples.extend(counts.examples)
+        # No cost: these are not mistakes with a win probability attached.
+        # Developing slowly is a habit, not a move that lost something
+        # measurable, and inventing a cost would price a claim that has none.
 
 
 def _count_disadvantage(tallies: dict[str, _Tally], early: tuple[Observation, ...]) -> None:
