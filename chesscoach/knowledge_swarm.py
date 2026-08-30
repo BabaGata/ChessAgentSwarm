@@ -47,31 +47,78 @@ from chesscoach.opening_swarm import (
 )
 from chesscoach.skiplist import SkipList
 
-# How a claim key is said out loud. Only the ones whose names do not survive a
-# mechanical de-underscoring: "late_castling" reads fine, "hangingPawn" does not.
-TOPICS = {
-    "fork": "fork tactic in chess",
-    "pin": "pin tactic in chess",
-    "skewer": "skewer tactic in chess",
-    "hangingPiece": "hanging piece in chess",
-    "hangingPawn": "hanging pawn in chess",
-    "discoveredAttack": "discovered attack in chess",
-    "trappedPiece": "trapped piece in chess",
-    "capturingDefender": "capturing the defender in chess",
-    "backRankMate": "back rank mate in chess",
-    "slow_development": "slow development in the chess opening",
-    "late_castling": "castling late in the chess opening",
-    "repeat_move": "moving the same piece twice in the chess opening",
-    "pawn_error": "pawn moves instead of developing in the chess opening",
-    "endgame_error": "endgame technique in chess",
-    # Without this the fallback produces "long think error in chess", which is
-    # this project's own jargon and matches nothing anyone has written.
-    "long_think_error": "spending too long thinking on a chess move",
-    "moved_into_attack": "moving a piece where it can be attacked in chess",
-    "concedes_weakness": "creating a pawn weakness in chess",
-    "allows_square": "allowing an outpost square in chess",
-    "allows_pressure": "allowing pressure against the king in chess",
+# The words chess writers actually use for the things we detect.
+#
+# **Discovered, not asserted** (experiments.e65-real-phrases). E64 found that
+# nine of fourteen claim keys are this project's own jargon -- Capablanca has a
+# chapter on castling and nobody has written a definition of "late castling",
+# because it is not a term. So each claim carries several real phrases, and every
+# one was checked against two independent sources.
+#
+# 1.4 MB of Capablanca, Edward Lasker and Staunton corrected four guesses that
+# would have searched for nothing:
+#
+#     "outpost"            0 uses  ->  "hole"             50 uses
+#     "trapped"            0       ->  "hemmed in"         5
+#     "discovered attack"  0       ->  "discovered check"  8
+#     "undefended piece"   0       ->  "en prise"          8
+#
+# And the web supplied the modern vocabulary those books cannot have, scored by
+# how many returned titles actually name chess:
+#
+#     "fork chess tactic"       51 results, 43 naming chess
+#     "skewer chess tactic"     44/37        "x-ray attack"   30/28
+#     "deflection chess tactic" 41/32   <- capturingDefender, for which the
+#                                          classical literature has NO word
+#     "outpost chess"           21/21   <- modern, absent from the books
+#
+# Two candidates were refused on the evidence rather than on taste:
+# "undermining chess tactic" (12 results, 2 naming chess) and "hole chess
+# position" (20/6) -- "hole" is the books' word and the web's word for something
+# else, so it stays a book term and never becomes a query.
+#
+# First phrase is what a search asks; the rest widen the net and feed the terms
+# used to search the shelf.
+TERMS: dict[str, tuple[str, ...]] = {
+    # --- tactics: the web knows these, the classical books mostly do not -----
+    "fork": ("fork chess tactic", "double attack", "forking piece"),
+    "pin": ("pin chess tactic", "pinned piece", "absolute pin"),
+    "skewer": ("skewer chess tactic", "x-ray attack"),
+    "discoveredAttack": ("discovered attack chess", "discovered check"),
+    "capturingDefender": ("deflection chess tactic", "removing the defender",
+                          "removing the guard"),
+    "hangingPiece": ("hanging piece chess", "en prise", "undefended piece"),
+    "hangingPawn": ("hanging pawns chess", "isolated pawn", "backward pawn"),
+    "trappedPiece": ("trapped piece chess", "hemmed in", "shut in"),
+    "backRankMate": ("back rank mate chess", "back rank weakness"),
+
+    # --- the opening: the books are strong here ------------------------------
+    "late_castling": ("castling in chess", "castle early opening", "king safety",
+                      "safety of the king"),
+    "slow_development": ("development of the pieces chess", "develop the pieces",
+                         "loss of time", "gain of time"),
+    "repeat_move": ("moving the same piece twice chess", "same piece twice",
+                    "loss of time", "waste of time"),
+    "pawn_error": ("pawn moves in the opening chess", "premature advance",
+                   "pawn advance"),
+
+    # --- position and phase --------------------------------------------------
+    "allows_square": ("outpost chess", "weak square chess", "hole"),
+    "allows_pressure": ("attack on the king chess", "king side attack",
+                        "assault on the king"),
+    "concedes_weakness": ("weak pawn chess", "isolated pawn", "doubled pawns"),
+    "endgame_error": ("endgame technique chess", "opposition", "king activity"),
+    "moved_into_attack": ("en prise chess", "unprotected piece", "attacked piece"),
+    "long_think_error": ("time management chess", "time trouble", "time limit"),
 }
+
+# The single phrase a search asks, so nothing downstream changed shape.
+TOPICS = {key: phrases[0] for key, phrases in TERMS.items()}
+
+
+def terms_for(key: str) -> tuple[str, ...]:
+    """Every phrase worth searching for this claim, best first."""
+    return TERMS.get(key) or (key.replace("_", " ") + " in chess",)
 
 # The Assessor picks sentences by the hundred and `qwen2.5:3b` does it well
 # enough. The Compiler makes ONE judgement that decides the entry -- is this
@@ -377,6 +424,19 @@ def about_chess(candidate: Candidate, body: str) -> bool:
     return mentions >= needed
 
 
+def all_terms(key: str) -> frozenset[str]:
+    """Key words from every phrase for a claim, for searching the books.
+
+    The books and the web use different words for the same thing, and a shelf
+    search should try both: `allows_square` finds nothing under "outpost" and
+    fifty passages under "hole".
+    """
+    found: set[str] = set()
+    for phrase in terms_for(key):
+        found |= key_terms(phrase)
+    return frozenset(found)
+
+
 def is_about(topic: str, candidate: Candidate, body: str) -> bool:
     """Is this page about the topic, on a page that is about chess?
 
@@ -408,10 +468,8 @@ def is_about(topic: str, candidate: Candidate, body: str) -> bool:
 
 
 def topic_for(key: str) -> str:
-    """A searchable phrase for a claim key."""
-    if key in TOPICS:
-        return TOPICS[key]
-    return key.replace("_", " ") + " in chess"
+    """The single best phrase for a claim key."""
+    return terms_for(key)[0]
 
 
 @dataclass
@@ -431,19 +489,24 @@ class KnowledgeScout:
     def __post_init__(self) -> None:
         self.skipped: list[str] = []
 
-    def queries(self, topic: str) -> list[str]:
-        return [
-            f"what is a {topic}",
-            f"why {topic} matters",
-            f"how to practise {topic}",
-        ]
+    def queries(self, key: str) -> list[str]:
+        """One query per real phrase, plus one asking for an explanation.
+
+        Several phrasings rather than one, because a claim key is this project's
+        jargon and the literature's word is often different: `allows_square` is
+        an **outpost** to the web and a **hole** to Staunton, and a single query
+        for either misses half the writing about it.
+        """
+        phrases = terms_for(key)
+        return [f"what is a {phrases[0]}", *phrases[1:3],
+                f"why {phrases[0]} matters"]
 
     def find(self, key: str) -> list[Candidate]:
-        topic = topic_for(key)
         found: dict[str, Candidate] = {}
         self.skipped = []
         failures = 0
-        for query in self.queries(topic):
+        queries = self.queries(key)
+        for query in queries:
             asked = Gap(opening=key, games=0, share=0.0, query_override=query)
             try:
                 results = _detailed(self.searcher, asked)
@@ -457,7 +520,7 @@ class KnowledgeScout:
                 found.setdefault(url, Candidate(title, url, publisher, snippet))
         # Every query failing is "we could not ask", which must not be returned
         # as "nothing was found" -- L-046, six instances in this project.
-        if failures == len(self.queries(topic)) and not found:
+        if failures == len(queries) and not found:
             raise SearchUnavailable(f"every query for {key!r} failed")
         return list(found.values())
 
@@ -614,7 +677,7 @@ class KnowledgeSwarm:
         topic = topic_for(key)
         # Books first. They are fewer, better, and free of the failure modes
         # the web keeps producing, so they take the first `read` slots.
-        candidates = self._from_books(topic) + self.scout.find(key)
+        candidates = self._from_books(key) + self.scout.find(key)
 
         notes: list[str] = []
         sources: list[Source] = []
@@ -708,12 +771,12 @@ class KnowledgeSwarm:
                 break
         return tuple(kept[: self.per_page])
 
-    def _from_books(self, topic: str) -> list[Candidate]:
-        """Book passages about this topic, as candidates the pipeline reads."""
+    def _from_books(self, key: str) -> list[Candidate]:
+        """Book passages about this claim, as candidates the pipeline reads."""
         if not len(self.library):
             return []
         found = []
-        for book, locator, passage in self.library.passages(key_terms(topic)):
+        for book, locator, passage in self.library.passages(all_terms(key)):
             self._passages[locator] = passage
             found.append(Candidate(book.title, locator, book.publisher, ""))
         return found

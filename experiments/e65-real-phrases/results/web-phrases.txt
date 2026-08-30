@@ -1,0 +1,30 @@
+WHICH PHRASES RETURN CHESS?
+==========================================================================
+
+phrase                                results  chess titles
+------------------------------------------------------------
+capturingDefender
+  removing the defender chess              21             6
+  removing the guard chess                 20             5
+  deflection chess tactic                  41            32
+  undermining chess tactic                 12             2
+
+skewer
+  skewer chess tactic                      44            37
+  x-ray attack chess                       30            28
+
+allows_square
+  outpost chess                            21            21
+  weak square chess                        19            17
+  hole chess position                      20             6
+
+fork
+  fork chess tactic                        51            43
+  double attack chess                      19            19
+
+trappedPiece
+  trapped piece chess                      31            19
+  piece with no squares chess              19            19
+
+A phrase returning pages that do not name chess is not a chess phrase,
+however right it sounds.

@@ -135,7 +135,7 @@ class TestWhatTheSwarmMayNotDo:
 
 
 class TestTheScout:
-    def test_it_asks_three_questions_about_the_claim(self):
+    def test_it_asks_about_every_real_phrase_for_the_claim(self):
         asked = []
 
         class Searcher:
@@ -146,10 +146,13 @@ class TestTheScout:
                 return [("t", "https://example.org/a", "Example")]
 
         found = KnowledgeScout(Searcher()).find("fork")
-        assert len(asked) == 3
+        # A claim key is this project's jargon; the literature's words differ,
+        # so the Scout asks about each real phrase rather than three ways about
+        # one. "double attack" is what Capablanca calls a fork.
         assert any("what is" in q for q in asked)
-        assert all("fork tactic in chess" in q for q in asked)
-        assert len(found) == 1  # the same URL three times is one candidate
+        assert any("double attack" in q for q in asked)
+        assert len(asked) == len(KnowledgeScout(Searcher()).queries("fork"))
+        assert len(found) == 1  # the same URL every time is one candidate
 
     def test_every_query_failing_raises_rather_than_reporting_nothing(self):
         # L-046: "we could not ask" must never read as "nothing was found".
@@ -164,8 +167,10 @@ class TestTheScout:
 
 
 class TestTopics:
-    def test_a_camel_case_motif_gets_a_readable_topic(self):
-        assert topic_for("hangingPawn") == "hanging pawn in chess"
+    def test_a_camel_case_motif_gets_the_phrase_writers_use(self):
+        # Not "hanging pawn in chess", which is the key de-underscored, but the
+        # phrase measured to retrieve chess pages.
+        assert topic_for("hangingPawn") == "hanging pawns chess"
 
     def test_an_unlisted_key_still_gets_a_searchable_phrase(self):
         assert topic_for("some_new_claim") == "some new claim in chess"
