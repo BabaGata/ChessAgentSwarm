@@ -377,90 +377,104 @@ missed_motif.hangingPawn.own
     claims: You leave free pawns on the board — material that was there for the taking.
     25 instances across 3 players
 ------------------------------------------------------------------------------
-  [ ] bjagus                move  12  Black cxd5     lost  18.5 wp
+  [n] bjagus                move  12  Black cxd5     lost  18.5 wp
       lichess.org/Ewg2ug2B#24
-  [ ] cademan               move  11  Black O-O-O    lost  17.8 wp
+      The pawn was taken but with pawn instead of knight which made the pawn structure worse.
+  [y] cademan               move  11  Black O-O-O    lost  17.8 wp
       lichess.org/xGJzDV3d#22
-  [ ] simonvj               move  14  White Rfd1     lost   5.8 wp
+  [y] simonvj               move  14  White Rfd1     lost   5.8 wp
       lichess.org/vwoFne0m#27
-  [ ] simonvj               move  25  White Nxd5+    lost   7.4 wp
+  [n] simonvj               move  25  White Nxd5+    lost   7.4 wp
       lichess.org/29CxQRJu#49
-  [ ] simonvj               move  30  White Nxg3     lost   6.9 wp
+      The free pawn was taken, just not the one that was suggested as the best capture.
+  [n] simonvj               move  30  White Nxg3     lost   6.9 wp
       lichess.org/qyTpxFaw#59
+      White ended up with more material after the exchange, the suggested move is counterintuitive because it would end up with less material advantage.
 
 allows_square.outpost.own
     claims: You let opponents establish a knight you cannot chase away more often than players at your level.
     24 instances across 3 players
 ------------------------------------------------------------------------------
-  [ ] Hirsican              move   7  White cxd5     lost   0.0 wp
+  [y] Hirsican              move   7  White cxd5     lost   0.0 wp
       lichess.org/3pPHPEC4#13
-  [ ] Hirsican              move  12  Black fxe4     lost  20.5 wp
+  [y] Hirsican              move  12  Black fxe4     lost  20.5 wp
       lichess.org/CCoHBALM#24
-  [ ] bjagus                move  33  White b4       lost   1.1 wp
+  [n] bjagus                move  33  White b4       lost   1.1 wp
       lichess.org/PuSoIqHt#65
-  [ ] simonvj               move  14  Black fxe5     lost   0.0 wp
+      Good square for the opponent was not a direct consequence of this move, the pawn that moved was 4 files away of the good square for the opponent.
+  [y] simonvj               move  14  Black fxe5     lost   0.0 wp
       lichess.org/R4HBrccz#28
-  [ ] simonvj               move  22  Black g5       lost   3.2 wp
+  [?] simonvj               move  22  Black g5       lost   3.2 wp
       lichess.org/3iwfoORR#44
+      This makes a good place for a piece, but no white piece can occupy it any time soon, so this should not be counted.
 
 missed_motif.capturingDefender.own
     claims: You miss capturing the defender tactics that were available.
     19 instances across 4 players
 ------------------------------------------------------------------------------
-  [ ] bernes                move  16  White Qc2      lost   7.6 wp
+  [y] bernes                move  16  White Qc2      lost   7.6 wp
       lichess.org/3g6KpqF3#31
-  [ ] bjagus                move  11  Black h6       lost   6.7 wp
+  [n] bjagus                move  11  Black h6       lost   6.7 wp
       lichess.org/ZcA3N99e#22
-  [ ] cademan               move   7  White g4       lost   7.6 wp
+      The white queen that black could capture was not defending anything particular. This move would only prevent white from captureing the black queen that would be recaptured by black rook that was defending the pawn and thenwhite could capture the free pawn.
+  [n] cademan               move   7  White g4       lost   7.6 wp
       lichess.org/44m0CDnV#13
-  [ ] cademan               move  12  Black dxc5     lost  29.7 wp
+      The bishop that can be taken by white defends only the queen which is not attacked by anything. The defender can not be the piece that defends anything. Nor the capture of the bishop was even the suggested move by stockfish.
+  [n] cademan               move  12  Black dxc5     lost  29.7 wp
       lichess.org/qOkzrtOq#24
-  [ ] cademan               move  21  Black Ka8      lost  14.7 wp
+      This capture is not capture of the defender but exchange tactics to attack 2 pieces and earn more material. This occured because by taking the other hanging piece, the second hanging piece (that was actually taken in the game) stays as hanging, but capture of the other piece makes the bishop that captured it attack the rook as well, and therefore one of the 2 pieces will be taken.
+  [?] cademan               move  21  Black Ka8      lost  14.7 wp
       lichess.org/xGJzDV3d#42
+      This queen capture would remove the pawn defender but recapture of the queen will immediately remove the attacking queen and defend the pawn again. The removing the defender tactics should end up with material advantage or with messed up pawn structure of the opponent. Not just some random exchagne of the pieces.
 
 concedes_weakness.backward.own
     claims: You end up with backward pawns more often than players at your level.
     18 instances across 2 players
 ------------------------------------------------------------------------------
-  [ ] Maximilian_Honigtopf  move   6  Black gxf6     lost   4.3 wp
+  [y] Maximilian_Honigtopf  move   6  Black gxf6     lost   4.3 wp
       lichess.org/DRPg8Bme#12
-  [ ] cademan               move  10  White bxc3     lost   0.0 wp
+      This should be counted as double pawns rather then the backward pawn.
+  [y] cademan               move  10  White bxc3     lost   0.0 wp
       lichess.org/6BjauPfY#19
-  [ ] cademan               move  14  White bxc3     lost   1.5 wp
+      This should be counted as double pawns rather then the backward pawn.
+  [y] cademan               move  14  White bxc3     lost   1.5 wp
       lichess.org/luxzBEEB#27
-  [ ] cademan               move  18  White f4       lost  32.7 wp
+  [y] cademan               move  18  White f4       lost  32.7 wp
       lichess.org/6BjauPfY#35
-  [ ] cademan               move  18  White fxg4     lost   0.0 wp
+  [y] cademan               move  18  White fxg4     lost   0.0 wp
       lichess.org/44m0CDnV#35
 
 missed_motif.discoveredAttack.own
     claims: You miss discovered attack tactics that were available.
     18 instances across 4 players
 ------------------------------------------------------------------------------
-  [ ] Maximilian_Honigtopf  move  14  White O-O      lost  10.1 wp
+  [y] Maximilian_Honigtopf  move  14  White O-O      lost  10.1 wp
       lichess.org/XRE3pBif#27
-  [ ] Sheriwoyama           move  13  White b5       lost   5.6 wp
+  [y] Sheriwoyama           move  13  White b5       lost   5.6 wp
       lichess.org/LtQCTqVO#25
-  [ ] bjagus                move  17  White Ne4      lost  10.8 wp
+  [?] bjagus                move  17  White Ne4      lost  10.8 wp
       lichess.org/3JoG4ezs#33
-  [ ] bjagus                move  24  Black Nf4      lost  26.5 wp
+      Discovered attack was done but not as suggested by stockfish.
+  [y] bjagus                move  24  Black Nf4      lost  26.5 wp
       lichess.org/G6PdRQrg#48
-  [ ] goydorak              move  32  Black Rh8      lost  17.0 wp
+  [y] goydorak              move  32  Black Rh8      lost  17.0 wp
       lichess.org/Ogmcqva7#64
 
 endgame_error.rook_minor.own
     claims: Your play falls off in rook-and-minor endgames.
     17 instances across 2 players
 ------------------------------------------------------------------------------
-  [ ] bernes                move  26  Black Bxd3     lost  19.4 wp
+  [y] bernes                move  26  Black Bxd3     lost  19.4 wp
       lichess.org/j1wYFwEn#52
-  [ ] bernes                move  51  White e5       lost   7.2 wp
+      This should be counted as a pin.
+  [?] bernes                move  51  White e5       lost   7.2 wp
       lichess.org/XkSr9VDj#101
-  [ ] maikel5               move  24  Black Rc1+     lost  14.4 wp
+      The player has a bishop and the opponent has a rook, I don't know what is counted as rook-and-minor.
+  [y] maikel5               move  24  Black Rc1+     lost  14.4 wp
       lichess.org/Rs4ZoM31#48
-  [ ] maikel5               move  32  Black Be6      lost   8.6 wp
+  [y] maikel5               move  32  Black Be6      lost   8.6 wp
       lichess.org/5w0MJrWh#64
-  [ ] maikel5               move  34  Black Rd5      lost   8.7 wp
+  [y] maikel5               move  34  Black Rd5      lost   8.7 wp
       lichess.org/5w0MJrWh#68
 
 missed_motif.pin.own

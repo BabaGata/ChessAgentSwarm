@@ -1,0 +1,19 @@
+DO THE SIGNALS SEPARATE A 2600 FROM A 1600?
+======================================================================
+
+strong players scored   100
+subject players scored  72
+
+Each player's own rate, both judged against the SAME strong-player
+expectation. AUC is the chance a random subject scores worse than a
+random strong player: 0.50 is a coin, 1.00 is perfect separation.
+
+signal                    strong   subject   above p75      AUC
+---------------------------------------------------------------
+late castling                29%       42%         68%     0.73
+pawn share                   38%       34%         17%     0.25
+repeat share                 31%       36%         58%     0.70
+
+A signal near AUC 0.50 fires equally on both populations and cannot
+carry a claim, however sensible it sounds. That is what closed a
+section slot in E10.

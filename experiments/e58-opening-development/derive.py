@@ -119,9 +119,14 @@ def _survival_median(reached: list[int], never: int) -> float | None:
     return (ordered[middle] + ordered[upper]) / 2
 
 
-def read_corpus():
-    """Every game in the rapid corpus, as (game, uci moves, moves)."""
-    for path in sorted(CORPUS.glob("*.pgn")):
+def read_corpus(directory: pathlib.Path | None = None):
+    """Every usable game in a corpus, as (game, moves).
+
+    Takes a directory so the strong-player corpus can be read by the same
+    filters -- a norm and the expectation it is compared against must exclude
+    the same games, or the difference between them is partly the filter.
+    """
+    for path in sorted((directory or CORPUS).glob("*.pgn")):
         with path.open(encoding="utf-8", errors="replace") as handle:
             while True:
                 game = chess.pgn.read_game(handle)

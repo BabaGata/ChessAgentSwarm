@@ -55,31 +55,64 @@ finding; one that recognises a consequence is** ([[design.detectors-name-consequ
 So: **book depth is learning feedback, development is diagnosis.** They are reported in different
 places and neither displaces the other.
 
-## The central design move: peers supply every threshold
+## Two populations, two different jobs
 
-The proposal contains real chess principles, and stating them as rules would breach the project's own
-hard rule 7 and R-03 — *"no folklore laundering"*. **"Castle by move 10" is not a fact.** It is a
-teaching heuristic, its correct value differs by opening, and asserting it would put an unfalsifiable
-number at the centre of a claim.
+**Revised 2026-08-29 by the author**, after E58 derived its norms from the review corpus:
 
-So no threshold in this design is asserted. **Every one is read off the player's own rating band**,
-through machinery that already exists: `ConditionMeasurement` → `build_reference` → `posterior`
-shrinkage → Wilson intervals. The claim becomes *"you do this, and players rated like you do not"*,
-which is measured, falsifiable, and cites the player's own games (V8).
+> *"I don't want this to be built by peer reference but by better players who usually know the
+> opening. The comparison will later been done with peers for how regularly they develop later than
+> expected."*
 
-**This also disposes of the hardest objection to the idea.** Some openings deliberately keep a piece
-at home — the c8 bishop in the French and the King's Indian is the standard case — and a global
-"all minors out by ply N" rule would punish correct play. Against opening-conditioned peers it
-cannot: if peers in the French leave that bishop home too, the player's deviation is zero. The rule
-fires on a **deviation from what this opening's players do**, never on a **state of the board**.
+This is the correction that makes the claim mean something, and E58 is the evidence for it: norms
+taken from ~1600 players describe **what 1600s do**, which is not what the opening asks for. The two
+populations answer different questions and both are needed.
 
-Where a per-opening cell is too thin to estimate, `chesscoach/shrinkage.py` already shrinks it toward
-the band-wide prior. That is what it is for, and it needs no new code.
+| | population | answers |
+|---|---|---|
+| **the expectation** | players who know the openings | *by when should this be done in THIS opening* |
+| **the comparison** | the player's own rating band | *how often is this player later than that* |
+
+So a claim is no longer *"you castle later than your peers"* — which flatters a player whose peers are
+all bad at it — but **"you are late by the opening's own standard more often than your peers are"**.
+The peer step keeps L-045 intact (peer-relative answers *is this unusual*, never *is this right*)
+while the expectation supplies the *is this right* the peers cannot.
+
+### Why this is not folklore after all
+
+Hard rule 7 and R-03 forbid asserting *"castle by move 10"*. Nothing here asserts it. The expectation
+is still **derived from games**, still falsifiable, still reproducible — only from a better-chosen
+population. Strong players' timing is evidence about the opening in a way that a teaching heuristic
+is not, and it costs one fetch rather than a source for each of 97 families.
+
+**Source:** the public Lichess rapid leaderboard — a stable public list rather than a band this
+project picked, so the selection cannot be tuned toward a wanted answer. Public usernames, public
+rated games (R-10). `experiments/e58-opening-development/fetch_strong.py`.
+
+## The tolerance, and why it is not optional
+
+> *"The expected moves are not going to be the exact average or median of the higher ranked players
+> but average/median + 1/2."*
+
+**This is load-bearing, not a safety margin.** A threshold set at the median flags half the population
+by definition — including half of the strong players it was derived from. A claim that fires on 50 %
+of correct play is not a diagnosis, it is a coin. The tolerance is what turns *above average* into
+*unusually late*, which is the only version worth telling a player.
+
+It also has a natural calibration, which means the choice between **+1** and **+2** need not be
+argued:
+
+> **Set the tolerance so that the strong players themselves are flagged rarely.** They are a
+> known-good population; the share of *their* games that the threshold calls late is a direct read of
+> its false-positive rate.
+
+Proposed target **≤ 25 %**, measured at +1 and +2 before either is adopted. This is the same shape as
+`PRECISION_FLOOR = 0.70` in [[experiments.e55-detector-precision]]: a number anchored on a population
+whose answer is already known, rather than chosen because it sounds reasonable.
 
 ## What is measured
 
-Everything the peer machinery accepts is **instances over opportunities**. Not every part of the
-proposal is naturally a rate, and forcing them into that shape is where the design work is.
+Everything the peer machinery accepts is **instances over opportunities**, and with the expectation
+supplying the threshold each measure lands in that shape naturally.
 
 ### The window
 
@@ -88,9 +121,6 @@ comment admits it is *"conventional rather than derived"*. Here the window is a 
 
 > **development span** — plies until the player has castled **and** all four minor pieces have moved
 > at least once.
-
-This makes the window the thing being measured rather than a constant chosen in advance, and it
-scales with the opening automatically.
 
 ### The censoring trap, named before it is fallen into
 
@@ -102,17 +132,54 @@ length wearing the costume of a diagnosis.
 Averaging the span is therefore **refused**. Every measure below is a rate over games that *reached*
 the relevant ply, which is censoring-safe and fits `ConditionMeasurement` unchanged.
 
+**E58 committed this error one level up**, in the analysis rather than the measurement: its first
+median counted only the games where castling happened, and reported Bishop's Opening at move 11 while
+47 % of those games never castled at all. The survival median that replaced it moved that cell to 17.
+Worth recording because the measurement module was *already* built to avoid this, and the mistake
+happened anyway in the script that consumed it.
+
 ### Four measurements
+
+Each compares one game against the expectation **for the opening that game was**, and counts how
+often the player is past it:
 
 | | claim | instances | opportunities |
 |---|---|---|---|
-| **headline** | `slow_development` | games where development was incomplete at ply **K** | games reaching ply **K** |
+| **headline** | `slow_development` | games developed later than `E_develop(opening) + tolerance` | games reaching that ply |
+| explains it | `late_castling` | games castled later than `E_castle(opening) + tolerance`, or never | games reaching that ply |
 | explains it | `repeat_move_in_opening` | moves in the window that move an already-moved piece | moves in the window |
 | explains it | `pawn_moves_in_opening` | pawn moves in the window | moves in the window |
-| explains it | `late_castling` | games not castled by ply **K₂**, or never castled | games reaching ply **K₂** |
 
-**K and K₂ are peer medians, not constants** — the ply by which half of the player's band had
-finished developing, or had castled, computed when the reference is rebuilt.
+The last two have no natural *"+2 moves"*, being shares rather than times, so their expectation is the
+strong players' share for that opening and the tolerance is expressed in the same units — settled
+by the same calibration.
+
+## When nobody strong has played the opening
+
+> *"The peer calculation here for some players that play the openings that no other players from the
+> corpus play will be calculated against their own average/median, not by something that can be
+> explained by population."*
+
+E58 measured why this matters: **97 families, and only 26 clear 20 games** even in the pooled corpus.
+The tail is not an edge case, it is most of the list.
+
+**The fallback is the player's own median across their other openings**, and it must be labelled as a
+different claim rather than quietly substituted, because **it answers a different question**:
+
+| | says |
+|---|---|
+| against the expectation | *you are late by this opening's standard* |
+| against the player's own median | *you are later here than you are in your own other openings* |
+
+The second cannot say the timing is wrong — only that it is unusual for this player. Presenting both
+in the same sentence would put two different kinds of evidence behind one claim, which is the failure
+[[decisions.0011-detection-correctness-over-expert-agreement]] was raised about.
+
+**Two degenerate cases that must not silently produce a claim:**
+
+- **a player with one opening** has no own-median to compare against either, and gets nothing;
+- **a player with two openings** has a median of two numbers, which is a difference and not a norm.
+  A minimum of distinct openings is required before the fallback runs, proposed at **3**.
 
 ## Separate or together — the author's question
 
@@ -153,8 +220,10 @@ outcome, not a failure.
 
 | needs calibrating | first proposal | how it gets settled |
 |---|---|---|
-| ply **K** for "development complete" | band median | the peer reference, once rebuilt |
-| ply **K₂** for castling | band median | the same |
+| **tolerance** above the strong-player median | +1 or +2 moves | the share of *strong players'* own games each flags; target ≤ 25 % |
+| how strong is "knows the opening" | top-200 rapid leaderboard (~2500+) | opening coverage: if elite repertoires miss the families the subjects play, an arena band is added |
+| minimum strong games before an opening has an expectation | 20 | how many families clear it |
+| minimum distinct openings before the own-median fallback runs | 3 | a median of two numbers is a difference, not a norm |
 | does a **queen** sortie count as development | no — minors and castling only | measure both; the early queen is the classic beginner error and may deserve its own claim |
 | what counts as "already moved" for a repeat | the piece's second move onward, tracked from its origin square | fixture positions, hand-checked |
 | opening granularity for peer cells | ECO letter (A–E), falling back to band-wide | cell occupancy across the peer corpus |
@@ -164,6 +233,9 @@ outcome, not a failure.
 
 1. **It must name a different set of players than `early_error` does.** If it names the same twelve
    it has been renamed rather than corrected — the same test correction 1 already carries.
+1b. **The tolerance must flag the strong players rarely.** They are the population the expectation
+   came from; if the threshold calls a quarter of *their* games late, it is measuring something other
+   than knowing the opening.
 2. **A hand-built King's Indian game must not fire `slow_development`** for the c8 bishop, once the
    peer cell for that opening exists. This is the false positive the whole design is shaped around.
 3. **A game ending at move 12 must contribute to no denominator it cannot answer.**
@@ -193,9 +265,14 @@ language model.
 
 ## Honest limitations
 
-- **Development is not a virtue in itself.** Peers who develop fast may simply be better at chess.
-  Measuring *deviation from peers within a band* is what keeps that from becoming advice — but only
-  the correlation screen will show whether it worked.
+- **Development is not a virtue in itself, and the strong-player expectation makes this sharper.**
+  Strong players develop faster because they are better at chess, not only because they know the
+  opening, so some of the gap is unreachable by instruction. The peer step is what keeps this
+  honest — *how often are you late compared to others who are also not 2500* — and the correlation
+  screen is what tests whether anything is left after that.
+- **Elite repertoires may not be the subjects' repertoires.** If the top 200 rarely play the openings
+  a 1600 plays, the expectation will be thin exactly where it is needed, and the own-median fallback
+  will carry more of the load than intended. Measured before the claim is wired up.
 - **"All four minors have moved" is a crude proxy for developed.** A knight on a3 has moved and is
   not developed. Square quality is deliberately not judged, because judging it needs exactly the kind
   of asserted rule this design exists to avoid.
