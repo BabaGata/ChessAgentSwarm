@@ -143,6 +143,16 @@ happened anyway in the script that consumed it.
 Each compares one game against the expectation **for the opening that game was**, and counts how
 often the player is past it:
 
+**Screened 2026-08-30** — [[experiments.e59-strong-player-expectation]]. Standardised for the
+opening mix, so a difference in repertoire cannot masquerade as a difference in play:
+
+| claim | standardised gap | openings | AUC | verdict |
+|---|--:|--:|--:|---|
+| `slow_development` | **+10.6 pp** | 32/36 | **0.76** | **ships — headline** |
+| `late_castling` | **+9.8 pp** | 30/36 | 0.73 | **ships** (r = 0.68 with headline, under the ceiling) |
+| `repeat_move_in_opening` | +2.0 pp | 26/36 | 0.70 | ships at half the strength first measured |
+| `pawn_moves_in_opening` | −0.13 count | 17/36 | — | **dropped — no within-opening effect** |
+
 | | claim | instances | opportunities |
 |---|---|---|---|
 | **headline** | `slow_development` | games developed later than `E_develop(opening) + tolerance` | games reaching that ply |

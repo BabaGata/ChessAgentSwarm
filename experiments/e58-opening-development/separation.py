@@ -38,7 +38,9 @@ MIN_PLAYER_GAMES = 10
 
 def per_player(directory, book, expectation):
     """Each player's own rates, using the strong-player expectation."""
-    players = defaultdict(lambda: {"late": 0, "seen": 0, "pawn": [], "repeat": []})
+    players = defaultdict(
+        lambda: {"late": 0, "slow": 0, "seen": 0, "pawn": [], "repeat": []}
+    )
     # File by file rather than through `read_corpus`, because a rate belongs to
     # the player the file is named for and the pooled reader loses that.
     for path in sorted(directory.glob("*.pgn")):
@@ -65,13 +67,15 @@ def per_player(directory, book, expectation):
                 cell = expectation.get((family, colour))
                 if cell is None or cell.games < MIN_GAMES:
                     continue
-                base = cell.median_castle()
-                if base is None:
+                base, ready = cell.median_castle(), cell.median_ready()
+                if base is None or ready is None:
                     continue
                 d = measure_development(played, colour)
                 players[name]["seen"] += 1
                 if d.castled_at is None or d.castled_at > base + TOLERANCE_PLIES:
                     players[name]["late"] += 1
+                if d.ready_at is None or d.ready_at > ready + TOLERANCE_PLIES:
+                    players[name]["slow"] += 1
                 pawn, repeat = d.rate(d.pawn_moves), d.rate(d.repeat_moves)
                 if pawn is not None:
                     players[name]["pawn"].append(pawn)
@@ -80,6 +84,7 @@ def per_player(directory, book, expectation):
     return {
         n: {
             "late": v["late"] / v["seen"],
+            "slow": v["slow"] / v["seen"],
             "pawn": statistics.mean(v["pawn"]),
             "repeat": statistics.mean(v["repeat"]),
         }
@@ -119,11 +124,40 @@ def main() -> None:
     print()
     print(f"{'signal':<22}{'strong':>10}{'subject':>10}{'above p75':>12}{'AUC':>9}")
     print("-" * 63)
-    for key, label in (("late", "late castling"),
+    for key, label in (("slow", "slow development"),
+                       ("late", "late castling"),
                        ("pawn", "pawn share"),
                        ("repeat", "repeat share")):
         report(label, [p[key] for p in strong.values()],
                [p[key] for p in subjects.values()])
+
+    print()
+    print("=" * 70)
+    print("DOES slow_development CARRY ANYTHING late_castling DOES NOT?")
+    print("=" * 70)
+    print()
+    print("`ready_at` is the later of castling and development, so the two")
+    print("overlap by construction. If they correlate above 0.85 they are one")
+    print("signal with two names and only the stronger ships -- the ceiling the")
+    print("design states, and the screen E10 established.")
+    print()
+    for label, group in (("strong", strong), ("subject", subjects)):
+        late = [p["late"] for p in group.values()]
+        slow = [p["slow"] for p in group.values()]
+        r = statistics.correlation(late, slow)
+        agree = sum(1 for a, b in zip(late, slow) if abs(a - b) < 0.05) / len(late)
+        print(f"  {label:<10} r = {r:>5.2f}   "
+              f"rates within 5 pp of each other for {agree:.0%} of players")
+
+    both = {**strong, **subjects}
+    late_all = [p["late"] for p in both.values()]
+    slow_all = [p["slow"] for p in both.values()]
+    print(f"  {'pooled':<10} r = {statistics.correlation(late_all, slow_all):>5.2f}")
+    print()
+    only_slow = sum(1 for p in subjects.values() if p["slow"] - p["late"] > 0.15)
+    print(f"  subjects whose slow rate exceeds their late rate by 15+ pp: "
+          f"{only_slow}/{len(subjects)}")
+    print("  (these are players who castle on time and still leave a piece at home)")
     print()
     print("A signal near AUC 0.50 fires equally on both populations and cannot")
     print("carry a claim, however sensible it sounds. That is what closed a")

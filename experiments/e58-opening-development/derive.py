@@ -59,6 +59,10 @@ class Norms:
     def __init__(self) -> None:
         self.castled: list[int] = []
         self.developed: list[int] = []
+        # `ready_at` -- castled AND every minor out. The design's "development
+        # span", and the right base for slow_development: `developed` alone
+        # ignores a king still sitting in the centre.
+        self.ready: list[int] = []
         self.games = 0
         self.never_castled = 0
         self.incomplete = 0
@@ -75,6 +79,7 @@ class Norms:
             self.castled.append(development.castled_at)
         if development.completed:
             self.developed.append(development.developed_at)
+            self.ready.append(development.ready_at)
         else:
             self.incomplete += 1
         repeat = development.rate(development.repeat_moves)
@@ -89,6 +94,9 @@ class Norms:
 
     def median_develop(self) -> float | None:
         return _survival_median(self.developed, self.incomplete)
+
+    def median_ready(self) -> float | None:
+        return _survival_median(self.ready, self.incomplete)
 
 
 def _survival_median(reached: list[int], never: int) -> float | None:

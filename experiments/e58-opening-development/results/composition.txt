@@ -39,6 +39,12 @@ LATE CASTLING rate
   within-opening median difference    10.8%   subjects higher in 30/36 openings
 
 ----------------------------------------------------------------------------
+SLOW DEVELOPMENT rate
+  crude          strong    34.6%   subject    45.4%   gap    10.8%
+  standardised   strong    34.7%   subject    45.4%   gap    10.6%   <- same opening mix
+  within-opening median difference    12.0%   subjects higher in 32/36 openings
+
+----------------------------------------------------------------------------
 REPEAT-MOVE share
   crude          strong    31.7%   subject    35.7%   gap     4.0%
   standardised   strong    33.1%   subject    35.1%   gap     2.0%   <- same opening mix

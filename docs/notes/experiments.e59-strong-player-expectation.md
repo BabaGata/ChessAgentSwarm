@@ -10,7 +10,7 @@ created: 1788825600000
 
 **Answers:** [[design.opening-development-signals]] · **Code:**
 `experiments/e58-opening-development/{fetch_strong,expectations,separation,composition}.py` ·
-**Date:** 2026-08-30 · **Status:** **one signal survives at full strength, one at half, one is
+**Date:** 2026-08-30 · **Status:** **two signals survive at full strength, one at half, one is
 dropped** — read the composition section below before the separation table above it, which is
 confounded and kept only to show what the confound did
 
@@ -160,17 +160,49 @@ Over 36 (family × colour) cells, 6,602 strong and 2,070 subject games:
 it should not be used at all. That is a defect in the metric rather than a finding about players, and
 it was invisible until the count was reported beside it.
 
+## `slow_development` — the headline, tested the same way
+
+Run last because it is the one the design nominated as the headline, and because it **contains** late
+castling: `ready_at` is the later of castling and development, so a standardised gap alone would not
+say whether it is worth having beside it.
+
+| | crude | standardised | within-opening median | subjects higher in | AUC |
+|---|--:|--:|--:|--:|--:|
+| **slow development** | +10.8 pp | **+10.6 pp** | +12.0 pp | **32 / 36** | **0.76** |
+| late castling | +11.3 pp | +9.8 pp | +10.8 pp | 30 / 36 | 0.73 |
+
+**It is the strongest of the four and the most robust.** Standardising moves it by 0.2 pp — against
+1.5 pp for late castling and more than half the effect for repeat moves — so almost none of it was
+repertoire. Subjects are slower in **32 of 36** openings.
+
+### And it is not redundant
+
+| population | r between late-castling and slow-development rates |
+|---|--:|
+| strong | 0.57 |
+| subject | 0.63 |
+| **pooled** | **0.68** |
+
+**Below the design's 0.85 ceiling**, so both ship rather than one absorbing the other. The concrete
+reason they differ: **24 of 72 subjects have a slow-development rate 15+ pp above their late-castling
+rate** — players who castle on time and still leave a piece at home. A plan built only on castling
+would tell those 24 nothing, and they are a third of the corpus.
+
+This also settles the design's presentation question with evidence rather than argument: the headline
+is `slow_development`, and late castling explains *part* of it for some players and none of it for a
+third of them.
+
 ## Consequence
 
-- **`late_castling` proceeds.** +9.8 pp standardised, 30 of 36 openings — the one signal that is
-  clearly about how an opening is played rather than which one is chosen.
+- **`slow_development` proceeds as the headline.** +10.6 pp standardised, 32 of 36 openings, AUC
+  0.76, and virtually untouched by the opening mix.
+- **`late_castling` proceeds beside it.** +9.8 pp standardised, 30 of 36 openings, and r = 0.68 with
+  the headline — under the ceiling, and a third of subjects are slow *without* being late to castle.
 - **`repeat_move_in_opening` proceeds at half strength**, +2.0 pp standardised. Worth building, worth
   stating honestly, and a candidate to fail the peer step where late castling probably will not.
 - **`pawn_moves_in_opening` is dropped, not held.** No within-opening effect on the measure that
   matches the hypothesis, and the measure that appeared to show one was contaminated by window
   length. Nothing here is worth telling a player.
-- **`slow_development` is not yet separately tested** — it shares most of its content with late
-  castling and must go through the same test before it is built.
 - **The own-median fallback is confirmed necessary** and scoped: 4 families, 10 % of games.
 
 ## Honest limitations

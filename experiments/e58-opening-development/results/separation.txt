@@ -10,9 +10,26 @@ random strong player: 0.50 is a coin, 1.00 is perfect separation.
 
 signal                    strong   subject   above p75      AUC
 ---------------------------------------------------------------
+slow development             33%       48%         64%     0.76
 late castling                29%       42%         68%     0.73
 pawn share                   38%       34%         17%     0.25
 repeat share                 31%       36%         58%     0.70
+
+======================================================================
+DOES slow_development CARRY ANYTHING late_castling DOES NOT?
+======================================================================
+
+`ready_at` is the later of castling and development, so the two
+overlap by construction. If they correlate above 0.85 they are one
+signal with two names and only the stronger ships -- the ceiling the
+design states, and the screen E10 established.
+
+  strong     r =  0.57   rates within 5 pp of each other for 35% of players
+  subject    r =  0.63   rates within 5 pp of each other for 25% of players
+  pooled     r =  0.68
+
+  subjects whose slow rate exceeds their late rate by 15+ pp: 24/72
+  (these are players who castle on time and still leave a piece at home)
 
 A signal near AUC 0.50 fires equally on both populations and cannot
 carry a claim, however sensible it sounds. That is what closed a

@@ -53,6 +53,9 @@ from expectations import MIN_GAMES, STRONG, SUBJECTS  # noqa: E402
 # -- which are exactly the games the hypothesis is about.
 EARLY_PLIES = 20
 
+# +2 moves, the author's upper setting.
+TOLERANCE_PLIES = 4
+
 
 class Cell:
     """Per-game numbers for one (family, colour) in one corpus."""
@@ -64,14 +67,18 @@ class Cell:
         # Censoring-free, measured on every game including the unfinished ones.
         self.early: list[int] = []
         self.late: list[int] = []
+        self.slow: list[int] = []
         self.repeat: list[float] = []
         self.games = 0
 
-    def add(self, development, early_pawns: int, late: bool | None) -> None:
+    def add(self, development, early_pawns: int, late: bool | None,
+            slow: bool | None = None) -> None:
         self.games += 1
         self.early.append(early_pawns)
         if late is not None:
             self.late.append(1 if late else 0)
+        if slow is not None:
+            self.slow.append(1 if slow else 0)
         repeat = development.rate(development.repeat_moves)
         if repeat is not None:
             self.repeat.append(repeat)
@@ -130,15 +137,21 @@ def walk_corpus(directory: pathlib.Path, book: OpeningBook, expectation=None):
                 family = _family(walk.opening.name)
                 for colour in (chess.WHITE, chess.BLACK):
                     development = measure_development(played, colour)
-                    late = None
-                    if expectation is not None:
-                        cell = expectation.get((family, colour))
-                        base = cell.median_castle() if cell and cell.games >= MIN_GAMES else None
+                    late = slow = None
+                    cell = expectation.get((family, colour)) if expectation else None
+                    if cell is not None and cell.games >= MIN_GAMES:
+                        base = cell.median_castle()
                         if base is not None:
                             late = (development.castled_at is None
-                                    or development.castled_at > base + 4)
+                                    or development.castled_at > base + TOLERANCE_PLIES)
+                        ready = cell.median_ready()
+                        if ready is not None:
+                            # Never finishing is the most extreme way of being
+                            # past the expectation, not a missing value.
+                            slow = (development.ready_at is None
+                                    or development.ready_at > ready + TOLERANCE_PLIES)
                     cells[(family, colour)].add(
-                        development, early_pawn_moves(played, colour), late
+                        development, early_pawn_moves(played, colour), late, slow
                     )
     return cells
 
@@ -198,6 +211,7 @@ def main() -> None:
                                       "(no censoring)", "{:.2f}"),
                             ("window", "opening window, moves", "{:.2f}"),
                             ("late", "LATE CASTLING rate", "{:.1%}"),
+                            ("slow", "SLOW DEVELOPMENT rate", "{:.1%}"),
                             ("repeat", "REPEAT-MOVE share", "{:.1%}")):
         s_crude, u_crude = crude(strong, key), crude(subjects, key)
         s_std = standardised(strong, weights, key)
