@@ -41,6 +41,11 @@ from chesscoach.openings import OpeningBook, _family
 SLOW_DEVELOPMENT = "slow_development"
 LATE_CASTLING = "late_castling"
 REPEAT_MOVE = "repeat_move"
+# Not "how often do you push pawns" -- E59 measured that and 1600s push as many
+# as 2600s in the same opening. This is "when you push one instead of
+# developing, how often does it go wrong", which is what E61's cost finding
+# actually pointed at: same number of pawn moves, worse ones.
+PAWN_ERROR = "pawn_error"
 
 # The basis a claim was judged on, and part of its key so the two can never be
 # pooled into one number.
@@ -56,6 +61,9 @@ class GameDevelopment:
     family: str
     colour: chess.Color
     development: Development
+    # How deep this game stayed in named theory. Moves inside it are not the
+    # player's own choices and are never charged to them -- see `_is_theory`.
+    plies_in_book: int = 0
     # The player's own observations, by ply. Carried because **V8 requires every
     # claim to cite the player's own games**, and a claim about a game needs a
     # move to point at.
@@ -124,6 +132,7 @@ def developments(
                 colour=colour,
                 development=measure_development(moves, colour),
                 mine=tuple(sorted(mine_by_game[game_id], key=lambda o: o.ply)),
+                plies_in_book=walk.plies_in_book,
             )
         )
     return tuple(found)
@@ -159,6 +168,27 @@ class Tally:
                 self.examples.append(example)
 
 
+def _is_theory(game: GameDevelopment, ply: int) -> bool:
+    """Was this move still inside named theory?
+
+    The author, on gambits:
+
+    > *"For gambits, signature gambit move that looses cost should not be counted
+    > with the rest since giving a pawn or 2 for a quick development is a nature
+    > of the gambits."*
+
+    Exactly right, and the general form is broader than gambits: **a move the
+    book still names is not the player's mistake.** The engine at depth 15
+    dislikes the King's Gambit and the Englund, and charging their signature
+    move to the player would penalise them for playing their opening correctly
+    -- and would do it hardest to the players who actually know a line.
+
+    The same guard covers sharp sidelines the engine underrates at this depth,
+    which is the same error wearing different clothes.
+    """
+    return ply <= game.plies_in_book
+
+
 def habit_costs(game: GameDevelopment) -> dict[str, float]:
     """What each habit cost in this game, in win probability.
 
@@ -177,12 +207,14 @@ def habit_costs(game: GameDevelopment) -> dict[str, float]:
     inflate the claim that competes for the plan slot.
     """
     by_ply = {o.ply: o for o in game.mine}
-    castle = repeat = union = 0.0
+    castle = repeat = union = pawn = 0.0
     for window_move in game.development.window_moves:
         observation = by_ply.get(window_move.ply)
-        if observation is None:
+        if observation is None or _is_theory(game, window_move.ply):
             continue
         loss = observation.loss_wp
+        if window_move.pawn_instead_of_developing:
+            pawn += loss
         if window_move.declined_available_castle:
             castle += loss
         if window_move.repeat_instead_of_developing:
@@ -191,7 +223,8 @@ def habit_costs(game: GameDevelopment) -> dict[str, float]:
                 or window_move.repeat_instead_of_developing
                 or window_move.pawn_instead_of_developing):
             union += loss
-    return {LATE_CASTLING: castle, REPEAT_MOVE: repeat, SLOW_DEVELOPMENT: union}
+    return {LATE_CASTLING: castle, REPEAT_MOVE: repeat,
+            SLOW_DEVELOPMENT: union, PAWN_ERROR: pawn}
 
 
 def count(
@@ -228,6 +261,27 @@ def count(
     # Repeat moves need no expectation: it is a rate over the player's own
     # opening moves, compared directly with peers. Every game contributes,
     # covered or not, because nothing here depends on knowing the opening.
+    # "When you push a pawn instead of developing, how often does it go wrong?"
+    # The denominator is those pawn moves, not every move: the question is about
+    # the quality of a choice the player made, not how often they made it.
+    pawns = tallies[f"{PAWN_ERROR}.any"]
+    for game in played:
+        by_ply = {o.ply: o for o in game.mine}
+        for window_move in game.development.window_moves:
+            if not window_move.pawn_instead_of_developing:
+                continue
+            if _is_theory(game, window_move.ply):
+                continue
+            observation = by_ply.get(window_move.ply)
+            if observation is None:
+                continue
+            pawns.opportunities += 1
+            if observation.is_error:
+                pawns.instances += 1
+                pawns.games.add(game.game_id)
+                pawns.examples.append(observation)
+        pawns.cost_wp += habit_costs(game)[PAWN_ERROR]
+
     repeats = tallies[f"{REPEAT_MOVE}.any"]
     for game in played:
         repeats.opportunities += game.development.moves_in_window

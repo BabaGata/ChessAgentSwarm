@@ -37,6 +37,7 @@ from chesscoach.arbiter import select_priorities  # noqa: E402
 from chesscoach.ingest.corpus import build_corpus  # noqa: E402
 from chesscoach.opening_development import (  # noqa: E402
     LATE_CASTLING,
+    PAWN_ERROR,
     REPEAT_MOVE,
     SLOW_DEVELOPMENT,
 )
@@ -47,7 +48,7 @@ from chesscoach.sections.base import SectionContext  # noqa: E402
 
 REVIEW = Path(__file__).resolve().parents[2] / "expert-review"
 CORPUS = Path(__file__).resolve().parents[2] / "data" / "raw" / "corpus-rapid"
-NEW = (SLOW_DEVELOPMENT, LATE_CASTLING, REPEAT_MOVE)
+NEW = (SLOW_DEVELOPMENT, LATE_CASTLING, REPEAT_MOVE, PAWN_ERROR)
 
 
 def is_new(key: str) -> bool:

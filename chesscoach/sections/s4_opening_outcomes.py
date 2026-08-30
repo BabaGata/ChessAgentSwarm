@@ -24,7 +24,12 @@ from dataclasses import dataclass, field
 from chesscoach.analysis.observations import Observation
 from chesscoach.development_norms import DevelopmentNorms
 from chesscoach.confidence import MIN_GAMES_WITH_DATA, ClaimStats, assign_tier
-from chesscoach.opening_development import LATE_CASTLING, REPEAT_MOVE, SLOW_DEVELOPMENT
+from chesscoach.opening_development import (
+    LATE_CASTLING,
+    PAWN_ERROR,
+    REPEAT_MOVE,
+    SLOW_DEVELOPMENT,
+)
 from chesscoach.opening_development import count as count_development
 from chesscoach.openings import OpeningBook
 from chesscoach.peers import ConditionMeasurement
@@ -79,7 +84,7 @@ OPENING_DISADVANTAGE = "opening_disadvantage"
 
 ANY = "any"
 
-_DEVELOPMENT_KINDS = (SLOW_DEVELOPMENT, LATE_CASTLING, REPEAT_MOVE)
+_DEVELOPMENT_KINDS = (SLOW_DEVELOPMENT, LATE_CASTLING, REPEAT_MOVE, PAWN_ERROR)
 
 # Move 15, in plies. The catalogue's own figure and conventional rather than
 # derived -- the real end of the opening varies by opening and by player. Named

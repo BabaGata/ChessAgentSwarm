@@ -40,7 +40,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from chesscoach.analysis.core import analyse_corpus  # noqa: E402
 from chesscoach.ingest.corpus import build_corpus  # noqa: E402
-from chesscoach.opening_development import developments  # noqa: E402
+from chesscoach.opening_development import _is_theory, developments  # noqa: E402
 from chesscoach.openings import OpeningBook  # noqa: E402
 from chesscoach.pipeline import engine_session, load_games  # noqa: E402
 
@@ -53,8 +53,15 @@ HABITS = (
 )
 
 
-def costs_for(observations, username, book):
-    """Per-game cost of each habit, and the player's overall opening cost."""
+def costs_for(observations, username, book, skip_theory: bool = True):
+    """Per-game cost of each habit, and the player's overall opening cost.
+
+    `skip_theory` is the author's gambit guard: a move the book still names is
+    not the player's own choice, so it is not charged to them. Reported both
+    ways because the guard's SIZE is the interesting number -- if it changes
+    nothing, gambits are too rare here to matter; if it changes a lot, the
+    unguarded figures were partly measuring who plays sharp openings.
+    """
     played = developments(observations, username, book)
     if not played:
         return None
@@ -64,6 +71,7 @@ def costs_for(observations, username, book):
     opening_loss = 0.0
     opening_moves = 0
     opening_errors = 0
+    pawn_opportunities = pawn_errors = 0
 
     for game in played:
         by_ply = {o.ply: o for o in game.mine}
@@ -74,6 +82,11 @@ def costs_for(observations, username, book):
             opening_moves += 1
             opening_loss += observation.loss_wp
             opening_errors += int(observation.is_error)
+            if skip_theory and _is_theory(game, window_move.ply):
+                continue
+            if window_move.pawn_instead_of_developing:
+                pawn_opportunities += 1
+                pawn_errors += int(observation.is_error)
             for name, attribute in HABITS:
                 if getattr(window_move, attribute):
                     totals[name] += observation.loss_wp
@@ -90,6 +103,8 @@ def costs_for(observations, username, book):
         "moves": counts,
         "opening_loss_per_game": opening_loss / games,
         "opening_error_rate": opening_errors / opening_moves if opening_moves else 0.0,
+        "pawn_error_rate": (pawn_errors / pawn_opportunities
+                            if pawn_opportunities else None),
     }
 
 
@@ -104,6 +119,7 @@ def main() -> int:
 
     book = OpeningBook.load()
     rows = []
+    unguarded = []
     with engine_session(args.engine, args.depth, args.cache) as session:
         for path in sorted(CORPUS.glob("*.pgn"))[: args.players]:
             games = load_games(path)[: args.window]
@@ -111,10 +127,12 @@ def main() -> int:
             if corpus.n_games == 0:
                 continue
             observations = analyse_corpus(corpus, games, session.analyser)
-            found = costs_for(observations, path.stem, book)
-            if found:
-                rows.append((path.stem, found))
-                print(f"  {path.stem}: {found['games']} games", flush=True)
+            guarded = costs_for(observations, path.stem, book, skip_theory=True)
+            raw = costs_for(observations, path.stem, book, skip_theory=False)
+            if guarded and raw:
+                rows.append((path.stem, guarded))
+                unguarded.append((path.stem, raw))
+                print(f"  {path.stem}: {guarded['games']} games", flush=True)
 
     print()
     print("WHAT EACH HABIT COSTS, IN WIN PROBABILITY PER GAME")
@@ -135,6 +153,34 @@ def main() -> int:
               f"{statistics.quantiles(per_game, n=10)[-1]:>9.3f}"
               f"{max(per_game):>9.3f}"
               f"{statistics.median(share):>23.0%}")
+
+    print()
+    print("The author's gambit guard: a move the book still names is theory,")
+    print("not the player's mistake. What excluding it changes:")
+    print()
+    print(f"{'habit':<14}{'unguarded':>11}{'guarded':>10}{'change':>10}")
+    print("-" * 45)
+    for name, _ in HABITS:
+        before = statistics.median([r[1]["per_game"][name] for r in unguarded])
+        after = statistics.median([r[1]["per_game"][name] for r in rows])
+        pct = (after - before) / before if before else 0.0
+        print(f"{name:<14}{before:>11.3f}{after:>10.3f}{pct:>9.0%}")
+
+    print()
+    print("And the pawn claim as a RATE OF ERROR rather than a rate of pawn")
+    print("moves -- the question E59's dropped claim could not ask:")
+    print()
+    pawn_rates = [r[1]["pawn_error_rate"] for r in rows
+                  if r[1]["pawn_error_rate"] is not None]
+    if pawn_rates:
+        qs = statistics.quantiles(pawn_rates, n=10)
+        print(f"  pawn moves that were errors: p10 {qs[0]:.0%}  "
+              f"median {statistics.median(pawn_rates):.0%}  p90 {qs[-1]:.0%}  "
+              f"spread {qs[-1] - qs[0]:.0%}")
+        errs = [r[1]["opening_error_rate"] for r in rows
+                if r[1]["pawn_error_rate"] is not None]
+        print(f"  r with the overall opening error rate: "
+              f"{statistics.correlation(pawn_rates, errs):.2f}")
 
     total = [sum(r[1]["per_game"][n] for n, _ in HABITS) for r in rows]
     overall = [r[1]["opening_loss_per_game"] for r in rows]

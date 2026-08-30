@@ -1,7 +1,7 @@
 ---
 id: cas-exp-e61
-title: 'E61 — Pricing a habit by what its own moves lost clears the arbiter'
-desc: 'The author rejected an end-of-opening cost because two weak players'' errors cancel. Summing loss_wp over the moves each habit names instead: 20.4 wp/game for repeat moves, and correlations with the general error rate of 0.44–0.64, well under E10''s 0.917. Development claims reach a plan for the first time — 1 of 12, and the bottleneck moves to the assertion rate.'
+title: 'E61 — Pricing a habit by what its own moves lost, and not charging players for theory'
+desc: 'Summing loss_wp over the moves each habit names: 19.9 wp/game for repeat moves, correlations with the general error rate of 0.44–0.65. A gambit guard excludes moves still in book and cuts the pawn cost 11 %. The pawn claim returns as a rate of ERROR rather than a rate of pawn moves, and works: development claims reach 2 of 12 plans, up from 0.'
 updated: 1788912000000
 created: 1788912000000
 ---
@@ -102,13 +102,83 @@ several layers fails silently at the layer nobody checks**, and only instrumenti
 chain finds it. Reading the number I expected to change, rather than the log, is what caught all
 three.
 
+## Not charging the player for theory
+
+The author, on the same measurement:
+
+> *"For gambits, signature gambit move that looses cost should not be counted with the rest since
+> giving a pawn or 2 for a quick development is a nature of the gambits."*
+
+Correct, and **the general form is broader than gambits: a move the book still names is not the
+player's own choice.** Stockfish at depth 15 dislikes the King's Gambit's `f4` and the Englund's
+`e5`; charging those to the player would penalise them hardest for *knowing* a line, which is the
+opposite of what these claims are for. The same guard covers sharp sidelines the engine underrates
+at this depth — the same error wearing different clothes.
+
+Implemented as `ply <= plies_in_book`, which needs no new machinery: `BookWalk` already reports it.
+
+**What it changes**, median wp/game over 40 players:
+
+| habit | unguarded | guarded | change |
+|---|--:|--:|--:|
+| repeat instead of developing | 20.4 | 19.9 | −3 % |
+| **pawn instead of developing** | 12.8 | **11.4** | **−11 %** |
+| declined an available castle | 9.7 | 9.3 | −4 % |
+
+**It bites hardest exactly where the author predicted.** The pawn cost was 11 % inflated by charging
+players for theory, and the other two barely move — which is what should happen, since a gambit's
+signature move is a pawn move. The guard is doing the specific job it was asked to do rather than
+trimming everything indiscriminately.
+
+A test pins it on the real King's Gambit rather than on a constructed position, so it fails if the
+book stops naming the line.
+
+## The pawn claim returns, as a different claim
+
+E59 dropped `pawn_moves_in_opening` because the **rate** does not discriminate: 1600s push as many
+pawns as 2600s once the opening is held fixed. But E61 found those pawn moves cost 22 % of all
+opening loss. Same number of pawn moves, worse ones.
+
+So the claim is rebuilt around the quality of the choice rather than its frequency:
+
+> **`pawn_error`** — of the pawn moves you played *instead of developing*, how many went wrong?
+
+Denominator is those pawn moves, not every move: the question is about a choice the player made, not
+how often they made it.
+
+| | |
+|---|--:|
+| pooled rate, rapid | 24 % |
+| spread across the band (p10 → p90) | 12 % → 36 % |
+| players clearing the 1.25× margin, rapid | **18 / 71** |
+| players clearing it, blitz | 9 / 65 |
+| r with the overall opening error rate | **0.69** |
+
+**It works**, and at a rate comparable to `slow_development` and `late_castling` — about a quarter of
+the band. Its correlation with the general error rate is the highest of the four, so it is the one
+most at risk of being a proxy, but 0.69 is still well under E10's 0.917 and this design's 0.85.
+
+## The operational result
+
+| | before | after |
+|---|--:|--:|
+| development claims in a plan | 1 / 12 | **2 / 12** |
+
+`pawn_error.any` asserts for one player and takes a plan slot. **A claim E59 correctly dropped as a
+rate is delivering as a cost**, which is the whole argument for measuring both.
+
+**And a measurement bug of the usual shape, caught once more.** The first run of the peer check
+reported the pawn claim as absent — because the harness's list of "new" claims had not been updated
+to include it. The number was real, the claim was firing, and the instrument could not see it. Fourth
+instance this week of a value crossing a boundary that nobody checks.
+
 ## Consequence
 
-- **`slow_development`, `late_castling` and `repeat_move` are priced** and compete normally.
-- **The pawn claim may return.** E59 dropped it because the *rate* does not discriminate — but its
-  *cost* is 22 % of opening loss at r = 0.64. Same number of pawn moves as peers, worse ones. That is
-  a different claim from the one that was dropped and it has not been tested.
-- **Next is the assertion rate**, not the arbiter.
+- **`slow_development`, `late_castling`, `repeat_move` and `pawn_error` are priced** and compete normally.
+- **Theory is never charged to the player**, which protects gambit players specifically and
+  book-followers generally.
+- **Next is the assertion rate**, not the arbiter: 2 of 12 where the band figures predict ~3 per
+  claim.
 
 ## Honest limitations
 
@@ -119,3 +189,8 @@ three.
 - **The overlap is handled by union, not by attribution.** When one move is two habits at once,
   nothing here decides which habit deserves the blame.
 - **No cost figure has been read by a person** against the games it came from.
+- **The theory guard trusts the book's coverage.** An opening the book does not name gets no
+  protection, and the book is 3,810 lines rather than exhaustive — so an obscure gambit is still
+  charged for its own sacrifice.
+- **`pawn_error` is the weakest of the four on independence** at r = 0.69, and it is the one to
+  re-screen first if the set is ever trimmed.

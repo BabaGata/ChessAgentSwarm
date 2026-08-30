@@ -14,6 +14,7 @@ from chesscoach.development_norms import DevelopmentNorms, Norm
 from chesscoach.opening_development import (
     BY_BOOK,
     BY_SELF,
+    GameDevelopment,
     count,
     developments,
     games_from,
@@ -276,12 +277,74 @@ class TestHabitCost:
     def test_a_move_that_lost_nothing_costs_nothing(self, book):
         rows = observations_with_loss(SLOW_ITALIAN, "g1", {})
         game, = developments(rows, PLAYER, book)
-        assert habit_costs(game) == {
-            "late_castling": 0.0, "repeat_move": 0.0, "slow_development": 0.0,
-        }
+        assert set(habit_costs(game).values()) == {0.0}
 
     def test_the_cost_reaches_the_tally(self, book):
         expectation = norms({("Italian Game", True): (7, 13, 50)})
         rows = observations_with_loss(SLOW_ITALIAN, "g1", {7: 5.0})
         tallies = count(rows, PLAYER, book, expectation)
         assert tallies[f"slow_development.{BY_BOOK}"].cost_wp == 5.0
+
+
+class TestTheoryIsNotThePlayersMistake:
+    """The author, on gambits:
+
+    > *"For gambits, signature gambit move that looses cost should not be
+    > counted with the rest since giving a pawn or 2 for a quick development is
+    > a nature of the gambits."*
+
+    The general form is broader than gambits: a move the book still names is not
+    the player's own choice. Charging the King's Gambit's f4 or the Englund's e5
+    to the player would penalise them hardest for *knowing* a line, which is the
+    opposite of what these claims are for.
+    """
+
+    def test_a_move_inside_the_book_is_not_charged(self, book):
+        # Ply 7 is a3 and loses 5.0. With the game in book to ply 8, it is
+        # theory and costs the player nothing.
+        rows = observations_with_loss(SLOW_ITALIAN, "g1", {7: 5.0})
+        game, = developments(rows, PLAYER, book)
+        in_theory = GameDevelopment(
+            game_id=game.game_id, family=game.family, colour=game.colour,
+            development=game.development, mine=game.mine, plies_in_book=8,
+        )
+        assert set(habit_costs(in_theory).values()) == {0.0}
+
+    def test_the_same_move_outside_the_book_is_charged(self, book):
+        rows = observations_with_loss(SLOW_ITALIAN, "g1", {7: 5.0})
+        game, = developments(rows, PLAYER, book)
+        out_of_theory = GameDevelopment(
+            game_id=game.game_id, family=game.family, colour=game.colour,
+            development=game.development, mine=game.mine, plies_in_book=6,
+        )
+        assert habit_costs(out_of_theory)["slow_development"] == 5.0
+
+    def test_a_real_gambit_sacrifice_is_recognised_as_theory(self, book):
+        # The King's Gambit. 2.f4 is a pawn move made instead of developing, and
+        # it gives away a pawn on purpose -- the exact case the author named.
+        kings_gambit = ("e4", "e5", "f4", "exf4", "Nf3", "g5", "Bc4", "Bg7",
+                        "d4", "d6", "O-O", "Nc6")
+        rows = observations_with_loss(kings_gambit, "kg", {3: 9.0})
+        game, = developments(rows, PLAYER, book)
+        assert game.plies_in_book >= 3, "the book should name the King's Gambit"
+        assert habit_costs(game)["slow_development"] == 0.0
+
+
+class TestPawnErrorClaim:
+    def test_it_counts_bad_pawn_moves_not_pawn_moves(self, book):
+        # E59 measured that 1600s push as many pawns as 2600s in the same
+        # opening, so the RATE of pawn moves says nothing. This asks a different
+        # question: of the pawn moves you played instead of developing, how many
+        # went wrong?
+        from chesscoach.analysis.observations import ErrorLabel
+        rows = observations_for(SLOW_ITALIAN, "g1")
+        marked = tuple(
+            Observation(**{**o.__dict__,
+                           "label": ErrorLabel.MISTAKE if o.ply == 7 else None})
+            for o in rows
+        )
+        tallies = count(marked, PLAYER, book, norms())
+        pawns = tallies["pawn_error.any"]
+        assert pawns.opportunities > pawns.instances
+        assert pawns.instances == 1
+        assert pawns.examples[0].ply == 7

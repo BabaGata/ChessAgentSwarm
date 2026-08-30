@@ -53,3 +53,4 @@ data/raw/corpus-strong/
 # Rebuilt peer references carrying the development claims (large, reproducible)
 data/raw/out/peers-dev*.json
 data/raw/out/peers-cost*.json
+data/raw/out/peers-pawn*.json
