@@ -9,7 +9,53 @@
 # The secret key comes from the SEARXNG_SECRET environment variable set in
 # docker-compose.yml. Bound to 127.0.0.1 only; nothing here is reachable off
 # this machine.
-use_default_settings: true
+
+# ---------------------------------------------------------------------------
+# THE ENGINE LIST, AND THE BUG THAT MADE EVERY SEARCH FAIL
+# ---------------------------------------------------------------------------
+#
+# This file used to say `use_default_settings: true` and then list four engines
+# with `disabled: false`, believing that restricted search to those four. **It
+# does not.** Under `use_default_settings: true` a top-level `engines:` list is
+# MERGED with the defaults by name: listed entries update the defaults, and
+# every other default engine stays enabled.
+#
+# Measured against the running container: **84 engines were enabled**, including
+# `brave`, `duckduckgo`, `google cse` and `startpage` -- the exact four the old
+# comment claimed had been disabled. Every query fanned out to all of them, so
+# the CAPTCHAs and 403s in the logs were not bad luck, they were guaranteed.
+#
+# Worse, two of the four names it listed -- `marginalia` and `stract` -- **do
+# not exist in this image at all**, and SearxNG ignores unknown engine names
+# silently. So the config enabled 84 engines and failed to enable half of the
+# handful it wanted.
+#
+# `keep_only` is the setting that actually restricts the list.
+use_default_settings:
+  engines:
+    keep_only:
+      # Two small independent indexes that tolerate a low-volume metasearch.
+      - mojeek
+      - mwmbl
+      # Keyless, reliable, and the right genre for motif definitions -- which is
+      # what the knowledge base needs (design.knowledge-base). For opening
+      # *plans* the author read Wikimedia prose and refused it as too advanced,
+      # so this is a reference of last resort there and a primary source here.
+      - wikipedia
+      - wikibooks
+
+# `keep_only` decides which engines survive; this decides how they behave.
+# `mwmbl` and `wikibooks` ship disabled by default, so keeping them is not
+# enough -- they have to be switched on as well.
+engines:
+  - name: mojeek
+    disabled: false
+  - name: mwmbl
+    disabled: false
+  - name: wikipedia
+    disabled: false
+  - name: wikibooks
+    disabled: false
 
 server:
   # A rate limiter aimed at abusive public traffic, which one researcher on
@@ -26,20 +72,17 @@ search:
   autocomplete: ""
   default_lang: "en"
 
-# The big four throttle a single researcher hard: measured over one day, brave
-# and google cse return "too many requests" and duckduckgo and startpage return
-# CAPTCHA, after which every query comes back empty and the swarm reports an
-# empty web (L-046 again, which is why SearxSearcher now raises on it).
-#
-# These four are smaller indexes that do not rate-limit at this volume. They are
-# a worse index and an available one, and an available worse index is what makes
-# the difference between a swarm that runs and a swarm that cannot.
-engines:
-  - name: mojeek
-    disabled: false
-  - name: marginalia
-    disabled: false
-  - name: stract
-    disabled: false
-  - name: wikipedia
-    disabled: false
+outgoing:
+  # One request at a time to any upstream, with a real gap between them. The
+  # client already paces itself (`SearxSearcher.SPACING = 6.0`), but that paces
+  # OUR queries -- it says nothing about how many upstream requests each of them
+  # becomes. With the fan-out cut from 84 engines to 4 this is now a small
+  # number rather than a burst.
+  # mwmbl's API is slow: it timed out repeatedly at 10 s and answered fine at
+  # 20 s. A timeout is reported as an unresponsive engine, which SearxSearcher
+  # correctly raises on -- so a timeout too low turns a working index into
+  # "the web has nothing", which is the L-046 shape this project keeps hitting.
+  request_timeout: 20.0
+  max_request_timeout: 30.0
+  pool_connections: 4
+  pool_maxsize: 4

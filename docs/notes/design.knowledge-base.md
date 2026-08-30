@@ -261,6 +261,21 @@ proxy — it queries Google, DuckDuckGo and Mojeek on our behalf, and **those en
 the container**, not us. No change to this project's HTTP code can fix that, because this project is
 not the thing making the blocked requests.
 
+**Fixed 2026-08-30, and the cause was in the config all along.** `use_default_settings: true`
+**merges** a top-level `engines:` list with the defaults rather than replacing it, so the four
+engines the file listed were simply re-affirmed and **the other eighty stayed on**. Measured against
+the running container: **84 engines enabled, including `brave`, `duckduckgo`, `google cse` and
+`startpage`** — the exact four the file's own comment claimed were disabled. Every query fanned out
+to all of them, so the CAPTCHAs were guaranteed rather than unlucky.
+
+Two of the four names it listed, `marginalia` and `stract`, **do not exist in this image**, and
+SearxNG ignores unknown engine names silently.
+
+`use_default_settings: engines: keep_only:` is the setting that actually restricts the list.
+**84 → 4**, and `mwmbl`'s timeout raised from 10 s to 20 s because it was timing out and a timeout
+reads as an unresponsive engine, which is the same L-046 shape again. Verified live: three motif
+queries return 6, 21 and 4 results with **no unresponsive engines**.
+
 **Four routes, in order of preference:**
 
 1. **Reconfigure SearxNG's engine list.** Disable the engines that block metasearch; enable ones that
@@ -268,10 +283,20 @@ not the thing making the blocked requests.
 2. **Lean harder on APIs built to be called.** Wikimedia already works and needs no key. The same is
    true of other CC-licensed corpora, and for *motif definitions* — unlike opening plans —
    Wikipedia's coverage is genuinely adequate.
-3. **Google Programmable Search JSON API**, 100 queries/day free. The one item from the general
-   advice worth taking: a documented API with a real free tier rather than scraping. **Against:** it
-   needs a key, which means secret management and a signup an examiner cannot reproduce — the
-   exact objection `SearxSearcher`'s own docstring already raises against hosted APIs.
+3. **A keyed provider with a hard local cap.** Google Programmable Search (100/day free) or Brave,
+   which the author offered to configure *"if you can block searches that will go over the free
+   limit"*. **Built: `chesscoach/quota.py`.** `MeteredSearcher` wraps any searcher and refuses the
+   query that would exceed the tier, with three properties the free-tier problem actually needs:
+   it **counts attempts rather than successes** (a timed-out request is still billed), it **refuses
+   loudly** with a `SearchUnavailable` subclass rather than returning an empty list (L-046 again --
+   *"we did not look"* must never read as *"the web has nothing"*), and it **persists** across
+   processes, because a limit that resets on restart is not a limit. `keep_back` reserves part of
+   the allowance so an automated run cannot consume the author's whole month.
+   **Against:** it still needs a key, which means secret management and a signup an examiner cannot
+   reproduce -- the exact objection `SearxSearcher`'s own docstring raises. **And a fact to check:**
+   that docstring records *"Brave withdrew its free tier in February 2026"*, which contradicts the
+   author's offer. One of the two is out of date and it should be established which before a key is
+   created.
 4. **Cache and reuse.** 33 claims is a small, fixed, slow-changing set. One successful crawl can be
    stored in the run store and never repeated, which turns a rate limit into a one-off cost.
 
