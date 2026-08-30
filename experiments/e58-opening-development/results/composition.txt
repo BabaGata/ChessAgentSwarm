@@ -1,0 +1,88 @@
+PAWN MOVES: WHICH OPENING, OR HOW IT IS PLAYED?
+============================================================================
+
+families x colours compared   36
+strong games in them          6602
+subject games in them         2070
+
+Completed openings only: an unfinished window has no length to
+normalise by and no end to count up to.
+
+----------------------------------------------------------------------------
+pawn SHARE of opening moves
+  crude          strong    38.4%   subject    35.6%   gap    -2.8%
+  standardised   strong    36.8%   subject    35.6%   gap    -1.2%   <- same opening mix
+  within-opening median difference    -0.9%   subjects higher in 7/36 openings
+
+----------------------------------------------------------------------------
+pawn MOVE COUNT before ready
+  crude          strong     5.35   subject     4.99   gap    -0.35
+  standardised   strong     5.11   subject     4.98   gap    -0.13   <- same opening mix
+  within-opening median difference    -0.05   subjects higher in 17/36 openings
+
+----------------------------------------------------------------------------
+pawn moves in first 10 moves (no censoring)
+  crude          strong     4.42   subject     4.08   gap    -0.34
+  standardised   strong     4.21   subject     4.08   gap    -0.13   <- same opening mix
+  within-opening median difference    -0.17   subjects higher in 10/36 openings
+
+----------------------------------------------------------------------------
+opening window, moves
+  crude          strong    14.02   subject    14.19   gap     0.17
+  standardised   strong    13.99   subject    14.16   gap     0.18   <- same opening mix
+  within-opening median difference     0.29   subjects higher in 22/36 openings
+
+----------------------------------------------------------------------------
+LATE CASTLING rate
+  crude          strong    30.6%   subject    41.9%   gap    11.3%
+  standardised   strong    31.7%   subject    41.4%   gap     9.8%   <- same opening mix
+  within-opening median difference    10.8%   subjects higher in 30/36 openings
+
+----------------------------------------------------------------------------
+REPEAT-MOVE share
+  crude          strong    31.7%   subject    35.7%   gap     4.0%
+  standardised   strong    33.1%   subject    35.1%   gap     2.0%   <- same opening mix
+  within-opening median difference     1.7%   subjects higher in 26/36 openings
+
+============================================================================
+PER OPENING, SUBJECT MINUS STRONG
+============================================================================
+
+opening                       side       share    count   window
+----------------------------------------------------------------
+Scandinavian Defense          Black     +3.0%    +0.99    +1.84
+Indian Defense                White     -3.5%    +0.84    +3.83
+Bishop's Opening              White     -3.4%    +0.51    +3.22
+English Opening               White     -0.5%    +0.50    +1.32
+Caro-Kann Defense             Black     +1.0%    +0.42    +0.72
+Queen's Gambit Declined       White     -0.9%    +0.42    +1.16
+Philidor Defense              Black     +1.9%    +0.27    -0.17
+Petrov's Defense              White     -0.2%    +0.25    +1.22
+Four Knights Game             White     +0.8%    +0.14    +0.51
+Philidor Defense              White     -0.9%    +0.14    +1.03
+Zukertort Opening             Black     -3.2%    +0.13    +1.36
+Petrov's Defense              Black     +0.5%    +0.12    +1.02
+French Defense                White     +1.1%    +0.10    +0.18
+Sicilian Defense              Black     -0.1%    +0.09    +0.41
+Queen's Pawn Game             White     -0.6%    +0.08    +0.41
+Scotch Game                   Black     -1.7%    +0.01    +0.67
+Italian Game                  Black     -1.0%    +0.01    +0.56
+Pirc Defense                  Black     +0.2%    -0.03    -0.17
+Bishop's Opening              Black     -1.3%    -0.08    +0.57
+Caro-Kann Defense             White     -0.5%    -0.11    -0.12
+Pirc Defense                  White     -0.1%    -0.16    -0.18
+Indian Defense                Black     -2.3%    -0.22    +0.05
+Queen's Pawn Game             Black     -2.3%    -0.27    +0.08
+Sicilian Defense              White     -0.8%    -0.30    -0.47
+Italian Game                  White     -0.3%    -0.32    -0.81
+Zukertort Opening             White     -7.1%    -0.38    +2.13
+Modern Defense                Black     -0.8%    -0.46    -0.57
+Ruy Lopez                     Black     -4.1%    -0.66    -0.26
+Queen's Gambit Declined       Black     -7.1%    -0.66    +0.86
+Ruy Lopez                     White     -0.1%    -0.67    -1.99
+French Defense                Black     -2.0%    -0.76    -1.31
+English Opening               Black     -2.9%    -0.78    -1.21
+Modern Defense                White     -4.1%    -0.82    -0.58
+Scandinavian Defense          White     -5.6%    -0.86    -0.23
+Scotch Game                   White     -5.6%    -0.89    +0.09
+Four Knights Game             Black     -3.7%    -1.26    -2.27
