@@ -315,7 +315,7 @@ access to engines that have already said no.
 | Wikimedia fallback, **labelled** | **done** — `FallbackSearcher.fell_back` records the substitution |
 | entry schema + store + review gate | **done** — `chesscoach/knowledge.py`, 13 tests |
 | free-tier cap for a keyed provider | **done** — `chesscoach/quota.py`, 12 tests |
-| the drafting swarm | next |
+| the drafting swarm | **built** — [[experiments.e63-knowledge-swarm]]; runs, refuses correctly, and is **blocked on retrieval reach** |
 | the cost template | after that |
 
 **The fallback reverses `SearxSearcher`'s "no fallback" rule, deliberately and only here.** That rule
