@@ -284,6 +284,21 @@ outranks expert agreement**, and the remaining Form A collection is dropped as a
    debt that no development claim has been read by a person against the games it is made about. The remaining blocker is the **peer** half — separating 1600 from 2600
    is not the claim's job, and separating 1600 from 1600 needs the reference rebuilt.
 
+0. **P0 — A knowledge base for every detected claim** *(2026-08-30)* →
+   [[design.knowledge-base]]. The author's request, and it fills the *"runtime knowledge store —
+   does not exist; designed in M3"* row in [[capacity.knowledge]]. **The four parts they asked for
+   have four different provenances**, and treating them as one record is the trap: *what is detected*
+   is a **specification** (the detector's own rule, `measured`), *what it costs* the project already
+   **measures** per player, *links* are pointers the guide library already handles under review, and
+   only *practice suggestions* need outside authority — the part the project's own expertise research
+   is most sceptical of, having found training-method evidence thin and coaching's value contested.
+   Recommended: **two layers**, a specification layer written by the author and never by a model, and
+   a player layer that is measured or linked. **The specification layer is worth more and is
+   cheaper**: this session's three broken detectors (`fork`, `late_castling`, `pawn_error`) each
+   failed for want of a written *"what it is not"*, and all three were caught late by a person
+   reading positions (L-050). **Design only — no code yet**, and four questions in the note are the
+   author's to settle.
+
 0. **P0 — Mark the detection sheet** *(2026-08-29)* →
    `experiments/e55-detector-precision/results/detection-sheet.txt`, 33 claims, 165 boxes, stamped
    with the commit it judges. Change `[ ]` to `[y]`, `[n]` or `[?]` and run
