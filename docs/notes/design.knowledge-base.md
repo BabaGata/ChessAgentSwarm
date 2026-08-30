@@ -9,7 +9,7 @@ created: 1788912000000
 # A knowledge base for the detectors
 
 **Source:** the author, 2026-08-30 · **Fills:** the *"runtime knowledge store — does not exist;
-designed in M3"* row in [[capacity.knowledge]] · **Status:** design only, no code
+designed in M3"* row in [[capacity.knowledge]] · **Status:** **Option C chosen by the author 2026-08-30** — the swarm drafts, the author approves, and LLM agents are used as far as they can be. Design only, no code
 
 ## The request
 
@@ -94,7 +94,13 @@ run, the Compiler invents or restates when the retrieved pages do not support a 
 a fork good"* — where confident-sounding text is abundant and cheap — is aiming it at the target it
 is worst against.
 
-## Option D — two layers, different rules for each **(recommended)**
+## Option D — two layers, different rules for each
+
+> **Not chosen.** The author picked **Option C** and asked that LLM agents be used as much as
+> possible. Recorded because one piece of it survives regardless — see *"What the swarm must not
+> write"* below.
+
+
 
 Split by provenance rather than by claim.
 
@@ -113,6 +119,69 @@ goes only where nothing else can supply it; and layer 1 pays for itself immediat
 for — it links rather than explains.
 
 ---
+
+---
+
+# The chosen design: Option C, and the one thing it must not do
+
+The author's decision, after the arguments above:
+
+> *"I want C — the existing swarm drafts, you approve. LLM agents should be used as much as
+> possible."*
+
+**One objection I raised is weaker than I made it sound, and I should say so.** I argued the swarm is
+worst at exactly this target because confident chess prose is abundant and cheap to invent. But
+abundance cuts both ways: the WATCH half fails on openings because the retrieved pages genuinely *do
+not discuss* the opponent, so the Compiler has nothing to ground against and invents. Motif
+definitions are the opposite — the web is full of real text about what a fork is. **The failure
+mode therefore changes from *inventing* to *copying a mediocre source*, which is a different and more
+manageable risk**: it is visible to a reader, it is catchable by the grounding gate, and it fails
+loudly rather than plausibly.
+
+So Option C is more likely to work here than it would have on the opening briefs, and the existing
+machinery — Scout, Assessor, Compiler, `_restates`, the run store, `approved_brief` — carries
+over unchanged.
+
+## What the swarm must not write
+
+**The precise specification stays with the author.** Not because a model cannot write a definition,
+but because of what happened this session:
+
+- the web's definition of a fork is *"one piece attacks two pieces at once"*;
+- **that definition is what the broken detector implemented**, and it counted 1,014 double attacks
+  where 3 were forks;
+- what fixed it was the author's sentence — *"and the result is definite loss of material... if
+  the bishop was defended the rook could be moved and there would occur only exchange of the pieces,
+  not material loss"* — which no consulted source states.
+
+**A retrieved definition is the vague version by construction.** Vagueness is invisible in prose and
+fatal in a detector.
+
+**But it is still worth retrieving**, for a reason the author's framing supplies: if the retrieved
+definition and the detector's behaviour disagree, that disagreement *is* the detector review. So the
+swarm drafts the definition, and it is used as **an independent cross-check against the code**, never
+as the code's specification. The author's precise version sits beside it.
+
+That keeps R-03 satisfied: the retrieved text is quoted with a source and an evidence class; the
+authoritative rule is the author's.
+
+## What each agent produces
+
+Reusing the three roles rather than inventing new ones:
+
+| agent | for a knowledge-base entry |
+|---|---|
+| **Scout** | queries per claim — *"what is a fork in chess"*, *"why are doubled pawns weak"*, *"how to practise tactics"* |
+| **Assessor** | keeps sentences that **define or explain**, discards listicles and product pages, learns the skip list as today |
+| **Compiler** | writes the four sections, each grounded in kept sentences |
+
+Two checks it needs that the opening brief does not:
+
+- **the definition section must quote rather than paraphrase**, because a paraphrase of a definition
+  is where precision is lost and precision is the whole point;
+- **the practice section must cite or be empty.** [[capacity.knowledge]] records that the expertise
+  research found training-method evidence thin and coaching's value contested, so an unsourced
+  practice suggestion is exactly the unfalsifiable coaching CLAUDE.md forbids.
 
 ## Why layer 1 is worth more than layer 2, and should be first
 
@@ -172,16 +241,56 @@ prescribing a method**, and where a method is named, name its source and evidenc
 weakness and given no way to work on it has been diagnosed and abandoned. That is a real cost and it
 argues for keeping them — but as *sourced pointers*, not as invented advice.
 
+## The dependency: search has to work again
+
+Option C is a retrieval design, and retrieval is currently blocked — Mojeek returned 403 and
+DuckDuckGo a CAPTCHA, confirmed in the container logs. **The diagnosis matters, because the obvious
+one is wrong for this project.**
+
+**What this project actually does**, checked rather than assumed:
+
+| the usual accusation | this codebase |
+|---|---|
+| generic `python-requests` User-Agent | `ChessAgentSwarm/0.1 (thesis research; opening guide lookup)` — honest and descriptive |
+| parallel agents hammering an endpoint | sequential `urllib`, `POLITE_SECONDS = 1.5`, per-searcher spacing, 60 s back-off on 429 |
+| brittle scraper libraries (`duckduckgo-search`, `googlesearch-python`) | none; a self-hosted **SearxNG** and the **Wikimedia API** |
+| sending whole HTML to the model | sentences extracted, `is_usable_note` filter, chunked at 25 |
+
+**So none of the standard causes apply, and the real one is structural:** SearxNG is a *metasearch*
+proxy — it queries Google, DuckDuckGo and Mojeek on our behalf, and **those engines are blocking
+the container**, not us. No change to this project's HTTP code can fix that, because this project is
+not the thing making the blocked requests.
+
+**Four routes, in order of preference:**
+
+1. **Reconfigure SearxNG's engine list.** Disable the engines that block metasearch; enable ones that
+   tolerate it. Free, inside C1 and C7, no key, no signup, and the examiner can reproduce it.
+2. **Lean harder on APIs built to be called.** Wikimedia already works and needs no key. The same is
+   true of other CC-licensed corpora, and for *motif definitions* — unlike opening plans —
+   Wikipedia's coverage is genuinely adequate.
+3. **Google Programmable Search JSON API**, 100 queries/day free. The one item from the general
+   advice worth taking: a documented API with a real free tier rather than scraping. **Against:** it
+   needs a key, which means secret management and a signup an examiner cannot reproduce — the
+   exact objection `SearxSearcher`'s own docstring already raises against hosted APIs.
+4. **Cache and reuse.** 33 claims is a small, fixed, slow-changing set. One successful crawl can be
+   stored in the run store and never repeated, which turns a rate limit into a one-off cost.
+
+**Two things from the general advice are refused, not deprioritised.** Spoofing a browser User-Agent
+to defeat bot detection, and rotating proxies to evade IP blocks, are circumvention of access
+controls the sites deliberately put up. They are also self-defeating here: the honest User-Agent is
+*why* the Lichess and Wikimedia APIs work reliably, and an evasive one puts that at risk to gain
+access to engines that have already said no.
+
 ## Sequencing
 
 **Not all 33 claims.** An entry for a claim no player is ever told about is wasted work. Across the
 review twelve only about fourteen claims ever reached a headline or a plan.
 
-1. **Layer 1 for the claims that currently reach players** — highest value, no retrieval, and it
-   doubles as the detector review the author asked for.
-2. **The cost template**, which is code rather than content.
-3. **Links**, through the existing swarm and approval gate.
-4. **Practice**, last and smallest, sourced.
+1. **Unblock retrieval** — SearxNG engine config first, since Option C cannot start without it.
+2. **The claims that currently reach players**, not all 33: only about fourteen ever reached a
+   headline or a plan across the review twelve.
+3. **The cost template**, which is code rather than content and needs no retrieval at all.
+4. **Practice**, last and smallest, cited or empty.
 
 ## What still needs deciding
 

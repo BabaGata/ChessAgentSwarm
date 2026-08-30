@@ -297,7 +297,17 @@ outranks expert agreement**, and the remaining Form A collection is dropped as a
    cheaper**: this session's three broken detectors (`fork`, `late_castling`, `pawn_error`) each
    failed for want of a written *"what it is not"*, and all three were caught late by a person
    reading positions (L-050). **Design only — no code yet**, and four questions in the note are the
-   author's to settle.
+   author's to settle. **Option C chosen 2026-08-30** — the swarm drafts, the author approves,
+   LLM agents used as far as they go. One objection I raised is weaker than I made it: the swarm
+   invents on opening briefs because the pages genuinely do not discuss the opponent, whereas the
+   web is full of real text about what a fork is — so the failure mode becomes *copying a mediocre
+   source*, which fails loudly instead of plausibly. **The precise specification still stays with
+   the author**: the web's definition of a fork is *"one piece attacks two"*, which is exactly
+   what the broken detector implemented. Retrieved definitions are kept as an **independent
+   cross-check** against the code, never as its spec. **Blocked on retrieval**: the searches fail
+   because SearxNG is a metasearch proxy and the upstream engines block the container — not
+   because of anything in this project's HTTP, which sends an honest User-Agent, spaces requests
+   at 1.5 s and backs off 60 s on 429. Fix is SearxNG engine config, not client code.
 
 0. **P0 — Mark the detection sheet** *(2026-08-29)* →
    `experiments/e55-detector-precision/results/detection-sheet.txt`, 33 claims, 165 boxes, stamped
