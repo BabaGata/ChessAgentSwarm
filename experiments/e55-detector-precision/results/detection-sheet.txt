@@ -22,7 +22,7 @@ these games, which is worth knowing too.
 
 ==============================================================================
 
-GENERATED 2026-08-31 from commit 3af3206.
+GENERATED 2026-08-31 from commit 458ad79.
 Marks on this sheet judge THAT code. If a detector changes afterwards its
 marks stop being evidence about it -- record this line with them.
 
@@ -252,21 +252,6 @@ concedes_weakness.isolated.own
   [ ] cademan               move  27  White cxd5     lost   8.4 wp
       lichess.org/WW2QKoJn#53
 
-endgame_error.any.own
-    claims: Your play falls off in the endgame.
-    25 instances across 2 players
-------------------------------------------------------------------------------
-  [ ] Maximilian_Honigtopf  move  35  White b7       lost  35.1 wp
-      lichess.org/KKioqi5t#69
-  [ ] Maximilian_Honigtopf  move  37  White Qb3+     lost   8.2 wp
-      lichess.org/KKioqi5t#73
-  [ ] bernes                move  25  White Kd3      lost  12.0 wp
-      lichess.org/swDGGhHI#49
-  [ ] bernes                move  30  White Be3      lost  11.5 wp
-      lichess.org/swDGGhHI#59
-  [ ] bernes                move  39  Black Qe3+     lost  26.1 wp
-      lichess.org/Pr0oM0QR#78
-
 missed_motif.hangingPawn.own
     claims: You leave free pawns on the board — material that was there for the taking.
     25 instances across 3 players
@@ -386,6 +371,21 @@ allows_square.any.own
       lichess.org/z8ZCK0dO#59
   [ ] bjagus                move  33  White b4       lost   1.1 wp
       lichess.org/PuSoIqHt#65
+
+endgame_error.any.own
+    claims: Your play falls off in the endgame.
+    11 instances across 1 players
+------------------------------------------------------------------------------
+  [ ] bernes                move  22  White b4       lost  21.3 wp
+      lichess.org/swDGGhHI#43
+  [ ] bernes                move  25  White Kd3      lost  12.0 wp
+      lichess.org/swDGGhHI#49
+  [ ] bernes                move  37  Black Qe5      lost   8.2 wp
+      lichess.org/Pr0oM0QR#74
+  [ ] bernes                move  38  Black d4       lost   9.1 wp
+      lichess.org/Pr0oM0QR#76
+  [ ] bernes                move  52  White Ke4      lost  18.3 wp
+      lichess.org/XkSr9VDj#103
 
 sacrificed_for_attack.own_move.own
     claims: You give up material to get at the enemy king more often than players at your level.
