@@ -1,0 +1,46 @@
+POSITIONS THE SEARCH NEWLY REMOVES
+==================================================================================
+
+Each is a position where a rook DID arrive on the player's seventh, with
+fewer than three files open, and where no legal move of the player's
+would have stopped it. The claim used to fire on every one of these.
+
+Paste a FEN into any board. The question is the author's own: was there
+a real opportunity to block the rook from coming to the seventh?
+
+  babakorisko   1 open file(s)
+    2r3k1/p4ppp/1p6/4R3/P3P3/2P2N2/6PP/6K1 b - - 0 25
+
+  Barsa1984   1 open file(s)
+    8/1pkr1p1p/p1n5/8/2NP4/1P2P2P/P1P2P2/R3K1R1 b Q - 6 23
+
+  BASHENDI   2 open file(s)
+    2r1k3/1p4np/2r5/4Rp2/5P2/BPn1P1P1/P6P/3R2K1 b - - 2 35
+
+  BASHENDI   2 open file(s)
+    2r5/1p1R1knp/2r5/4Rp2/5P2/BPn1P1P1/P6P/6K1 b - - 4 36
+
+  bidochon   2 open file(s)
+    6k1/6pp/2b1pp2/8/1P1P4/r4P2/3K2PP/2R5 w - - 0 28
+
+  bidochon   2 open file(s)
+    2k2R2/pbpr4/8/7p/3p2r1/6P1/PP5P/2R3K1 b - - 3 26
+
+  bidochon   1 open file(s)
+    2k5/pp1n2r1/4p3/2p3K1/2P4R/P4P1P/6PB/8 w - - 1 33
+
+  CheckZILLA1   2 open file(s)
+    3R2k1/p1p2pp1/2p4p/8/8/1P5P/r4PP1/6K1 b - - 0 28
+
+  CheckZILLA1   1 open file(s)
+    4r3/p4pk1/1p5p/3R2p1/6P1/PP2P2P/2P5/2K5 b - - 0 29
+
+  CheckZILLA1   1 open file(s)
+    6k1/5ppp/4p3/r1pnPP2/1p1p2P1/1P3R2/2PB2KP/8 w - - 0 29
+
+  Chloekalypse   1 open file(s)
+    2k5/4bp2/p4p2/2p1pP2/1p4P1/1P4rr/PBKP4/3R4 w - - 2 34
+
+  Chloekalypse   1 open file(s)
+    2k5/4bp2/p4p2/2p1pP2/1p4P1/1P1P3r/PBK3r1/3R4 w - - 1 35
+

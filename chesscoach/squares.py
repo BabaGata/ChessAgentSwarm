@@ -107,6 +107,16 @@ def open_files(board: chess.Board) -> int:
     return 8 - len(occupied)
 
 
+def _rooks_on_seventh(board: chess.Board, colour: chess.Color) -> int:
+    """The raw count, with no judgement about whether it could have been stopped."""
+    rank = 1 if colour == chess.WHITE else 6
+    return sum(
+        1
+        for square in board.pieces(chess.ROOK, not colour)
+        if chess.square_rank(square) == rank
+    )
+
+
 def count_enemy_rooks_on_seventh(board: chess.Board, colour: chess.Color) -> int:
     """Enemy rooks on the seventh, **when arriving there was preventable**.
 
@@ -121,12 +131,62 @@ def count_enemy_rooks_on_seventh(board: chess.Board, colour: chess.Color) -> int
     """
     if open_files(board) >= OPEN_FILES_UNPREVENTABLE:
         return 0
-    rank = 1 if colour == chess.WHITE else 6
-    return sum(
-        1
-        for square in board.pieces(chess.ROOK, not colour)
-        if chess.square_rank(square) == rank
-    )
+    return _rooks_on_seventh(board, colour)
+
+
+def rook_seventh_preventable(before: chess.Board, colour: chess.Color) -> bool:
+    """Could the player, moving now, stop a rook reaching their seventh?
+
+    The precise half of the author's correction:
+
+        "This should be counted only if there was a real opportunity to block
+        the rook from coming to the seventh file a move before or 2 moves
+        before."
+
+    The cheap proxy -- three or more open files -- removes 52 % of firings
+    ([[experiments.e66-rook-seventh-and-doubled]]), and the design note said the
+    search would be unnecessary only if the proxy removed *most*. Half is not
+    most, so this asks the question directly: over the player's own legal moves,
+    is there one after which **no** enemy reply lands a rook on the seventh?
+
+    Two plies, which is what the design note scoped. The author also mentioned
+    *"2 moves before"*; that is a four-ply search and is not attempted here,
+    because the cost of a search grows with its depth and this one already runs
+    on every arrival in every game.
+
+    **A move that prevents by any means counts** -- interposing, capturing the
+    rook, or giving a check that leaves the opponent no time. It is not required
+    to be a *good* move, and that is a real limitation rather than an oversight:
+    deciding whether the defence was worth playing needs an engine, and this is
+    deterministic computation running inside the section (C1). A player who
+    could only have stopped the rook by hanging a queen is told they could have
+    stopped it.
+
+    **No legal moves is not prevention.** A player with nothing to play could not
+    have prevented anything, and reading the empty case as success is the vacuous
+    truth that made every checkmate a fork (L-046).
+    """
+    had = _rooks_on_seventh(before, colour)
+    for move in before.legal_moves:
+        answered = before.copy(stack=False)
+        answered.push(move)
+        replies = list(answered.legal_moves)
+        if not replies:
+            # The opponent has no move at all, so no rook arrives. Checkmate or
+            # stalemate is prevention of a sort, and rare enough not to matter.
+            return True
+        if not any(_lands_on_seventh(answered, reply, colour, had) for reply in replies):
+            return True
+    return False
+
+
+def _lands_on_seventh(
+    board: chess.Board, reply: chess.Move, colour: chess.Color, had: int
+) -> bool:
+    """Does this enemy reply put one more rook on the player's seventh?"""
+    after = board.copy(stack=False)
+    after.push(reply)
+    return _rooks_on_seventh(after, colour) > had
 
 
 COUNTERS = {OUTPOST: count_enemy_outposts, ROOK_SEVENTH: count_enemy_rooks_on_seventh}
@@ -145,4 +205,11 @@ def allowed(before: chess.Board, after: chess.Board, colour: chess.Color) -> fro
     what E09's first pass did and why it reported two rates of zero.
     """
     was, now = counts(before, colour), counts(after, colour)
-    return frozenset(name for name in FEATURES if now[name] > was[name])
+    established = {name for name in FEATURES if now[name] > was[name]}
+
+    # The cheap screen has already run inside `counts`; this is the precise
+    # question it cannot ask. A rook that arrived because nothing could be done
+    # about it is a fact about the position, not something the player allowed.
+    if ROOK_SEVENTH in established and not rook_seventh_preventable(before, colour):
+        established.discard(ROOK_SEVENTH)
+    return frozenset(established)

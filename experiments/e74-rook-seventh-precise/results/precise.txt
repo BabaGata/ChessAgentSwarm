@@ -1,0 +1,29 @@
+WHAT THE TWO-PLY SEARCH BUYS ON TOP OF THE SCREEN
+==================================================================================
+
+corpus data/raw/corpus-rapid, 72 players, 68,984 player moves with an answer.
+
+  A rook ARRIVING on the player's seventh, not merely standing there:
+
+  arrivals                                         764
+  screened out (>= 3 open files)                   336   44%
+  survive the screen                               428   56%
+  ... and were preventable (still fire)            304   40%
+  ... and were NOT (newly removed)                 124   16%
+
+==================================================================================
+
+  the screen removed        44% of arrivals
+  the search removes a further 16% of arrivals,
+                              29% of what reached it
+  the claim now fires on    40% of arrivals
+
+  open files when a rook arrived:
+    {0: 39, 1: 202, 2: 187, 3: 159, 4: 79, 5: 42, 6: 33, 7: 13, 8: 10}
+
+  cost (C1): the search is deterministic and runs only on arrivals that
+  survive the screen.
+    searches run        428
+    total time          0.5 s
+    per search          1.2 ms
+

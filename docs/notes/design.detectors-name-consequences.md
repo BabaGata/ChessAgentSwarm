@@ -2,7 +2,7 @@
 id: cas-design-consequences
 title: 'Design — six detectors renamed, rebuilt or retired, because they name positions instead of consequences'
 desc: 'The author corrected six detectors at once. Five share one fault: they fire on a state of the board rather than on something that happened to the player. The sixth is uninformative and is retired. Specifications, testable rules, and the parameters that still need calibrating.'
-updated: 1788201000000
+updated: 1788204600000
 created: 1788652800000
 ---
 
@@ -169,6 +169,13 @@ The author supplied a cheap proxy and a precise one, and they are different in c
 **Proposal: implement the cheap screen first and measure how many firings it removes.** If it removes
 most of the 43, the precise version has little left to buy. That is the project's usual order and it
 avoids paying for a search that may be unnecessary.
+
+> **Both are now built.** The screen removed **52 %** ([[experiments.e66-rook-seventh-and-doubled]]) —
+> half, not most — so the search was still owed and is now written and wired
+> ([[experiments.e74-rook-seventh-precise]]). Over 72 players and 764 arrivals it removes a further
+> **29 % of what reaches it**, at **1.2 ms a search**, running only on arrivals the screen let
+> through. The claim fires on **40 %** of arrivals where it once fired on all of them. The staged
+> order was right and so was the decision to pay for the second stage.
 
 **Testable:** a late endgame with four open files must not fire. A middlegame where one defensive
 move would have covered the seventh must fire.

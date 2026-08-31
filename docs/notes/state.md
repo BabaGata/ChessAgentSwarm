@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788201000000
+updated: 1788204600000
 created: 1785254500000
 ---
 
@@ -308,9 +308,23 @@ struck through: a list nobody can act on is not a plan.
 
 0. **P1 — Wire `build_resource` into the report.** The resource exists and nothing consumes it.
 
-0. **P1 — The precise `rook_seventh` rule.** The cheap open-files screen removes 52 %, and the design
-   note said the two-ply preventability search would be unnecessary only if the screen removed *most*
-   ([[experiments.e66-rook-seventh-and-doubled]]). Half is not most.
+0. **DONE — the precise `rook_seventh` rule** → [[experiments.e74-rook-seventh-precise]]. The two-ply
+   search is written, wired into `squares.allowed` and measured over 72 players and 764 arrivals: it
+   removes **29 % of what the cheap screen let through**, at **1.2 ms a search**, running only on
+   arrivals that survived the screen. The claim now fires on **40 %** of arrivals where it once fired
+   on all of them. 9 tests, and one fixture I was certain of turned out not to be checkmate.
+
+0. **P1 — twelve `rook_seventh` positions to mark** *(author)*.
+   `experiments/e74-rook-seventh-precise/results/removed-sample.txt` — positions the search newly
+   **removes**, as FENs. E66 recorded that neither correction had been read against positions; this is
+   the half that can be. The question is the author's own: *was there a real opportunity to block the
+   rook?*
+
+0. **P2 — should an arrival that loses the rook count as preventable?** The search asks whether the
+   arrival was **possible**, not whether it was **good**: a rook that can only reach the seventh by
+   being captured there is still called unpreventable. A practical reading would remove more, and
+   deciding it needs an engine inside a section, which C1 does not allow. Recorded rather than
+   settled.
 
 0. **P2 — D15 defect (a): claims that never become candidates.** 27 of the vocabulary never fire for
    the review twelve. Four of those were an artefact of a key-format mismatch and are fixed; the rest
