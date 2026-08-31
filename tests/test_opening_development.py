@@ -392,3 +392,25 @@ class TestPawnErrorClaim:
         assert pawns.opportunities > pawns.instances
         assert pawns.instances == 1
         assert pawns.examples[0].ply == 7
+
+
+class TestClaimKeysMatchTheRestOfTheSystem:
+    """Every claim in the system is `kind.subject.own`. These were not.
+
+    The detection sheet builds its vocabulary from `measure()` and its fired set
+    from `Claim.key()`, then subtracts one from the other. With the development
+    tallies emitting `slow_development.book` and the findings emitting
+    `slow_development.book.own`, the subtraction listed four claims as NEVER
+    FIRED while they were reaching three of twelve plans.
+    """
+
+    def test_the_section_emits_the_same_shape_as_every_other_claim(self, book):
+        from chesscoach.profile.models import Claim
+        from chesscoach.sections.s4_opening_outcomes import _key
+
+        # What the section reports must round-trip through Claim.key().
+        for kind, subject in (("slow_development", "book"), ("late_castling", "own"),
+                              ("repeat_move", "any"), ("pawn_error", "any")):
+            key = _key(kind, subject)
+            assert key.endswith(".own")
+            assert Claim.of(kind=kind, subject=subject).key() == key

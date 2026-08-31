@@ -206,8 +206,15 @@ def _count_development(tallies: dict[str, _Tally], context: SectionContext) -> N
     counted = count_development(
         context.observations, context.corpus.username, book, norms
     )
-    for key, counts in counted.items():
-        tally = tallies[key]
+    for raw, counts in counted.items():
+        # Through `_key`, like every other claim in this section. The tallies
+        # arrive as `slow_development.book` and every other claim in the system
+        # is `kind.subject.own` -- so the detection sheet, which builds its
+        # vocabulary from `measure()` and its fired set from `Claim.key()`,
+        # subtracted one format from the other and listed four claims as NEVER
+        # FIRED while they were reaching three of twelve plans.
+        kind, subject = raw.split(".", 1)
+        tally = tallies[_key(kind, subject)]
         tally.instances += counts.instances
         tally.opportunities += counts.opportunities
         tally.games_hit |= counts.games
