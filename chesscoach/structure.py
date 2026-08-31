@@ -80,8 +80,8 @@ def count_isolated(board: chess.Board, colour: chess.Color) -> int:
     )
 
 
-def count_backward(board: chess.Board, colour: chess.Color) -> int:
-    """Pawns left behind their neighbours that cannot safely advance.
+def _backward_pawns(board: chess.Board, colour: chess.Color) -> list[int]:
+    """The squares of pawns left behind their neighbours that cannot advance.
 
     All four conditions are required:
       1. at least one friendly pawn on an adjacent file — otherwise it is
@@ -95,7 +95,7 @@ def count_backward(board: chess.Board, colour: chess.Color) -> int:
     """
     own = _pawns(board, colour)
     direction = 1 if colour == chess.WHITE else -1
-    found = 0
+    found: list[int] = []
 
     for square in own:
         file_, rank = chess.square_file(square), chess.square_rank(square)
@@ -120,7 +120,7 @@ def count_backward(board: chess.Board, colour: chess.Color) -> int:
         if not _attacked_by_pawn(board, ahead, not colour):
             continue
 
-        found += 1
+        found.append(square)
     return found
 
 
@@ -138,12 +138,25 @@ def count_backward(board: chess.Board, colour: chess.Color) -> int:
 # about geometry: a far-advanced pawn on the same file is doing a different job.
 MAX_DOUBLED_GAP = 2
 
-# How long the pawns must survive to be a weakness rather than a moment.
+# How long a weakness must survive to be a weakness rather than a moment.
 #
 # > *"Also the double pawns should be taken in the account if they are able to
 # > last for more then 3 moves, otherwise, they are in that state just until the
 # > end of exchange."*
-DOUBLED_PERSISTS_MOVES = 3
+#
+# Applied to every pawn weakness rather than only doubled ones, on the author's
+# own extension: *"isolated pawn should also have similar persistance check"*.
+# The reasoning was never specific to doubling -- a weakness that repairs itself
+# before the opponent can use it cost the player nothing.
+PERSISTS_MOVES = 3
+
+# The old name, kept so nothing that imported it breaks.
+DOUBLED_PERSISTS_MOVES = PERSISTS_MOVES
+
+
+def count_backward(board: chess.Board, colour: chess.Color) -> int:
+    """How many backward pawns `colour` has."""
+    return len(_backward_pawns(board, colour))
 
 
 def count_doubled(board: chess.Board, colour: chess.Color) -> int:
@@ -192,24 +205,61 @@ def doubled_files(board: chess.Board, colour: chess.Color) -> frozenset[int]:
     return frozenset(found)
 
 
-def persistent_doubled(
-    boards, colour: chess.Color, persists: int = DOUBLED_PERSISTS_MOVES
-) -> frozenset[int]:
-    """Files doubled continuously for longer than `persists` of the player's moves.
+def isolated_files(board: chess.Board, colour: chess.Color) -> frozenset[int]:
+    """Files carrying a pawn with no friendly pawn beside it."""
+    files = _pawn_files(board, colour)
+    return frozenset(
+        chess.square_file(square)
+        for square in _pawns(board, colour)
+        if (chess.square_file(square) - 1) not in files
+        and (chess.square_file(square) + 1) not in files
+    )
 
-    **The detector has to see a span, not a position.** A capture that doubles
-    pawns which are resolved two moves later leaves the player no worse off, and
-    the old detector counted it because it only ever looked at one board.
+
+def backward_files(board: chess.Board, colour: chess.Color) -> frozenset[int]:
+    """Files carrying a backward pawn."""
+    return frozenset(
+        chess.square_file(square) for square in _backward_pawns(board, colour)
+    )
+
+
+# Which files each weakness currently occupies. Persistence is tracked per FILE
+# rather than per count, because a weakness that appears on one file and clears
+# on another is two episodes and not one that lasted.
+LOCATORS = {
+    ISOLATED: isolated_files,
+    BACKWARD: backward_files,
+    DOUBLED: doubled_files,
+}
+
+
+def persistent(
+    boards, colour: chess.Color, feature: str, persists: int = PERSISTS_MOVES
+) -> frozenset[int]:
+    """Files where `feature` held continuously for longer than `persists` moves.
+
+    **The detector has to see a span, not a position.** The author, on doubled
+    pawns:
+
+    > *"The double pawns should be taken in the account if they are able to last
+    > for more then 3 moves, otherwise, they are in that state just until the
+    > end of exchange."*
+
+    and then, on the same reasoning applied wider: *"isolated pawn should also
+    have similar persistance check"*. The argument was never about doubling. A
+    weakness that resolves itself before the opponent can use it did not cost
+    the player anything, and a detector looking at one board cannot tell the
+    difference.
 
     `boards` is the positions after each of this player's own moves, in order.
-    Counting the player's own moves rather than plies is deliberate: the author
-    said "moves", and a player who un-doubles at their next turn has held the
-    weakness for one move, not two.
+    **Their own moves, not plies**: the author said "moves", and a player who
+    repairs the weakness at their next turn has held it for one.
     """
+    locate = LOCATORS[feature]
     run: dict[int, int] = {}
     survived: set[int] = set()
     for board in boards:
-        current = doubled_files(board, colour)
+        current = locate(board, colour)
         for file_ in current:
             run[file_] = run.get(file_, 0) + 1
             if run[file_] > persists:
@@ -220,6 +270,13 @@ def persistent_doubled(
                 # separate episodes on the same file.
                 del run[file_]
     return frozenset(survived)
+
+
+def persistent_doubled(
+    boards, colour: chess.Color, persists: int = PERSISTS_MOVES
+) -> frozenset[int]:
+    """Doubled files that lasted. Kept as the name the first tests were written against."""
+    return persistent(boards, colour, DOUBLED, persists)
 
 
 COUNTERS = {ISOLATED: count_isolated, BACKWARD: count_backward, DOUBLED: count_doubled}

@@ -91,3 +91,54 @@ class TestPersistence:
 
     def test_an_empty_span_is_not_an_error(self):
         assert persistent_doubled([], chess.WHITE) == frozenset()
+
+
+class TestPersistenceAppliesToEveryWeakness:
+    """The author extended their own rule.
+
+        "isolated pawn should also have similar persistance check"
+
+    The reasoning was never about doubling. A weakness that repairs itself
+    before the opponent can use it cost the player nothing, and a detector
+    looking at one board cannot tell the difference.
+    """
+
+    def span(self, fens, times: int):
+        return [board(f) for f in fens for _ in range(times)]
+
+    def test_a_transient_isolated_pawn_does_not_count(self):
+        from chesscoach.structure import ISOLATED, persistent
+
+        # The a-pawn is isolated, then a neighbour appears on b and it is not.
+        alone = board("4k3/8/8/8/8/8/P7/4K3 w - - 0 1")
+        joined = board("4k3/8/8/8/8/8/PP6/4K3 w - - 0 1")
+        assert persistent([alone] * 2 + [joined], chess.WHITE, ISOLATED) == frozenset()
+
+    def test_an_isolated_pawn_that_lasts_counts(self):
+        from chesscoach.structure import ISOLATED, persistent
+
+        alone = board("4k3/8/8/8/8/8/P7/4K3 w - - 0 1")
+        assert persistent([alone] * 6, chess.WHITE, ISOLATED) == {0}
+
+    def test_the_threshold_is_shared_by_every_weakness(self):
+        from chesscoach.structure import DOUBLED_PERSISTS_MOVES, PERSISTS_MOVES
+
+        # One number, named for what it means rather than for doubled pawns.
+        assert PERSISTS_MOVES == 3
+        assert DOUBLED_PERSISTS_MOVES == PERSISTS_MOVES
+
+    def test_doubled_still_works_through_the_general_function(self):
+        from chesscoach.structure import DOUBLED, persistent
+
+        held = board("4k3/8/8/8/8/2P5/2P5/4K3 w - - 0 1")
+        assert persistent([held] * 6, chess.WHITE, DOUBLED) == {2}
+
+    def test_a_weakness_moving_file_is_two_episodes_not_one(self):
+        # Isolated on the a-file, then repaired, then isolated on the h-file.
+        # Neither run is long enough, and a counter that pooled them would say
+        # the player held a weakness throughout.
+        from chesscoach.structure import ISOLATED, persistent
+
+        a_file = board("4k3/8/8/8/8/8/P7/4K3 w - - 0 1")
+        h_file = board("4k3/8/8/8/8/8/7P/4K3 w - - 0 1")
+        assert persistent([a_file] * 2 + [h_file] * 2, chess.WHITE, ISOLATED) == frozenset()

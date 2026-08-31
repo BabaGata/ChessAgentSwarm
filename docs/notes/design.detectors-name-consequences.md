@@ -9,7 +9,7 @@ created: 1788652800000
 # Six detectors, corrected
 
 **Source:** the author, 2026-08-29, reading the precision sheet ·
-**Status:** 4 of 6 built (`advantage_error` retired, `fork` rebuilt, `rook_seventh` screened, `doubled` corrected); `endgame_error` and the opening claims remain
+**Status:** **5 of 6 built**; only the `early_error` → opening claims remain, and those are largely covered by [[design.opening-development-signals]]
 
 ## The fault they share
 
@@ -239,7 +239,10 @@ Ordered by what unblocks what, not by size:
    something to buy — the opposite of what this note guessed. For `doubled` the author's two
    conditions are wildly unequal: distance −17 %, persistence **64 %**. `persistent_doubled` is
    built and tested and **not yet wired into S5**, which needs the span rather than one board.
-4. **`endgame_error`.** Needs the residual relationship with S1 built first.
+4. ~~**`endgame_error`.**~~ **Done** — [[experiments.e67-persistence-and-endgame-runs]].
+   211 firings become **50**, and the two conditions are unequal again: the residual one removes
+   **10 %**, the run condition the rest. Also completes `doubled`'s persistence, which E66 left
+   unwired, and extends it to **isolated** pawns on the author's own instruction.
 5. **`early_error` → opening claims.** Largest, needs a new peer statistic, and merges A3.
 
 **What this forecloses:** retiring `advantage_error` removes the second-most-frequent claim, and two

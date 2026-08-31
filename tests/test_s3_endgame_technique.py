@@ -79,17 +79,29 @@ def a_context(observations, peers=None, band="1400-1800") -> SectionContext:
     )
 
 
-def games(count: int, erred_share: float = 0.5, fen_key: str = "rook", **kwargs):
-    """`count` games, two diagnosable endgame moves each."""
+def games(count: int, erred_share: float = 0.5, fen_key: str = "rook",
+          run: int = 3, moves: int = 4, **kwargs):
+    """`count` games of `moves` diagnosable endgame moves each.
+
+    **`run` consecutive erring moves, not one.** `endgame_error` is now a
+    property of a run: the author's correction is that one bad move in a rook
+    ending is a mistake and three in a row is not knowing the endgame, so a
+    fixture with a single error tests the old rule and would pass whatever the
+    new one does.
+
+    `best_move` is a quiet rook move that executes no motif, so the run is not
+    dismissed as tactical -- which is the claim's second condition.
+    """
     observations = []
     for n in range(count):
-        for move in range(2):
+        erring = n < count * erred_share
+        for move in range(moves):
             observations.append(
                 an_observation(
                     game_id=f"g{n}",
                     ply=40 + move,
                     fen=FENS[fen_key],
-                    erred=(move == 0 and n < count * erred_share),
+                    erred=(erring and move < run),
                     **kwargs,
                 )
             )
@@ -124,7 +136,7 @@ class TestWhatIsCounted:
         measured = {m.claim_key: m for m in S3EndgameTechnique().measure(a_context(observations))}
         key = Claim.of(kind=ENDGAME_ERROR, subject=ANY).key()
 
-        assert measured[key].opportunities == 24
+        assert measured[key].opportunities == 48  # 12 games x 4 moves
 
     def test_only_the_players_own_moves(self):
         observations = games(12) + [an_observation(game_id="g0", ply=42, mover="bob", erred=True)]
@@ -132,7 +144,7 @@ class TestWhatIsCounted:
         measured = {m.claim_key: m for m in S3EndgameTechnique().measure(a_context(observations))}
         key = Claim.of(kind=ENDGAME_ERROR, subject=ANY).key()
 
-        assert measured[key].opportunities == 24
+        assert measured[key].opportunities == 48  # 12 games x 4 moves
 
     def test_decided_positions_are_excluded(self):
         # Beyond DECIDED_CP win probability compresses, so an error there is
@@ -144,7 +156,7 @@ class TestWhatIsCounted:
         measured = {m.claim_key: m for m in S3EndgameTechnique().measure(a_context(observations))}
         key = Claim.of(kind=ENDGAME_ERROR, subject=ANY).key()
 
-        assert measured[key].opportunities == 24
+        assert measured[key].opportunities == 48  # 12 games x 4 moves
 
 
 class TestTheAggregate:

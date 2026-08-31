@@ -32,6 +32,7 @@ from dataclasses import dataclass, field
 import chess
 
 from chesscoach.analysis.observations import Observation
+from chesscoach.tactics import detect_motifs
 from chesscoach.confidence import MIN_GAMES_WITH_DATA, ClaimStats, assign_tier
 from chesscoach.peers import ConditionMeasurement
 from chesscoach.profile.models import (
@@ -58,6 +59,21 @@ from chesscoach.sections.base import (
 SECTION = "S3"
 
 ENDGAME_ERROR = "endgame_error"
+
+# How many losing moves in a row make a run, and how wide a window they may be
+# spread over. The author:
+#
+# > *"Endgame error should be calculated just when there are big drops of the
+# > advantage in a few consecutive moves. So that it can be seen that the player
+# > is imprecise one move after the other and lacks knowledge of how to play the
+# > endgame."*
+#
+# One bad move in an endgame is a mistake; three in a row is not knowing the
+# endgame, and only the second is what this claim is for. The window is in the
+# player's OWN moves -- their word was "moves" -- so an opponent's reply between
+# two of them does not break the run.
+RUN_LENGTH = 3
+RUN_WINDOW = 4
 ADVANTAGE_ERROR = "advantage_error"
 
 # **Retired 2026-08-29, not deleted.** The author, having marked all five sampled
@@ -201,11 +217,15 @@ def _count(context: SectionContext) -> _Counts:
     tallies: dict[str, _Tally] = defaultdict(_Tally)
     endgame_games: set[str] = set()
 
+    in_a_run = _runs_of_imprecision(moves)
+
     for observation in moves:
         if observation.phase == "endgame":
             endgame_games.add(observation.game_id)
-            _tally(tallies, _key(ENDGAME_ERROR, ANY), observation)
-            _tally(tallies, _key(ENDGAME_ERROR, material_class(observation.fen_before)), observation)
+            counts_here = _ref(observation) in in_a_run
+            _tally(tallies, _key(ENDGAME_ERROR, ANY), observation, counts_here)
+            _tally(tallies, _key(ENDGAME_ERROR, material_class(observation.fen_before)),
+                   observation, counts_here)
 
         if not ADVANTAGE_ERROR_RETIRED and _is_clearly_better(observation):
             _tally(tallies, _key(ADVANTAGE_ERROR, CLEAR), observation)
@@ -223,10 +243,88 @@ def _count(context: SectionContext) -> _Counts:
     )
 
 
-def _tally(tallies: dict[str, _Tally], key: str, observation: Observation) -> None:
+
+def _ref(observation: Observation) -> tuple[str, int]:
+    return (observation.game_id, observation.ply)
+
+
+def _is_tactical(observation: Observation) -> bool:
+    """Did a tactic explain this drop? Then it belongs to S1, not here.
+
+    The author:
+
+    > *"If the sudden loss of the advantage of the one move is detected by other
+    > motif tests this should not be taken in the account because those are
+    > tactical losses and this is lack of knowledge of the endgames."*
+
+    Checked on the move the ENGINE wanted: if the best move executes a motif,
+    the player missed a tactic. Saying *"you do not understand endgames"* to
+    someone who missed a fork names the wrong weakness, and the report already
+    has a section for the right one.
+
+    A move with no engine opinion is treated as **not** tactical rather than
+    skipped -- refusing it would drop the drop entirely, and an absent answer
+    must not read as a positive one.
+    """
+    if not observation.best_move:
+        return False
+    board = chess.Board(observation.fen_before)
+    try:
+        best = chess.Move.from_uci(observation.best_move)
+    except ValueError:
+        return False
+    if best not in board.legal_moves:
+        return False
+    return bool(detect_motifs(board, best))
+
+
+def _runs_of_imprecision(moves) -> frozenset[tuple[str, int]]:
+    """The moves belonging to a run of consecutive endgame drops.
+
+    A run is `RUN_LENGTH` losing moves inside a window of `RUN_WINDOW` of the
+    player's own endgame moves. Every move in a qualifying run is returned --
+    not only the third -- because the claim is about the run and its evidence
+    should be able to show it.
+
+    **Tactical drops are removed before the run is looked for**, not after. A
+    hung rook in the middle of three inaccuracies does not join them into a run,
+    because it is not the same failure: one is not knowing the endgame and the
+    other is not seeing a threat.
+    """
+    by_game: dict[str, list[Observation]] = {}
+    for observation in moves:
+        if observation.phase == "endgame":
+            by_game.setdefault(observation.game_id, []).append(observation)
+
+    found: set[tuple[str, int]] = set()
+    for game_id, played in by_game.items():
+        played.sort(key=lambda o: o.ply)
+        losing = [
+            index
+            for index, o in enumerate(played)
+            if o.label is not None and not _is_tactical(o)
+        ]
+        for start in range(len(losing) - RUN_LENGTH + 1):
+            window = losing[start:start + RUN_LENGTH]
+            if window[-1] - window[0] < RUN_WINDOW:
+                found |= {_ref(played[i]) for i in window}
+    return frozenset(found)
+
+
+def _tally(tallies: dict[str, _Tally], key: str, observation: Observation,
+           counts: bool | None = None) -> None:
+    """Record one opportunity, and an instance when `counts`.
+
+    `counts` defaults to the observation's own error label, which is what every
+    caller but `endgame_error` wants. That claim passes it explicitly, because
+    an endgame error is now a property of a **run** rather than of a move: a
+    single blunder in a rook ending is a mistake and not a gap in endgame
+    knowledge.
+    """
     tally = tallies[key]
     tally.opportunities += 1
-    if observation.label is None:
+    occurred = (observation.label is not None) if counts is None else counts
+    if not occurred:
         return
     tally.instances += 1
     tally.games_hit.add(observation.game_id)

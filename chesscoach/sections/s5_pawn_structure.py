@@ -56,7 +56,7 @@ from chesscoach.sections.base import (
     instance_moves,
     split_by_tier,
 )
-from chesscoach.structure import conceded
+from chesscoach.structure import LOCATORS, PERSISTS_MOVES, conceded
 
 SECTION = "S5"
 
@@ -157,6 +157,7 @@ def _count(context: SectionContext) -> _Counts:
     following = {(o.game_id, o.ply): o for o in context.observations}
     moves = diagnosable(context.player_observations())
     tallies: dict[str, _Tally] = defaultdict(_Tally)
+    later = _positions_after(context)
 
     for observation in moves:
         after = following.get((observation.game_id, observation.ply + 1))
@@ -167,6 +168,7 @@ def _count(context: SectionContext) -> _Counts:
         created = conceded(
             chess.Board(observation.fen_before), chess.Board(after.fen_before), colour
         )
+        created = _still_there_later(created, observation, colour, later)
 
         _tally(tallies, _key(POOLED_SUBJECT), observation, bool(created))
         for feature in sorted(created):
@@ -178,6 +180,70 @@ def _count(context: SectionContext) -> _Counts:
         tallies=dict(tallies),
         games_with_data=len({o.game_id for o in moves}),
     )
+
+
+
+def _positions_after(context: SectionContext) -> dict[str, list[tuple[int, str]]]:
+    """Every position the player's own moves led to, per game, in order.
+
+    Built once. Persistence needs the span after a move, and reading it out of
+    the observations costs nothing -- the position after a move is the next
+    observation's `fen_before`, the same property that makes this section free.
+    """
+    following = {(o.game_id, o.ply): o for o in context.observations}
+    username = context.corpus.username.lower()
+    spans: dict[str, list[tuple[int, str]]] = {}
+    for observation in sorted(context.observations, key=lambda o: (o.game_id, o.ply)):
+        if observation.mover.lower() != username:
+            continue
+        after = following.get((observation.game_id, observation.ply + 1))
+        if after is None:
+            continue
+        spans.setdefault(observation.game_id, []).append(
+            (observation.ply, after.fen_before)
+        )
+    return spans
+
+
+def _still_there_later(
+    created: frozenset[str],
+    observation: Observation,
+    colour: chess.Color,
+    later: dict[str, list[tuple[int, str]]],
+) -> frozenset[str]:
+    """Drop weaknesses the player repaired before they could cost anything.
+
+    The author, on doubled pawns and then on isolated ones:
+
+    > *"The double pawns should be taken in the account if they are able to last
+    > for more then 3 moves, otherwise, they are in that state just until the end
+    > of exchange."*
+
+    A weakness conceded and undone two moves later cost the player nothing, and
+    a section that compares one board against the next cannot see the
+    difference. This looks forward over the player's OWN following moves --
+    their word was "moves" -- and keeps the concession only if the weakness is
+    still on the same file at the end of the window.
+
+    **A game that ends first is not a repair.** Those moves were never played,
+    so the weakness is kept rather than dropped: refusing it would make short
+    games look clean, which is the censoring E58 named.
+    """
+    if not created:
+        return created
+
+    span = later.get(observation.game_id, ())
+    ahead = [fen for ply, fen in span if ply > observation.ply][:PERSISTS_MOVES]
+    if len(ahead) < PERSISTS_MOVES:
+        return created  # the game ended; nothing was repaired
+
+    boards = [chess.Board(fen) for fen in ahead]
+    kept = set()
+    for feature in created:
+        locate = LOCATORS[feature]
+        if all(locate(board, colour) for board in boards):
+            kept.add(feature)
+    return frozenset(kept)
 
 
 def _absent(created: frozenset[str]) -> tuple[str, ...]:

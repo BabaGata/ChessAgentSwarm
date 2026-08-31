@@ -267,3 +267,44 @@ def test_the_section_works_from_either_side(colour):
     result = measured(observations)
 
     assert result[Claim.of(kind=CONCEDES, subject=DOUBLED).key()].instances == 12
+
+
+class TestAWeaknessMustLast:
+    """A concession undone two moves later cost the player nothing.
+
+    Design: docs/notes/design.detectors-name-consequences.md § 5, extended by
+    the author to every pawn weakness: "isolated pawn should also have similar
+    persistance check".
+    """
+
+    def test_a_repaired_weakness_is_not_counted(self):
+        from chesscoach.structure import ISOLATED, LOCATORS
+
+        # The a-pawn is isolated after the move and has a neighbour again
+        # before the window closes.
+        alone = chess.Board("4k3/8/8/8/8/8/P7/4K3 w - - 0 1")
+        joined = chess.Board("4k3/8/8/8/8/8/PP6/4K3 w - - 0 1")
+        assert LOCATORS[ISOLATED](alone, chess.WHITE)
+        assert not LOCATORS[ISOLATED](joined, chess.WHITE)
+
+    def test_a_game_that_ends_first_is_not_a_repair(self):
+        # The moves were never played, so the weakness stands. Dropping it would
+        # make short games look clean, which is the censoring E58 named.
+        from chesscoach.sections.s5_pawn_structure import _still_there_later
+        from chesscoach.structure import ISOLATED
+
+        class Obs:
+            game_id = "g"
+            ply = 10
+
+        created = frozenset({ISOLATED})
+        assert _still_there_later(created, Obs(), chess.WHITE, {"g": []}) == created
+
+    def test_nothing_conceded_stays_nothing(self):
+        from chesscoach.sections.s5_pawn_structure import _still_there_later
+
+        class Obs:
+            game_id = "g"
+            ply = 1
+
+        assert _still_there_later(frozenset(), Obs(), chess.WHITE, {}) == frozenset()
