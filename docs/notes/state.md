@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788197400000
+updated: 1788201000000
 created: 1785254500000
 ---
 
@@ -287,10 +287,17 @@ struck through: a list nobody can act on is not a plan.
    pooled claim is redundant against its own split. Worth settling *before* building the
    `early_error` correction below, not after.
 
-0. **P0 — `early_error` → the opening claims.** The last of the six corrections
-   ([[design.detectors-name-consequences]] § 1). Largely covered by
-   [[design.opening-development-signals]], which is built and screened; what remains is 1b, scoring
-   by opening, which merges A3.
+0. **SCREENED AND HELD — `early_error` → the opening claims.** The last of the six corrections
+   → [[experiments.e73-opening-scores]]. 1a shipped as the development claims. **1b is built, tested
+   and wired into nothing**: it fires for 2 of 12 with findings that read well, and then fails two
+   screens. Its players are a **strict subset** of `early_error`'s, so `early_error` cannot be retired
+   in its favour; and a **depth sweep is fatal** — four of five players flip in and out across window
+   sizes, nobody is named at 30 games and four are at 45. **`early_error` stays, on evidence.**
+
+0. **P1 — does 1b settle at greater depth?** The one test that would revive it. Both survivors are
+   contiguous over the last three windows, which is what a claim looks like just before it settles,
+   and every corpus on hand stops at 60 games per player. Fetching deeper histories is free and
+   R-10-compliant; then `experiments/e73-opening-scores/depth.py` at 100+.
 
 0. **P1 — `slow_development` against `plies_in_book`.** The one part of E69's screen not run, because
    book depth is not a claim in the peer reference. It settles whether book depth has anything left

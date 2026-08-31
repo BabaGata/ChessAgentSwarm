@@ -1,0 +1,45 @@
+IS THE CLAIM THE SAME CLAIM AT A DIFFERENT DEPTH?
+======================================================================================
+
+12 players, floor 5, windows 15-60 in steps of 5.
+
+  A cell is the number of openings named at that depth.
+
+  player                     15   20   25   30   35   40   45   50   55   60   verdict
+  --------------------------------------------------------------------------------------
+  Crossfire1983               0    0    0    0    0    0    0    0    0    0   never named
+  Hirsican                    0    0    0    0    0    0    1    1    0    0   FLIPS — named at 2 of 10 depths
+  Maximilian_Honigtopf        0    0    0    0    0    0    0    0    0    0   never named
+  Odin5306                    0    0    0    0    0    0    1    0    0    0   FLIPS — named at 1 of 10 depths
+  Sheriwoyama                 0    0    0    0    0    0    0    0    0    0   never named
+  bernes                      0    1    0    0    0    0    0    1    1    1   FLIPS — named at 4 of 10 depths
+  bjagus                      0    0    0    0    0    0    0    0    0    0   never named
+  cademan                     0    0    0    0    0    0    0    0    0    0   never named
+  goydorak                    0    0    0    0    0    0    1    1    1    1   stable once it appears
+  maikel5                     0    0    0    0    0    0    0    0    0    0   never named
+  maxhayastan                 0    0    1    0    1    1    1    1    0    0   FLIPS — named at 5 of 10 depths
+  simonvj                     0    0    0    0    0    0    0    0    0    0   never named
+
+======================================================================================
+
+  named at some depth         5 of 12
+  stable once named           1
+  flips in and out            4
+
+  who is named, by depth:
+     15 games   —
+     20 games   bernes
+     25 games   maxhayastan
+     30 games   —
+     35 games   maxhayastan
+     40 games   maxhayastan
+     45 games   Hirsican, Odin5306, goydorak, maxhayastan
+     50 games   Hirsican, bernes, goydorak, maxhayastan
+     55 games   bernes, goydorak
+     60 games   bernes, goydorak
+
+  A claim whose named set changes with the window is measuring the
+  window. R-13 and L-008 require an association to reproduce on a
+  different sample before it is written down; a different depth of the
+  SAME player is a weaker test than that, and it is the one being failed.
+

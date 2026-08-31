@@ -2,14 +2,14 @@
 id: cas-design-consequences
 title: 'Design — six detectors renamed, rebuilt or retired, because they name positions instead of consequences'
 desc: 'The author corrected six detectors at once. Five share one fault: they fire on a state of the board rather than on something that happened to the player. The sixth is uninformative and is retired. Specifications, testable rules, and the parameters that still need calibrating.'
-updated: 1788652800000
+updated: 1788201000000
 created: 1788652800000
 ---
 
 # Six detectors, corrected
 
 **Source:** the author, 2026-08-29, reading the precision sheet ·
-**Status:** **5 of 6 built**; only the `early_error` → opening claims remain, and those are largely covered by [[design.opening-development-signals]]
+**Status:** **5 of 6 built, and the sixth is screened and held.** 1a was superseded by [[design.opening-development-signals]] and is built; **1b is implemented, tested and NOT shipped** — it fails a depth sweep, naming four of five players inconsistently across window sizes ([[experiments.e73-opening-scores]]). `early_error` therefore stays, on evidence
 
 ## The fault they share
 
@@ -60,6 +60,16 @@ the peer corpus, not a threshold change.
 **1b — you score worse in this opening than in your others.** This is **A3**, already on the list as
 unstarted and free, and it merges here rather than staying separate.
 
+> **Built and held, 2026-08-31 → [[experiments.e73-opening-scores]].** `chesscoach/opening_scores.py`,
+> 20 tests, wired into nothing. It fires for 2 of 12 players and both findings read well — bernes
+> scores **29 % over 19 Caro-Kann games against 60 % over 39** elsewhere. Two screens then went
+> against it. The note's own acceptance test is **PARTIAL**: both players it names are already named
+> by `early_error`, a strict subset rather than a different set, so `early_error` cannot be retired in
+> its favour. And a depth sweep from 15 to 60 games is **fatal**: four of the five players it names
+> flip in and out, nobody is named at 30 games and four are at 45. R-13 forbids writing down an
+> association that has not reproduced. Held rather than deleted — the instability may be sample size,
+> and every corpus on hand stops at 60 games.
+
 **The author's own caveat is the hard part.** A player has two or three main openings and a long tail
 played once or twice. Comparing raw scores across them would rank the tail on noise every time. So
 1b needs a **minimum games per opening** before an opening may be compared, and the comparison must
@@ -67,7 +77,7 @@ be against *that player's own* other openings rather than a population.
 
 | needs calibrating | first proposal | how it gets settled |
 |---|---|---|
-| minimum games before an opening is comparable | 5 | the distribution of per-opening game counts across the 12 review players |
+| minimum games before an opening is comparable | 5 | **settled at 5, 2026-08-31 — and the stated method would not have found it.** The distribution argues for 3 or 4, because 5 discards 47 % of games; what settles it is which floor admits a defensible finding, and below 5 every extra separation is *0 % over 3 games* |
 | how much worse counts as worse | Wilson intervals must not overlap | already the project's method elsewhere |
 | book-depth baseline | per band and speed | rebuild peer stats with `plies_in_book` |
 

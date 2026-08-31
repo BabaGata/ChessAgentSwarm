@@ -1,0 +1,46 @@
+HOW MANY GAMES DOES A PLAYER GIVE ONE OPENING?
+======================================================================================
+
+12 players, up to 60 games each, families by book name.
+
+  player                    games  openings   top 3   once  most played
+  ----------------------------------------------------------------------------------
+  bernes                       58         9    83%      4  Queen's Pawn Game 25, Caro-Kann De
+  bjagus                       54        26    39%     16  English Opening 8, French Defense 
+  cademan                      58        18    55%      8  Queen's Pawn Game 20, Italian Game
+  Crossfire1983                60        18    50%      7  Scandinavian Defense 18, Queen's P
+  goydorak                     57        20    42%     10  Italian Game 10, Sicilian Defense 
+  Hirsican                     60        16    53%      6  Scandinavian Defense 18, Vienna Ga
+  maikel5                      46        17    52%      8  French Defense 12, Vienna Game 7
+  maxhayastan                  57        17    44%      4  Queen's Pawn Game 12, Bishop's Ope
+  Maximilian_Honigtopf         28        16    39%      9  Four Knights Game 4, King's Pawn G
+  Odin5306                     57         9    84%      3  Hungarian Opening 25, Owen Defense
+  Sheriwoyama                  52        20    50%      9  Sicilian Defense 18, King's Gambit
+  simonvj                      45        11    76%      6  English Opening 16, Pirc Defense 1
+
+======================================================================================
+WHAT A MINIMUM-GAMES FLOOR KEEPS AND THROWS AWAY
+======================================================================================
+
+  A floor decides which openings may be compared at all. Too low and a
+  single win in a one-game opening reads as a 100 % score; too high and
+  a player has fewer than two comparable openings and nothing can be
+  said at all.
+
+   floor   % of games kept   players with >=2   players with >=3
+  ------------------------------------------------------------
+       1             100%                 12                 12
+       2              85%                 12                 12
+       3              71%                 12                 12
+       4              62%                 12                 10
+       5              53%                 11                  9
+       6              48%                 10                  6
+       7              42%                  8                  1
+       8              40%                  6                  1
+       9              35%                  4                  0
+      10              34%                  3                  0
+
+  openings per player     median 17
+  games per opening       median 2, mean 3.2, max 25
+  openings played once    90 of 197 (46%)
+

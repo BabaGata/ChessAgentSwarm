@@ -1,0 +1,35 @@
+DOES THE REPLACEMENT NAME DIFFERENT PEOPLE?
+====================================================================================
+
+12 players. early_error over 20 analysed games; opening
+scores over 60 games, floor 5.
+
+  player                                   early_error   weak opening
+  ------------------------------------------------------------------------------
+  bernes                                         white   Caro-Kann Defense 29%/19
+  bjagus                                         white   —
+  cademan                                        black   —
+  Crossfire1983                           black, white   —
+  goydorak                                       white   Queen's Pawn Game 17%/6
+  Hirsican                                black, white   —
+  maikel5                                            —   —
+  maxhayastan                                        —   —
+  Maximilian_Honigtopf                    black, white   —
+  Odin5306                                           —   —
+  Sheriwoyama                                        —   —
+  simonvj                                            —   —
+
+====================================================================================
+
+  named by early_error         7  Crossfire1983, Hirsican, Maximilian_Honigtopf, bernes, bjagus, cademan, goydorak
+  named by the replacement     2  bernes, goydorak
+  named by both                2  bernes, goydorak
+
+  PARTIAL: every player the replacement names is ALREADY named by
+  early_error -- a strict subset, not a different set. What it says
+  about them is genuinely different and actionable (a named opening
+  and a score, against a circumstance), so it is not a rename. But
+  it reaches nobody new, and it therefore CANNOT be swapped in for
+  early_error: 5 of the 7 players early_error
+  names would be left with no opening claim at all.
+

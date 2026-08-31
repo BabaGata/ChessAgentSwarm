@@ -1,0 +1,33 @@
+CAN 1b EVER FIRE?
+========================================================================================
+
+For each floor: an opening with at least that many games is compared
+against everything else the player played, pooled. It is claimed when
+the two Wilson intervals do not overlap -- the note's own rule.
+
+   floor   comparable pairs   WORSE  better   players named
+  ------------------------------------------------------------
+       2                107       5       4               4
+       3                 66       5       4               4
+       4                 46       2       3               2
+       5                 34       2       1               2
+       6                 27       2       1               2
+       7                 20       1       0               1
+       8                 18       1       0               1
+       9                 14       1       0               1
+      10                 13       1       0               1
+
+========================================================================================
+EVERY SEPARATION FOUND, AT ANY FLOOR
+========================================================================================
+
+  better bernes                Indian Defense                100% over  3   vs  47% over  55
+  WORSE  bernes                Caro-Kann Defense              29% over 19   vs  60% over  39
+  better bjagus                Hungarian Opening              88% over  4   vs  42% over  50
+  WORSE  cademan               Ruy Lopez                       0% over  3   vs  56% over  55
+  WORSE  cademan               Queen's Gambit Declined         0% over  3   vs  56% over  55
+  WORSE  goydorak              Queen's Pawn Game              17% over  6   vs  59% over  51
+  better goydorak              Ruy Lopez                     100% over  4   vs  51% over  53
+  better maxhayastan           French Defense                 83% over  6   vs  44% over  51
+  WORSE  simonvj               King's Indian Defense           0% over  3   vs  55% over  42
+

@@ -2,7 +2,7 @@
 id: cas-learning-lessons
 title: Lessons Learned
 desc: 'Generalisable lessons extracted from executed work — what worked, what did not, and why.'
-updated: 1788197400000
+updated: 1788201000000
 created: 1785254500000
 ---
 
@@ -21,6 +21,28 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 **Lesson:** the generalisable claim
 **Applied to:** the note/rule/code changed because of it
 ```
+
+---
+
+### L-054 — A calibration says what a threshold costs; only firing says what it buys
+**Date:** 2026-08-31 · **Cycle / mission step:** M6 · **Class:** method
+**Context:** settling the minimum-games floor for the opening-score claim
+([[experiments.e73-opening-scores]]).
+**Observation:** [[design.detectors-name-consequences]] named the method in advance — the floor was
+to be read off *"the distribution of per-opening game counts across the 12 review players"*. Measured,
+that distribution argues **against** the proposed floor of 5: it discards 47 % of games and leaves a
+player with nothing comparable, while 3 keeps 71 %. Running the rule at each floor said the opposite.
+At 3 every extra separation it bought was **0 % over 3 games** — statistically disjoint and exactly
+the long-tail noise the author's own caveat excludes. The proposed 5 was right; the specified method
+would have talked me out of it.
+**Lesson:** A distribution of inputs tells you what a threshold **discards**. It cannot tell you what
+the discarded material would have *produced*, and a threshold exists to control output, not input. So
+**calibrate by sweeping the threshold through the rule and reading the findings**, and use the input
+distribution only to say what coverage each setting costs. The two answers pointing opposite ways is
+the normal case, not a surprise — related: [[learning.lessons]] L-049, on a rule that cannot produce a
+positive fixture telling you something.
+**Applied to:** `MIN_GAMES` in `chesscoach/opening_scores.py` carries both readings and says which
+one decided it; `experiments/e73-opening-scores/can_it_fire.py` sweeps the floor through the rule.
 
 ---
 
