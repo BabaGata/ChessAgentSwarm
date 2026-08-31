@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788170400000
+updated: 1788181200000
 created: 1785254500000
 ---
 
@@ -243,9 +243,25 @@ struck through: a list nobody can act on is not a plan.
 
 ### Open, and unblocked
 
-0. **P0 — `maikel5` has no priorities at all** *(new 2026-08-31)*. E56 established silence at 0/12 and
-   named its unnoticed return as the thing to watch for. Whether this is the corrections working or a
-   claim that should have survived needs a look at the diagnosis, not a count.
+0. **ANSWERED — `maikel5` has no priorities at all** → [[experiments.e70-band-mismatch]]. Not a
+   correction misfiring: **he is 1929 and was compared against the 1400-1800 band**. A peer lookup is
+   keyed on `(band, time_control, claim)`, the speed arm has been checked against the games since the
+   stratum guard and **the band arm never was**, so `--band` defaulted and nothing noticed. **6 of the
+   12 review players are outside the band they were diagnosed against**, four above and two below, and
+   the reference has only one stratum so there was nowhere else to put them. r(rating, asserted
+   findings) = **−0.88**; the two players *below* the band get 5 and 6 findings, the most of anyone,
+   which is the same defect with the sign flipped. `declared_band_is_wrong` now refuses this on the
+   build side, 17 tests.
+
+0. **P0 — the read side of the band mismatch is not fixed** *(new 2026-08-31)*. Refusing a bad
+   reference at build time stops one being made; it tells a player nothing. Three options in
+   [[experiments.e70-band-mismatch]] — refuse and say so, caveat and report anyway, or **build the
+   missing 1800-2000 and 1200-1400 strata**, which is the only one that actually coaches those six
+   players. It widens [[decisions.0005-scope-band-source-online-only]], so it is the author's call.
+
+0. **P1 — did the run rule take maikel5's endgame claim too?** `endgame_error` now fires for **1 of
+   12 players** after [[experiments.e68-run-calibration]], where it once reached him. Some of the
+   silence is the band and some may be the threshold, and separating them needs an engine pass.
 
 0. **P0 — `early_error` → the opening claims.** The last of the six corrections
    ([[design.detectors-name-consequences]] § 1). Largely covered by

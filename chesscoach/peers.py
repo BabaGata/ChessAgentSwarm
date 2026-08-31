@@ -42,6 +42,15 @@ MIN_PEERS_FOR_PRIOR = 3
 STRATUM_PURITY = 0.9
 
 
+# How far past a band's edge a player's median rating may sit before they are
+# no longer that band's player. Ratings are continuous and a player at the
+# boundary drifts across it, so a band edge cannot be a hard line -- but where it
+# stops being drift is a judgement, not a measurement, and it belongs to the
+# thesis author. Small relative to the 400-point band width, and to V1's own
+# +/-103 error, so it never claims more precision than the band has.
+BAND_EDGE_TOLERANCE = 50
+
+
 @dataclass(frozen=True)
 class ConditionMeasurement:
     """One condition's raw numbers for one player: no judgement applied.
@@ -366,6 +375,83 @@ def declared_speed_is_wrong(games, declared: str) -> str | None:
         f"than reading each game, so those games would be filed as {declared} and "
         f"counted into the wrong population rate. Fetch one speed at a time "
         f"(fetch-corpus --speed {declared}) and add the other strata with --merge-with"
+    )
+
+
+
+def declared_band_is_wrong(games, player: str, declared: str) -> str | None:
+    """Is `--band` a fair label for this player? Returns why not, or None.
+
+    The sibling of `declared_speed_is_wrong`, and the reason it exists is that a
+    peer lookup is keyed on **both** `band` and `time_control` and only one of
+    them was ever checked against the games. I-03's recorded lesson was that a
+    cross-cutting fix must be applied at every place that makes the comparison;
+    it was applied to the speed arm alone, and the band arm kept the defect.
+
+    What that allowed, measured on the twelve review players: six sit outside
+    1400-1800 and all six were compared against it. The three strongest -- 1930,
+    1988, 1988 -- came out with **no findings at all**, which the report renders
+    as nothing being unusual about their play. It is not a statement about their
+    play. It is the result of comparing them against players rated below them,
+    and nothing in the output distinguishes the two.
+
+    **The median decides, not a share.** Purity is right for a categorical label
+    like speed and wrong for a continuous one: a player either played a blitz
+    game or did not, but a rating wanders, and demanding that 90 % of games fall
+    inside a band would refuse everyone near an edge. `BAND_EDGE_TOLERANCE`
+    covers the drift; past it, the player is somebody else's peer.
+
+    **The player's own rating is what is read.** Banding by whoever they happened
+    to play would make a strong opponent enough to reband them, which is how a
+    player who plays up ends up compared against a population they never joined.
+
+    Games with no readable rating abstain rather than vote, and no readable
+    ratings at all is not an accusation -- both the same rule the speed guard
+    follows, for the same reason: nothing to check against is not a mismatch.
+    """
+    from statistics import median
+
+    try:
+        low_text, _, high_text = declared.partition("-")
+        low, high = int(low_text), int(high_text)
+    except ValueError:
+        # An unparseable band cannot be compared against anything. Returning None
+        # would say "this player is fine", which is the empty case answering
+        # exactly like a populated one (L-046).
+        return (
+            f"--band {declared!r} is not a band. It must read LOW-HIGH, as in "
+            f"1400-1800, because it is half the key every peer lookup is made on"
+        )
+
+    ratings = []
+    for game in games:
+        white = getattr(game, "white", "") or ""
+        black = getattr(game, "black", "") or ""
+        if white.lower() == player.lower():
+            rating = getattr(game, "white_elo", None)
+        elif black.lower() == player.lower():
+            rating = getattr(game, "black_elo", None)
+        else:
+            continue
+        if rating is not None:
+            ratings.append(rating)
+
+    if not ratings:
+        return None
+
+    typical = median(ratings)
+    if low - BAND_EDGE_TOLERANCE <= typical <= high + BAND_EDGE_TOLERANCE:
+        return None
+
+    side = "above" if typical > high else "below"
+    distance = typical - high if typical > high else low - typical
+    return (
+        f"{player} is rated about {typical:.0f}, which is {distance:.0f} points "
+        f"{side} the {declared} band ({len(ratings)} games read). Every peer "
+        f"comparison is keyed on the band, so this player would be measured "
+        f"against a population they are not in -- and 'more often than players "
+        f"at your level' would name the wrong level. Pass the --band they are "
+        f"actually in, and build a reference for it"
     )
 
 

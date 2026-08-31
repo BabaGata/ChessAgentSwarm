@@ -508,7 +508,11 @@ def build_peer_reference(args: argparse.Namespace) -> int:
     numbers, because a reference made only of interesting players is not a
     reference.
     """
-    from chesscoach.peers import build_reference, declared_speed_is_wrong
+    from chesscoach.peers import (
+        build_reference,
+        declared_band_is_wrong,
+        declared_speed_is_wrong,
+    )
 
     directory = Path(args.pgn_dir)
     paths = sorted(directory.glob("*.pgn"))
@@ -529,6 +533,24 @@ def build_peer_reference(args: argparse.Namespace) -> int:
         mismatch = declared_speed_is_wrong(all_games, args.time_control)
         if mismatch:
             print(f"refusing to build: {mismatch}")
+            return 1
+
+        # The other half of the same key. A lookup is (band, time_control,
+        # claim); the speed arm has been checked since the stratum guard and the
+        # band arm never was, so `--band` could say anything and the reference
+        # would be built, used, and read as a statement about the player.
+        # Reported for every player before refusing, because a corpus is fetched
+        # by band and one stray file means a different fix from thirty.
+        strays = [
+            problem
+            for path in paths
+            if (problem := declared_band_is_wrong(load_games(path), path.stem, args.band))
+        ]
+        if strays:
+            print(f"refusing to build: {len(strays)} of {len(paths)} players are "
+                  f"not in the {args.band} band")
+            for problem in strays:
+                print(f"  {problem}")
             return 1
 
         _prefetch(session, all_games, args)

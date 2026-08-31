@@ -1,0 +1,48 @@
+WHO IS BEING COMPARED AGAINST THE 1400-1800 BAND, AND WHO IS IN IT
+==============================================================================
+
+Every one of these players was diagnosed against the 1400-1800 peer
+reference. The reference has exactly one stratum, so there was never
+another population any of them could have been compared against.
+
+  player                     Elo    where  asserted  measured
+  -----------------------------------------------------------
+  Sheriwoyama               1994    above         0         6
+  Odin5306                  1985    above         0         2
+  maikel5                   1929    above         0         2
+  bjagus                    1860    above         1         7
+  simonvj                   1775   inside         0         9
+  maxhayastan               1750   inside         0         2
+  Crossfire1983             1642   inside         2         7
+  bernes                    1624   inside         1         5
+  goydorak                  1580   inside         1         8
+  Hirsican                  1529   inside         1        11
+  cademan                   1302    below         5        10
+  Maximilian_Honigtopf      1202    below         6         6
+
+==============================================================================
+ASSERTED FINDINGS BY WHERE THE PLAYER SITS
+==============================================================================
+
+  above    n=4  findings [0, 0, 0, 1]  mean 0.2
+  inside   n=6  findings [0, 0, 1, 1, 1, 2]  mean 0.8
+  below    n=2  findings [5, 6]  mean 5.5
+
+  r(rating, asserted findings) = -0.88
+
+==============================================================================
+  in the band         6 of 12
+  outside it          6 of 12
+
+The players above the band are compared against people rated below
+them, so nothing they do is unusual and they are told nothing. The
+players below it are compared against people rated above them, so
+everything is unusual and they are told the most. Neither figure is
+a statement about how they play.
+
+  Sheriwoyama is rated about 1994, which is 194 points above the 1400-1800 band (52 games read). Every peer comparison is keyed on the band, so this player would be measured against a population they are not in -- and 'more often than players at your level' would name the wrong level. Pass the --band they are actually in, and build a reference for it
+  Odin5306 is rated about 1985, which is 185 points above the 1400-1800 band (57 games read). Every peer comparison is keyed on the band, so this player would be measured against a population they are not in -- and 'more often than players at your level' would name the wrong level. Pass the --band they are actually in, and build a reference for it
+  maikel5 is rated about 1929, which is 129 points above the 1400-1800 band (46 games read). Every peer comparison is keyed on the band, so this player would be measured against a population they are not in -- and 'more often than players at your level' would name the wrong level. Pass the --band they are actually in, and build a reference for it
+  bjagus is rated about 1860, which is 60 points above the 1400-1800 band (54 games read). Every peer comparison is keyed on the band, so this player would be measured against a population they are not in -- and 'more often than players at your level' would name the wrong level. Pass the --band they are actually in, and build a reference for it
+  cademan is rated about 1302, which is 98 points below the 1400-1800 band (58 games read). Every peer comparison is keyed on the band, so this player would be measured against a population they are not in -- and 'more often than players at your level' would name the wrong level. Pass the --band they are actually in, and build a reference for it
+  Maximilian_Honigtopf is rated about 1202, which is 198 points below the 1400-1800 band (28 games read). Every peer comparison is keyed on the band, so this player would be measured against a population they are not in -- and 'more often than players at your level' would name the wrong level. Pass the --band they are actually in, and build a reference for it
