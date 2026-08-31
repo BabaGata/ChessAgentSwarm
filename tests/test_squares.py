@@ -4,6 +4,11 @@ Design: docs/notes/capacity.agents.s6-squares-and-files.md
 
 The condition that matters is **permanence**: a knight a pawn can still evict is
 not an outpost, and it is the condition casual definitions omit (E02, L-004).
+
+The rook-seventh boards are **closed on purpose**. The detector now refuses to
+fire when three or more files are open, because the author's correction is that
+a rook nobody could have stopped is not a finding -- so a bare-board fixture
+would be testing the screen rather than the counting.
 """
 
 from __future__ import annotations
@@ -76,16 +81,16 @@ class TestCoverage:
 
 class TestRookOnTheSeventh:
     def test_an_enemy_rook_on_the_players_second_rank(self):
-        assert count_enemy_rooks_on_seventh(board("4k3/8/8/8/8/8/1r6/4K3 w - - 0 1"), chess.WHITE) == 1
+        assert count_enemy_rooks_on_seventh(board("4k3/pppppppp/8/8/8/8/PrPPPPPP/4K3 w - - 0 1"), chess.WHITE) == 1
 
     def test_both_rooks_count(self):
-        position = board("4k3/8/8/8/8/8/1r3r2/4K3 w - - 0 1")
+        position = board("4k3/pppppppp/8/8/8/8/PrPPPrPP/4K3 w - - 0 1")
 
         assert count_enemy_rooks_on_seventh(position, chess.WHITE) == 2
 
     def test_it_is_measured_from_the_players_own_side(self):
         # A white rook on the 7th is Black's problem, not White's.
-        position = board("4k3/1R6/8/8/8/8/8/4K3 w - - 0 1")
+        position = board("4k3/pRpppppp/8/8/8/8/PPPPPPPP/4K3 w - - 0 1")
 
         assert count_enemy_rooks_on_seventh(position, chess.BLACK) == 1
         assert count_enemy_rooks_on_seventh(position, chess.WHITE) == 0
@@ -96,13 +101,13 @@ class TestRookOnTheSeventh:
 
 class TestWhatWasAllowed:
     def test_a_rook_arriving_is_allowed(self):
-        before = board("4k3/8/8/8/8/8/8/4K3 w - - 0 1")
-        after = board("4k3/8/8/8/8/8/1r6/4K3 w - - 0 1")
+        before = board("4k3/pppppppp/8/8/8/8/PPPPPPPP/4K3 w - - 0 1")
+        after = board("4k3/pppppppp/8/8/8/8/PrPPPPPP/4K3 w - - 0 1")
 
         assert ROOK_SEVENTH in allowed(before, after, chess.WHITE)
 
     def test_a_rook_that_was_already_there_is_not_newly_allowed(self):
-        position = board("4k3/8/8/8/8/8/1r6/4K3 w - - 0 1")
+        position = board("4k3/pppppppp/8/8/8/8/PrPPPPPP/4K3 w - - 0 1")
 
         assert allowed(position, position, chess.WHITE) == frozenset()
 
@@ -113,14 +118,20 @@ class TestWhatWasAllowed:
         assert OUTPOST in allowed(before, after, chess.WHITE)
 
     def test_the_players_own_gains_are_not_concessions(self):
-        before = board("4k3/8/8/8/8/8/8/4K3 w - - 0 1")
-        after = board("4k3/1R6/8/8/8/8/8/4K3 w - - 0 1")
+        before = board("4k3/pppppppp/8/8/8/8/PPPPPPPP/4K3 w - - 0 1")
+        after = board("4k3/pRpppppp/8/8/8/8/PPPPPPPP/4K3 w - - 0 1")
 
         assert allowed(before, after, chess.WHITE) == frozenset()
 
     def test_both_can_be_allowed_at_once(self):
-        before = board("4k3/8/8/8/4p3/8/8/4K3 w - - 0 1")
-        after = board("4k3/8/8/8/4p3/3n4/1r6/4K3 w - - 0 1")
+        # Same pawns as `after`, so the only difference is the knight and the
+        # rook. A different pawn structure would change how many files are open
+        # and compare a screened board against an unscreened one.
+        # No white pawn on the c- or e-file, so d3 can never be covered and the
+        # knight is a real outpost -- with a full pawn row, c2 covers d3 and
+        # there is no outpost to find.
+        before = board("4k3/pppppppp/8/8/4p3/8/P2P1PPP/4K3 w - - 0 1")
+        after = board("4k3/pppppppp/8/8/4p3/3n4/Pr1P1PPP/4K3 w - - 0 1")
 
         assert allowed(before, after, chess.WHITE) == {OUTPOST, ROOK_SEVENTH}
 

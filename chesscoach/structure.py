@@ -124,14 +124,102 @@ def count_backward(board: chess.Board, colour: chess.Color) -> int:
     return found
 
 
+# How far apart two pawns on a file may be and still be the weakness the claim
+# names. The author, marking the old detector wrong:
+#
+# > *"Doubled pawns are detected for pretty much any capture no matter how far
+# > away the pawns are. This should be counted only if they are directly one in
+# > front of the other or if there is only 1 square in between... otherwise, the
+# > pawn that is much more forward is usually attacking the opponent and trying
+# > to break the defense and will probably capture anything and fall soon
+# > afterwards."*
+#
+# So 1 or 2 ranks apart. Their reasoning is about what the position is FOR, not
+# about geometry: a far-advanced pawn on the same file is doing a different job.
+MAX_DOUBLED_GAP = 2
+
+# How long the pawns must survive to be a weakness rather than a moment.
+#
+# > *"Also the double pawns should be taken in the account if they are able to
+# > last for more then 3 moves, otherwise, they are in that state just until the
+# > end of exchange."*
+DOUBLED_PERSISTS_MOVES = 3
+
+
 def count_doubled(board: chess.Board, colour: chess.Color) -> int:
-    """Surplus pawns sharing a file: three on one file counts as two.
+    """Surplus pawns sharing a file **and close enough to obstruct each other**.
 
     Counting surplus rather than files means a tripled pawn reads as worse than
     a doubled one, which matches how it plays.
+
+    Pawns more than `MAX_DOUBLED_GAP` ranks apart do not count. This is the
+    author's correction and it is a claim about purpose: a pawn far up the same
+    file is attacking rather than obstructing, and it is usually about to be
+    exchanged off.
     """
-    per_file = Counter(chess.square_file(square) for square in _pawns(board, colour))
-    return sum(count - 1 for count in per_file.values() if count > 1)
+    by_file: dict[int, list[int]] = {}
+    for square in _pawns(board, colour):
+        by_file.setdefault(chess.square_file(square), []).append(
+            chess.square_rank(square)
+        )
+
+    surplus = 0
+    for ranks in by_file.values():
+        if len(ranks) < 2:
+            continue
+        ranks.sort()
+        # Each pawn that sits within the gap of the one below it is one surplus.
+        surplus += sum(
+            1
+            for lower, upper in zip(ranks, ranks[1:])
+            if upper - lower <= MAX_DOUBLED_GAP
+        )
+    return surplus
+
+
+def doubled_files(board: chess.Board, colour: chess.Color) -> frozenset[int]:
+    """Files carrying a doubled pair close enough to count."""
+    by_file: dict[int, list[int]] = {}
+    for square in _pawns(board, colour):
+        by_file.setdefault(chess.square_file(square), []).append(
+            chess.square_rank(square)
+        )
+    found = set()
+    for file_, ranks in by_file.items():
+        ranks.sort()
+        if any(u - l <= MAX_DOUBLED_GAP for l, u in zip(ranks, ranks[1:])):
+            found.add(file_)
+    return frozenset(found)
+
+
+def persistent_doubled(
+    boards, colour: chess.Color, persists: int = DOUBLED_PERSISTS_MOVES
+) -> frozenset[int]:
+    """Files doubled continuously for longer than `persists` of the player's moves.
+
+    **The detector has to see a span, not a position.** A capture that doubles
+    pawns which are resolved two moves later leaves the player no worse off, and
+    the old detector counted it because it only ever looked at one board.
+
+    `boards` is the positions after each of this player's own moves, in order.
+    Counting the player's own moves rather than plies is deliberate: the author
+    said "moves", and a player who un-doubles at their next turn has held the
+    weakness for one move, not two.
+    """
+    run: dict[int, int] = {}
+    survived: set[int] = set()
+    for board in boards:
+        current = doubled_files(board, colour)
+        for file_ in current:
+            run[file_] = run.get(file_, 0) + 1
+            if run[file_] > persists:
+                survived.add(file_)
+        for file_ in list(run):
+            if file_ not in current:
+                # Resolved. The run resets rather than accumulating across
+                # separate episodes on the same file.
+                del run[file_]
+    return frozenset(survived)
 
 
 COUNTERS = {ISOLATED: count_isolated, BACKWARD: count_backward, DOUBLED: count_doubled}

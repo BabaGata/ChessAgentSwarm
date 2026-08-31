@@ -22,9 +22,13 @@ from chesscoach.squares import OUTPOST, ROOK_SEVENTH
 
 PROVENANCE = Provenance(engine="stub", depth=15, corpus_id="c1", analysed_at="2026-08-05")
 
-QUIET = "4k3/8/8/8/4p3/8/8/4K3 w - - 0 1"
-KNIGHT_SETTLED = "4k3/8/8/8/4p3/3n4/8/4K3 w - - 0 1"
-ROOK_ARRIVED = "4k3/8/8/8/4p3/8/1r6/4K3 w - - 0 1"
+# Closed boards. `rook_seventh` now refuses to fire when three or more files
+# are open, because the author's correction is that a rook nobody could have
+# stopped is not a finding -- so a bare board would test the screen rather than
+# the claim. No white pawn on the c- or e-file, so d3 stays a real outpost.
+QUIET = "4k3/pppppppp/8/8/4p3/8/P2P1PPP/4K3 w - - 0 1"
+KNIGHT_SETTLED = "4k3/pppppppp/8/8/4p3/3n4/P2P1PPP/4K3 w - - 0 1"
+ROOK_ARRIVED = "4k3/pppppppp/8/8/4p3/8/Pr1P1PPP/4K3 w - - 0 1"
 
 
 def an_observation(

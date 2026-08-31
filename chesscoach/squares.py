@@ -80,8 +80,47 @@ def count_enemy_outposts(board: chess.Board, colour: chess.Color) -> int:
     )
 
 
+# Above this many open files, keeping a rook off the seventh is not a thing a
+# player can be asked to do. The author, marking the old detector wrong:
+#
+# > *"Rooks can pretty much always come to the seventh rank if it is a late
+# > endgame, not many pieces and pawns to block them. So basically whenever
+# > there are 3 or more open files there is not much possibility to block the
+# > opponent... This should be counted only if there was a real opportunity to
+# > block the rook from coming to the seventh file a move before or 2 moves
+# > before."*
+#
+# Their number, not one chosen here. The precise version of the rule is a
+# two-ply search for a move that would have stopped the arrival; this is the
+# cheap screen that runs first, so the search is only paid for if it still has
+# something left to buy.
+OPEN_FILES_UNPREVENTABLE = 3
+
+
+def open_files(board: chess.Board) -> int:
+    """Files with no pawn of either colour on them."""
+    occupied = {
+        chess.square_file(square)
+        for square in board.pieces(chess.PAWN, chess.WHITE)
+        | board.pieces(chess.PAWN, chess.BLACK)
+    }
+    return 8 - len(occupied)
+
+
 def count_enemy_rooks_on_seventh(board: chess.Board, colour: chess.Color) -> int:
-    """Enemy rooks on the rank where `colour`'s pawns started."""
+    """Enemy rooks on the seventh, **when arriving there was preventable**.
+
+    A rook standing on the seventh is a state of the board. Whether the player
+    could have stopped it is the question that makes it a finding rather than a
+    description -- the fault the six corrections share
+    ([[design.detectors-name-consequences]]).
+
+    So an open board does not fire at all. With three or more open files the
+    rook was going to get there whatever the player did, and telling them to
+    prevent it is telling them to do something impossible.
+    """
+    if open_files(board) >= OPEN_FILES_UNPREVENTABLE:
+        return 0
     rank = 1 if colour == chess.WHITE else 6
     return sum(
         1

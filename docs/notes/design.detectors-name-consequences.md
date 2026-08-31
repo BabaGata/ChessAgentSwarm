@@ -9,7 +9,7 @@ created: 1788652800000
 # Six detectors, corrected
 
 **Source:** the author, 2026-08-29, reading the precision sheet ·
-**Status:** 2 of 6 built (`advantage_error` retired, `fork` rebuilt); 4 designed
+**Status:** 4 of 6 built (`advantage_error` retired, `fork` rebuilt, `rook_seventh` screened, `doubled` corrected); `endgame_error` and the opening claims remain
 
 ## The fault they share
 
@@ -234,7 +234,11 @@ Ordered by what unblocks what, not by size:
    author's eye on a few positions before the zero count can be trusted.
    The author's oldest complaint, the clearest specification, and the one whose
    fixtures are already written in their own words.
-3. **`doubled` and `rook_seventh`.** Both are filters over existing detectors; both cheap.
+3. ~~**`doubled` and `rook_seventh`.**~~ **Done** — [[experiments.e66-rook-seventh-and-doubled]].
+   The open-files screen removes **52 %** of rook firings, so the precise two-ply search still has
+   something to buy — the opposite of what this note guessed. For `doubled` the author's two
+   conditions are wildly unequal: distance −17 %, persistence **64 %**. `persistent_doubled` is
+   built and tested and **not yet wired into S5**, which needs the span rather than one board.
 4. **`endgame_error`.** Needs the residual relationship with S1 built first.
 5. **`early_error` → opening claims.** Largest, needs a new peer statistic, and merges A3.
 
