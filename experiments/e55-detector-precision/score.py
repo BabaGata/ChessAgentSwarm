@@ -57,6 +57,73 @@ _RECOVERED = re.compile(r"^([\w.]+)\s+(\d+)\s+(\d+)\s+(\d+)\s*$")
 RECOVERED = Path(__file__).parent / "results" / "marks-recovered.txt"
 
 
+class StaleSheet(Exception):
+    """The marks judge code that is no longer there."""
+
+
+_STAMP = re.compile(r"GENERATED\s+\S+\s+from commit\s+([0-9a-f]+)", re.I)
+
+
+def stamp_of(path: Path) -> str:
+    """The commit a sheet was generated from, or "" if it does not say."""
+    # The stamp sits under the sheet's instructions, not at the very top, and a
+    # first version read twenty lines and reported a stamped sheet as unstamped
+    # -- refusing for the wrong reason, which is only better than not refusing.
+    for line in path.read_text(encoding="utf-8-sig").splitlines()[:60]:
+        found = _STAMP.search(line)
+        if found:
+            return found.group(1)
+    return ""
+
+
+def detectors_changed_since(commit: str) -> list[str]:
+    """Detector commits landed since `commit`, newest first."""
+    if not commit:
+        return []
+    try:
+        done = subprocess.run(
+            ["git", "log", "--oneline", f"{commit}..HEAD", "--",
+             "chesscoach/tactics.py", "chesscoach/squares.py",
+             "chesscoach/structure.py", "chesscoach/sections/"],
+            capture_output=True, text=True,
+            cwd=Path(__file__).resolve().parents[2], timeout=20,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return []
+    return [line for line in done.stdout.splitlines() if line.strip()]
+
+
+def refuse_if_stale(path: Path) -> None:
+    """Stop rather than score marks against code that has since changed.
+
+    **A stamp nothing reads is a comment.** E55 added the commit stamp to the
+    detection sheet precisely so marks could be dated against the code they
+    judged -- and E57 then compared a fresh count against a sheet generated two
+    commits earlier and recorded the difference as an unexplained side effect of
+    the wrong change. The stamp was at the top of the file being read.
+
+    So the check refuses rather than warns. Scoring a stale sheet produces a
+    precision figure that looks exactly like a real one, which is worse than no
+    figure at all -- the same reasoning that made these marks undateable in the
+    first place.
+    """
+    stamp = stamp_of(path)
+    if not stamp:
+        raise StaleSheet(
+            f"{path.name} carries no commit stamp, so its marks cannot be dated. "
+            f"Regenerate it with detection_sheet.py."
+        )
+    changed = detectors_changed_since(stamp)
+    if changed:
+        listed = "\n  ".join(changed[:8])
+        raise StaleSheet(
+            f"{path.name} was generated from {stamp}, and {len(changed)} detector "
+            f"commit(s) have landed since:\n  {listed}\n"
+            f"These marks judge code that is no longer there. Regenerate the "
+            f"sheet before scoring it."
+        )
+
+
 def read(path: Path) -> tuple[list[Marks], dict[str, int]]:
     """Marks per detector, and how often each fired, from one marked sheet."""
     tally: dict[str, list[int]] = {}
@@ -135,12 +202,25 @@ def main() -> int:
     parser.add_argument("--only-decided", action="store_true",
                         help="hide detectors nobody has marked yet")
     parser.add_argument("--out", type=Path, default=Path(__file__).parent / "results")
+    parser.add_argument("--allow-stale", action="store_true",
+                        help="score a sheet whose detectors have changed since "
+                             "it was generated; the figures will be about code "
+                             "that is no longer there")
     args = parser.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
 
     if not args.sheet.exists():
         print(f"no sheet at {args.sheet}")
         return 1
+
+    # Refuse rather than warn. A precision figure from a stale sheet looks
+    # exactly like a real one, which is the condition E55 was built to end.
+    if not args.allow_stale:
+        try:
+            refuse_if_stale(args.sheet)
+        except StaleSheet as exc:
+            print(f"REFUSING: {exc}")
+            return 1
 
     marks, fired = read(args.sheet)
 
