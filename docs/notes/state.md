@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788193800000
+updated: 1788197400000
 created: 1785254500000
 ---
 
@@ -270,10 +270,22 @@ struck through: a list nobody can act on is not a plan.
    at **3.61 exposures a game against a peer's 2.50**, and is told nothing because the 1400-1800
    population gives away 11.18.
 
-0. **P1 — `concedes_weakness` can never fill a slot, and nothing says so out loud.** It is
-   structurally unpriceable by design, so it is measured, shown on the sheet, ranked nowhere, and
-   silently ineligible for the fallback. That is defensible for one claim and worth counting across
-   the vocabulary: how many claim kinds can never reach a player at all?
+0. **ANSWERED — how many claim kinds can never reach a player?**
+   → [[experiments.e72-can-it-reach-a-player]]. **13 of 50 are mute**: they fire, they are priced,
+   and they never become a finding for anyone. 14 reach players, 12 are eligible and lose to
+   something dearer, 10 are silent by design. **The whole endgame section is unreachable** — all six
+   `endgame_error` variants — which is E67's run rule seen one level above the six priority slots
+   E71 priced it at. **And the detection sheet is well targeted**: only 2 of its 29 claims are mute,
+   so marking it is not time spent on claims nobody can be told about.
+
+0. **P1 — the endgame threshold's reach cost belongs with the author's open judgements.** The run
+   rule is what the author asked for and a single blunder was the thing being corrected, but a
+   section that can no longer speak to any of twelve real players is a fact the person who set the
+   threshold should have. Not a bug to fix unasked.
+
+0. **P2 — `early_error.any` is mute while `early_error.white` and `.black` both reach players.** The
+   pooled claim is redundant against its own split. Worth settling *before* building the
+   `early_error` correction below, not after.
 
 0. **P0 — `early_error` → the opening claims.** The last of the six corrections
    ([[design.detectors-name-consequences]] § 1). Largely covered by

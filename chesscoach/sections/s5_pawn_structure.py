@@ -82,8 +82,14 @@ CONCEDES = "concedes_weakness"
 #
 # Players concede structure at very nearly the same rate. `backward` varies like
 # the claims that are known to discriminate and fires regularly; `isolated`
-# reaches this bar only for outliers; `doubled` and the pooled `any` reach it for
-# nobody, and are measured, kept in the peer reference, and never asserted.
+# reaches this bar only for outliers; the pooled `any` reaches it for nobody, and
+# is measured, kept in the peer reference, and never asserted.
+#
+# **`doubled` no longer belongs in that last group.** It was listed with `any` as
+# reaching the bar for nobody; after the persistence correction it asserts for two
+# of the twelve review players and reaches one of them
+# ([[experiments.e72-can-it-reach-a-player]]). The comment outlived the behaviour
+# it described, which is the failure this file's own history is full of.
 MIN_PEER_RATIO = 1.5
 
 EVIDENCE_SAMPLE_SIZE = 4

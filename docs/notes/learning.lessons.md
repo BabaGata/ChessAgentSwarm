@@ -2,7 +2,7 @@
 id: cas-learning-lessons
 title: Lessons Learned
 desc: 'Generalisable lessons extracted from executed work — what worked, what did not, and why.'
-updated: 1788193800000
+updated: 1788197400000
 created: 1785254500000
 ---
 
@@ -21,6 +21,27 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 **Lesson:** the generalisable claim
 **Applied to:** the note/rule/code changed because of it
 ```
+
+---
+
+### L-053 — An audit that does not know intent manufactures defects
+**Date:** 2026-08-31 · **Cycle / mission step:** M6 · **Class:** process
+**Context:** auditing which claim kinds can ever reach a player
+([[experiments.e72-can-it-reach-a-player]]).
+**Observation:** the first run reported **23 mute claims** out of 50. **Ten of them were correct
+behaviour**: `executed_motif` is excluded by name in `s1_tactical_gaps.NOT_ASSERTED` — *"it is not a
+weakness and must not be reported as one"* — `plays_queenless` is a style tendency deliberately kept
+out of the findings machinery, and `concedes_weakness.any` is recorded in `s5_pawn_structure` as
+discriminating nobody. Every one of those had a comment in the code saying it was intentional, and
+the audit read none of them, because it was counting behaviour and intent is not behaviour.
+**Lesson:** A coverage or reachability audit measures **what happens**, and "what happens" includes
+every deliberate silence. Publishing that number as a defect count sends the reader to fix code that
+is right, which is **worse than not running the audit** — it spends the scarcest resource in the
+project, the author's attention, on confirming that a decision they already made is still made. The
+rule: **before reporting that something never happens, find out whether something made it never
+happen.** A grep for the claim's own name in the section that emits it was enough here.
+**Applied to:** `BY_DESIGN_KINDS` / `BY_DESIGN_KEYS` in the audit, each entry carrying the line of
+code that justifies it, so the exclusion is auditable rather than asserted.
 
 ---
 

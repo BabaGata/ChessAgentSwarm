@@ -1,0 +1,107 @@
+CAN THIS CLAIM EVER REACH A PLAYER?
+============================================================================================
+
+12 players, 20 games each, band 1400-1800, depth 15.
+
+Two routes exist: clear the confidence gate (asserted), or be priced
+into the cost pool. A claim that took neither for anyone is MUTE --
+measured, printed on the detection sheet, and unable to say anything.
+
+  claim                                   fires  priced  assert  pool  told  route
+  ----------------------------------------------------------------------------------------
+  early_error.white.own                      12      12       0     6     4  reaches players
+  long_think_error.long_think.own            12      12       1     5     4  reaches players
+  early_error.black.own                      12      12       1     3     3  reaches players
+  allowed_motif.hangingPawn.own              12      12       2     4     3  reaches players
+  allowed_motif.hangingPiece.own             12      12       0     5     2  reaches players
+  allowed_motif.capturingDefender.own        12      12       1     4     2  reaches players
+  moved_into_attack.own_move.own             12      12       1     2     2  reaches players
+  allowed_motif.pin.own                      10      10       1     2     2  reaches players
+  allows_pressure.king.own                    9       0       2     2     2  reaches players
+  opening_disadvantage.any.own               12       0       2     2     1  reaches players
+  concedes_weakness.doubled.own              12       0       2     0     1  reaches players
+  allows_square.outpost.own                  12       0       1     2     1  reaches players
+  allowed_motif.trappedPiece.own             10      10       0     1     1  reaches players
+  miscounted_exchange.own_move.own           11      12       0     2     1  reaches players
+  plays_queenless.any.own                    12       0       0     0     0  silent by design
+  early_error.any.own                        12      12       0     0     0  MUTE — fires, priced, never a finding
+  instant_move_error.instant_moves.own       12      12       0     0     0  MUTE — fires, priced, never a finding
+  executed_motif.hangingPiece.own            12      12       0     0     0  silent by design
+  executed_motif.hangingPawn.own             12      12       0     0     0  silent by design
+  concedes_weakness.any.own                  12       0       0     0     0  silent by design
+  executed_motif.capturingDefender.own       12      12       0     0     0  silent by design
+  time_pressure_error.clock.own              10      12       0     2     0  eligible, never chosen
+  concedes_weakness.isolated.own             12       0       1     1     0  eligible, never chosen
+  executed_motif.pin.own                     12      12       0     0     0  silent by design
+  allows_square.any.own                      12       0       0     1     0  eligible, never chosen
+  concedes_weakness.backward.own             12       0       1     3     0  eligible, never chosen
+  missed_motif.hangingPawn.own               12      12       0     2     0  eligible, never chosen
+  missed_motif.pin.own                       12      12       0     4     0  eligible, never chosen
+  allowed_motif.fork.own                     12      12       0     1     0  eligible, never chosen
+  allowed_motif.discoveredAttack.own         12      12       0     0     0  MUTE — fires, priced, never a finding
+  missed_motif.hangingPiece.own              11      12       0     0     0  MUTE — fires, priced, never a finding
+  executed_motif.fork.own                    11      11       0     0     0  silent by design
+  executed_motif.trappedPiece.own            12      12       0     0     0  silent by design
+  missed_motif.capturingDefender.own         10      12       0     4     0  eligible, never chosen
+  endgame_error.any.own                       7      12       0     0     0  MUTE — fires, priced, never a finding
+  allows_square.rook_seventh.own             11       0       0     1     0  eligible, never chosen
+  missed_motif.discoveredAttack.own          10      12       0     2     0  eligible, never chosen
+  executed_motif.discoveredAttack.own         9      12       0     0     0  silent by design
+  time_budget_error.after_overspending.       3      12       0     0     0  MUTE — fires, priced, never a finding
+  missed_motif.trappedPiece.own              10      12       0     2     0  eligible, never chosen
+  sacrificed_for_attack.own_move.own          7      12       0     3     0  eligible, never chosen
+  allowed_motif.skewer.own                    7       7       0     0     0  MUTE — fires, priced, never a finding
+  endgame_error.rook.own                      4      10       0     0     0  MUTE — fires, priced, never a finding
+  missed_motif.fork.own                       7      11       0     0     0  MUTE — fires, priced, never a finding
+  endgame_error.minor.own                     2       8       0     0     0  MUTE — fires, priced, never a finding
+  endgame_error.queen.own                     2      12       0     0     0  MUTE — fires, priced, never a finding
+  executed_motif.skewer.own                   4       7       0     0     0  silent by design
+  endgame_error.rook_minor.own                1      10       0     0     0  MUTE — fires, priced, never a finding
+  missed_motif.skewer.own                     2       7       0     0     0  MUTE — fires, priced, never a finding
+  endgame_error.pawn.own                      0       4       0     0     0  never fires
+
+============================================================================================
+SUMMARY
+============================================================================================
+
+  reaches players                                14
+  eligible, never chosen                         12
+  silent by design                               10
+  MUTE — fires, priced, never a finding          13
+  MUTE — fires, never priced, never asserted      0
+  never fires                                     1
+
+  in the vocabulary                              50
+  MUTE (fire, and can never be told to anyone)   13
+
+  `silent by design` is not a defect: a strength, a style tendency and a
+  pooled claim that discriminates nobody are all deliberately kept out of
+  the priorities, each with a line in the code saying so.
+
+  MUTE — fires, priced, never a finding:
+      early_error.any.own
+      instant_move_error.instant_moves.own
+      allowed_motif.discoveredAttack.own
+      missed_motif.hangingPiece.own
+      endgame_error.any.own
+      time_budget_error.after_overspending.own
+      allowed_motif.skewer.own
+      endgame_error.rook.own
+      missed_motif.fork.own
+      endgame_error.minor.own
+      endgame_error.queen.own
+      endgame_error.rook_minor.own
+      missed_motif.skewer.own
+
+  silent by design:
+      plays_queenless.any.own
+      executed_motif.hangingPiece.own
+      executed_motif.hangingPawn.own
+      concedes_weakness.any.own
+      executed_motif.capturingDefender.own
+      executed_motif.pin.own
+      executed_motif.fork.own
+      executed_motif.trappedPiece.own
+      executed_motif.discoveredAttack.own
+      executed_motif.skewer.own
+
