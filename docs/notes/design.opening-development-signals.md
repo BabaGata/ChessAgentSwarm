@@ -215,6 +215,12 @@ headline takes the slot; the largest deviation among the three explanations supp
 that says **why**. That is the author's *"change the advice based on what they do more often"*, built
 out of a mechanism already in the code.
 
+> **Run 2026-08-31** — [[experiments.e69-development-correlations]]. **No pair exceeds the ceiling,
+> so all four ship.** `slow_development`/`repeat_move` sits at **0.81**, distinct but narrowly; the
+> pair E59 measured at 0.68 is now **0.75** because the detectors changed underneath it; and
+> `pawn_error` is the outlier at 0.16–0.29, rare and independent. Against `early_error` the highest
+> is 0.55, nothing like restatement.
+
 **But whether all four survive is not an argument to win — it is a number to measure**, and the
 project has run this screen before. E10 closed a section slot because two candidates correlated
 **+0.917** and **+0.914** with the overall error rate and were therefore not new information. The

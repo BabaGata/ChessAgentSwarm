@@ -1,0 +1,47 @@
+ARE THE DEVELOPMENT CLAIMS ONE SIGNAL OR SEVERAL?
+============================================================================
+
+reference   peers-3af3206.json
+players     at least 10 opportunities on a claim
+
+  slow_development.book       80 players, median rate 46%
+  late_castling.book          80 players, median rate 41%
+  repeat_move.any             83 players, median rate 43%
+  pawn_error.any              83 players, median rate 6%
+  early_error.any.own         83 players, median rate 25%
+  endgame_error.any.own       81 players, median rate 3%
+
+============================================================================
+THE DEVELOPMENT CLAIMS AGAINST EACH OTHER   (ceiling |r| > 0.85)
+============================================================================
+
+pair                                                   r  players   verdict
+--------------------------------------------------------------------------
+slow_development.book / late_castling.book          0.75       80   distinct
+slow_development.book / repeat_move.any             0.81       80   distinct
+slow_development.book / pawn_error.any              0.20       80   distinct
+late_castling.book / repeat_move.any                0.75       80   distinct
+late_castling.book / pawn_error.any                 0.29       80   distinct
+repeat_move.any / pawn_error.any                    0.16       83   distinct
+
+============================================================================
+AND AGAINST THE CLAIMS THEY MIGHT BE RESTATING
+============================================================================
+
+A development claim that tracks the general opening error rate is not
+telling anyone anything new -- that is what closed a section slot in
+E10 at +0.917.
+
+pair                                                   r  players
+-----------------------------------------------------------------
+slow_development.book / early_error.any.own         0.55       80
+slow_development.book / endgame_error.any.own       0.10       78
+late_castling.book / early_error.any.own            0.46       80
+late_castling.book / endgame_error.any.own          0.01       78
+repeat_move.any / early_error.any.own               0.54       83
+repeat_move.any / endgame_error.any.own             0.14       81
+pawn_error.any / early_error.any.own                0.35       83
+pawn_error.any / endgame_error.any.own              0.22       81
+
+No pair exceeds the ceiling: every development claim carries
+something the others do not, and all may ship.
