@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788204600000
+updated: 1788206400000
 created: 1785254500000
 ---
 
@@ -221,9 +221,11 @@ struck through: a list nobody can act on is not a plan.
 ### Waiting on the author — nothing else can substitute
 
 0. **P0 — Mark the detection sheet.** `experiments/e55-detector-precision/results/detection-sheet.txt`,
-   **145 boxes, 29 claims, stamped `20b1cef`**. Regenerated after five detector corrections, so the
-   examples are behaviour the code actually has. `score.py` now **refuses** a stale sheet by name, so
-   this cannot silently become marks about deleted code again.
+   **130 boxes, 26 claims, stamped `75e6dff`**. **Regenerated 2026-08-31** after the precise
+   `rook_seventh` rule landed — the guard refused the old one by name, which is what it is for.
+   `allows_square.rook_seventh` is now **5 instances across 1 player**, down from 43 across 6, so its
+   examples are a different and much smaller set. E72 checked the sheet is worth the evening: only 2
+   of its claims can never reach a player.
 
 0. **P0 — Fifteen fork positions.** `experiments/e57-fork-rebuilt/results/fork-sample.txt`. The claim
    fires for nobody after the rebuild, and only a person reading positions can say whether the rule

@@ -14,17 +14,40 @@ carries no measured precision, however many marks it has.
   detector                             fired  marks   prec    95% interval  verdict
 
   early_error.white.own                  200      4     0%        0% - 49%  unmarked  (1 unsure)
-  advantage_error.clear.own              182      0      -               -  unmarked  (5 unsure)
-  allowed_motif.hangingPawn.own          121      5    80%       38% - 96%  unmarked
+  long_think_error.long_think.own        158      0      -               -  unmarked
+  early_error.black.own                  123      0      -               -  unmarked
+  allowed_motif.hangingPawn.own          120      5    80%       38% - 96%  unmarked
+  allowed_motif.hangingPiece.own          78      0      -               -  unmarked
+  allowed_motif.capturingDefender.o       63      0      -               -  unmarked
+  allowed_motif.pin.own                   38      0      -               -  unmarked
+  allows_pressure.king.own                37      0      -               -  unmarked
   moved_into_attack.own_move.own          36      5     0%        0% - 43%  unmarked
+  opening_disadvantage.any.own            30      0      -               -  unmarked
+  concedes_weakness.backward.own          27      0      -               -  unmarked
+  concedes_weakness.isolated.own          26      0      -               -  unmarked
+  missed_motif.pin.own                    25      0      -               -  unmarked
+  allows_square.outpost.own               24      0      -               -  unmarked
+  time_pressure_error.clock.own           22      0      -               -  unmarked
+  missed_motif.capturingDefender.ow       19      0      -               -  unmarked
+  concedes_weakness.doubled.own           17      0      -               -  unmarked
+  missed_motif.hangingPawn.own            15      0      -               -  unmarked
+  allows_square.any.own                   13      0      -               -  unmarked
+  sacrificed_for_attack.own_move.ow       11      0      -               -  unmarked
+  allowed_motif.fork.own                  10      0      -               -  unmarked
+  miscounted_exchange.own_move.own         7      0      -               -  unmarked
+  missed_motif.discoveredAttack.own        7      0      -               -  unmarked
+  missed_motif.trappedPiece.own            7      0      -               -  unmarked
+  allowed_motif.trappedPiece.own           5      0      -               -  unmarked
+  allows_square.rook_seventh.own           5      0      -               -  unmarked
+  advantage_error.clear.own                0      0      -               -  unmarked  (5 unsure)
 
 ======================================================================================
 WHAT TO DO WITH THIS
 
   stale          4   marked, then the detector changed -- re-mark before trusting either way
-      advantage_error.clear.own         marked 2026-08-23, but chesscoach/sections/ changed 2026-08-24 -- must be re-marked
-      allowed_motif.hangingPawn.own     marked 2026-08-23, but chesscoach/tactics.py changed 2026-08-24 -- must be re-marked
-      early_error.white.own             marked 2026-08-23, but chesscoach/sections/ changed 2026-08-24 -- must be re-marked
+      advantage_error.clear.own         marked 2026-08-23, but chesscoach/sections/ changed 2026-08-31 -- must be re-marked
+      allowed_motif.hangingPawn.own     marked 2026-08-23, but chesscoach/tactics.py changed 2026-08-29 -- must be re-marked
+      early_error.white.own             marked 2026-08-23, but chesscoach/sections/ changed 2026-08-31 -- must be re-marked
       moved_into_attack.own_move.own    marked 2026-08-23, but chesscoach/material.py changed 2026-08-27 -- must be re-marked
 
   condemned      0   fix or retire before anything downstream is trusted
