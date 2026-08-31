@@ -72,8 +72,21 @@ ENDGAME_ERROR = "endgame_error"
 # endgame, and only the second is what this claim is for. The window is in the
 # player's OWN moves -- their word was "moves" -- so an opponent's reply between
 # two of them does not break the run.
+# Calibrated, not proposed ([[experiments.e68-run-calibration]]). A permutation
+# test -- same moves, same error counts, shuffled which moves erred -- says the
+# window destroys the signal:
+#
+#     3 in 3   observed 35, by chance 17.9,  ratio 1.96,   0 % of shuffles reached it
+#     3 in 4   observed 50, by chance 39.9,  ratio 1.25,  12 %
+#     3 in 5   observed 67, by chance 58.6,  ratio 1.14,  20 %
+#
+# At 3-in-4 -- the design note's first proposal, which E67 shipped -- one shuffle
+# in eight matched it, so the setting was barely telling clustering from a
+# player's own error rate. Strictly consecutive is what the author wrote:
+# *"imprecise one move after the other"*. The window was the note softening
+# their words and the measurement says the words were right.
 RUN_LENGTH = 3
-RUN_WINDOW = 4
+RUN_WINDOW = 3
 ADVANTAGE_ERROR = "advantage_error"
 
 # **Retired 2026-08-29, not deleted.** The author, having marked all five sampled

@@ -216,7 +216,7 @@ and it needs stating, because it means `endgame_error` cannot be computed until 
 | needs calibrating | first proposal | how it gets settled |
 |---|---|---|
 | "big drop" | the existing error threshold | reuse rather than invent |
-| "a few consecutive moves" | 3 within a 4-ply window | how often runs of each length occur in the corpus |
+| ~~"a few consecutive moves"~~ | ~~3 within a 4-ply window~~ | **Settled: 3 in 3, strictly consecutive** ([[experiments.e68-run-calibration]]). Frequency was the wrong question — a permutation test shows 3-in-4 was matched by one shuffle in eight, so it barely told clustering from the error rate |
 
 **Testable:** a single blunder in a rook endgame must not fire. Three consecutive inaccuracies, none
 tactical, must. A three-move run where the first drop is a hung piece must count only the other two.

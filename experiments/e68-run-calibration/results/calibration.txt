@@ -1,0 +1,45 @@
+  bernes: 7 endgame games
+  bjagus: 5 endgame games
+  cademan: 2 endgame games
+  Crossfire1983: 9 endgame games
+  goydorak: 9 endgame games
+  Hirsican: 6 endgame games
+  maikel5: 6 endgame games
+  maxhayastan: 8 endgame games
+  Maximilian_Honigtopf: 3 endgame games
+  Odin5306: 10 endgame games
+  Sheriwoyama: 4 endgame games
+  simonvj: 6 endgame games
+
+HOW LONG A RUN HAS TO BE
+==============================================================================
+
+players            12
+endgame games      75
+endgame moves      1286
+non-tactical drops 190  (15%)
+
+Observed runs against a permutation baseline: the same moves and the
+same number of errors, shuffled within each game. The baseline holds
+the error rate fixed and destroys only the clustering, so the gap is
+the clustering and nothing else.
+
+run/window      observed   by chance   ratio  above chance
+----------------------------------------------------------
+2 in 2                79        61.5    1.28           1%
+2 in 3               105        96.7    1.09          14%
+3 in 3                35        17.9    1.96           0%
+3 in 4                50        39.9    1.25          12%
+3 in 5                67        58.6    1.14          20%
+4 in 4                17         5.7    3.00           3%
+4 in 5                28        15.3    1.83           2%
+4 in 6                34        25.7    1.32          12%
+
+`ratio` near 1.00 means the setting finds no more clustering than a
+player's own error rate produces on its own -- it would be measuring
+how often they err, which S3 already reports, and not whether the
+errors come one after another.
+
+`above chance` is the share of shuffles that matched or beat the real
+games. Small is good: it is the chance of seeing this much clustering
+if the drops were independent.

@@ -104,15 +104,19 @@ class TestARunNotAPoint:
         ]
         assert _runs_of_imprecision(played) == frozenset()
 
-    def test_the_window_allows_one_good_move_inside_a_run(self):
-        # RUN_LENGTH errors inside RUN_WINDOW moves: a single accurate move does
-        # not rescue a stretch of imprecision.
+    def test_one_accurate_move_breaks_the_run(self):
+        # This asserted the opposite until E68 calibrated the window. A
+        # permutation test found that every move of slack lets chance catch up:
+        # three-in-three beats a shuffled baseline 1.96 to 1 and no shuffle in
+        # 200 reached it, while three-in-four was matched by one shuffle in
+        # eight. The author wrote "one move after the other" and the design note
+        # softened it; the measurement says the words were right.
         played = [
             move(40, erred=True), move(41, erred=True),
             move(42, erred=False), move(43, erred=True),
         ]
-        assert RUN_WINDOW == 4
-        assert len(_runs_of_imprecision(played)) == RUN_LENGTH
+        assert RUN_WINDOW == RUN_LENGTH == 3
+        assert _runs_of_imprecision(played) == frozenset()
 
 
 class TestTacticalDropsDoNotJoinRuns:
@@ -126,15 +130,27 @@ class TestTacticalDropsDoNotJoinRuns:
         ]
         assert _runs_of_imprecision(played) == frozenset()
 
-    def test_the_other_two_still_count_when_a_third_joins_them(self):
+    def test_a_tactical_drop_breaks_a_run_rather_than_joining_it(self):
+        # 40, 42, 43 are three non-tactical drops, but the hung piece at 41 sits
+        # between them, so they are not consecutive. Under the calibrated rule
+        # that is not a run -- and it should not be: the player did not err on
+        # three moves in a row, they erred, missed a tactic, then erred twice.
         played = [
             move(40, erred=True),
             move(41, erred=True, fen=TACTICAL, best=TACTICAL_BEST),
             move(42, erred=True),
             move(43, erred=True),
         ]
-        # 40, 42 and 43 are three non-tactical drops within the window.
-        assert _runs_of_imprecision(played) == {("g1", 40), ("g1", 42), ("g1", 43)}
+        assert _runs_of_imprecision(played) == frozenset()
+
+    def test_three_consecutive_non_tactical_drops_after_one_still_count(self):
+        played = [
+            move(40, erred=True, fen=TACTICAL, best=TACTICAL_BEST),
+            move(41, erred=True),
+            move(42, erred=True),
+            move(43, erred=True),
+        ]
+        assert _runs_of_imprecision(played) == {("g1", 41), ("g1", 42), ("g1", 43)}
 
 
 class TestScope:
