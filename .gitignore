@@ -67,3 +67,6 @@ data/knowledge.json
 
 # Public-domain books: 1.4 MB, reproducible from experiments/e64-books/fetch.py
 data/books/
+
+# Review-corpus evaluation cache: large, machine-local, rebuilt from the PGNs
+data/cache/review.db

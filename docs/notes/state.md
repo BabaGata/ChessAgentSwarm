@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788181200000
+updated: 1788193800000
 created: 1785254500000
 ---
 
@@ -258,10 +258,22 @@ struck through: a list nobody can act on is not a plan.
    [[experiments.e70-band-mismatch]] — refuse and say so, caveat and report anyway, or **build the
    missing 1800-2000 and 1200-1400 strata**, which is the only one that actually coaches those six
    players. It widens [[decisions.0005-scope-band-source-online-only]], so it is the author's call.
+   **E71 makes the stake concrete**: what is being withheld from maikel5 is not a vague finding but
+   9.28 win-probability points a game lost to the clock.
 
-0. **P1 — did the run rule take maikel5's endgame claim too?** `endgame_error` now fires for **1 of
-   12 players** after [[experiments.e68-run-calibration]], where it once reached him. Some of the
-   silence is the band and some may be the threshold, and separating them needs an engine pass.
+0. **ANSWERED — did the run rule take maikel5's endgame claim too?**
+   → [[experiments.e71-why-the-pool-was-empty]]. Yes, and **the obvious suspect was innocent**:
+   separating the two changes shows **E68's calibration cost zero priority slots** and **introducing
+   the run at all (E67) cost six** — maikel5, maxhayastan and Odin5306, two each. E67 implemented the
+   author's own words, so that is a correct change with a price, not a regression. The engine pass
+   also confirmed both claims E70 could only infer: maikel5 gives away **9.28 wp/game** to the clock
+   at **3.61 exposures a game against a peer's 2.50**, and is told nothing because the 1400-1800
+   population gives away 11.18.
+
+0. **P1 — `concedes_weakness` can never fill a slot, and nothing says so out loud.** It is
+   structurally unpriceable by design, so it is measured, shown on the sheet, ranked nowhere, and
+   silently ineligible for the fallback. That is defensible for one claim and worth counting across
+   the vocabulary: how many claim kinds can never reach a player at all?
 
 0. **P0 — `early_error` → the opening claims.** The last of the six corrections
    ([[design.detectors-name-consequences]] § 1). Largely covered by

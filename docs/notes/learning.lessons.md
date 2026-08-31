@@ -2,7 +2,7 @@
 id: cas-learning-lessons
 title: Lessons Learned
 desc: 'Generalisable lessons extracted from executed work — what worked, what did not, and why.'
-updated: 1788181200000
+updated: 1788193800000
 created: 1785254500000
 ---
 
@@ -21,6 +21,26 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 **Lesson:** the generalisable claim
 **Applied to:** the note/rule/code changed because of it
 ```
+
+---
+
+### L-052 — The recent change is the suspect you should test, not the one you should name
+**Date:** 2026-08-31 · **Cycle / mission step:** M6 · **Class:** process
+**Context:** finding out why maikel5 lost his priorities
+([[experiments.e71-why-the-pool-was-empty]]).
+**Observation:** the endgame run rule had changed twice — E67 introduced it, E68 tightened the
+window — and I attributed the loss to **E68**, because it was the recent one, the one I had just
+calibrated, and the one already written down in [[state]] as the likely cause. Running all three
+settings on one engine pass showed **E68 cost zero priority slots and E67 cost six**. The reasoning
+that named E68 was recency, not evidence, and it had already been committed to a note.
+**Lesson:** When two changes could explain an effect, **being the most recent is not evidence**, and
+a plausible attribution written into a note becomes the thing the next reader believes. The cost of
+testing it here was one extra arm on a run that was already happening — which is the general
+shape: **when the suspects are code paths you control, the discriminating experiment is usually
+cheaper than the argument about which is guilty.** Related: [[learning.lessons]] L-050, on a screen
+showing that a claim discriminates and never that its name is true.
+**Applied to:** `experiments/e71-why-the-pool-was-empty/run.py` runs three arms rather than two, and
+prints both differences side by side so neither change can be blamed for the other's cost.
 
 ---
 

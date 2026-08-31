@@ -1,0 +1,73 @@
+WHY THE COST POOL WAS EMPTY
+==============================================================================
+
+engine depth 15, 20 games per player, band 1400-1800
+
+  player                     band  assert   sub   3-in-3   3-in-4  no rule
+  ----------------------------------------------------------------------------
+  bernes                       in       0     5        3        3        3
+  bjagus                      OUT       1     8        3        3        3
+  cademan                     OUT       3     9        3        3        3
+  Crossfire1983                in       1     6        3        3        3
+  goydorak                     in       1     8        3        3        3
+  Hirsican                     in       1    10        3        3        3
+  maikel5                     OUT       0     2        0        0        2
+  maxhayastan                  in       0     1        1        1        3
+  Maximilian_Honigtopf        OUT       8     5        3        3        3
+  Odin5306                    OUT       0     1        1        1        3
+  Sheriwoyama                 OUT       0     5        3        3        3
+  simonvj                      in       1     6        3        3        3
+
+  3-in-3   the shipped rule: three consecutive imprecise endgame moves
+           (E68 calibrated the window against a permutation baseline)
+  3-in-4   E67's setting, three drops inside a window of four
+  no rule  every imprecise endgame move counted on its own
+
+  priority slots E68's tightening cost:      0
+  priority slots introducing the run cost:   6
+
+  Those two numbers are the point. Blaming the calibration for what
+  the rule itself did would have been the easy mistake.
+
+==============================================================================
+EVERY CLAIM MEASURED FOR maikel5
+==============================================================================
+
+  BAND: maikel5 is rated about 1929, which is 129 points above the 1400-1800 band (46 games read). Every peer comparison is keyed on the band, so this player would be measured against a population they are not in -- and 'more often than players at your level' would name the wrong level. Pass the --band they are actually in, and build a reference for it
+
+  ASSERTED (reached the confidence gate)
+    none — nothing was unusual against this band
+
+  SUB-THRESHOLD (measured, not unusual; the cost pool)
+    time_pressure_error.clock.own
+      tier          WATCH
+      instances     15 in 5 games (of 18 with data)
+      rate          23.1%   peers 25.1%
+      cost/game     9.28 wp   peers 11.18 wp
+      exposure      3.61/game   peers 2.50/game
+      cost pool     BELOW PEERS — rate 23.1% < peer 25.1%, and not exposure-driven
+    concedes_weakness.backward.own
+      tier          WATCH
+      instances     6 in 5 games (of 18 with data)
+      rate          1.6%   peers 1.0%
+      cost/game     —   peers —
+      exposure      20.44/game   peers 22.50/game
+      cost pool     UNPRICEABLE — the section cannot say what it cost
+
+==============================================================================
+EVERY CLAIM MEASURED FOR Odin5306
+==============================================================================
+
+  BAND: Odin5306 is rated about 1985, which is 185 points above the 1400-1800 band (57 games read). Every peer comparison is keyed on the band, so this player would be measured against a population they are not in -- and 'more often than players at your level' would name the wrong level. Pass the --band they are actually in, and build a reference for it
+
+  ASSERTED (reached the confidence gate)
+    none — nothing was unusual against this band
+
+  SUB-THRESHOLD (measured, not unusual; the cost pool)
+    allowed_motif.trappedPiece.own
+      tier          WATCH
+      instances     5 in 4 games (of 20 with data)
+      rate          5.4%   peers 3.5%
+      cost/game     5.37 wp   peers 3.70 wp
+      exposure      4.65/game   peers 6.06/game
+      cost pool     eligible

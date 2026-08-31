@@ -2,11 +2,19 @@
 id: cas-exp-e70
 title: 'E70 — maikel5 is not silent, he is in the wrong population'
 desc: 'The author guessed that peer-relative ranking starves strong players of recommendations. It does, and the immediate cause is sharper: half the review corpus is outside the band it was compared against, because the band arm of the peer key was never checked while the speed arm always was.'
-updated: 1788174000000
+updated: 1788193800000
 created: 1788174000000
 ---
 
 # E70 — Who is being compared against a population they are not in
+
+> **Corrected 2026-08-31 by [[experiments.e71-why-the-pool-was-empty]]**, which ran the engine pass
+> this note could not. **Both inferred claims were confirmed exactly.** Two things here were wrong:
+> the correlation is **−0.79**, not −0.88 (this note counted from E55's sheet-build log rather than
+> from a diagnosis), and **the cost pool does not fail the way the section below implies** — it
+> delivers a full three priorities to 9 of 12 players, and maikel5 is the only player at zero. The
+> band finding itself stands.
+
 
 **Answers:** the P0 open item *"`maikel5` has no priorities at all"* ·
 **Code:** `experiments/e70-band-mismatch/` · **Date:** 2026-08-31 ·
@@ -44,8 +52,7 @@ sheet-build log. Everything below was already written down; nothing had ever bee
 | cademan | 1302 | **below** | **5** | 10 |
 | Maximilian_Honigtopf | 1202 | **below** | **6** | 6 |
 
-**r(rating, asserted findings) = −0.88**, and the gradient is monotone in the thing that should not
-be driving it:
+**r(rating, asserted findings) = −0.88** as counted here from the sheet-build log — **−0.79 when measured directly** ([[experiments.e71-why-the-pool-was-empty]]). The gradient is monotone either way, in the thing that should not be driving it:
 
 | where the player sits | n | asserted findings | mean |
 |---|--:|---|--:|
@@ -80,8 +87,13 @@ nothing is unusual, fill the slots by what a pattern costs outright. It took sil
 0/12 and it is the reason maikel5's **earlier** report had three priorities, every one labelled
 *"Ordinary for your level"*.
 
-It could not fire here, and the reason is worth recording because it is not the peer comparison at
-all. maikel5 has two measured claims:
+It could not fire **for maikel5**, and the reason is worth recording because it is not the peer
+comparison at all. **It fires for nearly everyone else**: 9 of 12 players get a full three
+priorities, and the band gradient that is stark in the asserted column is largely absorbed by the
+time anything reaches a player ([[experiments.e71-why-the-pool-was-empty]]). The failure is narrower
+than "peer-relative ranking starves strong players" — it is that the fallback needs **one priceable
+claim costing more than the reference population**, and a player compared against a weaker
+population may have none. maikel5 has two measured claims:
 
 - **`concedes_weakness.backward`** — every instance costs **0.0 wp**, because the section
   *structurally cannot price itself*: conceding a pawn structure is a choice, not a mistake. It can
@@ -105,17 +117,23 @@ and being outside the band removes the candidates before the fallback is reached
 
 ## Honest limitations
 
-- **The two claims named above are inferred**, not observed. They are what the sheet cites for
-  maikel5 and they match "0 asserted, 2 measured" exactly, but confirming their `cost_per_game` and
-  `peer_rate` needs an engine pass, and no runnable engine was available on this machine.
-- **n = 12**, and the below-band group is **two players**. The −0.88 is a strong number over a small
-  and non-random sample.
+- ~~**The two claims named above are inferred**, not observed.~~ **Confirmed 2026-08-31** by an
+  engine pass ([[experiments.e71-why-the-pool-was-empty]]): both claims are exactly the two named,
+  and both fail the gate for the reasons guessed. `time_pressure_error` costs him **9.28 wp/game**
+  against the reference population's 11.18, at **3.61 exposures a game against 2.50** — he meets
+  time pressure far more often, loses nearly ten points of win probability a game to it, and is told
+  nothing because a weaker population loses more.
+- **n = 12**, and the below-band group is **two players**. The correlation (−0.79 measured) is a strong number over a
+  small and non-random sample.
 - **Rating and skill are not the same thing**, and this note uses Lichess rating as the band label
   because that is what the band is defined in. It does not show these players' *play* is
   proportionate to their rating.
-- **This does not show the corrections were wrong.** `endgame_error` now fires for 1 of 12 players
-  after [[experiments.e68-run-calibration]], where it once reached maikel5, so some of the silence
-  is the run rule and not the band. Separating the two needs the engine pass above.
+- **This does not show the corrections were wrong**, and the measurement makes that sharper than
+  the guess did. Separating the two changes to the endgame rule shows **E68's calibration cost zero
+  priority slots** and **introducing the run at all (E67) cost six** — maikel5, maxhayastan and
+  Odin5306, two each. The run was the author's own specification, so that is a correct change with a
+  cost, not a regression. The calibration, which was the obvious suspect and the one this note named,
+  was innocent.
 
 ## The open question this leaves
 
