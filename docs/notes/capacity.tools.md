@@ -2,7 +2,7 @@
 id: cas-capacity-tools
 title: Tools
 desc: 'External tools, engines, datasets and services available to the project and the swarm.'
-updated: 1785254500000
+updated: 1788170400000
 created: 1785254500000
 ---
 
@@ -51,3 +51,12 @@ self-hostable) unless an explicit exception is logged in [[decisions]].
 
 Every promotion from `candidate` to `adopted`/`rejected` needs a line in [[decisions]] and,
 if it changes what the system can do, an update to [[capacity]].
+
+## Built this week
+
+| Tool | Status | Note |
+|---|---|---|
+| **SearxNG, restricted** | **fixed 2026-08-30** | `experiments/e50-ollama-summaries/searxng/`. It had been running **84 engines**, not the four its config claimed: `use_default_settings: true` merges an `engines:` list with the defaults rather than replacing it, so every query fanned out to Google, DuckDuckGo, Brave and Startpage and the CAPTCHAs were guaranteed. `keep_only` restricts it; **7 engines, no unresponsive ones**, and results for a motif query went 6 → 92 |
+| **Free-tier quota guard** | **built 2026-08-30** | `chesscoach/quota.py`. Wraps any searcher and refuses the query that would exceed a metered tier. **Counts attempts, not successes** — a timed-out request is still billed; **refuses loudly** as a `SearchUnavailable` subclass, never an empty list; **persists across processes**, since a limit that resets on restart is not a limit; and `keep_back` reserves part of the allowance for the author's own use |
+| **Detection-sheet staleness guard** | **built 2026-08-31** | `score.py` **refuses** a sheet whose detector code has changed since it was generated, naming the commits. E55 added the stamp so marks could be dated and E57 then scored against a sheet two commits old anyway — **a stamp nothing reads is a comment** |
+| **Labelled book locators** | **built 2026-08-31** | `book://<slug>#<passage>` citations, so an entry drawn from Capablanca cites *"Chess Fundamentals (1921)"* and a passage rather than a URL nobody can open |

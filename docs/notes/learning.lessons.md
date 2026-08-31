@@ -2,7 +2,7 @@
 id: cas-learning-lessons
 title: Lessons Learned
 desc: 'Generalisable lessons extracted from executed work — what worked, what did not, and why.'
-updated: 1785254500000
+updated: 1788170400000
 created: 1785254500000
 ---
 
@@ -21,6 +21,36 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 **Lesson:** the generalisable claim
 **Applied to:** the note/rule/code changed because of it
 ```
+
+---
+
+### L-051 — A test written against a threshold is evidence about that threshold
+**Date:** 2026-08-31 · **Cycle / mission step:** M6 · **Class:** process
+**Context:** correcting six detectors on the author's specifications
+([[design.detectors-name-consequences]]) and then calibrating one of them
+([[experiments.e68-run-calibration]]).
+**Observation:** six tests across three experiments failed on the corrections, and **every one was
+the test being wrong rather than the code**:
+
+- four rook-seventh fixtures used **bare boards** — eight files open — which is exactly the position
+  the author says cannot be blamed on anyone;
+- three S3 fixtures built **two endgame moves with one error**, which is the single blunder the
+  author says is not an endgame error;
+- one asserted that a good move **inside** a run is tolerated, which the permutation test then
+  contradicted.
+
+Each had been written to pin behaviour that was later judged wrong, so each pinned the wrong
+behaviour faithfully.
+**Lesson:** A test encodes the rule it was written against, so **correcting a rule should be expected
+to break its tests, and a suite that stays green through a correction is the thing to worry about**.
+The practical consequences: when a test fails during a correction, ask *"does this fixture describe
+the old rule?"* before touching the code; and a test that could not fail under a wrong threshold —
+one asserting only that *something* fired — was never evidence about the threshold at all. The
+corollary for calibration is sharper: a threshold and its tests move together, and the tests cannot
+be the check on the threshold.
+**Applied to:** `tests/test_squares.py`, `tests/test_s6_squares_and_files.py`,
+`tests/test_s3_endgame_technique.py`, `tests/test_endgame_runs.py`, and the practice of measuring a
+threshold against a permutation baseline rather than against its own fixtures.
 
 ---
 

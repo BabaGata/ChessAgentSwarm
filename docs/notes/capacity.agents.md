@@ -2,7 +2,7 @@
 id: cas-capacity-agents
 title: Agents
 desc: 'Inventory of the swarm agents: remit, inputs, outputs, tools, efficacy measure.'
-updated: 1785254500000
+updated: 1788170400000
 created: 1785254500000
 ---
 
@@ -26,6 +26,8 @@ run after diagnosis, and are the only place a language model is permitted.
 | **S5 pawn structure** | section | **built** | [[capacity.agents.s5-pawn-structure]] · the first Tier 2 section. Counts weaknesses the player's move **creates**, not ones the position has — E02 measured presence at 96 % of games. Carries a limitation none of the others do: it can say a player is unusual, not that it costs them anything (E03) |
 | **S6 squares & files** | section | **built** | [[capacity.agents.s6-squares-and-files]] · what the player lets the opponent keep — an unevictable knight, a rook on the second rank. **The first section whose claims were chosen by measurement before it was written** (E09), and the first where no claim turned out to be dead weight |
 | **S8 attack & defence** | section | **built, marginal** | [[capacity.agents.s8-attack-and-defence]] · one claim of four candidates — how readily an attack assembles against the player's king. Spread 1.59, the weakest shipped, and **it reached no new players**: two findings, both for players already advised. Its place is arguable and the note says so |
+| **Knowledge swarm** | knowledge | **built 2026-08-30, output thin** | `chesscoach/knowledge_swarm.py` — Scout → Assessor → Compiler pointed at a detected claim instead of an opening ([[experiments.e63-knowledge-swarm]]). **The Assessor is reused unchanged**; only the queries and the assembly are new. **The definition is chosen by index, never composed**, so it is a page's own sentence by construction — and the Compiler may answer `-1`, which is the valuable half: 9 of 14 claims refused rather than inventing. `not_this` is never written by it |
+| **Opening swarm (3 agents)** | opening | **built** | `chesscoach/opening_swarm.py` — Scout, Assessor, Compiler for an opening brief, with a learned skip list and a run store. Every brief is approved point by point by the author before a player sees it |
 | **P prober** | player-facing | **core built; classifier and rubric outstanding** | [[capacity.agents.prober]] · the first agent containing a language model, and the only route to V2. Turns `gap_type: unknown` into knowledge / skill / fragile. The deterministic spine and the model seam exist; the model behind the seam and its validation do not |
 | **E explainer** | player-facing | **built, deterministic** | `chesscoach/explainer.py` · templates, not a model — it cannot invent a reason the detectors never found, and it is the baseline a generated report has to beat. Enforces [[architecture.interaction]] § 7: one or two priorities, every claim cited to a game and move, what could not be assessed named, a gap type explained only when a probe established it |
 

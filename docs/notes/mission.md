@@ -2,7 +2,7 @@
 id: cas-mission
 title: Mission
 desc: 'The iterative steps that move the project from the current state toward the vision.'
-updated: 1785254500000
+updated: 1788170400000
 created: 1785254500000
 ---
 
@@ -11,7 +11,7 @@ created: 1785254500000
 The mission is the **path**, not the destination. It exists to serve [[vision]]; if a step stops
 serving the vision, the step is rewritten — not obeyed out of inertia.
 
-**Active step:** M6/M7 — maintain and repeat. The next M4 iteration is **a section (S3)**.
+**Active step:** M6/M7 — maintain and repeat. The current iteration is **correcting what the detectors name** ([[design.detectors-name-consequences]]) and **giving each claim something to say** ([[design.knowledge-base]]).
 
 The prober is built and assessed ([[mission.step-08-assess-prober]]), and that assessment expired
 the reason sections were deferred. [[decisions.0009-prober-before-breadth]] held that a swarm
@@ -19,6 +19,14 @@ diagnosing eleven things it cannot ask about is worse than one diagnosing two th
 then, and the prober now exists, so every new claim kind is probeable. E08 then measured the cost of
 the deferral: **29 of 38 real players are told nothing at all.** Breadth is the binding constraint,
 on evidence rather than on preference.
+
+**That breadth now exists — eight sections — and the binding constraint has moved.** Detectors fire
+under names that were not always true of what they detected: a fork detector that called every
+checkmate a fork, a rook-on-the-seventh claim blaming a player for an unpreventable position, an
+endgame claim built on a single blunder. Five of six corrections have landed. What follows a
+correction is not more detectors but **whether a fired claim can say anything a player can use**,
+which is why the knowledge base is being built alongside — and why its refusals (9 of 14 claims
+had no endorsable definition) are the honest measure of how much of the vocabulary is real.
 
 ## The steps
 
@@ -100,7 +108,7 @@ dedicated step is still needed.
 | M4 | **first agent done** | [[mission.step-04-first-agent]] → S2, scored against ground truth |
 | M5 | **done** | [[mission.step-05-assess-s2]] — information flow was broken and is fixed; two defects found by real players; peer corpus promoted to blocking |
 | M6 | recurring | [[mission.step-06-maintain]] — assessments logged per cycle, including what was left alone |
-| M7 | **two iterations done** | iteration 2 → [[mission.step-07-second-iteration]] (S1); iteration 3 → [[mission.step-08-assess-prober]] (the prober and explainer, the first agents with a model in them). Next iteration: S3 |
+| M7 | **two iterations done** | iteration 2 → [[mission.step-07-second-iteration]] (S1); iteration 3 → [[mission.step-08-assess-prober]] (the prober and explainer, the first agents with a model in them). **S1–S8 now all exist**; the iterations since have been corrections and knowledge rather than new sections |
 
 ## Review triggers
 

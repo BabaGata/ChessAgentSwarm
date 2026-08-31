@@ -2,7 +2,7 @@
 id: cas-capacity-knowledge
 title: Knowledge
 desc: 'What the project and the swarm currently know, and how that knowledge is stored.'
-updated: 1785254500000
+updated: 1788170400000
 created: 1785254500000
 ---
 
@@ -29,7 +29,9 @@ two copies.
 | Computable signals | [[domain.signals]] | **first pass, strongest area** — signal inventory, free tooling, what is *not* computable, methodological warnings |
 | Sources | [[domain.sources]] | **first pass** — every source evidence-classed; commercial bias flagged (R-11); one claim marked unverified |
 | Prior art | [[domain.sources]] § prior art | five comparable open-source projects identified, **none read yet** |
-| Runtime knowledge store | — | does not exist; designed in M3 |
+| **Runtime knowledge store** | `chesscoach/knowledge.py`, `data/knowledge.json` | **exists 2026-08-30** — one entry per detected claim, drafted by the swarm and endorsed by the author ([[design.knowledge-base]], [[experiments.e63-knowledge-swarm]]). **3 usable entries of 14 attempted**, and the refusals are the feature: an entry with no definition or no source cannot be endorsed. `reviewed` is the author's act and no drafting path can set it |
+| **Public-domain chess books** | `data/books/`, `chesscoach/books.py` | **added 2026-08-31** — Capablanca (1921), Edward Lasker (1915), Staunton (1848) from Project Gutenberg ([[experiments.e64-chess-books]]). 1.4 MB, free under C7, refetchable from three ids. **Strong on castling, development and pins; silent on the modern tactical vocabulary** — "skewer" and "outpost" appear zero times in all three, so they complement the web rather than replacing it |
+| **The words writers actually use** | `TERMS` in `chesscoach/knowledge_swarm.py` | **measured 2026-08-31** ([[experiments.e65-real-phrases]]) — several real phrases per claim, each checked against the books and the web. Corrected four guesses outright: "outpost" 0 uses against "hole" 50, "trapped" 0 against "hemmed in" 5 |
 
 ## Local reference library
 
