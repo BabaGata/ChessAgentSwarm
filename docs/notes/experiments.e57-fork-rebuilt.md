@@ -106,10 +106,30 @@ rather than decided here.
 `experiments/e57-fork-rebuilt/results/fork-sample.txt` holds **15 of them as diagrams with a mark
 box**, drawn at a fixed seed.
 
-## An unexplained side effect
+## The side effect was not a side effect
 
-`allowed_motif.pin` went **32 → 43**. `detect_motifs` returns a set, so removing forks should not
-create pins, and this is not yet accounted for. Recorded rather than waved through.
+`allowed_motif.pin` went **32 → 43**, recorded here as unexplained. **It was never caused by the fork
+rebuild.** Three facts settle it:
+
+- `detect_motifs` returns a **set** and `_count_allowed` tallies each motif independently, so
+  removing forks cannot create pins — the mechanism does not exist;
+- `_is_pin` is **byte-identical** across the fork commit (`git diff 10e969a~1 10e969a` touches zero
+  pin lines);
+- the sheet the 43 was read from says **`GENERATED from commit 3fb8541`** — which is *before* the
+  fork rebuild. The number predates the change it was attributed to.
+
+The real cause is **605be31**, *"rebuild the remaining seven motif detectors on the exchange"*, which
+changed `_is_pin` in seven lines. The pin count moved there and I read it two commits later beside a
+baseline from somewhere else again.
+
+**This is L-046's widened form for the seventh time**, and the fourth in this stretch after E54's
+confounded control arm, E56's empty baseline and E60's rapid-only reference: *a comparison whose arms
+are not what the comparison claims they are.* The sheet's own commit stamp — added in E55 precisely
+so this could not recur — was sitting at the top of the file I was reading, and I did not look at it.
+
+**The lesson is not "check the stamp".** It is that a stamp only helps if something reads it: the
+comparison should refuse to run when the two sheets come from different commits, rather than printing
+a difference and trusting the reader.
 
 ## Consequence
 

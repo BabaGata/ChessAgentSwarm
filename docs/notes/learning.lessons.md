@@ -156,11 +156,25 @@ when the fact was about the *request*.
    it. An empty arm compared against a real one reported **0 of 12 changed** — perfect safety.
 6. **`_is_fork` on checkmate.** *"No defender reply saved the targets"* is vacuously true when there
    are **no** defender replies, so every mate was a fork: **104 of 1,779** corpus hits.
+7. **E60's peer reference.** Built for rapid only, checked against review players who are 10/12
+   blitz. Every lookup fell through the missing stratum and returned `None`, which read as
+   *"no development claim reaches any plan"* — a clean 0 of 12 that was an artefact.
+8. **E57's "unexplained" pin change.** `allowed_motif.pin` 32 → 43 was attributed to the fork
+   rebuild. `_is_pin` is byte-identical across that commit, and the sheet the 43 came from was
+   stamped with an **earlier** commit. The change belonged to a motif rebuild two commits back.
 
 The shape widened with them. It is not only *failure* returning what *empty* returns — it is **any
 empty case reaching the same answer as a populated one**: an empty loop, an empty comparison arm, an
 empty result set. And all three were found by **reading output**, never by a test, because a
 hand-built fixture is by construction not empty.
+
+**Instances 7 and 8 widen it once more**, from an empty arm to a *wrong* one: a comparison against a
+population that was never the control, and a difference read between two artefacts built from
+different code. The failure is the same shape with the emptiness removed — **the arms of a comparison
+are not what the comparison claims they are** — and the remedy is the same: make the mismatch
+impossible to ignore rather than trusting a reader to notice. E55 added a commit stamp to the
+detection sheet for exactly this reason and instance 8 happened anyway, because a stamp nothing reads
+is a comment.
 **Lesson:** **Never let a failure path return the same value as a legitimate empty result.** Empty
 list, empty dict, `None` and zero are all answers that mean "I looked and there was nothing"; a
 failure means "I did not look". Raise, or return a distinct sentinel, and make the caller handle the
