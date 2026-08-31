@@ -22,7 +22,7 @@ these games, which is worth knowing too.
 
 ==============================================================================
 
-GENERATED 2026-08-31 from commit 458ad79.
+GENERATED 2026-08-31 from commit 20b1cef.
 Marks on this sheet judge THAT code. If a detector changes afterwards its
 marks stop being evidence about it -- record this line with them.
 
@@ -488,17 +488,15 @@ fires wrongly, and it cannot be seen from the sheet above.
   executed_motif.skewer.own
   executed_motif.trappedPiece.own
   instant_move_error.instant_moves.own
-  late_castling.book
-  late_castling.own
+  late_castling.own.own
   missed_motif.fork.own
   missed_motif.hangingPiece.own
   missed_motif.skewer.own
-  pawn_error.any
   plays_queenless.any.own
-  repeat_move.any
-  slow_development.book
-  slow_development.own
+  repeat_move.any.own
+  slow_development.book.own
+  slow_development.own.own
   time_budget_error.after_overspending.own
 
 ==============================================================================
-29 claims with instances, 29 that never fired, 58 in the vocabulary.
+29 claims with instances, 27 that never fired, 56 in the vocabulary.
