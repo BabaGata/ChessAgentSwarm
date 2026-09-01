@@ -834,6 +834,50 @@ def _opening_brief(games, runs_path):
         return store.approved_brief(played.most_common(1)[0][0])
 
 
+
+def _opening_resource(games):
+    """The moves of the opening this player plays, and the ones they reach.
+
+    The deterministic half of the opening section, and it is separate from
+    `_opening_brief` for one reason: **it needs no approval**. The brief is a
+    model's wording of quoted sentences and cannot reach a player until someone
+    endorses it; the moves are CC0 reference data from `lichess-org/chess-openings`
+    and are true whether or not anyone has curated the opening
+    ([[decisions.0012-quote-the-plans-rather-than-write-them]]).
+
+    `build_resource` had been written, tested and called by nothing since it was
+    built. A player whose opening nobody had reviewed was told nothing about it
+    at all, when the moves were sitting in a file the repository already ships.
+
+    Every failure here returns None rather than raising: a missing book or guide
+    library is a setup gap, and losing the whole report over background reading
+    would be the wrong trade.
+    """
+    from collections import Counter
+
+    from chesscoach.opening_guides import GuideLibrary
+    from chesscoach.opening_resource import build_resource
+    from chesscoach.openings import OpeningBook
+
+    try:
+        book = OpeningBook.load()
+        library = GuideLibrary.load()
+    except (OSError, ValueError, KeyError):
+        return None
+
+    reached = []
+    played: Counter = Counter()
+    for game in games:
+        walk = book.walk(list(game.moves))
+        if walk.opening:
+            reached.append(walk.opening.name)
+            played[walk.opening.name.split(":")[0].strip()] += 1
+    if not played:
+        return None
+
+    return build_resource(played.most_common(1)[0][0], book, library, reached=reached)
+
+
 def coach(args: argparse.Namespace) -> int:
     """One coaching session, from a username to something a person can read.
 
@@ -911,7 +955,8 @@ def coach(args: argparse.Namespace) -> int:
     out = args.out or f"{args.player}-profile.json"
     save_profile(profile, out)
     print("\n" + "=" * 68 + "\n")
-    print(render(profile, opening=_opening_brief(games, args.runs)))
+    print(render(profile, opening=_opening_brief(games, args.runs),
+                 resource=_opening_resource(games)))
     print("\n" + "=" * 68)
     print(f"profile  {out}")
     return 0

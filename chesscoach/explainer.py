@@ -25,6 +25,7 @@ from __future__ import annotations
 
 from chesscoach.arbiter import NEGLIGIBLE_COST_PER_GAME
 from chesscoach.context import FOCUSED_EFFORT_HOURS
+from chesscoach.opening_resource import OpeningResource
 from chesscoach.phrasing import move_number, quantity, statement
 from chesscoach.runstore import StoredBrief
 from chesscoach.profile.models import (
@@ -39,6 +40,11 @@ from chesscoach.profile.models import (
 # How many pieces of evidence to cite per finding. Enough to show the pattern is
 # a pattern, few enough to read.
 EVIDENCE_SHOWN = 3
+
+# Wide enough for most variation names, narrow enough that the moves beside
+# them still line up. Longer names are elided rather than allowed to shunt
+# the column.
+_VARIANT_NAME_WIDTH = 36
 
 # What a probed gap type means for what to do about it, in the player's terms.
 GAP_MEANING: dict[str, str] = {
@@ -110,13 +116,24 @@ LIMITS = (
 )
 
 
-def render(profile: PlayerProfile, opening: StoredBrief | None = None) -> str:
+def render(
+    profile: PlayerProfile,
+    opening: StoredBrief | None = None,
+    resource: OpeningResource | None = None,
+) -> str:
     """The whole report, as text.
 
     `opening` is an **approved** brief from the run store, or nothing. The
     caller does the lookup, because the report has no business opening a
     database — and because `RunStore.approved_brief` is the only door, an
     unapproved brief cannot reach here even by mistake.
+
+    `resource` is the deterministic half: the moves of the opening the player
+    actually plays, and the variants they actually reach
+    ([[decisions.0012-quote-the-plans-rather-than-write-them]]). It is separate
+    from the brief because it needs no approval — the moves are CC0 reference
+    data, not a claim about chess — so a player whose opening nobody has curated
+    still gets something true about it.
     """
     return "\n".join(
         _header(profile)
@@ -124,11 +141,65 @@ def render(profile: PlayerProfile, opening: StoredBrief | None = None) -> str:
         + _how_you_play(profile)
         + _findings_section(profile)
         + _plan_section(profile)
+        + _opening_moves(resource)
         + _opening_section(opening)
         + _band_section(profile)
         + _not_assessed(profile)
         + _limits(profile)
     )
+
+
+def _opening_moves(resource: OpeningResource | None) -> list[str]:
+    """The opening the player plays, in moves, with their own counts.
+
+    **The variants are chosen by measurement, not by editorial judgement.** The
+    Sicilian has 391 named lines and picking four by taste would be this project
+    inventing chess opinion (R-03); picking the four the player has actually
+    reached is the same evidence rule every other claim obeys (V8). The counts
+    are printed for exactly that reason — they say why these four.
+
+    Plans appear only with a guide to attribute them to. `has_plans` requires
+    both, because a sentence about chess with no publisher beside it is the
+    folklore this project refuses to launder.
+    """
+    if resource is None or (resource.main_line is None and not resource.variants):
+        return []
+
+    lines = [f"THE OPENING YOU PLAY -- {resource.family}", ""]
+    if resource.main_line is not None:
+        lines.append(f"  Main line   {resource.main_line.moves}")
+    if resource.variants:
+        lines.append("")
+        lines.append("  You reach:")
+        for variant in resource.variants:
+            # "1 games" is the kind of thing that makes a reader stop trusting
+            # the rest of the page.
+            if not variant.games:
+                games = "—"
+            elif variant.games == 1:
+                games = "1 game"
+            else:
+                games = f"{variant.games} games"
+            # Names run to 44 characters ("Two Knights Defense, Modern Bishop's
+            # Opening"); left whole they shunt the column and the moves stop
+            # lining up.
+            name = variant.variation
+            if len(name) > _VARIANT_NAME_WIDTH:
+                # ASCII, not a single-character ellipsis: this is printed to a
+                # console whose encoding is not ours to choose, and a report that
+                # renders a replacement character has lost the reader already.
+                name = name[: _VARIANT_NAME_WIDTH - 2].rstrip() + ".."
+            lines.append(f"    {name:<{_VARIANT_NAME_WIDTH}}{games:>9}   {variant.moves}")
+
+    if resource.has_plans:
+        lines += ["", "  What to aim for:"]
+        for plan in resource.plans:
+            lines.append(f"    {plan}")
+        # Never a quoted sentence without the publisher who wrote it.
+        lines += ["", f"  From: {resource.attribution}"]
+
+    lines += ["", ""]
+    return lines
 
 
 def _opening_section(brief: StoredBrief | None) -> list[str]:

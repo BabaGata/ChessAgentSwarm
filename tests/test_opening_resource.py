@@ -346,3 +346,57 @@ class TestTheMainLineDoesNotJump:
         )
 
         assert resource.main_line.moves == "1. e4 e5"
+
+
+class TestTheMainLineIsATrunk:
+    """A main line has to be something other lines grow out of.
+
+    `_pick_main_line` walks from the family-defining row to the deepest row that
+    is still named plainly for the family, in steps of one or two plies. On the
+    Scandinavian that walks `1. e4 d5` -> `1. e4 d5 2. b3`, because those are the
+    only two rows the CC0 book names exactly "Scandinavian Defense" and the step
+    is one ply, so the existing guard against big jumps does not fire.
+
+    `2. b3` is a rare sideline. Nothing consumed `build_resource` until it was
+    wired into the report, so nobody had seen it; the moment it reaches a player
+    it is this project printing a chess opinion nobody holds.
+
+    The fix is a measurement rather than taste: **a main line must be a prefix of
+    at least one named subline of the same family.** `1. e4 d5 2. b3` has 0,
+    `1. e4 d5` has 43, and the Italian's `3. Bc4` has 177.
+    """
+
+    def test_a_sideline_named_for_the_family_is_not_the_main_line(self):
+        book = OpeningBook.from_rows([
+            ("B01", "Scandinavian Defense", "1. e4 d5"),
+            ("B01", "Scandinavian Defense", "1. e4 d5 2. b3"),
+            ("B01", "Scandinavian Defense: Mieses-Kotroc", "1. e4 d5 2. exd5 Qxd5"),
+        ])
+
+        resource = build_resource("Scandinavian Defense", book, GuideLibrary(()))
+
+        assert resource.main_line is not None
+        assert resource.main_line.moves == "1. e4 d5"
+
+    def test_a_real_trunk_is_still_walked_to_its_depth(self):
+        book = OpeningBook.from_rows([
+            ("C50", "Italian Game", "1. e4 e5 2. Nf3 Nc6 3. Bc4"),
+            ("C50", "Italian Game: Giuoco Piano", "1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5"),
+        ])
+
+        resource = build_resource("Italian Game", book, GuideLibrary(()))
+
+        assert resource.main_line.moves == "1. e4 e5 2. Nf3 Nc6 3. Bc4"
+
+    def test_a_family_with_no_sublines_at_all_still_gets_its_own_row(self):
+        # Refusing to name a main line because nothing branches from it would
+        # silence the whole section for small families. The shallowest plainly
+        # named row is the honest answer there.
+        book = OpeningBook.from_rows([
+            ("A00", "Ware Opening", "1. a4"),
+        ])
+
+        resource = build_resource("Ware Opening", book, GuideLibrary(()))
+
+        assert resource.main_line is not None
+        assert resource.main_line.moves == "1. a4"

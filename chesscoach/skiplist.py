@@ -31,7 +31,11 @@ import urllib.parse
 from dataclasses import dataclass
 from pathlib import Path
 
-DEFAULT_PATH = Path("data/openings/skiplist.json")
+# Resolved from this file, never from the working directory. A relative
+# default silenced five claims for as long as they had existed (I-09),
+# because every script in this repository runs from its own folder.
+_DATA = Path(__file__).resolve().parent.parent / "data"
+DEFAULT_PATH = _DATA / "openings" / "skiplist.json"
 
 # The only reasons a domain may be skipped. A model answering anything else has
 # not given a reason this list accepts, and the entry is refused.

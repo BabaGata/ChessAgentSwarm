@@ -167,6 +167,21 @@ def _pick_main_line(lines: tuple[Opening, ...], family: str) -> Opening | None:
     if not exact:
         return lines[0]
 
+    # A main line is a **trunk**: something other named lines grow out of. The
+    # Scandinavian has exactly two rows named plainly for the family, `1. e4 d5`
+    # and `1. e4 d5 2. b3`, one ply apart -- so the small-steps guard does not
+    # fire and the walk lands on a rare sideline. Requiring the row to be a
+    # prefix of at least one named subline separates them by measurement rather
+    # than by taste: `2. b3` continues into **0** named Scandinavian lines,
+    # `1. e4 d5` into 43, and the Italian's `3. Bc4` into 177.
+    #
+    # Found only when `build_resource` was finally wired into the report. It had
+    # been correct-looking and unread since it was written.
+    branches = tuple(o for o in lines if o.name.strip() != bare)
+
+    def is_trunk(opening: Opening) -> bool:
+        return any(o.pgn.startswith(opening.pgn + " ") for o in branches)
+
     current = exact[0]
     while True:
         deeper = [
@@ -174,6 +189,9 @@ def _pick_main_line(lines: tuple[Opening, ...], family: str) -> Opening | None:
             if o.plies > current.plies
             and o.plies - current.plies <= MAX_MAINLINE_STEP
             and o.pgn.startswith(current.pgn + " ")
+            # A family with no sublines at all keeps its own row rather than
+            # being silenced; the check only ever *refuses to go deeper*.
+            and (is_trunk(o) or not branches)
         ]
         if not deeper:
             return current

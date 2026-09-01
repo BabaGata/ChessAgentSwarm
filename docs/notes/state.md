@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788222600000
+updated: 1788228000000
 created: 1785254500000
 ---
 
@@ -344,7 +344,23 @@ struck through: a list nobody can act on is not a plan.
 0. **P1 — Re-run E31 and E44** on the corrected move numbers. Both joined the author's noted moves
    with a formula that has since been fixed, and neither has been redone.
 
-0. **P1 — Wire `build_resource` into the report.** The resource exists and nothing consumes it.
+0. **DONE — `build_resource` is wired into the report.** A new section, *THE OPENING YOU PLAY*,
+   showing the main line and the variants the player actually reaches with their own game counts.
+   It is **separate from the approved brief and needs no approval**: the moves are CC0 reference data,
+   so a player whose opening nobody has curated now gets something true about it, where before the
+   section was empty. Plans still appear only with a reviewed guide to attribute them to.
+
+0. **Found by wiring it — the "main line" could be a sideline.** `_pick_main_line` walked the
+   Scandinavian to **`1. e4 d5 2. b3`**, because those are the only two rows the book names plainly
+   "Scandinavian Defense" and one ply apart does not trip the big-jump guard. Correct-looking and
+   unread since it was written; the moment it reaches a player it is this project printing a chess
+   opinion nobody holds. Fixed by a measurement rather than taste — **a main line must be a prefix of
+   at least one named subline**: `2. b3` continues into 0, `1. e4 d5` into 43, the Italian's `3. Bc4`
+   into 177.
+
+0. **Three more relative default paths fixed** (I-09's family): `guides.json`, `runs.db` and
+   `skiplist.json` were all resolved against the working directory. Same class as the book path that
+   had been silencing five claims.
 
 0. **DONE — the precise `rook_seventh` rule** → [[experiments.e74-rook-seventh-precise]]. The two-ply
    search is written, wired into `squares.allowed` and measured over 72 players and 764 arrivals: it

@@ -24,7 +24,11 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
-DEFAULT_LIBRARY = Path("data/openings/guides.json")
+# Resolved from this file, never from the working directory. A relative
+# default silenced five claims for as long as they had existed (I-09),
+# because every script in this repository runs from its own folder.
+_DATA = Path(__file__).resolve().parent.parent / "data"
+DEFAULT_LIBRARY = _DATA / "openings" / "guides.json"
 
 
 @dataclass(frozen=True)

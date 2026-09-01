@@ -278,3 +278,88 @@ class TestNoInternalIdentifiersReachThePlayer:
         report = render(a_profile(a_finding(subject="someNewMotif")))
 
         assert "someNewMotif" in report
+
+
+# --- the opening resource ---------------------------------------------------
+
+from chesscoach.opening_guides import Guide  # noqa: E402
+from chesscoach.opening_resource import Line, OpeningResource  # noqa: E402
+
+
+def a_resource(*, main=True, variants=2, plans=(), guide=None) -> OpeningResource:
+    return OpeningResource(
+        family="Sicilian Defense",
+        main_line=Line(name="Sicilian Defense", eco="B20", moves="1. e4 c5",
+                       plies=2, games=14) if main else None,
+        variants=tuple(
+            Line(name=f"Sicilian Defense: Line {n}", eco="B2%d" % n,
+                 moves=f"1. e4 c5 {n}. Nf3", plies=3, games=7 - n)
+            for n in range(1, variants + 1)
+        ),
+        plans=plans,
+        guide=guide,
+    )
+
+
+class TestTheOpeningResource:
+    """The moves of the opening the player actually plays.
+
+    `build_resource` existed, was tested, and **nothing consumed it** -- the
+    report had an opening section fed only by an approved swarm brief, so a
+    player whose opening nobody had curated was told nothing about it at all.
+
+    The moves need no endorsement. They are CC0 reference data from
+    `lichess-org/chess-openings`, not a claim about chess, and the module says
+    so. The *plans* still do, and still come only from a reviewed guide.
+    """
+
+    def test_the_main_line_is_shown(self):
+        report = render(a_profile(a_finding()), resource=a_resource())
+
+        assert "Sicilian Defense" in report
+        assert "1. e4 c5" in report
+
+    def test_the_variants_the_player_reaches_are_shown_with_counts(self):
+        report = render(a_profile(a_finding()), resource=a_resource(variants=2))
+
+        assert "Line 1" in report and "Line 2" in report
+        # The counts are the evidence: these are the player's own games (V8).
+        assert "6 games" in report
+
+    def test_no_resource_means_no_moves_section(self):
+        report = render(a_profile(a_finding()))
+
+        assert "1. e4 c5" not in report
+
+    def test_a_resource_with_nothing_in_it_says_nothing(self):
+        # Silence, never a heading with an empty body.
+        empty = OpeningResource(family="Sicilian Defense", main_line=None,
+                                variants=(), plans=(), guide=None)
+
+        assert "Sicilian Defense" not in render(a_profile(a_finding()), resource=empty)
+
+    def test_plans_are_attributed_to_their_publisher(self):
+        guide = Guide(opening="Sicilian Defense", url="https://example.org/sicilian",
+                      title="The Sicilian", publisher="Example Chess",
+                      plans=("Fight for d5.",), reviewed=True)
+        report = render(a_profile(a_finding()),
+                        resource=a_resource(plans=("Fight for d5.",), guide=guide))
+
+        assert "Fight for d5." in report
+        assert "Example Chess" in report
+        assert "https://example.org/sicilian" in report
+
+    def test_plans_without_a_guide_are_not_shown(self):
+        # `has_plans` requires both. An unattributed sentence about chess is
+        # exactly what R-03 forbids.
+        report = render(a_profile(a_finding()),
+                        resource=a_resource(plans=("Fight for d5.",), guide=None))
+
+        assert "Fight for d5." not in report
+
+    def test_the_moves_appear_even_with_no_approved_brief(self):
+        # The whole point of wiring this in: an opening nobody curated still has
+        # moves, and they are free to show.
+        report = render(a_profile(a_finding()), opening=None, resource=a_resource())
+
+        assert "1. e4 c5" in report
