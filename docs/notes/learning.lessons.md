@@ -2,7 +2,7 @@
 id: cas-learning-lessons
 title: Lessons Learned
 desc: 'Generalisable lessons extracted from executed work — what worked, what did not, and why.'
-updated: 1788201000000
+updated: 1788215400000
 created: 1785254500000
 ---
 
@@ -21,6 +21,29 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 **Lesson:** the generalisable claim
 **Applied to:** the note/rule/code changed because of it
 ```
+
+---
+
+### L-055 — A guard that fires early can hide the thing it caught
+**Date:** 2026-09-01 · **Cycle / mission step:** M6 · **Class:** process
+**Context:** wiring the out-of-theory claim into S4 ([[experiments.e76-leaving-theory]]).
+**Observation:** the new claim counted **52 instances and produced 0 examples**, because its ply
+window was written 0-based against a codebase where `Observation.ply` is `index + 1`. Every lookup in
+`{o.ply: o for o in game.mine}` missed. `_assess` then hit its own guard — *"no examples, return
+None"* — and the claim vanished with **no error, no warning and no output**, which is exactly what a
+claim about a player with nothing wrong looks like. The guard behaved correctly: a claim with no
+evidence must not be asserted (V8). It also made an off-by-one indistinguishable from silence.
+`Measurement`'s stricter invariant — *"instances_at has 19 moves but instances is 105; a claim must
+report every instance or none"* — would have named the problem precisely, and was never reached
+because the earlier guard returned first.
+**Lesson:** **Order guards from most specific to least.** A broad refusal placed before a precise
+invariant converts a diagnosable defect into a quiet nothing, and the quiet nothing is
+indistinguishable from the legitimate empty case (L-046 again, one level up: not an empty case
+answering like a populated one, but a *bug* answering like an empty case). When a new claim produces
+nothing, the first question is not "is the threshold too strict" but "did it reach the code that
+would have complained".
+**Applied to:** the window now calls `opening_development._is_theory` rather than re-deriving the
+comparison, so the two definitions of "still in theory" cannot drift apart again.
 
 ---
 

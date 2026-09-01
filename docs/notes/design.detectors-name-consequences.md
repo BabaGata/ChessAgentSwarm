@@ -2,14 +2,14 @@
 id: cas-design-consequences
 title: 'Design — six detectors renamed, rebuilt or retired, because they name positions instead of consequences'
 desc: 'The author corrected six detectors at once. Five share one fault: they fire on a state of the board rather than on something that happened to the player. The sixth is uninformative and is retired. Specifications, testable rules, and the parameters that still need calibrating.'
-updated: 1788210000000
+updated: 1788215400000
 created: 1788652800000
 ---
 
 # Six detectors, corrected
 
 **Source:** the author, 2026-08-29, reading the precision sheet ·
-**Status:** **5 of 6 built, and the sixth is screened and held.** 1a was superseded by [[design.opening-development-signals]] and is built; **1b is implemented, tested and NOT shipped** — it fails a depth sweep, naming four of five players inconsistently across window sizes ([[experiments.e73-opening-scores]]). `early_error` therefore stays, on evidence
+**Status:** **all six resolved.** 1a is **built** as an out-of-theory claim ([[experiments.e76-leaving-theory]]) alongside the development signals it was once superseded by; **1b is implemented, tested and NOT shipped** — it fails a depth sweep, naming four of five players inconsistently across window sizes ([[experiments.e73-opening-scores]]). `early_error` therefore stays, on evidence
 
 ## The fault they share
 
@@ -65,6 +65,15 @@ the peer corpus, not a threshold change.
 > new fact bears on them: the median player leaves theory after **5.3 plies, under move 3**, and the
 > whole spread across 84 players is about six plies. A claim here would say a player leaves theory a
 > move and a half earlier than their peers.
+>
+> **BUILT 2026-09-01 → [[experiments.e76-leaving-theory]].** The author settled the chess question —
+> *"It is coaching to tell the player that they don't know the opening"* — so 1a shipped.
+> `chesscoach/book_depth.py`, 15 tests, wired into S4 and reaching **7 of 12** review players.
+> The measure is the **share of a player's early moves played outside theory**, not a threshold on
+> when they left: the share is reliable at **+0.83** against the threshold's best **+0.65**. Its
+> baseline lives in `data/openings/book-depth-norms.json` rather than the peer reference, because
+> book depth needs no engine and a baseline costing seconds should not depend on a pass costing an
+> hour.
 
 **1b — you score worse in this opening than in your others.** This is **A3**, already on the list as
 unstarted and free, and it merges here rather than staying separate.

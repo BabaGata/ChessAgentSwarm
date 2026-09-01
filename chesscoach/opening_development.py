@@ -35,6 +35,7 @@ import chess
 
 from chesscoach.analysis.observations import Observation
 from chesscoach.development import HOME_SQUARES, Development, measure_development
+from chesscoach.book_depth import moves_per_game, own_plies_in_window
 from chesscoach.development_norms import DevelopmentNorms
 from chesscoach.openings import OpeningBook, _family
 
@@ -46,6 +47,11 @@ REPEAT_MOVE = "repeat_move"
 # developing, how often does it go wrong", which is what E61's cost finding
 # actually pointed at: same number of pawn moves, worse ones.
 PAWN_ERROR = "pawn_error"
+# "You leave known theory earlier than players at your level."
+# design.detectors-name-consequences § 1a, released by the author's ruling:
+# "It is coaching to tell the player that they don't know the opening".
+OUT_OF_BOOK = "out_of_book"
+ANY_OPENING = "any"
 
 # The basis a claim was judged on, and part of its key so the two can never be
 # pooled into one number.
@@ -332,6 +338,32 @@ def count(
             if example is not None:
                 repeats.examples.append(example)
         repeats.cost_wp += habit_costs(game)[REPEAT_MOVE]
+
+    # How much of the opening was played outside known theory. The walk has
+    # already happened for every game above, so this costs nothing.
+    #
+    # **Deliberately unpriced.** Leaving theory is a state, not a mistake -- the
+    # same reasoning that makes `concedes_weakness` unpriceable -- and charging
+    # it the win probability lost in those plies would double-count whatever
+    # `early_error` already counts there. It reaches a player by being unusual
+    # for their level or not at all, which E72 gives the vocabulary for.
+    out_of_book = tallies[f"{OUT_OF_BOOK}.{ANY_OPENING}"]
+    for game in played:
+        white = game.colour == chess.WHITE
+        by_ply = {o.ply: o for o in game.mine}
+        out_of_book.opportunities += moves_per_game()
+        for ply in own_plies_in_window(white):
+            if _is_theory(game, ply):
+                continue
+            out_of_book.instances += 1
+            out_of_book.games.add(game.game_id)
+            # Every instance is cited, because `Measurement` refuses a claim
+            # that reports more instances than it can point at -- which is how
+            # this came to be counted in the player's own moves rather than the
+            # game's plies.
+            observation = by_ply.get(ply)
+            if observation is not None:
+                out_of_book.examples.append(observation)
 
     return dict(tallies)
 

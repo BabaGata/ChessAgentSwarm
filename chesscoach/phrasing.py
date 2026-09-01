@@ -148,9 +148,18 @@ POOLED_QUANTITIES: dict[str, str] = {
     "endgame_error": "mistakes in the endgame",
     "early_error": "mistakes before move 15",
     "opening_disadvantage": "games where you are already worse by move 15",
+    "out_of_book": "opening moves played outside known theory",
 }
 POOLED_STATEMENTS: dict[str, str] = {
     "endgame_error": "Your play falls off in the endgame.",
+    # The author's own reason for building this: "It is coaching to tell the
+    # player that they don't know the opening". Said in those terms rather than
+    # "your out_of_book rate is high" -- a raw claim key reaching a player is
+    # the D8 defect, and `statement` falls through to exactly that without an
+    # entry here.
+    "out_of_book": (
+        "You are out of known opening theory sooner than players at your level."
+    ),
     "early_error": "You go wrong early, before the middlegame starts.",
     "opening_disadvantage": "You come out of the opening worse more often than most.",
     "concedes_weakness": (

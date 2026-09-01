@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788210000000
+updated: 1788215400000
 created: 1785254500000
 ---
 
@@ -308,10 +308,21 @@ struck through: a list nobody can act on is not a plan.
    reopens the question rather than settling it: actionability and cost still favour the development
    signals, and the median player leaves theory after **5.3 plies, under move 3**.
 
-0. **P2 — is "a move and a half earlier than your peers" coaching or trivia?** The chess judgement
-   E75 leaves for the author. If the answer is coaching, 1a is buildable and the measure to use is
-   `plies_in_book` on the player's **own** exits — marginally the stronger correlate, and the one
-   that measures the right person.
+0. **DONE — 1a is built** → [[experiments.e76-leaving-theory]]. The author settled it: *"It is
+   coaching to tell the player that they don't know the opening"*. `chesscoach/book_depth.py`,
+   15 tests, wired into S4, **measured for 7 of 12** review players and reaching one plan. The measure
+   is the **share of early moves played outside theory** (reliable at **+0.83**) rather than a
+   threshold on when theory ended (**+0.65** at its best). Its baseline is
+   `data/openings/book-depth-norms.json` — rapid 43.5 %, blitz 50.0 % — kept out of the peer reference
+   because book depth needs no engine.
+
+0. **P1 — one number per band and speed is coarse for openings.** The baseline does not vary by
+   opening, and a Najdorf player and a London player do not face the same book. Per-opening baselines
+   are the obvious refinement and would reuse `development-norms.json`'s per-opening shape.
+
+0. **P1 — the one player the claim reaches is the one whose baseline is most suspect.** cademan is
+   1302 against a 1400-1800 baseline ([[experiments.e70-band-mismatch]]), so their 59 % against 46 %
+   is partly the band mismatch. Worth re-reading once the read-side band decision is made.
 
 0. **P1 — Re-run E31 and E44** on the corrected move numbers. Both joined the author's noted moves
    with a formula that has since been fixed, and neither has been redone.

@@ -1,0 +1,36 @@
+WHEN IS LEAVING THEORY *EARLY*?
+============================================================================================
+
+peers   84 players, 3,908 games (1400-1800 corpora)
+strong  100 players, 5,862 games (top-100 corpus)
+book    3810 named lines
+
+  rate = share of a player's games where THEY left theory, before ply N.
+
+   ply   peer median   peer IQR   strong median     gap   split-half
+  ------------------------------------------------------------------
+     4          11%       0.13             3%     -8%        +0.64
+     5          20%       0.16             7%    -13%        +0.59
+     6          27%       0.20            10%    -17%        +0.65
+     7          35%       0.18            15%    -20%        +0.57
+     8          40%       0.18            20%    -20%        +0.47
+     9          43%       0.15            25%    -18%        +0.41
+    10          46%       0.14            28%    -18%        +0.37
+    11          47%       0.13            32%    -16%        +0.29
+    12          50%       0.12            37%    -13%        +0.27
+    13          50%       0.13            40%    -10%        +0.24
+    14          50%       0.11            42%     -8%        +0.24
+
+============================================================================================
+WHAT TO READ HERE
+============================================================================================
+
+  `peer spread` is the interquartile range of the rate. A threshold where
+  every player scores the same measures nothing; the spread is what a
+  claim has to work with.
+
+  `gap` is strong players minus peers at the same threshold. A negative
+  gap means stronger players leave theory early less often, which is the
+  direction the claim assumes. A gap near zero at some threshold would
+  mean the threshold is not measuring opening knowledge at all.
+

@@ -24,8 +24,10 @@ from dataclasses import dataclass, field
 from chesscoach.analysis.observations import Observation
 from chesscoach.development_norms import DevelopmentNorms
 from chesscoach.confidence import MIN_GAMES_WITH_DATA, ClaimStats, assign_tier
+from chesscoach.book_depth import BookDepthNorms
 from chesscoach.opening_development import (
     LATE_CASTLING,
+    OUT_OF_BOOK,
     PAWN_ERROR,
     REPEAT_MOVE,
     SLOW_DEVELOPMENT,
@@ -84,7 +86,8 @@ OPENING_DISADVANTAGE = "opening_disadvantage"
 
 ANY = "any"
 
-_DEVELOPMENT_KINDS = (SLOW_DEVELOPMENT, LATE_CASTLING, REPEAT_MOVE, PAWN_ERROR)
+_DEVELOPMENT_KINDS = (SLOW_DEVELOPMENT, LATE_CASTLING, REPEAT_MOVE, PAWN_ERROR,
+                      OUT_OF_BOOK)
 
 # Move 15, in plies. The catalogue's own figure and conventional rather than
 # derived -- the real end of the opening varies by opening and by player. Named
@@ -287,6 +290,49 @@ def _key(kind: str, subject: str) -> str:
 # --- assertion --------------------------------------------------------------
 
 
+_BOOK_DEPTH: BookDepthNorms | None = None
+
+
+def _out_of_book_baseline(context: SectionContext) -> float | None:
+    """What this player's band and speed play outside theory, or None.
+
+    **None silences the claim rather than defaulting it.** A player judged
+    against an invented baseline is judged against a number nobody measured, and
+    a blitz player judged against a rapid one is I-03 over again -- so the speed
+    must be known and present, not assumed.
+
+    The baseline is **standardised over the player's own speed mix**, the way
+    `SectionContext._mixed` does it for peer rates: a blitz-heavy player is
+    compared against a blitz-weighted baseline rather than whichever speed the
+    corpus was labelled. `_mixed` itself cannot be reused because it refuses
+    without a peer reference, and this claim's baseline is not in one -- so the
+    weighting is repeated here rather than the coupling being invented.
+
+    Speeds the baseline has never measured are skipped and their weight
+    redistributed, so one unfamiliar game does not silence the claim.
+    """
+    global _BOOK_DEPTH
+    if _BOOK_DEPTH is None:
+        try:
+            _BOOK_DEPTH = BookDepthNorms.load()
+        except (OSError, ValueError, KeyError):
+            return None
+    if context.band is None:
+        return None
+
+    mix = context.corpus.speed_mix or (
+        ((context.time_control, 1.0),) if context.time_control else ()
+    )
+    weighted = total = 0.0
+    for speed, share in mix:
+        value = _BOOK_DEPTH.share_for(context.band, speed)
+        if value is None:
+            continue
+        weighted += share * value
+        total += share
+    return weighted / total if total else None
+
+
 def _assess(key: str, counts: _Counts, context: SectionContext) -> Finding | None:
     tally = counts.tallies[key]
     kind, subject = key.split(".")[0], key.split(".")[1]
@@ -298,7 +344,15 @@ def _assess(key: str, counts: _Counts, context: SectionContext) -> Finding | Non
     # within-player baseline here -- "worse in the opening than in the
     # middlegame" is a different claim belonging to no section yet. So peers or
     # silence.
-    peer_rate = context.peer_rate(key)
+    #
+    # `out_of_book` is the exception, and not because it is special: its
+    # baseline needs **no engine**, so it lives in its own file rather than in a
+    # peer reference that costs an hour to rebuild -- the same separation
+    # `development-norms.json` already has ([[experiments.e76-leaving-theory]]).
+    if kind == OUT_OF_BOOK:
+        peer_rate = _out_of_book_baseline(context)
+    else:
+        peer_rate = context.peer_rate(key)
     if peer_rate is None:
         return None
 

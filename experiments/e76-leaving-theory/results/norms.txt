@@ -1,0 +1,18 @@
+OUT-OF-BOOK BASELINE
+============================================================================
+
+band 1400-1800, first 10 plies, 3810 named lines.
+
+  Each player contributes one share; the baseline is the median of
+  those, not a pooled total. Pooling would let a player with many games
+  set the population's number.
+
+  speed           players    games   median share     IQR
+  -------------------------------------------------------
+  blitz                65     1817         50.0%    0.18
+  rapid                72     2019         43.5%    0.16
+
+============================================================================
+
+  written to chesscoach/../data/openings/book-depth-norms.json
+
