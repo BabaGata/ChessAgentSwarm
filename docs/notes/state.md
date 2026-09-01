@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788238800000
+updated: 1788246000000
 created: 1785254500000
 ---
 
@@ -245,15 +245,22 @@ struck through: a list nobody can act on is not a plan.
 
 ### Open, and unblocked
 
-0. **P0 — the graph knowledge base is planned and not started**
-   → [[design.graph-knowledge-base]] *(new 2026-09-01, author's request; revised the same day once the
-   author gave the purpose)*. **It is retrieval infrastructure for conversation**, not a filing
-   cabinet: the Ollama agent should discuss chess with the player, answering from what it retrieves
-   rather than what it remembers. That is the thesis showcase and it is falsifiable by ablation.
-   The evidence rule is the author's: **corroboration across free books**, counted over independent
-   publication lineages, with vector similarity to match the same idea under different words — one
-   rule endorsed once, instead of one endorsement per entry. Stage 1 needs **no extraction at all**
-   (rules, piece movement, time controls, claims, openings), and stage 3 is **sourced only**.
+0. **STAGE 1 BUILT — the graph knowledge base** → [[design.graph-knowledge-base]]
+   *(2026-09-01)*. Neo4j 5.26.30 Community in a container, `docker-compose.yml` at the root with
+   memory capped for a laptop that also hosts an 8B model. **The rules layer is loaded and queryable**:
+   6 movement rules generated from `python-chess`, 6 outcome rules citing the predicate that
+   implements each, 5 Lichess speeds read from `speed.py`. **Nothing authored, so nothing to endorse.**
+   `python -m chesscoach.cli build-graph --reset`. Vector indexes verified working, so the
+   single-store design holds.
+
+0. **P0 — stage 2: the shelf, passages and vectors.** Expand `books.py` beyond three books, chunk,
+   embed, store as `Passage` nodes. **Still no claims extracted** — retrieval over verbatim text,
+   honest because every answer quotes a book. *Done when an ablation shows the model answering better
+   with retrieval than without*, which is the thesis result.
+
+0. **P1 — `mxbai-embed-large` is not pulled.** `classifiers.py` names it as its default embedder and
+   `ollama list` does not have it, so the E07 embedding baseline may not currently be reproducible and
+   stage 2 needs it. `ollama pull mxbai-embed-large`, ~670 MB.
 
 0. **P0 — the peer corpus is 26 % out of band** *(new 2026-09-01)*. `declared_band_is_wrong` refuses
    **36 of 137** corpus players against 1400-1800 — 21 of 72 rapid, 15 of 65 blitz. Every peer

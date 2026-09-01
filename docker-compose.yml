@@ -1,0 +1,58 @@
+# The graph knowledge base.
+#
+# Design: docs/notes/design.graph-knowledge-base.md
+#
+# **Neo4j is a derived index, never the source of truth.** Every node is built
+# from a file this repository versions or from the code itself, so losing this
+# container loses an index and no knowledge. That is also why it is safe to
+# `docker compose down -v` and rebuild whenever the schema changes, which in
+# stage 1 is often.
+#
+# Ollama and Stockfish stay on the host deliberately. The GPU is a 4 GB laptop
+# card and Ollama already holds ~35 GB of pulled models; containerising it on
+# Windows would need WSL2 GPU passthrough for no gain. The app reaches every
+# dependency by configuration, so this split is a deployment choice rather than
+# anything the code knows about.
+#
+#     docker compose up -d          start
+#     docker compose down           stop, keep the data
+#     docker compose down -v        stop and wipe, then rebuild from files
+#
+# Browser at http://localhost:7474, Bolt on 7687.
+
+services:
+  neo4j:
+    image: neo4j:5-community
+    container_name: chess-kb
+    ports:
+      - "7474:7474"   # browser
+      - "7687:7687"   # bolt, what the driver speaks
+    environment:
+      # Development credentials, deliberately not a secret: this listens on
+      # localhost only and holds public-domain chess text. Anything that is a
+      # real secret belongs in the environment, never here.
+      NEO4J_AUTH: neo4j/chesscoach
+      # Capped on purpose. The defaults size themselves for a server; this
+      # shares a laptop with an 8B model that already spills out of 4 GB of
+      # VRAM into RAM. Stage 1 is thousands of nodes, not millions.
+      NEO4J_server_memory_heap_initial__size: 512m
+      NEO4J_server_memory_heap_max__size: 512m
+      NEO4J_server_memory_pagecache_size: 512m
+      # APOC is Neo4j's standard utility library; the loader uses it for batched
+      # writes. Vector indexes are core in 5.x and need no plugin.
+      NEO4J_PLUGINS: '["apoc"]'
+    volumes:
+      - chess-kb-data:/data
+    healthcheck:
+      # `docker compose up` returning is not the same as Neo4j accepting
+      # queries -- it takes a few seconds more, and a loader that starts in
+      # between fails in a way that looks like a bug in the loader.
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://localhost:7474 || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 20s
+    restart: unless-stopped
+
+volumes:
+  chess-kb-data:

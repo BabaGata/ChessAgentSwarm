@@ -7,7 +7,7 @@ name = "chesscoach"
 version = "0.1.0"
 description = "Adaptive agent swarm that coaches chess players (diploma thesis)"
 requires-python = ">=3.11"
-dependencies = ["chess>=1.11"]
+dependencies = ["chess>=1.11", "neo4j>=5.26"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "pytest-cov>=5"]
@@ -19,3 +19,6 @@ include = ["chesscoach*"]
 testpaths = ["tests"]
 pythonpath = [".", "tests"]
 addopts = "-q"
+# `integration` needs a live Neo4j; those tests skip themselves when none is
+# reachable, so a checkout with no container still runs green.
+markers = ["integration: needs a running graph database"]

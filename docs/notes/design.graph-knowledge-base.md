@@ -107,7 +107,9 @@ One database, one backup, one query language, and a retrieval that can do *"pass
 near this question, then walk to the concept, then to its prerequisites"* in a single Cypher
 statement — which is the whole argument for a graph over a flat vector store.
 
-*(Version support needs checking at build time rather than trusted here.)*
+**Verified 2026-09-01**: `neo4j:5-community` reports 5.26.30, and a `CREATE VECTOR INDEX`
+with 1024 dimensions and cosine similarity succeeds. The single-store design holds and does
+not need a second database.
 
 **Both halves already exist in this repository**: `chesscoach/classifiers.py` embeds through Ollama
 with `mxbai-embed-large`, and `chesscoach/books.py` already chunks a book into ~2,400-character

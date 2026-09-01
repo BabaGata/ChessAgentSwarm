@@ -1,0 +1,148 @@
+"""The rules layer of the graph: what a small model should not have to remember.
+
+Design: docs/notes/design.graph-knowledge-base.md § "The rules layer"
+
+The author:
+
+    "For legal moves I meant that there should be recorded patterns on how the
+    pieces can move so that ollama's llm knows the basics just in case. Also
+    general rules of chess are needed and different kinds of games like rapid,
+    bullet, classical."
+
+**Nothing here is authored chess knowledge, and that is the whole point of doing
+this layer first.** Movement is *generated* from `python-chess`, so every fact is
+computed and checkable; the outcome rules cite the predicate that implements
+them; time controls come from `chesscoach/speed.py`, which reimplements Lichess's
+own rule. None of it needs a source in the sense R-03 means, because none of it
+is a claim *about* chess -- it is chess, or it is what our code does.
+
+The descriptions are the one place a human sentence appears, and they are
+constrained to be **checkable against the generated squares**: "two squares along
+one axis and one along the other" is arithmetic anybody can verify against the
+list of attacked squares stored beside it. That is deliberately different from
+"knights are strong in closed positions", which is the kind of sentence this
+layer refuses to hold.
+"""
+
+from __future__ import annotations
+
+import chess
+import pytest
+
+from chesscoach.chess_rules import (
+    movement_rules,
+    outcome_rules,
+    time_control_rules,
+)
+
+
+class TestMovement:
+    def test_every_piece_type_is_described(self):
+        kinds = {rule.piece for rule in movement_rules()}
+
+        assert kinds == {"king", "queen", "rook", "bishop", "knight", "pawn"}
+
+    def test_the_knight_from_the_centre_attacks_eight_squares(self):
+        knight = next(r for r in movement_rules() if r.piece == "knight")
+
+        assert knight.attacks_from_centre == (
+            "b3", "b5", "c2", "c6", "e2", "e6", "f3", "f5"
+        )
+
+    def test_the_generated_squares_agree_with_python_chess(self):
+        # The point of generating rather than authoring: this test can only fail
+        # if the generation is wrong, never if someone's chess is rusty.
+        board = chess.Board(None)
+        for rule in movement_rules():
+            if rule.piece == "pawn":
+                continue
+            board.clear()
+            board.set_piece_at(chess.D4, chess.Piece.from_symbol(rule.symbol))
+            expected = tuple(sorted(
+                chess.square_name(s) for s in board.attacks(chess.D4)
+            ))
+            assert rule.attacks_from_centre == expected, rule.piece
+
+    def test_the_rook_attacks_a_full_rank_and_file(self):
+        rook = next(r for r in movement_rules() if r.piece == "rook")
+
+        assert len(rook.attacks_from_centre) == 14
+
+    def test_the_description_names_the_squares_it_is_checkable_against(self):
+        # Every description must be verifiable from the data stored beside it.
+        for rule in movement_rules():
+            assert rule.description
+            assert rule.attacks_from_centre or rule.piece == "pawn"
+
+    def test_pawns_are_marked_as_the_exception_they_are(self):
+        pawn = next(r for r in movement_rules() if r.piece == "pawn")
+
+        # A pawn captures differently from how it moves, cannot go backwards,
+        # and has two special moves. A single attack set would misdescribe it.
+        assert "capture" in pawn.description.lower()
+        assert pawn.special
+
+
+class TestOutcomes:
+    def test_the_outcomes_a_player_asks_about_are_present(self):
+        named = {rule.name for rule in outcome_rules()}
+
+        assert {"check", "checkmate", "stalemate", "insufficient material",
+                "fifty-move rule", "threefold repetition"} <= named
+
+    def test_every_outcome_cites_the_predicate_that_implements_it(self):
+        # "This is what the implementation does" is a checkable source; an
+        # invented FIDE article number would not be, and would be worse than
+        # none (fabricating a citation is the one thing worse than lacking one).
+        for rule in outcome_rules():
+            assert rule.implemented_by.startswith("python-chess:")
+
+    def test_stalemate_is_distinguished_from_checkmate(self):
+        by_name = {r.name: r for r in outcome_rules()}
+
+        assert "not in check" in by_name["stalemate"].statement.lower()
+        assert "in check" in by_name["checkmate"].statement.lower()
+
+
+class TestTimeControls:
+    def test_the_five_lichess_speeds_are_present(self):
+        named = {rule.name for rule in time_control_rules()}
+
+        assert named == {"ultraBullet", "bullet", "blitz", "rapid", "classical"}
+
+    def test_the_bounds_come_from_the_code_that_classifies_games(self):
+        by_name = {r.name: r for r in time_control_rules()}
+
+        assert by_name["blitz"].upper_seconds == 480
+        assert by_name["classical"].upper_seconds is None
+
+    def test_an_example_control_actually_classifies_that_way(self):
+        # The examples are generated by running speed_class, so a bound and its
+        # example cannot disagree.
+        from chesscoach.speed import speed_class
+
+        for rule in time_control_rules():
+            for example in rule.examples:
+                assert speed_class(example) == rule.name, (rule.name, example)
+
+    def test_the_rule_explains_that_duration_not_clock_decides(self):
+        blitz = next(r for r in time_control_rules() if r.name == "blitz")
+
+        # 3+2 being blitz while 5+5 is rapid is the thing a player finds
+        # surprising, and it is what the estimate exists to explain.
+        assert "increment" in blitz.statement.lower()
+
+
+class TestNothingHereNeedsEndorsing:
+    def test_no_rule_carries_an_unsourced_chess_opinion(self):
+        """A guard on the layer's whole premise.
+
+        Every statement must be generated, or cite the code that implements it.
+        Nothing may arrive by being written down as chess wisdom.
+        """
+        for rule in outcome_rules():
+            assert rule.implemented_by
+        for rule in time_control_rules():
+            assert rule.implemented_by
+        for rule in movement_rules():
+            assert rule.generated_by

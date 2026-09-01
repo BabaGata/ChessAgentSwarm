@@ -698,6 +698,12 @@ def build_parser() -> argparse.ArgumentParser:
     )
     corpus.set_defaults(handler=fetch_corpus)
 
+    graph = subcommands.add_parser(
+        "build-graph", help="build the graph knowledge base from files and code")
+    graph.add_argument("--reset", action="store_true",
+                       help="wipe first; safe, because nothing is authored in the database")
+    graph.set_defaults(handler=build_graph)
+
     peers = subcommands.add_parser(
         "build-peer-reference", help="build a rating-band reference population from PGN files"
     )
@@ -1225,6 +1231,42 @@ def _classifier_note(record) -> str:
         ClassifierStatus.NOT_CONFIGURED.value: "  (no --model, so reasons are not judged)",
     }
     return notes.get(record.classifier_status, "")
+
+
+
+def build_graph(args: argparse.Namespace) -> int:
+    """Build the graph knowledge base from files and code.
+
+    Stage 1 of [[design.graph-knowledge-base]]: the rules of chess, generated
+    from `python-chess`, and the Lichess speeds, read from the classifier that
+    decides them. Nothing authored, so nothing to endorse.
+
+    `--reset` is an ordinary operation rather than a dangerous one, and that is
+    the point of Neo4j being a derived index: everything here is rebuilt from
+    sources this repository versions.
+    """
+    from chesscoach.graph import GraphStore, GraphUnavailable, settings_from_env
+
+    settings = settings_from_env()
+    try:
+        store = GraphStore.connect(settings)
+    except GraphUnavailable as error:
+        # Named loudly, because "no results" and "no database" must never look
+        # the same to whoever reads the output (L-046).
+        print(f"cannot reach the graph at {settings.uri}: {error}")
+        print("start it with:  docker compose up -d")
+        return 1
+
+    with store:
+        if args.reset:
+            store.wipe()
+            print("  wiped")
+        store.ensure_schema()
+        written = store.load_rules()
+        print(f"  rules layer: {written} nodes")
+        for label, n in sorted(store.counts().items()):
+            print(f"    {label:<16}{n:>7}")
+    return 0
 
 
 def main(argv: list[str] | None = None) -> int:
