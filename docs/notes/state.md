@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788228000000
+updated: 1788235200000
 created: 1785254500000
 ---
 
@@ -244,6 +244,14 @@ struck through: a list nobody can act on is not a plan.
    a pawn is too small to call a fork ([[experiments.e57-fork-rebuilt]]).
 
 ### Open, and unblocked
+
+0. **P0 — the graph knowledge base is planned and not started**
+   → [[design.graph-knowledge-base]] *(new 2026-09-01, author's request)*. Neo4j, holding concepts,
+   prerequisites, band expectations, openings and practice. **The binding constraint is sourcing, not
+   storage**: E63-E65 measured 3 endorsable entries of 14 attempted, and a graph produces no sources.
+   Files stay the source of truth and Neo4j is a **derived index**, so the review gate survives and a
+   lost database loses an index rather than knowledge. Staged in four, the first needing **no new
+   chess knowledge at all**. Three questions for the author before stage 1.
 
 0. **P0 — the peer corpus is 26 % out of band** *(new 2026-09-01)*. `declared_band_is_wrong` refuses
    **36 of 137** corpus players against 1400-1800 — 21 of 72 rapid, 15 of 65 blitz. Every peer
