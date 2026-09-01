@@ -2,7 +2,7 @@
 id: cas-exp-e69
 title: 'E69 — Four development claims, four signals, and one pair close to the line'
 desc: 'The screen the design note promised before the claims shipped. No pair exceeds the 0.85 ceiling, so all four may ship — but slow_development and repeat_move sit at 0.81, and the pair E59 measured at 0.68 has since risen to 0.75 because the detectors changed underneath it.'
-updated: 1789171200000
+updated: 1788210000000
 created: 1789171200000
 ---
 
@@ -79,9 +79,11 @@ the opening should not track one about the endgame, and none does.
   passed.
 - **`slow_development` / `repeat_move` at 0.81 should be re-run** whenever either detector changes.
   It is the pair most likely to cross.
-- **One item of the screen is still not done**: the note also asked for `slow_development` against
-  `plies_in_book`, to settle whether book depth has anything left to add. Book depth is not a claim
-  in the reference, so it needs its own pass and did not get one here.
+- ~~**One item of the screen is still not done**~~ **— run 2026-08-31**
+  → [[experiments.e75-book-depth]]. Book depth needed its own per-player measure because it is not a
+  claim in the reference; computed over 84 players it correlates **−0.47** with `slow_development`,
+  well under the ceiling, and is **reliable at split-half +0.81**. Every pair this note named has now
+  been screened.
 
 ## Honest limitations
 

@@ -2,7 +2,7 @@
 id: cas-design-consequences
 title: 'Design — six detectors renamed, rebuilt or retired, because they name positions instead of consequences'
 desc: 'The author corrected six detectors at once. Five share one fault: they fire on a state of the board rather than on something that happened to the player. The sixth is uninformative and is retired. Specifications, testable rules, and the parameters that still need calibrating.'
-updated: 1788204600000
+updated: 1788210000000
 created: 1788652800000
 ---
 
@@ -56,6 +56,15 @@ the peer corpus, not a threshold change.
 > deviation from peers rather than on a state of the board, which is the fault this whole note
 > corrects. **1a is held, not deleted**: a correlation screen against `plies_in_book` decides whether
 > book depth has anything left to add.
+>
+> **Screen run 2026-08-31 → [[experiments.e75-book-depth]]. Book depth survives it.** Over 84 players
+> it is **reliable** (split-half r = **+0.81**), **distinct** from every development claim (strongest
+> is `slow_development` at **−0.47**, far under E69's 0.85 ceiling) and **not merely rating**
+> (+0.37, weaker than two of the development claims). So 1a is not redundant — but **redundancy was
+> never the argument against it**, and the two that were, actionability and cost, are untouched. One
+> new fact bears on them: the median player leaves theory after **5.3 plies, under move 3**, and the
+> whole spread across 84 players is about six plies. A claim here would say a player leaves theory a
+> move and a half earlier than their peers.
 
 **1b — you score worse in this opening than in your others.** This is **A3**, already on the list as
 unstarted and free, and it merges here rather than staying separate.

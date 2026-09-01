@@ -60,9 +60,13 @@ def transitions(game, player: str):
     colour = chess.WHITE if white else chess.BLACK
     board = chess.Board()
     positions = [board.copy(stack=False)]
-    for san in game.moves:
+    # `GameRecord.moves` is UCI (`ingest/pgn.py` stores `node.move.uci()`). A
+    # first version pushed them as SAN and happened to be correct, because
+    # python-chess's SAN parser also accepts long algebraic -- right answer,
+    # wrong reason. Saying UCI is what the data is makes the next reader safe.
+    for uci in game.moves:
         try:
-            board.push_san(san)
+            board.push_uci(uci)
         except ValueError:
             break
         positions.append(board.copy(stack=False))

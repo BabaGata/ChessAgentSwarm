@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788206400000
+updated: 1788210000000
 created: 1785254500000
 ---
 
@@ -301,9 +301,17 @@ struck through: a list nobody can act on is not a plan.
    and every corpus on hand stops at 60 games per player. Fetching deeper histories is free and
    R-10-compliant; then `experiments/e73-opening-scores/depth.py` at 100+.
 
-0. **P1 — `slow_development` against `plies_in_book`.** The one part of E69's screen not run, because
-   book depth is not a claim in the peer reference. It settles whether book depth has anything left
-   to add beside the development claims.
+0. **DONE — `slow_development` against `plies_in_book`** → [[experiments.e75-book-depth]]. The last
+   unrun pair from E69's screen. Book depth is **reliable** (split-half **+0.81** over 84 players),
+   **distinct** (−0.47 against `slow_development`, far under the 0.85 ceiling) and **not merely
+   rating** (+0.37). **It survives — and redundancy was never the argument against 1a**, so this
+   reopens the question rather than settling it: actionability and cost still favour the development
+   signals, and the median player leaves theory after **5.3 plies, under move 3**.
+
+0. **P2 — is "a move and a half earlier than your peers" coaching or trivia?** The chess judgement
+   E75 leaves for the author. If the answer is coaching, 1a is buildable and the measure to use is
+   `plies_in_book` on the player's **own** exits — marginally the stronger correlate, and the one
+   that measures the right person.
 
 0. **P1 — Re-run E31 and E44** on the corrected move numbers. Both joined the author's noted moves
    with a formula that has since been fixed, and neither has been redone.

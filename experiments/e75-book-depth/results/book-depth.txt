@@ -1,0 +1,54 @@
+DOES BOOK DEPTH ADD ANYTHING THE DEVELOPMENT CLAIMS DO NOT?
+========================================================================================
+
+reference   peers-3af3206.json
+players     84 with book depth, at least 10 opportunities on a claim
+book        3810 named lines, walk capped at 30 plies
+
+  book depth, measured:
+    plies in book        median 5.34, range 2.07-8.29, n=84
+    plies (own exits)    median 5.32, range 2.33-8.13, n=84
+    share left first     median 0.52, range 0.27-0.81, n=84
+
+========================================================================================
+AGAINST THE DEVELOPMENT CLAIMS   (E69's ceiling |r| > 0.85)
+========================================================================================
+
+  claim                             plies in book    plies (own exits)     share left first
+  -----------------------------------------------------------------------------------------
+  slow_development.book              -0.47 (n=80)         -0.49 (n=80)         +0.31 (n=80)
+  late_castling.book                 -0.30 (n=80)         -0.29 (n=80)         +0.24 (n=80)
+  repeat_move.any                    -0.35 (n=83)         -0.38 (n=83)         +0.33 (n=83)
+  pawn_error.any                     -0.18 (n=83)         -0.13 (n=83)         +0.24 (n=83)
+
+========================================================================================
+IS IT JUST STRENGTH?
+========================================================================================
+
+  E14 found four of six style candidates were strength wearing a style
+  label. A book depth that is only rating adds nothing a rating estimate
+  does not already give.
+
+  plies in book        vs rating   +0.37   (n=84)
+  plies (own exits)    vs rating   +0.37   (n=84)
+  share left first     vs rating   -0.21   (n=84)
+  slow_development.book vs rating   -0.41   (n=80)
+  late_castling.book   vs rating   -0.33   (n=80)
+  repeat_move.any      vs rating   -0.46   (n=83)
+  pawn_error.any       vs rating   -0.23   (n=83)
+
+========================================================================================
+DOES THE MEASURE AGREE WITH ITSELF?
+========================================================================================
+
+  Each player's games split odd/even, book depth computed in each half.
+  A measure whose halves disagree is noise, and no correlation with
+  anything else would mean much.
+
+  split-half r = +0.81   over 84 players
+
+========================================================================================
+
+  No pair reaches the ceiling: book depth is not a restatement
+  of any development claim.
+
