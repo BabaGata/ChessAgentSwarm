@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import pytest
 
-from chesscoach.peers import ConditionMeasurement, PeerReference, PeerStats, build_reference
+from chesscoach.peers import _Contribution, ConditionMeasurement, PeerReference, PeerStats, build_reference
 
 
 def measurement(key: str, errors: int, moves: int, games: int = 5) -> ConditionMeasurement:
@@ -165,3 +165,53 @@ class TestPeerStats:
 
         low, high = stats.ci95
         assert low < 0.1 < high
+
+
+class TestClaimKeysAreCanonical:
+    """Four shipped claims were mute because their baseline was keyed differently.
+
+    Every claim in the system is `kind.subject.own`. The six development claims
+    were written into the peer reference as `kind.subject`, because they predate
+    the convention. Commit 20b1cef then normalised the **section** side through
+    `_key()` -- correctly, it fixed the detection sheet -- and the reference on
+    disk kept the old spelling. From that point `peer_rate("slow_development.
+    book.own")` missed, `_assess` returned None for want of a baseline, and
+    `slow_development`, `late_castling`, `repeat_move` and `pawn_error` produced
+    **no findings for anybody**.
+
+    I-07 recorded the same shape one pair of arms earlier and called it fixed
+    because both sides went through one function. There was a third side: the
+    stored artefact.
+
+    Canonicalising on write and on read fixes the files that already exist
+    rather than requiring an engine pass to reissue them.
+    """
+
+    def test_the_two_spellings_are_one_cell(self):
+        reference = PeerReference(depth=15, cells={
+            PeerReference.key("1400-1800", "rapid", "slow_development.book"): (
+                _Contribution(player="a", instances=3, opportunities=10),
+            ),
+        })
+
+        assert reference.lookup("1400-1800", "rapid", "slow_development.book.own") is not None
+
+    def test_it_works_in_the_other_direction_too(self):
+        reference = PeerReference(depth=15, cells={
+            PeerReference.key("1400-1800", "rapid", "early_error.any.own"): (
+                _Contribution(player="a", instances=3, opportunities=10),
+            ),
+        })
+
+        assert reference.lookup("1400-1800", "rapid", "early_error.any") is not None
+
+    def test_an_unrelated_claim_is_still_a_miss(self):
+        # Canonicalising must not make every lookup succeed; a genuinely absent
+        # claim is exactly what `None` is for.
+        reference = PeerReference(depth=15, cells={
+            PeerReference.key("1400-1800", "rapid", "early_error.any.own"): (
+                _Contribution(player="a", instances=3, opportunities=10),
+            ),
+        })
+
+        assert reference.lookup("1400-1800", "rapid", "fork.any.own") is None

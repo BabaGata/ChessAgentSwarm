@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788215400000
+updated: 1788220800000
 created: 1785254500000
 ---
 
@@ -244,6 +244,23 @@ struck through: a list nobody can act on is not a plan.
    a pawn is too small to call a fork ([[experiments.e57-fork-rebuilt]]).
 
 ### Open, and unblocked
+
+0. **P0 — the peer corpus is 26 % out of band** *(new 2026-09-01)*. `declared_band_is_wrong` refuses
+   **36 of 137** corpus players against 1400-1800 — 21 of 72 rapid, 15 of 65 blitz. Every peer
+   baseline in the system is computed from that population, so the contamination E70 found on the
+   *read* side is also in the reference itself. Rebuilding is blocked by the guard until the corpus is
+   filtered, and filtering drops the reference from 137 players to 101, which is a judgement about the
+   corpus rather than a maintenance task.
+
+0. **DONE — five claims were invisible on the detection sheet** (I-09). A working-directory-relative
+   book path silenced every claim that needs the opening book, so the four development claims and
+   `out_of_book` never appeared on any sheet. Fixed, 3 tests; the sheet's vocabulary goes **50 → 57**.
+
+0. **DONE — four shipped claims had a baseline nothing could find** (I-10). The peer reference spells
+   the development claims `kind.subject` and everything else `kind.subject.own`; `20b1cef` normalised
+   the section side and left the stored artefact behind. `PeerReference.canonical` now applies on write
+   and on load. `late_castling` and `pawn_error` reach plans again; `slow_development` and
+   `repeat_move` correctly stay quiet, because the players measured are better than the population.
 
 0. **ANSWERED — `maikel5` has no priorities at all** → [[experiments.e70-band-mismatch]]. Not a
    correction misfiring: **he is 1929 and was compared against the 1400-1800 band**. A peer lookup is

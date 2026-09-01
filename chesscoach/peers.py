@@ -114,8 +114,27 @@ class PeerReference:
     cells: dict[str, tuple[_Contribution, ...]] = field(default_factory=dict)
 
     @staticmethod
+    def canonical(claim_key: str) -> str:
+        """One spelling for a claim, on the way in and on the way out.
+
+        Every claim in the system is `kind.subject.own`. The six development
+        claims were written into references as `kind.subject`, because they
+        predate the convention, and commit 20b1cef then normalised the *section*
+        side through `_key()`. From that point the lookup missed and
+        `slow_development`, `late_castling`, `repeat_move` and `pawn_error`
+        produced **no findings for anybody** -- four shipped, screened claims,
+        silent because their baseline was spelled differently.
+
+        I-07 recorded this shape one pair of arms earlier and called it fixed
+        because both sides went through one function. There was a third side:
+        the artefact already written to disk. Canonicalising here repairs those
+        files instead of requiring an hour of engine time to reissue them.
+        """
+        return claim_key if claim_key.endswith(".own") else f"{claim_key}.own"
+
+    @staticmethod
     def key(band: str, time_control: str, claim_key: str) -> str:
-        return f"{band}|{time_control}|{claim_key}"
+        return f"{band}|{time_control}|{PeerReference.canonical(claim_key)}"
 
     def lookup(
         self, band: str, time_control: str, claim_key: str, excluding: str | None = None
@@ -305,10 +324,19 @@ class PeerReference:
                 f"readable: {sorted(READABLE_SCHEMA_VERSIONS)}"
             )
 
+        # Cell keys are canonicalised on the way in, so a reference written
+        # before the `.own` convention reaches the same cell as a lookup made
+        # after it. Without this the four development claims stay mute against
+        # every reference already on disk, and only an engine pass could fix
+        # them.
+        def canonical_cell(key: str) -> str:
+            band, time_control, claim = key.split("|", 2)
+            return PeerReference.key(band, time_control, claim)
+
         return cls(
             depth=payload["depth"],
             cells={
-                key: tuple(
+                canonical_cell(key): tuple(
                     _Contribution(
                         player=c["player"],
                         instances=c["instances"],

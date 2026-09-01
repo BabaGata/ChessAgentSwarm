@@ -2,11 +2,18 @@
 id: cas-exp-e72
 title: 'E72 — Thirteen claims fire and can never be told to anyone, and the whole endgame section is one of them'
 desc: 'A reachability audit of the full 50-claim vocabulary. 14 reach players, 13 are mute, and every endgame_error variant is unreachable — the vocabulary-level cost of the run rule. The detection sheet, meanwhile, is well targeted: only 2 of its 29 claims are mute.'
-updated: 1788199200000
+updated: 1788220800000
 created: 1788199200000
 ---
 
 # E72 — Can this claim ever reach a player?
+
+> **Corrected 2026-09-01.** The vocabulary here is **50 and should be 57**, and the two development
+> claims this note recorded as "not measured in this run" were **not measured because of a bug**:
+> `OpeningBook.DEFAULT_BOOK` was relative to the working directory, so every claim needing the book
+> vanished when the audit ran from its own folder (I-09). The audit undercounted by five claims and
+> recorded the symptom as a limitation instead of chasing it. The mute/by-design/reaches split for
+> the claims it *did* see stands; the totals do not.
 
 **Answers:** the P1 raised by [[experiments.e71-why-the-pool-was-empty]] ·
 **Code:** `experiments/e72-can-it-reach-a-player/` · **Date:** 2026-08-31 ·

@@ -22,10 +22,25 @@ these games, which is worth knowing too.
 
 ==============================================================================
 
-GENERATED 2026-09-01 from commit 2b1893f.
+GENERATED 2026-09-01 from commit 2afecdc.
 Marks on this sheet judge THAT code. If a detector changes afterwards its
 marks stop being evidence about it -- record this line with them.
 
+
+out_of_book.any.own
+    claims: You are out of known opening theory sooner than players at your level.
+    363 instances across 7 players
+------------------------------------------------------------------------------
+  [ ] Hirsican              move   3  Black cxd4     lost   0.5 wp
+      lichess.org/vyI9oLv3#6
+  [ ] Maximilian_Honigtopf  move   4  Black Nxe5     lost   0.0 wp
+      lichess.org/cSse4sLl#8
+  [ ] cademan               move   3  Black Nc6      lost   0.0 wp
+      lichess.org/i5zmp6hB#6
+  [ ] maxhayastan           move   4  Black Nd7      lost   1.4 wp
+      lichess.org/GInElwNz#8
+  [ ] maxhayastan           move   5  White d4       lost   0.0 wp
+      lichess.org/CRNg7hA1#9
 
 early_error.white.own
     claims: You go wrong early as White.
@@ -444,11 +459,17 @@ fires wrongly, and it cannot be seen from the sheet above.
   executed_motif.skewer.own
   executed_motif.trappedPiece.own
   instant_move_error.instant_moves.own
+  late_castling.book.own
+  late_castling.own.own
   missed_motif.fork.own
   missed_motif.hangingPiece.own
   missed_motif.skewer.own
+  pawn_error.any.own
   plays_queenless.any.own
+  repeat_move.any.own
+  slow_development.book.own
+  slow_development.own.own
   time_budget_error.after_overspending.own
 
 ==============================================================================
-26 claims with instances, 24 that never fired, 50 in the vocabulary.
+27 claims with instances, 30 that never fired, 57 in the vocabulary.
