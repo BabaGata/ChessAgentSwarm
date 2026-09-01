@@ -52,6 +52,110 @@ _START = re.compile(r"\*\*\*\s*START OF (?:THE|THIS) PROJECT GUTENBERG.*?\*\*\*"
 _END = re.compile(r"\*\*\*\s*END OF (?:THE|THIS) PROJECT GUTENBERG.*?\*\*\*", re.I)
 
 
+
+# Runs of newlines, so the wrap can be told from the paragraph break.
+_NEWLINES = re.compile(r"\n+")
+
+# Where a sentence ends, for the rare paragraph too long to be a passage on its
+# own. Kept greedy about the closing punctuation so an abbreviation does not
+# split a sentence in half.
+_SENTENCE_END = re.compile(r"(?<=[.!?])\s+")
+
+
+
+def _paragraphs(text: str) -> list[str]:
+    """A text split at its paragraph breaks, with the wrap detected not assumed.
+
+    **These books are double-spaced.** A wrapped line ends with two newlines and
+    a paragraph ends with four, measured across all three: run lengths are
+    `2 x 2783, 4 x 1637` in Capablanca and the same shape in the others, with no
+    odd lengths at all. Splitting on a blank line -- correct for ordinary text --
+    therefore cut every *line*, which turned 4,434 paragraphs into 4,434
+    fragments of at most 75 characters and made paragraph-aware chunking a
+    no-op that looked like it worked.
+
+    So the wrap is the **most common** run length and a paragraph is anything
+    longer. The exception is a text with only one run length: nothing longer
+    exists to contrast with, so there is no wrap to detect and every break is a
+    paragraph break. That is the ordinary single-spaced case.
+
+    Wrap newlines inside a paragraph collapse to spaces, which is what makes a
+    quoted passage readable rather than typeset to somebody else's column width.
+    """
+    runs = {}
+    for match in _NEWLINES.finditer(text):
+        length = len(match.group(0))
+        runs[length] = runs.get(length, 0) + 1
+    if not runs:
+        stripped = " ".join(text.split())
+        return [stripped] if stripped else []
+
+    if len(runs) == 1:
+        wrap = 0
+    else:
+        wrap = max(runs, key=lambda length: runs[length])
+
+    parts = re.split(rf"\n{{{wrap + 1},}}", text)
+    return [" ".join(part.split()) for part in parts if part.strip()]
+
+
+def _chunks(text: str) -> list[str]:
+    """A book divided at its own paragraph breaks, packed up to the cap.
+
+    **Paragraphs, not a fixed stride.** Stepping every `PASSAGE_CHARS`
+    characters was chosen when a passage only had to *contain* a search term. It
+    is wrong for the two things the shelf is now asked to do: a passage that
+    spans the end of one topic and the start of another has an embedding that
+    means neither, and a passage beginning *"ack would be lost, as calculation
+    easily shows"* cannot be shown to a player -- and showing the text is the
+    point of quoting a book.
+
+    Paragraphs are the author's own division of their argument, so they are the
+    boundary to keep. Short ones are packed together, because one paragraph per
+    passage would make retrieval return fragments. A paragraph longer than the
+    cap on its own is split at sentence ends, and only then.
+    """
+    passages: list[str] = []
+    current: list[str] = []
+    size = 0
+
+    def flush() -> None:
+        nonlocal current, size
+        if current:
+            passages.append("\n\n".join(current).strip())
+            current, size = [], 0
+
+    for paragraph in _paragraphs(text):
+        if not paragraph:
+            continue
+        if len(paragraph) > PASSAGE_CHARS:
+            flush()
+            passages.extend(_split_long(paragraph))
+            continue
+        if size + len(paragraph) > PASSAGE_CHARS:
+            flush()
+        current.append(paragraph)
+        size += len(paragraph) + 2
+    flush()
+    return [p for p in passages if p]
+
+
+def _split_long(paragraph: str) -> list[str]:
+    """One over-long paragraph, cut at sentence ends rather than mid-word."""
+    parts: list[str] = []
+    current: list[str] = []
+    size = 0
+    for sentence in _SENTENCE_END.split(paragraph):
+        if size + len(sentence) > PASSAGE_CHARS and current:
+            parts.append(" ".join(current).strip())
+            current, size = [], 0
+        current.append(sentence)
+        size += len(sentence) + 1
+    if current:
+        parts.append(" ".join(current).strip())
+    return parts
+
+
 @dataclass(frozen=True)
 class Book:
     """One book on the shelf, with what a citation needs."""
@@ -140,8 +244,44 @@ class BookLibrary:
             text = self.texts.get(book.slug)
             if not text:
                 continue
-            for index, start in enumerate(range(0, len(text), PASSAGE_CHARS)):
-                yield book, f"{SCHEME}{book.slug}#{index}", text[start:start + PASSAGE_CHARS]
+            for index, passage in enumerate(_chunks(text)):
+                yield book, f"{SCHEME}{book.slug}#{index}", passage
+
+    def passage_at(self, locator: str) -> str | None:
+        """The text a `book://slug#index` locator names, or None.
+
+        None for a locator this shelf cannot resolve -- a book that is not
+        downloaded, or an index past the end -- rather than an empty string,
+        which would read as "the passage is blank".
+        """
+        if not locator.startswith(SCHEME):
+            return None
+        slug, _, index = locator[len(SCHEME):].partition("#")
+        text = self.texts.get(slug)
+        if not text or not index.isdigit():
+            return None
+        for at, (_, found, passage) in enumerate(self.all_passages()):
+            if found == locator:
+                return passage
+        return None
+
+    def citation_holds(self, quoted: str, locator: str) -> bool:
+        """Does the passage this locator names still contain the quoted text?
+
+        **The invariant that makes re-chunking safe.** A locator is positional --
+        `#7` is the seventh passage -- so any change to how a book is divided
+        moves what every stored citation points at, silently. An endorsed entry
+        whose quote no longer appears in its own source is worse than an
+        unendorsed one, because it still looks checked.
+
+        Whitespace is normalised on both sides: passages are wrapped at the
+        column the book was typeset to, and a quote copied out of one carries
+        those line breaks.
+        """
+        passage = self.passage_at(locator)
+        if passage is None or not quoted.strip():
+            return False
+        return " ".join(quoted.split()) in " ".join(passage.split())
 
     def passages(self, terms, limit: int = 4) -> list[tuple[Book, str, str]]:
         """Passages mentioning the terms, as (book, locator, text).

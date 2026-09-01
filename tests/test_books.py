@@ -89,3 +89,71 @@ LICENCED_BODY = (
     "the only move in which two pieces are moved at once. It brings the King "
     "into safety behind its own pawns and develops the Rook towards the centre. "
 ) * 6
+
+
+class TestPassagesFollowParagraphs:
+    """Chunking used to step through a book every 2,400 characters.
+
+    That size was chosen for term search, where a passage only has to *contain*
+    a word. It is wrong for two things the shelf is now asked to do:
+
+    * **embedding** -- a passage spanning the end of one topic and the start of
+      another has a vector that means neither, which is how "why should I castle
+      early" retrieved a passage about giving odds;
+    * **quoting** -- a passage beginning "ack would be lost, as calculation
+      easily shows" cannot be shown to a player, and showing text is the point.
+
+    Paragraphs are the author's own division of their argument, so they are the
+    boundary to respect. The cap stays: a passage still has to fit in a prompt.
+    """
+
+    def _library(self, text: str):
+        from chesscoach.books import Book, BookLibrary
+        return BookLibrary(texts={"b": text}, shelf=(Book("b", "B", "A", "1900"),))
+
+    def test_a_passage_starts_at_a_paragraph(self):
+        text = "\n\n".join(f"Paragraph {n}. " + "word " * 100 for n in range(6))
+        library = self._library(text)
+
+        for _, _, passage in library.all_passages():
+            assert passage.startswith("Paragraph"), passage[:40]
+
+    def test_no_passage_ends_mid_word(self):
+        text = "\n\n".join(f"Paragraph {n}. " + "word " * 100 for n in range(6))
+
+        for _, _, passage in self._library(text).all_passages():
+            assert passage.rstrip()[-1] not in "abcdefghijklmnopqrstuvwxyz" or \
+                passage.rstrip().endswith("word")
+
+    def test_short_paragraphs_are_packed_together(self):
+        # One paragraph per passage would make retrieval return fragments.
+        text = "\n\n".join(f"Short {n}." for n in range(40))
+        passages = list(self._library(text).all_passages())
+
+        assert len(passages) == 1
+        assert "Short 0." in passages[0][2] and "Short 39." in passages[0][2]
+
+    def test_the_cap_is_respected(self):
+        from chesscoach.books import PASSAGE_CHARS
+        text = "\n\n".join("word " * 200 for _ in range(20))
+
+        for _, _, passage in self._library(text).all_passages():
+            assert len(passage) <= PASSAGE_CHARS * 1.5
+
+    def test_a_paragraph_longer_than_the_cap_is_split_at_a_sentence(self):
+        from chesscoach.books import PASSAGE_CHARS
+        giant = " ".join(f"This is sentence number {n}." for n in range(400))
+        passages = [p for _, _, p in self._library(giant).all_passages()]
+
+        assert len(passages) > 1
+        for passage in passages[:-1]:
+            assert passage.rstrip().endswith("."), passage[-40:]
+
+    def test_locators_stay_dense_and_ordered(self):
+        text = "\n\n".join("word " * 200 for _ in range(20))
+        locators = [loc for _, loc, _ in self._library(text).all_passages()]
+
+        assert locators == [f"book://b#{n}" for n in range(len(locators))]
+
+    def test_an_empty_book_yields_nothing(self):
+        assert list(self._library("   \n\n  ").all_passages()) == []

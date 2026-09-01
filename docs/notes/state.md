@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788253200000
+updated: 1788260400000
 created: 1785254500000
 ---
 
@@ -265,10 +265,16 @@ struck through: a list nobody can act on is not a plan.
    repeated timeouts with one — R-17's shape again. Expanding it is data volume rather than
    mechanism, so stage 2 proceeded without it; retry when the service is up.
 
-0. **P1 — chunking is tuned for term search, not for embedding.** 2,400-character passages ignore
-   paragraph boundaries and start mid-word, which hurts both retrieval quality and quotability.
-   *"Why should I castle early"* returns a passage about giving odds. Paragraph-aware chunking is the
-   obvious next improvement to the book layer.
+0. **DONE — chunking follows paragraphs** → [[experiments.e78-rechunk]]. Passages starting
+   mid-sentence fell from **165 of 544 to 11 of 529**, and *"why should I castle early"* stopped
+   returning a passage about giving odds. **The books turned out to be double-spaced** — a wrapped
+   line ends with two newlines and a paragraph with four — so splitting on a blank line cut every
+   line and did nothing; the wrap is now detected rather than assumed. 28 stored citations
+   re-anchored, 3 already correct, 1 straddles a new boundary and is reported rather than guessed at.
+
+0. **P2 — overlapping passage windows.** Would have avoided the one straddled quote and are standard
+   in retrieval; not done because they move locator semantics again and one case in fourteen did not
+   justify it. Revisit if extraction produces many more.
 
 0. **P2 — the books are in descriptive notation** (`P-K4`, `Kt-KB3`), which the embedder has little
    reason to relate to a question asked in modern terms. Measured as a weakness, not yet addressed.
