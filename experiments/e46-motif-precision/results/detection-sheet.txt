@@ -22,7 +22,7 @@ these games, which is worth knowing too.
 
 ==============================================================================
 
-GENERATED 2026-08-31 from commit 75e6dff.
+GENERATED 2026-09-01 from commit 2b1893f.
 Marks on this sheet judge THAT code. If a detector changes afterwards its
 marks stop being evidence about it -- record this line with them.
 

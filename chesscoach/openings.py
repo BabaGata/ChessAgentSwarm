@@ -41,7 +41,15 @@ import chess
 
 # Where a fetched book lives. Regenerable, so it is not committed -- the same
 # convention the corpora follow.
-DEFAULT_BOOK = Path("data/openings/book.json")
+# Absolute, resolved from this file, like the two norms files that live beside
+# it. It was relative to the **working directory** until 2026-09-01, and the
+# damage was invisible: every experiment runs from its own folder, so
+# `OpeningBook.load()` raised, `s4._references` caught it and returned
+# `(None, None)` -- the correct "silence the claims rather than fake them" rule
+# -- and the five development claims vanished from the detection sheet without
+# ever being listed as absent. The author was asked to mark a sheet that had
+# quietly dropped a whole family of claims.
+DEFAULT_BOOK = Path(__file__).resolve().parent.parent / "data" / "openings" / "book.json"
 
 SOURCE_URL = "https://github.com/lichess-org/chess-openings"
 SOURCE_LICENCE = "CC0-1.0"

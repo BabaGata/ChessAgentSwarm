@@ -107,3 +107,38 @@ class TestWalkingAGame:
         walk = a_book().walk(moves)
 
         assert walk.left_by_white is False  # ply 6 is Black's move
+
+
+class TestTheDefaultBookPathIsNotRelativeToTheShell:
+    """A relative default silently deleted five claims from the detection sheet.
+
+    `DEFAULT_BOOK` was `Path("data/openings/book.json")` -- resolved against the
+    **working directory**. Every experiment that runs from its own folder, which
+    is all of them, got a FileNotFoundError; `s4._references` caught it and
+    returned `(None, None)`, which is the correct "missing data must silence the
+    claims, never fake them" rule; and `_count_development` returned early. The
+    result was a sheet with **no development claims at all** -- not marked wrong,
+    not listed as never firing, simply absent -- for as long as they have
+    existed. The two norms files next to it were always absolute.
+    """
+
+    def test_the_default_is_absolute(self):
+        from chesscoach.openings import DEFAULT_BOOK
+
+        assert DEFAULT_BOOK.is_absolute()
+
+    def test_it_loads_from_any_working_directory(self, tmp_path, monkeypatch):
+        from chesscoach.openings import DEFAULT_BOOK, OpeningBook
+
+        if not DEFAULT_BOOK.exists():
+            pytest.skip("book not fetched in this checkout")
+        monkeypatch.chdir(tmp_path)
+
+        assert len(OpeningBook.load()) > 0
+
+    def test_the_book_sits_beside_the_norms_it_is_used_with(self):
+        from chesscoach.book_depth import DEFAULT_NORMS as BOOK_DEPTH_NORMS
+        from chesscoach.development_norms import DEFAULT_NORMS as DEV_NORMS
+        from chesscoach.openings import DEFAULT_BOOK
+
+        assert DEFAULT_BOOK.parent == DEV_NORMS.parent == BOOK_DEPTH_NORMS.parent
