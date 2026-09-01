@@ -22,40 +22,25 @@ these games, which is worth knowing too.
 
 ==============================================================================
 
-GENERATED 2026-09-01 from commit 2afecdc.
+GENERATED 2026-09-01 from commit f15fd21.
 Marks on this sheet judge THAT code. If a detector changes afterwards its
 marks stop being evidence about it -- record this line with them.
 
 
 out_of_book.any.own
     claims: You are out of known opening theory sooner than players at your level.
-    363 instances across 7 players
+    262 instances across 5 players
 ------------------------------------------------------------------------------
   [ ] Hirsican              move   3  Black cxd4     lost   0.5 wp
       lichess.org/vyI9oLv3#6
-  [ ] Maximilian_Honigtopf  move   4  Black Nxe5     lost   0.0 wp
-      lichess.org/cSse4sLl#8
-  [ ] cademan               move   3  Black Nc6      lost   0.0 wp
-      lichess.org/i5zmp6hB#6
-  [ ] maxhayastan           move   4  Black Nd7      lost   1.4 wp
-      lichess.org/GInElwNz#8
-  [ ] maxhayastan           move   5  White d4       lost   0.0 wp
-      lichess.org/CRNg7hA1#9
-
-early_error.white.own
-    claims: You go wrong early as White.
-    200 instances across 6 players
-------------------------------------------------------------------------------
-  [ ] Crossfire1983         move  10  White f5       lost   7.8 wp
-      lichess.org/F5E8p3lR#19
-  [ ] Crossfire1983         move  13  White Nxh4     lost   9.6 wp
-      lichess.org/akv2n6B0#25
-  [ ] Maximilian_Honigtopf  move  10  White Nd5      lost   5.5 wp
-      lichess.org/R9GJUKUy#19
-  [ ] Maximilian_Honigtopf  move  10  White gxf3     lost   9.9 wp
-      lichess.org/IGCmSgiy#19
-  [ ] bjagus                move  12  White a3       lost   6.7 wp
-      lichess.org/3JoG4ezs#23
+  [ ] Odin5306              move   3  Black e6       lost   0.0 wp
+      lichess.org/w9NbB3Q6#6
+  [ ] Odin5306              move   4  White Qa4+     lost   0.0 wp
+      lichess.org/Ze3vfsXZ#7
+  [ ] Odin5306              move   5  Black Be7      lost   0.0 wp
+      lichess.org/Wdtrc0A6#10
+  [ ] maxhayastan           move   5  Black Nc6      lost   2.5 wp
+      lichess.org/OK82drHY#10
 
 long_think_error.long_think.own
     claims: Your long thinks tend to end in a mistake.
@@ -72,20 +57,20 @@ long_think_error.long_think.own
   [ ] cademan               move  18  White Qf2      lost  15.5 wp
       lichess.org/luxzBEEB#35
 
-early_error.black.own
-    claims: You go wrong early as Black.
-    123 instances across 4 players
+early_error.white.own
+    claims: You go wrong early as White.
+    129 instances across 4 players
 ------------------------------------------------------------------------------
-  [ ] Crossfire1983         move   6  Black f6       lost   6.4 wp
-      lichess.org/PjZgPmwV#12
-  [ ] Crossfire1983         move  14  Black Be7      lost   8.8 wp
-      lichess.org/wiwekygE#28
-  [ ] Hirsican              move  12  Black fxe4     lost  17.5 wp
-      lichess.org/CCoHBALM#24
-  [ ] Maximilian_Honigtopf  move   7  Black Nd4      lost   8.6 wp
-      lichess.org/DRPg8Bme#14
-  [ ] Maximilian_Honigtopf  move  13  Black h6       lost   8.4 wp
-      lichess.org/PbhJDtzW#26
+  [ ] Crossfire1983         move  10  White f5       lost   7.8 wp
+      lichess.org/F5E8p3lR#19
+  [ ] Crossfire1983         move  13  White Nxh4     lost   9.6 wp
+      lichess.org/akv2n6B0#25
+  [ ] bernes                move   8  White dxe6     lost   5.4 wp
+      lichess.org/zNztqNrd#15
+  [ ] bernes                move  14  White Nb3      lost   7.0 wp
+      lichess.org/EGKTN6wj#27
+  [ ] bernes                move  14  White Nb5      lost  12.9 wp
+      lichess.org/qa4FPgCK#27
 
 allowed_motif.hangingPawn.own
     claims: When you go wrong, it is often a pawn you simply drop.
@@ -101,6 +86,21 @@ allowed_motif.hangingPawn.own
       lichess.org/XRE3pBif#51
   [ ] Sheriwoyama           move  35  Black g5       lost   7.4 wp
       lichess.org/cZ8R9TJo#70
+
+early_error.black.own
+    claims: You go wrong early as Black.
+    85 instances across 3 players
+------------------------------------------------------------------------------
+  [ ] Crossfire1983         move   6  Black f6       lost   6.4 wp
+      lichess.org/PjZgPmwV#12
+  [ ] Crossfire1983         move  13  Black Bxf3     lost   9.6 wp
+      lichess.org/VaWiK76d#26
+  [ ] Crossfire1983         move  14  Black Be7      lost   8.8 wp
+      lichess.org/wiwekygE#28
+  [ ] Hirsican              move  12  Black fxe4     lost  17.5 wp
+      lichess.org/CCoHBALM#24
+  [ ] cademan               move  15  Black Nh6      lost  32.5 wp
+      lichess.org/T7AhF7X3#30
 
 allowed_motif.hangingPiece.own
     claims: When you go wrong, it is often a hanging piece that punishes you.
@@ -177,20 +177,35 @@ moved_into_attack.own_move.own
   [ ] simonvj               move   5  Black c5       lost   0.0 wp
       lichess.org/R4HBrccz#10
 
-opening_disadvantage.any.own
-    claims: You come out of the opening worse more often than most.
-    30 instances across 4 players
+pawn_error.any.own
+    claims: pawn_error: any.
+    35 instances across 5 players
 ------------------------------------------------------------------------------
-  [ ] Crossfire1983         move  15  White Kf2      lost   0.0 wp
-      lichess.org/akv2n6B0#29
-  [ ] Maximilian_Honigtopf  move  15  White Nxa8     lost  15.4 wp
-      lichess.org/rEJOQ7iq#29
-  [ ] Maximilian_Honigtopf  move  15  Black b6       lost  20.8 wp
-      lichess.org/wv3KKn9D#30
-  [ ] Sheriwoyama           move  15  White f3       lost   0.0 wp
-      lichess.org/MLDAOao3#29
-  [ ] cademan               move  15  Black b6       lost   3.7 wp
-      lichess.org/i5zmp6hB#30
+  [ ] Crossfire1983         move   8  White g3       lost  11.1 wp
+      lichess.org/F5E8p3lR#15
+  [ ] Crossfire1983         move  10  White f5       lost   7.8 wp
+      lichess.org/F5E8p3lR#19
+  [ ] Hirsican              move   4  White exf6     lost  11.6 wp
+      lichess.org/0tP1Rbmj#7
+  [ ] Hirsican              move  11  Black f6       lost  23.6 wp
+      lichess.org/HFyK2wD9#22
+  [ ] bernes                move  10  Black a6       lost   5.9 wp
+      lichess.org/sy47sFam#20
+
+late_castling.book.own
+    claims: late_castling: book.
+    33 instances across 3 players
+------------------------------------------------------------------------------
+  [ ] Hirsican              move  13  White O-O      lost   0.6 wp
+      lichess.org/0tP1Rbmj#25
+  [ ] Hirsican              move  13  Black O-O-O    lost  12.1 wp
+      lichess.org/b3xwTVVW#26
+  [ ] Hirsican              move  16  White O-O      lost   0.0 wp
+      lichess.org/9bsVByg5#31
+  [ ] Hirsican              move  20  White O-O      lost   0.0 wp
+      lichess.org/8zsVzk0T#39
+  [ ] Hirsican              move  25  Black O-O-O    lost   0.0 wp
+      lichess.org/CCoHBALM#50
 
 concedes_weakness.backward.own
     claims: You end up with backward pawns more often than players at your level.
@@ -266,6 +281,21 @@ time_pressure_error.clock.own
       lichess.org/5w0MJrWh#68
   [ ] maikel5               move  36  Black Be8      lost   7.5 wp
       lichess.org/FX7viBFV#72
+
+opening_disadvantage.any.own
+    claims: You come out of the opening worse more often than most.
+    21 instances across 3 players
+------------------------------------------------------------------------------
+  [ ] Crossfire1983         move  15  White Kf2      lost   0.0 wp
+      lichess.org/akv2n6B0#29
+  [ ] Crossfire1983         move  15  Black f6       lost  13.6 wp
+      lichess.org/HCSdfcrh#30
+  [ ] cademan               move  11  Black O-O      lost   4.4 wp
+      lichess.org/fo421TTq#22
+  [ ] cademan               move  15  Black dxe5     lost   2.8 wp
+      lichess.org/QjeRmzq0#30
+  [ ] cademan               move  15  Black c5       lost  11.8 wp
+      lichess.org/A38Dr6lK#30
 
 missed_motif.capturingDefender.own
     claims: You miss capturing the defender tactics that were available.
@@ -459,12 +489,10 @@ fires wrongly, and it cannot be seen from the sheet above.
   executed_motif.skewer.own
   executed_motif.trappedPiece.own
   instant_move_error.instant_moves.own
-  late_castling.book.own
   late_castling.own.own
   missed_motif.fork.own
   missed_motif.hangingPiece.own
   missed_motif.skewer.own
-  pawn_error.any.own
   plays_queenless.any.own
   repeat_move.any.own
   slow_development.book.own
@@ -472,4 +500,4 @@ fires wrongly, and it cannot be seen from the sheet above.
   time_budget_error.after_overspending.own
 
 ==============================================================================
-27 claims with instances, 30 that never fired, 57 in the vocabulary.
+29 claims with instances, 28 that never fired, 57 in the vocabulary.
