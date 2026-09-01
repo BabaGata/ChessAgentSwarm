@@ -475,6 +475,14 @@ _GENERIC = frozenset({
     "attack", "attacks", "attacked", "attacking", "tactic", "tactics",
     "defend", "defender", "defence", "defense", "square", "squares",
     "capture", "captured", "material", "advantage", "weakness", "weak",
+    # Added 2026-09-01: words that appear on nearly every page of a chess book
+    # and therefore separate nothing. `key_terms("skewer chess tactic")` kept
+    # "chess", which passed all six candidate passages for a term E64 measured
+    # as appearing **zero times** on the shelf -- a filter keyed on a word the
+    # whole corpus shares is not a filter.
+    "chess", "chessboard", "board", "game", "games", "player", "players",
+    "piece", "pieces", "move", "moves", "moved", "position", "positions",
+    "play", "playing", "played", "white", "black",
 })
 
 

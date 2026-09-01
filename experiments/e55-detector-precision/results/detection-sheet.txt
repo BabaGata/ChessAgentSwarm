@@ -149,75 +149,84 @@ allowed_motif.pin.own
     claims: When you go wrong, it is often a pin that punishes you.
     38 instances across 3 players
 ------------------------------------------------------------------------------
-  [ ] Hirsican              move  13  Black Be6      lost  15.8 wp
+  [y] Hirsican              move  13  Black Be6      lost  15.8 wp
       lichess.org/NF4Pv6NH#26
-  [ ] Hirsican              move  26  Black Qxa2     lost   5.6 wp
+  [n] Hirsican              move  26  Black Qxa2     lost   5.6 wp
       lichess.org/vyI9oLv3#52
-  [ ] Hirsican              move  27  White Rf3      lost  32.5 wp
+      There was just no pin here
+  [y] Hirsican              move  27  White Rf3      lost  32.5 wp
       lichess.org/9bsVByg5#53
-  [ ] Maximilian_Honigtopf  move  10  Black b4       lost   7.5 wp
+  [n] Maximilian_Honigtopf  move  10  Black b4       lost   7.5 wp
       lichess.org/6RId8MgM#20
-  [ ] maxhayastan           move  28  Black Kf7      lost   9.7 wp
+      This was not a pin, only a pawn take with a check. What could be detected here as a pin is that the pawn is pinned because the rook is behind, but this will not lead to any material loss or ruin of the pawn structure because it can be easily deffended.
+  [n] maxhayastan           move  28  Black Kf7      lost   9.7 wp
       lichess.org/GInElwNz#56
+      There is no pin here. What could be detected as a pin is that the white pawn is behind the black rook and it might have been that the white pawn was counted as a pinned piece.
 
 allows_pressure.king.own
     claims: Attacks build against your king more readily than against players at your level.
     37 instances across 4 players
 ------------------------------------------------------------------------------
-  [ ] Crossfire1983         move  24  White Rxe1     lost   0.0 wp
+  [n] Crossfire1983         move  24  White Rxe1     lost   0.0 wp
       lichess.org/UJQuSlPA#47
-  [ ] Crossfire1983         move  40  White Kf2      lost   0.0 wp
+      This is an endgame, a few checks happen regularly in the endgame. King pressure usually happens when king is cornered and there are enough attacking pieces to make potential treat for checkmate. King on the middle of the board with plenty of squeares to move away should not be considered as pressuered.
+  [n] Crossfire1983         move  40  White Kf2      lost   0.0 wp
       lichess.org/UHtZUK7r#79
-  [ ] Hirsican              move  18  Black Rhg8     lost   0.0 wp
+      This is again endgame and not much probablilty of mating the king, it should not be considered as a pressure on the king.
+  [y] Hirsican              move  18  Black Rhg8     lost   0.0 wp
       lichess.org/b3xwTVVW#36
-  [ ] bjagus                move  18  Black Kg7      lost   0.0 wp
+  [y] bjagus                move  18  Black Kg7      lost   0.0 wp
       lichess.org/EhpUEfZ6#36
-  [ ] bjagus                move  23  Black Kg7      lost  17.3 wp
+  [n] bjagus                move  23  Black Kg7      lost  17.3 wp
       lichess.org/wW19J75A#46
+      The black king has planty of space to move away from the attack and the white does not have enough material in the attack compared to the black pieces that can be easily brougth back to the defense to make any serious pressure.
 
 moved_into_attack.own_move.own
     claims: You put the piece you have just moved on a square where it can be won, more often than players at your level.
     36 instances across 3 players
 ------------------------------------------------------------------------------
-  [ ] Maximilian_Honigtopf  move  16  White f5       lost   2.1 wp
+  [y] Maximilian_Honigtopf  move  16  White f5       lost   2.1 wp
       lichess.org/PbdhoGlR#31
-  [ ] cademan               move  19  White g5       lost   2.9 wp
+  [y] cademan               move  19  White g5       lost   2.9 wp
       lichess.org/44m0CDnV#37
-  [ ] cademan               move  24  White Na4      lost  37.6 wp
+  [y] cademan               move  24  White Na4      lost  37.6 wp
       lichess.org/44m0CDnV#47
-  [ ] cademan               move  37  White Nc3      lost  13.9 wp
+  [y] cademan               move  37  White Nc3      lost  13.9 wp
       lichess.org/ytkNIOc2#73
-  [ ] simonvj               move   5  Black c5       lost   0.0 wp
+  [?] simonvj               move   5  Black c5       lost   0.0 wp
       lichess.org/R4HBrccz#10
+      This could be a normal move in the opening.
 
 pawn_error.any.own
     claims: pawn_error: any.
     35 instances across 5 players
 ------------------------------------------------------------------------------
-  [ ] Crossfire1983         move   8  White g3       lost  11.1 wp
+  [?] Crossfire1983         move   8  White g3       lost  11.1 wp
       lichess.org/F5E8p3lR#15
-  [ ] Crossfire1983         move  10  White f5       lost   7.8 wp
+  [?] Crossfire1983         move  10  White f5       lost   7.8 wp
       lichess.org/F5E8p3lR#19
-  [ ] Hirsican              move   4  White exf6     lost  11.6 wp
+  [?] Hirsican              move   4  White exf6     lost  11.6 wp
       lichess.org/0tP1Rbmj#7
-  [ ] Hirsican              move  11  Black f6       lost  23.6 wp
+  [?] Hirsican              move  11  Black f6       lost  23.6 wp
       lichess.org/HFyK2wD9#22
-  [ ] bernes                move  10  Black a6       lost   5.9 wp
+  [?] bernes                move  10  Black a6       lost   5.9 wp
       lichess.org/sy47sFam#20
+      What does it mean pawn error any. What can be learned from that, what can be done to make this weakness better? I don't see any value from this kind information.
 
 late_castling.book.own
     claims: late_castling: book.
     33 instances across 3 players
 ------------------------------------------------------------------------------
-  [ ] Hirsican              move  13  White O-O      lost   0.6 wp
+  [n] Hirsican              move  13  White O-O      lost   0.6 wp
       lichess.org/0tP1Rbmj#25
-  [ ] Hirsican              move  13  Black O-O-O    lost  12.1 wp
+      In this example white took opportunities in the opening and now is better of even though he castled late. This should be taken in the account only when there are repeated bad moves before having the opportunity to castle.
+  [y] Hirsican              move  13  Black O-O-O    lost  12.1 wp
       lichess.org/b3xwTVVW#26
-  [ ] Hirsican              move  16  White O-O      lost   0.0 wp
+  [y] Hirsican              move  16  White O-O      lost   0.0 wp
       lichess.org/9bsVByg5#31
-  [ ] Hirsican              move  20  White O-O      lost   0.0 wp
+  [?] Hirsican              move  20  White O-O      lost   0.0 wp
       lichess.org/8zsVzk0T#39
-  [ ] Hirsican              move  25  Black O-O-O    lost   0.0 wp
+  [y] Hirsican              move  25  Black O-O-O    lost   0.0 wp
       lichess.org/CCoHBALM#50
 
 concedes_weakness.backward.own

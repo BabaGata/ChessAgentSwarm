@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788260400000
+updated: 1788271200000
 created: 1785254500000
 ---
 
@@ -244,6 +244,26 @@ struck through: a list nobody can act on is not a plan.
    a pawn is too small to call a fork ([[experiments.e57-fork-rebuilt]]).
 
 ### Open, and unblocked
+
+0. **STAGE 3 BUILT — extraction and corroboration** → [[experiments.e79-corroboration]]
+   *(2026-09-01)*. 7 books, **6 independent lineages**, 1,159 passages. **16 concepts of 19 reach two
+   independent voices**; the 3 refused — `skewer` (0 passages), `trappedPiece`, `hangingPiece` — are
+   exactly the modern tactical vocabulary E64 predicted a pre-1929 shelf would lack. A first run
+   reported **19 of 19 at every threshold** because the method was circular: retrieve for similarity,
+   then measure similarity. The sweep is what exposed it.
+
+0. **P1 — the agreement half of the rule is not discriminating.** Sweeping it gives 16 servable at
+   0.50 through 0.75 and 15 at 0.80, so what is measured is *"two lineages use this term"* rather
+   than *"describe it similarly"*. The author's rule has two halves and only one is currently doing
+   work.
+
+0. **P1 — the model judge refuses nothing.** `qwen3:8b`, given an explicit criterion and a refusal
+   option, kept **15 of 15** passages, including one about "services rendered his countrymen" as an
+   explanation of castling. E63 spent two prompt attempts on the same judgement; this run supplied
+   the criterion E63 said was missing and the answer did not change. **A deterministic vocabulary
+   gate does all the discrimination.** Worth writing up as a thesis result about small models as
+   relevance judges.
+
 
 0. **STAGE 1 BUILT — the graph knowledge base** → [[design.graph-knowledge-base]]
    *(2026-09-01)*. Neo4j 5.26.30 Community in a container, `docker-compose.yml` at the root with
