@@ -30,6 +30,7 @@ from dataclasses import dataclass, field
 from types import TracebackType
 
 from chesscoach.chess_rules import movement_rules, outcome_rules, time_control_rules
+from chesscoach.embedding import DIMENSIONS, embed, embed_all
 
 DEFAULT_URI = "bolt://localhost:7687"
 DEFAULT_USER = "neo4j"
@@ -184,6 +185,97 @@ class GraphStore:
             written += 1
 
         return written
+
+    # How many passages to embed per request. One at a time is a minute of
+    # round trips for the current shelf; all 607 at once is a single request
+    # large enough that a failure costs the whole run.
+    EMBED_BATCH = 32
+
+    def ensure_vector_index(self) -> None:
+        """The index that makes "passages near this question" a query.
+
+        Verified on `neo4j:5-community` 5.26.30 before the design relied on it,
+        so the vector half needs no second database.
+        """
+        self._run(
+            "CREATE VECTOR INDEX passage_embedding IF NOT EXISTS "
+            "FOR (p:Passage) ON (p.embedding) "
+            "OPTIONS {indexConfig: {`vector.dimensions`: $dimensions, "
+            "`vector.similarity_function`: 'cosine'}}",
+            dimensions=DIMENSIONS,
+        )
+
+    def load_passages(self, library, embedder=embed_all) -> int:
+        """Every passage on the shelf, with its vector and its citation.
+
+        **No claims are extracted here and that is the stage.** A passage is the
+        book's own words, keyed by the `book://slug#index` locator that
+        `BookLibrary.all_passages` decides -- so anything retrieved can be quoted
+        and attributed, and nothing has been interpreted yet.
+
+        Passages already carrying an embedding are skipped, which makes a second
+        run cheap rather than another pass over the whole shelf.
+        """
+        pending = [
+            (book, locator, text)
+            for book, locator, text in library.all_passages()
+            if text.strip()
+        ]
+        if not pending:
+            return 0
+
+        known = {
+            row["id"] for row in self._run(
+                "MATCH (p:Passage) WHERE p.embedding IS NOT NULL RETURN p.id AS id")
+        }
+        pending = [row for row in pending if row[1] not in known]
+
+        for book in {b.slug: b for b, _, _ in pending}.values():
+            self._run(
+                "MERGE (s:Source {id: $id}) "
+                "SET s.title = $title, s.author = $author, s.year = $year, "
+                "    s.evidence_class = $evidence_class, "
+                # Lineage, not file. Corroboration counts independent
+                # publications, and pre-1929 chess books copy each other, so a
+                # count over files would measure ancestry.
+                "    s.lineage = $lineage",
+                id=book.slug, title=book.title, author=book.author,
+                year=book.year, evidence_class=book.evidence_class,
+                lineage=f"{book.author}|{book.year}",
+            )
+
+        written = 0
+        for start in range(0, len(pending), self.EMBED_BATCH):
+            batch = pending[start:start + self.EMBED_BATCH]
+            vectors = embedder([text for _, _, text in batch])
+            for (book, locator, text), vector in zip(batch, vectors):
+                self._run(
+                    "MERGE (p:Passage {id: $id}) "
+                    "SET p.text = $text, p.book = $book "
+                    "WITH p CALL db.create.setNodeVectorProperty(p, 'embedding', $vector) "
+                    "WITH p MATCH (s:Source {id: $book}) MERGE (p)-[:FROM]->(s)",
+                    id=locator, text=text, book=book.slug, vector=vector,
+                )
+                written += 1
+        return written
+
+    def search(self, question: str, k: int = 4) -> list[dict]:
+        """The passages nearest a question, with what a citation needs.
+
+        Returns the book's own text and its locator, never a summary: at this
+        stage the base has read nothing and interpreted nothing, and an answer
+        built on this quotes a book or it says nothing.
+        """
+        vector = embed(question)
+        rows = self._run(
+            "CALL db.index.vector.queryNodes('passage_embedding', $k, $vector) "
+            "YIELD node, score "
+            "MATCH (node)-[:FROM]->(s:Source) "
+            "RETURN node.id AS locator, node.text AS text, score, "
+            "       s.title AS title, s.author AS author, s.year AS year",
+            k=k, vector=vector,
+        )
+        return [dict(row) for row in rows]
 
     def counts(self) -> dict[str, int]:
         """How many nodes of each label. The cheapest check that a load worked."""

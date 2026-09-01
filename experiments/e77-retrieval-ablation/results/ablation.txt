@@ -1,0 +1,161 @@
+DOES RETRIEVAL MAKE A SMALL MODEL BETTER AT CHESS QUESTIONS?
+============================================================================================
+
+model phi4-mini:3.8b, k=3, temperature 0.3, seed 7.
+
+Correctness needs a chess player and is left to one. What is scored
+here is whether a cited locator is real, which is machine-checkable and
+is what V8 demands of everything else in this project.
+
+============================================================================================
+[rules] How does a knight move?
+============================================================================================
+
+  ALONE
+  ----------------------------------------------------------------------------------------
+    A knight moves in an L-shape: two squares in one direction and then one square perpendicular to that direction. It can jump over other pieces, making it unique among the chess pieces. This allows it to access both light and dark squares efficiently. Understanding its movement is crucial for both offensive and defensive strategies.
+
+  WITH RETRIEVAL (1 passages)
+  ----------------------------------------------------------------------------------------
+    A knight moves in an L-shape: two squares along one axis and one along the other. It jumps over any pieces that may be in its path. For example, from d4, it can attack b3, b5, c2, c6, e2, e6, f3, and f5. SOURCE: [rule://how the knight moves]
+    citation: REAL — rule://how the knight moves
+
+  retrieved:
+    rule://how the knight moves
+
+============================================================================================
+[rules] What is stalemate, and how is it different from checkmate?
+============================================================================================
+
+  ALONE
+  ----------------------------------------------------------------------------------------
+    Stalemate occurs when a player has no legal moves and their king is not in check, meaning the game ends in a draw. Unlike checkmate, where a player's king is in check and has no legal moves to escape, stalemate results in a draw because the player cannot make any move. It's crucial to recognize stalemate to avoid unnecessary losses in a game. Understanding both situations helps in strategizing better during matches.
+
+  WITH RETRIEVAL (3 passages)
+  ----------------------------------------------------------------------------------------
+    Stalemate occurs when the side to move is not in check but has no legal moves left, resulting in a draw. In contrast, checkmate happens when the side to move is in check and has no legal moves to escape the check, leading to a loss for that side. SOURCE: rule://stalemate and rule://checkmate
+    citation: REAL — rule://stalemate and rule://checkmate
+
+  retrieved:
+    rule://stalemate
+    rule://checkmate
+    rule://check
+
+============================================================================================
+[rules] What counts as a rapid game rather than blitz?
+============================================================================================
+
+  ALONE
+  ----------------------------------------------------------------------------------------
+    A rapid game typically lasts between 15 to 30 minutes per player, whereas a blitz game is shorter, usually around 5 to 10 minutes per player. Rapid games allow for more strategic thinking and deeper calculation compared to blitz. In rapid, players have more time to think through their moves and plan ahead, while blitz games require quicker, more instinctive play. Rapid games are often played in club settings where players aim to improve their middle-game skills.
+
+  WITH RETRIEVAL (2 passages)
+  ----------------------------------------------------------------------------------------
+    A rapid game is one with an estimated duration under 1500 seconds, which includes the starting clock plus forty increments. A blitz game, on the other hand, has an estimated duration under 480 seconds. SOURCE: rule://rapid
+    citation: REAL — rule://rapid
+
+  retrieved:
+    rule://rapid
+    rule://blitz
+
+============================================================================================
+[rules] When can I capture en passant?
+============================================================================================
+
+  ALONE
+  ----------------------------------------------------------------------------------------
+    You can capture en passant when your opponent moves a pawn two squares forward from its starting position, and it lands beside one of your pawns. This capture must occur immediately on the very next move. The capturing pawn moves diagonally into the square that the opponent's pawn would have occupied if it had moved only one square forward instead. Remember, en passant is only possible in the specific situation described.
+
+  WITH RETRIEVAL (1 passages)
+  ----------------------------------------------------------------------------------------
+    You can capture en passant when your opponent's pawn moves two squares forward from its starting position and lands beside your pawn. You must make this capture on the very next move. SOURCE: rule://how the pawn moves
+    citation: REAL — rule://how the pawn moves
+
+  retrieved:
+    rule://how the pawn moves
+
+============================================================================================
+[concept] What is a backward pawn and why is it a weakness?
+============================================================================================
+
+  ALONE
+  ----------------------------------------------------------------------------------------
+    A backward pawn is a pawn that is isolated and lacks support from its own pieces, usually positioned behind its own pawns. It is a weakness because it can become vulnerable to attacks and difficult to defend, limiting the player's options and weakening their overall position.
+
+  WITH RETRIEVAL (3 passages)
+  ----------------------------------------------------------------------------------------
+    A backward pawn is a pawn that is located on the opposite wing of the board from its own King. It is considered a weakness because it limits the mobility of the King and the pieces that protect it. The King cannot easily come to the defense of the backward pawn, and the pieces that are trying to defend it are also restricted in their movement. This can lead to a loss of material or even the game if the backward pawn is attacked and cannot be defended effectively. In the context of chess strategy, a backward pawn can be a significant disadvantage, as it can lead to a weakened position and potential loss of the game. SOURCE: [book://edward-lasker-chess-strategy#79]
+    citation: REAL — book://edward-lasker-chess-strategy#79
+
+  retrieved:
+    book://edward-lasker-chess-strategy#107
+    book://edward-lasker-chess-strategy#114
+    book://edward-lasker-chess-strategy#79
+
+============================================================================================
+[concept] Why is it usually good to castle early?
+============================================================================================
+
+  ALONE
+  ----------------------------------------------------------------------------------------
+    Castling early helps to safeguard your king by moving it to a safer position away from the center of the board. It also connects your rooks, allowing them to support each other and control more squares. Additionally, it helps to develop your pieces more efficiently. Lastly, it can lead to a faster and more balanced game.
+
+  WITH RETRIEVAL (3 passages)
+  ----------------------------------------------------------------------------------------
+    It is usually good to castle early because the King is less subject to an attack and better able to repel one on the King's side than on the Queen's side. Castle helps to protect the King and connect the Rooks, which are essential for an effective defense and counterattack. SOURCE: [book://capablanca-chess-fundamentals#14]
+    citation: REAL — book://capablanca-chess-fundamentals#14
+
+  retrieved:
+    book://capablanca-chess-fundamentals#14
+    book://edward-lasker-chess-strategy#146
+    book://staunton-blue-book-of-chess#29
+
+============================================================================================
+[concept] What does it mean to control the centre?
+============================================================================================
+
+  ALONE
+  ----------------------------------------------------------------------------------------
+    Controlling the centre means dominating the central squares (d4, d5, e4, e5) on the chessboard. This allows you to have more mobility for your pieces and restricts your opponent's options. It provides a strong foundation for both defensive and offensive strategies. Aim to place pawns and pieces in positions that limit your opponent's movements while maximizing your own.
+
+  WITH RETRIEVAL (3 passages)
+  ----------------------------------------------------------------------------------------
+    Control of the centre means having influence over the four central squares (K4 and Q4) on the chessboard. Controlling these squares is crucial because it allows a player to command more space, restrict the opponent's piece mobility, and facilitate the coordination of one's own pieces. Controlling the centre often gives a player the initiative and a positional advantage. SOURCE: [book://capablanca-chess-fundamentals#13]
+    citation: REAL — book://capablanca-chess-fundamentals#13
+
+  retrieved:
+    book://edward-lasker-chess-strategy#29
+    book://capablanca-chess-fundamentals#13
+    book://edward-lasker-chess-strategy#31
+
+============================================================================================
+[concept] Why are doubled pawns often considered weak?
+============================================================================================
+
+  ALONE
+  ----------------------------------------------------------------------------------------
+    Doubled pawns are often considered weak because they limit the mobility of your pawns, making it harder to support each other and defend your position. They also create weaknesses that your opponent can exploit, as they are less able to protect each other and can become isolated. Additionally, doubled pawns can restrict the movement of your other pieces, reducing your overall flexibility in the game. It's important to avoid creating doubled pawns unless they are strategically advantageous.
+
+  WITH RETRIEVAL (3 passages)
+  ----------------------------------------------------------------------------------------
+    Doubled pawns are often considered weak because they cannot support each other and are less mobile, which can lead to a loss of pawn structure and reduced control of the center. If doubled pawns can be supported by a pawn on the next file, they need not necessarily be at a disadvantage against three united single pawns on the opposite side. However, isolated doubled pawns are naturally weaker than when they are or can be protected by another pawn. 
+    SOURCE: [book://capablanca-chess-fundamentals#60]
+    citation: REAL — book://capablanca-chess-fundamentals#60
+
+  retrieved:
+    book://staunton-blue-book-of-chess#33
+    book://edward-lasker-chess-strategy#79
+    book://capablanca-chess-fundamentals#60
+
+============================================================================================
+SUMMARY
+============================================================================================
+
+  grounded answers        8
+  offered a citation      8
+  citation was real       8
+  citation was invented   0
+
+  A fabricated citation is the one failure worse than no citation, and
+  it is the half of this a script can judge. The rest is the author's.
+

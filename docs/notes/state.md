@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788246000000
+updated: 1788253200000
 created: 1785254500000
 ---
 
@@ -253,14 +253,25 @@ struck through: a list nobody can act on is not a plan.
    `python -m chesscoach.cli build-graph --reset`. Vector indexes verified working, so the
    single-store design holds.
 
-0. **P0 — stage 2: the shelf, passages and vectors.** Expand `books.py` beyond three books, chunk,
-   embed, store as `Passage` nodes. **Still no claims extracted** — retrieval over verbatim text,
-   honest because every answer quotes a book. *Done when an ablation shows the model answering better
-   with retrieval than without*, which is the thesis result.
+0. **STAGE 2 BUILT — passages, vectors and the ablation** → [[experiments.e77-retrieval-ablation]].
+   **607 passages** from three books embedded through `mxbai-embed-large` and stored with a vector
+   index, in 96 s. **8 of 8 grounded answers cite a real locator; none invents one.** The clearest
+   case: asked what counts as rapid, `phi4-mini:3.8b` alone gives a fluent, confident, platform-wrong
+   answer; with retrieval it gives Lichess's actual rule and cites the node generated from the code
+   that makes the classification. **The failure mode of a small model is confident generic
+   plausibility, and that is what retrieval fixes.**
 
-0. **P1 — `mxbai-embed-large` is not pulled.** `classifiers.py` names it as its default embedder and
-   `ollama list` does not have it, so the E07 embedding baseline may not currently be reproducible and
-   stage 2 needs it. `ollama pull mxbai-embed-large`, ~670 MB.
+0. **P1 — the shelf is three books because Gutendex is unreachable.** 403 without a user agent, then
+   repeated timeouts with one — R-17's shape again. Expanding it is data volume rather than
+   mechanism, so stage 2 proceeded without it; retry when the service is up.
+
+0. **P1 — chunking is tuned for term search, not for embedding.** 2,400-character passages ignore
+   paragraph boundaries and start mid-word, which hurts both retrieval quality and quotability.
+   *"Why should I castle early"* returns a passage about giving odds. Paragraph-aware chunking is the
+   obvious next improvement to the book layer.
+
+0. **P2 — the books are in descriptive notation** (`P-K4`, `Kt-KB3`), which the embedder has little
+   reason to relate to a question asked in modern terms. Measured as a weakness, not yet addressed.
 
 0. **P0 — the peer corpus is 26 % out of band** *(new 2026-09-01)*. `declared_band_is_wrong` refuses
    **36 of 137** corpus players against 1400-1800 — 21 of 72 rapid, 15 of 65 blitz. Every peer

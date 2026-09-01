@@ -127,6 +127,22 @@ class BookLibrary:
     def book(self, slug: str) -> Book | None:
         return next((b for b in self.shelf if b.slug == slug), None)
 
+    def all_passages(self):
+        """Every passage on the shelf, as (book, locator, text).
+
+        **The one place a passage boundary is decided.** `passages()` used to
+        chunk inline, and the graph loader needed the same chunking; two loops
+        stepping by `PASSAGE_CHARS` are two definitions of "passage 7", and a
+        citation that means different text in the store than in a search result
+        is worse than no citation. So both read this.
+        """
+        for book in self.shelf:
+            text = self.texts.get(book.slug)
+            if not text:
+                continue
+            for index, start in enumerate(range(0, len(text), PASSAGE_CHARS)):
+                yield book, f"{SCHEME}{book.slug}#{index}", text[start:start + PASSAGE_CHARS]
+
     def passages(self, terms, limit: int = 4) -> list[tuple[Book, str, str]]:
         """Passages mentioning the terms, as (book, locator, text).
 
@@ -144,17 +160,16 @@ class BookLibrary:
             return []
 
         scored: list[tuple[int, int, Book, str, str]] = []
-        for book in self.shelf:
-            text = self.texts.get(book.slug)
-            if not text:
-                continue
-            for index, start in enumerate(range(0, len(text), PASSAGE_CHARS)):
-                passage = text[start:start + PASSAGE_CHARS]
-                score = _prose_hits(passage, wanted)
-                if score:
-                    scored.append(
-                        (-score, index, book, f"{SCHEME}{book.slug}#{index}", passage)
-                    )
+        for book, locator, passage in self.all_passages():
+            score = _prose_hits(passage, wanted)
+            if score:
+                # The tie-break is the passage's index **within its book**, read
+                # back from the locator rather than counted again. Enumerating
+                # the whole shelf instead would order ties by shelf position,
+                # which is a different result from a refactor that was meant to
+                # change nothing.
+                index = int(locator.rsplit("#", 1)[1])
+                scored.append((-score, index, book, locator, passage))
         scored.sort(key=lambda row: (row[0], row[1]))
         return [(b, loc, text) for _, _, b, loc, text in scored[:limit]]
 
