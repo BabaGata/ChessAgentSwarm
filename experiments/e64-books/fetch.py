@@ -28,6 +28,14 @@ IDS = {
     "capablanca-chess-fundamentals": 33870,
     "edward-lasker-chess-strategy": 5614,
     "staunton-blue-book-of-chess": 16377,
+    # Added 2026-09-01. Ids read from the Gutenberg search result with the id
+    # and title taken from the same element -- zipping two separate lists paired
+    # 33870 with the wrong title, and the three ids above were the check that
+    # caught it.
+    "bird-chess-history-and-reminiscences": 4902,
+    "philidor-studies-of-chess": 78804,
+    "young-chess-generalship": 55278,
+    "edward-lasker-chess-and-checkers": 4913,
 }
 
 

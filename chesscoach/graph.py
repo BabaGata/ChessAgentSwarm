@@ -235,13 +235,20 @@ class GraphStore:
                 "MERGE (s:Source {id: $id}) "
                 "SET s.title = $title, s.author = $author, s.year = $year, "
                 "    s.evidence_class = $evidence_class, "
-                # Lineage, not file. Corroboration counts independent
-                # publications, and pre-1929 chess books copy each other, so a
-                # count over files would measure ancestry.
+                # Lineage, not file. Corroboration counts independent voices,
+                # and pre-1929 chess books copy each other, so a count over
+                # files would measure ancestry rather than agreement.
+                #
+                # **The author alone, not author-and-year.** A first version
+                # keyed on both, which made Edward Lasker's *Chess Strategy*
+                # (1915) and *Chess and Checkers* (1918) two independent
+                # sources — one man agreeing with himself, counted as
+                # corroboration. That is precisely the error this field exists
+                # to prevent, arriving through the field itself.
                 "    s.lineage = $lineage",
                 id=book.slug, title=book.title, author=book.author,
                 year=book.year, evidence_class=book.evidence_class,
-                lineage=f"{book.author}|{book.year}",
+                lineage=book.author,
             )
 
         written = 0

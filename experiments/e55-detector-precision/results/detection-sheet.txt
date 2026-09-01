@@ -31,16 +31,18 @@ out_of_book.any.own
     claims: You are out of known opening theory sooner than players at your level.
     262 instances across 5 players
 ------------------------------------------------------------------------------
-  [ ] Hirsican              move   3  Black cxd4     lost   0.5 wp
+  [?] Hirsican              move   3  Black cxd4     lost   0.5 wp
       lichess.org/vyI9oLv3#6
-  [ ] Odin5306              move   3  Black e6       lost   0.0 wp
+  [?] Odin5306              move   3  Black e6       lost   0.0 wp
       lichess.org/w9NbB3Q6#6
-  [ ] Odin5306              move   4  White Qa4+     lost   0.0 wp
+  [?] Odin5306              move   4  White Qa4+     lost   0.0 wp
       lichess.org/Ze3vfsXZ#7
-  [ ] Odin5306              move   5  Black Be7      lost   0.0 wp
+  [?] Odin5306              move   5  Black Be7      lost   0.0 wp
       lichess.org/Wdtrc0A6#10
-  [ ] maxhayastan           move   5  Black Nc6      lost   2.5 wp
+  [?] maxhayastan           move   5  Black Nc6      lost   2.5 wp
       lichess.org/OK82drHY#10
+      I don't think those moves should be counted as out of theory but that maybe that variants are not in the downloaded book. This out of book should be calculated only for the main openings of the players, so the variants that they play regularly and then calculate out of average when they go out of the book. Also it is worth testing if they end the opening regularly in the worse off position for some openings, that might indicate they don't know that very well.
+
 
 long_think_error.long_think.own
     claims: Your long thinks tend to end in a mistake.
@@ -61,76 +63,87 @@ early_error.white.own
     claims: You go wrong early as White.
     129 instances across 4 players
 ------------------------------------------------------------------------------
-  [ ] Crossfire1983         move  10  White f5       lost   7.8 wp
+  [y] Crossfire1983         move  10  White f5       lost   7.8 wp
       lichess.org/F5E8p3lR#19
-  [ ] Crossfire1983         move  13  White Nxh4     lost   9.6 wp
+  [y] Crossfire1983         move  13  White Nxh4     lost   9.6 wp
       lichess.org/akv2n6B0#25
-  [ ] bernes                move   8  White dxe6     lost   5.4 wp
+  [y] bernes                move   8  White dxe6     lost   5.4 wp
       lichess.org/zNztqNrd#15
-  [ ] bernes                move  14  White Nb3      lost   7.0 wp
+  [?] bernes                move  14  White Nb3      lost   7.0 wp
       lichess.org/EGKTN6wj#27
-  [ ] bernes                move  14  White Nb5      lost  12.9 wp
+      This is not opening anymore, but it can be viewed as a result of not understanding the opening plans for middlegame.
+  [n] bernes                move  14  White Nb5      lost  12.9 wp
       lichess.org/qa4FPgCK#27
+      This is not an opening and is just plain not taking the central hanging pawn, missed material gain and should not be counted as early mistake.
 
 allowed_motif.hangingPawn.own
     claims: When you go wrong, it is often a pawn you simply drop.
     120 instances across 6 players
 ------------------------------------------------------------------------------
-  [ ] Crossfire1983         move  13  White Bg5      lost  17.9 wp
+  [y] Crossfire1983         move  13  White Bg5      lost  17.9 wp
       lichess.org/F5E8p3lR#25
-  [ ] Hirsican              move  24  White Qb2      lost  15.9 wp
+  [y] Hirsican              move  24  White Qb2      lost  15.9 wp
       lichess.org/9bsVByg5#47
-  [ ] Maximilian_Honigtopf  move  21  Black c3       lost   9.2 wp
+  [y] Maximilian_Honigtopf  move  21  Black c3       lost   9.2 wp
       lichess.org/PbhJDtzW#42
-  [ ] Maximilian_Honigtopf  move  26  White Qf4      lost   7.5 wp
+  [y] Maximilian_Honigtopf  move  26  White Qf4      lost   7.5 wp
       lichess.org/XRE3pBif#51
-  [ ] Sheriwoyama           move  35  Black g5       lost   7.4 wp
+  [y] Sheriwoyama           move  35  Black g5       lost   7.4 wp
       lichess.org/cZ8R9TJo#70
 
 early_error.black.own
     claims: You go wrong early as Black.
     85 instances across 3 players
 ------------------------------------------------------------------------------
-  [ ] Crossfire1983         move   6  Black f6       lost   6.4 wp
+  [y] Crossfire1983         move   6  Black f6       lost   6.4 wp
       lichess.org/PjZgPmwV#12
-  [ ] Crossfire1983         move  13  Black Bxf3     lost   9.6 wp
+  [n] Crossfire1983         move  13  Black Bxf3     lost   9.6 wp
       lichess.org/VaWiK76d#26
-  [ ] Crossfire1983         move  14  Black Be7      lost   8.8 wp
+      This is just missed tactics, not the result of lack of opening understanding, black move before was early error.
+  [n] Crossfire1983         move  14  Black Be7      lost   8.8 wp
       lichess.org/wiwekygE#28
-  [ ] Hirsican              move  12  Black fxe4     lost  17.5 wp
+      This is not opening anymore, the move was not exploiting the potential attack, it is not result of the lack of understanding of the opening.
+  [?] Hirsican              move  12  Black fxe4     lost  17.5 wp
       lichess.org/CCoHBALM#24
-  [ ] cademan               move  15  Black Nh6      lost  32.5 wp
+      This is again not really lack of opening understanding, just not taking the space with a pawn.
+  [?] cademan               move  15  Black Nh6      lost  32.5 wp
       lichess.org/T7AhF7X3#30
+      This move lose advantage because it did not utilize the potential of putting the pressure on the black king.
+      In general, if this detector was converted to the one that checks if the player repeats the moves with the same piece or castles late, this is not good, but first I need to know what this detector actually detects and what is the purpose of it.
 
 allowed_motif.hangingPiece.own
     claims: When you go wrong, it is often a hanging piece that punishes you.
     78 instances across 5 players
 ------------------------------------------------------------------------------
-  [ ] Crossfire1983         move  38  White Rxc3+    lost  39.2 wp
+  [n] Crossfire1983         move  38  White Rxc3+    lost  39.2 wp
       lichess.org/vTYoMMs5#75
-  [ ] Maximilian_Honigtopf  move  18  Black Bb6      lost  20.7 wp
+      This is not a hanging piece, this is an exchange. If the piece took another piece a move before and now is hanging then it is an exchange. If it was just put on a square taht is attacked without gaining any material then it is hanging.
+  [y] Maximilian_Honigtopf  move  18  Black Bb6      lost  20.7 wp
       lichess.org/8sbkLvNM#36
-  [ ] bernes                move  19  White Bxf6     lost   7.6 wp
+  [n] bernes                move  19  White Bxf6     lost   7.6 wp
       lichess.org/3b3fnPO5#37
-  [ ] cademan               move  22  Black Rd7      lost  27.0 wp
+      This is again an exchange, it should never be detected as a hanging piece.
+  [y] cademan               move  22  Black Rd7      lost  27.0 wp
       lichess.org/xGJzDV3d#44
-  [ ] goydorak              move  11  White Bxf7+    lost  15.5 wp
+  [n] goydorak              move  11  White Bxf7+    lost  15.5 wp
       lichess.org/2AdZT9MO#21
+      This was miscalculated exchange.
 
 allowed_motif.capturingDefender.own
     claims: When you go wrong, it is often a capturing the defender that punishes you.
     63 instances across 5 players
 ------------------------------------------------------------------------------
-  [ ] Hirsican              move  16  Black f5       lost  36.1 wp
+  [y] Hirsican              move  16  Black f5       lost  36.1 wp
       lichess.org/NF4Pv6NH#32
-  [ ] bjagus                move  11  Black h6       lost   6.4 wp
+  [y] bjagus                move  11  Black h6       lost   6.4 wp
       lichess.org/ZcA3N99e#22
-  [ ] bjagus                move  25  White Nd2      lost   7.7 wp
+  [n] bjagus                move  25  White Nd2      lost   7.7 wp
       lichess.org/z8ZCK0dO#49
-  [ ] goydorak              move  13  White g3       lost  37.2 wp
+      This was just a normal exchange, no material gain happened because the defendor was taken, the rook that was exchanged was not the only piece defending any particular piece that was attacked by the oponent.
+  [y] goydorak              move  13  White g3       lost  37.2 wp
       lichess.org/hN7Tz0KQ#25
-  [ ] simonvj               move  21  White Bxd6     lost  18.8 wp
-      lichess.org/kqTAfT2U#41
+  [n] simonvj               move  21  White Bxd6     lost  18.8 wp
+      The piece that was taken did defend the rook but the rook was also defended by a king so the opponent queen was not able to take the rook. This should not be counted as taking a defender.
 
 allowed_motif.pin.own
     claims: When you go wrong, it is often a pin that punishes you.

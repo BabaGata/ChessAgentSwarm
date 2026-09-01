@@ -181,6 +181,25 @@ SHELF = (
     Book("edward-lasker-chess-strategy", "Chess Strategy", "Edward Lasker", "1915"),
     Book("staunton-blue-book-of-chess", "The Blue Book of Chess",
          "Howard Staunton", "1848"),
+    # Added 2026-09-01, when corroboration needed more than three voices. Titles
+    # and authors are read from the Gutenberg search result **with the id taken
+    # from the same HTML element**: a first parse collected ids and titles into
+    # two lists and zipped them, which paired 33870 with "The Big Four" when
+    # this project's own records have it as Capablanca. An attribution error is
+    # the worst kind of error here, so the parse was corrected and then checked
+    # against the three ids already known.
+    Book("bird-chess-history-and-reminiscences", "Chess History and Reminiscences",
+         "H. E. Bird", "1893"),
+    Book("philidor-studies-of-chess", "Studies of Chess",
+         "François-André Danican Philidor", "1817"),
+    Book("young-chess-generalship", "Chess Generalship, Vol. I",
+         "Franklin K. Young", "1910"),
+    # **The same lineage as `edward-lasker-chess-strategy`**, deliberately kept
+    # apart from the others: two books by one author are one voice, and counting
+    # them twice is exactly the ancestry-for-agreement mistake corroboration is
+    # built to avoid ([[design.graph-knowledge-base]]).
+    Book("edward-lasker-chess-and-checkers", "Chess and Checkers: the Way to Mastership",
+         "Edward Lasker", "1918"),
 )
 
 
