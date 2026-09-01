@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788235200000
+updated: 1788238800000
 created: 1785254500000
 ---
 
@@ -246,12 +246,14 @@ struck through: a list nobody can act on is not a plan.
 ### Open, and unblocked
 
 0. **P0 — the graph knowledge base is planned and not started**
-   → [[design.graph-knowledge-base]] *(new 2026-09-01, author's request)*. Neo4j, holding concepts,
-   prerequisites, band expectations, openings and practice. **The binding constraint is sourcing, not
-   storage**: E63-E65 measured 3 endorsable entries of 14 attempted, and a graph produces no sources.
-   Files stay the source of truth and Neo4j is a **derived index**, so the review gate survives and a
-   lost database loses an index rather than knowledge. Staged in four, the first needing **no new
-   chess knowledge at all**. Three questions for the author before stage 1.
+   → [[design.graph-knowledge-base]] *(new 2026-09-01, author's request; revised the same day once the
+   author gave the purpose)*. **It is retrieval infrastructure for conversation**, not a filing
+   cabinet: the Ollama agent should discuss chess with the player, answering from what it retrieves
+   rather than what it remembers. That is the thesis showcase and it is falsifiable by ablation.
+   The evidence rule is the author's: **corroboration across free books**, counted over independent
+   publication lineages, with vector similarity to match the same idea under different words — one
+   rule endorsed once, instead of one endorsement per entry. Stage 1 needs **no extraction at all**
+   (rules, piece movement, time controls, claims, openings), and stage 3 is **sourced only**.
 
 0. **P0 — the peer corpus is 26 % out of band** *(new 2026-09-01)*. `declared_band_is_wrong` refuses
    **36 of 137** corpus players against 1400-1800 — 21 of 72 rapid, 15 of 65 blitz. Every peer

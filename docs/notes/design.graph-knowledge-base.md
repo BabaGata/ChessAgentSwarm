@@ -1,206 +1,230 @@
 ---
 id: cas-design-graph-kb
-title: 'Design — a graph knowledge base in Neo4j, and the constraint that decides its size'
-desc: 'The author asked for a Neo4j graph holding what a chess coach knows. A graph is the right shape for three things the project has an actual hole for, and the binding constraint is not storage but sourcing: the last knowledge effort endorsed 3 of 14 entries. Staged so each stage is usable alone, with files as the source of truth and Neo4j as a derived index.'
-updated: 1788249600000
+title: 'Design — a graph knowledge base in Neo4j, for a small model to answer from'
+desc: 'The author wants the Ollama agent to discuss chess with a player, not only hand them a report. That makes this retrieval infrastructure, and it is the thesis contribution: a small local model answering correctly because of what it retrieves. Corroboration across free books replaces per-entry endorsement as the evidence rule.'
+updated: 1788256800000
 created: 1788249600000
 ---
 
 # A graph knowledge base
 
-**Source:** the author, 2026-09-01 · **Status:** **plan, not built** — no code before this note is
-checked against the vision (hard rule 2)
+**Source:** the author, 2026-09-01 · **Status:** **plan, not built** ·
+**Revised** after the author gave the purpose, which changed the design
 
-## The request
+## What it is for
 
-> *"Build the graph knowledge base with neo4j. This knowledge base will be used to store general
-> knowledge about chess, chess coaching, general learning processes, typical knowledge about the
-> chess understanding for players of different rank ranges, knowledge about openings, chess concepts,
-> legal moves and everything that a real chess coach should know."*
+> *"In the end I want the ollama agent to be able to have normal conversation with the player if the
+> player asks it some questions about chess, so that it is not only able to give to the player the
+> generated review but also to discuss it with the player… it is a good showcase for a thesis of how
+> to use llm with knowledgebase to get more informed and correct answers with a smaller llm."*
 
-## Why a graph is the right shape here
+This is the design's centre and it was missing from the first draft. The graph is not a filing
+cabinet — it is **retrieval infrastructure for a small model**, so that `qwen3:8b` on a laptop can
+answer a chess question correctly because of what it retrieves rather than what it remembers.
 
-Not a general argument for graph databases — three specific holes this project already has, each
-written down before this request:
+That reframes three things:
 
-**1. Prerequisite ordering, which the arbiter has a hole for and refuses to fill.** From
-`chesscoach/arbiter.py`, unchanged since it was written:
+- **Coverage matters more than polish.** A node that lets the model answer *"what is a backward
+  pawn"* with a citation is worth more than a beautifully written entry about one motif.
+- **Retrieval quality is the metric**, not node count. The evaluation is: does the model answer
+  better *with* the base than without, on questions a 1400–1800 player would actually ask?
+- **It is the thesis result.** "Small model + curated retrieval beats small model alone" is a
+  claim this project can measure, with an ablation it already knows how to run (E07 made the
+  prober's classifier beat an embedding baseline before it was allowed to cost anything).
 
-> *"On prerequisite ordering. The spec lists it as a ranking criterion, and **it is deliberately not
-> implemented yet** … among the claim kinds that currently exist, tactical and process weaknesses
-> have no defensible ordering between them. **Inventing one would be fabricated pedagogy.** When a
-> section emits a claim that genuinely depends on another, this is where that goes."*
+## A correction to my own objection
 
-The blocker was never the data structure. It was that nobody had written down which concept gates
-which, with a source. A graph is where that goes, and `PREREQUISITE_OF` is its most natural edge.
+The first draft argued the binding constraint was sourcing, and projected
+[[experiments.e63-knowledge-swarm]]'s **3 endorsable entries of 14** onto this.
 
-**2. V6 path planning sits at 2/5**, and its gap is exactly traversal: *what should this player learn
-next, given what they fail and what they have not yet mastered the prerequisites for*. That is a
-query a flat store cannot answer and a graph answers in one hop.
+**That projection does not hold, and the author was right to push back.** E63 measured a *different
+method*: web search, through a search stack that was broken at the time, drafting definitions of
+**modern tactical vocabulary** — and [[experiments.e64-chess-books]] then measured why that corpus
+could not deliver, since "skewer" and "outpost" appear **zero times** across all three books on the
+shelf. A books-first pipeline with corroboration is a different method and my number says nothing
+about its yield.
 
-**3. `domain.chess-concepts.md` already describes itself** as *"the domains of chess knowledge, their
-concepts, **prerequisite structure and relevance by strength band**"* — which is the author's request
-almost word for word, currently held as prose that no code can read.
+What survives from that objection is narrower and still true: **sourcing is the work**, storage is
+not, and the schema still has to make an unsourced node unservable.
 
-So this is not a new idea grafted on. It is a structure the vault describes and the code has a hole
-for.
+## The evidence rule: corroboration, not endorsement
 
-## The constraint that decides how big it can be
+The author's proposal, and it is a better answer than mine:
 
-**It is not storage. It is sourcing.**
+> *"Downloading as much free chess books as possible and then using ollama to traverse them and
+> extract what is written in the knowledgebase. And to get something like confirmed results count how
+> many sources have mentioned some concept and described it in a similar way and then take what has
+> been mentioned several times as a confirmed knowledge."*
 
-[[experiments.e63-knowledge-swarm]] through [[experiments.e65-real-phrases]] built a drafting swarm
-for exactly this kind of content and measured what it produced: **14 claims attempted, 3
-endorsable.** Eleven were refused because no free source would support a definition — and the
-refusals were the honest result, not a failure of the machinery.
+This replaces per-entry human endorsement with a **rule the author endorses once**, which is the only
+way the throughput problem is actually solved. It also turns "is this true?" — unanswerable — into
+"how many independent sources say it, and do they agree?" — measurable. That is the shape this
+project is good at.
 
-[[design.knowledge-base]] states the reason and it applies with more force to a graph:
+**Three threats, and they decide the design.**
 
-> *"A knowledge base of written chess explanations is **precisely the artefact most at risk** of
-> laundering folklore into the system, and it would launder it into the one place that talks to the
-> player."*
+**1. Independence cannot be assumed.** Pre-1929 chess books copy each other freely. Three texts
+agreeing may be one text repeated three times, and a corroboration count that does not check this
+measures ancestry rather than agreement. **Mitigation:** treat corroboration as a count over
+*publication lineages*, not files; record each book's author and date; and flag near-identical
+phrasing between sources as a **shared-ancestor warning** rather than as confirmation — verbatim
+agreement is the signature of copying, and it is paraphrase agreement that carries evidence.
 
-**A graph database produces no sources.** It changes where knowledge is kept, not whether it can be
-obtained. At the measured rate, *"everything a real chess coach should know"* is thousands of nodes
-against an endorsement capacity of three per fourteen — and the author is the only endorser.
+**2. Corroboration measures consensus, not correctness.** *"Knights on the rim are dim"* is in every
+old book and is a heuristic, not a truth. This is R-03's exact failure mode arriving through the
+front door.
+**Mitigation is framing, and it is not cosmetic.** The base never asserts *"this is true"*. It
+asserts *"Capablanca, Lasker and Staunton all describe it this way"*, with the passages. That is a
+claim about the literature, it is verifiable, and it is what V8 and C5 already require of everything
+else here. Said that way, consensus is legitimate evidence; said as truth, it is folklore.
 
-This does not argue against building it. It argues that **the schema must make an unsourced node
-unservable**, and that the plan must be staged so the first stages need no new chess knowledge at
-all.
+**3. The free shelf is old, and old books lack the modern vocabulary the detectors use.** Measured,
+not feared: E64 found **zero** occurrences of "skewer" and "outpost". So corroboration will be strong
+on openings, development, king safety and endgames, and **structurally silent** on part of the
+motif vocabulary. Expect that, report it, and do not let the pipeline fill the gap by inventing.
 
-## What it must not hold
+## Extraction: select, never compose
 
-**Legal moves.** `python-chess` computes them exactly, for any position, in microseconds. There are
-more legal chess positions than atoms in the observable universe, so they cannot be enumerated; and
-C1 prefers deterministic computation over storage. What a graph *can* usefully hold is the
-**relationships between named opening lines** — continuation and transposition — which is the CC0
-book, already graph-shaped and already loaded.
+The step where Ollama reads a book and produces a claim is where hallucination enters. The project
+already solved this once and the solution transfers: in the knowledge swarm the model **chooses a
+sentence by index** and may answer `-1`, so the stored text is a page's own words by construction and
+never model prose. E63 records what happened without the refusal option — the model returns the
+least-bad sentence rather than none.
 
-I am reading "legal moves" as *"the coach must know the rules"*, and the answer is that it already
-does, better than a graph could: the engine and `python-chess` are the rules.
+So extraction produces: a **verbatim passage span**, a `book://slug#passage` locator, and a
+**model-assigned concept label**. The label may be wrong and is checkable; the text cannot be
+invented.
 
-**Anything with no source.** The gate below.
+## Vector search belongs in the same database
 
-## The architectural decision that makes this safe
+The author is right that matching *"defined in a similar manner multiple times but… not worded the
+same"* needs vectors — and it is exactly the problem E65 hit, where "outpost" and "hole" are one idea
+under two words.
 
-**Files stay the source of truth. Neo4j is a derived index, rebuilt from them.**
+**It does not need a second store.** Neo4j carries native vector indexes with cosine similarity in
+recent 5.x releases, in Community Edition, so a passage node holds both its embedding and its edges.
+One database, one backup, one query language, and a retrieval that can do *"passages semantically
+near this question, then walk to the concept, then to its prerequisites"* in a single Cypher
+statement — which is the whole argument for a graph over a flat vector store.
 
-Every node comes from a file the repository already versions — `data/openings/book.json`,
-`data/knowledge.json`, the Dendron notes, a new `data/knowledge/concepts.yaml`. A build step loads
-them into Neo4j. Nothing is authored *in* the database.
+*(Version support needs checking at build time rather than trusted here.)*
 
-Four reasons, and the last is the one that matters:
+**Both halves already exist in this repository**: `chesscoach/classifiers.py` embeds through Ollama
+with `mxbai-embed-large`, and `chesscoach/books.py` already chunks a book into ~2,400-character
+passages with `book://` locators and strips the Gutenberg licence wrapper. The vector layer is
+wiring, not new capability.
 
-- **C5 auditable** — a claim's provenance is a line in a reviewed file, not a row someone inserted;
-- **C3 self-hostable** — losing the database loses an index, never knowledge;
-- reproducible — the graph is a pure function of the files, so two checkouts agree;
-- **the review gate survives.** `reviewed: true` is the author's act and no drafting path may set it
-  ([[design.knowledge-base]]). A database that can be written to directly is a way around that gate,
-  and the gate is the only thing standing between this project and R-03.
+## The rules layer, which needs no sourcing at all
+
+> *"For legal moves I meant that there should be recorded patterns on how the pieces can move so that
+> ollama's llm knows the basics just in case. Also general rules of chess are needed and different
+> kinds of games like rapid, bullet, classical."*
+
+All three resolve to things the project can **generate or already holds**, which puts them outside
+the sourcing problem entirely:
+
+- **Movement patterns** — generated from `python-chess`: how each piece moves, what it attacks from a
+  given square, the special moves (castling, en passant, promotion). Computed and verifiable, so it
+  takes the same exemption as `Claim` and `Detector` nodes: writing down what the code does is the
+  opposite of folklore.
+- **General rules** — check, checkmate, stalemate, the draw conditions, touch-move. Stated from the
+  **FIDE Laws of Chess**, which are published free; short quotations with attribution rather than
+  redistribution. *(Licence terms to be checked before ingesting more than short quotes.)*
+- **Time controls** — already in code. `chesscoach/speed.py` classifies bullet, blitz, rapid and
+  classical on Lichess's own rule, and that rule is the citation.
+
+This is the layer most worth having for a small model, because it is exactly what such a model gets
+confidently wrong, and it is free of every risk above.
 
 ## The model
 
 **Nodes**
 
-| node | what it is | where it comes from |
+| node | what it is | provenance |
 |---|---|---|
-| `Concept` | fork, pin, outpost, backward pawn, king safety, development | `domain.chess-concepts`, `domain.positional-vocabulary` |
-| `Claim` | one of the 57 things the detectors can say | the code — `measure()`, no authoring needed |
+| `Rule` | how a piece moves; check, stalemate, draws | generated / FIDE |
+| `TimeControl` | bullet, blitz, rapid, classical | `chesscoach/speed.py` |
+| `Concept` | fork, pin, outpost, backward pawn, development | extracted, corroborated |
+| `Passage` | ~a page of a book, with its embedding | `chesscoach/books.py` |
+| `Source` | a book, its author, its date, its lineage | the shelf |
+| `Claim` | one of the 57 things the detectors can say | the code |
 | `Detector` | the function that decides a claim | the code |
-| `Opening` | a named line | `data/openings/book.json`, 3,810 CC0 rows |
-| `Band` | 1400–1800, and the neighbours it does not yet serve | [[decisions.0005-scope-band-source-online-only]] |
-| `Source` | a book passage, a URL, a paper | `domain.sources`, `chesscoach/books.py`, the guide library |
-| `Practice` | a drill, a puzzle theme, an exercise set | Lichess puzzle themes (CC0), `domain.puzzle-themes` |
-| `LearningPrinciple` | spacing, retrieval practice, deliberate practice | `domain.expertise-research` — already read and cited |
+| `Opening` | a named line | `book.json`, 3,810 CC0 rows |
+| `Band` | 1400–1800 and its neighbours | ADR-0005 |
+| `Practice` | a drill or puzzle theme | Lichess puzzles, CC0 |
+| `LearningPrinciple` | spacing, retrieval practice | `domain.expertise-research` |
 
 **Edges**
 
 ```
-(:Claim)-[:DETECTS]->(:Concept)              which measurement evidences which idea
-(:Detector)-[:DECIDES]->(:Claim)             so a claim can name the code that fired it
-(:Concept)-[:PREREQUISITE_OF]->(:Concept)    the arbiter's missing structure
-(:Concept)-[:EXPECTED_AT]->(:Band)           "typically understood by", with a source
-(:Opening)-[:CONTINUES]->(:Opening)          the book's own tree
-(:Opening)-[:TRANSPOSES_TO]->(:Opening)      same position, different move order
-(:Practice)-[:TRAINS]->(:Concept)            what to actually do about it
-(:LearningPrinciple)-[:GOVERNS]->(:Practice) why that drill, in that spacing
-(:Concept|:Practice|:Band)-[:CITED_BY]->(:Source)
+(:Passage)-[:FROM]->(:Source)                 every quote knows its book
+(:Passage)-[:DESCRIBES]->(:Concept)           extracted, one edge per attestation
+(:Concept)-[:PREREQUISITE_OF]->(:Concept)     the arbiter's missing structure
+(:Concept)-[:EXPECTED_AT]->(:Band)            sourced only, or absent
+(:Claim)-[:DETECTS]->(:Concept)               measurement to idea
+(:Detector)-[:DECIDES]->(:Claim)
+(:Opening)-[:CONTINUES|TRANSPOSES_TO]->(:Opening)
+(:Practice)-[:TRAINS]->(:Concept)
+(:LearningPrinciple)-[:GOVERNS]->(:Practice)
+(:Rule)-[:GOVERNS]->(:Concept)                "a pin works because the king may not be left in check"
 ```
+
+**The corroboration count is `DESCRIBES` edges from distinct lineages**, which is why `Source` carries
+a lineage and why the count is not simply `COUNT(*)`.
 
 ## The gate
 
-**A `Concept` or `Practice` node with no `CITED_BY` edge to an endorsed `Source` may be stored and
-may never be served to a player.**
+A `Concept` is **servable** when it has `DESCRIBES` edges from at least *N* independent lineages whose
+passages agree by embedding similarity. Below that it is **stored and retrievable to the author,
+never served to a player** — and the count of unservable concepts is a reported number, because it is
+the honest measure of what the free shelf supports.
 
-Enforced three ways, because one is a suggestion:
+***N* is calibrated, not chosen.** L-054: a distribution says what a threshold discards, only running
+the rule says what it buys. Sweep *N* and the similarity floor, and read off where corroborated
+concepts stop being obviously right and start being coincidence.
 
-1. a Neo4j constraint on the property that marks a node servable;
-2. every read path goes through one function that filters on it — the same shape as
-   `KnowledgeBase.show`, which **raises** rather than rendering blank;
-3. a test that walks the whole graph and asserts no servable node lacks a source.
+`Rule`, `TimeControl`, `Claim`, `Detector` and `Opening` are exempt: generated or CC0 reference data,
+not claims about chess.
 
-`Claim`, `Detector` and `Opening` nodes are exempt and it is worth saying why: a claim is the
-**detector's specification**, not chess wisdom, and writing down what the code does is the opposite
-of folklore. The opening book is CC0 reference data. Neither is a claim *about* chess.
+## Stages, each usable alone (C6)
 
-## Staging — each stage usable on its own (C6)
+**Stage 1 — the rules layer and what the project already owns.** Movement patterns, rules, time
+controls, claims, detectors, openings, bands. **No extraction, no corroboration, nothing invented.**
+A small model can already answer *"how does a knight move"*, *"what is stalemate"*, *"what counts as
+rapid"* with citations.
+*Done when:* the graph builds from files and code, and answers those questions.
 
-**Stage 1 — the graph of what the project already owns.** Claims, detectors, openings, bands, and
-the concepts already written and sourced in the vault. **No new chess knowledge is invented.** It is
-a re-representation of things that exist, and it immediately buys: *which claims evidence the same
-concept* (the overlap question E42 answers by measurement today), *which opening a claim fired in*,
-and a place for stage 2 to attach.
-*Done when:* the graph builds from files, a query answers "what does `allowed_motif.fork` detect",
-and the build is reproducible.
+**Stage 2 — the shelf, passages and vectors.** Expand `books.py` beyond three books to as much free
+public-domain chess as Gutenberg and the Internet Archive hold; chunk, embed, store as `Passage`
+nodes. **Still no claims extracted** — this is retrieval over verbatim text, which alone makes the
+model markedly better and is already honest, because every answer quotes a book.
+*Done when:* an ablation shows the model answering better with retrieval than without.
 
-**Stage 2 — prerequisite edges.** The one genuinely new structure and the one with a stated need.
-Sourced from `domain.chess-concepts` § C and `domain.expertise-research`, and **explicitly refusing
-to invent an ordering where none is sourced** — the arbiter's own position. Expect a sparse graph
-and treat sparseness as honest.
-*Done when:* the arbiter can ask "is A a prerequisite of B" and gets *yes*, *no*, or **unknown**, and
-*unknown* is the common answer.
+**Stage 3 — extraction and corroboration.** Ollama labels passages with concepts by selection;
+lineage-aware counting; embedding agreement; calibrated *N*. **Sourced only — the author's ruling.**
+*Done when:* the corroborated set is measured, the unservable count reported, and the
+shared-ancestor warnings inspected.
 
-**Stage 3 — band expectations.** *"What a 1400 should understand"* is the hardest to source and the
-easiest to invent. C7 says free materials; the honest starting point is what the literature in
-`domain.expertise-research` actually supports, which may be very little.
-*Done when:* every `EXPECTED_AT` edge cites something, or there are none and that is written down.
+**Stage 4 — the structured layers.** Prerequisites, band expectations, practice. These need the most
+judgement and benefit most from stages 1–3 existing first.
 
-**Stage 4 — practice suggestions.** Deliberately last. [[design.knowledge-base]] already found this
-the part *"the project's own research is most sceptical of"*, and the Lichess puzzle database (CC0,
-themed, millions of puzzles) is the one free asset that could support it without prose.
+## What this buys the thesis
 
-## Cost (C1, C2, C3)
-
-**Neo4j Community Edition is free and self-hostable** (GPLv3), runs on one machine, and the project
-already runs local services — Ollama for the prober, SearxNG in Docker for search. So a second local
-service is precedent, not a new class of dependency.
-
-What it does add, and should be said plainly: a JVM, a running process, and roughly a gigabyte of
-RAM where the runtime currently needs JSON files and SQLite. **The mitigation is the derived-index
-decision above** — if Neo4j is not running, the pipeline loses graph queries and nothing else.
-
-**A cheaper alternative exists and should be named rather than hidden**: `networkx` in-memory, built
-from the same files, no service at all. It would answer every stage-1 and stage-2 query. Neo4j earns
-its place if the graph outgrows memory or if Cypher's traversal makes stage 3 and 4 queries
-materially better — and the author has chosen Neo4j, so the plan is written for it. The
-derived-index design means switching later costs a loader, not the knowledge.
-
-## What needs the author
-
-1. **Is "legal moves" satisfied by the engine?** I have read it as the coach knowing the rules and
-   proposed leaving it to `python-chess`. If something else was meant, stage 1 changes.
-2. **Scope of stage 3.** Band expectations are the part most likely to become folklore. Worth
-   deciding in advance how much unsourced structure is acceptable, if any.
-3. **The endorsement rate is the real budget.** 3 of 14 is the measured throughput of the existing
-   review workflow. A graph of any size needs either more sources, a lower bar, or the acceptance
-   that most nodes stay stored-but-unservable. **My recommendation is the third**, and to make the
-   unservable count a reported number rather than an embarrassment.
+An ablation the project already knows how to run: the same questions asked of the model **alone**,
+with **vector retrieval only**, and with **graph-plus-vector retrieval**, scored on whether the answer
+is correct and whether it cites something real. That is a measurable result about small models and
+curated knowledge, which is the showcase the author described — and it is falsifiable, which is what
+makes it worth writing up either way.
 
 ## Honest limitations
 
-- **This plan does not solve sourcing**, and no schema can. It arranges knowledge so that the
-  unsourced parts are visibly unsourced.
-- **The prerequisite structure may turn out too sparse to rank anything.** That is a real possible
-  outcome and stage 2's definition of done accepts it.
-- **Nothing here is measured yet.** Every claim about what a graph buys is an argument; the first
-  stage that ships should be scored against a query the flat store genuinely cannot answer.
+- **Corroboration is consensus, and the framing carries the entire honesty burden.** If a rendered
+  answer ever says "this is true" rather than naming its sources, this design has failed.
+- **Independence is the weakest link** and cannot be fully established for old texts. Lineage is a
+  proxy for it, not a solution.
+- **Part of the motif vocabulary will not be corroborable** from a free, old shelf. Measured
+  already; expect silence there rather than filling it.
+- **Extraction quality is unmeasured.** A model labelling passages with concepts is a classifier and
+  it needs the same treatment E07 gave the prober's: a baseline it has to beat before it is trusted.
+- **Nothing here is built.** Every claim about what retrieval buys is an argument until stage 2's
+  ablation exists.
