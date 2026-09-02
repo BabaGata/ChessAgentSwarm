@@ -92,9 +92,23 @@ side.
 | 0.80 | 15 |
 
 **The agreement threshold does almost nothing.** So what is being measured is *"two or more
-independent lineages use this term"*, not *"describe it similarly"* — the second half of the
-author's rule is implemented and is not currently discriminating. Said plainly because the summary
-number would otherwise imply more than was tested.
+independent lineages use this term"*, not *"describe it similarly"*.
+
+> **Fixed the same day.** Agreement was being measured between whole 2,400-character passages, and a
+> passage is mostly *not* about the term that retrieved it — so any two resemble each other as chess
+> prose. Measured instead between **the sentences that name the concept**, the threshold
+> discriminates: **15 servable at 0.50, 14 at 0.60, 13 at 0.65, and 8 at 0.80.** `moved_into_attack`
+> correctly falls to zero: its passages use the term and their sentences do not agree.
+>
+> Reading the pairs then exposed a false positive the numbers hid. **`backRankMate` at 0.77** was
+> Philidor on piece values and Staunton on the opening setup — neither about a back-rank mate, both
+> using the word **"rank"**. Requiring two words of a compound term looked like the fix and was not:
+> it also rejected `late_castling`, where *"late"* is this project's jargon and only *"castling"* is
+> the chess term. **"rank" and "file" are board furniture**, as generic as "square" already was, and
+> belong in `_GENERIC`. **14 of 19 servable** after both changes.
+>
+> `results/agreement-sample.txt` now writes the pairs out for the author, because where the threshold
+> belongs is a chess judgement and nothing in the code can make it.
 
 ## Consequence
 

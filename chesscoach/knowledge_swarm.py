@@ -483,6 +483,11 @@ _GENERIC = frozenset({
     "chess", "chessboard", "board", "game", "games", "player", "players",
     "piece", "pieces", "move", "moves", "moved", "position", "positions",
     "play", "playing", "played", "white", "black",
+    # Board furniture, as generic as "square" beside it. `backRankMate` was
+    # corroborated by two passages that share only the word "rank" -- one about
+    # piece values, one about the opening setup -- and every chess book talks
+    # about ranks and files on almost every page.
+    "rank", "ranks", "file", "files",
 })
 
 

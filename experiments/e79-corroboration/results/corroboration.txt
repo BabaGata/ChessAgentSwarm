@@ -8,29 +8,29 @@ agreement >= 0.6, shared-ancestor flag >= 0.95, minimum 2 lineages.
   ------------------------------------------------------------------------------------------
   allows_pressure                  22       5     YES  Lasker, Philidor, Bird, Staunton, Capablanca
   allows_square                     4       2     YES  Lasker, Capablanca
-  backRankMate                     13       4     YES  Lasker, Philidor, Staunton, Capablanca
+  backRankMate                      9       2     YES  Lasker, Philidor
   capturingDefender                 4       2     YES  Lasker, Philidor
-  concedes_weakness                17       4     YES  Lasker, Philidor, Staunton, Capablanca
-  discoveredAttack                 10       4     YES  Lasker, Philidor, Staunton, Capablanca
-  endgame_error                    21       5     YES  Lasker, Young, Philidor, Staunton, Capablanc
-  fork                              5       2     YES  Lasker, Philidor
-  hangingPawn                      16       5     YES  Lasker, Young, Philidor, Staunton, Capablanc
+  concedes_weakness                16       3     YES  Lasker, Philidor, Staunton
+  discoveredAttack                 10       3     YES  Lasker, Philidor, Staunton
+  endgame_error                    20       5     YES  Lasker, Young, Philidor, Staunton, Capablanc
+  fork                              5       0      no  
+  hangingPawn                      15       4     YES  Lasker, Young, Philidor, Staunton
   hangingPiece                      3       0      no  
   late_castling                    28       5     YES  Lasker, Young, Philidor, Staunton, Capablanc
-  long_think_error                 14       6     YES  Lasker, Young, Philidor, Bird, Staunton, Cap
-  moved_into_attack                 2       2     YES  Lasker, Staunton
-  pawn_error                       19       5     YES  Lasker, Young, Philidor, Staunton, Capablanc
+  long_think_error                 14       5     YES  Lasker, Young, Philidor, Bird, Staunton
+  moved_into_attack                 2       0      no  
+  pawn_error                       16       4     YES  Lasker, Young, Philidor, Staunton
   pin                               9       2     YES  Lasker, Young
   repeat_move                      24       5     YES  Lasker, Young, Philidor, Bird, Capablanca
   skewer                            0       0      no  
-  slow_development                 22       5     YES  Lasker, Young, Philidor, Bird, Capablanca
+  slow_development                 22       4     YES  Lasker, Young, Philidor, Bird
   trappedPiece                      1       0      no  
 
 ==============================================================================================
 
   concepts asked about        19
-  reached 2 independent voices  16
-  stored but not servable     3
+  reached 2 independent voices  14
+  stored but not servable     5
   shared-ancestor flags       0
 
 ==============================================================================================
@@ -39,13 +39,13 @@ WHAT EACH THRESHOLD BUYS
 
    agreement  servable   flags
   ----------------------------
-        0.50        16       0
-        0.55        16       0
-        0.60        16       0
-        0.65        16       0
-        0.70        16       0
-        0.75        16       0
-        0.80        15       0
+        0.50        15       0
+        0.55        15       0
+        0.60        14       0
+        0.65        13       0
+        0.70        13       0
+        0.75        12       0
+        0.80         8       0
 
   A setting where every concept is servable is measuring nothing:
   it means any two passages count as agreeing.

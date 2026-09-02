@@ -29,7 +29,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from chesscoach.corroboration import (  # noqa: E402
     AGREEMENT, MIN_LINEAGES, SHARED_ANCESTOR, Attestation, corroborate,
 )
-from chesscoach.extraction import mentions  # noqa: E402
+from chesscoach.embedding import embed_all  # noqa: E402
+from chesscoach.extraction import mentions, naming_sentences  # noqa: E402
 from chesscoach.graph import GraphStore, GraphUnavailable  # noqa: E402
 from chesscoach.knowledge_swarm import TERMS  # noqa: E402
 
@@ -61,9 +62,20 @@ def candidates(store: GraphStore, concept: str, phrases, k: int):
             # chess book shares and asks whether this one uses the term at all.
             if not mentions(concept, hit["text"], phrases):
                 continue
+            # **Agreement is measured on the sentences that name the concept**,
+            # not on the passage. Comparing whole passages made the threshold
+            # inert -- 16 servable at 0.50 and at 0.75 alike -- because a
+            # passage is mostly not about the term that retrieved it, so any two
+            # resemble each other as chess prose whatever they say about it.
+            said = naming_sentences(concept, hit["text"])
+            if not said:
+                continue
             seen[locator] = Attestation(concept, locator, rows[0]["lineage"],
-                                        " ".join(hit["text"].split()))
-            vectors[locator] = rows[0]["v"]
+                                        " ".join(said))
+    if seen:
+        keys = list(seen)
+        for key, vector in zip(keys, embed_all([seen[k].text for k in keys])):
+            vectors[key] = vector
     return list(seen.values()), vectors
 
 
@@ -137,6 +149,45 @@ def main() -> int:
                       "  it means any two passages count as agreeing.", ""]
 
     text = "\n".join(lines) + "\n"
+    # Pairs to read. The sweep says the threshold now matters -- 15 servable at
+    # 0.50 against 8 at 0.80 -- and nothing here can say where it should sit,
+    # because that needs somebody who knows chess to look at two sentences and
+    # say whether they describe the same thing. Same instrument as the detection
+    # sheet: one repeated judgement, with the evidence beside it.
+    sample = [
+        "DO THESE TWO BOOKS SAY THE SAME THING?",
+        "=" * 94, "",
+        "Each pair is two sentences, from two different authors, that the",
+        "corroboration rule counted as agreeing about the concept named.",
+        "",
+        "    [y]  they are describing the same idea",
+        "    [n]  they are not",
+        "",
+        "This decides where the agreement threshold belongs. Nothing in the code",
+        "can decide it: the sweep says 15 concepts pass at 0.50 and 8 at 0.80,",
+        "and which of those is right is a chess judgement.",
+        "",
+    ]
+    for concept, got, _, _ in results:
+        pair = []
+        for attestation in got.attestations:
+            if not any(a.lineage == attestation.lineage for a in pair):
+                pair.append(attestation)
+            if len(pair) == 2:
+                break
+        if len(pair) < 2:
+            continue
+        sample += [
+            f"  [ ] {concept}   (similarity {pair[1].similarity:.2f})",
+            f"      {pair[0].lineage}:",
+            f"        {pair[0].text[:200]}",
+            f"      {pair[1].lineage}:",
+            f"        {pair[1].text[:200]}",
+            "",
+        ]
+    (args.out / "agreement-sample.txt").write_text(
+        "\n".join(sample) + "\n", encoding="utf-8")
+
     (args.out / "corroboration.txt").write_text(text, encoding="utf-8")
     print(text)
     return 0

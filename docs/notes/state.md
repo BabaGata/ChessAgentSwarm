@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788271200000
+updated: 1788278400000
 created: 1785254500000
 ---
 
@@ -252,10 +252,16 @@ struck through: a list nobody can act on is not a plan.
    reported **19 of 19 at every threshold** because the method was circular: retrieve for similarity,
    then measure similarity. The sweep is what exposed it.
 
-0. **P1 — the agreement half of the rule is not discriminating.** Sweeping it gives 16 servable at
-   0.50 through 0.75 and 15 at 0.80, so what is measured is *"two lineages use this term"* rather
-   than *"describe it similarly"*. The author's rule has two halves and only one is currently doing
-   work.
+0. **FIXED — the agreement half now discriminates** → [[experiments.e79-corroboration]]. Measured
+   between the **sentences that name the concept** rather than whole passages: 15 servable at 0.50,
+   14 at 0.60, 13 at 0.65, **8 at 0.80**, where before it was flat. `backRankMate` was a visible
+   false positive — Philidor on piece values and Staunton on the opening setup, agreeing only on the
+   word **"rank"** — fixed by treating rank and file as board furniture, like "square" already was.
+
+0. **P1 — where the agreement threshold belongs is the author's judgement.**
+   `experiments/e79-corroboration/results/agreement-sample.txt` holds the pairs: two sentences from
+   two authors that the rule counted as agreeing. Mark them and the threshold follows from the marks
+   rather than from my taste.
 
 0. **P1 — the model judge refuses nothing.** `qwen3:8b`, given an explicit criterion and a refusal
    option, kept **15 of 15** passages, including one about "services rendered his countrymen" as an

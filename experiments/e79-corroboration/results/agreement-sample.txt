@@ -1,0 +1,97 @@
+DO THESE TWO BOOKS SAY THE SAME THING?
+==============================================================================================
+
+Each pair is two sentences, from two different authors, that the
+corroboration rule counted as agreeing about the concept named.
+
+    [y]  they are describing the same idea
+    [n]  they are not
+
+This decides where the agreement threshold belongs. Nothing in the code
+can decide it: the sweep says 15 concepts pass at 0.50 and 8 at 0.80,
+and which of those is right is a chess judgement.
+
+  [ ] allows_pressure   (similarity 0.89)
+      François-André Danican Philidor:
+        It is therefore recapitulated, with the points which the EDITOR invites to be considered, distinguished by Italics. "The king cannot castle _when in check_, nor after having been moved, _nor if in pas
+      Howard Staunton:
+        To make this clear, we will begin with the King, and show his mode of moving and of capturing an adverse man. The King can move one square only at a time (except in "Castling," which will be explained
+
+  [ ] allows_square   (similarity 0.63)
+      José Raúl Capablanca:
+        THE INFLUENCE OF A "HOLE" The influence of a so-called "hole" in a game has already been illustrated in my game against Blanco (page 81), where has been shown the influence exercised by the different 
+      Edward Lasker:
+        Finally, as regards the middle game_, to which the whole of Part II is devoted, I have again made the handling of pawns, the hardest of all problems of strategy, the starting-point for my deliberation
+
+  [ ] backRankMate   (similarity 0.72)
+      Edward Lasker:
+        We shall see that in the latter case it is impossible to drive the King into a corner without bringing about a stalemate. The mates by a Queen or Rook are so simple that I only give an example of each
+      François-André Danican Philidor:
+        In the foregoing estimate, of the five superior pieces the highest force is taken; that is to say, each is supposed to be in that part of the board where its sphere of action is largest: assuming, how
+
+  [ ] capturingDefender   (similarity 0.79)
+      Edward Lasker:
+        4 for instance, it is evident that Black has to keep the two squares b8 and b4 guarded on which the Knight a6 threatens mate. Mate In Two Moves The only square for Black's Queen from which to guard bo
+      François-André Danican Philidor:
+        [16] One piece to guard another, at Chess, must be placed so that if the piece he is designed to guard were an opponent he could take him. The king alone is to be guarded in a different mode, and that
+
+  [ ] concedes_weakness   (similarity 0.90)
+      Edward Lasker:
+        White obtains a passed pawn on the opposite wing to that of the King. He forces the Black King to abandon his King’s side pawns, and these are lost. By simply enumerating the moves necessary for eithe
+      Howard Staunton:
+        The Pawn moves only one square at a time, and that _straight forward_, except in the act of capturing, when it takes one step diagonally to the right or left file on to the square occupied by the man 
+
+  [ ] discoveredAttack   (similarity 0.90)
+      François-André Danican Philidor:
+        (a) If, instead of the bishop, the pawn had taken the knight; the black bishop, by taking that pawn, would have given check-mate instantly. (b) The object of this and the future moves of the white pla
+      Howard Staunton:
+        In this situation the white King is threatened with what is called "a discovered check," that is, his opponent, by removing the Bishop, would _discover_ check from the Queen, a proceeding in the prese
+
+  [ ] endgame_error   (similarity 0.90)
+      José Raúl Capablanca:
+        The student would do well to familiarise himself with the handling of the King in all examples of opposition. --The following position is an excellent proof of the value of the opposition as a means o
+      Edward Lasker:
+        57 that is, by bringing his King to B5. This he achieves by forcing the Black King to relinquish the opposition with 1. This position, being of frequent occurrence, is most important, and I recommend 
+
+  [ ] hangingPawn   (similarity 0.87)
+      Edward Lasker:
+        It is necessary to make it a rule to examine positions in which each side has a passed pawn, by counting the moves in the way first shown. It is just because end-games can be calculated to a nicety, t
+      François-André Danican Philidor:
+        In the former edition of this work, the author took occasion to introduce, with a game of PHILIDOR, some observations on the critical situations, into which an inexperienced player may get, from attem
+
+  [ ] late_castling   (similarity 0.89)
+      François-André Danican Philidor:
+        _The two points_ to which every thing else is to subserve, are, _the giving check-mate to the adversary’s king_, and _the preservation of your own_. On that side of the board, whether right or left, o
+      Howard Staunton:
+        Be cautious of playing your Queen in front of your King and in subjecting yourself to a _discovered check_. It is better when check is given to your King to interpose a man that attacks the checking P
+
+  [ ] long_think_error   (similarity 0.78)
+      Edward Lasker:
+        The student will no longer need to discover time-worn maxims in the light of his own weary experience, and on the other hand, these principles will help him to understand analysis, and to keep clearly
+      François-André Danican Philidor:
+        From first to last, the changes and declensions, successively taking place in the number, value, and situation of the pieces must be noted with exactness; and no movement at any time made till the con
+
+  [ ] pawn_error   (similarity 0.87)
+      Edward Lasker:
+        It is necessary to make it a rule to examine positions in which each side has a passed pawn, by counting the moves in the way first shown. It is just because end-games can be calculated to a nicety, t
+      Howard Staunton:
+        The Pawn moves only one square at a time, and that _straight forward_, except in the act of capturing, when it takes one step diagonally to the right or left file on to the square occupied by the man 
+
+  [ ] pin   (similarity 0.79)
+      Edward Lasker:
+        The position of Diagram 39 is somewhat related to that of Diagram 38, as far as the possibility of a sacrifice for the sake of a pin is concerned. If White plays B-b5+ Black must not interpose his Bis
+      Franklin K. Young:
+        The basis of this illogical, illegal, and untenable assumption is: The pinned piece, belonging to that force which has the privilege of moving, can abandon its post, and capture the adverse King; this
+
+  [ ] repeat_move   (similarity 0.82)
+      Edward Lasker:
+        In most of these cases some pieces are on the board in addition to the Pawns and sometimes it is only by their exchange that the game can be won. But the black King arrives there in the same number of
+      François-André Danican Philidor:
+        (c) If he refuse to take your bishop, you must take his king’s knight, and push your queen’s knight’s pawn two squares, attacking his bishop; and afterwards push the same pawn upon his knight, in orde
+
+  [ ] slow_development   (similarity 0.76)
+      Edward Lasker:
+        As was stated before, the point of greatest importance in the opening is to develop the pieces without loss of time, that is, to place them on squares where they have as much mobility as possible with
+      François-André Danican Philidor:
+        _Note_—Sometimes a check-mate or a stale will speedily terminate the game; sometimes it will happen that the pieces are nearly played away, without either taking place. [22] The kings, in the course o
+

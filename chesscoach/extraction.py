@@ -76,6 +76,24 @@ def sentences_of(passage: str) -> list[str]:
     return found[:MAX_SENTENCES]
 
 
+def naming_sentences(concept: str, passage: str) -> list[str]:
+    """The passage's own sentences that actually name the concept.
+
+    **What agreement should be measured on.** E79 compared whole 2,400-character
+    passages and found the threshold did nothing -- 16 concepts servable at 0.50
+    and at 0.75 alike -- because a passage is mostly *not* about the term that
+    got it retrieved, so two passages resemble each other as chess prose whatever
+    they say about the concept.
+
+    A sentence that names the term is the smallest thing that can agree or
+    disagree about it, and comparing those is what turns "these are both chess"
+    into "these say the same thing".
+    """
+    from chesscoach.knowledge_swarm import _names
+
+    return [s for s in sentences_of(passage) if _names(s, concept)]
+
+
 def mentions(concept: str, passage: str, phrases=()) -> bool:
     """Does the passage use the concept at all, in any of its real phrasings?
 
@@ -98,6 +116,14 @@ def mentions(concept: str, passage: str, phrases=()) -> bool:
     # missing. Matching whole search phrases refused every `pin` passage, and
     # matching their content words accepted every `skewer` passage because
     # "chess" was among them.
+    #
+    # A third case was fixed in `_GENERIC` rather than here: `backRankMate` was
+    # corroborated by Philidor on piece values and Staunton on the opening
+    # setup, neither about a back-rank mate, both using **"rank"**. Requiring
+    # two words of a compound term looked like the fix and was not -- it also
+    # rejected `late_castling`, where "late" is this project's jargon and only
+    # "castling" is the chess term. "rank" and "file" are board furniture, as
+    # generic as "square" already was, so they belong in the generic set.
     return _names(passage, concept)
 
 
