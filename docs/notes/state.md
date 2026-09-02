@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788278400000
+updated: 1788285600000
 created: 1785254500000
 ---
 
@@ -244,6 +244,21 @@ struck through: a list nobody can act on is not a plan.
    a pawn is too small to call a fork ([[experiments.e57-fork-rebuilt]]).
 
 ### Open, and unblocked
+
+0. **THE COACH ANSWERS QUESTIONS** → [[experiments.e80-answering]] *(2026-09-01)*. `chesscoach ask
+   "what is a backward pawn?"` returns a definition attributed to **Lasker, Philidor and Staunton**
+   with three `book://` locators; *"how does a knight move?"* comes from the generated rule;
+   *"why is the Sveshnikov Sicilian good?"* is **refused, citing nothing**. This is the goal the graph
+   was built for and it closes stages 1-3 into something usable.
+
+0. **P1 — the answer path does not use corroboration.** It counts distinct authors among the
+   retrieved passages, which is close to E79's lineage count but not the same, and it uses the
+   agreement check not at all. Wiring E79's `Corroboration` in would let an answer say *"three
+   independent authors agree"* rather than *"three of the passages I read were by different people"*.
+
+0. **P2 — which source the model actually used is not knowable.** Citations are what was put in front
+   of it. Honest, and weaker than "this sentence came from that passage".
+
 
 0. **STAGE 3 BUILT — extraction and corroboration** → [[experiments.e79-corroboration]]
    *(2026-09-01)*. 7 books, **6 independent lineages**, 1,159 passages. **16 concepts of 19 reach two

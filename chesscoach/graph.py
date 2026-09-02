@@ -140,6 +140,16 @@ class GraphStore:
         for statement in _CONSTRAINTS:
             self._run(statement)
 
+    def _retrievable(self, label: str, node_id: str, text: str) -> None:
+        """Give a node the shared label and an embedding, so search reaches it."""
+        vector = embed(text)
+        self._run(
+            f"MATCH (n:{label} {{name: $name}}) "
+            "SET n:Knowledge, n.id = $id, n.text = $text "
+            "WITH n CALL db.create.setNodeVectorProperty(n, 'embedding', $vector)",
+            name=node_id.split("://", 1)[1], id=node_id, text=text, vector=vector,
+        )
+
     def load_rules(self) -> int:
         """Load the rules layer: movement, outcomes, and the Lichess speeds.
 
@@ -160,6 +170,9 @@ class GraphStore:
                 special=rule.special, attacks=list(rule.attacks_from_centre),
                 provenance=rule.generated_by,
             )
+            self._retrievable(
+                "Rule", f"rule://how the {rule.piece} moves",
+                f"How the {rule.piece} moves. {rule.description} {rule.special}".strip())
             written += 1
 
         for rule in outcome_rules():
@@ -170,6 +183,8 @@ class GraphStore:
                 name=rule.name, statement=rule.statement,
                 provenance=rule.implemented_by,
             )
+            self._retrievable("Rule", f"rule://{rule.name}",
+                              f"{rule.name}. {rule.statement}")
             written += 1
 
         for rule in time_control_rules():
@@ -182,6 +197,7 @@ class GraphStore:
                 upper=rule.upper_seconds, examples=list(rule.examples),
                 provenance=rule.implemented_by,
             )
+            self._retrievable("TimeControl", f"rule://{rule.name}", rule.statement)
             written += 1
 
         return written
@@ -197,9 +213,15 @@ class GraphStore:
         Verified on `neo4j:5-community` 5.26.30 before the design relied on it,
         so the vector half needs no second database.
         """
+        # Indexed on the shared `:Knowledge` label, so one query reaches
+        # rules and book passages alike. The alternative was a keyword gate in
+        # front of retrieval, and the one I wrote answered "what is a backward
+        # pawn?" with the rule for how a pawn *moves* -- it matched on the last
+        # word of the question. Similarity is a better judge of what a question
+        # is about than the last noun in it.
         self._run(
-            "CREATE VECTOR INDEX passage_embedding IF NOT EXISTS "
-            "FOR (p:Passage) ON (p.embedding) "
+            "CREATE VECTOR INDEX knowledge_embedding IF NOT EXISTS "
+            "FOR (k:Knowledge) ON (k.embedding) "
             "OPTIONS {indexConfig: {`vector.dimensions`: $dimensions, "
             "`vector.similarity_function`: 'cosine'}}",
             dimensions=DIMENSIONS,
@@ -258,7 +280,7 @@ class GraphStore:
             for (book, locator, text), vector in zip(batch, vectors):
                 self._run(
                     "MERGE (p:Passage {id: $id}) "
-                    "SET p.text = $text, p.book = $book "
+                    "SET p:Knowledge, p.text = $text, p.book = $book "
                     "WITH p CALL db.create.setNodeVectorProperty(p, 'embedding', $vector) "
                     "WITH p MATCH (s:Source {id: $book}) MERGE (p)-[:FROM]->(s)",
                     id=locator, text=text, book=book.slug, vector=vector,
@@ -274,15 +296,41 @@ class GraphStore:
         built on this quotes a book or it says nothing.
         """
         vector = embed(question)
+        # Over-fetched, because the two kinds of knowledge are wildly unequal in
+        # number -- 12 generated rules against 1,159 book passages -- and the
+        # rules are short, focused statements that embed strongly for any
+        # definitional question. Asked "what is a backward pawn?", the top three
+        # were all rules and the answer became a refusal, from a shelf that
+        # discusses backward pawns in four voices.
         rows = self._run(
-            "CALL db.index.vector.queryNodes('passage_embedding', $k, $vector) "
+            "CALL db.index.vector.queryNodes('knowledge_embedding', $wide, $vector) "
             "YIELD node, score "
-            "MATCH (node)-[:FROM]->(s:Source) "
+            "OPTIONAL MATCH (node)-[:FROM]->(s:Source) "
             "RETURN node.id AS locator, node.text AS text, score, "
-            "       s.title AS title, s.author AS author, s.year AS year",
-            k=k, vector=vector,
+            "       coalesce(s.title, node.kind) AS title, "
+            "       coalesce(s.author, node.provenance) AS author, "
+            "       coalesce(s.year, '') AS year, "
+            "       'Rule' IN labels(node) OR 'TimeControl' IN labels(node) "
+            "         AS generated",
+            wide=max(k * 6, 12), vector=vector,
         )
-        return [dict(row) for row in rows]
+        found = [dict(row) for row in rows]
+
+        # At most half the answer's material may be generated rules, so the
+        # books are always heard from when they have anything to say. The cap
+        # is a floor on book coverage rather than a preference between them.
+        allowed = max(1, k // 2)
+        kept: list[dict] = []
+        generated = 0
+        for row in found:
+            if row.get("generated"):
+                if generated >= allowed:
+                    continue
+                generated += 1
+            kept.append(row)
+            if len(kept) == k:
+                break
+        return kept
 
     def counts(self) -> dict[str, int]:
         """How many nodes of each label. The cheapest check that a load worked."""

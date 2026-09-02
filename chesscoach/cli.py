@@ -704,6 +704,12 @@ def build_parser() -> argparse.ArgumentParser:
                        help="wipe first; safe, because nothing is authored in the database")
     graph.set_defaults(handler=build_graph)
 
+    question = subcommands.add_parser(
+        "ask", help="ask the knowledge base a chess question")
+    question.add_argument("question")
+    question.add_argument("--model", default="phi4-mini:3.8b")
+    question.set_defaults(handler=ask)
+
     peers = subcommands.add_parser(
         "build-peer-reference", help="build a rating-band reference population from PGN files"
     )
@@ -1266,6 +1272,43 @@ def build_graph(args: argparse.Namespace) -> int:
         print(f"  rules layer: {written} nodes")
         for label, n in sorted(store.counts().items()):
             print(f"    {label:<16}{n:>7}")
+    return 0
+
+
+
+def ask(args: argparse.Namespace) -> int:
+    """Answer one chess question from the knowledge base.
+
+    The conversational half of [[design.graph-knowledge-base]], and the reason
+    the graph exists at all: the coach should be able to discuss a report rather
+    than only hand one over.
+
+    **A rules question is answered from the generated layer**, which is exact:
+    piece movement comes from `python-chess` and the speeds from the classifier
+    that decides them. Everything else is answered from the books, quoted and
+    attributed, or refused.
+    """
+    from chesscoach.answering import answer
+    from chesscoach.graph import GraphStore, GraphUnavailable, settings_from_env
+
+    settings = settings_from_env()
+    try:
+        store = GraphStore.connect(settings)
+    except GraphUnavailable as error:
+        # Loudly, because a stopped database and a question nobody can answer
+        # must never look the same (L-046).
+        print(f"cannot reach the graph at {settings.uri}: {error}")
+        print("start it with:  docker compose up -d")
+        return 1
+
+    with store:
+        # No keyword gate in front of retrieval. A first version answered from
+        # the rules layer when the question's **last word** named a rule, which
+        # answered "what is a backward pawn?" with how a pawn moves and missed
+        # "how does a knight move?" entirely. Rules and passages are indexed
+        # together now and similarity decides which is relevant.
+        found = answer(args.question, store, model=args.model)
+    print(found.rendered())
     return 0
 
 
