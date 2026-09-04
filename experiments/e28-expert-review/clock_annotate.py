@@ -43,6 +43,7 @@ from compare import parse_notes  # noqa: E402
 
 from chesscoach.analysis.core import analyse_corpus  # noqa: E402
 from chesscoach.ingest.corpus import build_corpus  # noqa: E402
+from chesscoach.phrasing import move_number  # noqa: E402
 from chesscoach.pipeline import engine_session, load_games  # noqa: E402
 from chesscoach.sections.base import diagnosable  # noqa: E402
 from chesscoach.sections.s2_decision_process import INSTANT_MOVE_SECONDS  # noqa: E402
@@ -87,7 +88,11 @@ def main() -> int:
             mine = [o for o in observations if o.mover.lower() == player.lower()]
             by_game = {}
             for o in mine:
-                by_game.setdefault(o.game_id, {})[o.ply // 2 + 1] = o
+                # `move_number`, not `ply // 2 + 1`: the second gets White
+                # right and puts **every Black move one too high**, so a
+                # reviewer's note about Black's move 31 was read against
+                # move 32's clock (L-044).
+                by_game.setdefault(o.game_id, {})[move_number(o.ply)] = o
 
             # The reviewer numbers games by their order in the PGN they opened.
             games_by_index = {i: g for i, g in enumerate(games, start=1)}

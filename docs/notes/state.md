@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788336000000
+updated: 1788350400000
 created: 1785254500000
 ---
 
@@ -430,8 +430,14 @@ struck through: a list nobody can act on is not a plan.
    1302 against a 1400-1800 baseline ([[experiments.e70-band-mismatch]]), so their 59 % against 46 %
    is partly the band mismatch. Worth re-reading once the read-side band decision is made.
 
-0. **P1 — Re-run E31 and E44** on the corrected move numbers. Both joined the author's noted moves
-   with a formula that has since been fixed, and neither has been redone.
+0. **DONE — E31 and E44 re-run, and a third experiment was stale**
+   → [[experiments.e82-move-number-rerun]]. `ply // 2 + 1` had been **copied into five files** and
+   fixed in none; three of them joined the reviewer's own noted move numbers, not the two this entry
+   named. **E44: 34 % → 29 % instant, and its one counterexample disappears** — cademan 1.25× → 0.77×,
+   so every player is now below 1 and the note's conclusion is stronger than it could state.
+   **E31: `bjagus` 80 %/10 % → 100 %/60 %**, but across six players 76 %/37 % against 76 %/35 % — the
+   aggregate barely moves while the per-player numbers move both ways, because the off-by-one
+   *shuffled* which notes matched rather than inflating them.
 
 0. **DONE — `build_resource` is wired into the report.** A new section, *THE OPENING YOU PLAY*,
    showing the main line and the variants the player actually reaches with their own game counts.

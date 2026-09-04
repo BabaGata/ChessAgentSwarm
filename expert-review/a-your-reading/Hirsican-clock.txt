@@ -10,7 +10,7 @@ Your typical move in these 20 games took 2.0s, and
 57% of ALL your moves were instant — but that count includes
 opening book and forced recaptures. The fair comparison is the
 51% of your post-opening, still-competitive moves that were
-instant, and the 41% of the moves the engine calls mistakes.
+instant, and the 39% of the moves the engine calls mistakes.
 
  game  move    spent  corrected  note
 ------------------------------------------------------------------------------
@@ -21,8 +21,8 @@ instant, and the 41% of the moves the engine calls mistakes.
     1    23     6.0s       same  Not defending properly move 23.
     1    23     6.0s       same  Loosing a piece move 23.
     1    26     9.0s       same  Loosing a piece move 26.
-    2    17     1.0s       same  Not taking a piece move 17.  <-- INSTANT
-    2    19     5.0s       same  Missing a fork move 19.
+    2    17     3.0s       same  Not taking a piece move 17.
+    2    19     4.0s       same  Missing a fork move 19.
     3     8     5.0s       same  Not attacking properly move 8.
     3    13     3.0s       same  Not taking a pawn move 13.
     3    18     2.0s       same  Pin move 18.  <-- INSTANT
@@ -33,22 +33,22 @@ instant, and the 41% of the moves the engine calls mistakes.
     3    36     1.0s       same  Missing a checkmate move 36.  <-- INSTANT
     3    39     2.0s       same  Giving a pawn move 39.  <-- INSTANT
     4     8     4.0s       same  Passive move move 8.
-    4    28     3.0s       same  Not seeing checkmate move 28.
+    4    28     4.0s       same  Not seeing checkmate move 28.
     5    25     2.0s       same  Giving up material move 25.  <-- INSTANT
-    6    15     3.0s       same  Not defending properly move 15.
+    6    15     7.0s       same  Not defending properly move 15.
     7    24     3.0s       same  Loosing a piece move 24.
-    8    14     4.0s       same  Not taking a pawn move 14.
-    8    25     2.0s       same  Giving a pawn move 25.  <-- INSTANT
-    8    29     2.0s       same  Fork move 29.  <-- INSTANT
-    8    32     2.0s       same  Fork move 32.  <-- INSTANT
+    8    14     2.0s       same  Not taking a pawn move 14.  <-- INSTANT
+    8    25     3.0s       same  Giving a pawn move 25.
+    8    29     3.0s       same  Fork move 29.
+    8    32     4.0s       same  Fork move 32.
     9    11    12.0s       same  Loosing a pawn move 11.
     9    11    12.0s       same  Not putting pressure move 11.
     9    26     0.0s       same  Fork move 26.  <-- INSTANT
     9    36     2.0s       same  Not defending properly move 36.  <-- INSTANT
-   10    11     2.0s       same  Weekening king move 11.  <-- INSTANT
+   10    11     7.0s       same  Weekening king move 11.
    10    14        —          —  (no clock, or not your move)
-   11    16     0.0s       same  Not taking a pawn move 16.  <-- INSTANT
-   11    21    18.0s       same  Fork move 21.
+   11    16     2.0s       same  Not taking a pawn move 16.  <-- INSTANT
+   11    21     2.0s       same  Fork move 21.  <-- INSTANT
    11    22     2.0s       same  Loosing a piece move 22.  <-- INSTANT
    12    26    10.0s       same  Not taking material move 26.
    12    26    10.0s       same  Loosing material move 26.
@@ -59,25 +59,25 @@ instant, and the 41% of the moves the engine calls mistakes.
    15    14     3.0s       same  Loosing a pawn move 14.
    15    16     9.0s       same  Loosing a rook move 16.
    15    21    17.0s       same  Pin move 21.
-   16    17     1.0s       same  Good piece for a bad piece move 17.  <-- INSTANT
-   16    19     0.0s       same  Loosing a pawn move 19.  <-- INSTANT
+   16    17     8.0s       same  Good piece for a bad piece move 17.
+   16    19     3.0s       same  Loosing a pawn move 19.
    16    30     3.0s       same  Not defending properly move 30.
-   17    11     3.0s       same  Fork move 11.
-   17    19     8.0s       same  Not taking a piece move 19.
-   17    23    20.0s       same  Not taking material move 23.
+   17    11     0.0s       same  Fork move 11.  <-- INSTANT
+   17    19    19.0s       same  Not taking a piece move 19.
+   17    23     7.0s       same  Not taking material move 23.
    19    10     8.0s       same  Not seeing checkmate move 10.
    19    12     1.0s       same  Not taking a pawn move 12.  <-- INSTANT
    19    33     2.0s       same  Giving a piece move 33.  <-- INSTANT
-   20    10     7.0s       same  Giving a piece move 10.
+   20    10     1.0s       same  Giving a piece move 10.  <-- INSTANT
 ------------------------------------------------------------------------------
   notes with a move number      55
   of those, with a clock reading  54
-  played in 2s or less          23   (43% of the timed ones)
-  still instant after increment   23
+  played in 2s or less          20   (37% of the timed ones)
+  still instant after increment   20
   your instant rate, all moves   57%
   ...post-opening & competitive  51%   <-- the fair comparison
-  ...moves the engine calls bad  41%
-  so a mistake YOU noticed was 0.84x as likely to be instant as a typical position you were reading
+  ...moves the engine calls bad  39%
+  so a mistake YOU noticed was 0.73x as likely to be instant as a typical position you were reading
 
 None of your notes mentions the clock, so these are mistakes you found
 on the board alone. Where the time is very short, the move may be worth

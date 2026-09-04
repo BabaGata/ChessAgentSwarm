@@ -117,7 +117,11 @@ def main() -> int:
         for game_id, ply, fen, feature in picked:
             board = chess.Board(fen)
             lines.append(f"### {feature}")
-            lines.append(f"- game `{game_id}`, ply {ply}, move {ply // 2 + 1}")
+            # Must match `chesscoach.phrasing.move_number`. Not imported because these
+            # two predate the package and depend on nothing in it; the arithmetic is
+            # inlined instead. `ply // 2 + 1` -- what was here -- puts every Black move
+            # one too high, and it spread to four experiments by being copied (L-044).
+            lines.append(f"- game `{game_id}`, ply {ply}, move {(ply + 1) // 2}")
             lines.append(f"- FEN: `{fen}`")
             lines.append("```")
             lines.append(str(board))

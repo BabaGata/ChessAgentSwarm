@@ -10,39 +10,39 @@ Your typical move in these 20 games took 2.0s, and
 62% of ALL your moves were instant — but that count includes
 opening book and forced recaptures. The fair comparison is the
 58% of your post-opening, still-competitive moves that were
-instant, and the 48% of the moves the engine calls mistakes.
+instant, and the 45% of the moves the engine calls mistakes.
 
  game  move    spent  corrected  note
 ------------------------------------------------------------------------------
     8    31     5.0s       same  Loosing queen for knight move 31.
-    9    17     0.0s       same  Loosing pawn move 17.  <-- INSTANT
-    9    23     1.0s       same  Knight fork move 23.  <-- INSTANT
+    9    17     1.0s       same  Loosing pawn move 17.  <-- INSTANT
+    9    23     9.0s       same  Knight fork move 23.
    11    16    31.0s       same  Loosing pawn move 16.
    11    26     2.0s       same  Making isolated pawn move 26.  <-- INSTANT
    11    36     1.0s       same  Not taking material move 36.  <-- INSTANT
    11    38     0.0s       same  Not taking material move 38.  <-- INSTANT
-   12    11     7.0s       same  Loosing pawn move 11.
-   12    14     4.0s       same  Making isolated pawn move 14.
-   12    17     5.0s       same  Missing pawn structure worsening motif move 
-   12    39     8.0s       same  Loosing material move 39.
+   12    11     6.0s       same  Loosing pawn move 11.
+   12    14     5.0s       same  Making isolated pawn move 14.
+   12    17     7.0s       same  Missing pawn structure worsening motif move 
+   12    39     3.0s       same  Loosing material move 39.
    13    14    13.0s       same  Missing pawn structure worsening motif for t
    13    14    13.0s       same  Loosing pawn move 14.
    14     9     6.0s       same  Missing knight fork motif move 9.
    14    43     7.0s       same  Loosing pawn move 43.
    16    15     7.0s       same  Placing queen on the attacked square move 15
-   18    28     4.0s       same  Not defending properly move 28.
-   19    21     2.0s       same  Loosing piece move 21.  <-- INSTANT
-   19    41     3.0s       same  Loosing piece move 41.
+   18    28     3.0s       same  Not defending properly move 28.
+   19    21    12.0s       same  Loosing piece move 21.
+   19    41     2.0s       same  Loosing piece move 41.  <-- INSTANT
    20    24     4.0s       same  Being greedy over material instead of defend
 ------------------------------------------------------------------------------
   notes with a move number      20
   of those, with a clock reading  20
-  played in 2s or less           6   (30% of the timed ones)
-  still instant after increment    6
+  played in 2s or less           5   (25% of the timed ones)
+  still instant after increment    5
   your instant rate, all moves   62%
   ...post-opening & competitive  58%   <-- the fair comparison
-  ...moves the engine calls bad  48%
-  so a mistake YOU noticed was 0.52x as likely to be instant as a typical position you were reading
+  ...moves the engine calls bad  45%
+  so a mistake YOU noticed was 0.43x as likely to be instant as a typical position you were reading
 
 None of your notes mentions the clock, so these are mistakes you found
 on the board alone. Where the time is very short, the move may be worth

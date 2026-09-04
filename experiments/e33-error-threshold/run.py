@@ -43,6 +43,7 @@ from chesscoach.analysis.core import analyse_corpus  # noqa: E402
 from chesscoach.analysis.labels import BLUNDER_WP, ErrorLabel  # noqa: E402
 from chesscoach.ingest.corpus import build_corpus  # noqa: E402
 from chesscoach.orchestrator import default_agents  # noqa: E402
+from chesscoach.phrasing import move_number  # noqa: E402
 from chesscoach.pipeline import engine_session, load_games  # noqa: E402
 from chesscoach.sections.base import SectionContext  # noqa: E402
 from chesscoach.tactics import detect_motifs  # noqa: E402
@@ -97,7 +98,11 @@ def agreement(player: str, games, observations, threshold: float) -> tuple[int, 
     for o in observations:
         if o.mover != player:
             continue
-        own.setdefault(o.game_id, {}).setdefault(o.ply // 2 + 1, []).append(o)
+        # `move_number`, not `ply // 2 + 1`. This joins the reviewer's own
+        # notes by move number, and the second form puts every Black move
+        # one too high -- so a note about Black's move 31 was read against
+        # move 32 (L-044, D17).
+        own.setdefault(o.game_id, {}).setdefault(move_number(o.ply), []).append(o)
 
     checkable = detected = named = 0
     for note in notes:

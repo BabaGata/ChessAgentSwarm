@@ -26,6 +26,7 @@ from compare import expected_signals, parse_notes
 
 from chesscoach.analysis.core import analyse_corpus
 from chesscoach.ingest.corpus import build_corpus
+from chesscoach.phrasing import move_number  # noqa: E402
 from chesscoach.pipeline import engine_session, load_games
 from chesscoach.tactics import detect_motifs
 
@@ -58,7 +59,11 @@ with engine_session(ENGINE, 15, CACHE) as session:
         own: dict[str, dict[int, list]] = {}
         for o in observations:
             if o.mover == player:
-                own.setdefault(o.game_id, {}).setdefault(o.ply // 2 + 1, []).append(o)
+                # `move_number`, not `ply // 2 + 1`. This joins the reviewer's own
+                # notes by move number, and the second form puts every Black move
+                # one too high -- so a note about Black's move 31 was read against
+                # move 32 (L-044, D17).
+                own.setdefault(o.game_id, {}).setdefault(move_number(o.ply), []).append(o)
 
         # Coverage: of all this player's labelled errors, how many carry ANY
         # motif under the current scheme (best move, or opponent's reply)?

@@ -15,45 +15,45 @@
     7         Overseeing king attack tactic.                  -                     NO MOVE GIVEN
     8         Giving up good piece for a bad one.             -                     NO DETECTOR
     8         Loosing pawn.                                   -                     NO MOVE GIVEN
-    8     31  Loosing queen for knight move 31.             14.1  capturingDefender,disaw, did not name
-    9     17  Loosing pawn move 17.                          4.9  nothing             MISSED
-    9     23  Knight fork move 23.                          35.4  capturingDefender,diNAMED
-   11     16  Loosing pawn move 16.                         10.5  error only          saw, did not name
-   11     26  Making isolated pawn move 26.                  6.8  discoveredAttack    saw, did not name
-   11     36  Not taking material move 36.                  39.5  hangingPiece        NAMED
-   11     38  Not taking material move 38.                  39.5  hangingPiece        NAMED
-   12     11  Loosing pawn move 11.                          6.7  capturingDefender,pisaw, did not name
-   12     14  Making isolated pawn move 14.                  4.0  nothing             MISSED
-   12     17  Missing pawn structure worsening motif move 17  15.7  fork                saw, did not name
-   12     39  Loosing material move 39.                     22.1  hangingPiece        NAMED
-   13     14  Missing pawn structure worsening motif for the  23.5  hangingPawn         saw, did not name
-   13     14  Loosing pawn move 14.                         23.5  hangingPawn         NAMED
-   14      9  Missing knight fork motif move 9.             36.7  discoveredAttack    saw, did not name
-   14     43  Loosing pawn move 43.                         33.7  fork                saw, did not name
+    8     31  Loosing queen for knight move 31.             12.9  capturingDefender   saw, did not name
+    9     17  Loosing pawn move 17.                          8.1  hangingPawn         NAMED
+    9     23  Knight fork move 23.                          27.6  fork,pin            NAMED
+   11     16  Loosing pawn move 16.                         11.1  hangingPawn,hangingPNAMED
+   11     26  Making isolated pawn move 26.                  8.9  capturingDefender   saw, did not name
+   11     36  Not taking material move 36.                  38.1  hangingPiece        NAMED
+   11     38  Not taking material move 38.                  38.1  hangingPiece        NAMED
+   12     11  Loosing pawn move 11.                          6.4  capturingDefender   saw, did not name
+   12     14  Making isolated pawn move 14.                 19.9  error only          saw, did not name
+   12     17  Missing pawn structure worsening motif move 17  11.8  error only          saw, did not name
+   12     39  Loosing material move 39.                     18.9  hangingPiece        NAMED
+   13     14  Missing pawn structure worsening motif for the  21.3  hangingPawn         saw, did not name
+   13     14  Loosing pawn move 14.                         21.3  hangingPawn         NAMED
+   14      9  Missing knight fork motif move 9.             38.5  capturingDefender,foNAMED
+   14     43  Loosing pawn move 43.                         30.9  hangingPawn         NAMED
    15         Worsening pawn structure.                       -                     NO MOVE GIVEN
-   16     15  Placing queen on the attacked square move 15.  39.5  hangingPiece        NAMED
-   18     28  Not defending properly move 28.               70.0  error only          saw, did not name
-   19     21  Loosing piece move 21.                        39.3  discoveredAttack,forsaw, did not name
-   19     41  Loosing piece move 41.                        15.1  error only          saw, did not name
-   20     24  Being greedy over material instead of defendin  68.2  error only          saw, did not name
+   16     15  Placing queen on the attacked square move 15.  39.7  hangingPiece        NAMED
+   18     28  Not defending properly move 28.               70.4  error only          saw, did not name
+   19     21  Loosing piece move 21.                        36.3  discoveredAttack,forNAMED
+   19     41  Loosing piece move 41.                         9.3  hangingPiece        NAMED
+   20     24  Being greedy over material instead of defendin  71.8  error only          saw, did not name
 
 ========================================================================================================
 MOVE-LEVEL NOTES — the ones that can actually be checked
   notes carrying a move number        20
-  the swarm flagged that same move    18  (90%)   <- DETECTION
-    ...and named the same pattern      6  (30%)   <- NAMING
-    ...but could not name it          12  (60%)
-  the swarm saw nothing there          2  (10%)
+  the swarm flagged that same move    20  (100%)   <- DETECTION
+    ...and named the same pattern     12  (60%)   <- NAMING
+    ...but could not name it           8  (40%)
+  the swarm saw nothing there          0  (0%)
 
 PAWN MATERIAL
   notes mentioning a pawn             9
-  of those, unnamed by the swarm      8
-  median loss at those moves          10.5 wp
-  below the 5 wp label threshold      2/9   <- no label means no motif ever runs
+  of those, unnamed by the swarm      5
+  median loss at those moves          11.8 wp
+  below the 5 wp label threshold      0/9   <- no label means no motif ever runs
 
 ALL NOTED MOVES
-  median loss where you saw a mistake 23.5 wp
-  below the label threshold           2/20
+  median loss where you saw a mistake 21.3 wp
+  below the label threshold           0/20
 
 EVERYTHING ELSE
   game-level 'instant moves' notes     4 confirmed, 0 not

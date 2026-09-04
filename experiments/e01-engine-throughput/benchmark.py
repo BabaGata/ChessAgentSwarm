@@ -168,7 +168,11 @@ def analyse_one_game(task: tuple[str, str, Config]) -> GameResult:
                 after_wp = win_probability(cur_cp if mover_is_white else -cur_cp)
                 label = classify(max(0.0, before_wp - after_wp))
                 if label:
-                    labels[f"{'W' if mover_is_white else 'B'}{ply // 2 + 1}"] = label
+                    # Must match `chesscoach.phrasing.move_number`. Not imported because these
+                    # two predate the package and depend on nothing in it; the arithmetic is
+                    # inlined instead. `ply // 2 + 1` -- what was here -- puts every Black move
+                    # one too high, and it spread to four experiments by being copied (L-044).
+                    labels[f"{'W' if mover_is_white else 'B'}{(ply + 1) // 2}"] = label
 
             prev_cp = cur_cp
             prev_best = info.get("pv", [None])[0]

@@ -46,6 +46,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from chesscoach.analysis.core import analyse_corpus  # noqa: E402
 from chesscoach.analysis.labels import INACCURACY_WP  # noqa: E402
 from chesscoach.ingest.corpus import build_corpus  # noqa: E402
+from chesscoach.phrasing import move_number  # noqa: E402
 from chesscoach.pipeline import engine_session, load_games  # noqa: E402
 from chesscoach.tactics import detect_motifs  # noqa: E402
 
@@ -243,7 +244,14 @@ def analyse(player: str, engine: str, cache: str | None, depth: int, limit: int)
 
         loss_by_move: dict[int, float] = {}
         for o in own:
-            move_no = o.ply // 2 + 1
+            # `move_number`, not `ply // 2 + 1`. The obvious-looking form gets
+            # White right and reports **every Black move one too high** --
+            # the defect the reviewer caught reading their own games against
+            # the reports (L-044, D17). It was fixed in `phrasing` and both
+            # of the scripts that joined the reviewer's noted moves kept
+            # their own copy of the wrong formula, so every Black move they
+            # matched was matched against the wrong ply.
+            move_no = move_number(o.ply)
             loss_by_move[move_no] = max(loss_by_move.get(move_no, 0.0), o.loss_wp)
             if o.label is not None:
                 errors_by_move.setdefault(move_no, []).append(o.label.value)

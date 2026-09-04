@@ -9,14 +9,14 @@ your reading, that is your call to make, not the script's.
 Your typical move in these 20 games took 6.0s, and
 29% of ALL your moves were instant — but that count includes
 opening book and forced recaptures. The fair comparison is the
-30% of your post-opening, still-competitive moves that were
-instant, and the 15% of the moves the engine calls mistakes.
+29% of your post-opening, still-competitive moves that were
+instant, and the 16% of the moves the engine calls mistakes.
 
  game  move    spent  corrected  note
 ------------------------------------------------------------------------------
-    1     8     9.0s       same  Missing proper defense move 8.
-    2    16    30.0s       same  Missing proper defense move 16.
-    2    21     8.0s       same  Missing proper defense move 21.
+    1     8    25.0s       same  Missing proper defense move 8.
+    2    16     2.0s       same  Missing proper defense move 16.  <-- INSTANT
+    2    21    14.0s       same  Missing proper defense move 21.
     2    42    11.0s       same  Not taking a pawn move 42.
     3    15    12.0s       same  Missing proper defense move 15.
     3    16    23.0s       same  Loosing a piece move 16.
@@ -24,42 +24,42 @@ instant, and the 15% of the moves the engine calls mistakes.
     3    24     7.0s       same  Placing a piece on the attacked spot move 24
     3    25    11.0s       same  Loosing a piece move 25.
     6    13        —          —  (no clock, or not your move)
-    8    25    15.0s       same  Loosing a pawn move 25.
-    8    28     2.0s       same  Loosing a pawn move 28.  <-- INSTANT
+    8    25     5.0s       same  Loosing a pawn move 25.
+    8    28    22.0s       same  Loosing a pawn move 28.
     9    11    18.0s       same  Giving a good square move 11.
    10    11     3.0s       same  Bad sacrifice move 11.
    10    13    38.0s       same  Not taking a pawn move 13.
    11    22     2.0s       same  Loosing center move 22.  <-- INSTANT
    11    24    10.0s       same  Not eating a pawn move 24.
-   12    11     3.0s       same  Not taking a pawn move 11.
-   12    18     2.0s       same  Bad sacrifice move 18.  <-- INSTANT
+   12    11    16.0s       same  Not taking a pawn move 11.
+   12    18    49.0s       same  Bad sacrifice move 18.
    13    46        —          —  (no clock, or not your move)
-   14     5     1.0s       same  Bad sacrifice move 5.  <-- INSTANT
-   14    12    45.0s       same  Bad sacrifice move 12.
+   14     5     2.0s       same  Bad sacrifice move 5.  <-- INSTANT
+   14    12     2.0s       same  Bad sacrifice move 12.  <-- INSTANT
    15    21    14.0s       same  Fork move 21.
    15    24    17.0s       same  Not defending properly move 24.
    15    54     3.0s       same  Endgame move 54.
-   16    26     4.0s       same  Not taking a piece move 26.
-   17     6     2.0s       same  Bad exchange calculation move 6.  <-- INSTANT
-   17    23    39.0s       same  Inactive move move 23.
+   16    26     3.0s       same  Not taking a piece move 26.
+   17     6     4.0s       same  Bad exchange calculation move 6.
+   17    23     4.0s       same  Inactive move move 23.
    18    16    26.0s       same  Loosing a pawn move 16.
    18    18     1.0s       same  A bad sacrifice move 18.  <-- INSTANT
    18    19     9.0s       same  Innacurate play move 19.
-   19     8    18.0s       same  Not destroying king's castle structure move 
-   19    11    11.0s       same  Innacurate move 11.
-   19    13    11.0s       same  Not defending properly move 13.
-   19    20     2.0s       same  Not taking a pawn move 20.  <-- INSTANT
-   19    23    46.0s       same  Loosing a piece move 23.
+   19     8     2.0s       same  Not destroying king's castle structure move   <-- INSTANT
+   19    11     2.0s       same  Innacurate move 11.  <-- INSTANT
+   19    13    12.0s       same  Not defending properly move 13.
+   19    20    52.0s       same  Not taking a pawn move 20.
+   19    23     2.0s       same  Loosing a piece move 23.  <-- INSTANT
    20    32    10.0s       same  Giving up a pawn move 32.
 ------------------------------------------------------------------------------
   notes with a move number      37
   of those, with a clock reading  35
-  played in 2s or less           7   (20% of the timed ones)
-  still instant after increment    7
+  played in 2s or less           8   (23% of the timed ones)
+  still instant after increment    8
   your instant rate, all moves   29%
-  ...post-opening & competitive  30%   <-- the fair comparison
-  ...moves the engine calls bad  15%
-  so a mistake YOU noticed was 0.68x as likely to be instant as a typical position you were reading
+  ...post-opening & competitive  29%   <-- the fair comparison
+  ...moves the engine calls bad  16%
+  so a mistake YOU noticed was 0.79x as likely to be instant as a typical position you were reading
 
 None of your notes mentions the clock, so these are mistakes you found
 on the board alone. Where the time is very short, the move may be worth

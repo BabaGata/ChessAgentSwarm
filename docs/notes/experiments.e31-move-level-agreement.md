@@ -2,11 +2,20 @@
 id: cas-exp-e31
 title: 'E31 — The swarm sees 80 % of what a reviewer sees and can name 10 % of it'
 desc: 'Per-game annotation instead of a ranked top three. Detection is good, naming is the weak layer, every pawn note is unnameable, and the reviewer works two win-probability points finer than the error labels.'
-updated: 1787097600000
+updated: 1788350400000
 created: 1787097600000
 ---
 
 # E31 — Move-level agreement, from per-game annotation
+
+> **Corrected 2026-09-02 by [[experiments.e82-move-number-rerun]].** The join between the reviewer's
+> noted move numbers and the swarm's observations used `ply // 2 + 1`, which puts **every Black move
+> one too high** — the formula `phrasing.move_number` was fixed for and this script kept its own copy
+> of. **The headline "detection 80 %, naming 10 %" was `bjagus` alone and is now 100 % and 60 %.**
+> Across all six players with notes it is **76 % detection and 37 % naming**, against 76 % and 35 %
+> before — so the aggregate barely moves while the per-player numbers move a great deal, in both
+> directions. Some of the old detections were coincidences of the off-by-one landing on a
+> neighbouring ply.
 
 **Answers:** does the swarm *see* what a reviewer sees, separately from whether it *says* it ·
 **Date:** 2026-08-15 · **Status:** done — **detection 80 %, naming 10 %**

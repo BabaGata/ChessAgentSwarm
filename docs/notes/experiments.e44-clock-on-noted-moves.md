@@ -2,11 +2,18 @@
 id: cas-exp-e44
 title: 'E44 — A third of the reviewer''s noted mistakes were played in under two seconds, and it means less than it looks'
 desc: 'The reviewer never checked the clock. Joining their 263 move-numbered notes to the PGN finds 89 played in ≤2s — but against a fair denominator the enrichment is 0.77x, so noticed mistakes are not unusually rushed. Also finds seconds_spent understating thinking time by the increment.'
-updated: 1787961600000
+updated: 1788350400000
 created: 1787961600000
 ---
 
 # E44 — What the clock says about the moves the reviewer wrote down
+
+> **Corrected 2026-09-02 by [[experiments.e82-move-number-rerun]].** The clock was read at
+> `ply // 2 + 1`, one move too high for Black, so a note about Black's move 31 was checked against
+> move 32's clock. **34 % becomes 29 %**, and the correction **removes this note's one
+> counterexample**: cademan's ratio falls from **1.25× to 0.77×**, so every player is now below 1 and
+> the reviewer's noticed mistakes were consistently *less* instant than their moves in general. The
+> note's conclusion holds and is stronger than it could state.
 
 **Answers:** the reviewer's *"no mistake is recorded as an instant move while for some this could
 definitely be the case"* · **Code:** `experiments/e28-expert-review/clock_annotate.py` ·
