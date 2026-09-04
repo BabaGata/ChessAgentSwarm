@@ -67,11 +67,23 @@ class TestAttribution:
 
 
 class TestCorroboration:
-    def test_two_voices_is_corroborated(self):
-        assert Answer("...", "q", voices=("a", "b")).corroborated
+    """These pinned the old rule and now pin the corrected one.
+
+    `corroborated` used to mean "two distinct authors were read". It now means
+    "two independent lineages **agree**", which is E79's rule -- so the fixtures
+    carry `agreeing` rather than relying on the length of `voices`. A test
+    written against a rule is evidence about that rule, and correcting the rule
+    should be expected to break it (L-051).
+    """
+
+    def test_two_agreeing_voices_is_corroborated(self):
+        assert Answer("...", "q", voices=("a", "b"), agreeing=2).corroborated
+
+    def test_two_voices_that_do_not_agree_are_not(self):
+        assert not Answer("...", "q", voices=("a", "b"), agreeing=0).corroborated
 
     def test_one_voice_is_not(self):
-        assert not Answer("...", "q", voices=("a",)).corroborated
+        assert not Answer("...", "q", voices=("a",), agreeing=1).corroborated
 
     def test_a_single_voice_is_flagged_to_the_reader(self):
         # One book is one opinion, however eminent its author, and the reader
@@ -83,7 +95,7 @@ class TestCorroboration:
 
     def test_a_corroborated_answer_is_not_hedged(self):
         rendered = Answer("Text.", "q", locators=("book://a#1",),
-                          voices=("Capablanca", "Staunton")).rendered()
+                          voices=("Capablanca", "Staunton"), agreeing=2).rendered()
 
         assert "one author's view" not in rendered
 
@@ -142,3 +154,85 @@ class TestAnswering:
         rendered = got.rendered()
         for locator in got.locators:
             assert locator in rendered
+
+
+# --- corroboration on the answer path ---------------------------------------
+
+NEAR_A = [1.0, 0.0, 0.0]
+NEAR_B = [0.9, 0.436, 0.0]   # ~0.90 with NEAR_A
+FAR = [0.0, 0.0, 1.0]        # 0.0 with both
+
+
+def hit(locator, author, lineage, vector, text="Some prose about the pawn."):
+    return {"locator": locator, "text": text, "author": author, "lineage": lineage,
+            "embedding": vector, "title": "T", "year": "1900", "score": 0.8,
+            "generated": False}
+
+
+class TestTheAnswerUsesCorroboration:
+    """Counting distinct authors is not the same as checking they agree.
+
+    E79 built the rule -- independent lineages, agreeing in their own words --
+    and the answer path shipped without it, counting *"three passages I read
+    happened to be by different people"* and calling that corroboration. Two
+    books can both be retrieved for a question and say unrelated things.
+    """
+
+    def test_two_authors_who_agree_are_corroborated(self):
+        hits = [hit("book://a#1", "Capablanca", "Capablanca", NEAR_A),
+                hit("book://b#2", "Staunton", "Staunton", NEAR_B)]
+
+        got = answer("q", FakeStore(hits), transport=transport_saying("An answer."))
+
+        assert got.corroborated
+        assert set(got.voices) == {"Capablanca", "Staunton"}
+
+    def test_two_authors_who_do_not_agree_are_not(self):
+        hits = [hit("book://a#1", "Capablanca", "Capablanca", NEAR_A),
+                hit("book://b#2", "Staunton", "Staunton", FAR)]
+
+        got = answer("q", FakeStore(hits), transport=transport_saying("An answer."))
+
+        assert not got.corroborated
+
+    def test_one_author_agreeing_with_himself_is_one_voice(self):
+        # Edward Lasker wrote two of the seven books on the shelf, so this is
+        # the real case and not a hypothetical.
+        hits = [hit("book://lasker-a#1", "Edward Lasker", "Edward Lasker", NEAR_A),
+                hit("book://lasker-b#2", "Edward Lasker", "Edward Lasker", NEAR_A)]
+
+        got = answer("q", FakeStore(hits), transport=transport_saying("An answer."))
+
+        assert not got.corroborated
+        assert got.voices == ("Edward Lasker",)
+
+    def test_an_uncorroborated_answer_still_answers_and_still_cites(self):
+        # Refusing because the books disagree would be a different claim from
+        # the one the evidence supports, and the passages are still real.
+        hits = [hit("book://a#1", "Capablanca", "Capablanca", NEAR_A),
+                hit("book://b#2", "Staunton", "Staunton", FAR)]
+
+        got = answer("q", FakeStore(hits), transport=transport_saying("An answer."))
+
+        assert got.grounded
+        assert got.locators
+
+    def test_the_reader_is_told_when_the_sources_do_not_agree(self):
+        hits = [hit("book://a#1", "Capablanca", "Capablanca", NEAR_A),
+                hit("book://b#2", "Staunton", "Staunton", FAR)]
+
+        rendered = answer("q", FakeStore(hits),
+                          transport=transport_saying("An answer.")).rendered()
+
+        assert "agree" in rendered.lower()
+
+    def test_a_generated_rule_needs_no_corroboration(self):
+        # Arithmetic does not need a second opinion, and asking for one would
+        # hedge the one part of the base that is exact.
+        rule = dict(hit("rule://how the knight moves", "python-chess", "", NEAR_A),
+                    generated=True)
+
+        got = answer("q", FakeStore([rule]), transport=transport_saying("An answer."))
+
+        assert got.computed
+        assert "agree" not in got.rendered().lower()

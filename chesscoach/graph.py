@@ -310,6 +310,11 @@ class GraphStore:
             "       coalesce(s.title, node.kind) AS title, "
             "       coalesce(s.author, node.provenance) AS author, "
             "       coalesce(s.year, '') AS year, "
+            # Lineage and embedding, because corroboration is a question about
+            # independent voices agreeing and neither can be answered from an
+            # author's display name alone.
+            "       coalesce(s.lineage, '') AS lineage, "
+            "       node.embedding AS embedding, "
             "       'Rule' IN labels(node) OR 'TimeControl' IN labels(node) "
             "         AS generated",
             wide=max(k * 6, 12), vector=vector,

@@ -31,6 +31,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 from chesscoach import ollama
+from chesscoach.corroboration import Attestation, corroborate
 
 # How many passages to put in front of the model. Enough to answer from, few
 # enough that a 3.8B model does not lose the question.
@@ -71,11 +72,19 @@ class Answer:
     # True when part of the answer came from the generated rules layer, which is
     # computed rather than quoted and needs no corroboration.
     computed: bool = False
+    # How many independent lineages actually **agree**, by E79's rule. Distinct
+    # from `len(voices)`, which is only how many were read.
+    agreeing: int = 0
 
     @property
     def corroborated(self) -> bool:
-        """Do at least two independent authors stand behind this?"""
-        return len(self.voices) >= CORROBORATED
+        """Do at least two independent authors **agree**?
+
+        Not how many were read. E79's rule: distinct lineages whose passages
+        resemble each other closely enough to be the same idea, and not so
+        closely as to be one copying the other.
+        """
+        return self.agreeing >= CORROBORATED
 
     @property
     def attribution(self) -> str:
@@ -102,12 +111,18 @@ class Answer:
             # about the wrong thing entirely.
             lines.append("— part of this is computed from the rules of chess "
                          "rather than quoted from a book.")
-        elif self.voices and not self.corroborated:
+        elif len(self.voices) == 1:
             # Said out loud rather than left to the reader to notice. One book
             # is one opinion, however eminent its author. **Not said when the
             # answer is computed**: arithmetic does not need a second opinion.
             lines.append("  Only one of the books on the shelf discusses this, "
                          "so take it as one author's view.")
+        elif len(self.voices) > 1 and not self.corroborated:
+            # Several books were read and their descriptions do not resemble
+            # each other. That is worth saying: the citations are real and the
+            # agreement they imply is not.
+            lines.append("  These books were read for this answer but do not "
+                         "agree closely on it, so treat it with care.")
         for locator in self.locators:
             lines.append(f"  {locator}")
         return "\n".join(lines)
@@ -145,25 +160,42 @@ def answer(
         # found wanting on this point, which is more than was established.
         return Answer(REFUSAL, question, grounded=False)
 
-    # Voices, in the order the passages were ranked, without repeats.
+    # **Voices are corroborated, not counted.** A first version listed the
+    # distinct authors among the retrieved passages and called that
+    # corroboration -- "three passages I read happened to be by different
+    # people", which two books can satisfy while saying unrelated things. E79
+    # built the actual rule and the answer path shipped without it.
+    #
     # **Generated rules are not voices.** `python-chess: Board.attacks(d4)` is
     # computation, and calling it an author produced "python-chess describes it
     # this way" followed by a warning that only one author discusses it -- a
-    # hedge about consensus attached to arithmetic.
-    voices: list[str] = []
-    computed = False
-    for hit in hits:
-        if hit.get("generated"):
-            computed = True
-            continue
+    # hedge about scholarly consensus attached to arithmetic.
+    computed = any(hit.get("generated") for hit in hits)
+    quoted = [hit for hit in hits if not hit.get("generated")]
+
+    candidates = [
+        Attestation(question, hit["locator"],
+                    hit.get("lineage") or hit.get("author") or "",
+                    " ".join(hit["text"].split()))
+        for hit in quoted
+    ]
+    vectors = {hit["locator"]: hit.get("embedding") or [] for hit in quoted}
+    agreed = corroborate(question, candidates, vectors)
+
+    # Everyone whose passage was read is still named -- they are cited, and
+    # hiding a source because it disagreed would be the opposite of honest.
+    # `corroborated` is what the agreement check decides.
+    named: list[str] = []
+    for hit in quoted:
         who = hit.get("author") or ""
-        if who and who not in voices:
-            voices.append(who)
+        if who and who not in named:
+            named.append(who)
 
     return Answer(
         text=said,
         question=question,
         locators=tuple(hit["locator"] for hit in hits),
-        voices=tuple(voices),
+        voices=tuple(named),
         computed=computed,
+        agreeing=agreed.independent,
     )
