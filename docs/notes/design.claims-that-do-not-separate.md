@@ -2,14 +2,14 @@
 id: cas-design-separation
 title: 'Design — What to do with a claim that does not separate players'
 desc: 'Two changes. A claim that cannot distinguish players stops carrying a peer comparison and is ranked on cost alone; and allowed_motif gets a motif-specific denominator instead of dividing every motif by the same total-error count.'
-updated: 1788577200000
+updated: 1788562800000
 created: 1788577200000
 ---
 
 # Design — Claims that do not separate players
 
 **Serves:** V8 (no unfalsifiable coaching), C1 (free) · **Answers:** the P1 opened by
-[[experiments.e83-spread-rescreen]] · **Status:** design, being built
+[[experiments.e83-spread-rescreen]] · **Status:** **D1 built. D2 built, and its rebuild is blocked.**
 
 ## The problem
 
@@ -94,6 +94,28 @@ invented** and nothing needs a source it does not have (R-03).
   figure quoting those rates becomes stale and must be re-derived, not carried over.
 - D1's list is **evidence, not opinion**, and it must be regenerated when the reference is rebuilt.
   Two of the nine (`skewer`, `backRankMate`) failed at wider MDEs, so D2 may return them.
+
+## What actually happened
+
+**D1 shipped as two gates, not three.** A third change was built and reverted: demoting these claims
+out of the assertable pool entirely. `_sort_key` already ranks evidence, then cost, then unusualness,
+so neutralising unusualness is enough; excluding them silenced the claim for most players, which is
+stricter than the instruction and throws away a cost that stays personal even where the rate is not.
+
+**D2's rebuild is blocked, and the block was already on the books.** The band guard refuses the blitz
+corpus: **15 of 65 players are outside 1400-1800**, from 720 to 2006. That is the out-of-band corpus
+question already recorded in [[state]] as an author decision, and it is not one to override -- the
+guard exists precisely so a reference is not built for a population it does not describe.
+
+**So D2 has a cost that is live right now.** The shipped reference stores `allowed_motif` rates under
+the old denominator, and the code computes the new one. Rather than let those be compared, the
+schema is bumped to **v3** and a v2 reference **refuses to price `allowed_motif.*`** while pricing
+everything else exactly as before. Verified against `peers-3af3206`: `allowed_motif.fork` and
+`allowed_motif.hangingPiece` withheld, `missed_motif.hangingPiece` and `long_think_error` unchanged.
+
+The honest summary: **`allowed_motif` has no peer comparison at all until the band question is
+settled and the reference is rebuilt.** That is a smaller error than comparing two differently
+defined quantities (L-046), and it is visible rather than silent.
 
 ## Explicitly not decided here
 

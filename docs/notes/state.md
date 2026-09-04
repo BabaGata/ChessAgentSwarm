@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788552000000
+updated: 1788562800000
 created: 1785254500000
 ---
 
@@ -255,13 +255,26 @@ struck through: a list nobody can act on is not a plan.
    `allows_square.rook_seventh`, E09's second accepted candidate. `long_think_error`, the claim that
    raised the alarm, separates fine at **2.69x**.
 
-0. **P1 — nine asserted claims do not separate players, and retiring them is an author decision.**
-   `allowed_motif.backRankMate` · `allowed_motif.fork` · `allowed_motif.skewer` ·
-   `allows_square.rook_seventh` · `concedes_weakness.isolated` · `missed_motif.discoveredAttack` ·
-   `missed_motif.fork` · `missed_motif.trappedPiece` · `slow_development.own`. A claim that does not
-   separate players cannot support *"you do this more than your peers"*, which is what the peer
-   comparison asserts. **23 more are undecided** and settling them needs per-game counts the peer
-   reference does not store.
+0. **DONE — the nine claims stop comparing, and `allowed_motif` gets a real denominator**
+   → [[design.claims-that-do-not-separate]] *(2026-09-05)*. **D1:** `peer_rate()` returns None for
+   claims players do not differ on and `_unusualness` returns neutral, so they keep competing on
+   cost — which stays personal even where the rate is not. No detector removed; the author's
+   instruction was that nothing is retired. **D2:** `allowed_motif.X` is now measured over the errors
+   where X was *available* to punish them, not over every error, which is the correction
+   `missed_motif` already had.
+
+0. **P1 — BLOCKED: the reference cannot be rebuilt, so `allowed_motif` has no peer comparison.**
+   D2 changed what `allowed_motif`'s denominator counts, so the schema is now **v3** and a v2
+   reference refuses to price those claims rather than compare two different quantities (L-046).
+   Rebuilding needs the blitz corpus, and the band guard refuses it: **15 of 65 players sit outside
+   1400-1800**, from 720 to 2006. **This is the out-of-band corpus decision already open below** —
+   it now blocks a shipped comparison, not just a rebuild. Until it is settled, `allowed_motif` is
+   measured and costed but never compared to peers.
+
+0. **P2 — re-run E83's screen once the reference is rebuilt.** The ten flat claims were measured
+   under the old denominator. D2 exists partly because that denominator was suspected of flattening
+   them, so the screen must be re-run before any of those verdicts is treated as final —
+   `allowed_motif.skewer` and `allowed_motif.backRankMate` are already marked inconclusive.
 
 
 0. **STAGE 4 BUILT — prerequisites** → [[experiments.e81-prerequisites]] *(2026-09-02)*. The partial
