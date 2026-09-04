@@ -35,6 +35,13 @@ DULL_MOVE = "a1a2"
 DULL_ALT = "a1a3"
 
 # Black to move; Ne5-f3 forks the white king on g1 and the rook on e1.
+# White to move; Rxa5 wins an undefended knight, Ra3 does not. `missed_motif
+# .hangingPiece` is a claim players *do* differ on (E83, dispersion 1.89x),
+# so it is what the peer comparison can still be tested through.
+HANGING_FEN = "4k3/8/8/n7/8/8/8/R3K3 w - - 0 1"
+HANGING_MOVE = "a1a5"
+HANGING_QUIET = "a1a3"
+
 REPLY_FORK_FEN = "6k1/8/8/4n3/8/8/8/4R1K1 b - - 0 1"
 REPLY_FORK_MOVE = "e5f3"
 
@@ -229,9 +236,36 @@ class TestFindingContent:
         assert first[0].evidence == second[0].evidence
 
 
+def player_missing_hanging_pieces(n_games: int, misses: int) -> list[Observation]:
+    """The same shape as `player_missing_forks`, on a claim that separates."""
+    observations: list[Observation] = []
+    for game in range(n_games):
+        ply = 11
+        for _ in range(misses):
+            observations.append(
+                observation(game, ply, fen=HANGING_FEN, played=HANGING_QUIET,
+                            best=HANGING_MOVE, error=True)
+            )
+            ply += 2
+        for _ in range(20):
+            observations.append(
+                observation(game, ply, fen=DULL_FEN, played=DULL_MOVE, best=DULL_MOVE, error=False)
+            )
+            ply += 2
+    return observations
+
+
 class TestPeerComparison:
-    def peers_missing_forks_at(self, rate: float):
-        key = Claim.of(kind="missed_motif", subject=Motif.FORK).key()
+    """The peer comparison, and the claims that are no longer allowed one.
+
+    E83 measured whether players differ on each claim by more than sampling
+    noise. Where they do not, no peer comparison can be asserted -- so these
+    tests exercise the mechanism through `hangingPiece`, which separates, and
+    assert the *absence* of a comparison for `fork`, which does not.
+    """
+
+    def peers_at(self, kind: str, subject: str, rate: float):
+        key = Claim.of(kind=kind, subject=subject).key()
         return build_reference(
             [
                 (name, (ConditionMeasurement(key, int(rate * 100), 100, 20, 40),))
@@ -244,19 +278,36 @@ class TestPeerComparison:
 
     def test_stays_silent_when_everyone_misses_them_just_as_often(self):
         context = a_context(
-            player_missing_forks(30, 3), peers=self.peers_missing_forks_at(1.0)
+            player_missing_hanging_pieces(30, 3),
+            peers=self.peers_at("missed_motif", Motif.HANGING_PIECE, 1.0),
         )
 
         assert S1TacticalGaps().findings(context) == ()
 
     def test_speaks_when_the_player_is_worse_than_their_peers(self):
         context = a_context(
-            player_missing_forks(30, 3), peers=self.peers_missing_forks_at(0.2)
+            player_missing_hanging_pieces(30, 3),
+            peers=self.peers_at("missed_motif", Motif.HANGING_PIECE, 0.2),
         )
 
         findings = S1TacticalGaps().findings(context)
 
         assert findings[0].measurement.peer_rate == pytest.approx(0.2)
+
+    def test_a_claim_players_do_not_differ_on_carries_no_peer_rate(self):
+        # The reference holds a rate for forks and it is deliberately not used:
+        # comparing on it would rank the player by sampling noise (E83). The
+        # claim is still measured and still costed -- the arbiter puts it in the
+        # sub-threshold pool rather than dropping it.
+        context = a_context(
+            player_missing_forks(30, 3),
+            peers=self.peers_at("missed_motif", Motif.FORK, 0.2),
+        )
+
+        findings = S1TacticalGaps().findings(context)
+
+        missed = [f for f in findings if f.claim.subject == Motif.FORK]
+        assert missed and missed[0].measurement.peer_rate is None
 
 
 class TestMeasure:

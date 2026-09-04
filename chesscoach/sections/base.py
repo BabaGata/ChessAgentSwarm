@@ -17,6 +17,7 @@ from typing import Iterable, Protocol
 
 from chesscoach.analysis.observations import Observation
 from chesscoach.ingest.corpus import Corpus
+from chesscoach.separation import separates
 from chesscoach.peers import ConditionMeasurement, PeerReference
 from chesscoach.profile.models import ConfidenceTier, Finding, Provenance
 
@@ -139,7 +140,18 @@ class SectionContext:
         return weighted / total if total else None
 
     def peer_rate(self, claim_key: str) -> float | None:
-        """Population rate for a claim, with this player left out of it."""
+        """Population rate for a claim, with this player left out of it.
+
+        **None for a claim players do not differ on.** A peer rate exists for
+        every claim the reference covers, but comparing against it only says
+        something when the underlying rates actually vary between players; where
+        they do not, the player's position in the ranking is sampling noise
+        (E83). Returning None here removes the comparison at its single source
+        -- every consumer already handles a missing peer rate by falling back to
+        cost and the player's own baseline.
+        """
+        if not separates(claim_key):
+            return None
 
         def at(speed: str) -> float | None:
             stats = self.peers.lookup(

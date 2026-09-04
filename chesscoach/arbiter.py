@@ -25,6 +25,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from chesscoach.overlap import drop_covered_claims
+from chesscoach.separation import separates
 from chesscoach.profile.models import ConfidenceTier, Finding
 
 # Raised from two to three on 2026-08-15, at the thesis author's direction after
@@ -209,6 +210,11 @@ def _recoverable(finding: Finding) -> float | None:
     return excess if excess is not None else measurement.cost_per_game
 
 
+def _claim_key(finding: Finding) -> str:
+    """The `kind.subject` form the peer reference and the register are keyed on."""
+    return f"{finding.claim.kind}.{finding.claim.subject}"
+
+
 def _unusualness(finding: Finding) -> float:
     """How far from normal this is: against peers where we have them.
 
@@ -217,6 +223,13 @@ def _unusualness(finding: Finding) -> float:
     when no reference population covers the claim.
     """
     measurement = finding.measurement
+    # A claim players do not differ on is not unusual for anyone, and the
+    # baseline fallback would hand it exactly the rank the peer comparison was
+    # just denied -- overstating "by however much the behaviour is universal"
+    # (L-012), which for these claims is all of it. Neutral: they compete on
+    # cost, which is the one thing still measured about them (E83).
+    if not separates(_claim_key(finding)):
+        return 1.0
     return measurement.lift_vs_peer or measurement.lift_vs_baseline or 1.0
 
 

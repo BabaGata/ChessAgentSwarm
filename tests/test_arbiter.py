@@ -29,7 +29,11 @@ PROVENANCE = Provenance(engine="stub", depth=15, corpus_id="c1", analysed_at="20
 
 def a_finding(
     kind: str = "missed_motif",
-    subject: str = "fork",
+    # A claim players actually differ on. `fork` was the default until E83 found
+    # players interchangeable on it, which makes `_unusualness` return neutral
+    # for it and changes the ranking these tests are about -- correctly, and for
+    # a reason that has nothing to do with what they are checking.
+    subject: str = "hangingPiece",
     tier: ConfidenceTier = ConfidenceTier.FOCUS,
     rate: float = 0.30,
     peer_rate: float | None = 0.15,
@@ -131,11 +135,11 @@ class TestDiversity:
         # Two views of the same pattern are one priority, not two.
         strong_pin = a_finding(kind="missed_motif", subject="pin", rate=0.60, peer_rate=0.10)
         same_pin = a_finding(kind="allowed_motif", subject="pin", rate=0.55, peer_rate=0.10)
-        other = a_finding(kind="missed_motif", subject="fork", rate=0.40, peer_rate=0.15)
+        other = a_finding(kind="missed_motif", subject="hangingPawn", rate=0.40, peer_rate=0.15)
 
         chosen = select_priorities((strong_pin, same_pin, other), limit=2).priorities
 
-        assert [p.finding.claim.subject for p in chosen] == ["pin", "fork"]
+        assert [p.finding.claim.subject for p in chosen] == ["pin", "hangingPawn"]
 
     def test_still_fills_the_second_slot_when_everything_shares_a_subject(self):
         findings = (
@@ -153,7 +157,7 @@ class TestExplanation:
         assert any("peers" in reason for reason in selection.priorities[0].reasons)
 
     def test_ranks_are_one_based_and_ordered(self):
-        findings = (a_finding(subject="fork"), a_finding(subject="pin"))
+        findings = (a_finding(subject="hangingPawn"), a_finding(subject="pin"))
 
         assert [p.rank for p in select_priorities(findings).priorities] == [1, 2]
 
