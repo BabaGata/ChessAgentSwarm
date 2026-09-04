@@ -42,6 +42,11 @@ HANGING_FEN = "4k3/8/8/n7/8/8/8/R3K3 w - - 0 1"
 HANGING_MOVE = "a1a5"
 HANGING_QUIET = "a1a3"
 
+# A reply position offering the opponent nothing at all: bare kings, five
+# legal moves, no motif reachable by any of them.
+REPLY_DULL_FEN = "6k1/8/8/8/8/8/8/6K1 b - - 0 1"
+REPLY_DULL_MOVE = "g8f8"
+
 REPLY_FORK_FEN = "6k1/8/8/4n3/8/8/8/4R1K1 b - - 0 1"
 REPLY_FORK_MOVE = "e5f3"
 
@@ -204,6 +209,80 @@ class TestAllowedMotifs:
         allowed = measured[f"allowed_motif.{Motif.FORK}.own"]
         assert allowed.opportunities == 60  # the 2 errors per game, not all 22 moves
         assert allowed.instances == 60
+
+
+class TestAllowedDenominator:
+    """`allowed_motif.X` is measured over errors where X was actually on offer.
+
+    Spec: docs/notes/design.claims-that-do-not-separate.md § D2
+
+    Dividing every motif by the same total-error count made the claim read "what
+    share of your mistakes this motif punishes", which is mostly a property of
+    the positions and the opponent -- and E83 found players interchangeable on
+    the rarer ones. Conditioning on the motif being available asks the
+    motif-specific question: when a fork was there after your error, how often
+    did it actually punish you?
+    """
+
+    def errors_with_replies(self, forkable: int, barren: int, games: int = 30):
+        """Errors answered by a position offering a fork, and by one offering nothing."""
+        observations: list[Observation] = []
+        for game in range(games):
+            ply = 11
+            for fen, move in ([(REPLY_FORK_FEN, REPLY_FORK_MOVE)] * forkable
+                              + [(REPLY_DULL_FEN, REPLY_DULL_MOVE)] * barren):
+                observations.append(
+                    observation(game, ply, fen=DULL_FEN, played=DULL_ALT,
+                                best=DULL_MOVE, error=True)
+                )
+                observations.append(
+                    observation(game, ply + 1, fen=fen, played=move, best=move,
+                                error=False, mover="bob")
+                )
+                ply += 2
+            for _ in range(20):
+                observations.append(
+                    observation(game, ply, fen=DULL_FEN, played=DULL_MOVE,
+                                best=DULL_MOVE, error=False)
+                )
+                ply += 2
+        return observations
+
+    def measured(self, observations):
+        return {m.claim_key: m for m in S1TacticalGaps().measure(a_context(observations))}
+
+    def test_an_error_the_motif_could_not_punish_is_not_an_opportunity(self):
+        # 2 forkable errors and 2 barren ones per game. The barren ones are still
+        # errors -- they are simply not chances for a *fork*.
+        allowed = self.measured(self.errors_with_replies(forkable=2, barren=2))[
+            f"allowed_motif.{Motif.FORK}.own"
+        ]
+
+        assert allowed.opportunities == 60
+        assert allowed.instances == 60
+
+    def test_the_rate_no_longer_dilutes_with_unrelated_mistakes(self):
+        # The same fork behaviour, buried in three times as many barren errors.
+        # Under a shared denominator the rate would fall from 0.50 to 0.25 without
+        # the player being forked any differently.
+        few = self.measured(self.errors_with_replies(forkable=2, barren=2))
+        many = self.measured(self.errors_with_replies(forkable=2, barren=6))
+        key = f"allowed_motif.{Motif.FORK}.own"
+
+        assert few[key].opportunities == many[key].opportunities
+        assert few[key].instances == many[key].instances
+
+    def test_a_motif_never_on_offer_is_never_measured(self):
+        measured = self.measured(self.errors_with_replies(forkable=0, barren=2))
+
+        assert f"allowed_motif.{Motif.FORK}.own" not in measured
+
+    def test_instances_never_exceed_opportunities(self):
+        # The best reply is a legal reply, so anything counted as an instance was
+        # available by construction. Worth asserting: the two are now counted in
+        # different places and could drift apart.
+        for key, m in self.measured(self.errors_with_replies(forkable=2, barren=2)).items():
+            assert m.instances <= m.opportunities, key
 
 
 class TestFindingContent:

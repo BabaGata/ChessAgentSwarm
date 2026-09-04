@@ -146,17 +146,6 @@ def _count(context: SectionContext) -> _Counts:
         _count_available(tallies, board, observation)
         _count_allowed(tallies, observation, replies)
 
-    # The denominator for an "allowed" claim is the player's **errors**, not all
-    # their moves. Measured across 38 players, dividing by all moves made this
-    # track the overall error rate: weaker players lit up for every motif at
-    # once, because erring more often means being punished more often by
-    # everything. Conditioning on having erred asks the pattern-specific
-    # question instead -- when you go wrong, what punishes you?
-    errors = sum(1 for o in moves if o.label is not None)
-    for key, tally in tallies.items():
-        if key.startswith(ALLOWED):
-            tally.opportunities = errors
-
     return _Counts(
         tallies=dict(tallies),
         games_with_data=len({o.game_id for o in moves}),
@@ -192,6 +181,20 @@ def _count_available(
             executed.games_hit.add(observation.game_id)
 
 
+def _available_motifs(board: chess.Board) -> frozenset[str]:
+    """Every motif some legal move in this position would execute.
+
+    Availability is defined by the existing detectors over the legal moves, so
+    no new chess claim is invented and nothing needs a source it does not have
+    (R-03). The best reply is one of these moves, so an instance is always
+    available by construction.
+    """
+    found: set[str] = set()
+    for move in board.legal_moves:
+        found |= detect_motifs(board, move)
+    return frozenset(found)
+
+
 def _count_allowed(
     tallies: dict[str, _Tally],
     observation: Observation,
@@ -209,6 +212,21 @@ def _count_allowed(
     punishment = _legal(board, reply.best_move)
     if punishment is None:
         return
+
+    # The denominator is the errors where **this motif** was there to punish
+    # them. Dividing every motif by the player's total errors -- which is what
+    # this did until E83 -- asked "what share of your mistakes does a fork
+    # punish", and that share is mostly a property of the positions and the
+    # opponent rather than of the player: E83 found players statistically
+    # interchangeable on the rarer motifs. Conditioning on availability asks the
+    # motif-specific question instead, and it is the same correction already
+    # applied to `missed_motif` in `_count_available`.
+    #
+    # (Dividing by *moves* rather than errors was tried first and was worse
+    # still: across 38 players it tracked the overall error rate, so weaker
+    # players lit up for every motif at once.)
+    for motif in _available_motifs(board):
+        tallies[_key(ALLOWED, motif)].opportunities += 1
 
     for motif in detect_motifs(board, punishment):
         tally = tallies[_key(ALLOWED, motif)]
