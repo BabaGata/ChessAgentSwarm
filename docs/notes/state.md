@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788350400000
+updated: 1788357600000
 created: 1785254500000
 ---
 
@@ -244,6 +244,12 @@ struck through: a list nobody can act on is not a plan.
    a pawn is too small to call a fork ([[experiments.e57-fork-rebuilt]]).
 
 ### Open, and unblocked
+
+0. **P1 — the L-024 spreads at 10 wp are now near the rejection band.** E82's re-run moved
+   `allowed_motif` from 1.38× to **1.13×** at the 10 wp threshold, and E09 rejected candidate
+   detectors at 1.25–1.31×. It does not change E33's recommendation to lower the threshold, but the
+   case *at* 10 wp is weaker than recorded and nothing has re-screened those two claims since.
+
 
 0. **STAGE 4 BUILT — prerequisites** → [[experiments.e81-prerequisites]] *(2026-09-02)*. The partial
    order in `domain.chess-concepts` § C is now **10 Domain nodes and 9 PREREQUISITE_OF edges**, each

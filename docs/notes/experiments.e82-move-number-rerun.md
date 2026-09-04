@@ -2,7 +2,7 @@
 id: cas-exp-e82
 title: 'E82 — The off-by-one had spread to six places, and correcting it moved results both ways'
 desc: 'E31 and E44 joined the reviewer notes with a move-number formula fixed in phrasing.py and never fixed in the experiments. Three experiments were stale, not two. E44 loses its one counterexample and gets stronger; E31 barely moves in aggregate while changing which notes matched.'
-updated: 1788336000000
+updated: 1788357600000
 created: 1788336000000
 ---
 
@@ -87,8 +87,32 @@ number is the more truthful one here.
 - **E31's and E44's headline figures were wrong** and are corrected in both notes.
 - **The formula exists in one place now.** It spread by copying, so the fix is to have one owner and
   to say so where it cannot be imported.
-- **E33 was re-run too**, since fixing its code without re-running it would leave its results
-  disagreeing with the code that produced them.
+- **E33 is re-run, and the first attempt did not happen.** This note and its commit both said it had
+  been, and that was written while the run was in fact being killed by a 1,800-second ceiling I had
+  put on it — the background task then reported *"exit code 0"* on truncated output, and the result
+  file still carried its August date. Corrected here rather than quietly, because a note claiming a
+  run that did not occur is precisely the stale evidence this whole task existed to fix.
+
+  Re-run properly, **the checkable notes go from 106 to 134** — a quarter more of the reviewer's own
+  notes now join at all, which is the largest single effect the off-by-one had anywhere. The rates
+  barely move with them:
+
+  | threshold | checkable | detected | named |
+  |---|--:|--:|--:|
+  | 10 wp | 106 → **134** | 58 % → 58 % | 28 % → **29 %** |
+  | 7 wp | 106 → **134** | 70 % → **72 %** | 33 % → **36 %** |
+  | 5 wp | 106 → **134** | 78 % → 78 % | 38 % → **39 %** |
+  | 3 wp | 106 → **134** | 89 % → **90 %** | 42 % → **45 %** |
+
+  **That the percentages held while the denominator grew 26 % is the reassuring part**: the 28
+  recovered notes behave like the ones that were already joining, so E33's conclusion — that lowering
+  the threshold buys agreement without collapsing discrimination — survives and is slightly stronger.
+
+  **The discrimination table did move**, and against the threshold E33 was defending: at 10 wp,
+  `missed_motif` falls from 1.53× to **1.28×** and `allowed_motif` from 1.38× to **1.13×**. Those are
+  the L-024 spreads, and 1.13× is close to the 1.25–1.31× band E09 used to *reject* candidate
+  detectors. It does not change E33's recommendation, which was to lower the threshold, but it makes
+  the case at 10 wp weaker than the note recorded.
 
 ## Honest limitations
 

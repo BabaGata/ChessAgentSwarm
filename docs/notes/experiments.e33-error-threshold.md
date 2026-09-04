@@ -2,11 +2,19 @@
 id: cas-exp-e33
 title: 'E33 — Lowering the error threshold buys detection, not naming, and discrimination survives'
 desc: 'From 10 wp to 3 wp, agreement with the reviewer rises 58% to 89% while naming stays flat at 8-9%. Claims still separate players. The blast radius, not the screen, is what should decide it.'
-updated: 1787270400000
+updated: 1788357600000
 created: 1787270400000
 ---
 
 # E33 — What does lowering the error threshold buy, and what does it cost?
+
+> **Corrected 2026-09-02 by [[experiments.e82-move-number-rerun]].** This screen joined the
+> reviewer's noted move numbers with `ply // 2 + 1`, one too high for every Black move.
+> **The checkable notes go from 106 to 134** — a quarter of the reviewer's notes were not joining at
+> all — while the rates barely move (at 3 wp: 89 % → 90 % detected, 42 % → **45 %** named). The
+> conclusion holds and is slightly stronger. **The discrimination spreads did move**: at 10 wp,
+> `missed_motif` 1.53× → **1.28×** and `allowed_motif` 1.38× → **1.13×**, which is close to the band
+> E09 used to reject detectors outright.
 
 **Answers:** the open question left by [[experiments.e32-hanging-pawn-screen]] ·
 **Date:** 2026-08-16 · **Status:** done — **favourable on the screen; not applied**
