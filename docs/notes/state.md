@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788285600000
+updated: 1788336000000
 created: 1785254500000
 ---
 
@@ -245,16 +245,30 @@ struck through: a list nobody can act on is not a plan.
 
 ### Open, and unblocked
 
+0. **STAGE 4 BUILT — prerequisites** → [[experiments.e81-prerequisites]] *(2026-09-02)*. The partial
+   order in `domain.chess-concepts` § C is now **10 Domain nodes and 9 PREREQUISITE_OF edges**, each
+   carrying its source. `gates(a, b)` answers **True, False or None**, and across all 420 claim pairs
+   **89 % are unknown** — which is the design note's own definition of done, not a shortfall. 16
+   claim kinds mapped, **5 deliberately unmapped with the reason stored**.
+
+0. **P1 — the arbiter still does not rank on prerequisites.** Stage 4's done-condition was that it
+   *can ask*. Making the order actually reorder a plan is a coaching judgement rather than a wiring
+   job, and only **24 of 420 pairs** answer yes, so as a ranking signal it is currently very thin.
+
+0. **P2 — no shipped claim is K3, K5 or K10.** Calculation, planning and meta-learning have no
+   detector, so most of § C's order is unreachable by anything the swarm measures. Worth knowing
+   before the order is trusted to rank.
+
+
 0. **THE COACH ANSWERS QUESTIONS** → [[experiments.e80-answering]] *(2026-09-01)*. `chesscoach ask
    "what is a backward pawn?"` returns a definition attributed to **Lasker, Philidor and Staunton**
    with three `book://` locators; *"how does a knight move?"* comes from the generated rule;
    *"why is the Sveshnikov Sicilian good?"* is **refused, citing nothing**. This is the goal the graph
    was built for and it closes stages 1-3 into something usable.
 
-0. **P1 — the answer path does not use corroboration.** It counts distinct authors among the
-   retrieved passages, which is close to E79's lineage count but not the same, and it uses the
-   agreement check not at all. Wiring E79's `Corroboration` in would let an answer say *"three
-   independent authors agree"* rather than *"three of the passages I read were by different people"*.
+0. **DONE — the answer path corroborates** *(2026-09-02)*. Retrieved passages become
+   Attestations and E79's rule decides: independent lineages agreeing in their own words, not
+   distinct authors counted. Several books that do not agree closely now say so to the reader.
 
 0. **P2 — which source the model actually used is not knowable.** Citations are what was put in front
    of it. Honest, and weaker than "this sentence came from that passage".
@@ -302,9 +316,9 @@ struck through: a list nobody can act on is not a plan.
    that makes the classification. **The failure mode of a small model is confident generic
    plausibility, and that is what retrieval fixes.**
 
-0. **P1 — the shelf is three books because Gutendex is unreachable.** 403 without a user agent, then
-   repeated timeouts with one — R-17's shape again. Expanding it is data volume rather than
-   mechanism, so stage 2 proceeded without it; retry when the service is up.
+0. **RESOLVED — the shelf is seven books.** Gutendex stayed down but gutenberg.org's own search
+   was up, so Bird, Philidor, Young and a second Edward Lasker were added: **6 independent lineages,
+   1,159 passages.** This entry said three books for a day after that stopped being true.
 
 0. **DONE — chunking follows paragraphs** → [[experiments.e78-rechunk]]. Passages starting
    mid-sentence fell from **165 of 544 to 11 of 529**, and *"why should I castle early"* stopped

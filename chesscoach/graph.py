@@ -30,6 +30,14 @@ from dataclasses import dataclass, field
 from types import TracebackType
 
 from chesscoach.chess_rules import movement_rules, outcome_rules, time_control_rules
+from chesscoach.domains import (
+    CLAIM_DOMAINS,
+    DOMAINS,
+    EVIDENCE_CLASS,
+    PREREQUISITES,
+    SOURCE,
+    UNMAPPED_ON_PURPOSE,
+)
 from chesscoach.embedding import DIMENSIONS, embed, embed_all
 
 DEFAULT_URI = "bolt://localhost:7687"
@@ -89,6 +97,8 @@ _CONSTRAINTS = (
     "FOR (s:Source) REQUIRE s.id IS UNIQUE",
     "CREATE CONSTRAINT passage_id IF NOT EXISTS "
     "FOR (p:Passage) REQUIRE p.id IS UNIQUE",
+    "CREATE CONSTRAINT domain_key IF NOT EXISTS "
+    "FOR (d:Domain) REQUIRE d.key IS UNIQUE",
 )
 
 
@@ -336,6 +346,72 @@ class GraphStore:
             if len(kept) == k:
                 break
         return kept
+
+    def load_domains(self) -> int:
+        """The ten knowledge domains, what gates what, and where claims land.
+
+        Stage 4 of [[design.graph-knowledge-base]], and the structure
+        `chesscoach/arbiter.py` has had a hole for since it was written: it
+        refused to rank on prerequisites because *"inventing one would be
+        fabricated pedagogy"*. The order exists, sourced, in
+        `domain.chess-concepts` § C -- it had simply never been written where
+        code could read it.
+
+        **The absent edges are the point.** K9 and K10 are cross-cutting and are
+        ordered against nothing, five claim kinds are deliberately unmapped
+        because their domain depends on *why* the player did the thing, and each
+        of those carries the reason. A graph that answered every question would
+        be claiming far more than the note supports.
+        """
+        written = 0
+        for domain in DOMAINS:
+            self._run(
+                "MERGE (d:Domain {key: $key}) "
+                "SET d.name = $name, d.covers = $covers, "
+                "    d.source = $source, d.evidence_class = $evidence",
+                key=domain.key, name=domain.name, covers=domain.covers,
+                source=SOURCE, evidence=EVIDENCE_CLASS,
+            )
+            written += 1
+
+        for gate, gated in PREREQUISITES:
+            self._run(
+                "MATCH (a:Domain {key: $gate}), (b:Domain {key: $gated}) "
+                "MERGE (a)-[r:PREREQUISITE_OF]->(b) SET r.source = $source",
+                gate=gate, gated=gated, source=SOURCE,
+            )
+            written += 1
+
+        for kind, key in CLAIM_DOMAINS.items():
+            self._run(
+                "MERGE (c:Claim {key: $kind}) SET c.kind = $kind "
+                "WITH c MATCH (d:Domain {key: $domain}) "
+                "MERGE (c)-[:BELONGS_TO]->(d)",
+                kind=kind, domain=key,
+            )
+            written += 1
+
+        # Stored **with the reason**, so "nobody decided" and "there is nothing
+        # to decide" cannot be confused later by anyone reading the graph.
+        for kind, reason in UNMAPPED_ON_PURPOSE.items():
+            self._run(
+                "MERGE (c:Claim {key: $kind}) "
+                "SET c.kind = $kind, c.unmapped_because = $reason",
+                kind=kind, reason=reason,
+            )
+            written += 1
+
+        return written
+
+    def prerequisites_of(self, key: str) -> list[str]:
+        """Every domain that gates this one, directly or through a chain."""
+        rows = self._run(
+            "MATCH (d:Domain {key: $key}) "
+            "MATCH (gate:Domain)-[:PREREQUISITE_OF*]->(d) "
+            "RETURN DISTINCT gate.key AS key ORDER BY key",
+            key=key,
+        )
+        return [row["key"] for row in rows]
 
     def counts(self) -> dict[str, int]:
         """How many nodes of each label. The cheapest check that a load worked."""

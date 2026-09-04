@@ -1270,6 +1270,7 @@ def build_graph(args: argparse.Namespace) -> int:
         store.ensure_schema()
         written = store.load_rules()
         print(f"  rules layer: {written} nodes")
+        print(f"  domains and prerequisites: {store.load_domains()} nodes and edges")
         for label, n in sorted(store.counts().items()):
             print(f"    {label:<16}{n:>7}")
     return 0
