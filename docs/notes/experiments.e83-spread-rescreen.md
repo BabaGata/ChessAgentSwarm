@@ -2,7 +2,7 @@
 id: cas-exp-e83
 title: 'E83 — The screen that decided what to build was ranking claims by how rare they are'
 desc: 'The P1 was raised against a threshold that does not ship and closes as a non-finding. Underneath it, p90/median is bounded by 1/median, so it scored rarity as discrimination — E09 accept/reject is perfectly rank-ordered by base rate. Replaced with overdispersion: ten shipped claims do not separate players at all.'
-updated: 1788573600000
+updated: 1788555600000
 created: 1788573600000
 ---
 
@@ -109,6 +109,51 @@ can rescue it. Nine of the ten are asserted (`executed_motif.discoveredAttack` i
 `allows_square.rook_seventh` is **E09's second accepted candidate** and the claim
 `squares.rook_seventh_preventable` was built for. `allows_square.outpost`, E09's flagship, lands in
 the undecided group at 1.94× — not vindicated, only not refuted.
+
+## Flat, or too rare to tell? — they are flat
+
+A failed screen has two explanations needing opposite remedies: players really do share one rate, or
+the events are too rare for any realistic difference to have shown. For a beta-binomial,
+`phi = 1 + (n-1)*rho`, so the dispersion the test *could* have rejected converts into the smallest
+between-player spread the data could have revealed — stated as the ratio between a player one SD
+above the mean and one at the mean.
+
+| claim | players | rate | opp/player | measured | needed | **smallest visible difference** |
+|---|--:|--:|--:|--:|--:|--:|
+| `concedes_weakness.isolated` | 83 | 0.020 | 975 | 1.02 | 1.27 | **1.12×** |
+| `executed_motif.discoveredAttack` | 64 | 0.410 | 17 | 1.04 | 1.31 | **1.17×** |
+| `slow_development.own` | 28 | 0.537 | 15 | 1.37 | 1.49 | **1.17×** |
+| `allowed_motif.fork` | 83 | 0.033 | 248 | 1.15 | 1.27 | **1.18×** |
+| `missed_motif.trappedPiece` | 62 | 0.379 | 18 | 1.10 | 1.32 | **1.18×** |
+| `missed_motif.discoveredAttack` | 64 | 0.342 | 17 | 1.06 | 1.31 | **1.19×** |
+| `allows_square.rook_seventh` | 83 | 0.006 | 969 | 1.25 | 1.27 | **1.21×** |
+| `missed_motif.fork` | 44 | 0.316 | 15 | 0.94 | 1.38 | **1.25×** |
+| `allowed_motif.skewer` | 68 | 0.011 | 228 | 0.83 | 1.30 | 1.35× |
+| `allowed_motif.backRankMate` | 23 | 0.007 | 176 | 0.60 | 1.54 | 1.64× |
+
+**Eight of the ten would have shown a difference as small as 1.12–1.25× and did not.** That is a
+positive finding of flatness, not a shrug. The two exceptions — `allowed_motif.skewer` at 1.35× and
+`allowed_motif.backRankMate` at 1.64× — are the least conclusive, and more data is the only thing
+that would settle them.
+
+## Why they are flat, as chess
+
+A hypothesis the data suggests and does not establish, recorded as a hypothesis:
+
+**`allowed_motif`'s denominator is the player's total errors**, so the claim is *what share of your
+mistakes a given motif punishes*. Which punishment arrives is largely a property of the position and
+the opponent. The **common** punishments separate players — `hangingPiece` 2.17×, `hangingPawn`
+1.94× — and the **rare, structural** ones do not: fork 1.15×, skewer 0.83×, backRankMate 0.60×.
+
+**`missed_motif` splits the same way and along a different seam.** `hangingPawn` (2.45×) and
+`hangingPiece` (1.89×) separate; `fork`, `discoveredAttack` and `trappedPiece` do not, and all three
+sit at a 32–41 % miss rate. Seeing a loose piece is a habit that varies between players. Seeing a
+fork requires calculation, and at this band **everyone misses about a third of the ones available**.
+If that holds it is a coaching fact worth having, but it is a conjecture from one corpus.
+
+**`slow_development.own` does not separate while `slow_development.book` does (4.15×)** — the
+detector is the same and only the comparison target differs, which points at the baseline rather
+than the detector.
 
 ## Two defects in this experiment's own code, both found by reading output
 
