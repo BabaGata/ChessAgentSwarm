@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788357600000
+updated: 1788552000000
 created: 1785254500000
 ---
 
@@ -245,10 +245,23 @@ struck through: a list nobody can act on is not a plan.
 
 ### Open, and unblocked
 
-0. **P1 — the L-024 spreads at 10 wp are now near the rejection band.** E82's re-run moved
-   `allowed_motif` from 1.38× to **1.13×** at the 10 wp threshold, and E09 rejected candidate
-   detectors at 1.25–1.31×. It does not change E33's recommendation to lower the threshold, but the
-   case *at* 10 wp is weaker than recorded and nothing has re-screened those two claims since.
+0. **DONE — the P1 was a non-finding, and the screen behind it is the defect**
+   → [[experiments.e83-spread-rescreen]]. The 1.13x was the **10 wp row**, and the shipped threshold
+   is `INACCURACY_WP = 5.0`; on 83 players rather than E33's 12, `allowed_motif` runs 1.32–2.88x.
+   **Underneath it: p90/median is bounded by 1/median**, so it scored rarity as discrimination
+   (r = **−0.53**), and E09's accept/reject column is *perfectly rank-ordered by base rate*.
+   Replaced with overdispersion against a binomial null (r = **+0.12**). **Ten shipped claims do not
+   separate players even under the optimistic independent null**, nine of them asserted — including
+   `allows_square.rook_seventh`, E09's second accepted candidate. `long_think_error`, the claim that
+   raised the alarm, separates fine at **2.69x**.
+
+0. **P1 — nine asserted claims do not separate players, and retiring them is an author decision.**
+   `allowed_motif.backRankMate` · `allowed_motif.fork` · `allowed_motif.skewer` ·
+   `allows_square.rook_seventh` · `concedes_weakness.isolated` · `missed_motif.discoveredAttack` ·
+   `missed_motif.fork` · `missed_motif.trappedPiece` · `slow_development.own`. A claim that does not
+   separate players cannot support *"you do this more than your peers"*, which is what the peer
+   comparison asserts. **23 more are undecided** and settling them needs per-game counts the peer
+   reference does not store.
 
 
 0. **STAGE 4 BUILT — prerequisites** → [[experiments.e81-prerequisites]] *(2026-09-02)*. The partial

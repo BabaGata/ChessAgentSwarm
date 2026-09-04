@@ -1,0 +1,83 @@
+DO PLAYERS DIFFER BY MORE THAN SAMPLING NOISE?
+============================================================================================
+
+  Dispersion 1.0 = players are interchangeable. Higher = real separation.
+  Scale-free: a common claim and a rare one are judged on the same axis.
+
+  claim                              players    rate  dispersion          p
+  ----------------------------------------------------------------------------------------
+  plays_queenless.any.own                 83   0.279      50.36x    0.0e+00
+  repeat_move.any                         83   0.451      23.48x   1.0e-281
+  early_error.any.own                     83   0.259       8.06x    9.2e-84
+  instant_move_error.instant_moves.       83   0.195       6.08x    2.9e-57
+  late_castling.book                      80   0.417       5.85x    2.5e-52
+  moved_into_attack.own_move.own          83   0.018       5.23x    5.8e-46
+  early_error.white.own                   83   0.259       4.90x    1.2e-41
+  early_error.black.own                   83   0.259       4.39x    4.5e-35
+  endgame_error.rook.own                  65   0.038       4.31x    4.4e-27
+  slow_development.book                   80   0.473       4.15x    6.9e-31
+  endgame_error.pawn.own                  26   0.015       4.11x    4.7e-11
+  endgame_error.any.own                   81   0.041       3.76x    1.9e-26
+  opening_disadvantage.any.own            83   0.235       3.48x    1.4e-23
+  endgame_error.queen.own                 62   0.029       3.17x    2.2e-15
+  endgame_error.minor.own                 60   0.052       2.96x    4.0e-13
+  endgame_error.rook_minor.own            77   0.048       2.85x    3.6e-15
+  pawn_error.any                          83   0.066       2.77x    2.7e-15
+  time_pressure_error.clock.own           65   0.247       2.74x    3.7e-12
+  long_think_error.long_think.own         83   0.372       2.69x    2.1e-14
+  executed_motif.hangingPawn.own          83   0.618       2.53x    1.2e-12
+  missed_motif.hangingPawn.own            83   0.225       2.45x    7.7e-12
+  allows_pressure.king.own                83   0.013       2.44x    1.1e-11
+  time_budget_error.after_overspend       17   0.319       2.40x    1.4e-03  weak
+  executed_motif.capturingDefender.       80   0.635       2.35x    1.7e-10
+  allowed_motif.hangingPiece.own          83   0.100       2.17x    5.2e-09
+  concedes_weakness.doubled.own           83   0.011       2.07x    5.0e-08
+  late_castling.own                       28   0.468       2.06x    9.9e-04
+  sacrificed_for_attack.own_move.ow       83   0.013       2.05x    8.1e-08
+  missed_motif.capturingDefender.ow       80   0.223       1.96x    8.1e-07
+  allowed_motif.hangingPawn.own           83   0.114       1.94x    7.2e-07
+  allows_square.outpost.own               83   0.011       1.94x    7.4e-07
+  missed_motif.hangingPiece.own           82   0.098       1.89x    2.5e-06
+  concedes_weakness.backward.own          83   0.010       1.84x    5.8e-06
+  missed_motif.pin.own                    82   0.289       1.81x    1.1e-05
+  allowed_motif.discoveredAttack.ow       83   0.030       1.76x    2.9e-05
+  miscounted_exchange.own_move.own        83   0.019       1.70x    7.5e-05
+  executed_motif.trappedPiece.own         62   0.397       1.66x    1.0e-03  weak
+  executed_motif.fork.own                 44   0.514       1.62x    6.2e-03  weak
+  allowed_motif.trappedPiece.own          82   0.034       1.49x    2.8e-03  weak
+  allows_square.any.own                   83   0.017       1.47x    3.4e-03  weak
+  executed_motif.hangingPiece.own         82   0.812       1.44x    5.9e-03  weak
+  allowed_motif.capturingDefender.o       83   0.070       1.44x    5.8e-03  weak
+  executed_motif.pin.own                  82   0.380       1.44x    6.1e-03  weak
+  slow_development.own                    28   0.537       1.37x    9.4e-02  NOT SEPARATED
+  concedes_weakness.any.own               83   0.034       1.36x    1.8e-02  weak
+  allowed_motif.pin.own                   82   0.055       1.33x    2.4e-02  weak
+  allows_square.rook_seventh.own          83   0.006       1.25x    6.1e-02  NOT SEPARATED
+  allowed_motif.fork.own                  83   0.033       1.15x    1.7e-01  NOT SEPARATED
+  missed_motif.trappedPiece.own           62   0.379       1.10x    2.8e-01  NOT SEPARATED
+  missed_motif.discoveredAttack.own       64   0.342       1.06x    3.4e-01  NOT SEPARATED
+  executed_motif.discoveredAttack.o       64   0.410       1.04x    3.8e-01  NOT SEPARATED
+  concedes_weakness.isolated.own          83   0.020       1.02x    4.2e-01  NOT SEPARATED
+  missed_motif.fork.own                   44   0.316       0.94x    5.9e-01  NOT SEPARATED
+  allowed_motif.skewer.own                68   0.011       0.83x    8.4e-01  NOT SEPARATED
+  allowed_motif.backRankMate.own          23   0.007       0.60x    9.3e-01  NOT SEPARATED
+
+============================================================================================
+
+  claims screened          55
+  separate players         35
+  weakly                   10
+  do NOT separate          10
+      allowed_motif.backRankMate.own
+      allowed_motif.fork.own
+      allowed_motif.skewer.own
+      allows_square.rook_seventh.own
+      concedes_weakness.isolated.own
+      executed_motif.discoveredAttack.own
+      missed_motif.discoveredAttack.own
+      missed_motif.fork.own
+      missed_motif.trappedPiece.own
+      slow_development.own
+
+  correlation, base rate vs dispersion   +0.12   (p90/median gave -0.53)
+

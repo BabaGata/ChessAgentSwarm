@@ -2,11 +2,16 @@
 id: cas-agent-s8
 title: 'Agent S8 — Attack & defence'
 desc: 'One claim out of four candidates. The screen also produced the first result that contradicts L-024.'
-updated: 1786406400000
+updated: 1788552000000
 created: 1786406400000
 ---
 
 # Agent S8 — Attack & defence
+
+> **Corrected 2026-09-04 by [[experiments.e83-spread-rescreen]].** This note calls 1.59 *"the
+> weakest spread this project has shipped"*. That ranking came from a statistic bounded by 1/median,
+> which rewards rare claims; on a scale-free screen `allows_pressure.king` reaches **2.44x**, above
+> most of the project. **S8 is not the marginal section it describes itself as.**
 
 **Section:** [[domain.sections]] → S8 · **Status:** **built and assessed — marginal, as predicted**
 **Design precedes code**, per the guardrail in the `adaptive-cycle` skill.

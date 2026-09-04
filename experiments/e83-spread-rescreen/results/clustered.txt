@@ -1,0 +1,70 @@
+DOES IT STILL SEPARATE IF EVERY MOVE IN A GAME IS THE SAME MOVE?
+============================================================================================
+
+  claim                               per game    floor   ceiling  verdict
+  ----------------------------------------------------------------------------------------
+  late_castling.book                       0.8    5.85x     5.85x  separates under any clustering
+  slow_development.book                    0.8    4.15x     4.15x  separates under any clustering
+  endgame_error.pawn.own                   0.6    4.11x     4.11x  separates under any clustering
+  opening_disadvantage.any.own             1.0    3.48x     3.48x  separates under any clustering
+  endgame_error.queen.own                  0.9    3.17x     3.17x  separates under any clustering
+  endgame_error.minor.own                  1.0    2.96x     2.96x  separates under any clustering
+  endgame_error.rook.own                   1.5    2.92x     4.31x  separates under any clustering
+  time_budget_error.after_overspend        0.8    2.40x     2.40x  separates under any clustering
+  executed_motif.capturingDefender.        0.8    2.35x     2.35x  separates under any clustering
+  plays_queenless.any.own                 22.7    2.22x    50.36x  separates under any clustering
+  late_castling.own                        0.3    2.06x     2.06x  separates under any clustering
+  missed_motif.capturingDefender.ow        0.8    1.96x     1.96x  separates under any clustering
+  endgame_error.rook_minor.own             1.5    1.90x     2.85x  separates under any clustering
+  missed_motif.pin.own                     1.0    1.79x     1.81x  separates under any clustering
+  executed_motif.trappedPiece.own          0.4    1.66x     1.66x  separates under any clustering
+  executed_motif.fork.own                  0.3    1.62x     1.62x  separates under any clustering
+  executed_motif.hangingPawn.own           1.6    1.60x     2.53x  separates under any clustering
+  missed_motif.hangingPawn.own             1.6    1.55x     2.45x  separates under any clustering
+  executed_motif.pin.own                   1.0    1.42x     1.44x  separates under any clustering
+  slow_development.own                     0.3    1.37x     1.37x  DOES NOT separate, even independent
+  time_pressure_error.clock.own            2.1    1.32x     2.74x  separates under any clustering
+  repeat_move.any                         17.8    1.32x    23.48x  separates under any clustering
+  missed_motif.hangingPiece.own            1.7    1.13x     1.89x  separates under any clustering
+  missed_motif.trappedPiece.own            0.4    1.10x     1.10x  DOES NOT separate, even independent
+  missed_motif.discoveredAttack.own        0.4    1.06x     1.06x  DOES NOT separate, even independent
+  executed_motif.discoveredAttack.o        0.4    1.04x     1.04x  DOES NOT separate, even independent
+  early_error.white.own                    5.1    0.96x     4.90x  depends on clustering
+  missed_motif.fork.own                    0.3    0.94x     0.94x  DOES NOT separate, even independent
+  endgame_error.any.own                    4.1    0.91x     3.76x  depends on clustering
+  early_error.black.own                    5.0    0.88x     4.39x  depends on clustering
+  executed_motif.hangingPiece.own          1.7    0.86x     1.44x  depends on clustering
+  pawn_error.any                           3.4    0.81x     2.77x  depends on clustering
+  early_error.any.own                     10.1    0.80x     8.06x  depends on clustering
+  long_think_error.long_think.own          3.6    0.74x     2.69x  depends on clustering
+  instant_move_error.instant_moves.        9.5    0.64x     6.08x  depends on clustering
+  allowed_motif.hangingPiece.own           5.9    0.37x     2.17x  depends on clustering
+  sacrificed_for_attack.own_move.ow        5.7    0.36x     2.05x  depends on clustering
+  allowed_motif.hangingPawn.own            5.9    0.33x     1.94x  depends on clustering
+  allowed_motif.discoveredAttack.ow        5.9    0.30x     1.76x  depends on clustering
+  miscounted_exchange.own_move.own         5.7    0.30x     1.70x  depends on clustering
+  allowed_motif.trappedPiece.own           5.8    0.25x     1.49x  depends on clustering
+  allowed_motif.capturingDefender.o        5.9    0.25x     1.44x  depends on clustering
+  moved_into_attack.own_move.own          22.7    0.23x     5.23x  depends on clustering
+  allowed_motif.pin.own                    5.9    0.23x     1.33x  depends on clustering
+  allowed_motif.fork.own                   5.9    0.19x     1.15x  DOES NOT separate, even independent
+  allowed_motif.skewer.own                 6.0    0.14x     0.83x  DOES NOT separate, even independent
+  allows_pressure.king.own                18.4    0.13x     2.44x  depends on clustering
+  allowed_motif.backRankMate.own           6.0    0.10x     0.60x  DOES NOT separate, even independent
+  concedes_weakness.doubled.own           22.6    0.09x     2.07x  depends on clustering
+  allows_square.outpost.own               22.4    0.09x     1.94x  depends on clustering
+  concedes_weakness.backward.own          22.6    0.08x     1.84x  depends on clustering
+  allows_square.any.own                   22.4    0.07x     1.47x  depends on clustering
+  concedes_weakness.any.own               22.6    0.06x     1.36x  depends on clustering
+  allows_square.rook_seventh.own          22.4    0.06x     1.25x  DOES NOT separate, even independent
+  concedes_weakness.isolated.own          22.6    0.05x     1.02x  DOES NOT separate, even independent
+
+============================================================================================
+
+  separate under any clustering    22
+  depend on clustering             23
+  do not separate at all           10
+
+  The last group is the robust finding: it fails against the *optimistic*
+  null, so no correction can rescue it.
+

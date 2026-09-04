@@ -2,11 +2,19 @@
 id: cas-exp-e11
 title: 'E11 — Screening S8, and a counter-example to L-024'
 desc: 'One claim of four survives. A broken pawn shield spreads too, which the prior said it should not.'
-updated: 1786406400000
+updated: 1788552000000
 created: 1786406400000
 ---
 
 # E11 — Screening S8, and a counter-example to L-024
+
+> **Corrected 2026-09-04 by [[experiments.e83-spread-rescreen]].** This note ships
+> `allows_king_pressure` at 1.59 because it *"sits just under `long_think_error` (1.60)"*. Both
+> numbers come from a statistic bounded by 1/median, and the two claims have base rates differing by
+> a factor of thirty, so the comparison was between arms that were never on the same scale. The
+> conclusion survives on better evidence: re-screened for overdispersion, `allows_pressure.king`
+> reaches **2.44x (p = 1e-11)** against `long_think_error`'s 2.69x. It ships, and no longer as the
+> project's marginal case.
 
 **Answers:** § 9.1 for S8, in advance · **Code:** `experiments/e11-attack-candidates/`
 **Date:** 2026-08-05 · **Status:** done — **one candidate of four ships**

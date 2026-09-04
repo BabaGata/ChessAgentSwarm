@@ -2,7 +2,7 @@
 id: cas-learning-lessons
 title: Lessons Learned
 desc: 'Generalisable lessons extracted from executed work — what worked, what did not, and why.'
-updated: 1788215400000
+updated: 1788552000000
 created: 1785254500000
 ---
 
@@ -23,6 +23,29 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 ```
 
 ---
+
+### L-056 — A discrimination statistic with a ceiling ranks claims by rarity
+
+**p90/median is bounded above by 1/median**, because a rate cannot exceed 1.0. A claim firing on
+81 % of its opportunities cannot score above 1.24 however cleanly it separates players, while a
+claim firing on 0.6 % has 167x of headroom. The project used this as its ship/no-ship screen for
+sixteen claims and across [[experiments.e09-square-candidates]]'s five candidates, whose accept and
+reject column turns out to be **perfectly rank-ordered by base rate** — accepted at medians of 0.008
+and 0.010, rejected at 0.196, 0.287 and 0.397, with no exception.
+
+Nothing was fabricated and no arithmetic was wrong. The statistic answered a question adjacent to
+the one asked: *how much room did this claim have to vary*, not *did players actually differ*.
+Replacing it with overdispersion against a binomial null — scale-free by construction — moved the
+base-rate correlation from **−0.53 to +0.12** and inverted the ranking, with the project's
+highest-scoring claim (`allowed_motif.backRankMate`, 2.88x) landing at **0.60x, p = 0.93**.
+
+**Before trusting a screen, ask what its maximum possible value is and whether that maximum depends
+on the thing being screened.** If it does, the screen is measuring that thing. A ceiling that varies
+across the compared arms is [[learning.lessons]] L-046 wearing a statistic: the arms of the
+comparison are not what the comparison claims.
+
+Recorded by [[experiments.e83-spread-rescreen]]. Related: L-024, which named the spread screen; L-050,
+on a screen showing that a claim discriminates but never that its name is true.
 
 ### L-055 — A guard that fires early can hide the thing it caught
 **Date:** 2026-09-01 · **Cycle / mission step:** M6 · **Class:** process

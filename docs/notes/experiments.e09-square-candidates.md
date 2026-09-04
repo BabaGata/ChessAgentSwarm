@@ -2,11 +2,21 @@
 id: cas-exp-e09
 title: 'E09 — Screening S6 before building it'
 desc: 'Five candidate claims, two survive. The first section screened before it was written — and the first pass was wrong in a way worth keeping.'
-updated: 1786320000000
+updated: 1788552000000
 created: 1786320000000
 ---
 
 # E09 — Screening S6 before building it
+
+> **Corrected 2026-09-04 by [[experiments.e83-spread-rescreen]].** The p90/median statistic this
+> screen ranks on is **bounded above by 1/median**, so it scores partly on how rare a claim is. This
+> table's verdict column is **perfectly rank-ordered by base rate** — accepted at medians of 0.0077
+> and 0.0102, rejected at 0.1963, 0.2866 and 0.3966, with no exception — and the two accepted
+> candidates used **under 2 %** of the headroom available to them while the three rejected ones used
+> 25–50 %. Re-screened with a scale-free statistic, `allows_rook_seventh` (built, shipped as
+> `allows_square.rook_seventh`) **does not separate players**: dispersion 1.25x, p = 0.061.
+> `concedes_outpost` is undecided rather than vindicated. The three rejected candidates were never
+> built, so they cannot be re-screened — their rejection is **unsafe, not overturned**.
 
 **Answers:** § 9.1 of [[capacity.agents.s6-squares-and-files]], in advance
 **Code:** `experiments/e09-square-candidates/` · **Date:** 2026-08-05 · **Status:** done
