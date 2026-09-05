@@ -118,8 +118,21 @@ class TestBackRankMate:
 
 class TestRemovingTheDefender:
     def test_capturing_the_piece_that_defended_another(self):
-        # Rxc6 removes the bishop defending the knight on d5, which Rd1 attacks.
+        """Rxc6 removes the bishop defending d5, and the knight cannot run.
+
+        The king stands on d8, so Rd1 pins the knight: every legal reply leaves
+        it winnable. **The old position had the king on e8**, where the knight
+        simply hopped away -- so the capture won a free bishop but removed no
+        defender, and the test was asserting the defect (E86 D-3).
+        """
         assert Motif.REMOVING_THE_DEFENDER in motifs(
+            "3k4/8/2b5/3n4/8/8/8/2RRK3 w - - 0 1", "c1c6"
+        )
+
+    def test_not_removal_when_the_loosened_piece_can_simply_run(self):
+        # The same position with the king on e8: the knight is unpinned and
+        # steps away, so nothing is won on the following move.
+        assert Motif.REMOVING_THE_DEFENDER not in motifs(
             "4k3/8/2b5/3n4/8/8/8/2RRK3 w - - 0 1", "c1c6"
         )
 

@@ -237,6 +237,21 @@ def _is_pin(board: chess.Board, after: chess.Board, move: chess.Move, mover: che
         if PIECE_VALUE[behind.piece_type] < PIN_TARGET_MIN_VALUE:
             continue
         if behind.piece_type == chess.KING:
+            # **A pawn pinned against its own king is geometry, not a tactic.**
+            # This branch applied no material test at all, where the branch
+            # below requires the pin to win something -- so any rook reaching a
+            # file with an enemy pawn and king on it counted. On the author's
+            # marked sheet `missed_motif.pin` scored **20 % precision** and
+            # `allowed_motif.pin` 40 %, the worst in the system, and two of the
+            # rejected cases were exactly this: `Bb6` "pinning" f2 to g1, and
+            # `Qg4` "pinning" g7 in front of a castled king. Both are defended
+            # by the king itself and win nothing.
+            #
+            # Same reasoning as `PIN_TARGET_MIN_VALUE` at the other end of the
+            # line: *"two minor pieces in a line is geometry, not a pin worth
+            # naming"*.
+            if front.piece_type == chess.PAWN:
+                continue
             if after.is_pinned(not mover, front_square):
                 return True
             continue
@@ -379,12 +394,28 @@ def _is_removing_the_defender(
     if exchange_value(board, move) < 0:
         return False
 
-    defended = [
+    defended = tuple(
         square
         for square in board.attacks(move.to_square)
-        if (piece := board.piece_at(square)) is not None and piece.color != mover
-    ]
-    return any(wins_material(after, square, mover) > 0 for square in defended)
+        if (piece := board.piece_at(square)) is not None
+        and piece.color != mover
+        and wins_material(after, square, mover) > 0
+    )
+    if not defended:
+        return False
+
+    # **The defender moves next, and usually recaptures.** Reading the loosened
+    # piece off `after` alone asks "is it loose while it is not their turn",
+    # which every recapture answers. All three positions the author rejected
+    # were this one shape -- `Rxf1+ Kxf1` and the Nf5 is defended again;
+    # `Qxe5 Rxe5` and the c5 pawn is defended again; `Bxc3 bxc3` and e4 is
+    # defended again -- and in each the piece doing the "winning" was the
+    # capturer itself, standing en prise (E86 D-3).
+    #
+    # `_is_fork` already answers exactly this question, including the guard that
+    # a **king is a target but never a prize**: without it, every capture on a
+    # square beside the enemy king claimed the king as loot worth 100.
+    return _loses_material_whatever_the_defender_does(after, defended, mover)
 
 
 def _lost_on_arrival(after: chess.Board, escape: chess.Move, mover: chess.Color) -> bool:
