@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788645600000
+updated: 1788649200000
 created: 1785254500000
 ---
 
@@ -293,7 +293,13 @@ struck through: a list nobody can act on is not a plan.
    **Option 3's second condition was dropped as unfireable** — a position's evaluation already assumes
    best play (median gap **8 cp**), so requiring a candidate to gain over "the position as it stands"
    asked it to beat the best move. The intent was already enforced statically by the detectors.
-   **Still to do: rebuild the reference and regenerate the register**, since instances changed.
+   **Reference rebuilt and register regenerated** *(2026-09-06)*: three bands x two speeds, 80
+   players, schema v3; `allowed_motif.fork` 274 -> **317 instances** in 1400-1800 blitz. The register
+   is **21 claims again, one in and one out** — **`allowed_motif.pin` recovered and now separates**,
+   `allowed_motif.trappedPiece` no longer does. Pin is the claim E85 measured at **49 % of the engine
+   budget** and that the circular "skip the flat ones" saving would have dropped; it is the one that
+   recovered. **Net zero on servable claims** — the rule is more correct and the count did not
+   improve, which is the distinction between correctness and discrimination stated at the outset.
 
 0. **SUPERSEDED — author decision: which punishment-validity rule?** → [[design.punishment-validity]]
    *(planned 2026-09-05, options only)*. A fork the opponent *could* play is not the player's fault

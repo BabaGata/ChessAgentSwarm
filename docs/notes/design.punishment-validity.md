@@ -2,7 +2,7 @@
 id: cas-design-punishment-validity
 title: 'Design — Was the punishment actually worth playing? Options for scoring a good-enough reply'
 desc: 'A fork the opponent could play is not the players fault if playing it would have been bad for the opponent. Four options for deciding whether a punishing reply is good enough to count, drawn from epsilon-optimal action sets, satisficing aspiration levels, and the win-probability thresholds chess analysis already uses.'
-updated: 1788631200000
+updated: 1788649200000
 created: 1788656400000
 ---
 
@@ -284,6 +284,31 @@ taken from *evaluating the position after it* rather than from the position's ow
 8 cp gap between those two meant the best reply almost never scored as "best" — so it was counted as
 a second-best find. Corrected, the improvement is **+20 %**: real, and a fifth of the first claim.
 The same 8 cp fact that killed condition 2 caused the miscount.
+
+### The reference, rebuilt on the new rule
+
+Three bands x two speeds, 80 players, **schema v3**. `allowed_motif.fork` in 1400-1800 blitz goes
+from **274 instances to 317** (+15.7 %). The denominator moved too, 8,327 to 8,474, because more
+players now have the cell at all: a player whose best reply never forked previously had no entry.
+
+**The register regenerated to 21 claims again — with one in and one out.**
+
+| | |
+|---|---|
+| **recovered** — now separates | **`allowed_motif.pin`** |
+| lost — no longer separates | `allowed_motif.trappedPiece` |
+| unchanged | 20 |
+
+**The claim that recovered is the one the cheap version of this would have skipped.**
+[[experiments.e85-candidate-cost]] measured `pin` at **49 % of the whole engine budget** and recorded
+that cutting the claims which did not currently separate would save two thirds — then refused it as
+circular, because those claims were flat *under the rule this design replaces*. `allowed_motif.pin`
+is exactly that claim, and it separates now. Had the saving been taken, it would never have been
+measured and the refusal would have looked like caution rather than the thing that found the result.
+
+One in and one out is a **net of zero**, and that is the honest headline: the rule is more correct and
+the count of unservable claims did not improve. Correctness and discrimination are different
+properties, which this design said at the outset and the measurement now confirms.
 
 ## Open questions this design does not answer
 
