@@ -2,14 +2,14 @@
 id: cas-design-detector-audit
 title: 'Design — Auditing every detector, naming the pieces, and a reviewer that triages positions'
 desc: 'The author read the detection sheet and found most detectors bad. Three pieces of work: audit each detectors position logic against the knowledge base, make detectors name the pieces involved and the move that would execute an unplayed motif, and build a local reviewer that flags implausible detections for the author rather than replacing them.'
-updated: 1788656400000
+updated: 1788638400000
 created: 1788656400000
 ---
 
 # Design — Detector audit, richer output, and a triage reviewer
 
 **Serves:** V4 (gap detection), V8 (explainability), C1 (free) ·
-**Follows:** [[design.punishment-validity]] · **Status:** plan, **not started**
+**Follows:** [[design.punishment-validity]] · **Status:** **§ A done** → [[experiments.e86-detector-audit]]. § B and § C not started
 
 ## Why
 
@@ -138,6 +138,22 @@ way as one that flags nothing, and only the author's adjudications establish whi
   named attacker and targets are the squares a human would name.
 - The reviewer runs on the detection sheet and produces a suspicious queue, **with its flag rate and
   its agreement with the author measured on an adjudicated sample** — not merely built.
+
+## § A is done, and it answered open question 1 the hard way
+
+→ [[experiments.e86-detector-audit]]. **The knowledge base cannot be the reference.** Fourteen
+entries, none endorsed, and the ones that exist are mostly filed under the wrong concept — `fork`'s
+stored definition is a definition of a **skewer**, drafted by `phi4-mini:3.8b` from a Wikipedia
+*zwischenzug* page. Eleven claims have no entry at all. Auditing against it would have manufactured
+defects (L-053), so the audit used **Lichess's own theme text** — the keys `tactics.py` already
+commits to — and Wikipedia for the positional terms.
+
+**Two defects demonstrated on positions**, not argued from reading: `fork` misses a fork when a
+victim was already attacked by another piece, and `trappedPiece` reports a piece that has a safe
+escape because it tests escape squares with `is_attacked_by` rather than an exchange.
+
+**Re-extracting the knowledge base is now prerequisite work for § C**, whose whole design is a
+reviewer judging positions against sourced definitions.
 
 ## Open questions
 

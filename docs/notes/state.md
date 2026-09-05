@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788631200000
+updated: 1788638400000
 created: 1785254500000
 ---
 
@@ -309,7 +309,23 @@ struck through: a list nobody can act on is not a plan.
    the bill and `trappedPiece` 25 %; the obvious saving — skipping the claims that do not currently
    separate — is circular and is refused (L-051).
 
-0. **P2 — the detector audit the author's own review calls for** → [[design.detector-audit]]
+0. **DONE — § A, every detector audited** → [[experiments.e86-detector-audit]] *(2026-09-05)*.
+   **The knowledge base could not serve as the reference**: 14 entries, none endorsed, and `fork`'s
+   stored definition is a definition of a *skewer*; 11 claims have no entry. Audited against Lichess's
+   own theme text instead — the keys the code already commits to. **Two defects demonstrated on
+   positions:** `fork` misses a fork when a victim was already attacked by another piece (adding an
+   attacker makes it stop seeing the fork), and `trappedPiece` reports a safe piece as trapped because
+   escape squares use `is_attacked_by` rather than an exchange — the naive test D17 replaced
+   everywhere else. Also: `hangingPawn` is **not** a Lichess theme, so the stated plan to validate
+   against the CC0 puzzle database does not cover it; and four value floors have no source.
+   **No detector changed** — author's instruction while the rebuild runs.
+
+0. **P1 — re-extract the knowledge base.** Prerequisite for the § C reviewer, whose design is an agent
+   judging positions against sourced definitions: it cannot judge anything against a `fork` entry that
+   defines a skewer. Nothing was ever endorsed (`reviewed: False` throughout), so nothing wrong
+   reached a player — the machinery held and the extraction did not.
+
+0. **P2 — the rest of the detector audit** → [[design.detector-audit]]
    *(planned 2026-09-05, not started)*. The author read the detection sheet and reports **most
    detectors are bad** (time claims skipped); the sheet also shows **28 of 57 claims never fire**.
    Three parts, in order: audit each detector's board logic against the **sourced** definition in the
