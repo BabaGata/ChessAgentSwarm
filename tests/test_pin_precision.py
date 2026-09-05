@@ -38,14 +38,17 @@ class TestAPawnPinnedToItsKing:
     def test_another_of_the_same_shape(self):
         assert not pins("2b3rk/p3qp1p/5N2/1p2p2B/3pP3/1PbP3P/P5P1/3R1RK1 b - - 0 27", "Rg5")
 
-    def test_a_pawn_pinned_to_a_ROOK_is_untouched(self):
-        """The distinction the fix turns on, and the case that caught a wrong test.
+    def test_a_pawn_in_front_of_a_ROOK_is_not_a_pin_either(self):
+        """This test asserted the opposite until the author's marks were read.
 
-        Rb2 also lines up on a pawn -- but behind it is an **undefended rook on
-        b7**, not a king, so the other branch applies and the pin wins a rook.
-        A pawn in front is only meaningless when a king stands behind it.
+        Rb2 lines up on the b4 pawn with an **undefended rook on b7** behind it,
+        and the first reading here was that this is a genuine pin because the
+        rear piece is winnable. The author rejected exactly this shape twice on
+        the sheet -- *"the pawn is pinned because the rook is behind, but this
+        will not lead to any material loss"* -- so the rule is the front piece,
+        not what stands behind it. Their reading, not this one.
         """
-        assert pins("8/1R4pp/4B3/4p3/1P2k3/6P1/3r2PK/8 b - - 1 34", "Rb2")
+        assert not pins("8/1R4pp/4B3/4p3/1P2k3/6P1/3r2PK/8 b - - 1 34", "Rb2")
 
 
 class TestRealPinsSurvive:

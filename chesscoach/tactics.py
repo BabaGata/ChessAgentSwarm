@@ -236,6 +236,25 @@ def _is_pin(board: chess.Board, after: chess.Board, move: chess.Move, mover: che
             continue
         if PIECE_VALUE[behind.piece_type] < PIN_TARGET_MIN_VALUE:
             continue
+        if front.piece_type == chess.PAWN:
+            # **A pawn is not a pin target**, whatever stands behind it. Both
+            # remaining rejections on the author's sheet were this shape -- a
+            # pawn shielding a rook -- and they described it twice:
+            #
+            # > *"What could be detected here as a pin is that the pawn is
+            # > pinned because the rook is behind, but this will not lead to any
+            # > material loss or ruin of the pawn structure because it can be
+            # > easily deffended."*
+            #
+            # > *"What could be detected as a pin is that the white pawn is
+            # > behind the black rook and it might have been that the white pawn
+            # > was counted as a pinned piece."*
+            #
+            # Same reasoning as `PIN_TARGET_MIN_VALUE` at the other end of the
+            # line -- *"two minor pieces in a line is geometry, not a pin worth
+            # naming"* -- applied to the front of it. A pawn cannot usually be
+            # won for its being pinned, so nothing follows from saying it is.
+            continue
         if behind.piece_type == chess.KING:
             # **A pawn pinned against its own king is geometry, not a tactic.**
             # This branch applied no material test at all, where the branch
@@ -247,11 +266,8 @@ def _is_pin(board: chess.Board, after: chess.Board, move: chess.Move, mover: che
             # `Qg4` "pinning" g7 in front of a castled king. Both are defended
             # by the king itself and win nothing.
             #
-            # Same reasoning as `PIN_TARGET_MIN_VALUE` at the other end of the
-            # line: *"two minor pieces in a line is geometry, not a pin worth
-            # naming"*.
-            if front.piece_type == chess.PAWN:
-                continue
+            # The pawn case is now caught above, for every piece behind rather
+            # than only the king.
             if after.is_pinned(not mover, front_square):
                 return True
             continue
