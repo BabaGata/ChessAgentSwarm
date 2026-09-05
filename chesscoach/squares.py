@@ -19,6 +19,8 @@ from __future__ import annotations
 
 import chess
 
+from chesscoach.material import wins_material
+
 OUTPOST = "outpost"
 ROOK_SEVENTH = "rook_seventh"
 
@@ -26,8 +28,19 @@ FEATURES = (OUTPOST, ROOK_SEVENTH)
 
 # A knight is only worth calling an outpost where it restricts: the middle ranks
 # of the conceding player's half. Rank indices, from that player's point of view.
-WHITE_HALF_RANKS = (2, 3, 4)
-BLACK_HALF_RANKS = (5, 4, 3)
+#
+# **These are the conceding player's half, and nothing beyond it.** The old
+# tuples were the classical "knight on its own fourth to sixth rank", which
+# reaches one rank past the halfway line -- so a knight standing in its *own*
+# half counted as settled in the opponent's position. The author rejected two
+# of the five marked firings for exactly that:
+#
+# > *"The piece should be on the black side of the board."*
+#
+# White's half is ranks 1-4 (indices 0-3), Black's is 5-8 (indices 4-7), so the
+# outpost ranks are the old ones intersected with the half that is conceded.
+WHITE_HALF_RANKS = (2, 3)
+BLACK_HALF_RANKS = (5, 4)
 
 
 def _pawns(board: chess.Board, colour: chess.Color) -> list[int]:
@@ -108,7 +121,12 @@ def open_files(board: chess.Board) -> int:
 
 
 def _rooks_on_seventh(board: chess.Board, colour: chess.Color) -> int:
-    """The raw count, with no judgement about whether it could have been stopped."""
+    """The raw count, with no judgement about whether it could have been stopped.
+
+    Raw on purpose: `rook_seventh_preventable` searches for a move that stops a
+    rook **arriving**, and that question is about arrival, not about how long the
+    rook then lives. `count_enemy_rooks_on_seventh` applies the survival rule.
+    """
     rank = 1 if colour == chess.WHITE else 6
     return sum(
         1
@@ -128,10 +146,27 @@ def count_enemy_rooks_on_seventh(board: chess.Board, colour: chess.Color) -> int
     So an open board does not fire at all. With three or more open files the
     rook was going to get there whatever the player did, and telling them to
     prevent it is telling them to do something impossible.
+
+    **A rook the player can simply take has not established itself**, which is
+    why both marked rejections read the same:
+
+    > *"It lasted there for 1 move because it was taken."*
+
+    A rook standing where the exchange favours the conceding player is not
+    counted. Safety and preventability are separate questions -- a rook can be
+    both unstoppable and short-lived -- so this is asked here rather than in
+    `_rooks_on_seventh`, which the preventability search reads.
     """
     if open_files(board) >= OPEN_FILES_UNPREVENTABLE:
         return 0
-    return _rooks_on_seventh(board, colour)
+
+    rank = 1 if colour == chess.WHITE else 6
+    return sum(
+        1
+        for square in board.pieces(chess.ROOK, not colour)
+        if chess.square_rank(square) == rank
+        and wins_material(board, square, colour) <= 0
+    )
 
 
 def rook_seventh_preventable(before: chess.Board, colour: chess.Color) -> bool:

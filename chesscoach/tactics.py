@@ -324,7 +324,35 @@ def _is_hanging_piece(
     # "Free" settled by the exchange rather than by "is anything pointing at it":
     # a defender that is pinned cannot actually recapture, and the old test
     # counted it anyway (D17).
-    return exchange_value(board, move) >= PIECE_VALUE[captured.piece_type]
+    if exchange_value(board, move) < PIECE_VALUE[captured.piece_type]:
+        return False
+
+    return not _is_recapture(board, move)
+
+
+def _is_recapture(board: chess.Board, move: chess.Move) -> bool:
+    """Did the piece we are taking arrive on that square by capturing?
+
+    **An exchange is not a hanging piece**, and the author rejected all three
+    marked firings for that one reason:
+
+    > *"If the piece took another piece a move before and now is hanging then it
+    > is an exchange. If it was just put on a square that is attacked without
+    > gaining any material then it is hanging."*
+
+    Every rejected position -- `Rxc3+`, `Bxf6`, `Bxf7+` -- was a capture answered
+    by the recapture; both accepted ones were quiet moves. The question needs one
+    ply of history, which the analysis board carries; a board built from a bare
+    FEN has none, and then this cannot fire and the caller keeps the old answer.
+    """
+    if not board.move_stack:
+        return False
+
+    # `stack=1` copies one ply of history rather than the whole game: this runs
+    # for every legal reply that survives the material tests above.
+    history = board.copy(stack=1)
+    last = history.pop()
+    return last.to_square == move.to_square and history.is_capture(last)
 
 
 def _is_hanging_pawn(

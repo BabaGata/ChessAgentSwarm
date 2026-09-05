@@ -85,7 +85,10 @@ class TestRookOnTheSeventh:
         assert count_enemy_rooks_on_seventh(board("4k3/pppppppp/8/8/8/8/PrPPPPPP/4K3 w - - 0 1"), chess.WHITE) == 1
 
     def test_both_rooks_count(self):
-        position = board("4k3/pppppppp/8/8/8/8/PrPPPrPP/4K3 w - - 0 1")
+        # The king stands on d1, not e1: from e1 it simply took the f2 rook, and
+        # a rook the player can take is no longer counted as established. That
+        # is orthogonal to what this test is about, which is the tally.
+        position = board("4k3/pppppppp/8/8/8/8/PrPPPrPP/3K4 w - - 0 1")
 
         assert count_enemy_rooks_on_seventh(position, chess.WHITE) == 2
 
@@ -217,8 +220,12 @@ class TestTheScreenAndTheSearchTogether:
         assert ROOK_SEVENTH not in allowed(before, after, chess.WHITE)
 
     def test_a_preventable_arrival_still_fires(self):
-        before = board("3r3k/ppp1pppp/8/8/8/8/PPP1PPPP/3RK3 w - - 0 1")
-        after = board("3r3k/ppp1pppp/8/8/8/8/PPPrPPPP/3RK3 w - - 0 1")
+        # Two black rooks on the d-file, and the white king on g1 rather than
+        # e1. Otherwise Rd1 *and* the king both hit d2 and the arriving rook was
+        # taken for free, so it was never established -- true, but not what this
+        # test asks, which is that a *preventable* arrival still fires.
+        before = board("3r3k/pppr1ppp/8/8/8/8/PPP1PPPP/3R2K1 w - - 0 1")
+        after = board("3r3k/ppp2ppp/8/8/8/8/PPPrPPPP/3R2K1 w - - 0 1")
 
         assert ROOK_SEVENTH in allowed(before, after, chess.WHITE)
 
