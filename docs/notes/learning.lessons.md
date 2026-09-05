@@ -2,7 +2,7 @@
 id: cas-learning-lessons
 title: Lessons Learned
 desc: 'Generalisable lessons extracted from executed work — what worked, what did not, and why.'
-updated: 1788552000000
+updated: 1788648045747
 created: 1785254500000
 ---
 
@@ -23,6 +23,29 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 ```
 
 ---
+
+### L-057 — The person who marked it wrong usually wrote down why
+
+**Seven detectors were fixed from one marked sheet, and in six of them the author's comment beside
+the rejection *was* the rule.** *"If the piece took another piece a move before and now is hanging
+then it is an exchange."* *"It lasted there for 1 move because it was taken."* *"The piece should be
+on the black side of the board."* Each generalised to every rejection of that detector, and each
+scored 5/5 or 10/10 on the marks once implemented.
+
+Where I instead reasoned from the code, I got it wrong twice in one session: I wrote a test asserting
+that a pawn pinned to a *rook* is a genuine pin, on the theory that a winnable rear piece makes the
+pin real — the author had rejected exactly that shape twice, in writing, in a file I had already
+read. And the one detector whose comments I could not use (`allows_pressure.king`, where counting
+attackers did not separate the marks) is the one that needed a threshold calibrated on five points.
+
+**Lesson:** when hand-marked evidence carries free-text reasons, read the reasons before reading the
+code. They are a domain expert's statement of the rule, and reconstructing that rule from
+implementation is slower and arrives somewhere else. Corollary: quote the sentence in the code beside
+the rule it produced, so the next reader can see whose judgement it is.
+
+**Applied to:** [[experiments.e86-detector-audit]] round two; the rule comments in `tactics.py`,
+`squares.py` and `kingsafety.py`; `tests/test_pin_precision.py`, which now records which reading it
+replaced.
 
 ### L-056 — A discrimination statistic with a ceiling ranks claims by rarity
 

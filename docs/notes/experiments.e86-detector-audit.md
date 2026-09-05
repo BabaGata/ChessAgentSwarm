@@ -2,7 +2,7 @@
 id: cas-exp-e86
 title: 'E86 — Auditing every detector against a real definition, and finding the knowledge base cannot be one'
 desc: 'The audit was designed to judge detectors against the sourced knowledge graph. The graph cannot do it: fourteen entries, none endorsed, and forks definition is a definition of a skewer. Audited against Lichess own theme text instead. Two defects demonstrated on positions: a fork is missed when a victim was already attacked, and a trapped piece is reported when it has a safe escape.'
-updated: 1788717600000
+updated: 1788648026209
 created: 1788681600000
 ---
 
@@ -279,3 +279,115 @@ reading in a report.
 - **No detector was changed**, per the author's instruction while the reference rebuild is running.
 - **The 28 never-firing claims are not diagnosed here.** [[design.detector-audit]]'s open question 2
   stands: a correct detector behind a wrong gate looks identical to a broken one.
+
+---
+
+## Round two — fixed against the author's own marked sheet
+
+The audit above read code against definitions. This round read the **author's marks** on
+`experiments/e55-detector-precision/results/detection-sheet copy.txt` — 84 `[y]`, 33 `[n]`, 18 `[?]`
+— and, for every rejected firing, reconstructed the position from `expert-review/games/` and found
+the mechanism. **Their comments beside the rejections did most of the work**: in six of seven cases
+the comment stated the rule directly, and the rule generalised to all of that detector's rejections.
+
+Every fix is verified twice: against the marked positions, and swept across all **47,932 positions**
+of the reviewed games to see what it costs.
+
+| detector | marks before | marks after | corpus firings |
+|---|---|---|---|
+| `missed_motif.pin` + `allowed_motif.pin` | 20% / 40% | **5/5** on the allowed marks | 2,015 → 806 |
+| `missed_motif.capturingDefender` | 25% | 6/8 | 1,729 → 149 |
+| `allowed_motif.hangingPiece` | 40% | **5/5** | 3,203 → 775 |
+| `allows_square.any` + `.rook_seventh` | 60% / 60% | **10/10** | — |
+| `allows_pressure.king` | 40% | **5/5** | — |
+| `trappedPiece` (both claims) | 40% / 40% | 6/10, from 3/10 | 357 → 200 |
+
+### The rules, and whose they are
+
+Each is the author's sentence, not a threshold chosen here.
+
+1. **A pawn is not a pin target, whatever stands behind it.** The king branch of `_is_pin` applied no
+   material test at all where the rook/queen branch required `_wins_once_vacated`, so any slider
+   reaching a line with an enemy pawn and king on it counted. Two further rejections were a pawn
+   shielding a *rook*, and the author described that shape twice, so the test now sits above both
+   branches.
+2. **An exchange is not a hanging piece.** *"If the piece took another piece a move before and now is
+   hanging then it is an exchange."* All three rejections were captures answered by the recapture;
+   both accepted cases were quiet moves. Needs one ply of history, which the analysis board carries.
+3. **A recaptured piece collects nothing.** Every `capturingDefender` rejection left a piece loose
+   *while it was not the enemy's turn*, with the capturer itself standing to collect it — and the
+   recapture removes the capturer. It now asks the question `_is_fork` already asks of its targets.
+4. **A king is a target but never a prize.** Found while fixing 3: `wins_material` answers 100 for a
+   king square, so **every capture on a square beside the enemy king** claimed the king as loot.
+5. **An outpost is in the half you conceded.** The rank tuples were the classical "knight on its own
+   fourth to sixth rank", which reaches one rank past the halfway line, so a knight in its **own**
+   half counted as settled in the opponent's position.
+6. **A rook that is simply taken was never established.** *"It lasted there for 1 move because it was
+   taken."* Safety and preventability are separate questions — a rook can be both unstoppable and
+   short-lived.
+7. **An endgame king with pawns near it is not under attack.** `zone_attackers` counted pawns and the
+   king, so three of them round a centralised endgame king read as an assembling attack.
+8. **A check does not trap every piece on the board.** Under check the only legal replies are the ones
+   answering it, so every other enemy piece appears to have nowhere to go. Three of five
+   `trappedPiece` rejections were checks.
+
+### Where counting was not enough
+
+`allows_pressure.king` is the one place a count could not separate the marks: the third rejection had
+**three attacking pieces, exactly like both accepted positions**. Their *weight* separates them — 3,
+10 and 11 against 15 and 15 — so `PRESSURE_WEIGHT` was added at 13. Weight rather than "a queen must
+be present", because two rooks and two minors is a real attack with no queen in it. **Five hand-marked
+positions is a thin calibration**; the constant is named so that stays visible.
+
+### What this cost, and what is still wrong
+
+- **`capturingDefender` traded recall hard.** 1,729 → 149. Two of the author's four accepted cases are
+  lost because they are **two-move combinations** — `Nxf6+ Nxf6 Bxe5` wins a piece, and a one-ply
+  reply test cannot see it. Two weaker rules were built and measured (a recapture-settled test, and a
+  "wins material somewhere" test); both scored 5/8 against this one's 6/8, so this is the best of
+  three, not a good one. 68 of the 149 survivors are checks and most of the rest are pawn endings
+  where nothing can flee.
+- **`trappedPiece` is still wrong 4 times in 10.** Two of those the author diagnoses as a *different
+  motif* — *"This is fork"*, *"This is fork motif in 2"* — which is a naming problem, not a detector
+  one. The other two are accepted cases that D-2's escape fix already dropped. Worth knowing: the old
+  `is_attacked_by` rule fired on **all ten** marked positions, so its apparent 4/10 was firing always,
+  not discriminating.
+- **`early_error.black` (33%) was not changed, deliberately.** See below.
+
+### `early_error` — the author's question, answered
+
+> *"first I need to know what this detector actually detects and what is the purpose of it."*
+
+It counts **any error the player made within the first 30 plies (move 15), split by colour**. That is
+all. It says nothing about opening theory, book depth, or understanding — `OPENING_END_PLY = 30` is
+the only opening-shaped thing in it.
+
+So the three rejections are **right about the claim and not about the detector**:
+
+> *"This is just missed tactics, not the result of lack of opening understanding."*
+> *"This is not opening anymore."*
+
+The detector counted correctly; the phrasing — *"You go wrong early as Black"* — implies a cause it
+never established, and 30 plies is deep enough that the author twice said the position was past the
+opening. **This is a phrasing defect, and the author's decision to make**, which is why nothing was
+changed here. Two options:
+
+1. **Say what it measures**: *"more of your errors come in the first fifteen moves than for players at
+   your level"* — true, actionable, and claims no cause.
+2. **Retire it.** `slow_development`, `late_castling` and `out_of_book` already make opening claims
+   that name a behaviour, which is what D22 asked for.
+
+### Verification
+
+Every rule is pinned by tests built from the reviewed positions rather than constructed by hand:
+`test_pin_precision.py`, `test_capturing_defender_precision.py`, `test_allows_square_precision.py`,
+`test_king_pressure_precision.py`, `test_trapped_piece_precision.py`.
+
+**Five existing tests asserted the old behaviour and were corrected**, each saying so where it
+changed. Four were fixtures unrealistic in a way orthogonal to what they tested — an arriving rook
+simply hanging, a knight that could just hop away, a BLACK "mirror" whose knight blocked its own
+bishop and whose pawns had changed colour. The fifth, `test_a_pawn_pinned_to_a_ROOK_is_untouched`,
+was **written by me earlier in this same session** from my own reading that a winnable rear piece
+makes a pawn-pin real; the author's sheet says otherwise twice. It now records their rule and names
+the reading it replaced — L-051 in its sharpest form, since the test and the thing it tested were
+authored an hour apart.

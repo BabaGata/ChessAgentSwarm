@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788703200000
+updated: 1788648071195
 created: 1785254500000
 ---
 
@@ -244,6 +244,41 @@ struck through: a list nobody can act on is not a plan.
    a pawn is too small to call a fork ([[experiments.e57-fork-rebuilt]]).
 
 ### Open, and unblocked
+
+0. **DONE — seven detectors rebuilt against the author's marked sheet** *(2026-09-06)*.
+   Round two of [[experiments.e86-detector-audit]], driven by the 33 `[n]` marks on
+   `detection-sheet copy.txt` rather than by reading code. Every rejected firing was reconstructed
+   from `expert-review/games/`, the mechanism found, and the fix verified twice — against the marks,
+   and swept over all **47,932 positions** of the reviewed games.
+
+   | detector | marks before | after | corpus firings |
+   |---|---|---|---|
+   | `pin` (both claims) | 20% / 40% | **5/5** | 2,015 → 806 |
+   | `allowed_motif.hangingPiece` | 40% | **5/5** | 3,203 → 775 |
+   | `allows_square` (both claims) | 60% / 60% | **10/10** | — |
+   | `allows_pressure.king` | 40% | **5/5** | — |
+   | `missed_motif.capturingDefender` | 25% | 6/8 | 1,729 → 149 |
+   | `trappedPiece` (both claims) | 40% / 40% | 6/10, from 3/10 | 357 → 200 |
+
+   **In six of seven the author's comment beside the rejection was the rule** — *"an exchange is not a
+   hanging piece"*, *"it lasted there for 1 move because it was taken"*, *"the piece should be on the
+   black side of the board"* — and each generalised to every rejection of that detector (L-057). A
+   defect found on the way: `wins_material` answers **100** for a king square, so every capture beside
+   the enemy king claimed the king as loot.
+
+   **Two things are not fixed and are not claimed to be.** `capturingDefender` traded recall hard and
+   loses two accepted cases that are two-move combinations a one-ply test cannot see; two alternative
+   rules were measured and both scored worse. `trappedPiece` is still wrong 4 times in 10, and two of
+   those the author diagnoses as a *different motif* — a naming problem, not a detector one.
+
+   **`early_error` was deliberately not changed.** It counts any error inside 30 plies, split by
+   colour, and nothing else — the author asked what it detects and the answer is: not opening
+   understanding. Its three rejections are right about the *claim* and not about the detector, so the
+   fix is phrasing or retirement, and that is the author's call. Both options are written up in E86.
+
+   Five existing tests asserted the old behaviour and were corrected, each saying so where it changed;
+   one of them was written earlier in the same session from my own reading of a shape the author had
+   already rejected twice in writing.
 
 0. **DONE — both detector defects fixed** *(2026-09-06)*.
    **`trappedPiece`** tested escape squares with `is_attacked_by` rather than an exchange: on **6,249
