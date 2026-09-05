@@ -491,7 +491,15 @@ def _is_trapped_piece(
       that "trapped" fired on 8.7 % of all positions.
     * it must be **winnable**: undefended, or attacked by something cheaper.
       Otherwise we are only describing a piece that has nowhere useful to go.
+    * the move must **not give check**. Under check almost every other piece has
+      no good square, because the only legal replies are the ones that answer the
+      check -- so the mobility this reads is the check's, not the piece's. Three
+      of the author's five rejections were checks, `Qf5+`, `Bb4+` and `Qxg6+`,
+      and excluding them costs neither accepted position (E86).
     """
+    if after.is_check():
+        return False
+
     for square, piece in after.piece_map().items():
         if piece.color == mover or piece.piece_type == chess.KING:
             continue
