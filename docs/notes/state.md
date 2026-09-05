@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788660000000
+updated: 1788667200000
 created: 1785254500000
 ---
 
@@ -244,6 +244,19 @@ struck through: a list nobody can act on is not a plan.
    a pawn is too small to call a fork ([[experiments.e57-fork-rebuilt]]).
 
 ### Open, and unblocked
+
+0. **FINDING — where the variance is** → [[design.better-claims]] *(2026-09-06)*. Measured within
+   band, **22 of 24 non-tactical claims separate players and only 10 of 30 tactical/positional ones
+   do**, and the magnitudes are not close: habits and knowledge reach 8×, 14×, 36× where the best
+   tactical claim reaches 2.1×. **A rating band is approximately a measure of tactical strength**, so
+   conditioning on it removes exactly the variance tactical claims measure — structural, not a
+   detector defect. The design error underneath: `endgame_error` splits by **knowledge** (rook, pawn,
+   queen endings — 6 of 6 separate) while the motif claims split by **one skill** sliced thin (board
+   vision), using the Lichess taxonomy of *what happened on the board* as a taxonomy of *what the
+   player is missing*. **Direction:** split `out_of_book` per opening, `concedes_weakness` per
+   structure; measure exposure as well as conditional rate; use the tactical detectors as *evidence*
+   under a separating claim rather than as diagnoses.
+
 
 0. **DONE — knowledge base regenerated, loaded, and retrieval tested**
    → [[experiments.e89-why-nothing-usable]], [[experiments.e90-retrieval]] *(2026-09-06)*.
