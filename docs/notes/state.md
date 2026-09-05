@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788615000000
+updated: 1788620400000
 created: 1785254500000
 ---
 
@@ -290,8 +290,12 @@ struck through: a list nobody can act on is not a plan.
    **ε-optimal window**, **aspiration floor**, **both (C′)**, and a **short PV window** for the
    check-then-fork case — plus a severity rule so mate is prioritised without discarding the fork.
    Recommendation is C′ + severity ordering, with the PV window deferred until measured.
-   **Blocking measurement first:** how many motif candidates survive the free static filter, which
-   decides whether the engine cost is nearer 8,000 or 80,000 evaluations.
+   **The blocking measurement is done** → [[experiments.e85-candidate-cost]]: the free filter removes
+   **93 %** of replies, leaving **1.52 evaluations per error position** — ≈31,300 for the blitz and
+   rapid reference, **about ten minutes** at E01's measured throughput, a 20–40 % addition to a
+   rebuild that already takes fifty. **Cost is no longer a reason to defer this.** `pin` is 49 % of
+   the bill and `trappedPiece` 25 %; the obvious saving — skipping the claims that do not currently
+   separate — is circular and is refused (L-051).
 
 0. **P2 — the detector audit the author's own review calls for** → [[design.detector-audit]]
    *(planned 2026-09-05, not started)*. The author read the detection sheet and reports **most

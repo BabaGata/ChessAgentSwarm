@@ -1,0 +1,46 @@
+HOW MANY CANDIDATES WOULD ACTUALLY NEED PRICING?
+====================================================================================
+
+  15 players from corpus-blitz
+  errors by the player                    3,344
+  of those, with a usable reply position  3,324
+
+  Per error position:
+    legal replies                         mean 31.7  median 33  p90 44  max 57
+    executing a motif (survive stage 1)   mean 2.1  median 1  p90 5  max 46
+    still needing an engine call          mean 1.5  median 1  p90 4  max 44
+
+  candidate moves total                   7,131
+  of those, free (best reply's own)       2,056
+  needing an evaluation                   5,075
+  distinct (position, move) to cache      5,047
+
+  distinct evaluations per error position 1.52
+
+  Extrapolated to a full three-band reference rebuild:
+    the blitz+rapid reference (~20,600 errors)       31,278 evaluations
+    all three bands, overlapping (~2x)               62,556 evaluations
+
+  cache 33,767/33,767 hits, 283,576 rows
+
+  Motifs the best reply already executes (free):
+    hangingPawn                  394
+    hangingPiece                 309
+    capturingDefender            224
+    pin                          155
+    fork                         110
+    trappedPiece                  85
+    discoveredAttack              72
+    skewer                        27
+    backRankMate                   5
+
+  Motifs only a non-best candidate executes (must be priced):
+    pin                        2,485
+    trappedPiece               1,257
+    discoveredAttack             687
+    hangingPawn                  480
+    capturingDefender            221
+    hangingPiece                  71
+    skewer                        50
+    fork                          50
+

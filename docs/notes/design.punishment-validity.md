@@ -2,14 +2,14 @@
 id: cas-design-punishment-validity
 title: 'Design — Was the punishment actually worth playing? Options for scoring a good-enough reply'
 desc: 'A fork the opponent could play is not the players fault if playing it would have been bad for the opponent. Four options for deciding whether a punishing reply is good enough to count, drawn from epsilon-optimal action sets, satisficing aspiration levels, and the win-probability thresholds chess analysis already uses.'
-updated: 1788656400000
+updated: 1788620400000
 created: 1788656400000
 ---
 
 # Design — Was the punishment actually worth playing?
 
 **Serves:** V8 (no unfalsifiable coaching), V4 (gap detection), C1 (free) ·
-**Follows:** [[experiments.e84-band-references]] · **Status:** design, **options only — not decided**
+**Follows:** [[experiments.e84-band-references]] · **Status:** design, **options only — not decided**. Cost measured → [[experiments.e85-candidate-cost]]
 
 ## The problem, in the author's words
 
@@ -215,12 +215,17 @@ A staged filter keeps it cheap, and the first stage is already written:
    283,576 positions are in `data/cache/peers.db`.
 3. **Engine, only for survivors:** one evaluation per surviving candidate.
 
-**Unmeasured, and must be measured before building:** how many candidates survive stage 1 per error
-position, and therefore the true engine cost of a reference rebuild. The D2 measurement gives an upper
-bound on availability — a motif was available in roughly a third of errors — but availability is not
-survival. **Estimated 40,000–80,000 engine evaluations for a full reference rebuild if stage 1 removes
-little; possibly a tenth of that if it removes most.** That spread is too wide to build on, so
-measuring it is the first task, not the second.
+**Measured** → [[experiments.e85-candidate-cost]]. Stage 1 removes **93 %** of replies for free
+(31.7 legal → 2.1 executing a motif), and a further 0.6 per position are free because the best reply
+already executes them. That leaves **1.52 distinct evaluations per error position** — stable at 1.48
+on 3 players and 1.52 on 15 — or **≈31,300 evaluations for the blitz and rapid reference and ≈62,600
+for all three bands**. At E01's measured depth-15 throughput that is **about ten and about nineteen
+minutes**, a 20–40 % addition to a rebuild that already takes fifty. **C1 holds; this is affordable.**
+
+**The cost has a shape.** `pin` alone is **49 %** of the bill and `trappedPiece` another 25 %, because
+those motifs are usually *available but not best* — where a hanging piece is usually best to take, and
+so nearly free. Most of the priced budget belongs to claims that do not currently separate players,
+and **cutting them would be circular**: they are flat under the rule this design exists to replace.
 
 ## What this forecloses
 
