@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788606000000
+updated: 1788615000000
 created: 1785254500000
 ---
 
@@ -259,9 +259,10 @@ struck through: a list nobody can act on is not a plan.
    → [[design.claims-that-do-not-separate]] *(2026-09-05)*. **D1:** `peer_rate()` returns None for
    claims players do not differ on and `_unusualness` returns neutral, so they keep competing on
    cost — which stays personal even where the rate is not. No detector removed; the author's
-   instruction was that nothing is retired. **D2:** `allowed_motif.X` is now measured over the errors
-   where X was *available* to punish them, not over every error, which is the correction
-   `missed_motif` already had.
+   instruction was that nothing is retired. **D2 was built and then reverted the same day** —
+   measuring `allowed_motif.X` over the errors where X was *available* left the engine's move choice
+   as the only thing varying, and it is a regression → [[experiments.e84-band-references]]. Only D1
+   survives from this entry.
 
 0. **DONE — three rating bands, and D2 reverted** → [[experiments.e84-band-references]]
    *(2026-09-05)*. The band guard's block is answered by building **1200-1600, 1400-1800 and
@@ -281,6 +282,32 @@ struck through: a list nobody can act on is not a plan.
    `register.py` rather than hand-typed. 27 claims still separate; 5 are too thin to say and are not
    withheld, because unmeasured is not a verdict.
 
+
+0. **P1 — author decision: which punishment-validity rule?** → [[design.punishment-validity]]
+   *(planned 2026-09-05, options only)*. A fork the opponent *could* play is not the player's fault
+   if playing it would have lost for the opponent; and a fork need not be the engine's single best
+   move to be a real punishment. Four options are written up with their holes stated —
+   **ε-optimal window**, **aspiration floor**, **both (C′)**, and a **short PV window** for the
+   check-then-fork case — plus a severity rule so mate is prioritised without discarding the fork.
+   Recommendation is C′ + severity ordering, with the PV window deferred until measured.
+   **Blocking measurement first:** how many motif candidates survive the free static filter, which
+   decides whether the engine cost is nearer 8,000 or 80,000 evaluations.
+
+0. **P2 — the detector audit the author's own review calls for** → [[design.detector-audit]]
+   *(planned 2026-09-05, not started)*. The author read the detection sheet and reports **most
+   detectors are bad** (time claims skipped); the sheet also shows **28 of 57 claims never fire**.
+   Three parts, in order: audit each detector's board logic against the **sourced** definition in the
+   knowledge graph; make detectors name **the pieces involved and the move that would execute an
+   unplayed motif** (*"the g3 pawn could fork the knights on h5 and f5 with g4"* — V8 directly); then
+   a **local reviewer that triages**, flagging implausible detections for the author. The reviewer
+   may never mark anything correct — R-03 forbids LLM chess judgement as a source, so a false
+   "plausible" would silently retire a real defect while a false "suspicious" costs one position to
+   read.
+
+0. **P2 — re-screen once any of this lands.** Both designs change what `allowed_motif` counts, so the
+   generated separation register must be regenerated after either — one command,
+   `experiments/e84-band-references/register.py`, but it is not optional: the register is evidence
+   and drifts the moment the measurement under it moves.
 
 0. **STAGE 4 BUILT — prerequisites** → [[experiments.e81-prerequisites]] *(2026-09-02)*. The partial
    order in `domain.chess-concepts` § C is now **10 Domain nodes and 9 PREREQUISITE_OF edges**, each
