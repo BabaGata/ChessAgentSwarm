@@ -2,7 +2,7 @@
 id: cas-domain-sources
 title: Sources
 desc: 'Sources used for the domain knowledge, each with an evidence-quality note.'
-updated: 1785254500000
+updated: 1788613200000
 created: 1785254500000
 ---
 
@@ -25,6 +25,21 @@ rather than to coaching sites. The claims still resting on commercial sources ar
 ones (how a lesson is shaped, one-or-two priorities, the anti-pattern list); those are lower-stakes,
 and the biggest remaining gap is the **four-way gap taxonomy**, whose provenance is still unclear
 despite driving `GapTypeHypothesis` in the schema.
+
+## Deciding whether a move is *good enough* rather than best
+
+Read for [[design.punishment-validity]]. **None of these is a source for a chess claim** — they are
+methodological, and they are cited for the *shape* of a scoring rule. Recorded here so the design's
+reasoning is traceable (C5) and so the chess-side citations carry their real quality (R-03, R-11).
+
+| source | used for | evidence class | note |
+|---|---|---|---|
+| [Clinician-in-the-Loop Decision Making: RL with Near-Optimal Set-Valued Policies](https://arxiv.org/pdf/2007.12678) | returning the *set* of near-optimal actions to a human decision-maker rather than one argmax | **secondary, methodological** | free preprint (C7); the closest match to the problem's shape — a human wants to know an option existed, not that a model ranked it first |
+| [Jaksch, Ortner & Auer — Near-optimal Regret Bounds for Reinforcement Learning (JMLR)](https://www.jmlr.org/papers/volume11/jaksch10a/jaksch10a.pdf) | ε-optimality, action gap, regret vocabulary | **measured** (peer-reviewed, free) | used only for definitions |
+| [Schwarz et al. — Bounded Rationality, Satisficing, AI and Decision-Making (Public Administration Review)](https://onlinelibrary.wiley.com/doi/10.1111/puar.13540) | Simon's satisficing; aspiration level as "clears a stated bar" rather than "is best" | **expert-consensus** (peer-reviewed) | the aspiration level is Option 2's whole idea |
+| [Hey et al. — When and How to Satisfice: An Experimental Investigation (York)](https://www.york.ac.uk/media/economics/exec/heypermanaandrochanahastin/Satisficing%20Revised.pdf) | the three parts of a satisficing rule | expert-consensus | free working paper |
+| [Chess It Up](https://chessitup.com/blog/chess-move-classifications-explained) · [Chesslume](https://chesslume.com/blog/chess-move-classifications-explained) · [ChessGrader](https://chessgrader.com/blog/chess-move-classifications/) | that move classification keys on **win-probability loss, not centipawns**, at ≈5 / 10 / 20 %; and that "only good move" is defined by an action gap (≈18 wp to second best) | **tertiary, commercial** | product blogs marketing analysis tools — exactly the quality R-11 warns of, and they disagree on the upper bands. Cited **only** as "this convention exists and our own `INACCURACY_WP = 5.0` independently matches its lower band", never as authority for a threshold |
+
 
 ## Chess improvement / curriculum by level
 
