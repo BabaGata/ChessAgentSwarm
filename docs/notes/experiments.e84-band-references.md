@@ -99,7 +99,8 @@ and it is the author's. It does not solve rarity: a motif seldom available stays
   merging an older file into a current one produced something labelled current while holding older
   cells. Found while building D2's guard and kept after reverting it, because it is wrong regardless
   of what any version means.
-- **D1 is untouched.** Nine claims still make no peer comparison; that rests on E83, not on D2.
+- **D1's mechanism is untouched.** Withholding the peer rate and neutralising unusualness rests on
+  E83's *method*, not on D2. Its *list* is regenerated below, and grows.
 
 ## The bands were the point: twelve more claims do not separate
 
