@@ -2,7 +2,7 @@
 id: cas-exp-e84
 title: 'E84 — Three rating bands, and a denominator that was built, measured and reverted'
 desc: 'The band guard blocking the rebuild is answered by building three overlapping bands instead of one, so a 1900 player is compared against 1600-2000. D2s motif-specific allowed_motif denominator was measured on the result and reverted: same band and speed, it cost three claims their separation, left two unmeasurable, and improved none.'
-updated: 1788638400000
+updated: 1788606000000
 created: 1788638400000
 ---
 
@@ -101,6 +101,52 @@ and it is the author's. It does not solve rarity: a motif seldom available stays
   of what any version means.
 - **D1 is untouched.** Nine claims still make no peer comparison; that rests on E83, not on D2.
 
+## The bands were the point: twelve more claims do not separate
+
+With the reference rebuilt on the restored denominator, E83's screen could finally be run **within
+band** rather than on a pool spanning 720 to 2006. A pooled null over players with genuinely
+different rates **inflates** dispersion, so the pooled figures were the optimistic side of a bracket.
+
+**Twelve verdicts moved. Every one of them from separating to flat, with no recoveries.** A
+consistent direction across twelve independent claims is the signature of a systematic effect, not of
+noise.
+
+| claim | pooled | within band | players |
+|---|--:|--:|--:|
+| `concedes_weakness.backward` | 1.84 | **1.06** | 50 |
+| `missed_motif.hangingPiece` | 1.89 | **1.24** | 50 |
+| `allowed_motif.discoveredAttack` | 1.76 | **1.24** | 49 |
+| `executed_motif.trappedPiece` | 1.66 | **1.09** | 24 |
+| `sacrificed_for_attack` | 2.05 | **1.24** | 50 |
+| `allows_square.any` | 1.47 | **1.10** | 50 |
+| `concedes_weakness.any` | 1.36 | **1.07** | 50 |
+| `allowed_motif.capturingDefender` | 1.44 | **1.31** | 50 |
+| `allowed_motif.pin` | 1.33 | **1.25** | 50 |
+| `executed_motif.hangingPiece` | 1.44 | **1.29** | 50 |
+| `executed_motif.pin` | 1.44 | **1.28** | 50 |
+| `executed_motif.fork` | 1.62 | **1.47** | 12 |
+
+**Within band is the test that matches the claim.** A peer lookup is keyed on
+`(band, speed, claim)`, so *"you do this more than your peers"* is a statement about the player's own
+band. Separation has to hold there or the sentence has nothing under it.
+
+### Flat, or only fifty players instead of eighty-three?
+
+Fewer players means less power, so the same question E83 asked is asked again. **Eleven of the twelve
+are genuinely flat**, at smallest-visible-differences of **1.04–1.30×** — inside the band E83 itself
+called conclusive. Only `sacrificed_for_attack.own_move` at **1.39×** is underpowered, and it is
+marked inconclusive rather than settled.
+
+### What the register becomes
+
+**10 entries → 21**, of which **16 are asserted** (five `executed_motif` claims are never reported).
+27 claims still separate within band; 5 are too thin in any single stratum to say either way, and are
+**not** withheld — unmeasured is not a verdict.
+
+The register is now **generated** by `experiments/e84-band-references/register.py` rather than typed,
+because the design note required it to be evidence rather than opinion and a hand-typed list drifts
+from the reference it claims to describe.
+
 ## Honest limitations
 
 - **The comparison is one stratum.** 1400-1800 blitz was chosen because it is the only band the old
@@ -112,5 +158,8 @@ and it is the author's. It does not solve rarity: a motif seldom available stays
 - **E83's verdicts stand as measured**, since A is restored. They were computed on a band-mixed pool,
   which inflates dispersion, so the flat verdicts remain conservative and the separating ones remain
   the optimistic side of the bracket.
-- **Nothing here re-screens E83 within band.** The three-band reference makes that possible for the
-  first time and it has not been done.
+- **One stratum carries most of the within-band verdicts.** `1400-1800|blitz` has the most players,
+  and `best_within_band` reports the largest stratum rather than combining them — recombining is the
+  mixing being measured. A claim flat there could separate in another band, and that is not tested.
+- **The screen is still dispersion**, which says players differ, not that a claim measures a skill.
+  `plays_queenless` reaches 36.9× within band and is a style variable.

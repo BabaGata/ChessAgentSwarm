@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788598800000
+updated: 1788606000000
 created: 1785254500000
 ---
 
@@ -271,21 +271,15 @@ struck through: a list nobody can act on is not a plan.
    their separation, left two unmeasurable, and improved none. `allowed_motif` is back on the
    total-errors denominator, so E83's verdicts stand as measured and the schema returns to v2.
 
-0. **P1 — rebuild the three-band reference under the restored denominator.** The build that produced
-   the comparison used D2's denominator and has been deleted. The band split is adopted and the
-   rebuild is mechanical: `python experiments/e84-band-references/build.py`, about fifty minutes,
-   deterministic, cache-served.
-
-0. **P2 — re-screen E83 within band, once that reference exists.** E83 pooled players from 720 to
-   2006, and a pooled null over genuinely different rates **inflates** dispersion. Its flat verdicts
-   survived that inflation and are conservative; its *separating* verdicts did not, and some may be
-   the rating spread wearing a claim's name. `experiments/e84-band-references/rescreen.py` is written
-   and waiting on the reference.
-
-0. **P3 — author decision: adopt formulation C for `allowed_motif`?** Instance = the error *left the
-   motif available*, denominator = all errors. Puts the player back as the actor, larger numerator
-   than today so more power, cannot saturate. It changes what the claim means — "what you left
-   available" rather than "what punished you" — which is why it is not taken unilaterally.
+0. **DONE — reference rebuilt, and the within-band screen moved twelve verdicts**
+   → [[experiments.e84-band-references]] *(2026-09-05)*. Three bands × two speeds, 80 players,
+   denominator A, schema v2. Screened **within band** — the stratum a peer lookup is actually keyed
+   on — **twelve claims lost their separation and none recovered**, which is a systematic effect
+   rather than noise. **Eleven of the twelve are genuinely flat** at smallest-visible-differences of
+   1.04–1.30×; only `sacrificed_for_attack` is underpowered and is marked inconclusive.
+   **The register grows from 10 entries to 21, 16 of them asserted**, and is now *generated* by
+   `register.py` rather than hand-typed. 27 claims still separate; 5 are too thin to say and are not
+   withheld, because unmeasured is not a verdict.
 
 
 0. **STAGE 4 BUILT — prerequisites** → [[experiments.e81-prerequisites]] *(2026-09-02)*. The partial

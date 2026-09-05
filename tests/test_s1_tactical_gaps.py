@@ -35,10 +35,11 @@ DULL_MOVE = "a1a2"
 DULL_ALT = "a1a3"
 
 # Black to move; Ne5-f3 forks the white king on g1 and the rook on e1.
-# White to move; Rxa5 wins an undefended knight, Ra3 does not. `missed_motif
-# .hangingPiece` is a claim players *do* differ on (E83, dispersion 1.89x),
-# so it is what the peer comparison can still be tested through.
-HANGING_FEN = "4k3/8/8/n7/8/8/8/R3K3 w - - 0 1"
+# White to move; Rxa5 wins an undefended pawn, Ra3 does not. `missed_motif
+# .hangingPawn` is a claim players *do* differ on within their own band (E84,
+# dispersion 1.42x), so it is what the peer comparison can be tested through.
+# It was `hangingPiece` until E84 screened within band and found that one flat.
+HANGING_FEN = "4k3/8/8/p7/8/8/8/R3K3 w - - 0 1"
 HANGING_MOVE = "a1a5"
 HANGING_QUIET = "a1a3"
 
@@ -236,7 +237,7 @@ class TestFindingContent:
         assert first[0].evidence == second[0].evidence
 
 
-def player_missing_hanging_pieces(n_games: int, misses: int) -> list[Observation]:
+def player_missing_hanging_pawns(n_games: int, misses: int) -> list[Observation]:
     """The same shape as `player_missing_forks`, on a claim that separates."""
     observations: list[Observation] = []
     for game in range(n_games):
@@ -278,16 +279,16 @@ class TestPeerComparison:
 
     def test_stays_silent_when_everyone_misses_them_just_as_often(self):
         context = a_context(
-            player_missing_hanging_pieces(30, 3),
-            peers=self.peers_at("missed_motif", Motif.HANGING_PIECE, 1.0),
+            player_missing_hanging_pawns(30, 3),
+            peers=self.peers_at("missed_motif", Motif.HANGING_PAWN, 1.0),
         )
 
         assert S1TacticalGaps().findings(context) == ()
 
     def test_speaks_when_the_player_is_worse_than_their_peers(self):
         context = a_context(
-            player_missing_hanging_pieces(30, 3),
-            peers=self.peers_at("missed_motif", Motif.HANGING_PIECE, 0.2),
+            player_missing_hanging_pawns(30, 3),
+            peers=self.peers_at("missed_motif", Motif.HANGING_PAWN, 0.2),
         )
 
         findings = S1TacticalGaps().findings(context)

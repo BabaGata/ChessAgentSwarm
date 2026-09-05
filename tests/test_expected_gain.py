@@ -109,14 +109,18 @@ class TestRanking:
         assert chosen[0].finding.claim.subject == "pin"
 
     def test_unpriced_claims_still_rank_among_themselves_by_how_unusual(self):
-        mild = a_finding(subject="doubled", kind="concedes_weakness",
+        # Both arms must be claims players actually differ on, or the one under
+        # test gets neutral unusualness and the ranking this checks cannot
+        # happen. `concedes_weakness.backward` was the stark arm until E84 found
+        # it flat within band; `doubled` is the only subject of that kind left.
+        mild = a_finding(subject="queen", kind="endgame_error",
                          rate=0.20, peer_rate=0.15, cost_wp=None)
-        stark = a_finding(subject="backward", kind="concedes_weakness",
+        stark = a_finding(subject="rook", kind="endgame_error",
                           rate=0.40, peer_rate=0.10, cost_wp=None)
 
         chosen = select_priorities((mild, stark), limit=1).priorities
 
-        assert chosen[0].finding.claim.subject == "backward"
+        assert chosen[0].finding.claim.subject == "rook"
 
     def test_confidence_still_comes_first(self):
         # A cheap certainty beats an expensive maybe: evidence quality is not

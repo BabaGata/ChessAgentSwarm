@@ -1,0 +1,88 @@
+DOES THE VERDICT SURVIVE A CORRECT DENOMINATOR AND A SINGLE BAND?
+====================================================================================================
+
+  old: peers-3af3206.json -- band-mixed, pre-D2 denominator
+  new: peers-e84.json -- three bands, motif-specific allowed_motif
+
+  'within' is the largest single stratum, screened alone. Pooling bands with
+  genuinely different rates inflates dispersion, so 'within' is the honest number
+  and pooled-minus-within is how much was really the rating spread.
+
+  claim                                  old  new pooled   within    n  verdict
+  ------------------------------------------------------------------------------------------------
+  allowed_motif.backRankMate.own        0.60       1.11x    0.25x   12  still flat
+  allowed_motif.capturingDefender.o     1.44       2.76x    1.31x   50  LOST — no longer separates
+  allowed_motif.discoveredAttack.ow     1.76       3.82x    1.24x   49  LOST — no longer separates
+  allowed_motif.fork.own                1.15       2.23x    1.21x   49  still flat
+  allowed_motif.hangingPawn.own         1.94       4.00x    1.67x   50  still separates
+  allowed_motif.hangingPiece.own        2.17       3.09x    1.36x   50  still separates
+  allowed_motif.pin.own                 1.33       2.38x    1.25x   50  LOST — no longer separates
+  allowed_motif.skewer.own              0.83       1.45x    0.72x   38  still flat
+  allowed_motif.trappedPiece.own        1.49       3.04x    1.46x   49  still separates
+  allows_pressure.king.own              2.44       4.98x    2.36x   50  still separates
+  allows_square.any.own                 1.47       2.65x    1.10x   50  LOST — no longer separates
+  allows_square.outpost.own             1.94       3.84x    1.38x   50  still separates
+  allows_square.rook_seventh.own        1.25       2.11x    0.79x   50  still flat
+  concedes_weakness.any.own             1.36       2.71x    1.07x   50  LOST — no longer separates
+  concedes_weakness.backward.own        1.84       3.36x    1.06x   50  LOST — no longer separates
+  concedes_weakness.doubled.own         2.07       3.99x    1.73x   50  still separates
+  concedes_weakness.isolated.own        1.02       2.17x    1.08x   50  still flat
+  early_error.any.own                   8.06      10.94x    3.89x   50  still separates
+  early_error.black.own                 4.39       6.39x    2.20x   50  still separates
+  early_error.white.own                 4.90       7.08x    3.24x   50  still separates
+  endgame_error.any.own                 3.76       8.49x    2.43x   50  still separates
+  endgame_error.minor.own               2.96       9.24x    2.73x   31  still separates
+  endgame_error.pawn.own                4.11       7.65x    4.61x   11  still separates
+  endgame_error.queen.own               3.17       6.98x    3.37x   33  still separates
+  endgame_error.rook.own                4.31      10.58x    4.77x   41  still separates
+  endgame_error.rook_minor.own          2.85       7.11x    3.38x   44  still separates
+  executed_motif.capturingDefender.     2.35       5.21x    1.89x   49  still separates
+  executed_motif.discoveredAttack.o     1.04       2.34x    1.23x   22  still flat
+  executed_motif.fork.own               1.62       2.91x    1.47x   12  LOST — no longer separates
+  executed_motif.hangingPawn.own        2.53       5.14x    1.51x   50  still separates
+  executed_motif.hangingPiece.own       1.44       2.76x    1.29x   50  LOST — no longer separates
+  executed_motif.pin.own                1.44       2.99x    1.28x   50  LOST — no longer separates
+  executed_motif.skewer.own               --       3.24x     nanx    0  too thin within band to say
+  executed_motif.trappedPiece.own       1.66       2.78x    1.09x   24  LOST — no longer separates
+  instant_move_error.instant_moves.     6.08       9.62x    4.06x   50  still separates
+  late_castling.book.own                  --      10.76x    4.77x   48  new — separates
+  late_castling.own.own                   --       3.04x     nanx    0  too thin within band to say
+  long_think_error.long_think.own       2.69       4.48x    1.64x   50  still separates
+  miscounted_exchange.own_move.own      1.70       3.31x    1.36x   50  still separates
+  missed_motif.capturingDefender.ow     1.96       4.25x    1.49x   49  still separates
+  missed_motif.discoveredAttack.own     1.06       2.37x    1.20x   22  still flat
+  missed_motif.fork.own                 0.94       2.16x    0.93x   12  still flat
+  missed_motif.hangingPawn.own          2.45       4.70x    1.42x   50  still separates
+  missed_motif.hangingPiece.own         1.89       3.25x    1.24x   50  LOST — no longer separates
+  missed_motif.pin.own                  1.81       3.43x    1.55x   50  still separates
+  missed_motif.skewer.own                 --       2.40x     nanx    0  too thin within band to say
+  missed_motif.trappedPiece.own         1.10       2.18x    0.63x   24  still flat
+  moved_into_attack.own_move.own        5.23       5.76x    2.28x   50  still separates
+  opening_disadvantage.any.own          3.48       5.54x    1.37x   50  still separates
+  out_of_book.any.own                     --      21.91x    8.29x   50  new — separates
+  pawn_error.any.own                      --       5.08x    1.83x   50  new — separates
+  plays_queenless.any.own              50.36      99.25x   36.91x   50  still separates
+  repeat_move.any.own                     --      36.56x   14.69x   50  new — separates
+  sacrificed_for_attack.own_move.ow     2.05       3.68x    1.24x   50  LOST — no longer separates
+  slow_development.book.own               --       7.39x    3.61x   48  new — separates
+  slow_development.own.own                --       2.75x     nanx    0  too thin within band to say
+  time_budget_error.after_overspend     2.40       4.75x     nanx    0  too thin within band to say
+  time_pressure_error.clock.own         2.74       5.40x    2.66x   48  still separates
+
+====================================================================================================
+
+  VERDICTS THAT MOVED
+
+    allowed_motif.capturingDefender.own: separated -> flat
+    allowed_motif.discoveredAttack.own: separated -> flat
+    allowed_motif.pin.own: separated -> flat
+    allows_square.any.own: separated -> flat
+    concedes_weakness.any.own: separated -> flat
+    concedes_weakness.backward.own: separated -> flat
+    executed_motif.fork.own: separated -> flat
+    executed_motif.hangingPiece.own: separated -> flat
+    executed_motif.pin.own: separated -> flat
+    executed_motif.trappedPiece.own: separated -> flat
+    missed_motif.hangingPiece.own: separated -> flat
+    sacrificed_for_attack.own_move.own: separated -> flat
+

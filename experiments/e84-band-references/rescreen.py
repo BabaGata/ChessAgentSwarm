@@ -131,8 +131,15 @@ def main() -> int:
         if new_phi != new_phi:
             continue
 
-        is_flat = within_tail != within_tail or within_tail >= 0.05
-        if not screened_before:
+        # No stratum with enough players is **unmeasured within band**, not flat.
+        # The same distinction already drawn on the old side, and missing here it
+        # reported claims with n=0 as having lost a separation they were never
+        # re-tested for (L-046, a second time in one script).
+        measurable = n >= MIN_PLAYERS and within_tail == within_tail
+        is_flat = measurable and within_tail >= 0.05
+        if not measurable:
+            verdict, note = "too thin within band to say", ""
+        elif not screened_before:
             verdict, note = ("new — " + ("flat" if is_flat else "separates")), ""
         else:
             was_flat = old_tail >= 0.05

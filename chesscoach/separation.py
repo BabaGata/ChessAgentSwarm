@@ -3,9 +3,9 @@
 Spec: docs/notes/design.claims-that-do-not-separate.md § D1
 
 The peer comparison asserts *"you do this more than your peers"*. That sentence
-needs players to actually differ. [[experiments.e83-spread-rescreen]] tested every
-shipped claim for whether players differ by more than binomial sampling noise,
-and found nine asserted claims on which they do not.
+needs players to actually differ. [[experiments.e84-band-references]] tested every shipped claim for whether
+players **within one rating band** differ by more than binomial sampling noise,
+and found sixteen asserted claims on which they do not.
 
 `allowed_motif.fork` sits at 3.3 % across 83 players with about 248 errors each.
 If every player's true rate were exactly 3.3 %, measured rates would still
@@ -28,7 +28,7 @@ from dataclasses import dataclass
 
 from chesscoach.peers import PeerReference
 
-SOURCE = "experiments.e83-spread-rescreen"
+SOURCE = "experiments.e84-band-references"
 
 
 @dataclass(frozen=True)
@@ -47,24 +47,40 @@ class Separation:
     source: str = SOURCE
 
 
-# Measured on `peers-3af3206`, 83 players, at least 10 opportunities each.
-# Dispersion is 1.0 when players are interchangeable. Every entry here failed at
-# p >= 0.05 against a null that band-mixing already tilts toward *finding*
-# separation, so these verdicts are conservative.
+# Screened **within band**, on `peers-e84`: three bands, two speeds, and the
+# denominator restored after E84 reverted D2.
+#
+# E83 screened a pool mixing players from 720 to 2006. A pooled null over
+# genuinely different rates **inflates** dispersion, and splitting the pool moved
+# twelve verdicts -- every one of them from separating to flat, with no
+# recoveries. Within band is the test that matches the claim: a peer lookup is
+# keyed on `(band, speed, claim)`, so "more than your peers" is a statement about
+# the player's own band and has to hold there.
+#
+# Regenerate with `python experiments/e84-band-references/register.py`. Typed by
+# hand this would be opinion; generated it stays evidence.
 DOES_NOT_SEPARATE: dict[str, Separation] = {
-    "concedes_weakness.isolated.own": Separation(1.02, 0.42, 1.12, 83, conclusive=True),
-    "executed_motif.discoveredAttack.own": Separation(1.04, 0.38, 1.17, 64, conclusive=True),
-    "slow_development.own": Separation(1.37, 0.094, 1.17, 28, conclusive=True),
-    "allowed_motif.fork.own": Separation(1.15, 0.17, 1.18, 83, conclusive=True),
-    "missed_motif.trappedPiece.own": Separation(1.10, 0.28, 1.18, 62, conclusive=True),
-    "missed_motif.discoveredAttack.own": Separation(1.06, 0.34, 1.19, 64, conclusive=True),
-    "allows_square.rook_seventh.own": Separation(1.25, 0.061, 1.21, 83, conclusive=True),
-    "missed_motif.fork.own": Separation(0.94, 0.59, 1.25, 44, conclusive=True),
-    # These two failed at a width that cannot distinguish "flat" from "too rare
-    # to tell". They are withheld on the same rule, and marked so the next
-    # rebuild knows to look again rather than treating the verdict as settled.
-    "allowed_motif.skewer.own": Separation(0.83, 0.84, 1.35, 68, conclusive=False),
-    "allowed_motif.backRankMate.own": Separation(0.60, 0.93, 1.64, 23, conclusive=False),
+    "executed_motif.hangingPiece.own": Separation(1.29, 0.0826, 1.04, 50, conclusive=True),  # 1400-1800|blitz
+    "concedes_weakness.any.own": Separation(1.07, 0.35, 1.12, 50, conclusive=True),  # 1400-1800|blitz
+    "executed_motif.pin.own": Separation(1.28, 0.0885, 1.14, 50, conclusive=True),  # 1400-1800|blitz
+    "concedes_weakness.isolated.own": Separation(1.08, 0.332, 1.16, 50, conclusive=True),  # 1400-1800|blitz
+    "allowed_motif.capturingDefender.own": Separation(1.31, 0.0688, 1.17, 50, conclusive=True),  # 1400-1800|blitz
+    "allows_square.any.own": Separation(1.10, 0.289, 1.18, 50, conclusive=True),  # 1400-1800|blitz
+    "allowed_motif.pin.own": Separation(1.25, 0.113, 1.20, 50, conclusive=True),  # 1400-1800|blitz
+    "concedes_weakness.backward.own": Separation(1.06, 0.353, 1.23, 50, conclusive=True),  # 1400-1800|blitz
+    "allowed_motif.fork.own": Separation(1.21, 0.153, 1.25, 49, conclusive=True),  # 1400-1800|blitz
+    "executed_motif.discoveredAttack.own": Separation(1.23, 0.214, 1.25, 22, conclusive=True),  # 1400-1800|rapid
+    "missed_motif.trappedPiece.own": Separation(0.63, 0.915, 1.26, 24, conclusive=True),  # 1400-1800|blitz
+    "executed_motif.trappedPiece.own": Separation(1.09, 0.347, 1.27, 24, conclusive=True),  # 1400-1800|blitz
+    "missed_motif.hangingPiece.own": Separation(1.24, 0.125, 1.27, 50, conclusive=True),  # 1400-1800|blitz
+    "allowed_motif.discoveredAttack.own": Separation(1.24, 0.125, 1.28, 49, conclusive=True),  # 1400-1800|blitz
+    "missed_motif.discoveredAttack.own": Separation(1.20, 0.238, 1.29, 22, conclusive=True),  # 1400-1800|rapid
+    "executed_motif.fork.own": Separation(1.47, 0.133, 1.30, 12, conclusive=True),  # 1400-1800|blitz
+    "allows_square.rook_seventh.own": Separation(0.79, 0.858, 1.33, 50, conclusive=True),  # 1400-1800|blitz
+    "missed_motif.fork.own": Separation(0.93, 0.513, 1.36, 12, conclusive=False),  # 1400-1800|blitz
+    "sacrificed_for_attack.own_move.own": Separation(1.24, 0.123, 1.39, 50, conclusive=False),  # 1400-1800|blitz
+    "allowed_motif.skewer.own": Separation(0.72, 0.893, 1.49, 38, conclusive=False),  # 1400-1800|blitz
+    "allowed_motif.backRankMate.own": Separation(0.25, 0.993, 1.82, 12, conclusive=False),  # 1400-1800|blitz
 }
 
 
