@@ -24,16 +24,22 @@ from pathlib import Path
 from chesscoach.profile.models import wilson_interval
 from chesscoach.shrinkage import posterior
 
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 
 # v1 carried rates only. It still loads, and simply has no costs to offer.
 #
-# There was briefly a v3, for the motif-specific `allowed_motif` denominator that
-# E84 measured and reverted. No definition differs between v1 and v2 rates, so
-# nothing needs refusing on version alone -- but `load` still records which
-# version a file was written under, because a merge must not silently present an
-# older file's numbers as current.
-READABLE_SCHEMA_VERSIONS = frozenset({1, SCHEMA_VERSION})
+# v2 counted an `allowed_motif` instance only when the opponent's **single best**
+# reply executed the motif. v3 counts any reply that executes it and was worth
+# playing -- within an inaccuracy of their best -- which finds about 20 % more
+# ([[design.punishment-validity]]). The rates therefore mean different things,
+# and comparing a v3 player against a v2 population compares two definitions
+# (L-046). Everything else in a v2 file is still exactly what it says, so the
+# file loads and only the redefined claims are refused.
+READABLE_SCHEMA_VERSIONS = frozenset({1, 2, SCHEMA_VERSION})
+
+# The prefix whose instances changed in v3.
+_REDEFINED_IN_V3 = "allowed_motif."
+FIRST_WORTH_PLAYING_SCHEMA = 3
 
 # Pseudo-observations of prior weight used when there are too few peers to
 # estimate one. Deliberately substantial: with a thin population, an extreme
@@ -122,6 +128,19 @@ class PeerReference:
     # current by construction; only `load` can produce an older one.
     schema_version: int = SCHEMA_VERSION
 
+    def prices(self, claim_key: str) -> bool:
+        """Whether this reference's numbers still mean what a lookup would assume.
+
+        A pre-v3 file's `allowed_motif` rates counted only the opponent's single
+        best reply, so comparing a player measured the new way against them
+        compares two different definitions (L-046). The rest of the file is
+        unaffected and stays usable -- discarding it would cost every other claim
+        its peer comparison to fix these.
+        """
+        if self.schema_version >= FIRST_WORTH_PLAYING_SCHEMA:
+            return True
+        return not PeerReference.canonical(claim_key).startswith(_REDEFINED_IN_V3)
+
     @staticmethod
     def canonical(claim_key: str) -> str:
         """One spelling for a claim, on the way in and on the way out.
@@ -148,7 +167,12 @@ class PeerReference:
     def lookup(
         self, band: str, time_control: str, claim_key: str, excluding: str | None = None
     ) -> PeerStats | None:
-        """Population statistics, optionally leaving one player out."""
+        """Population statistics, optionally leaving one player out.
+
+        None for a claim this reference can no longer price -- see `prices`.
+        """
+        if not self.prices(claim_key):
+            return None
         contributions = self.cells.get(self.key(band, time_control, claim_key))
         if not contributions:
             return None
