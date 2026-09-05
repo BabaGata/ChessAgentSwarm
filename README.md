@@ -76,15 +76,63 @@ shut until answers exist from someone else.
 
 ## Running it
 
+### What you need
+
+| | |
+|---|---|
+| **Python 3.12** | `pip install -e ".[dev]"` |
+| **Stockfish** | any recent build, on `PATH` or passed with `--engine` |
+| *(optional)* **Ollama** | only for `--probe`, `ask` and the knowledge swarm. **The report itself needs no model.** |
+| *(optional)* **Docker** | only for `ask`, which reads a Neo4j graph |
+
+Everything else is in the repository: the peer reference, the opening book and its
+norms, the shelf and the knowledge base — about 4.6 MB, all public-domain or
+generated here. **There is nothing to download and nothing to build first.**
+
+### One player, one report
+
 ```bash
 pip install -e ".[dev]"
 
 python -m chesscoach.cli coach \
     --player <lichess-username> \
-    --engine /path/to/stockfish \
-    --peers peers.json \
-    --cache eval-cache.db
+    --engine stockfish \
+    --peers data/raw/out/peers-e84.json \
+    --band 1400-1800 --time-control blitz \
+    --cache eval-cache.db \
+    --out profile.json
 ```
+
+That is the whole thing. It fetches the player's rated games, analyses them,
+diagnoses, picks one or two priorities, plans, and prints a report.
+
+**Already have the games?** Pass `--pgn games.pgn` and it will not fetch.
+**Do not want the four questions?** Add `--no-questions`.
+
+`--band` should be the player's actual rating band — `1200-1600`, `1400-1800` or
+`1600-2000`, the three the shipped reference covers. Comparing someone against a
+band they are not in is refused rather than silently allowed, because *"more often
+than players at your level"* would then name the wrong level.
+
+### Reading a report again
+
+Analysis is the slow part and it is cached. To re-render without re-analysing:
+
+```bash
+python -m chesscoach.cli report --profile profile.json
+```
+
+`docs/samples/` holds a finished profile, so the report can be read before
+anything is analysed at all.
+
+### How long it takes
+
+**About 90 seconds for 50 games** the engine has never seen, at depth 15 on an
+ordinary laptop; **1.5 seconds for 60 games** on a warm cache. Zero cash.
+
+Add `--probe --model llama3.1:8b-instruct-q6_K` to be asked about your own
+positions first, which is what turns *"you miss pins"* into *"you know what a pin
+is and did not see this one"*.
 
 That is the whole thing: it asks four questions games cannot answer, fetches the
 player's rated rapid, classical and blitz games, analyses them, diagnoses, picks
