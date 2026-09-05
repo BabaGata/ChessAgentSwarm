@@ -18,6 +18,7 @@ from chesscoach.analysis.observations import Observation
 from chesscoach.ingest.corpus import Corpus
 from chesscoach.peers import ConditionMeasurement, build_reference
 from chesscoach.profile.models import Claim, DeterminedBy, GapTypeHypothesis, Provenance
+from chesscoach.punishment import Punishment
 from chesscoach.sections.base import SectionContext
 from chesscoach.sections.s1_tactical_gaps import S1TacticalGaps
 from chesscoach.tactics import Motif
@@ -46,6 +47,9 @@ HANGING_QUIET = "a1a3"
 REPLY_FORK_FEN = "6k1/8/8/4n3/8/8/8/4R1K1 b - - 0 1"
 REPLY_FORK_MOVE = "e5f3"
 
+# What analysis attaches to an error the opponent could answer with that fork.
+ALLOWS_FORK = (Punishment(motif="fork", uci=REPLY_FORK_MOVE, wp=80.0, behind_best_wp=0.0),)
+
 
 def observation(
     game: int,
@@ -56,7 +60,12 @@ def observation(
     best: str,
     error: bool,
     mover: str = "alice",
+    punishments: tuple[Punishment, ...] = (),
 ) -> Observation:
+    """One observation. `punishments` is what analysis attaches to an error --
+    the replies executing a motif that were worth playing (design.punishment
+    -validity), which is what S1 now reads instead of re-deriving from the
+    opponent's next move."""
     return Observation(
         game_id=f"g{game:03d}",
         ply=ply,
@@ -75,6 +84,7 @@ def observation(
         clock_after=None,
         engine="stub",
         depth=15,
+        punishments=punishments,
     )
 
 
@@ -151,7 +161,8 @@ class TestAllowedMotifs:
                 # The player errs, and the opponent's best reply is a fork.
                 observations.append(
                     observation(
-                        game, ply, fen=DULL_FEN, played=DULL_ALT, best=DULL_MOVE, error=True
+                        game, ply, fen=DULL_FEN, played=DULL_ALT, best=DULL_MOVE,
+                        error=True, punishments=ALLOWS_FORK,
                     )
                 )
                 observations.append(
@@ -185,7 +196,8 @@ class TestAllowedMotifs:
             ply = 11
             for _ in range(2):
                 observations.append(
-                    observation(game, ply, fen=DULL_FEN, played=DULL_ALT, best=DULL_MOVE, error=True)
+                    observation(game, ply, fen=DULL_FEN, played=DULL_ALT, best=DULL_MOVE,
+                                error=True, punishments=ALLOWS_FORK)
                 )
                 observations.append(
                     observation(game, ply + 1, fen=REPLY_FORK_FEN, played=REPLY_FORK_MOVE,

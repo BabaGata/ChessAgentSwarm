@@ -16,10 +16,11 @@ from typing import Protocol
 import chess
 
 from chesscoach.analysis.cache import PositionEval
-from chesscoach.analysis.labels import ErrorLabel, classify, move_loss_wp
+from chesscoach.analysis.labels import ErrorLabel, classify, move_loss_wp, win_probability
 from chesscoach.analysis.observations import Observation
 from chesscoach.ingest.corpus import Corpus
 from chesscoach.ingest.pgn import GameRecord, increment_seconds
+from chesscoach.punishment import Punishment, candidates_in, qualifying
 
 # Coarse phase boundaries by remaining non-pawn material. E03 found phase
 # predicts errors better than any positional feature, so it is recorded on every
@@ -72,6 +73,14 @@ def analyse_game(game: GameRecord, analyser: PositionAnalyser) -> tuple[Observat
 
         board.push(move)
         current = analyser.analyse(board)
+        label = _label(previous, current, mover_is_white, played_best)
+
+        # Only errors are priced, which is what keeps this affordable: E85
+        # measured 1.52 evaluations per error position, because `detect_motifs`
+        # removes 93 % of replies for free before anything reaches the engine.
+        punishments: tuple[Punishment, ...] = ()
+        if label is not None:
+            punishments = _punishments(board, current, mover_is_white, analyser)
 
         observations.append(
             Observation(
@@ -85,7 +94,7 @@ def analyse_game(game: GameRecord, analyser: PositionAnalyser) -> tuple[Observat
                 score_cp_before=previous.score_cp,
                 score_cp_after=current.score_cp,
                 loss_wp=_loss(previous, current, mover_is_white, played_best),
-                label=_label(previous, current, mover_is_white, played_best),
+                label=label,
                 phase=phase,
                 played_best=played_best,
                 clock_before=_clock_before(game, index),
@@ -93,6 +102,7 @@ def analyse_game(game: GameRecord, analyser: PositionAnalyser) -> tuple[Observat
                 increment=increment_seconds(game.time_control),
                 opponent=game.black if mover_is_white else game.white,
                 played_on=game.date,
+                punishments=punishments,
                 engine=analyser.engine_name,
                 depth=analyser.depth,
             )
@@ -140,3 +150,47 @@ def _clock_at(game: GameRecord, index: int) -> float | None:
 def _clock_before(game: GameRecord, index: int) -> float | None:
     """The mover's own previous clock reading, two plies earlier."""
     return _clock_at(game, index - 2) if index >= 2 else None
+
+
+def _punishments(
+    board: chess.Board,
+    after: PositionEval,
+    mover_is_white: bool,
+    analyser: PositionAnalyser,
+) -> tuple[Punishment, ...]:
+    """What the opponent could have played to punish the move just made.
+
+    `board` is the position the opponent now faces and `after` is its evaluation,
+    which already assumes they play their best -- so `after` *is* the best reply's
+    win probability. That equality was measured rather than assumed: over 800
+    positions the gap between a position's evaluation and the evaluation after its
+    own best move has a median of **8 cp**, against 264 cp for an arbitrary other
+    move.
+
+    Evaluations are White-relative, so both sides of the comparison are converted
+    to the replying side's view before anything is subtracted (L-046: the arms of
+    a comparison must be what the comparison claims).
+    """
+    replying_is_white = not mover_is_white
+
+    def for_replier(cp: int) -> float:
+        white_wp = win_probability(cp)
+        return white_wp if replying_is_white else 100.0 - white_wp
+
+    best_wp = for_replier(after.score_cp)
+    best = None
+    if after.best_move:
+        try:
+            candidate = chess.Move.from_uci(after.best_move)
+        except ValueError:
+            candidate = None
+        if candidate is not None and candidate in board.legal_moves:
+            best = candidate
+
+    candidates = candidates_in(
+        board,
+        lambda b: for_replier(analyser.analyse(b).score_cp),
+        best=best,
+        best_wp=best_wp,
+    )
+    return qualifying(candidates, best_wp)

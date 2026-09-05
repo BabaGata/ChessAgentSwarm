@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788620400000
+updated: 1788631200000
 created: 1785254500000
 ---
 
@@ -283,7 +283,19 @@ struck through: a list nobody can act on is not a plan.
    withheld, because unmeasured is not a verdict.
 
 
-0. **P1 — author decision: which punishment-validity rule?** → [[design.punishment-validity]]
+0. **DONE — Option 3 + severity ordering built** → [[design.punishment-validity]] *(2026-09-05)*.
+   `allowed_motif` now counts any reply that executes the motif **and was worth playing** — within
+   `INACCURACY_WP` of the opponent's best — not only their single best reply. **+20 % more punished
+   errors found**, at **1.69 candidate evaluations per error**, validating E85's 1.52 estimate.
+   Severity ranks punishments by the win probability they reach, so **mate outranks material without
+   a table saying so** and no chess judgement needs a source. It also fixes cost double-counting: one
+   blunder leaving three motifs available was charged three times, and now pays once.
+   **Option 3's second condition was dropped as unfireable** — a position's evaluation already assumes
+   best play (median gap **8 cp**), so requiring a candidate to gain over "the position as it stands"
+   asked it to beat the best move. The intent was already enforced statically by the detectors.
+   **Still to do: rebuild the reference and regenerate the register**, since instances changed.
+
+0. **SUPERSEDED — author decision: which punishment-validity rule?** → [[design.punishment-validity]]
    *(planned 2026-09-05, options only)*. A fork the opponent *could* play is not the player's fault
    if playing it would have lost for the opponent; and a fork need not be the engine's single best
    move to be a real punishment. Four options are written up with their holes stated —

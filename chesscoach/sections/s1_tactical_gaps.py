@@ -51,6 +51,7 @@ from chesscoach.sections.base import (
     instance_moves,
     split_by_tier,
 )
+from chesscoach.punishment import primary
 from chesscoach.tactics import detect_motifs
 
 SECTION = "S1"
@@ -205,28 +206,46 @@ def _count_allowed(
     observation: Observation,
     replies: dict[tuple[str, int], Observation],
 ) -> None:
-    """Tactics the opponent's best reply would execute, when the move was an error."""
-    if observation.label is None:
+    """Tactics the opponent could have punished this error with.
+
+    Reads `observation.punishments`, computed during analysis: every reply that
+    executes a motif **and was worth playing** -- within an inaccuracy of the
+    opponent's best. Not only their single best reply, which missed a fork that
+    was excellent but second-best, and missed a good fork whenever mate was also
+    on the board. See [[design.punishment-validity]].
+
+    S1 still makes **no engine call of its own**; the evaluations this needs were
+    made once, in the analysis pass, where the position was already open.
+
+    **One mistake pays once.** A blunder can leave a fork, a pin and a skewer all
+    available; every one of them is counted as an instance, because detection
+    stays broad, but the win probability it cost is charged only to the
+    punishment that would be *named* -- the one reaching the highest evaluation,
+    which makes mate outrank material without a table saying so. Charging the
+    loss to each would treble it, and the arbiter ranks on cost.
+    """
+    if observation.label is None or not observation.punishments:
         return
 
-    reply = replies.get((observation.game_id, observation.ply + 1))
-    if reply is None:
-        return
+    named = primary(observation.punishments)
 
-    board = chess.Board(reply.fen_before)
-    punishment = _legal(board, reply.best_move)
-    if punishment is None:
-        return
+    # A motif is one instance per error however many moves would execute it:
+    # two squares offering the same fork is one fork allowed, not two.
+    seen: set[str] = set()
+    for punishment in observation.punishments:
+        if punishment.motif in seen:
+            continue
+        seen.add(punishment.motif)
 
-    for motif in detect_motifs(board, punishment):
-        tally = tallies[_key(ALLOWED, motif)]
+        tally = tallies[_key(ALLOWED, punishment.motif)]
         tally.instances += 1
         tally.games_hit.add(observation.game_id)
         tally.examples.append(observation)
-        # The player's own move is what conceded it, so the loss on that move is
-        # what the concession cost.
-        tally.cost_wp += observation.loss_wp
-        tally.better_moves[_ref(observation)] = punishment.uci()
+        tally.better_moves[_ref(observation)] = punishment.uci
+        if named is not None and punishment.motif == named.motif:
+            # The player's own move is what conceded it, so the loss on that
+            # move is what the concession cost.
+            tally.cost_wp += observation.loss_wp
 
 
 # --- assertion --------------------------------------------------------------

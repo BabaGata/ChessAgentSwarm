@@ -8,6 +8,8 @@ comparable (E01) and merging them silently is the bug that would follow.
 
 from __future__ import annotations
 
+from chesscoach.punishment import Punishment
+
 from dataclasses import dataclass
 
 from chesscoach.analysis.labels import ErrorLabel
@@ -43,6 +45,12 @@ class Observation:
     # supposed to be evidence rather than a puzzle (D18).
     opponent: str = ""
     played_on: str | None = None
+    # What the opponent could have played to punish this move, when it was an
+    # error: the replies executing a motif that were **worth playing** -- within
+    # an inaccuracy of their best. Computed here rather than in S1 because S1
+    # makes no engine call of its own, and this needs one per candidate.
+    # Empty for every move that was not an error, which is most of them.
+    punishments: tuple[Punishment, ...] = ()
 
     @property
     def is_error(self) -> bool:

@@ -2,14 +2,14 @@
 id: cas-design-punishment-validity
 title: 'Design — Was the punishment actually worth playing? Options for scoring a good-enough reply'
 desc: 'A fork the opponent could play is not the players fault if playing it would have been bad for the opponent. Four options for deciding whether a punishing reply is good enough to count, drawn from epsilon-optimal action sets, satisficing aspiration levels, and the win-probability thresholds chess analysis already uses.'
-updated: 1788620400000
+updated: 1788631200000
 created: 1788656400000
 ---
 
 # Design — Was the punishment actually worth playing?
 
 **Serves:** V8 (no unfalsifiable coaching), V4 (gap detection), C1 (free) ·
-**Follows:** [[experiments.e84-band-references]] · **Status:** design, **options only — not decided**. Cost measured → [[experiments.e85-candidate-cost]]
+**Follows:** [[experiments.e84-band-references]] · **Status:** **BUILT** — Option 3 + severity ordering, chosen by the author 2026-09-05. Cost → [[experiments.e85-candidate-cost]]
 
 ## The problem, in the author's words
 
@@ -236,6 +236,54 @@ and **cutting them would be circular**: they are flat under the rule this design
 - **The claim's meaning changes** from *"what punished you"* to *"what you left available that was
   worth playing"*. That is the editorial change flagged in [[design.claims-that-do-not-separate]], now
   with the validity test that makes it defensible.
+
+## What was built, and what changed on contact
+
+**Option 3's second condition was dropped, because it cannot fire.** It asked that a punishment gain
+δ over the position *as it stands* — but a position's evaluation already assumes best play, so
+`wp(stand)` and `wp(best)` are the same number. Measured over 800 positions: the gap between a
+position's evaluation and the evaluation after its own best move has a **median of 8 cp**, against
+**264 cp** for an arbitrary other move. The condition would have required a candidate to beat the
+best move, which nothing can do.
+
+**The intent survives because it was already enforced, more cheaply.** `detect_motifs` only reports a
+motif that wins material — `_lands_safely`, `_is_worth_winning`,
+`_loses_material_whatever_the_defender_does`. *"Actually punishes"* is a static check that already
+existed. So the shipped rule is **one** added condition, not two, and no new constant:
+
+> a reply that **executes the motif** (material-validated, free) **and is within `INACCURACY_WP` of
+> the opponent's best** (worth playing).
+
+**Severity needed no chess taxonomy.** Ranking punishments by the win probability they reach puts
+mate first automatically, because mate *is* the maximum. Nothing here encodes a judgement about which
+motif outranks which, so nothing here needs a source (R-03).
+
+**Severity also settles the cost.** One blunder can leave a fork, a pin and a skewer available;
+charging its loss to each trebled it, and the arbiter ranks on cost. Every motif still counts an
+instance — detection stays broad — but the loss is charged once, to the punishment that gets named.
+Measured on 669 errors: **392 instances, 306 named**, so 86 charges were being duplicated.
+
+### Where it lives
+
+`chesscoach/punishment.py` is pure and engine-free. The evaluations happen in the **analysis pass**,
+where the position is already open, and ride on the observation — so `s1_tactical_gaps` keeps its
+stated property of making **no engine call of its own**.
+
+### Verified
+
+| | |
+|---|--:|
+| errors (4 players) | 872 |
+| punished | 382 (43.8 %) |
+| best reply punished — what the old rule caught | 318 |
+| **only a second-best reply punished — newly caught** | **64 (+20.1 %)** |
+| candidate evaluations | **1.69 per error** (E85 predicted 1.52) |
+
+**A first reading of this said +122 %, and it was wrong.** The best move's win probability was being
+taken from *evaluating the position after it* rather than from the position's own evaluation, and the
+8 cp gap between those two meant the best reply almost never scored as "best" — so it was counted as
+a second-best find. Corrected, the improvement is **+20 %**: real, and a fifth of the first claim.
+The same 8 cp fact that killed condition 2 caused the miscount.
 
 ## Open questions this design does not answer
 
