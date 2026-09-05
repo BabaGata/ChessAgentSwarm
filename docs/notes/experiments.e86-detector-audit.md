@@ -2,7 +2,7 @@
 id: cas-exp-e86
 title: 'E86 — Auditing every detector against a real definition, and finding the knowledge base cannot be one'
 desc: 'The audit was designed to judge detectors against the sourced knowledge graph. The graph cannot do it: fourteen entries, none endorsed, and forks definition is a definition of a skewer. Audited against Lichess own theme text instead. Two defects demonstrated on positions: a fork is missed when a victim was already attacked, and a trapped piece is reported when it has a safe escape.'
-updated: 1788703200000
+updated: 1788710400000
 created: 1788681600000
 ---
 
@@ -169,6 +169,46 @@ Verdicts: **aligned** · **narrower** (stricter than the definition, on purpose)
 | `allows_pressure` | attackers in the king zone | zone attacker count rising | **unaudited** — the knowledge entry for it describes a pawn endgame, so there is no definition to audit against |
 
 ---
+
+## What is left, measured on 6,249 positions
+
+Both defects are fixed. The rest of the audit's concerns were then checked against real games rather
+than left as readings, and **most of them dissolved**.
+
+| detector | firings per 1,000 moves | verdict |
+|---|--:|---|
+| `left_hanging` | 164.2 | correct, **and reaches no report** — `s7` records it `REFUSED [+0.917] — the error rate renamed` |
+| `hangingPawn` | 79.2 | |
+| `hangingPiece` | 68.2 | |
+| `pin` | 46.1 | three sampled, **all genuine** (pin to a queen, to a king, and a pawn to a rook) |
+| `capturingDefender` | 36.3 | |
+| `moved_into_attack` | 20.0 | |
+| `fork` | 17.4 | **fixed** — 73 → 109 |
+| `discoveredAttack` | 13.9 | |
+| `miscounted_exchange` | 7.7 | |
+| `trappedPiece` | 6.6 | **fixed** — 80 → 41 |
+| `skewer` | 4.3 | |
+| `sacrificed_for_attack` | 2.9 | |
+| `backRankMate` | **1.0** | its missing clause is real and **fires 6 times in 6,249** |
+
+**Concerns that did not survive contact with the data:**
+
+- **"`trappedPiece` scans the whole board rather than the move."** True of the code and false in
+  effect: of 41 firings, **40 were pieces the move newly trapped** and one was already trapped. The
+  scan finds what the move did, because trapping generally requires the move that does it.
+- **"`left_hanging` fires on a sixth of all moves."** It does, it is right to, and it reaches nobody.
+  A sampled case that looked wrong — a knight defended by a pawn — had a second attacker down an open
+  file, so the exchange does win material. **The detector was right and the reading was not.**
+- **`backRankMate`'s missing "trapped by its own pieces" clause** is real and not worth fixing: at one
+  firing per thousand moves it cannot move any rate that reaches a player.
+
+**What remains, and none of it is a defect:** four unsourced value floors, which are project
+conventions and are now recorded as such in the endorsed entries; and `hangingPiece` describing an act
+where Lichess describes a state, which is correct for a claim about moves.
+
+**Honest limitation.** This is a spot-check of a few firings per detector against a corpus of three
+players. The author's impression came from reading the whole detection sheet, which is a far larger
+sample, so a defect this pass did not reach is entirely possible.
 
 ## Cross-cutting findings
 
