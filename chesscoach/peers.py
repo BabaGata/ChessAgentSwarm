@@ -24,19 +24,16 @@ from pathlib import Path
 from chesscoach.profile.models import wilson_interval
 from chesscoach.shrinkage import posterior
 
-SCHEMA_VERSION = 3
+SCHEMA_VERSION = 2
 
 # v1 carried rates only. It still loads, and simply has no costs to offer.
-# v2 is v3's data with one definition changed underneath it: `allowed_motif.X`
-# counted every error the player made as an opportunity, where v3 counts the
-# errors X was actually available to punish (D2 of
-# [[design.claims-that-do-not-separate]]). Everything else in a v2 file is still
-# exactly what it says, so the file loads and only the moved claims are refused.
-READABLE_SCHEMA_VERSIONS = frozenset({1, 2, SCHEMA_VERSION})
-
-# The prefix whose denominator changed in v3.
-_REDEFINED_IN_V3 = "allowed_motif."
-FIRST_MOTIF_SPECIFIC_ALLOWED_SCHEMA = 3
+#
+# There was briefly a v3, for the motif-specific `allowed_motif` denominator that
+# E84 measured and reverted. No definition differs between v1 and v2 rates, so
+# nothing needs refusing on version alone -- but `load` still records which
+# version a file was written under, because a merge must not silently present an
+# older file's numbers as current.
+READABLE_SCHEMA_VERSIONS = frozenset({1, SCHEMA_VERSION})
 
 # Pseudo-observations of prior weight used when there are too few peers to
 # estimate one. Deliberately substantial: with a thin population, an extreme
@@ -125,19 +122,6 @@ class PeerReference:
     # current by construction; only `load` can produce an older one.
     schema_version: int = SCHEMA_VERSION
 
-    def prices(self, claim_key: str) -> bool:
-        """Whether this reference's numbers still mean what a lookup would assume.
-
-        A v2 file's `allowed_motif` rates were computed over a different
-        denominator, so comparing a player's rate to them compares two
-        differently defined quantities (L-046). The rest of the file is
-        unaffected and stays usable -- discarding it would cost every other
-        claim its peer comparison to fix these.
-        """
-        if self.schema_version >= FIRST_MOTIF_SPECIFIC_ALLOWED_SCHEMA:
-            return True
-        return not PeerReference.canonical(claim_key).startswith(_REDEFINED_IN_V3)
-
     @staticmethod
     def canonical(claim_key: str) -> str:
         """One spelling for a claim, on the way in and on the way out.
@@ -164,12 +148,7 @@ class PeerReference:
     def lookup(
         self, band: str, time_control: str, claim_key: str, excluding: str | None = None
     ) -> PeerStats | None:
-        """Population statistics, optionally leaving one player out.
-
-        None for a claim this reference can no longer price -- see `prices`.
-        """
-        if not self.prices(claim_key):
-            return None
+        """Population statistics, optionally leaving one player out."""
         contributions = self.cells.get(self.key(band, time_control, claim_key))
         if not contributions:
             return None
@@ -320,7 +299,14 @@ class PeerReference:
         cells = {key: tuple(value) for key, value in self.cells.items()}
         for key, contributions in other.cells.items():
             cells[key] = cells.get(key, ()) + tuple(contributions)
-        return PeerReference(depth=self.depth, cells=cells)
+        # A merge is only as current as its oldest input. Rebuilding without
+        # carrying the version through would let an older file's numbers be
+        # presented as current, which is the hazard the version exists to catch.
+        return PeerReference(
+            depth=self.depth,
+            cells=cells,
+            schema_version=min(self.schema_version, other.schema_version),
+        )
 
     def save(self, path: Path | str) -> None:
         path = Path(path)

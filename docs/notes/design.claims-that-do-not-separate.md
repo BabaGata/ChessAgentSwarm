@@ -2,14 +2,14 @@
 id: cas-design-separation
 title: 'Design — What to do with a claim that does not separate players'
 desc: 'Two changes. A claim that cannot distinguish players stops carrying a peer comparison and is ranked on cost alone; and allowed_motif gets a motif-specific denominator instead of dividing every motif by the same total-error count.'
-updated: 1788562800000
+updated: 1788598800000
 created: 1788577200000
 ---
 
 # Design — Claims that do not separate players
 
 **Serves:** V8 (no unfalsifiable coaching), C1 (free) · **Answers:** the P1 opened by
-[[experiments.e83-spread-rescreen]] · **Status:** **D1 built. D2 built, and its rebuild is blocked.**
+[[experiments.e83-spread-rescreen]] · **Status:** **D1 shipped. D2 built, measured and REVERTED** → [[experiments.e84-band-references]]
 
 ## The problem
 
@@ -116,6 +116,25 @@ everything else exactly as before. Verified against `peers-3af3206`: `allowed_mo
 The honest summary: **`allowed_motif` has no peer comparison at all until the band question is
 settled and the reference is rebuilt.** That is a smaller error than comparing two differently
 defined quantities (L-046), and it is visible rather than silent.
+
+## D2 was wrong, and the measurement says so
+
+**Reverted** → [[experiments.e84-band-references]]. Holding band and speed constant, the new
+denominator cost `hangingPawn`, `fork` and `pin` their separation, left `skewer` (2 players) and
+`backRankMate` (rate **1.000** by construction) unmeasurable, and improved nothing.
+
+The argument above — that `missed_motif` conditions on availability so `allowed_motif` should too —
+is the error. In `missed_motif` the numerator adds *"and the player erred"*, so **the player's move
+is what varies**. Under D2 the numerator is *"the engine's best reply took it"*, so **the engine's
+choice is what varies**, and a forced mate is always best.
+
+The § D2 section above is left as written rather than edited into hindsight: it is what was argued
+before the measurement, and the measurement is the point.
+
+**Formulation C is the open option** — instance = the error *left X available*, denominator = all
+errors. The player is the actor again, the numerator is larger than A's so power improves, and it
+cannot saturate. It changes what the claim means, from "what punished you" to "what you left
+available", which is the author's call and is not taken here.
 
 ## Explicitly not decided here
 

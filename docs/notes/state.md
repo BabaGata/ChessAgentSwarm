@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788562800000
+updated: 1788598800000
 created: 1785254500000
 ---
 
@@ -263,18 +263,29 @@ struck through: a list nobody can act on is not a plan.
    where X was *available* to punish them, not over every error, which is the correction
    `missed_motif` already had.
 
-0. **P1 — BLOCKED: the reference cannot be rebuilt, so `allowed_motif` has no peer comparison.**
-   D2 changed what `allowed_motif`'s denominator counts, so the schema is now **v3** and a v2
-   reference refuses to price those claims rather than compare two different quantities (L-046).
-   Rebuilding needs the blitz corpus, and the band guard refuses it: **15 of 65 players sit outside
-   1400-1800**, from 720 to 2006. **This is the out-of-band corpus decision already open below** —
-   it now blocks a shipped comparison, not just a rebuild. Until it is settled, `allowed_motif` is
-   measured and costed but never compared to peers.
+0. **DONE — three rating bands, and D2 reverted** → [[experiments.e84-band-references]]
+   *(2026-09-05)*. The band guard's block is answered by building **1200-1600, 1400-1800 and
+   1600-2000** rather than one band, so a 1900 player is compared against 1600-2000 instead of a
+   population below them — the failure recorded for `maikel5` and for the three strongest review
+   players. **D2 was measured on the result and reverted:** same band and speed, it cost three claims
+   their separation, left two unmeasurable, and improved none. `allowed_motif` is back on the
+   total-errors denominator, so E83's verdicts stand as measured and the schema returns to v2.
 
-0. **P2 — re-run E83's screen once the reference is rebuilt.** The ten flat claims were measured
-   under the old denominator. D2 exists partly because that denominator was suspected of flattening
-   them, so the screen must be re-run before any of those verdicts is treated as final —
-   `allowed_motif.skewer` and `allowed_motif.backRankMate` are already marked inconclusive.
+0. **P1 — rebuild the three-band reference under the restored denominator.** The build that produced
+   the comparison used D2's denominator and has been deleted. The band split is adopted and the
+   rebuild is mechanical: `python experiments/e84-band-references/build.py`, about fifty minutes,
+   deterministic, cache-served.
+
+0. **P2 — re-screen E83 within band, once that reference exists.** E83 pooled players from 720 to
+   2006, and a pooled null over genuinely different rates **inflates** dispersion. Its flat verdicts
+   survived that inflation and are conservative; its *separating* verdicts did not, and some may be
+   the rating spread wearing a claim's name. `experiments/e84-band-references/rescreen.py` is written
+   and waiting on the reference.
+
+0. **P3 — author decision: adopt formulation C for `allowed_motif`?** Instance = the error *left the
+   motif available*, denominator = all errors. Puts the player back as the actor, larger numerator
+   than today so more power, cannot saturate. It changes what the claim means — "what you left
+   available" rather than "what punished you" — which is why it is not taken unilaterally.
 
 
 0. **STAGE 4 BUILT — prerequisites** → [[experiments.e81-prerequisites]] *(2026-09-02)*. The partial
