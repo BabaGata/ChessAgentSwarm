@@ -144,6 +144,20 @@ def _newly_attacked(board: chess.Board, after: chess.Board, move: chess.Move,
             continue
         # `board` still has the mover's piece on its old square, so this asks
         # exactly the right question: was it already attacked, from anywhere?
+        #
+        # **E86 D-1 was wrong and this was tried the other way.** Asking whether
+        # only the *moved* piece already attacked it makes `Ng4-f6+` a fork when
+        # a friendly rook already attacks the same rook -- but that rook was
+        # already undefended and already attackable, so `Rxe8` won it without any
+        # fork. The author's definition is explicit that the targets must not
+        # have been attacked before, and `tests/test_fork.py` holds a case that
+        # says so directly.
+        #
+        # **A narrower gap does remain, and is not closed here**: a target that
+        # was attacked but *defended*, and becomes winnable only because this
+        # move adds a second attacker, is excluded by this test and is arguably
+        # a fork. Left for the author, because closing it needs a chess judgement
+        # about what "attacked before" means when the attack won nothing.
         if board.is_attacked_by(mover, square):
             continue
         # The king counts as a target without being winnable -- it cannot be
@@ -371,6 +385,23 @@ def _is_removing_the_defender(
     return any(wins_material(after, square, mover) > 0 for square in defended)
 
 
+def _lost_on_arrival(after: chess.Board, escape: chess.Move, mover: chess.Color) -> bool:
+    """Would the piece actually be lost on the square it escapes to?
+
+    **Not "is that square attacked"**, which was the defect (E86 D-2). Attacked
+    by something and cannot go there are different questions, and D17 replaced
+    the first with the second everywhere else in this module -- `_lands_safely`
+    asks `wins_material`, and this did not. A knight fleeing to a square its
+    king defends is safe however many pieces point at it.
+
+    The escape is played and the exchange is counted on the square it lands on,
+    which is the same test the fork detector applies to its own attacker.
+    """
+    fled = after.copy(stack=False)
+    fled.push(escape)
+    return wins_material(fled, escape.to_square, mover) > 0
+
+
 def _is_trapped_piece(
     board: chess.Board, after: chess.Board, move: chess.Move, mover: chess.Color
 ) -> bool:
@@ -395,7 +426,7 @@ def _is_trapped_piece(
             continue
 
         escapes = [m for m in after.legal_moves if m.from_square == square]
-        if escapes and all(after.is_attacked_by(mover, e.to_square) for e in escapes):
+        if escapes and all(_lost_on_arrival(after, e, mover) for e in escapes):
             return True
     return False
 

@@ -2,7 +2,7 @@
 id: cas-exp-e86
 title: 'E86 — Auditing every detector against a real definition, and finding the knowledge base cannot be one'
 desc: 'The audit was designed to judge detectors against the sourced knowledge graph. The graph cannot do it: fourteen entries, none endorsed, and forks definition is a definition of a skewer. Audited against Lichess own theme text instead. Two defects demonstrated on positions: a fork is missed when a victim was already attacked, and a trapped piece is reported when it has a safe escape.'
-updated: 1788681600000
+updated: 1788696000000
 created: 1788681600000
 ---
 
@@ -59,6 +59,18 @@ expert-consensus.**
 
 ## Two defects, demonstrated on positions rather than argued from reading
 
+> **D-1 WITHDRAWN 2026-09-06.** The fix was written, and the suite refused it. The author's own
+> definition is explicit — *"at least 2 pieces were **newly (so they weren't attacked before)**
+> attacked"* — and `tests/test_fork.py` holds a case asserting exactly that, with a comment saying
+> why. Re-reading the position offered as proof: the rook on e8 was **already undefended and already
+> attacked**, so `Rxe8` won it without any fork; `Nf6+` added a check to a piece that was already
+> hanging. The detector is right and this finding was not.
+>
+> **A narrower gap survives and is not closed**: a target that was attacked but *defended*, and
+> becomes winnable only because the move adds a second attacker, is excluded by the same test and is
+> arguably a fork. Closing it is a chess judgement about what "attacked before" means when the
+> earlier attack won nothing, so it is the author's.
+
 ### D-1 — `fork` misses a fork when a victim was already attacked
 
 `_newly_attacked` excludes any target that `board.is_attacked_by(mover, square)` before the move —
@@ -75,10 +87,7 @@ it from the count, and the fork falls below the two-target minimum.
 fork — is right; the implementation asks the wrong question. It should ask whether the target was
 attacked **by the moved piece** from its old square, not whether anything attacked it.
 
-- **Current:** `if board.is_attacked_by(mover, square): continue`
-- **Desired:** exclude only targets the moved piece already attacked from `move.from_square`.
-- **Plan:** replace with an attack-set test on the piece's origin; add the position above as a
-  regression test; re-run E04's precision sample, because this changes the fork count upward.
+- **Verdict after attempting it: no change. The detector implements the stated definition.**
 
 ### D-2 — `trappedPiece` reports a piece that can escape safely
 
@@ -94,12 +103,13 @@ n2k4/8/8/P7/8/8/7Q/6KB b   black Na8 attacked by Bh1
   _is_trapped_piece -> True, although Nc7 is simply safe
 ```
 
-- **Current:** an escape square counts as covered if anything attacks it.
-- **Desired:** covered only if the piece would actually be lost there —
-  `wins_material(after_escape, square, mover) > 0`.
-- **Plan:** swap the test; the two positions above become regression tests. Expect the count to
-  **fall**, and expect `allowed_motif.trappedPiece` and `missed_motif.trappedPiece` rates to move,
-  so the reference needs rebuilding after.
+- **FIXED 2026-09-06.** `_lost_on_arrival` plays the escape and counts the exchange on the square it
+  lands on, which is the test `_lands_safely` already applies to a fork's own attacker.
+- **Measured on 6,249 real positions: 80 firings become 41.** The fix removes **42 false positives**
+  — pieces that could simply step somewhere safe — and adds 3, where a square looked unattacked but
+  the piece would still have been lost there.
+- **No rebuild needed.** All three `trappedPiece` claims are already withheld from peer comparison by
+  the separation register, so a reference measured under the old rule is not being compared against.
 
 ---
 

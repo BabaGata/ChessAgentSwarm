@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788688800000
+updated: 1788696000000
 created: 1785254500000
 ---
 
@@ -244,6 +244,17 @@ struck through: a list nobody can act on is not a plan.
    a pawn is too small to call a fork ([[experiments.e57-fork-rebuilt]]).
 
 ### Open, and unblocked
+
+0. **DONE — one detector defect fixed, one withdrawn** *(2026-09-06)*.
+   **D-2 fixed:** `trappedPiece` tested escape squares with `is_attacked_by` rather than an exchange.
+   Measured on **6,249 real positions, 80 firings become 41** — 42 false positives removed, 3 added.
+   No rebuild needed: all three `trappedPiece` claims are already withheld from peer comparison.
+   **D-1 withdrawn.** The fix was written and the suite refused it: the author's definition says the
+   targets must not have been *attacked before*, and the position offered as proof had the rook
+   already undefended and already attackable. The detector is right and the finding was not. A
+   narrower gap survives — a target attacked but *defended*, made winnable by this move's second
+   attacker — and closing it is a chess judgement, recorded for the author.
+
 
 0. **DONE — the knowledge base is endorsed and servable**
    → [[decisions.0010-assistant-endorsed-the-knowledge-base]] *(2026-09-06)*. **18 of 18 entries
