@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788681600000
+updated: 1788688800000
 created: 1785254500000
 ---
 
@@ -244,6 +244,19 @@ struck through: a list nobody can act on is not a plan.
    a pawn is too small to call a fork ([[experiments.e57-fork-rebuilt]]).
 
 ### Open, and unblocked
+
+0. **DONE — the knowledge base is endorsed and servable**
+   → [[decisions.0010-assistant-endorsed-the-knowledge-base]] *(2026-09-06)*. **18 of 18 entries
+   reviewed**, loaded into the graph, and `for_player` now returns text instead of `None` — the
+   explanations reach a report for the first time. Endorsed **by the assistant under the author's
+   explicit delegation**, and every note records that it was not a human reading.
+   **Eight entries carry a recorded disagreement with the detector they describe**, including the two
+   known defects: `trappedPiece` (E86 D-2, escape squares tested by attack rather than exchange) and
+   `fork` (E86 D-1, misses a fork whose victim was already attacked). Both are endorsed as definitions
+   of the *concept*, explicitly not as descriptions of the code.
+   **For the author to check when there is time** — the ADR lists all eight and how to reverse any of
+   them.
+
 
 0. **DAY 1 DONE — clone-and-run proven, and one caveat found**
    → [[experiments.e91-fixed-depth-is-not-reproducible]] *(2026-09-06)*. A fresh clone renders a
