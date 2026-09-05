@@ -230,6 +230,9 @@ class TestReporting:
 def test_the_measure_works_from_either_side(colour):
     white = colour == chess.WHITE
     calm = CALM if white else "6k1/5ppp/8/8/8/8/8/4K3 b - - 0 1"
-    attacked = ATTACKED if white else "6k1/5pPP/4N3/8/8/8/B7/4K2Q b - - 0 1"
+    # The true vertical mirror of ATTACKED. The old one was not: its knight
+    # stood on e6 blocking its own bishop, and the g/h pawns had changed colour,
+    # so only two pieces bore on the king and the attack rested on the pawns.
+    attacked = ATTACKED if white else "6k1/4N1pp/7Q/8/8/8/B7/4K3 b - - 0 1"
 
     assert allowed_pressure(a_board(calm), a_board(attacked), colour)
