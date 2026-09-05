@@ -2,7 +2,7 @@
 id: cas-exp-e86
 title: 'E86 — Auditing every detector against a real definition, and finding the knowledge base cannot be one'
 desc: 'The audit was designed to judge detectors against the sourced knowledge graph. The graph cannot do it: fourteen entries, none endorsed, and forks definition is a definition of a skewer. Audited against Lichess own theme text instead. Two defects demonstrated on positions: a fork is missed when a victim was already attacked, and a trapped piece is reported when it has a safe escape.'
-updated: 1788710400000
+updated: 1788717600000
 created: 1788681600000
 ---
 
@@ -209,6 +209,42 @@ where Lichess describes a state, which is correct for a claim about moves.
 **Honest limitation.** This is a spot-check of a few firings per detector against a corpus of three
 players. The author's impression came from reading the whole detection sheet, which is a far larger
 sample, so a defect this pass did not reach is entirely possible.
+
+## The 28 that "never fired" — none of them is a broken detector
+
+The detection sheet lists 28 claims the system can make and did not, for any of the twelve review
+players, with the note that *"a detector that never fires is as much a defect as one that fires
+wrongly"*. Checked against the reference, **every one of the 28 produces instances** — `repeat_move`
+52,684, `plays_queenless` 45,154, down to `endgame_error.pawn` at 12. **"Never fired" in that sheet
+means never reached a report, which is a different thing from never triggered.**
+
+| | count | why |
+|---|--:|---|
+| **correct by design** | 8 | `executed_motif.*` — S1's `NOT_ASSERTED`: *"it is not a weakness and must not be reported as one"*. The sheet lists these as a concern; they are working. |
+| **withheld by the register** | 5 | a later decision, and correct |
+| **reaches players another way** | 1 | `plays_queenless` is a `Tendency`, not a `Finding` — it appears under "HOW YOU PLAY" in every report |
+| **measured, correctly silent** | 14 | below |
+
+**Confirmed on five more players**: none of the 14 fired for them either, so across **17 players** they
+have never once become a finding. That is systematic, and the reason splits cleanly in two.
+
+**Five are too thin per player.** `endgame_error.minor`, `.pawn`, `.queen`, `.rook` and `.rook_minor`
+have a **median per-player rate of 0.000** — more than half of players have no instances at all. A
+thirty-game blitz corpus might reach three rook endings and err in none.
+
+> **A claim can separate a population and still never be assertable for one player.** Dispersion pools
+> every opportunity a player had; assertion needs enough *distinct games* from that one player.
+> `endgame_error.rook` separates at 4.8x within band and is silent for everybody, and both are true.
+
+**Six are universal.** `slow_development.own` 0.500, `late_castling.own` 0.500,
+`slow_development.book` 0.454, `repeat_move` 0.423, `time_budget_error` 0.295, `early_error.any`
+0.251. The gate asks a player's rate to exceed the population's, and on a behaviour everyone shares
+almost nobody clears a Wilson interval on thirty games. **The gate is doing its job**: telling every
+player "you repeat moves" is the anti-pattern R-12 names.
+
+**Nothing here is a fix.** The detectors work, the gate works, and the silence is two different
+correct behaviours meeting the same wall — which is [[design.better-claims]] arriving from the other
+direction.
 
 ## Cross-cutting findings
 
