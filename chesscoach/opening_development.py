@@ -347,16 +347,32 @@ def count(
     # it the win probability lost in those plies would double-count whatever
     # `early_error` already counts there. It reaches a player by being unusual
     # for their level or not at all, which E72 gives the vocabulary for.
+    # **Per opening as well as in total.** "You leave theory early" is not
+    # something anyone can study; *which* opening they leave early is. The
+    # family is already on the game, so the split costs nothing to compute, and
+    # it is the shape `endgame_error` already uses -- split by a body of
+    # knowledge a player can own or lack, which is what varies between players
+    # of equal strength ([[design.better-claims]]).
+    #
+    # The total stays. Thirty games across eight families is four games each and
+    # the confidence policy will refuse them, so the per-family claims fire only
+    # where a player has a real repertoire and the total is the safety net.
     out_of_book = tallies[f"{OUT_OF_BOOK}.{ANY_OPENING}"]
     for game in played:
         white = game.colour == chess.WHITE
         by_ply = {o.ply: o for o in game.mine}
+        per_family = tallies[f"{OUT_OF_BOOK}.{game.family}"] if game.family else None
         out_of_book.opportunities += moves_per_game()
+        if per_family is not None:
+            per_family.opportunities += moves_per_game()
         for ply in own_plies_in_window(white):
             if _is_theory(game, ply):
                 continue
             out_of_book.instances += 1
             out_of_book.games.add(game.game_id)
+            if per_family is not None:
+                per_family.instances += 1
+                per_family.games.add(game.game_id)
             # Every instance is cited, because `Measurement` refuses a claim
             # that reports more instances than it can point at -- which is how
             # this came to be counted in the player's own moves rather than the
@@ -364,6 +380,8 @@ def count(
             observation = by_ply.get(ply)
             if observation is not None:
                 out_of_book.examples.append(observation)
+                if per_family is not None:
+                    per_family.examples.append(observation)
 
     return dict(tallies)
 

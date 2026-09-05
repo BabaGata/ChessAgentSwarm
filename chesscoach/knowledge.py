@@ -32,6 +32,7 @@ guide library and `approve` in the run store: no drafting path may set it, and
 from __future__ import annotations
 
 import json
+from datetime import date
 from dataclasses import asdict, dataclass, field, replace
 from pathlib import Path
 
@@ -221,3 +222,48 @@ class KnowledgeBase:
             ),
             encoding="utf-8",
         )
+
+
+def write_definition(base: KnowledgeBase, key: str, definition: str,
+                     source: Source | None, note: str = "") -> None:
+    """The author's own definition, for a claim no source defines.
+
+    Four claims are this project's error categories rather than terms the
+    literature names -- `hangingPawn`, `allows_pressure`, `moved_into_attack`,
+    `pawn_error` -- so the swarm has nothing to offer and the only door was
+    `endorse`, which needs something to endorse. This is the other door.
+
+    **Hard rule 7 does not bend for the author.** A definition still carries a
+    source, because the reason for the rule -- that a reader can check the claim
+    -- is not weakened by who typed it.
+
+    **Writing is not endorsing.** The entry stays `reviewed=False`, so the author
+    can write it, read it back against the detector, and decide separately.
+    """
+    if source is None or not source.usable:
+        raise NotEndorsed(f"{key}: an author's definition still needs a source (hard rule 7)")
+
+    existing = base.entries.get(key)
+    kept = tuple(s for s in (existing.sources if existing else ()) if s.usable)
+    base.entries[key] = replace(
+        existing or Entry(key=key),
+        definition=definition,
+        quote=definition,
+        sources=(source,) + tuple(s for s in kept if s.url != source.url),
+        drafted_by="author",
+        checked_on=date.today().isoformat(),
+        reviewed=False,
+        note=note or (existing.note if existing else ""),
+    )
+
+
+def write_not_this(base: KnowledgeBase, key: str, not_this: tuple[str, ...]) -> None:
+    """What the thing is NOT. The author's field, and no agent may fill it.
+
+    Kept separate from `write_definition` because it is the one field with no
+    drafting path at all: the web's definition of a fork is *"one piece attacks
+    two pieces at once"*, which is precisely what the broken detector
+    implemented, and only a human who has read both can say so.
+    """
+    existing = base.entries.get(key) or Entry(key=key)
+    base.entries[key] = replace(existing, not_this=tuple(not_this))
