@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788667200000
+updated: 1788678000000
 created: 1785254500000
 ---
 
@@ -244,6 +244,32 @@ struck through: a list nobody can act on is not a plan.
    a pawn is too small to call a fork ([[experiments.e57-fork-rebuilt]]).
 
 ### Open, and unblocked
+
+0. **THE SYSTEM WORKS, AND THE BLOCKER WAS NEVER A DEFECT** *(2026-09-06)*. Two days from the
+   deadline, `coach` was run end to end and produces a complete coaching report: a strength estimate
+   with an interval, prioritised findings with rates, cost in win probability, recoverable gain,
+   **clickable links to the exact moves**, falsifiable progress signs, the openings played, and a
+   limitations section. **Five of five corpus players produce a full report** — 29–30 games, three
+   findings and three plan steps each, no crashes and no empty reports.
+
+   **The blocker was that nothing under `data/` was committed**, so it ran on one machine and nobody
+   else could reproduce a report. 4.6 MB now tracked: the peer reference, the opening book and norms,
+   the shelf, the knowledge base. **Verified by cloning the repository and rendering a report with no
+   install, no engine and no model.**
+
+   **The loops that cost the time**, recorded so they are not re-entered: (a) verify → find a defect →
+   verify the fix, with **no stopping rule anywhere that says good enough**; (b) correctness read as a
+   precondition for use, although the report already states its own limitations and was designed to
+   be honest about being imperfect; (c) the peer reference as a two-hour bottleneck that any claim
+   change invalidates; (d) **the assistant proposing measurement every time it was asked what to do
+   next, while `coach` sat available and unrun**.
+
+0. **DEFERRED to after the deadline, all recorded, none required for a working system:** the two
+   detector defects (E86 D-1/D-2), the fabrication guard, finishing the knowledge base, the report
+   restructuring by aspect, per-aspect standards, prefetching candidate positions.
+   **Do not demo `ask`** — it fabricates on topics the shelf does not cover and cites a real author
+   while doing it. `coach` has no such failure mode.
+
 
 0. **FINDING — where the variance is** → [[design.better-claims]] *(2026-09-06)*. Measured within
    band, **22 of 24 non-tactical claims separate players and only 10 of 30 tactical/positional ones
