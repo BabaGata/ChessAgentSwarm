@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788649200000
+updated: 1788652800000
 created: 1785254500000
 ---
 
@@ -244,6 +244,19 @@ struck through: a list nobody can act on is not a plan.
    a pawn is too small to call a fork ([[experiments.e57-fork-rebuilt]]).
 
 ### Open, and unblocked
+
+0. **RECORDED — what the arc cost and what it bought** → [[experiments.e88-arc-cost-and-result]]
+   *(2026-09-06)*. Candidate count predicted within **12 %** (62,600 against **69,844** measured from
+   cache growth); **wall clock 4× out** — ≈19 min estimated, **77 min actual**, because `prefetch`
+   only covers positions that occur *in the games* and a candidate is a reply that was never played,
+   so candidates run **serially** at ~15/s while game positions run 18-wide at 55/s. E85 flagged the
+   borrowed throughput figure and I did not act on it. **The arc's honest headline: 21 claims
+   withheld before and after.** It bought correctness, not discrimination, and the design said so.
+
+0. **P1 — prefetch candidate positions.** Four times the wall clock of every future rebuild, for a
+   change that batches positions the code already enumerates. The `detect_motifs` sweep that finds
+   them is free; only the evaluation is serial.
+
 
 0. **DONE — the P1 was a non-finding, and the screen behind it is the defect**
    → [[experiments.e83-spread-rescreen]]. The 1.13x was the **10 wp row**, and the shipped threshold
