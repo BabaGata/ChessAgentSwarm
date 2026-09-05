@@ -80,10 +80,31 @@ class TestNewlyAttacked:
     def test_a_quiet_move_attacking_nothing_new_is_not_a_fork(self):
         assert not forks("4k3/8/2n1b3/8/8/8/3P4/4K3 w - - 0 1", "d3")
 
-    def test_a_piece_already_under_attack_is_not_newly_attacked(self):
-        # The bishop on b1 already attacks f5 before the knight moves, so at
-        # most one target is new however many end up attacked.
-        assert not forks("4k3/8/8/3r1b2/8/8/6N1/1B2K3 w - - 0 1", "Ne3")
+    def test_newly_means_newly_by_the_piece_that_moved(self):
+        """The author, correcting this test's earlier reading:
+
+        > *"the 2 newly attacked pieces can be attacked previously by some other
+        > piece, but they both have to be attacked by the piece that was moved
+        > ... the piece that was last moved did not create a fork, it newly
+        > attacked just one piece."*
+
+        Bb1 already attacks f5, and the knight attacks **both** d5 and f5 from
+        e3 having attacked neither from g2. It forks them. That another piece
+        also eyes one of the victims is not the knight's business.
+        """
+        assert forks("4k3/8/8/3r1b2/8/8/6N1/1B2K3 w - - 0 1", "Ne3")
+
+    def test_a_move_that_newly_attacks_only_one_piece_is_not_a_fork(self):
+        # The case the rule exists for: the rook slides along a rank it already
+        # controlled, so it has newly attacked nothing at all.
+        assert not forks("4r1k1/8/8/8/8/8/8/R5K1 w - - 0 1", "Ra2")
+
+    def test_a_fork_survives_a_friendly_piece_sharing_a_victim(self):
+        # E86 D-1. Ng4-f6+ hits the king on g8 and the rook on e8. Adding a
+        # friendly rook on e1, which also attacks e8, must not stop it being a
+        # fork -- a second attacker makes a fork stronger, not absent.
+        assert forks("4r1k1/8/8/8/6N1/8/8/4R1K1 w - - 0 1", "Nf6+")
+        assert forks("4r1k1/8/8/8/6N1/8/8/6K1 w - - 0 1", "Nf6+")
 
 
 class TestTheAttackerMustSurvive:

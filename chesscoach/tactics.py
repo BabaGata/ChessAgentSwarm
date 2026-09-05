@@ -137,28 +137,30 @@ def _newly_attacked(board: chess.Board, after: chess.Board, move: chess.Move,
     put nothing at risk, and counting it would make every developing move a
     fork.
     """
+    # What the moving piece already hit from where it stood. `board` still has
+    # it on its old square, so this is its attack set before the move.
+    #
+    # **"Newly" means newly by THIS piece**, which is the author's own reading:
+    #
+    # > *"the 2 newly attacked pieces can be attacked previously by some other
+    # > piece, but they both have to be attacked by the piece that was moved...
+    # > the piece that was last moved did not create a fork, it newly attacked
+    # > just one piece."*
+    #
+    # The defect this rules out is a move that newly attacks **one** piece while
+    # a second target was already attacked by something else -- the mover did not
+    # fork anything. Asking `board.is_attacked_by(mover, square)` instead asks
+    # whether *anything* friendly attacked the target, which also throws away
+    # genuine forks: `Ng4-f6+` hitting a king and a rook stopped being a fork as
+    # soon as a friendly rook shared the file (E86 D-1).
+    already = board.attacks(move.from_square)
+
     found = []
     for square in after.attacks(move.to_square):
         piece = after.piece_at(square)
         if piece is None or piece.color == mover:
             continue
-        # `board` still has the mover's piece on its old square, so this asks
-        # exactly the right question: was it already attacked, from anywhere?
-        #
-        # **E86 D-1 was wrong and this was tried the other way.** Asking whether
-        # only the *moved* piece already attacked it makes `Ng4-f6+` a fork when
-        # a friendly rook already attacks the same rook -- but that rook was
-        # already undefended and already attackable, so `Rxe8` won it without any
-        # fork. The author's definition is explicit that the targets must not
-        # have been attacked before, and `tests/test_fork.py` holds a case that
-        # says so directly.
-        #
-        # **A narrower gap does remain, and is not closed here**: a target that
-        # was attacked but *defended*, and becomes winnable only because this
-        # move adds a second attacker, is excluded by this test and is arguably
-        # a fork. Left for the author, because closing it needs a chess judgement
-        # about what "attacked before" means when the attack won nothing.
-        if board.is_attacked_by(mover, square):
+        if square in already:
             continue
         # The king counts as a target without being winnable -- it cannot be
         # captured, so `wins_material` says nothing about it. Excluding it would

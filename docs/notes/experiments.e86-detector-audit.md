@@ -2,7 +2,7 @@
 id: cas-exp-e86
 title: 'E86 — Auditing every detector against a real definition, and finding the knowledge base cannot be one'
 desc: 'The audit was designed to judge detectors against the sourced knowledge graph. The graph cannot do it: fourteen entries, none endorsed, and forks definition is a definition of a skewer. Audited against Lichess own theme text instead. Two defects demonstrated on positions: a fork is missed when a victim was already attacked, and a trapped piece is reported when it has a safe escape.'
-updated: 1788696000000
+updated: 1788703200000
 created: 1788681600000
 ---
 
@@ -59,18 +59,6 @@ expert-consensus.**
 
 ## Two defects, demonstrated on positions rather than argued from reading
 
-> **D-1 WITHDRAWN 2026-09-06.** The fix was written, and the suite refused it. The author's own
-> definition is explicit — *"at least 2 pieces were **newly (so they weren't attacked before)**
-> attacked"* — and `tests/test_fork.py` holds a case asserting exactly that, with a comment saying
-> why. Re-reading the position offered as proof: the rook on e8 was **already undefended and already
-> attacked**, so `Rxe8` won it without any fork; `Nf6+` added a check to a piece that was already
-> hanging. The detector is right and this finding was not.
->
-> **A narrower gap survives and is not closed**: a target that was attacked but *defended*, and
-> becomes winnable only because the move adds a second attacker, is excluded by the same test and is
-> arguably a fork. Closing it is a chess judgement about what "attacked before" means when the
-> earlier attack won nothing, so it is the author's.
-
 ### D-1 — `fork` misses a fork when a victim was already attacked
 
 `_newly_attacked` excludes any target that `board.is_attacked_by(mover, square)` before the move —
@@ -87,7 +75,36 @@ it from the count, and the fork falls below the two-target minimum.
 fork — is right; the implementation asks the wrong question. It should ask whether the target was
 attacked **by the moved piece** from its old square, not whether anything attacked it.
 
-- **Verdict after attempting it: no change. The detector implements the stated definition.**
+**FIXED 2026-09-06, after the author settled what "newly" means:**
+
+> *"the 2 newly attacked pieces can be attacked previously by some other piece, but they both have to
+> be attacked by the piece that was moved ... the piece that was last moved did not create a fork, it
+> newly attacked just one piece."*
+
+So **newly means newly by the piece that moved**. A previous attack by some *other* piece is not the
+mover's business; what the rule must exclude is a move that newly attacks only **one** target while a
+second was already attacked by something else.
+
+`already = board.attacks(move.from_square)` asks exactly that. The old test asking
+`board.is_attacked_by(mover, square)` asked whether *anything* friendly attacked the target, which
+also discarded genuine forks.
+
+**Measured on 6,249 real positions: 73 forks become 109.** **36 real forks were being thrown away**
+and none is lost — the corrected exclusion set is a subset of the old one, so the change can only add.
+Three of the 36, checked by eye:
+
+| position | move | forks |
+|---|---|---|
+| `6k1/1pR3pp/8/p2np3/2B1P3/PR4P1/1P1r1rP1/6K1 w` | `Bxd5+` | the king on g8 and the pawn on b7, which `Rc7` already attacked |
+| `r1bq1r2/pp3ppk/3p1N1B/2p2P2/2n1P3/6Q1/PPP3PP/R4RK1 b` | `Qxf6` | `b2` on the diagonal and `h6` along the rank |
+| `rn1qkb1r/p1pppppp/1p6/8/2B5/3P1b2/PPP2PPP/R1BQK2R w` | `Qxf3` | `f7` up the file, which `Bc4` already attacked, and `a8` |
+
+**This was withdrawn once and reinstated.** It was withdrawn because `tests/test_fork.py` asserted the
+old reading and the author's written definition looked like it agreed; the author then clarified that
+it does not. The test now carries the clarification in its own docstring.
+
+**No rebuild needed.** All three `fork` claims are already withheld from peer comparison by the
+separation register.
 
 ### D-2 — `trappedPiece` reports a piece that can escape safely
 
