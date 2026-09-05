@@ -18,6 +18,11 @@ node_modules/
 
 # Data & models (large / regenerable)
 data/raw/
+# ...except the peer reference, which is 2.3 MB and is the one artefact the
+# system cannot run without. Without it in the repo the coach works on one
+# machine and nobody else can reproduce a single report.
+!data/raw/out/
+!data/raw/out/peers-e84.json
 data/cache/
 *.pgn.zst
 *.bin
