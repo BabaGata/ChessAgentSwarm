@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788678000000
+updated: 1788681600000
 created: 1785254500000
 ---
 
@@ -244,6 +244,18 @@ struck through: a list nobody can act on is not a plan.
    a pawn is too small to call a fork ([[experiments.e57-fork-rebuilt]]).
 
 ### Open, and unblocked
+
+0. **DAY 1 DONE — clone-and-run proven, and one caveat found**
+   → [[experiments.e91-fixed-depth-is-not-reproducible]] *(2026-09-06)*. A fresh clone renders a
+   report with **no install, no engine and no model**, and a full `coach` run inside the clone from an
+   **empty cache** produces a complete report. README rewritten with real prerequisites and the
+   shipped reference; `docs/samples/sample-profile.json` demos instantly.
+   **The caveat:** the same games analysed twice give slightly different findings, because a fixed
+   depth is not a fixed answer — the same position scores **-5 cp** cold and **-24 cp** after the
+   engine has searched others, since the transposition table carries state. Not a bug here and not
+   worth engineering around; a fresh clone is self-consistent because it builds its cache in its own
+   order. **Stated as a limitation.**
+
 
 0. **THE SYSTEM WORKS, AND THE BLOCKER WAS NEVER A DEFECT** *(2026-09-06)*. Two days from the
    deadline, `coach` was run end to end and produces a complete coaching report: a strength estimate
