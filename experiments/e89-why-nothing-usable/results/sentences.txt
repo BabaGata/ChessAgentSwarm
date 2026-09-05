@@ -1,112 +1,456 @@
 
 ================================================================================================
-late_castling   (searched as: 'castling in chess')
+moved_into_attack   (searched as: 'en prise chess')
 ================================================================================================
 
-  -- https://www.conservapedia.com/Castling
-     could not fetch
+  -- https://en.wikipedia.org/wiki/Bobby_Fischer
+     324 sentences offered
+     KEPT                                                  For the English footballer, see Bobby Fisher (footballer) .
+     KEPT                                                  For other people with similar names, see Bob Fischer and Bob Fisher .
+     KEPT                                                  "},"birth_name":{"wt":"Robert James Fischer"},"birth_date":{"wt":"{{Birth date|1943|3|9}}"},"birth_place":{"wt
+     KEPT                                                  Robert James Fischer (March 9, 1943 – January 17, 2008) was an American chess grandmaster and the eleventh Wor
+                    narrates a player as 'he' or 'she' rat A chess prodigy , he won his first of a record eight US Championships at the age of 14.
+                    narrates a player as 'he' or 'she' rat In 1964, he won with an 11–0 score, the only perfect score in the history of the tournament.
+     KEPT                                                  Qualifying for the 1972 World Championship , Fischer swept matches with Mark Taimanov and Bent Larsen by 6–0 s
+     KEPT                                                  After winning another qualifying match against Tigran Petrosian , Fischer won the title match against Boris Sp
+     KEPT                                                  Publicized as a Cold War confrontation between the US and USSR, the match attracted more worldwide interest th
+                    narrates a player as 'he' or 'she' rat In 1975, Fischer refused to defend his title when an agreement could not be reached with FIDE , chess's intern
+     KEPT                                                  Consequently, the Soviet challenger Anatoly Karpov was named World Champion by default.
+     KEPT                                                  Fischer subsequently disappeared from the public eye, though occasional reports of erratic behavior emerged.
+                    narrates a player as 'he' or 'she' rat In 1992, he reemerged to win an unofficial rematch against Spassky .
+                    opens with a reference to something ou It was held in Yugoslavia , which at the time was under an embargo of the United Nations .
+                    opens with a reference to something ou His participation led to a conflict with the US federal government , which warned Fischer that his participati
+                    narrates a player as 'he' or 'she' rat The US government ultimately issued a warrant for his arrest; subsequently, Fischer lived as an émigré .
+                    narrates a player as 'he' or 'she' rat In 2004, he was arrested in Japan and held for several months for using a passport that the US government had 
+                    narrates a player as 'he' or 'she' rat Eventually, he was granted Icelandic citizenship by a special act of the Althing , allowing him to live there 
+                    narrates a player as 'he' or 'she' rat During his life, Fischer made numerous antisemitic statements, including Holocaust denial , despite his own Je
+                    opens with a reference to something ou His antisemitism was a major theme in his public and private remarks, and there has been speculation concernin
+                    opens with a reference to something ou His book My 60 Memorable Games , published in 1969, is regarded as essential reading in chess literature.
+                    narrates a player as 'he' or 'she' rat In the 1990s, he patented a modified chess timing system that added a time increment after each move, now a st
+                    opens with a reference to something ou He also invented Fischer random chess , also known as Chess960, a chess variant in which the initial positions
+     KEPT                                                  Bobby Fischer was born at Michael Reese Hospital in Chicago, Illinois, on March 9, 1943.
+                    narrates a player as 'he' or 'she' rat [ 2 ] His mother, Regina Wender Fischer, was a US citizen, [ 3 ] [ 4 ] born in Switzerland; her parents were P
+     KEPT                                                  [ 5 ] [ 6 ] Raised in St.
+     KEPT                                                  Louis , Missouri, [ 2 ] Regina became a teacher, a registered nurse , and later a physician.
+                    narrates a player as 'he' or 'she' rat After graduating from college in her teens, Regina traveled to Germany to visit her brother.
+                    opens by connecting to the previous se There, she met geneticist and future Nobel Prize winner Hermann Joseph Muller , who persuaded her to move to M
+                    opens with a reference to something ou She enrolled at First Moscow State Medical University , where she met Hans-Gerhardt Fischer, also known as Ger
+     KEPT                                                  [ 9 ] In 1938, Hans-Gerhardt and Regina had a daughter, Joan Fischer .
+     KEPT                                                  The reemergence of antisemitism under Stalin prompted Regina to go with Joan to Paris, where Regina became an 
+                    narrates a player as 'he' or 'she' rat The threat of a German invasion led her and Joan to go to the United States in 1939.
+     KEPT                                                  Regina and Hans-Gerhardt had already separated in Moscow, although they did not officially divorce until 1945.
+                    narrates a player as 'he' or 'she' rat At the time of her son's birth, Regina was homeless.
+                    narrates a player as 'he' or 'she' rat [ 10 ] For several years, she took jobs around the country to support her family.
+                    opens with a reference to something ou She engaged in political activism and raised both Bobby and Joan as a single parent.
+                    narrates a player as 'he' or 'she' rat In 1949, Regina moved the family to Manhattan , New York City, [ 14 ] and the following year to Brooklyn , whe
+     KEPT                                                  In 2002, Peter Nicholas and Clea Benson of The Philadelphia Inquirer published an investigative report which s
+     KEPT                                                  [ 15 ] [ 16 ] [ 13 ] Neményi, a Hungarian mathematician and physicist of Jewish heritage , specialized in cont
+                    opens with a reference to something ou His work applied geometrical solutions to fluid dynamics.
+                    opens with a reference to something ou He had been a child prodigy and had won the Hungarian national mathematics competition at the age of 17.
+     KEPT                                                  A summary of an FBI surveillance investigation written in 1959 by J.
+     KEPT                                                  Edgar Hoover also came to the conclusion that Nemenyi was Fischer's biological father.
+                    narrates a player as 'he' or 'she' rat [ 13 ] Throughout the 1950s, the FBI investigated Regina Fischer and her circle due to her supposed communist 
+     KEPT                                                  [ 17 ] FBI files note that Hans-Gerhardt Fischer never entered the United States, while recording that Neményi
+     KEPT                                                  William Lombardy (left) and Fischer analyzing, with Jack Collins (center) looking on
+                    narrates a player as 'he' or 'she' rat In March 1949, six-year-old Bobby and his sister Joan learned how to play chess using the instructions from a 
+                    narrates a player as 'he' or 'she' rat [ 21 ] When Joan lost interest in chess, and Regina did not have time to play, Fischer was left to play many o
+     KEPT                                                  [ 22 ] When the family vacationed at Patchogue, Long Island, New York , that summer, Bobby found a book of old
+     KEPT                                                  In 1950, the family moved to Brooklyn, first to an apartment at the corner of Union Street and Franklin Avenue
+                    narrates a player as 'he' or 'she' rat [ 25 ] [ 26 ] Fischer played in the exhibition, and although he held on for 15 minutes, drawing a crowd of onl
+     KEPT                                                  One of the spectators was Brooklyn Chess Club President [ 28 ] Carmine Nigro , an American chess expert of nea
+                    narrates a player as 'he' or 'she' rat [ 29 ] Nigro was so impressed with Fischer's play [ 28 ] that he introduced him to the club and began teaching
+                    narrates a player as 'he' or 'she' rat [ 30 ] [ 31 ] [ 32 ] Fischer noted of his time with Nigro: "Mr.
+                    narrates a player as 'he' or 'she' rat Nigro was possibly not the best player in the world, but he was a very good teacher.
+                    narrates a player as 'he' or 'she' rat Nigro hosted Fischer's first chess tournament at his home in 1952.
+     KEPT                                                  [ 34 ] In the summer of 1955, Fischer, then 12 years old, joined the Manhattan Chess Club .
+     KEPT                                                  [ 35 ] [ 36 ] Fischer's relationship with Nigro lasted until 1956, when Nigro moved away.
+     KEPT                                                  In June 1956, Fischer began attending the Hawthorne Chess Club, which met at master John "Jack" W.
+                    narrates a player as 'he' or 'she' rat Fischer played thousands of blitz and offhand games with Collins and other strong players, studied the books i
+     KEPT                                                  [ 47 ] [ 48 ] On this tour, the club played a series of matches against other clubs.
+     KEPT                                                  Fischer played second board , behind International Master Norman Whitaker .
+     KEPT                                                  Whitaker and Fischer were the club's leading scorers, each scoring 5½ points out of 7 games.
+                    a statistic                            On the tenth national rating list of the United States Chess Federation (USCF), published on May 20, 1956, Fis
+                    narrates a player as 'he' or 'she' rat [ 51 ] Fischer experienced a "meteoric rise" in his playing strength during 1956.
+                    narrates a player as 'he' or 'she' rat [ 52 ] Fischer's first real tournament success occurred in July 1956, when he won the US Junior Chess Champion
+                    opens with a reference to something ou He scored 8½/10 to become the youngest-ever Junior Champion at age 13, [ 53 ] [ 54 ] a record that still stand
+                    narrates a player as 'he' or 'she' rat At the 1956 US Open Chess Championship in Oklahoma City , he scored 8½/12 to tie for 4th–8th places, with Arth
+                    narrates a player as 'he' or 'she' rat [ 55 ] In the first Canadian Open Chess Championship at Montreal 1956, he scored 7/10 to tie for 8th–12th plac
+     KEPT                                                  [ 56 ] In November, Fischer played in the 1956 Eastern States Open Championship in Washington, D.C., tying for
+     KEPT                                                  Fischer accepted an invitation to play in the Third Lessing J.
+     KEPT                                                  Rosenwald Trophy Tournament in New York City in October 1956, a premier tournament limited to the 12 players c
+     KEPT                                                  [ 58 ] Playing against top opposition, the 13-year-old Fischer could only score 4½/11, tying for 8th–9th place
+                    narrates a player as 'he' or 'she' rat [ 59 ] Yet he won the brilliancy prize [ 60 ] for his game against International Master Donald Byrne , [ 58 ] 
+                    points at a particular board           Hans Kmoch called it " The Game of the Century ", [ 61 ] [ 62 ] and the game is still widely published and ana
+     KEPT                                                  In 1957, Fischer played a two-game match against former world champion Max Euwe at New York, losing ½–1½.
+                    a statistic                            [ 65 ] [ 66 ] [ 67 ] When the US Chess Federation published its rating list in May, Fischer had the rank of Ma
+                    narrates a player as 'he' or 'she' rat [ 66 ] In July, he successfully defended his US Junior title, scoring 8½/9 at San Francisco.
+                    narrates a player as 'he' or 'she' rat [ 68 ] In August, he scored 10/12 at the US Open Chess Championship in Cleveland , winning on tie-breaking poi
+     KEPT                                                  [ 69 ] [ 70 ] This made Fischer the youngest ever US Open Champion.
+     KEPT                                                  [ 71 ] [ 72 ] He won the New Jersey Open Championship, scoring 6½/7.
+     KEPT                                                  [ 73 ] He then defeated the young Filipino master Rodolfo Tan Cardoso 6–2 in a New York match sponsored by Pep
+                    a statistic                            Based on Fischer's rating, the USCF invited him to play in the 1957/58 US Championship .
+     KEPT                                                  [ 76 ] The tournament included Samuel Reshevsky , the defending US champion Arthur Bisguier, and William Lomba
+     KEPT                                                  [ 77 ] Bisguier predicted that Fischer would "finish slightly over the center mark".
+     KEPT                                                  [ 77 ] Despite all the predictions to the contrary, Fischer scored eight wins and five draws to win the tourna
+                    narrates a player as 'he' or 'she' rat [ 78 ] [ 79 ] Still two months shy of his 15th birthday, Fischer became the youngest ever US Champion.
+                    narrates a player as 'he' or 'she' rat [ 80 ] Since the championship that year was also the US Zonal Championship , Fischer's victory qualified him t
+                    narrates a player as 'he' or 'she' rat [ 74 ] It also earned him the title of International Master .
+     KEPT                                                  In 1957, Fischer wanted to go to Moscow.
+                    narrates a player as 'he' or 'she' rat At his pleading, "Regina wrote directly to the Soviet leader, Nikita Khrushchev , requesting an invitation for
+     KEPT                                                  Fischer was invited by the Soviet Union to Moscow, [ 86 ] where Lev Abramov [ ru ] would serve as a guide to B
+                    narrates a player as 'he' or 'she' rat [ 87 ] Upon arrival, Fischer immediately demanded that he be taken to the Moscow Central Chess Club, [ 88 ] wh
+                    narrates a player as 'he' or 'she' rat Back in 1958, in the Central Chess Club, Vladimir Alatortsev saw a tall, angular 15-year-old youth, who in bli
+     KEPT                                                  Alatortsev was no exception, losing all three games.
+                    exclamation                            He was astonished by the young American Robert Fischer's play, his fantastic self-confidence, amazing chess er
+     KEPT                                                  Fischer demanded to play against Mikhail Botvinnik , the reigning World Champion.
+     KEPT                                                  When told that this was impossible, Fischer asked to play Paul Keres .
+     KEPT                                                  Tigran Petrosian was summoned to the club and played speed games with Fischer, winning the majority.
+                    narrates a player as 'he' or 'she' rat [ 90 ] Fischer was disappointed that he could not get more serious games against strong opposition, and his an
+     KEPT                                                  [ 91 ] Yugoslavian chess officials offered to take in Fischer and Joan as early guests to the Interzonal .
+     KEPT                                                  Fischer took them up on the offer, arriving in Yugoslavia to play two short training matches against masters D
+     KEPT                                                  [ 92 ] Fischer drew both games against Janošević and then defeated Matulović in Belgrade by 2½–1½.
+     KEPT                                                  [ 94 ] [ 95 ] The top six finishers in the Interzonal would qualify for the Candidates Tournament .
+                    narrates a player as 'he' or 'she' rat 87.</ref>"}},"i":0}}]}'> [ b ] Despite some bumps in the road and a problematic start, Fischer succeeded in hi
+     KEPT                                                  225–226.</ref>"}},"i":0}}]}'/> In the struggle at the board this youth, almost still a child, showed himself t
+                    narrates a player as 'he' or 'she' rat I was especially struck not even by his extensive opening knowledge, but his striving everywhere to seek new p
+     KEPT                                                  In Fischer's play an enormous talent was noticeable, and in addition one sensed an enormous amount of work on 
+     KEPT                                                  Before the Candidates' Tournament, Fischer won the 1958/59 US Championship (scoring 8½/11).
+     KEPT                                                  [ 103 ] He tied for third (with Borislav Ivkov ) in Mar del Plata (scoring 10/14), a half-point behind Luděk P
+     KEPT                                                  [ 104 ] He tied for 4th–6th at Santiago (scoring 7½/12) behind Ivkov, Pachman, and Herman Pilnik .
+     KEPT                                                  [ 105 ] [ 106 ] At the Zürich International Tournament, spring 1959, Fischer finished a point behind Mikhail T
+                    narrates a player as 'he' or 'she' rat Although Fischer had ended his formal education at age 16, dropping out of Erasmus Hall High School in Brookly
+                    narrates a player as 'he' or 'she' rat [ 110 ] [ 111 ] [ 112 ] According to Alexander Koblencs , even he and Tal could not match the commitment that 
+     KEPT                                                  41.</ref>"}},"i":0}}]}'/> "Tell me, Bobby," Tal continued, "what do you think of the playing style of Larissa 
+                    opens by connecting to the previous se But you have another girl, Dmitrieva [ ru ] .
+                    opens with a reference to something ou Her games do appeal to me!" Here we were left literally open-mouthed in astonishment.
+     KEPT                                                  Misha and I have looked at thousands of games, but it never occurred to us to study our women players' games.
+                    exclamation                            How could we find the time for this?!
+                    exclamation                            Yet Bobby, it turns out, had found the time!
+     KEPT                                                  Until late 1959, Fischer "had dressed atrociously for a champion, appearing at the most august and distinguish
+     KEPT                                                  [ 114 ] Now, encouraged by Pal Benko to dress more smartly, Fischer "began buying suits from all over the worl
+                    narrates a player as 'he' or 'she' rat [ 115 ] He told the journalist Ralph Ginzburg that he had 17 hand-tailored suits and that all of his shirts an
+                    navigation                             At the age of 16, Fischer finished equal fifth out of eight at the 1959 Candidates Tournament in Bled / Zagreb
+                    opens with a reference to something ou He was outclassed by tournament winner Tal, who won all four of their individual games.
+                    narrates a player as 'he' or 'she' rat [ 118 ] That year, Fischer released his first book of collected games: Bobby Fischer's Games of Chess , publis
+                    narrates a player as 'he' or 'she' rat Fischer's interest in chess became more important than schoolwork, to the point that "by the time he reached t
+                    narrates a player as 'he' or 'she' rat [ 120 ] In 1952, Regina got Bobby a scholarship (based on his chess talent and "astronomically high IQ") to Br
+     KEPT                                                  [ 121 ] Fischer later attended Erasmus Hall High School at the same time as Barbra Streisand and Neil Diamond 
+                    narrates a player as 'he' or 'she' rat [ 122 ] [ 123 ] In 1959, its student council awarded him a gold medal for his chess achievements.
+                    narrates a player as 'he' or 'she' rat [ 124 ] [ 125 ] The same year, Fischer dropped out of high school when he turned 16, the earliest he could leg
+                    narrates a player as 'he' or 'she' rat When Fischer was 16, his mother moved out of their apartment to pursue medical training.
+                    narrates a player as 'he' or 'she' rat [ 4 ] Despite the alienation from her son, Regina, in 1960, protested the practices of the American Chess Foun
+     KEPT                                                  Eisenhower to send an American team to that year's chess Olympiad (set for Leipzig , East Germany , behind the
+     KEPT                                                  Fischer played in eight US Championships, winning all of them by at least a one-point margin.
+                    narrates a player as 'he' or 'she' rat Fischer missed the 1961/62 Championship (he was preparing for the 1962 Interzonal), and there was no 1964/65 e
+     KEPT                                                  Fischer at 17 playing 23-year-old World Champion Mikhail Tal in Leipzig, East Germany
+                    narrates a player as 'he' or 'she' rat Fischer refused to play in the 1958 Munich Olympiad when his demand to play first board ahead of Samuel Reshev
+     KEPT                                                  [ 147 ] Some sources claim that 15-year-old Fischer was unable to arrange leave from attending high school.
+     KEPT                                                  [ 148 ] Fischer later represented the United States on the first board at four Chess Olympiads , winning two i
+                    a statistic                            Out of four Chess Olympiads, Fischer scored +40−7=18, for 49/65: 75.4%.
+                    a statistic                            [ 155 ] [ 156 ] In 1966, Fischer narrowly missed the individual gold medal, scoring 88.23% to World Champion T
+                    opens with a reference to something ou He played four games more than Petrosian, faced stiffer opposition, [ 157 ] and would have won the gold if he 
+                    narrates a player as 'he' or 'she' rat At the 1962 Varna Olympiad, Fischer predicted that he would defeat Miguel Najdorf in 25 moves.
+     KEPT                                                  Fischer actually did it in 24, becoming the only player to beat Najdorf in the tournament.
+                    narrates a player as 'he' or 'she' rat [ 159 ] Najdorf lost the game while employing the very opening variation named after him: the Sicilian Najdorf
+     KEPT                                                  Fischer had planned to play for the US at the 1968 Lugano Olympiad , but backed out after seeing the poor play
+     KEPT                                                  [ 161 ] Both former world champion Tigran Petrosian and Belgian-American International Master George Koltanows
+     KEPT                                                  [ 162 ] According to Lombardy, Fischer's non-participation was due to Reshevsky's refusal to yield first board
+                    narrates a player as 'he' or 'she' rat In 1974, Fischer was willing to play the 21st Chess Olympiad in Nice, France, but FIDE rejected his demand to 
+     KEPT                                                  In 1960, Fischer tied for first place with Soviet star Boris Spassky at the strong Mar del Plata Tournament in
+     KEPT                                                  [ 167 ] Fischer lost only to Spassky; this was the start of their lifelong friendship and rivalry.
+                    a statistic                            Fischer experienced a rare failure in his competitive career [ 169 ] at the Buenos Aires Tournament (1960), fi
+                    narrates a player as 'he' or 'she' rat [ 170 ] According to Larry Evans, Fischer's first sexual experience was with a girl to whom Evans introduced h
+                    narrates a player as 'he' or 'she' rat [ 171 ] Pal Benko said that Fischer did horribly in the tournament "because he got caught up in women and sex.
+     KEPT                                                  In 1961, Fischer started a 16-game match with Reshevsky, split between New York and Los Angeles.
+                    narrates a player as 'he' or 'she' rat [ 175 ] Reshevsky, 32 years Fischer's senior, was considered the favorite since he had far more match experien
+     KEPT                                                  After 11 games and a tie score (two wins apiece with seven draws), the match ended prematurely due to a schedu
+     KEPT                                                  Fischer forfeited 2 games, and even though the score was now 7½ to 5½, with 8½ required to win, Reshevsky was 
+     KEPT                                                  Fischer was second in a super-class field, behind only former world champion Tal, at Bled, 1961.
+     KEPT                                                  [ 177 ] Yet, Fischer defeated Tal head-to-head for the first time in their individual game, scored 3½/4 agains
+     KEPT                                                  Fischer won the 1962 Stockholm Interzonal by a 2½-point margin, [ 180 ] going undefeated, with 17½/22 (+13−0=9
+     KEPT                                                  [ 181 ] [ 182 ] He was the first non-Soviet player to win an Interzonal since FIDE instituted the tournament i
+     KEPT                                                  I have discussed Fischer's play with Max Euwe and Gideon Stahlberg.
+     KEPT                                                  All of us, experienced 'tournament old-timers', were surprised by Fischer's endgame expertise.
+                    its main clause points outside itself  When a young player is good at attacking or at combinations, this is understandable, but a faultless endgame t
+     KEPT                                                  I can recall only one other player who at that age was equally skillful at endgames – Vasily Smyslov .
+                    narrates a player as 'he' or 'she' rat Fischer's victory made him a favorite for the Candidates Tournament in Curaçao .
+                    narrates a player as 'he' or 'she' rat [ 185 ] [ 186 ] Yet, despite his result in the Interzonal, Fischer only finished fourth out of eight with 14/2
+     KEPT                                                  [ 188 ] Tal fell very ill during the tournament and had to withdraw before completion.
+                    narrates a player as 'he' or 'she' rat Fischer, a friend of Tal's, was the only contestant who visited him in the hospital.
+                    narrates a player as 'he' or 'she' rat Following his failure in the 1962 Candidates, [[#Lombardy|Lombardy 2011]], p.
+                    narrates a player as 'he' or 'she' rat \"As a second, Grandmaster Arthur Bisguier had to divide his talents between Bobby and Pal Benko...
+                    opens with a reference to something ou It is generally thought that this accusation is correct.
+                    narrates a player as 'he' or 'she' rat [ 192 ] [ 193 ] [ 194 ] Fischer stated that he would never again participate in a Candidates' tournament, sinc
+     KEPT                                                  Following Fischer's article, FIDE voted in late 1962 to implement a radical reform of the playoff system, repl
+     KEPT                                                  Fischer defeated Bent Larsen in a summer 1962 exhibition game in Copenhagen for Danish TV.
+     KEPT                                                  Later that year, Fischer beat Bogdan Śliwa in a team match against Poland in Warsaw.
+     KEPT                                                  In the 1962/63 US Championship, Fischer lost to Edmar Mednis in round one.
+                    opens with a reference to something ou It was his first loss ever in a US Championship.
+                    narrates a player as 'he' or 'she' rat Bisguier was in excellent form, and Fischer caught up to him only at the end.
+     KEPT                                                  Tied at 7–3, the two met in the final round.
+                    narrates a player as 'he' or 'she' rat Bisguier stood well in the middlegame, but blundered, handing Fischer his fifth consecutive US championship.
+     KEPT                                                  Influenced by ill will over the aborted 1961 match against Reshevsky, Fischer declined an invitation to play i
+                    narrates a player as 'he' or 'she' rat [ 197 ] He instead played in the Western Open in Bay City, Michigan , which he won with 7½/8.
+                    narrates a player as 'he' or 'she' rat [ 198 ] [ 199 ] In August–September 1963, Fischer won the New York State Championship at Poughkeepsie , with 7
+                    narrates a player as 'he' or 'she' rat In the 1963/64 US Championship, Fischer achieved his second perfect score, this time against the top-ranked ch
+     KEPT                                                  [ 141 ] [ 197 ] This result brought Fischer heightened fame, including a profile in Life magazine.
+     KEPT                                                  [ 202 ] [ 203 ] Sports Illustrated diagrammed each of the 11 games in its article "The Amazing Victory Streak 
+     KEPT                                                  [ 204 ] Such extensive chess coverage was groundbreaking for the top American sports magazine.
+                    opens with a reference to something ou His 11–0 win in the 1963/64 Championship is the only perfect score in the history of the tournament.
+     KEPT                                                  [ 205 ] Fischer recalled: [ 206 ] "Motivated by my lopsided result (11–0!), Dr.
+     KEPT                                                  [Hans] Kmoch congratulated [Larry] Evans (the runner-up) on 'winning' the tournament...
+     KEPT                                                  Fischer's 21-move victory against Robert Byrne won the brilliancy prize for the tournament.
+                    narrates a player as 'he' or 'she' rat International Master Anthony Saidy recalled his last round encounter with the undefeated Fischer: [ 208 ]
+     KEPT                                                  Going into the final game, I certainly did not expect to upset Fischer.
+                    narrates a player as 'he' or 'she' rat I hardly knew the opening but played simply, and he went along with the scenario, opting for a N-v-B [i.e., Kn
+     KEPT                                                  In the corridor, Evans said to me, "Good.
+                    narrates a player as 'he' or 'she' rat At adjournment, Saidy saw a way to force a draw, yet he had already "sealed a different, wrong move", and lost
+     KEPT                                                  [ 208 ] "Chess publications around the world wrote of the unparalleled achievement.
+     KEPT                                                  Only Bent Larsen, always a Fischer detractor, was unimpressed: 'Fischer was playing against children.
+     KEPT                                                  [ 203 ] Instead, Fischer embarked on a tour of the United States and Canada from February through May, playing
+                    a statistic                            [ 211 ] He had a 94% winning percentage over more than 2,000 games.
+     KEPT                                                  [ 211 ] Fischer declined an invitation to play for the US in the 1964 Olympiad in Tel Aviv .
+     KEPT                                                  Fischer wanted to play in the Capablanca Memorial Tournament in Havana in August and September 1965.
+     KEPT                                                  [ 215 ] [ 216 ] [ 217 ] [ 218 ] All of Fischer's playing sessions went from eight to twelve hours, leading to 
+     KEPT                                                  [ 219 ] [ 220 ] Despite the handicap, Fischer tied for second through fourth places, with 15/21 (+12−3=6), [ 2
+     KEPT                                                  [ 219 ] The tournament received extensive media coverage.
+                    a statistic                            In December, Fischer won his seventh US Championship (1965), with the score of 8½/11 (+8−2=1), [ 223 ] despite
+     KEPT                                                  [ 224 ] [ 225 ] Fischer also reconciled with Mrs.
+                    a statistic                            Piatigorsky, accepting an invitation to the very strong second Piatigorsky Cup (1966) tournament in Santa Moni
+     KEPT                                                  Fischer began disastrously and, after eight rounds, was tied for last with 3/8.
+                    opens with a reference to something ou He then staged a strong comeback, scoring 7/8 in the next eight rounds.
+                    narrates a player as 'he' or 'she' rat In the end, World Chess Championship finalist Boris Spassky edged him out by a half point, scoring 11½/18 to F
+                    opens by connecting to the previous se Now aged 23, Fischer would win every match or tournament he completed for the rest of his life.
+     KEPT                                                  Fischer won the US Championship (1966/67) for the eighth and final time, ceding only three draws (+8−0=3).
+     KEPT                                                  [ 229 ] [ 230 ] In March–April and August–September, Fischer won strong tournaments at Monte Carlo , with 7/9 
+     KEPT                                                  [ 232 ] [ 233 ] In the Philippines, Fischer played nine exhibition games against master opponents, scoring 8½/
+                    narrates a player as 'he' or 'she' rat Fischer's win in the 1966/67 US Championship qualified him for the next World Championship cycle.
+     KEPT                                                  At the 1967 Interzonal, held at Sousse , Tunisia , Fischer scored 8½ points in the first 10 games to lead the 
+                    opens with a reference to something ou His observance of the Worldwide Church of God's seventh-day Sabbath was honored by the organizers, but the res
+                    opens with a reference to something ou This started a scheduling dispute, which led to further disputes.
+     KEPT                                                  [ 235 ] [ 236 ] Fischer forfeited two games in protest and later withdrew, eliminating himself from the 1969 W
+     KEPT                                                  [ 237 ] Communications difficulties with the highly inexperienced local organizers were also a significant fac
+     KEPT                                                  No one in Tunisian chess had previous experience running an event of this stature.
+                    narrates a player as 'he' or 'she' rat Since Fischer had completed fewer than half of his scheduled games, all of his results were annulled, meaning 
+     KEPT                                                  In 1968, Fischer won tournaments at Netanya , with 11½/13 (+10−0=3), [ 239 ] and Vinkovci , with 11/13 (+9−0=4
+     KEPT                                                  [ 241 ] Fischer then stopped playing for the next 18 months, except for a win against Anthony Saidy in a 1969 
+                    narrates a player as 'he' or 'she' rat [ 242 ] [ 243 ] That year, Fischer (assisted by Larry Evans) released his second book of collected games: My 6
+     KEPT                                                  [ 244 ] The book was well-received; it was praised for its copious and careful notes.
+     KEPT                                                  The games annotated included some draws and losses.
+     KEPT                                                  In 1970, Fischer began a new effort to become World Champion.
+                    opens with a reference to something ou His dramatic march toward the title made him a household name and made chess front-page news for a time.
+                    opens with a reference to something ou He won the title in 1972, but forfeited it three years later.
+                    narrates a player as 'he' or 'she' rat Fischer's scoresheet from his round 3 game against Miguel Najdorf in the 1970 Chess Olympiad in Siegen , Germa
+     KEPT                                                  The 1969 US Championship was also a zonal qualifier, with the top three finishers advancing to the Interzonal.
+                    narrates a player as 'he' or 'she' rat Fischer, however, had sat out the US Championship, as he had sat out the 1968 championship.
+     KEPT                                                  The reason I did not play last year and will not play this year is the same—the tournament is too short.
+     KEPT                                                  I feel the tournament should be 22 rounds as it is in the Soviet Union, Hungary, Romania, and other East Europ
+                    narrates a player as 'he' or 'she' rat Ed Edmondson , executive director of the US Chess Federation , tried to persuade Fischer to change his mind, b
+     KEPT                                                  [ 247 ] At the start of 1970, Fischer was ineligible to play in the upcoming Palma de Mallorca Interzonal.
+     KEPT                                                  Before the Interzonal, in March and April 1970, the world's best players competed in the USSR vs.
+     KEPT                                                  Rest of the World match in Belgrade , Yugoslavia, often referred to as "the Match of the Century".
+     KEPT                                                  There was general surprise when Fischer decided to participate.
+     KEPT                                                  Fischer flew to Belgrade with the intention of playing first board for the rest of the world.
+                    a statistic                            [ 249 ] [ 250 ] Bent Larsen, however, due to his recent tournament victories, demanded to play first board ins
+     KEPT                                                  [ 250 ] [ 251 ] To the surprise of everyone, Fischer agreed.
+     KEPT                                                  [ 252 ] [ 253 ] The USSR team eked out a 20½–19½ victory, but Fischer scored 3 - 1 against Petrosian, winning 
+     KEPT                                                  After the USSR versus the Rest of the World Match, a speed chess (5-minute games) tournament was held at Herce
+                    a statistic                            [ 255 ] Petrosian and Tal were considered the favorites, but Fischer overwhelmed the super-class field with 19
+                    narrates a player as 'he' or 'she' rat In the double round robin tournament , Fischer lost only one game, to Korchnoi, who was also the only player t
+          names-it  narrates a player as 'he' or 'she' rat [ 256 ] [ 257 ] [ 258 ] Tal marveled that "During the entire tournament he didn't leave a single pawn en prise
+                    navigation                             In April–May 1970, Fischer won at Rovinj / Zagreb with 13/17 (+10−1=6), by a two-point margin, ahead of Gligor
+     KEPT                                                  [ 260 ] [ 261 ] In July–August, Fischer crushed the mostly grandmaster field at Buenos Aires , winning by a 3½
+                    narrates a player as 'he' or 'she' rat Fischer then played first board for the US Team in the 19th Chess Olympiad in Siegen, where he won an individu
+     KEPT                                                  [ 263 ] Right after the Olympiad, Fischer defeated Ulf Andersson in an exhibition game for the Swedish newspap
+     KEPT                                                  At the FIDE Congress, held in conjunction with the Olympiad, the possibility of modifying the Interzonal roste
+                    opens with a reference to something ou This was voted down, but it was decided that if one of the three US qualifiers dropped out on Fischer's behalf
+                    narrates a player as 'he' or 'she' rat [ 265 ] Benko, one of the three qualifiers, agreed to give up his spot in the Interzonal to give Fischer anoth
+     KEPT                                                  Fischer won the Interzonal (held in Palma de Mallorca in November and December 1970) with 18½/23 (+15−1=7), [ 
+     KEPT                                                  [ 269 ] [ 270 ] Fischer finished the tournament with seven consecutive wins.
+     KEPT                                                  In the 1971 Candidates matches, Fischer was set to play Mark Taimanov , the Soviet grandmaster and concert pia
+     KEPT                                                  The match began in mid-May in Vancouver, British Columbia, Canada.
+     KEPT                                                  [ 273 ] Fischer was generally favored to win.
+                    narrates a player as 'he' or 'she' rat [ 273 ] [ 274 ] Taimanov's preparation for the match included a detailed dossier on Fischer, prepared by Botvi
+                    narrates a player as 'he' or 'she' rat [ 275 ] [ 276 ] After Fischer defeated Taimanov in the second game of the match, Taimanov asked Fischer how he
+                    narrates a player as 'he' or 'she' rat N1c3, to which Fischer replied "that the idea was not his—he had come across it in the monograph by the Soviet
+     KEPT                                                  Taimanov came to Vancouver with two seconds, both grandmasters.
+                    opens with a reference to something ou He thought that the sight of Taimanov and his seconds was the funniest thing he had ever seen.
+                    opens by connecting to the previous se There, Taimanov and his seconds would sit, six hands flying, pocket sets waving in the air, while variations w
+                    narrates a player as 'he' or 'she' rat And there sat Taimanov with a confused look on his face.
+     KEPT                                                  Just before resuming play [in the fifth game], the seconds were giving Taimanov some last-minute advice.
+          names-it  narrates a player as 'he' or 'she' rat When poor Taimanov entered the playing room and sat down to confront Fischer, his head was so full of conflict
+     KEPT                                                  Fischer beat Taimanov by the score of 6–0.
+     KEPT                                                  [ 281 ] There was little precedent for such a lopsided score in a match leading to the World Championship.
+                    opens with a reference to something ou He was banned from writing articles, was deprived of his monthly stipend...
+     KEPT                                                  Fischer was next scheduled to play against Bent Larsen.
+                    opens with a reference to something ou It is hard to say how their match will end, but it is clear that such an easy victory as in Vancouver [against
+     KEPT                                                  I think Larsen has unpleasant surprises in store for [Fischer], all the more since having dealt with Taimanov 
+     KEPT                                                  Fischer beat Larsen by the identical score of 6–0.
+     KEPT                                                  [ 287 ] Robert Byrne writes: "To a certain extent I could grasp the Taimanov match as a kind of curiosity—almo
+                    opens by connecting to the previous se But now I am at a loss for anything whatever to say...
+                    narrates a player as 'he' or 'she' rat Garry Kasparov later wrote that no player had ever shown a superiority over his rivals comparable to Fischer's
+                    narrates a player as 'he' or 'she' rat On August 8, 1971, while preparing for his last Candidates match with former world champion Tigran Petrosian, 
+                    narrates a player as 'he' or 'she' rat Despite Fischer's results against Taimanov and Larsen, his upcoming match against Petrosian seemed a daunting 
+     KEPT                                                  [ 293 ] Nevertheless, the Soviet government was concerned about Fischer.
+     KEPT                                                  [ 294 ] [ 295 ] "Reporters asked Petrosian whether the match would last the full twelve games...
+     KEPT                                                  'It might be possible that I win it earlier', Petrosian replied", [ 296 ] and then stated: "Fischer's [ninetee
+                    opens with a reference to something ou He is a great chess player but no genius." [ 297 ] Petrosian played a strong theoretical novelty in the first 
+     KEPT                                                  [ 301 ] [ 302 ] Petrosian won the second game, finally snapping Fischer's streak.
+     KEPT                                                  [ 303 ] {{Cite web|url=https://www.infobae.com/opinion/2020/07/23/bobby-fischer-el-vincent-van-gogh-de-nuestro
+     KEPT                                                  [ 305 ] Sports Illustrated ran an article on the match.
+     KEPT                                                  Upon completion of the match, Petrosian remarked, "After the sixth game, Fischer really did become a genius.
+                    a statistic                            Fischer gained a far higher rating than any player in history up to that time.
+                    a statistic                            [ 310 ] On the July 1972 FIDE rating list, his Elo rating of 2785 was 125 points above (World No.
+                    narrates a player as 'he' or 'she' rat Fischer's career-long stubbornness about match and tournament conditions was again seen in the run-up to his m
+     KEPT                                                  Of the possible sites, Fischer's first choice was Belgrade , Yugoslavia , while Spassky's was Reykjavík , Icel
+     KEPT                                                  [ 317 ] For a time, it appeared that the dispute would be resolved by splitting the match between the two loca
+     KEPT                                                  [ 318 ] After that issue was resolved, Fischer refused to appear in Iceland until the prize fund was increased
+                    a statistic                            The London financier Jim Slater donated an additional US$125,000, bringing the prize fund up to an unprecedent
+     KEPT                                                  Fischer on The Dick Cavett Show, August 5, 1971
+     KEPT                                                  Fischer profiled on 60 Minutes, April 9, 1972
+     KEPT                                                  BBC documentary This Little Thing with Me and Spassky, July 2, 1972
+     KEPT                                                  Fischer on The Dick Cavett Show, August 4, 1972
+                    narrates a player as 'he' or 'she' rat Before and during the match, Fischer paid special attention to his physical training and fitness, a relatively
+                    narrates a player as 'he' or 'she' rat Leading up to this match, he conducted interviews with 60 Minutes and Dick Cavett explaining the importance of
+                    opens with a reference to something ou He had developed his tennis skills to a good level and played frequently on off-days in Reykjavík.
+                    opens with a reference to something ou He had also arranged for exclusive use of his hotel's swimming pool during specified hours, and swam for exten
+     KEPT                                                  The match took place in Reykjavík from July to September 1972.
+     KEPT                                                  Fischer was accompanied by William Lombardy; besides assisting with analysis, [ 322 ] Lombardy may have played
+     KEPT                                                  [ 323 ] The match was the first to receive an American broadcast in prime time.
+     KEPT                                                  [ 327 ] [ 328 ] After that game, the match was moved back to the stage and proceeded without further serious i
+     KEPT                                                  Fischer won seven of the next 19 games, losing only one and drawing eleven, to win the match 12½–8½ and become
+     KEPT                                                  The Cold War trappings made the match a media sensation.
+     KEPT                                                  [ 329 ] It was called "The Match of the Century", [ 330 ] [ 331 ] "}},"i":0}}]}'> [ f ] and received front-pag
+     KEPT                                                  [ 332 ] [ 333 ] Fischer's win was an American victory in a field that Soviet players – closely identified with
+     KEPT                                                  Kasparov remarked: "Fischer fits ideologically into the context of the Cold War era: a lone American genius ch
+     KEPT                                                  [ 334 ] [ 335 ] Dutch Grandmaster Jan Timman called Fischer's victory "the story of a lonely hero who overcome
+     KEPT                                                  [ 336 ] Fischer's sister observed: "Bobby did all this in a country almost totally without a chess culture.
+                    opens with a reference to something ou It was as if an Eskimo had cleared a tennis court in the snow and gone on to win the world championship".
+     KEPT                                                  Fischer on The Tonight Show with Johnny Carson, November 8, 1972
+     KEPT                                                  Upon Fischer's return to New York, [ 338 ] a Bobby Fischer Day was held.
+                    a statistic                            [ 339 ] He was offered numerous product endorsement offers worth "at least $5 million" ($ 38.5 million in 2024
+     -> 174 survived `is_broad`
 
-  -- https://en.wikipedia.org/wiki/Castling
-     95 sentences offered
-     KEPT names-it                                         For people with the surname, see Castling (surname) .
-     KEPT names-it                                         White has castled kingside; Black has castled queenside.
-                    opens with a reference to something ou It consists of moving the king two squares toward a rook on the same rank and then moving the rook to the squa
-     KEPT names-it                                         Castling is the only move in chess in which two pieces are moved at once.
-     KEPT names-it                                         Castling with the king's rook is called kingside castling , and castling with the queen's rook is called queen
-          names-it  names a square or move                 In both algebraic and descriptive notations, castling kingside is written as 0-0 and castling queenside as 0-0
-     KEPT names-it                                         Castling originates from the king's leap , a two-square king move added to European chess between the 14th and
-     KEPT names-it                                         Local variations in castling rules were common, however, persisting in Italy until the late 19th century.
-     KEPT names-it                                         Castling does not exist in Asian games of the chess family, such as shogi , xiangqi , and janggi , but it comm
-                    opens with a reference to something ou This article uses algebraic notation to describe chess moves.
-     KEPT names-it                                         During castling, the king is shifted two squares toward a rook of the same color on the same rank, and the roo
-          names-it  names a square or move                 Castling kingside ( short castling ) consists of moving the king to g1 and the rook to f1 for White, or moving
-          names-it  names a square or move                 Castling queenside ( long castling ) consists of moving the king to c1 and the rook to d1 for White, or moving
-     KEPT names-it                                         White cannot castle queenside because the knight is in the way.
-     KEPT names-it                                         Black cannot castle on either side because the black king is in check by the white bishop.
-          names-it  names a square or move                 White cannot castle queenside because Black's queen controls c1.
-          names-it  names a square or move                 White can castle kingside even though the h1-rook is under attack.
-          names-it  names a square or move                 Black cannot castle kingside because the white queen attacks f8.
-          names-it  names a square or move                 Black can castle queenside despite the white queen's attack on b8.
-     KEPT names-it                                         Castling is permitted provided all of the following conditions are met: "}},"i":0}}]}'> [ 5 ]
-     KEPT                                                  Neither the king nor the rook has previously moved.
-                    opens by connecting to the previous se There are no pieces between the king and the rook.
-     KEPT                                                  The king is not currently in check .
-     KEPT                                                  The king does not pass through or finish on a square that is attacked by an enemy piece.
-     KEPT names-it                                         Conditions 3 and 4 can be summarized by the mnemonic : A player may not castle out of, through, or into check.
-     KEPT names-it                                         Castling rules often cause confusion, even occasionally among high-level players.
-     KEPT                                                  The rook can pass through an attacked square.
-                    points at a particular board           The king can have been in check earlier in the game.
-     KEPT                                                  See also: Rules of chess and Touch-move rule
-     KEPT names-it                                         Under FIDE rules and USCF rules, and enforced in most tournaments , castling is considered a king move, so the
-     KEPT                                                  As usual, the player may choose another legal destination square for the king until releasing it.
-     KEPT names-it                                         When the two-square king move is completed, however, the player is committed to castling if it is legal, and t
-     KEPT                                                  The entire move must be completed with one hand.
-     KEPT names-it                                         A player who attempts to castle illegally must return the king and rook to their original squares and then mak
-     KEPT                                                  If there is no legal king move, the touch-move rule does not apply to the rook.
-                    opens with a reference to something ou These tournament rules are not commonly enforced in informal play nor commonly known by casual players.
-     KEPT names-it                                         An unmoved king has castling rights with an unmoved rook of the same color on the same rank, even if castling 
-     KEPT names-it                                         In the context of threefold and fivefold repetition , two otherwise identical positions with different castlin
-     KEPT                                                  In a 1986 game between Anatoly Karpov and Tony Miles , [ 11 ] play continued from the diagrammed position as f
-                    narrates a player as 'he' or 'she' rat Nb5 With his 26th move, Karpov attempted to claim a draw by threefold repetition, thinking that the positions 
-                    narrates a player as 'he' or 'she' rat As a result, Karpov was penalized five minutes on his clock.
-     KEPT                                                  After thinking for about ten minutes, Miles decided to agree to a draw anyway (even an incorrect claim of thre
-          names-it  names a square or move                 Both algebraic notation and descriptive notation indicate kingside castling as 0-0 and queenside castling as 0
-          names-it  names a square or move                 Portable Game Notation and some publications use O-O for kingside castling and O-O-O for queenside castling (u
-     KEPT                                                  Circles represent English, Spanish, French, and Lombardy movement; crosses represent Lombardy movement only.
-     KEPT names-it                                         Castling has its roots in the king's leap .
-                    opens by connecting to the previous se There were two forms of the leap: the king would move once like a knight , or the king would move two squares 
-                    points at a particular board           The knight move might be used early in the game to get the king to safety or later in the game to escape a thr
-                    opens with a reference to something ou This second form was played in Europe as early as the 13th century.
-     KEPT                                                  In North Africa, the king was transferred to a safe square by a two-move procedure: the king moved to the play
-     KEPT names-it                                         The rule of castling has varied by location and time.
-                    names a square or move                 In Lombardy, the white king might also jump to a2, b1, or h1, with corresponding squares applying to the black
-     KEPT                                                  Later, in Germany and Italy, the rule was changed such that the king move was accompanied by a pawn move.
-     KEPT names-it                                         1500) and a game published by Luis Ramírez de Lucena in 1498, castling consisted of moving the rook and then m
-     KEPT names-it                                         The current version of castling was established in France in 1620 and in England in 1640.
-     KEPT                                                  [ 15 ] It served to combine the rook's move and the king's jumping move into a single move.
-                    narrates a player as 'he' or 'she' rat In the 1811 edition of his chess treatise, Johann Allgaier introduced the 0-0 notation.
-                    opens with a reference to something ou He differentiated between 0-0r (right) and 0-0l (left).
-          names-it  names a square or move                 The 0-0-0 notation for queenside castling was introduced in 1837 by Aaron Alexandre .
-                    a statistic                            [ 17 ] The practice was adopted in the first edition (1843) of the influential Handbuch des Schachspiels and s
-          names-it  names a square or move                 In English descriptive notation , the word "Castles" was originally spelled out, adding "K's R" or "Q's R" if 
-          names-it  names a square or move                 Position after 10.0-0-0: Opposite castling in the Yugoslav Attack
-     KEPT names-it                                         The choice regarding to which side one castles often hinges on an assessment of the trade-off between king saf
-     KEPT names-it                                         Kingside castling is generally slightly safer because the king ends up closer to the edge of the board and can
-     KEPT names-it                                         In queenside castling, the king is placed closer to the center and does not defend the pawn on the a- file ; f
-     KEPT names-it                                         In addition, queenside castling is initially obstructed by more pieces than kingside castling, thus taking lon
-     KEPT names-it                                         On the other hand, queenside castling places the rook more efficiently on the central d-file, where it is ofte
-     KEPT names-it                                         In positions where the opponent cannot organize an attack against a centralized king, castling may be unnecess
-     KEPT                                                  In addition, in certain situations, a rook can be more active near the edges of the board than in the center; 
-     KEPT names-it                                         Kingside castling occurs more frequently than queenside castling.
-          names-it  opens with a reference to something ou It is common for both players to castle kingside, less common for one player to castle kingside and the other 
-          names-it  its main clause points outside itself  If one player castles kingside and the other queenside, it is called opposite castling or opposite-side castli
-     KEPT names-it                                         Castling on opposite sides usually results in a fierce fight, as each player's pawns are free to advance to at
-     KEPT names-it                                         Opposite castling is a common feature of many openings, such as the Yugoslav Attack .
-          names-it  names a square or move                 One pattern involves castling queenside to deliver a double attack : the king attacks a rook (on b2 for White 
-                    names a square or move                 and resigned after 14.0-0-0+, which wins the rook.
-     KEPT names-it                                         Chess historian Edward Winter has proposed the name "Thornton castling trap" for this pattern, in reference to
-     KEPT                                                  Other chess writers such as Gary Lane have since adopted this term.
-     KEPT names-it                                         Another example of tactical castling is illustrated in the diagrammed position from the correspondence game Gu
-                    an analysis line                       After 1.Qxd8+ Kxd8 2.0-0-0+ Ke7 3.Nxb5, White has won a rook by castling with check and simultaneously unpinni
-     KEPT                                                  Such a double attack can also be made by castling kingside, although this is much rarer.
-                    points at a particular board           In this position from the blindfold game Karjakin – Carlsen , 2007, the move 19...0-0 threatens to win the kni
-                    an analysis line                       White cannot attempt to win back the piece with a fork due to the threat of back rank mate : 20.Rh6 Bxg5 21.Rx
-     KEPT                                                  Karjakin had to concede a piece and resigned 14 moves later.
-          names-it  narrates a player as 'he' or 'she' rat Viktor Korchnoi , in his 1974 Candidates final match with Anatoly Karpov , asked the arbiter if castling was l
-     KEPT                                                  [ 22 ] The arbiter answered in the affirmative, Korchnoi executed the move, and Karpov resigned shortly after.
-          names-it  points at a particular board           Castling occurred three times in the game Wolfgang Heidenfeld – Nick Kerins , Dublin 1973.
-     KEPT names-it                                         The third instance of castling, the second one by White, was illegal, as the white king had already moved.
-                    an analysis line                       1.e4 e6 2.d4 d5 3.Be3 Nf6 4.e5 Nfd7 5.f4 c5 6.c3 Nc6 7.Nf3 Qb6 8.Qd2 c4 9.Be2 Na5 10.
-          names-it  names a square or move                 Black to move castled queenside, with the rook traversing the attacked b8-square.
-          names-it  points at a particular board           In the game Yuri Averbakh – Cecil Purdy , Adelaide 1960, [ 25 ] when Purdy castled queenside, Averbakh queried
-                    names a square or move                 Purdy indicated e8 and c8 and said, "The king", in an attempt to explain that this was forbidden only for the 
-          names-it  narrates a player as 'he' or 'she' rat Not the rook?" Averbakh's colleague Vladimir Bagirov then explained the castling rules to him in Russian, and 
-                    an analysis line                       In the game Edward Lasker – Sir George Thomas (London 1912), [ 29 ] White could have checkmated with 18.0-0-0 
-                    a statistic                            The diagram shows the final position of the game Lodewijk Prins – Lawrence Day (1968), where White resigned.
-     -> 53 survived `is_broad`
+  -- https://en.wikipedia.org/wiki/Maharajah_and_the_Sepoys
+     29 sentences offered
+     KEPT                                                  The white figure is a maharajah; it can move as queen or knight.
+                    opens with a reference to something ou It was first played in the 19th century in India .
+                    opens with a reference to something ou It is a solved game with a forced win for Black.
+     KEPT                                                  Black has a full, standard chess army (" sepoys ") in the usual position.
+                    names a square or move                 White is limited to a single piece starting on e1, the maharajah , which can move as either a queen or as a kn
+     KEPT                                                  Black's goal is to checkmate the maharajah, while White's is to checkmate Black's king.
+                    opens with a reference to something ou This section uses algebraic notation to describe chess moves.
+                    points at a particular board           The asymmetry of the game pits movement flexibility and agility against greater force in numbers.
+                    points at a particular board           By perfect play , Black always wins in this game, at least on an 8×8 board.
+     KEPT                                                  According to Hans Bodlaender , "A carefully playing black player should be able to win.
+     KEPT                                                  The maharajah can pose a serious threat and even win against a weak opponent.
+     KEPT                                                  The maharajah's critical weakness is that as a royal , it cannot do exchanges, meaning it cannot capture black
+                    opens by connecting to the previous se Thus, the Sepoys' winning strategy is to make moves in such a way that all their pieces stay protected while g
+     KEPT                                                  One example line of moves that gives Black a forced mate in 24 moves goes like the following (White's moves ar
+                    opens by connecting to the previous se Now, if the maharajah is on a1, then:
+                    points at a particular board           Descriptions of this chess variant can be traced as far back as the 12th century in the Mānasollāsa , which re
+                    opens with a reference to something ou It is a variant of chaturanga that is determined by each player throwing two or so dice.
+     KEPT                                                  Supposedly, the multiple dice were used to expand the rolling player's possible choices.
+     KEPT                                                  The values on each die correspond to which types of pieces to be moved; the player with the Maharajah is force
+     KEPT                                                  The chaturanga variant was revived by the 1871 Indian encyclopedia of games Kridakaushalya , which revised it 
+                    opens with a reference to something ou It was first described in the Western world in 1892 by Edward Falkener , who called it "The Maharajah and the 
+     KEPT                                                  "12 Caturaṅga krīḍā" १२ चतुरङ्गक्रीडा [ 12 Chess ] .
+     KEPT                                                  "MĀNASOLLĀSA 5,560–623: Ein Bisher Unbeachtet Gebliebener Text zum Indischen Schachspiel, Übersetzt, Kommentie
+     KEPT                                                  A World of Chess: Its Development and Variations through Centuries and Civilizations .
+     KEPT                                                  "Game of the Maharajah and the Sepoys." .
+     KEPT                                                  Games Ancient and Oriental, and how to Play Them: Being the Games of the Greek, the Ludus Latrunculorum of the
+                    a statistic                            (2007), The Classified Encyclopedia of Chess Variants , John Beasley, p.
+                    a statistic                            (1994), "Maharajah (I)", The Encyclopedia of Chess Variants , Games & Puzzles Publications, pp.
+     KEPT                                                  Hexagonal chess ( Cross chess , Masonic chess )
+     -> 16 survived `is_broad`
 
-  -- http://www.kew.org/kew-gardens/whats-on/summer-members-early-opening
-     could not fetch
+  -- https://en.wikibooks.org/wiki/Information_Security_in_Education/Network_Defenses
+     66 sentences offered
+     KEPT                                                  Information Security in Education/Network Defenses - Wikibooks, open books for an open world
+     KEPT                                                  From Wikibooks, open books for an open world
+                    opens with a reference to something ou This page may need to be reviewed for quality.
+     KEPT                                                  Contents/Introduction ·· School Hacking ·· Legal Issues ·· Security Awareness ·· Administrator Awareness ·· Cr
+     KEPT                                                  Computers have not only transformed society overall but they have also enabled schools to run more smoothly.
+     KEPT                                                  Large amounts of student and employee data can be managed efficiently, teacher work time is cut down since eve
+     KEPT                                                  Wherever there are computers there are also criminals waiting to perform malicious acts.
+     KEPT                                                  School districts need to be especially careful since there can be both internal and external threats to securi
+                    opens with a reference to something ou This chapter will offer educators an introduction to various network defenses.
+     KEPT                                                  Network defenses are actions that are taken to protect information, computer and networks from unauthorized ac
+                    opens with a reference to something ou These defenses guard against disruption or denial of service, degradation or destruction.
+     KEPT                                                  [ 1 ] , Some examples of network defenses are firewalls, demilitarized zones (DMZ's), virtual private networks
+                    a statistic                            A firewall, according to Schneier (2000) [ 2 ] is a piece of software or hardware that keeps intruders out and
+                    opens with a reference to something ou They act as boundaries between private networks and the vast public network.
+     KEPT                                                  A firewall in a network ensures that if something bad happens in one part of the firewall, the computers on th
+     KEPT                                                  Intruders to a school network can cause problems in various ways.
+                    opens by connecting to the previous se For example, they can gain access to personal information of staff and students that could lead to identity th
+     KEPT                                                  When a computer firewall is enabled, everything that goes in and out of the network is monitored.
+                    its main clause points outside itself  If information is flagged by the filters, it is not allowed through.
+                    opens by connecting to the previous se For example, in a school district there may be hundreds of networked computers.
+     KEPT                                                  In order to protect all of these computers from being directly accessible to anyone on the internet, firewalls
+     KEPT                                                  The IT department can then configure the firewall with a set of rules that determine what information is allow
+     KEPT                                                  Although school districts use firewalls and other security measures to protect their networks they cannot let 
+     KEPT                                                  If anyone does get through these defenses, they can live on a network, doing whatever they want for as long as
+                    narrates a player as 'he' or 'she' rat Hackers can find vulnerabilities in networks and silently gather sensitive information or change a system and 
+     KEPT                                                  [IT Security] [ 4 ] , Because of this, school districts need to have other network defenses in place to safegu
+     KEPT                                                  A Demilitarized Zone (DMZ) is a place on a network where public services would be placed.
+     KEPT                                                  (Schneier) [ 2 ] Devices cannot direclty access the trusted network from an untrusted network so the DMZ acts 
+                    opens by connecting to the previous se For example, you would want to place devices like a web server in a DMZ so that people on the Internet can acc
+     KEPT                                                  If the web server were to be compromised, this would limit the amount of information that an outside person ha
+     KEPT                                                  The devices on the DMZ may have limited access to certain resources on your protected network such as a school
+                    a statistic                            Intrusion detection systems (IDS), according to Schneier (2000) [ 2 ] are network monitors.
+                    opens with a reference to something ou They are devices that have the ability to listen for traffic on a network that may be suspicious such as attac
+     KEPT                                                  IDS's alert the people who are monitoring the system of an attack usually while it is happening.
+                    opens with a reference to something ou These alerts can come in the form of an email, page, text or pop up window.
+     KEPT                                                  The alerts will let the monitor know how critical the attack is and exaclty what kind of attack is happening.
+     KEPT                                                  The IDS will also suggest some kind of action that can be taken in order to prevent or stop the attack.
+     KEPT names-it                                         To be most effective, IDS devices should monitor traffic both on unprotected and protected networks.
+     KEPT names-it                                         The traffic on the unprotected network should be monitored in order to listen for threats before they get to t
+     KEPT                                                  IDS devices should also monitor the traffic on the protected network in order to listen for internal threats.
+     KEPT                                                  The job of the IDS device is to listen to all the traffic on the network and look for certain patterns.
+                    opens with a reference to something ou It is used to perform the job that a firewall cannot do.
+     KEPT                                                  When a hacker attempts to get into a secure network such as a school district's, a firewall blocks these attem
+     KEPT                                                  Since access logs would need to be continuously checked, it could be a tedious job.
+     KEPT                                                  Any attempts that are made to get into a network will be logged by the firewall and the IDS will analyze this 
+     KEPT                                                  If there are a large number of request-reject entries, the IDS will notice this and alert the network manager.
+                    a statistic                            A Virtual Private Network (VPN), according to Schneier, (2000) [ 2 ] is simply a secure connection over a publ
+     KEPT                                                  A Virtual Private Network (VPN) is a way of accessing resources such as printers, servers, and fileshares of a
+                    opens by connecting to the previous se For example, teachers would be able to access the information on their school computer from home.
+          names-it  opens with a reference to something ou This is done by creating a "tunnel" that is encrypted through an unprotected network.
+                    a statistic                            According to Schneier, (2000) [ 2 ] a VPN is like a hole in the firewall.
+     KEPT                                                  A person with a VPN is allowed to tunnel through the firewall into the network.
+     KEPT                                                  Both a home network and a school network could be considered protected networks.
+     KEPT names-it                                         In order to get to the school network from home one needs to go through an unprotected network such as the Int
+                    opens with a reference to something ou It is important that this communication be encrypted to protect against hackers stealing protected information
+     KEPT                                                  VPN's can also protect against wireless hijacking of data.
+     KEPT                                                  Since wireless transmissions are able to be captured by anyone, VPN's can provide an additional level of secur
+     KEPT                                                  Vulnerability scanners are computer programs that assess all devices on a network for known weaknesses where p
+                    opens with a reference to something ou This software finds security holes and classifies the weaknesses into how critical the security hole is.
+     KEPT                                                  Most vulnerability scanners will also explain how to correct the weakness.
+                    a statistic                            A vulnerability scanner works by gathering information from the devices on the network by using a database of 
+     KEPT                                                  The scanner will look for security holes in services running on the system or do a port scan to connect to a h
+     KEPT                                                  If the host is running an application that uses a certain port, the scanner will attempt to connect to that po
+                    navigation                             ↑ a b c d e f Schneier, B.
+     KEPT                                                  Secrets and lies: Digital security in a networked world.
+     KEPT                                                  Invalid <ref> tag; name "Scheier" defined multiple times with different content.
+     -> 44 survived `is_broad`
 
-  -- https://citizendium.org/wiki/Opening_theory_(chess)
-     could not fetch
+  -- https://www.chessprogramming.org/Hanging_Piece
+     17 sentences offered
+     KEPT                                                  Hanging Piece - Chess Programming Wiki This is a temporary, read-only recovery of the chessprogrammingwiki whi
+     KEPT                                                  Editing is not possible right now, but will be again soon.
+     KEPT                                                  Home * Chess * Tactics * Hanging Piece
+     KEPT                                                  A hanging piece is an attacked piece not defended by own man exposed to capture .
+     KEPT names-it                                         While hanging is often used synonymously with being en prise , the latter actually requires not necessary unde
+     KEPT                                                  To avoid confusion with hanging pawns , which refer a duo of open and half-isolated pawns, undefended or loose
+     KEPT                                                  Game phase , an exposed king and the presence of the opponent queen can be considered as well in that evaluati
+                    navigation                             Evaluation in REBEL (hanging pieces) by Tony Werten , CCC , January 10, 2003 » Rebel
+                    navigation                             table-based SEE or "evaluation in rebel (hanging pieces)" by Martin Fierz , CCC , November 27, 2003 » Rebel , 
+                    navigation                             hanging pieces in rebel by Bernward Klocke, CCC , January 15, 2004 » Rebel
+     KEPT names-it                                         Evaluating attacked pieces by Fermin Serrano , CCC , November 17, 2008
+                    navigation                             Hanging pieces patch applied by Marco Costalba , FishCooking , April 30, 2014 » Stockfish
+     KEPT                                                  hanging pieces by Alexandru Mosoi , CCC , Aug 21, 2016
+     KEPT                                                  Hanging Pieces by Roger McIntyre, Huntsville Chess Club
+     KEPT                                                  Herbie Hancock & The Headhunters - Hang Up Your Hang Ups , Ivanhoe Theater , Chicago , February 16, 1977, YouT
+     KEPT                                                  Herbie Hancock , Jaco Pastorius , James Levi , Bennie Maupin
+     KEPT                                                  Categories: The Headhunters · Herbie Hancock · Bennie Maupin · Jaco Pastorius
+     -> 13 survived `is_broad`

@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788652800000
+updated: 1788660000000
 created: 1785254500000
 ---
 
@@ -244,6 +244,34 @@ struck through: a list nobody can act on is not a plan.
    a pawn is too small to call a fork ([[experiments.e57-fork-rebuilt]]).
 
 ### Open, and unblocked
+
+0. **DONE — knowledge base regenerated, loaded, and retrieval tested**
+   → [[experiments.e89-why-nothing-usable]], [[experiments.e90-retrieval]] *(2026-09-06)*.
+   **Six defects fixed** between a good page and a stored definition — `hangingPawn` searched for a
+   different concept, the plain phrase was never asked (so "undefended pawn chess" returned the
+   Turochamp article), page markup reached the output as a definition, an existential "There" was
+   read as a connective, the scout took a random three of a varying list, and the ordering fix had
+   the truthiness bug it was fixing. **The knowledge base and the graph were separate stores** and
+   no definition was ever retrievable; `load_definitions` closes that. **Retrieval: 10 of 10
+   concepts return their own definition at rank 1.**
+
+0. **P1 — the agent fabricates when asked what the shelf does not cover.** Asked for the Sicilian
+   Najdorf it invented a descriptive-notation move list and **credited Howard Staunton**. Both
+   existing guards were measured and neither catches it: a similarity floor cannot separate covered
+   from uncovered (they overlap — Najdorf scores 0.8875 against a covered 0.8272), and `grounding
+   .check` passes it because the model assembled real fragments from the retrieved passages. R-02 and
+   R-03 in one output.
+
+0. **P2 — four claims have no definition and may not be answerable.** `hangingPawn`,
+   `allows_pressure`, `moved_into_attack`, `pawn_error` are this project's own error categories
+   rather than terms the literature defines — E65 found nine of fourteen keys are jargon. Seeding
+   them from a related authoritative definition, as the tactical motifs were seeded from Lichess, is
+   the author's call.
+
+0. **P2 — attribution is a guess for swarm-drafted entries.** `Entry` records a list of sources but
+   not which one the quote came from, so the loader credits the first usable one. The outpost
+   definition is Wikipedia's text credited to **Philidor**. Correct for seeded entries only.
+
 
 0. **RECORDED — what the arc cost and what it bought** → [[experiments.e88-arc-cost-and-result]]
    *(2026-09-06)*. Candidate count predicted within **12 %** (62,600 against **69,844** measured from

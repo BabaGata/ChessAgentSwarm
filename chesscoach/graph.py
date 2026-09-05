@@ -225,7 +225,14 @@ class GraphStore:
             self._run(
                 "MERGE (d:Definition {name: $name}) "
                 "SET d.claim = $claim, d.statement = $statement, "
-                "    d.publisher = $publisher, d.url = $url, d.servable = $servable",
+                "    d.publisher = $publisher, d.url = $url, d.servable = $servable, "
+                # `search` reads `coalesce(s.author, node.provenance)`, and a
+                # Definition has no `:Source` edge -- so without this the
+                # attribution fell through to whatever book passages happened to
+                # be retrieved alongside. Asked "what is a fork" the answer came
+                # from the Lichess definition and was credited to Howard
+                # Staunton, who is on the shelf and said nothing of the kind.
+                "    d.provenance = $publisher",
                 name=definition.key, claim=definition.key, statement=definition.text,
                 publisher=definition.publisher, url=definition.url,
                 servable=definition.servable,
