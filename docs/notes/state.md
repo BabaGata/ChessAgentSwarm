@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788642000000
+updated: 1788645600000
 created: 1785254500000
 ---
 
@@ -320,7 +320,27 @@ struck through: a list nobody can act on is not a plan.
    against the CC0 puzzle database does not cover it; and four value floors have no source.
    **No detector changed** — author's instruction while the rebuild runs.
 
-0. **P1 — re-extract the knowledge base, and it needs no agent redesign**
+0. **DONE — tactical definitions seeded, gate fixed** → [[experiments.e87-seed-lichess-themes]]
+   *(2026-09-05)*. **Eight motifs seeded verbatim from Lichess's own theme file** — the keys
+   `tactics.py` already commits to — because the shelf has no definition to extract (E64 measured
+   `skewer` at zero occurrences). **The gate now discriminates** rather than matching a word: it
+   rejects **12 of 14** stored entries, keeping exactly the two that are genuine definitions, and it
+   rejected the seeds until they named their own subject. `NAMES` separates a concept's synonyms from
+   its search terms, which is what let "king safety" pass the rule about moving into check as a
+   definition of castling. **Nothing endorsed** — all 17 entries `reviewed: False`.
+
+0. **P1 — the nine non-tactical entries still fail the gate.** `allows_pressure`, `allows_square`,
+   `endgame_error`, `late_castling`, `long_think_error`, `moved_into_attack`, `pawn_error`,
+   `slow_development`, `hangingPawn`. For the pawn-structure concepts the classical shelf **does**
+   discuss them, so re-extraction is the right instrument; the others may need Wikipedia the way the
+   tactics needed Lichess. `moved_into_attack` holds no quote and zero sources.
+
+0. **P2 — author call: `hangingPawn` has no external definition.** Not a Lichess theme, so it can be
+   neither seeded nor validated against the puzzle database — the stated reason for using these keys.
+   It exists because E31 found **all 45 reviewer notes mentioning a pawn unnameable** without it.
+   Which gives way, the key or the claim, is the author's.
+
+0. **SUPERSEDED — re-extract the knowledge base, and it needs no agent redesign**
    → [[design.knowledge-re-extraction]] *(2026-09-05)*. Every entry is stamped **2026-08-30**, the
    naming gate was tightened **2026-09-01**, and today's gate rejects **6 of 14 including `fork`** —
    whose stored skewer definition is *the documented case the gate was written to stop*. Three things

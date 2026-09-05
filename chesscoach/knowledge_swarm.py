@@ -491,20 +491,109 @@ _GENERIC = frozenset({
 })
 
 
+# What each concept is CALLED, as opposed to what finds a page about it.
+#
+# `TERMS` mixes the two and that mixture is what let five wrong entries through.
+# "castle" and "king safety" sit in the same tuple for `late_castling`: the first
+# names the concept, the second names a neighbourhood, and a gate keyed on the
+# union accepts the rule about moving into check because it says "king".
+#
+# These are synonyms and spellings, not chess claims, so nothing here needs a
+# source (R-03). Matched as substrings, so "castl" would be a stemmer and
+# "castle"/"castling" listed separately is not one.
+NAMES: dict[str, tuple[str, ...]] = {
+    "fork": ("fork", "forking", "double attack"),
+    "pin": ("pin", "pinned", "pinning"),
+    "skewer": ("skewer", "skewered", "skewering"),
+    "discoveredAttack": ("discovered attack", "discovered check", "discovery"),
+    "capturingDefender": ("deflection", "removing the defender", "removing the guard",
+                          "capturing the defender", "capturing defender"),
+    # "hanging piece" rather than bare "hanging", so that a hanging *pawn* does
+    # not read as a hanging piece -- they are separate claims here.
+    "hangingPiece": ("hanging piece", "en prise", "undefended piece", "unprotected piece"),
+    "hangingPawn": ("hanging pawn", "hanging pawns"),
+    "trappedPiece": ("trapped", "hemmed in", "shut in"),
+    "backRankMate": ("back rank", "back-rank"),
+    "late_castling": ("castling", "castle", "castled"),
+    "slow_development": ("development", "develop", "developed", "developing"),
+    "repeat_move": ("same piece twice", "lose a move", "lost move", "tempo"),
+    "pawn_error": ("pawn advance", "premature advance", "pawn move"),
+    "allows_square": ("outpost", "hole", "weak square"),
+    "allows_pressure": ("attack on the king", "king-side attack", "assault on the king"),
+    "concedes_weakness": ("isolated", "doubled", "backward", "weak pawn"),
+    "endgame_error": ("endgame", "end-game", "ending", "opposition"),
+    "moved_into_attack": ("en prise", "unprotected", "attacked piece"),
+    "long_think_error": ("time trouble", "time management", "long think"),
+}
+
+
+def _own_terms(key: str) -> frozenset[str]:
+    """The words that name this concept, as opposed to merely finding it.
+
+    `NAMES` where there is one, since a concept's synonyms are not recoverable
+    from its search phrases -- `hangingPiece` is named by "en prise" and
+    `late_castling` by "castle", neither of which any splitting of the topic
+    phrase produces. Otherwise the topic phrase, minus the generic half.
+    """
+    named = NAMES.get(key)
+    if named:
+        return frozenset(named)
+    return key_terms(topic_for(key)) - _GENERIC
+
+
 def _names(sentence: str, key: str) -> bool:
-    """Does this sentence mention the thing it is supposed to define?
+    """Does this sentence define **this** concept, rather than share a word with it?
 
     Checked against the claim's own vocabulary rather than its key, since the
     key is this project's jargon: `late_castling` is named by "castling" and
     `hangingPiece` by "en prise" as readily as by "hanging".
 
-    **Broad for finding, narrow for verifying.** The generic half of that
-    vocabulary is dropped here: it earns its place in a query and gives a false
-    match in a check.
+    **Broad for finding, narrow for verifying** -- and the narrow half is two
+    tests, because presence alone was not enough. Of fourteen stored entries,
+    five passed on a single ordinary word: a pawn ending stood as the definition
+    of an attack on the king because it says "king".
+
+    1. **It must name the concept**, using the topic phrase rather than the
+       widened net (`_own_terms`).
+    2. **Nothing else may name it better.** A sentence matching some other
+       claim's vocabulary *more* than this one's is about that other thing. The
+       comparison is on strength rather than presence, because a definition by
+       contrast -- "a skewer is the inverse of a pin" -- names its neighbour on
+       purpose and is still a definition of the skewer.
+
+    Words the two concepts share are dropped from the rival's count: they
+    separate nothing, which is the same reason `_GENERIC` exists.
     """
     low = sentence.lower()
-    distinctive = all_terms(key) - _GENERIC
-    return any(term in low for term in (distinctive or all_terms(key)))
+    mine = _own_terms(key) or (all_terms(key) - _GENERIC) or all_terms(key)
+    strength = _claim_on(low, mine)
+    if strength[0] == 0:
+        return False
+
+    for other in TERMS:
+        if other == key:
+            continue
+        if _claim_on(low, _own_terms(other) - mine) > strength:
+            return False
+    return True
+
+
+def _claim_on(low: str, terms: frozenset[str]) -> tuple[int, int]:
+    """How strongly a sentence is about a vocabulary: how often, then how early.
+
+    **How often**, because a passage saying "pawn" twice and "king" once is about
+    pawns -- that is the pawn ending that stood as the definition of an attack on
+    the king.
+
+    **Then how early**, because in an English definition the thing being defined
+    is the subject: *"A skewer is the inverse of a pin"* defines the skewer, and
+    both concepts appear exactly once. Earlier is stored negated so that plain
+    tuple comparison prefers it.
+    """
+    hits = [(low.count(term), low.find(term)) for term in terms if term in low]
+    if not hits:
+        return (0, 0)
+    return (sum(count for count, _ in hits), -min(at for _, at in hits))
 
 
 def topic_for(key: str) -> str:
