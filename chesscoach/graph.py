@@ -102,6 +102,48 @@ _CONSTRAINTS = (
 )
 
 
+@dataclass(frozen=True)
+class Definition:
+    """One knowledge-base entry, in the shape the graph stores."""
+
+    key: str
+    text: str
+    publisher: str
+    url: str
+    # **Endorsed by the author**, which is what a player may be shown. Loading is
+    # not endorsing: an unreviewed entry is still written, so the author can
+    # retrieve and inspect it, and `servable` is what keeps it out of a report.
+    servable: bool
+
+    @property
+    def locator(self) -> str:
+        """Traceable to the claim it defines, as a passage is to its book."""
+        return f"definition://{self.key}"
+
+
+def definitions_to_load(base) -> tuple[Definition, ...]:
+    """The entries worth putting in the graph, in a stable order.
+
+    `complete` is the gate -- a definition **and** a usable source -- which is
+    hard rule 7 read exactly as `Entry` already reads it. An entry with a fine
+    sentence and no source is refused here for the same reason it is refused a
+    player.
+    """
+    found = []
+    for key in sorted(base.entries):
+        entry = base.entries[key]
+        if not entry.complete:
+            continue
+        source = next((s for s in entry.sources if s.usable), None)
+        found.append(Definition(
+            key=key,
+            text=entry.definition,
+            publisher=source.publisher if source else "",
+            url=source.url if source else "",
+            servable=entry.reviewed,
+        ))
+    return tuple(found)
+
 class GraphStore:
     """A connection to the graph, and the only thing that writes to it."""
 
@@ -159,6 +201,38 @@ class GraphStore:
             "WITH n CALL db.create.setNodeVectorProperty(n, 'embedding', $vector)",
             name=node_id.split("://", 1)[1], id=node_id, text=text, vector=vector,
         )
+
+    def load_definitions(self, base=None) -> int:
+        """Put the knowledge base into the graph, so retrieval can reach it.
+
+        Before this, `answer()` searched 1,159 book passages and 12 generated
+        rules while the definitions sat in `knowledge.json`, which the retriever
+        never reads -- asked *"what is a fork"* it returned an ASCII board
+        diagram. Two stores, one of them invisible.
+
+        **Loading is not endorsing.** An entry is written when it is `complete`
+        and marked `servable` only when the author has reviewed it, so an
+        unreviewed definition is retrievable for inspection and still refused to
+        a player by the rule that already governs that.
+        """
+        if base is None:
+            from chesscoach.knowledge import KnowledgeBase
+
+            base = KnowledgeBase.load()
+
+        written = 0
+        for definition in definitions_to_load(base):
+            self._run(
+                "MERGE (d:Definition {name: $name}) "
+                "SET d.claim = $claim, d.statement = $statement, "
+                "    d.publisher = $publisher, d.url = $url, d.servable = $servable",
+                name=definition.key, claim=definition.key, statement=definition.text,
+                publisher=definition.publisher, url=definition.url,
+                servable=definition.servable,
+            )
+            self._retrievable("Definition", definition.locator, definition.text)
+            written += 1
+        return written
 
     def load_rules(self) -> int:
         """Load the rules layer: movement, outcomes, and the Lichess speeds.
