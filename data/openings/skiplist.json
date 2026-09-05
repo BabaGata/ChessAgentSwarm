@@ -1,0 +1,134 @@
+{
+ "note": "Domains the swarm does not fetch. Edit or delete freely -- anything added by 'assessor' is a model's judgement, not a fact. A domain listed under 'useful' has produced a sentence worth keeping and can never be skipped.",
+ "skip": [
+  {
+   "domain": "amazon.com",
+   "reason": "shop",
+   "added_by": "seed",
+   "added_on": ""
+  },
+  {
+   "domain": "chess.com",
+   "reason": "no-text",
+   "added_by": "assessor",
+   "added_on": "2026-08-30"
+  },
+  {
+   "domain": "ebay.com",
+   "reason": "shop",
+   "added_by": "seed",
+   "added_on": ""
+  },
+  {
+   "domain": "facebook.com",
+   "reason": "social",
+   "added_by": "seed",
+   "added_on": ""
+  },
+  {
+   "domain": "houseofstaunton.com",
+   "reason": "shop",
+   "added_by": "seed",
+   "added_on": ""
+  },
+  {
+   "domain": "instagram.com",
+   "reason": "social",
+   "added_by": "seed",
+   "added_on": ""
+  },
+  {
+   "domain": "pinterest.com",
+   "reason": "social",
+   "added_by": "seed",
+   "added_on": ""
+  },
+  {
+   "domain": "quora.com",
+   "reason": "forum",
+   "added_by": "seed",
+   "added_on": ""
+  },
+  {
+   "domain": "reddit.com",
+   "reason": "forum",
+   "added_by": "seed",
+   "added_on": ""
+  },
+  {
+   "domain": "threads.net",
+   "reason": "social",
+   "added_by": "seed",
+   "added_on": ""
+  },
+  {
+   "domain": "tiktok.com",
+   "reason": "video",
+   "added_by": "seed",
+   "added_on": ""
+  },
+  {
+   "domain": "twitch.tv",
+   "reason": "video",
+   "added_by": "seed",
+   "added_on": ""
+  },
+  {
+   "domain": "twitter.com",
+   "reason": "social",
+   "added_by": "seed",
+   "added_on": ""
+  },
+  {
+   "domain": "vimeo.com",
+   "reason": "video",
+   "added_by": "seed",
+   "added_on": ""
+  },
+  {
+   "domain": "walmart.com",
+   "reason": "shop",
+   "added_by": "seed",
+   "added_on": ""
+  },
+  {
+   "domain": "x.com",
+   "reason": "social",
+   "added_by": "seed",
+   "added_on": ""
+  },
+  {
+   "domain": "youtu.be",
+   "reason": "video",
+   "added_by": "seed",
+   "added_on": ""
+  },
+  {
+   "domain": "youtube.com",
+   "reason": "video",
+   "added_by": "seed",
+   "added_on": ""
+  }
+ ],
+ "useful": [
+  "365chess.com",
+  "capablanca-chess-fundamentals",
+  "chess.lc",
+  "chessdoctrine.com",
+  "chessjournal.com",
+  "chesskid.com",
+  "chessmood.com",
+  "chessopenings.online",
+  "chessprogramming.org",
+  "chessworld.net",
+  "edward-lasker-chess-and-checkers",
+  "edward-lasker-chess-strategy",
+  "en.wikibooks.org",
+  "en.wikipedia.org",
+  "handwiki.org",
+  "libcom.org",
+  "philidor-studies-of-chess",
+  "senseis.xmp.net",
+  "staunton-blue-book-of-chess"
+ ]
+}

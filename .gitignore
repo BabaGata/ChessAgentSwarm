@@ -23,6 +23,16 @@ data/raw/
 # machine and nobody else can reproduce a single report.
 !data/raw/out/
 !data/raw/out/peers-e84.json
+
+# Everything else the system loads by default. Without these a clone imports and
+# then fails at the first run: the opening book and norms are needed for the
+# report itself, the shelf for the answering agent, and the knowledge base for
+# the explanations. 4.6 MB in total, all public-domain or generated here.
+!data/openings/
+!data/openings/**
+!data/books/
+!data/books/**
+!data/knowledge.json
 data/cache/
 *.pgn.zst
 *.bin

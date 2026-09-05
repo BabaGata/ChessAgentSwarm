@@ -1,0 +1,11 @@
+{
+  "early_plies": 10,
+  "games": 3836,
+  "note": "share of the first ten half-moves played outside the CC0 opening book, averaged over a population's games",
+  "players": 137,
+  "shares": {
+    "1400-1800|blitz": 0.5,
+    "1400-1800|rapid": 0.4354
+  },
+  "source": "corpus-rapid, corpus-blitz at band 1400-1800"
+}
