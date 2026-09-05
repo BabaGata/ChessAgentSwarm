@@ -17,6 +17,7 @@ import json
 import pytest
 
 from chesscoach.knowledge_swarm import (
+    terms_for,
     KnowledgeCompiler,
     KnowledgeScout,
     KnowledgeSwarm,
@@ -149,7 +150,10 @@ class TestTheScout:
         # A claim key is this project's jargon; the literature's words differ,
         # so the Scout asks about each real phrase rather than three ways about
         # one. "double attack" is what Capablanca calls a fork.
-        assert any("what is" in q for q in asked)
+        # The plain phrase is asked, and is what the engine ranks best on.
+        # "what is a ..." used to be asked instead and returned the Turochamp
+        # article for "undefended pawn chess" (E89).
+        assert terms_for("fork")[0] in asked
         assert any("double attack" in q for q in asked)
         assert len(asked) == len(KnowledgeScout(Searcher()).queries("fork"))
         assert len(found) == 1  # the same URL every time is one candidate
@@ -170,7 +174,12 @@ class TestTopics:
     def test_a_camel_case_motif_gets_the_phrase_writers_use(self):
         # Not "hanging pawn in chess", which is the key de-underscored, but the
         # phrase measured to retrieve chess pages.
-        assert topic_for("hangingPawn") == "hanging pawns chess"
+        #
+        # **Singular, and not "hanging pawns".** The plural is Steinitz's
+        # structural term -- two adjacent pawns on central half-open files --
+        # and searching it returned structure material for a claim that means an
+        # undefended pawn, free to take (E89).
+        assert topic_for("hangingPawn") == "undefended pawn chess"
 
     def test_an_unlisted_key_still_gets_a_searchable_phrase(self):
         assert topic_for("some_new_claim") == "some new claim in chess"

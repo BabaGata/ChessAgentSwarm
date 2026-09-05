@@ -45,7 +45,7 @@ from chesscoach.opening_swarm import (
     _restates,
     _today,
 )
-from chesscoach.skiplist import SkipList
+from chesscoach.skiplist import domain_of, SkipList
 
 # The words chess writers actually use for the things we detect.
 #
@@ -88,7 +88,16 @@ TERMS: dict[str, tuple[str, ...]] = {
     "capturingDefender": ("deflection chess tactic", "removing the defender",
                           "removing the guard"),
     "hangingPiece": ("hanging piece chess", "en prise", "undefended piece"),
-    "hangingPawn": ("hanging pawns chess", "isolated pawn", "backward pawn"),
+    # **Singular, and never "hanging pawns".** Two senses of the word exist and
+    # only one is this claim. The *plural* is Steinitz's structural term -- two
+    # adjacent pawns on central half-open files -- and searching it returns
+    # structure material, which is why this entry once held a passage about a
+    # bishop's advantage. The sense meant here is the tactical one Lichess uses
+    # for `hangingPiece`: *"undefended or insufficiently defended and free to
+    # capture"*. `isolated pawn` and `backward pawn` were also listed and are
+    # `concedes_weakness` subjects, so all three phrases named something else.
+    "hangingPawn": ("undefended pawn chess", "hanging pawn chess", "en prise pawn",
+                    "unprotected pawn"),
     "trappedPiece": ("trapped piece chess", "hemmed in", "shut in"),
     "backRankMate": ("back rank mate chess", "back rank weakness"),
 
@@ -209,7 +218,12 @@ _SPECIFIC = re.compile(
 # whatever it says depends on what came before. "Because" and "When" are absent
 # on purpose -- they subordinate within the sentence rather than reaching back.
 _CONNECTIVE = re.compile(
-    r"^\s*(indeed|however|but|so|then|now|here|there|instead|thus|therefore|"
+    # `there` only in its connective sense. "There, White plays..." points at a
+    # previous sentence; "There are two kinds of pin" is an existential and one
+    # of the commonest ways a definition opens. Refusing both cost the pin
+    # entry a real definition (E89).
+    r"^\s*(indeed|however|but|so|then|now|here|"
+    r"there(?!\s+(is|are|was|were|exists?|remains?|follows?)\b)|instead|thus|therefore|"
     r"also|moreover|yet|still|meanwhile|finally|next|again|furthermore|"
     r"nevertheless|nonetheless|besides|otherwise|conversely|likewise|"
     r"in fact|of course|for example|for instance|as such|at right|at left|"
@@ -265,6 +279,16 @@ def reads_as_commentary(sentence: str) -> str:
 SELECTORS = ("assessor", "definition", "none")
 
 
+# Page scripts that survived text extraction. Re-drafting `late_castling`
+# produced *"Castling is permitted provided all of the following conditions are
+# met: "}},"i":0}}]}'>"* -- embedded JSON with a prose prefix, which passed every
+# other filter and would have been offered to the author as a definition.
+#
+# Braces and angle brackets do not occur in chess prose, so this is a cheap test
+# for a failure that is otherwise invisible until someone reads the output.
+_MARKUP = re.compile(r"[{}<>\\]|\]\}|\}\]")
+
+
 def is_broad(sentence: str) -> bool:
     """Is this a general statement rather than a comment on one position?
 
@@ -295,6 +319,8 @@ def is_broad(sentence: str) -> bool:
     if SELL.search(sentence) or STATISTIC.search(sentence):
         return False
     if NAVIGATION.search(sentence) or is_analysis_line(sentence):
+        return False
+    if _MARKUP.search(sentence):
         return False
     if reads_as_commentary(sentence):
         return False
@@ -511,7 +537,7 @@ NAMES: dict[str, tuple[str, ...]] = {
     # "hanging piece" rather than bare "hanging", so that a hanging *pawn* does
     # not read as a hanging piece -- they are separate claims here.
     "hangingPiece": ("hanging piece", "en prise", "undefended piece", "unprotected piece"),
-    "hangingPawn": ("hanging pawn", "hanging pawns"),
+    "hangingPawn": ("hanging pawn", "undefended pawn", "unprotected pawn"),
     "trappedPiece": ("trapped", "hemmed in", "shut in"),
     "backRankMate": ("back rank", "back-rank"),
     "late_castling": ("castling", "castle", "castled"),
@@ -619,16 +645,31 @@ class KnowledgeScout:
         self.skipped: list[str] = []
 
     def queries(self, key: str) -> list[str]:
-        """One query per real phrase, plus one asking for an explanation.
+        """The plain phrase first, then the alternatives.
 
         Several phrasings rather than one, because a claim key is this project's
         jargon and the literature's word is often different: `allows_square` is
         an **outpost** to the web and a **hole** to Staunton, and a single query
         for either misses half the writing about it.
+
+        **The plain phrase is asked, and asked first.** It used to appear only
+        wrapped -- "what is a {phrase}" and "why {phrase} matters" -- and never
+        on its own, which is what returned nothing usable for three concepts in
+        a row. Measured against the local search instance:
+
+            'outpost chess'                  -> wikipedia Outpost_(chess)
+            'what is a outpost chess'        -> chessmetrics.com, missiveapp.com
+            'undefended pawn chess'          -> wikipedia Chess_tactic
+            'what is a undefended pawn chess'-> wikipedia **Turochamp**
+
+        A search engine's own ranking of the exact term is the best signal
+        available, and the wrapping threw it away. It also produced
+        ungrammatical queries -- *"what is a castling in chess"* -- by prefixing
+        an article to a phrase that does not take one.
         """
         phrases = terms_for(key)
-        return [f"what is a {phrases[0]}", *phrases[1:3],
-                f"why {phrases[0]} matters"]
+        asked = [phrases[0], *phrases[1:3], f"{phrases[0]} explained"]
+        return list(dict.fromkeys(asked))
 
     def find(self, key: str) -> list[Candidate]:
         found: dict[str, Candidate] = {}
@@ -651,7 +692,23 @@ class KnowledgeScout:
         # as "nothing was found" -- L-046, six instances in this project.
         if failures == len(queries) and not found:
             raise SearchUnavailable(f"every query for {key!r} failed")
-        return list(found.values())
+
+        # A domain that has produced usable text before is read first. The
+        # search instance returns a different ordering on each call -- asked
+        # twice for `late_castling` within a minute it offered the Castling
+        # article once and a list of 1904 tournaments the next time -- and only
+        # `read_web` pages are read, so a bad draw loses the concept.
+        #
+        # `mark_useful` is already called on every page that helps, so this
+        # spends evidence the run collects anyway. Stable, and it invents no
+        # preference where there is no history: without a match the engine's own
+        # ranking is the only signal left, and it is kept.
+        # `is not None`, not truthiness: `SkipList.__len__` counts entries, so a
+        # list that skips nothing is falsy while still knowing which domains
+        # have helped. Asking the object whether it exists by asking whether it
+        # is empty is how the useful set went missing here.
+        useful = self.skiplist.useful if self.skiplist is not None else frozenset()
+        return sorted(found.values(), key=lambda c: domain_of(c.url) not in useful)
 
 
 @dataclass

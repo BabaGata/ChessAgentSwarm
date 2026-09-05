@@ -1,0 +1,112 @@
+
+================================================================================================
+late_castling   (searched as: 'castling in chess')
+================================================================================================
+
+  -- https://www.conservapedia.com/Castling
+     could not fetch
+
+  -- https://en.wikipedia.org/wiki/Castling
+     95 sentences offered
+     KEPT names-it                                         For people with the surname, see Castling (surname) .
+     KEPT names-it                                         White has castled kingside; Black has castled queenside.
+                    opens with a reference to something ou It consists of moving the king two squares toward a rook on the same rank and then moving the rook to the squa
+     KEPT names-it                                         Castling is the only move in chess in which two pieces are moved at once.
+     KEPT names-it                                         Castling with the king's rook is called kingside castling , and castling with the queen's rook is called queen
+          names-it  names a square or move                 In both algebraic and descriptive notations, castling kingside is written as 0-0 and castling queenside as 0-0
+     KEPT names-it                                         Castling originates from the king's leap , a two-square king move added to European chess between the 14th and
+     KEPT names-it                                         Local variations in castling rules were common, however, persisting in Italy until the late 19th century.
+     KEPT names-it                                         Castling does not exist in Asian games of the chess family, such as shogi , xiangqi , and janggi , but it comm
+                    opens with a reference to something ou This article uses algebraic notation to describe chess moves.
+     KEPT names-it                                         During castling, the king is shifted two squares toward a rook of the same color on the same rank, and the roo
+          names-it  names a square or move                 Castling kingside ( short castling ) consists of moving the king to g1 and the rook to f1 for White, or moving
+          names-it  names a square or move                 Castling queenside ( long castling ) consists of moving the king to c1 and the rook to d1 for White, or moving
+     KEPT names-it                                         White cannot castle queenside because the knight is in the way.
+     KEPT names-it                                         Black cannot castle on either side because the black king is in check by the white bishop.
+          names-it  names a square or move                 White cannot castle queenside because Black's queen controls c1.
+          names-it  names a square or move                 White can castle kingside even though the h1-rook is under attack.
+          names-it  names a square or move                 Black cannot castle kingside because the white queen attacks f8.
+          names-it  names a square or move                 Black can castle queenside despite the white queen's attack on b8.
+     KEPT names-it                                         Castling is permitted provided all of the following conditions are met: "}},"i":0}}]}'> [ 5 ]
+     KEPT                                                  Neither the king nor the rook has previously moved.
+                    opens by connecting to the previous se There are no pieces between the king and the rook.
+     KEPT                                                  The king is not currently in check .
+     KEPT                                                  The king does not pass through or finish on a square that is attacked by an enemy piece.
+     KEPT names-it                                         Conditions 3 and 4 can be summarized by the mnemonic : A player may not castle out of, through, or into check.
+     KEPT names-it                                         Castling rules often cause confusion, even occasionally among high-level players.
+     KEPT                                                  The rook can pass through an attacked square.
+                    points at a particular board           The king can have been in check earlier in the game.
+     KEPT                                                  See also: Rules of chess and Touch-move rule
+     KEPT names-it                                         Under FIDE rules and USCF rules, and enforced in most tournaments , castling is considered a king move, so the
+     KEPT                                                  As usual, the player may choose another legal destination square for the king until releasing it.
+     KEPT names-it                                         When the two-square king move is completed, however, the player is committed to castling if it is legal, and t
+     KEPT                                                  The entire move must be completed with one hand.
+     KEPT names-it                                         A player who attempts to castle illegally must return the king and rook to their original squares and then mak
+     KEPT                                                  If there is no legal king move, the touch-move rule does not apply to the rook.
+                    opens with a reference to something ou These tournament rules are not commonly enforced in informal play nor commonly known by casual players.
+     KEPT names-it                                         An unmoved king has castling rights with an unmoved rook of the same color on the same rank, even if castling 
+     KEPT names-it                                         In the context of threefold and fivefold repetition , two otherwise identical positions with different castlin
+     KEPT                                                  In a 1986 game between Anatoly Karpov and Tony Miles , [ 11 ] play continued from the diagrammed position as f
+                    narrates a player as 'he' or 'she' rat Nb5 With his 26th move, Karpov attempted to claim a draw by threefold repetition, thinking that the positions 
+                    narrates a player as 'he' or 'she' rat As a result, Karpov was penalized five minutes on his clock.
+     KEPT                                                  After thinking for about ten minutes, Miles decided to agree to a draw anyway (even an incorrect claim of thre
+          names-it  names a square or move                 Both algebraic notation and descriptive notation indicate kingside castling as 0-0 and queenside castling as 0
+          names-it  names a square or move                 Portable Game Notation and some publications use O-O for kingside castling and O-O-O for queenside castling (u
+     KEPT                                                  Circles represent English, Spanish, French, and Lombardy movement; crosses represent Lombardy movement only.
+     KEPT names-it                                         Castling has its roots in the king's leap .
+                    opens by connecting to the previous se There were two forms of the leap: the king would move once like a knight , or the king would move two squares 
+                    points at a particular board           The knight move might be used early in the game to get the king to safety or later in the game to escape a thr
+                    opens with a reference to something ou This second form was played in Europe as early as the 13th century.
+     KEPT                                                  In North Africa, the king was transferred to a safe square by a two-move procedure: the king moved to the play
+     KEPT names-it                                         The rule of castling has varied by location and time.
+                    names a square or move                 In Lombardy, the white king might also jump to a2, b1, or h1, with corresponding squares applying to the black
+     KEPT                                                  Later, in Germany and Italy, the rule was changed such that the king move was accompanied by a pawn move.
+     KEPT names-it                                         1500) and a game published by Luis Ramírez de Lucena in 1498, castling consisted of moving the rook and then m
+     KEPT names-it                                         The current version of castling was established in France in 1620 and in England in 1640.
+     KEPT                                                  [ 15 ] It served to combine the rook's move and the king's jumping move into a single move.
+                    narrates a player as 'he' or 'she' rat In the 1811 edition of his chess treatise, Johann Allgaier introduced the 0-0 notation.
+                    opens with a reference to something ou He differentiated between 0-0r (right) and 0-0l (left).
+          names-it  names a square or move                 The 0-0-0 notation for queenside castling was introduced in 1837 by Aaron Alexandre .
+                    a statistic                            [ 17 ] The practice was adopted in the first edition (1843) of the influential Handbuch des Schachspiels and s
+          names-it  names a square or move                 In English descriptive notation , the word "Castles" was originally spelled out, adding "K's R" or "Q's R" if 
+          names-it  names a square or move                 Position after 10.0-0-0: Opposite castling in the Yugoslav Attack
+     KEPT names-it                                         The choice regarding to which side one castles often hinges on an assessment of the trade-off between king saf
+     KEPT names-it                                         Kingside castling is generally slightly safer because the king ends up closer to the edge of the board and can
+     KEPT names-it                                         In queenside castling, the king is placed closer to the center and does not defend the pawn on the a- file ; f
+     KEPT names-it                                         In addition, queenside castling is initially obstructed by more pieces than kingside castling, thus taking lon
+     KEPT names-it                                         On the other hand, queenside castling places the rook more efficiently on the central d-file, where it is ofte
+     KEPT names-it                                         In positions where the opponent cannot organize an attack against a centralized king, castling may be unnecess
+     KEPT                                                  In addition, in certain situations, a rook can be more active near the edges of the board than in the center; 
+     KEPT names-it                                         Kingside castling occurs more frequently than queenside castling.
+          names-it  opens with a reference to something ou It is common for both players to castle kingside, less common for one player to castle kingside and the other 
+          names-it  its main clause points outside itself  If one player castles kingside and the other queenside, it is called opposite castling or opposite-side castli
+     KEPT names-it                                         Castling on opposite sides usually results in a fierce fight, as each player's pawns are free to advance to at
+     KEPT names-it                                         Opposite castling is a common feature of many openings, such as the Yugoslav Attack .
+          names-it  names a square or move                 One pattern involves castling queenside to deliver a double attack : the king attacks a rook (on b2 for White 
+                    names a square or move                 and resigned after 14.0-0-0+, which wins the rook.
+     KEPT names-it                                         Chess historian Edward Winter has proposed the name "Thornton castling trap" for this pattern, in reference to
+     KEPT                                                  Other chess writers such as Gary Lane have since adopted this term.
+     KEPT names-it                                         Another example of tactical castling is illustrated in the diagrammed position from the correspondence game Gu
+                    an analysis line                       After 1.Qxd8+ Kxd8 2.0-0-0+ Ke7 3.Nxb5, White has won a rook by castling with check and simultaneously unpinni
+     KEPT                                                  Such a double attack can also be made by castling kingside, although this is much rarer.
+                    points at a particular board           In this position from the blindfold game Karjakin – Carlsen , 2007, the move 19...0-0 threatens to win the kni
+                    an analysis line                       White cannot attempt to win back the piece with a fork due to the threat of back rank mate : 20.Rh6 Bxg5 21.Rx
+     KEPT                                                  Karjakin had to concede a piece and resigned 14 moves later.
+          names-it  narrates a player as 'he' or 'she' rat Viktor Korchnoi , in his 1974 Candidates final match with Anatoly Karpov , asked the arbiter if castling was l
+     KEPT                                                  [ 22 ] The arbiter answered in the affirmative, Korchnoi executed the move, and Karpov resigned shortly after.
+          names-it  points at a particular board           Castling occurred three times in the game Wolfgang Heidenfeld – Nick Kerins , Dublin 1973.
+     KEPT names-it                                         The third instance of castling, the second one by White, was illegal, as the white king had already moved.
+                    an analysis line                       1.e4 e6 2.d4 d5 3.Be3 Nf6 4.e5 Nfd7 5.f4 c5 6.c3 Nc6 7.Nf3 Qb6 8.Qd2 c4 9.Be2 Na5 10.
+          names-it  names a square or move                 Black to move castled queenside, with the rook traversing the attacked b8-square.
+          names-it  points at a particular board           In the game Yuri Averbakh – Cecil Purdy , Adelaide 1960, [ 25 ] when Purdy castled queenside, Averbakh queried
+                    names a square or move                 Purdy indicated e8 and c8 and said, "The king", in an attempt to explain that this was forbidden only for the 
+          names-it  narrates a player as 'he' or 'she' rat Not the rook?" Averbakh's colleague Vladimir Bagirov then explained the castling rules to him in Russian, and 
+                    an analysis line                       In the game Edward Lasker – Sir George Thomas (London 1912), [ 29 ] White could have checkmated with 18.0-0-0 
+                    a statistic                            The diagram shows the final position of the game Lodewijk Prins – Lawrence Day (1968), where White resigned.
+     -> 53 survived `is_broad`
+
+  -- http://www.kew.org/kew-gardens/whats-on/summer-members-early-opening
+     could not fetch
+
+  -- https://citizendium.org/wiki/Opening_theory_(chess)
+     could not fetch
