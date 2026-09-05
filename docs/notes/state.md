@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788638400000
+updated: 1788642000000
 created: 1785254500000
 ---
 
@@ -320,10 +320,17 @@ struck through: a list nobody can act on is not a plan.
    against the CC0 puzzle database does not cover it; and four value floors have no source.
    **No detector changed** — author's instruction while the rebuild runs.
 
-0. **P1 — re-extract the knowledge base.** Prerequisite for the § C reviewer, whose design is an agent
-   judging positions against sourced definitions: it cannot judge anything against a `fork` entry that
-   defines a skewer. Nothing was ever endorsed (`reviewed: False` throughout), so nothing wrong
-   reached a player — the machinery held and the extraction did not.
+0. **P1 — re-extract the knowledge base, and it needs no agent redesign**
+   → [[design.knowledge-re-extraction]] *(2026-09-05)*. Every entry is stamped **2026-08-30**, the
+   naming gate was tightened **2026-09-01**, and today's gate rejects **6 of 14 including `fork`** —
+   whose stored skewer definition is *the documented case the gate was written to stop*. Three things
+   are actually needed, none of them a redesign: **(a)** re-run; **(b)** one small change, making the
+   gate *discriminating* rather than presence-based — five survivors pass on a single ordinary word
+   (`allows_pressure` on "king", from a pawn-ending passage); **(c)** a **sourcing decision**, because
+   for the tactical motifs the shelf has no definition to find — E64 measured `skewer` at **zero**
+   occurrences, and the classical books predate the vocabulary. **Lichess's own theme definitions are
+   free, precise, and already the keys the code uses**, so the tactical half can be seeded directly
+   rather than extracted. Also: `moved_into_attack` is an entry with no quote and zero sources.
 
 0. **P2 — the rest of the detector audit** → [[design.detector-audit]]
    *(planned 2026-09-05, not started)*. The author read the detection sheet and reports **most
