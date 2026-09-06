@@ -2,7 +2,7 @@
 id: cas-exp-e86
 title: 'E86 — Auditing every detector against a real definition, and finding the knowledge base cannot be one'
 desc: 'The audit was designed to judge detectors against the sourced knowledge graph. The graph cannot do it: fourteen entries, none endorsed, and forks definition is a definition of a skewer. Audited against Lichess own theme text instead. Two defects demonstrated on positions: a fork is missed when a victim was already attacked, and a trapped piece is reported when it has a safe escape.'
-updated: 1788678901158
+updated: 1788683148955
 created: 1788681600000
 ---
 
@@ -470,3 +470,99 @@ This is a trade the author owns, not one to settle here:
 
 The regenerated sheet is `experiments/e55-detector-precision/results/detection-sheet-2026-09-06-fixed-detectors.txt`,
 stamped `commit b6ea303`, 28 claims with instances. **Neither marked sheet was overwritten.**
+
+---
+
+## Round three — the claims were not gated out, they were compared against the old detectors
+
+The author chose option 2, *"loosen the confidence gate"*. **The gate was not the cause and loosening
+it would have manufactured findings.** Running each section's `measure()` — which reports what a
+detector found whatever the gate then did — over all twelve review players:
+
+| claim | instances | opportunities | rate | peer baseline |
+|---|---|---|---|---|
+| `allows_pressure.king` | 19 | 4,507 | 0.42 % | **1.31 %** |
+| `allowed_motif.pin` | 64 | 1,416 | 4.5 % | **12.1 %** |
+| `allowed_motif.hangingPiece` | 67 | 1,352 | 5.0 % | **11.0 %** |
+
+The detectors were **never silent**. Every claim died on one line in `assign_tier`:
+
+```python
+if stats.rate <= stats.baseline_rate:
+    return TierDecision(tier=ConfidenceTier.NONE, ...)
+```
+
+…and `peers-e84.json` was built at `c8ed84f`, **before the fixes**. So a player rate computed with
+the corrected detectors was being compared against a peer rate computed with the over-firing ones.
+The detectors were cut 60–91 %; the baseline still carried the old volume; nothing could clear it.
+**L-046 once more, and the third time in this experiment alone.**
+
+### The reference rebuilt
+
+`experiments/e84-band-references/build.py`, six band/speed references over 262 player-slots on the
+warm evaluation cache. 348 → **821 cells**. One peer, for scale: `capturingDefender` 19 → 2
+instances, `hangingPiece` 14 → 4, `allows_pressure` 4 → 1, over identical opportunity counts.
+
+| claim | peer rate before | after | players reported for |
+|---|---|---|---|
+| `allows_pressure.king` | 1.31 % | **0.57 %** | 0 → **1** |
+| `allowed_motif.pin` | 12.1 % | **4.8 %** | 1 → **2** |
+| `allowed_motif.hangingPiece` | 11.0 % | **5.2 %** | 1 → **2** |
+
+**No gate threshold was changed, and none should be.** What remained silent afterwards is silent for
+honest reasons: `missed_motif.capturingDefender` has one instance in seven opportunities, and
+`allowed_motif.capturingDefender` sits *below* the player's own rate on other motifs — they are
+better at avoiding it than at the rest, which is not a weakness to report.
+
+### The register was stale in the same way, and it cost a section its claim
+
+`chesscoach/separation.py` is **generated** from the reference, so it was stale for the same reason.
+Regenerated: 21 → 24 entries.
+
+- **`allowed_motif.trappedPiece`, `executed_motif.trappedPiece`, `missed_motif.trappedPiece` are no
+  longer flat** — they get a peer comparison back.
+- **`allows_pressure.king` and `missed_motif.pin` are newly flat.**
+
+`allows_pressure.king` at dispersion **1.14, p = 0.23** against a 1.34 threshold over 50 players.
+It is S8's only claim, so **S8 now asserts nothing at all**. The reading is uncomfortable and worth
+stating plainly: the old detector counted pawns and the king as attackers, so what looked like
+players differing on king safety was substantially **how many endgames each of them played**. Remove
+that and the difference goes with it.
+
+This was measured before being accepted. Across the twelve review players, old register against new:
+
+| | stale register | regenerated |
+|---|---|---|
+| players with an asserted finding | 4 | 4 |
+| asserted claim-instances | 12 across 10 claims | **12 across 10 claims** |
+| watched claim-instances | 64 across 26 claims | 64 across **25** claims |
+
+**Identical asserted coverage.** The regenerated register costs exactly one sub-threshold claim and
+stops asserting a comparison the evidence no longer supports, so it ships.
+
+### A design mismatch this exposed
+
+`separation.py` states the intent plainly: *"Nothing here retires a detector … What this register
+removes is the comparison"*, and `peer_rate`'s docstring says *"every consumer already handles a
+missing peer rate by falling back"*. **S8 does not.** It has one claim and no sibling to form a self
+baseline from, so a missing peer rate retires it outright.
+
+For this claim that is arguably correct — *"more readily than players at your level"* is comparative
+by construction, and without a comparison the sentence cannot be said. But the module's stated
+contract and its behaviour disagree, and the next section with a single claim will hit the same edge.
+Recorded, not fixed.
+
+### Tests
+
+Twelve tests failed and none of them was wrong about its own subject; they had all borrowed a claim
+key that has since gone flat. `test_speed_strata` used `missed_motif.pin` while testing **speed
+mixing**; `test_arbiter`, `test_planner` and `test_explainer` ranked `pin` against `fork` while
+testing **ranking** — and `_unusualness` returns neutral for a flat claim, so there was no ranking
+left to check. Each now uses a subject absent from the register, and each says why, because **the
+register moves whenever the detectors do** and this will recur.
+
+`test_s8_attack_and_defence.TestReporting` is the substantive one. Its five tests check what the
+section does *once a peer rate exists*, which is still worth testing, so they lift the register entry
+for their duration and say so. Two new tests record what a player actually gets: the claim withheld,
+and `measure()` still reporting the instances it saw — which is what separates *"this claim cannot be
+compared"* from *"this detector is broken"*.

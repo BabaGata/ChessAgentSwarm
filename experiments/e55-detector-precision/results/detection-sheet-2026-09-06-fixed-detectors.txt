@@ -22,7 +22,7 @@ these games, which is worth knowing too.
 
 ==============================================================================
 
-GENERATED 2026-09-06 from commit b6ea303.
+GENERATED 2026-09-06 from commit 64e1259.
 Marks on this sheet judge THAT code. If a detector changes afterwards its
 marks stop being evidence about it -- record this line with them.
 
@@ -237,6 +237,21 @@ opening_disadvantage.any.own
   [ ] cademan               move  15  Black c5       lost  11.8 wp
       lichess.org/A38Dr6lK#30
 
+allowed_motif.pin.own
+    claims: When you go wrong, it is often a pin that punishes you.
+    23 instances across 2 players
+------------------------------------------------------------------------------
+  [ ] Maximilian_Honigtopf  move   9  Black Nc6      lost   6.5 wp
+      lichess.org/8sbkLvNM#18
+  [ ] Maximilian_Honigtopf  move  10  Black a5       lost  16.6 wp
+      lichess.org/8sbkLvNM#20
+  [ ] Sheriwoyama           move  21  White Bc7      lost   6.2 wp
+      lichess.org/7ZcwpUAm#41
+  [ ] Sheriwoyama           move  32  Black Kxf7     lost  34.5 wp
+      lichess.org/WymCY4M1#64
+  [ ] Sheriwoyama           move  32  Black Nxe5     lost   5.7 wp
+      lichess.org/h8dRYEVD#64
+
 out_of_book.Hungarian Opening.own
     claims: out_of_book: Hungarian Opening.
     23 instances across 1 players
@@ -267,6 +282,21 @@ time_pressure_error.clock.own
   [ ] maikel5               move  36  Black Be8      lost   7.5 wp
       lichess.org/FX7viBFV#72
 
+allowed_motif.hangingPiece.own
+    claims: When you go wrong, it is often a hanging piece that punishes you.
+    20 instances across 2 players
+------------------------------------------------------------------------------
+  [ ] Maximilian_Honigtopf  move   9  White Bg5      lost  32.7 wp
+      lichess.org/KKioqi5t#17
+  [ ] Maximilian_Honigtopf  move  16  White c5       lost  20.4 wp
+      lichess.org/R9GJUKUy#31
+  [ ] Maximilian_Honigtopf  move  17  Black Nxe4     lost  15.3 wp
+      lichess.org/8sbkLvNM#34
+  [ ] goydorak              move  27  Black Rf6      lost   5.3 wp
+      lichess.org/Dr0furYm#54
+  [ ] goydorak              move  54  White d4       lost  34.4 wp
+      lichess.org/7qdPMZLe#107
+
 concedes_weakness.doubled.own
     claims: You end up with doubled pawns more often than players at your level.
     17 instances across 2 players
@@ -281,21 +311,6 @@ concedes_weakness.doubled.own
       lichess.org/QjeRmzq0#22
   [ ] cademan               move  12  Black dxc5     lost  27.9 wp
       lichess.org/qOkzrtOq#24
-
-allowed_motif.pin.own
-    claims: When you go wrong, it is often a pin that punishes you.
-    16 instances across 1 players
-------------------------------------------------------------------------------
-  [ ] Maximilian_Honigtopf  move   7  White g4       lost  15.3 wp
-      lichess.org/rEJOQ7iq#13
-  [ ] Maximilian_Honigtopf  move   9  White O-O      lost  34.0 wp
-      lichess.org/rEJOQ7iq#17
-  [ ] Maximilian_Honigtopf  move   9  Black Nc6      lost   6.5 wp
-      lichess.org/8sbkLvNM#18
-  [ ] Maximilian_Honigtopf  move  10  Black Ne4      lost   6.4 wp
-      lichess.org/wv3KKn9D#20
-  [ ] Maximilian_Honigtopf  move  10  Black a5       lost  16.6 wp
-      lichess.org/8sbkLvNM#20
 
 allowed_motif.discoveredAttack.own
     claims: When you go wrong, it is often a discovered attack that punishes you.
@@ -342,20 +357,35 @@ out_of_book.Owen Defense.own
   [ ] Odin5306              move   5  Black d4       lost   0.0 wp
       lichess.org/z6Zw4EtZ#10
 
-allowed_motif.hangingPiece.own
-    claims: When you go wrong, it is often a hanging piece that punishes you.
-    14 instances across 1 players
+missed_motif.pin.own
+    claims: You miss pin tactics that were available.
+    11 instances across 3 players
 ------------------------------------------------------------------------------
-  [ ] Maximilian_Honigtopf  move  12  White Rd1+     lost  64.8 wp
-      lichess.org/PbdhoGlR#23
-  [ ] Maximilian_Honigtopf  move  16  White c5       lost  20.4 wp
-      lichess.org/R9GJUKUy#31
-  [ ] Maximilian_Honigtopf  move  16  Black Ng6      lost   8.9 wp
-      lichess.org/8sbkLvNM#32
-  [ ] Maximilian_Honigtopf  move  18  Black Bb6      lost  20.7 wp
-      lichess.org/8sbkLvNM#36
-  [ ] Maximilian_Honigtopf  move  20  White Kg2      lost   8.9 wp
-      lichess.org/6mFPgIGD#39
+  [ ] Hirsican              move  15  White Bg5      lost  31.9 wp
+      lichess.org/8zsVzk0T#29
+  [ ] goydorak              move  30  White Kf1      lost  15.7 wp
+      lichess.org/7qdPMZLe#59
+  [ ] goydorak              move  31  Black Nxe3     lost  11.2 wp
+      lichess.org/j7bATdrR#62
+  [ ] maikel5               move   8  White Bf4      lost   5.4 wp
+      lichess.org/BxY9KkVB#15
+  [ ] maikel5               move  20  Black Rd8      lost  44.1 wp
+      lichess.org/hgx0M7Ir#40
+
+allows_square.outpost.own
+    claims: You let opponents establish a knight you cannot chase away more often than players at your level.
+    10 instances across 2 players
+------------------------------------------------------------------------------
+  [ ] bjagus                move   9  Black b6       lost   0.7 wp
+      lichess.org/Gr3BwOJu#18
+  [ ] bjagus                move  30  White Nh4      lost  43.4 wp
+      lichess.org/z8ZCK0dO#59
+  [ ] bjagus                move  30  White Bd2      lost   0.9 wp
+      lichess.org/3JoG4ezs#59
+  [ ] bjagus                move  33  White b4       lost   3.2 wp
+      lichess.org/PuSoIqHt#65
+  [ ] bjagus                move  38  Black Rb4      lost   2.5 wp
+      lichess.org/ZcA3N99e#76
 
 missed_motif.discoveredAttack.own
     claims: You miss discovered attack tactics that were available.
@@ -402,21 +432,6 @@ out_of_book.Indian Defense.own
   [ ] cademan               move   5  White d5       lost   2.1 wp
       lichess.org/g747oUmG#9
 
-missed_motif.pin.own
-    claims: You miss pin tactics that were available.
-    8 instances across 2 players
-------------------------------------------------------------------------------
-  [ ] Hirsican              move  13  Black c4       lost  13.0 wp
-      lichess.org/KVh1nudO#26
-  [ ] Hirsican              move  15  White Bg5      lost  31.9 wp
-      lichess.org/8zsVzk0T#29
-  [ ] Hirsican              move  23  White Bh6      lost  21.4 wp
-      lichess.org/9bsVByg5#45
-  [ ] goydorak              move   6  White Be2      lost  14.8 wp
-      lichess.org/l0pEonOh#11
-  [ ] goydorak              move  30  White Kf1      lost  15.7 wp
-      lichess.org/7qdPMZLe#59
-
 miscounted_exchange.own_move.own
     claims: Away from the kings, exchanges you start turn out to lose material more often than they do for players at your level.
     7 instances across 2 players
@@ -431,21 +446,6 @@ miscounted_exchange.own_move.own
       lichess.org/h8dRYEVD#64
   [ ] simonvj               move  28  Black Nxd4     lost   0.2 wp
       lichess.org/H8N7nKeU#56
-
-allows_square.outpost.own
-    claims: You let opponents establish a knight you cannot chase away more often than players at your level.
-    6 instances across 1 players
-------------------------------------------------------------------------------
-  [ ] bjagus                move  30  White Nh4      lost  43.4 wp
-      lichess.org/z8ZCK0dO#59
-  [ ] bjagus                move  30  White Bd2      lost   0.9 wp
-      lichess.org/3JoG4ezs#59
-  [ ] bjagus                move  33  White b4       lost   3.2 wp
-      lichess.org/PuSoIqHt#65
-  [ ] bjagus                move  38  Black Rb4      lost   2.5 wp
-      lichess.org/ZcA3N99e#76
-  [ ] bjagus                move  50  White Nd2      lost   0.0 wp
-      lichess.org/KfSRDWUO#99
 
 ==============================================================================
 NEVER FIRED IN THESE GAMES

@@ -162,6 +162,33 @@ class TestCounting:
 
 
 class TestReporting:
+    """The mechanics of the S8 claim, with the separation register set aside.
+
+    **In production this section now asserts nothing.** When the register was
+    regenerated against the corrected detectors, `allows_pressure.king` came out
+    flat -- dispersion 1.14, p = 0.23 against a 1.34 threshold over 50 players --
+    so `SectionContext.peer_rate` returns None for it and `_assess` gives up.
+    `test_the_claim_is_withheld_because_players_do_not_differ` below is the test
+    for that, and it is the behaviour a player actually gets.
+
+    The old detector counted pawns and the king as attackers, which made the
+    claim look like it separated players; what it was really measuring was how
+    many endgames each of them played.
+
+    These five tests check what the section does *once* a peer rate exists --
+    evidence spread across games, one claim only, the gap type left unknown --
+    and that machinery is still worth testing, so they lift the register entry
+    for the duration. They are about the section, not about the screen.
+    """
+
+    @pytest.fixture(autouse=True)
+    def _claim_separates(self, monkeypatch):
+        from chesscoach import separation
+
+        register = dict(separation.DOES_NOT_SEPARATE)
+        register.pop(Claim.of(kind=ALLOWS_PRESSURE, subject=KING).key(), None)
+        monkeypatch.setattr(separation, "DOES_NOT_SEPARATE", register)
+
     def peers(self, rate: float = 0.019):
         from chesscoach.peers import ConditionMeasurement, build_reference
 
@@ -236,3 +263,55 @@ def test_the_measure_works_from_either_side(colour):
     attacked = ATTACKED if white else "6k1/4N1pp/7Q/8/8/8/B7/4K3 b - - 0 1"
 
     assert allowed_pressure(a_board(calm), a_board(attacked), colour)
+
+
+class TestTheClaimIsNowWithheld:
+    """What a player gets from S8 as shipped, with the register in force."""
+
+    def peers(self, rate: float = 0.019):
+        from chesscoach.peers import ConditionMeasurement, build_reference
+
+        key = Claim.of(kind=ALLOWS_PRESSURE, subject=KING).key()
+        return build_reference(
+            [
+                (f"peer{n}", (ConditionMeasurement(key, round(rate * 600), 600, 20, 40),))
+                for n in range(8)
+            ],
+            band="1400-1800",
+            time_control="rapid",
+            depth=15,
+        )
+
+    def test_the_claim_is_withheld_because_players_do_not_differ(self):
+        """A peer reference is present and the player is unusual against it.
+
+        The claim is still not made: `allows_pressure.king` is in
+        `DOES_NOT_SEPARATE`, so there is no comparison to make and the sentence
+        -- *"attacks build against your king more readily than players at your
+        level"* -- has nothing under it.
+        """
+        from chesscoach.separation import DOES_NOT_SEPARATE
+
+        key = Claim.of(kind=ALLOWS_PRESSURE, subject=KING).key()
+        assert key in DOES_NOT_SEPARATE
+
+        report = S8AttackAndDefence().report(
+            a_context(games(20, after=ATTACKED), peers=self.peers())
+        )
+
+        assert report.findings == ()
+        assert report.sub_threshold == ()
+
+    def test_the_section_still_measures_what_it_saw(self):
+        """Withheld is not blind: `measure` still reports the instances.
+
+        So the sheet and any later screen can see what the detector found, which
+        is what separates *"this claim cannot be compared"* from *"this detector
+        is broken"*.
+        """
+        measured = S8AttackAndDefence().measure(
+            a_context(games(20, after=ATTACKED), peers=self.peers())
+        )
+
+        assert len(measured) == 1
+        assert measured[0].instances > 0

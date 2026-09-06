@@ -108,6 +108,12 @@ class TestTheCorpusKnowsItsMix:
         assert first.speed_mix == second.speed_mix
 
 
+# The example claim is `allowed_motif.hangingPiece`, and it has to be one that
+# **separates players**: `peer_rate` returns None for a claim in
+# `chesscoach.separation.DOES_NOT_SEPARATE`, so a registered claim would make
+# every assertion here read None whatever the speed mixture did. These tests are
+# about the mixture, not about the claim; `missed_motif.pin` was used until the
+# register was regenerated against the corrected detectors and it became flat.
 class TestTheBaselineFollowsTheMix:
     def reference(self, rapid_rate: float, blitz_rate: float):
         from chesscoach.peers import ConditionMeasurement, build_reference
@@ -115,7 +121,7 @@ class TestTheBaselineFollowsTheMix:
         def measurement(rate):
             return (
                 ConditionMeasurement(
-                    claim_key="missed_motif.pin.own",
+                    claim_key="allowed_motif.hangingPiece.own",
                     instances=int(rate * 1000),
                     opportunities=1000,
                     distinct_games=10,
@@ -152,20 +158,20 @@ class TestTheBaselineFollowsTheMix:
     def test_an_all_rapid_player_gets_the_rapid_rate(self):
         context = self.context([a_game("g1", "600+0")], self.reference(0.10, 0.30))
 
-        assert context.peer_rate("missed_motif.pin.own") == pytest.approx(0.10)
+        assert context.peer_rate("allowed_motif.hangingPiece.own") == pytest.approx(0.10)
 
     def test_an_all_blitz_player_gets_the_blitz_rate(self):
         # The whole point: a blitz player is not judged against rapid peers.
         context = self.context([a_game("g1", "180+2")], self.reference(0.10, 0.30))
 
-        assert context.peer_rate("missed_motif.pin.own") == pytest.approx(0.30)
+        assert context.peer_rate("allowed_motif.hangingPiece.own") == pytest.approx(0.30)
 
     def test_a_mixed_player_gets_the_mixture(self):
         games = [a_game("g1", "600+0"), a_game("g2", "180+2")]
 
         context = self.context(games, self.reference(0.10, 0.30))
 
-        assert context.peer_rate("missed_motif.pin.own") == pytest.approx(0.20)
+        assert context.peer_rate("allowed_motif.hangingPiece.own") == pytest.approx(0.20)
 
     def test_a_speed_the_population_has_never_played_is_skipped(self):
         # Bullet has no cell here. The player's other games still get a
@@ -174,12 +180,12 @@ class TestTheBaselineFollowsTheMix:
 
         context = self.context(games, self.reference(0.10, 0.30))
 
-        assert context.peer_rate("missed_motif.pin.own") == pytest.approx(0.10)
+        assert context.peer_rate("allowed_motif.hangingPiece.own") == pytest.approx(0.10)
 
     def test_no_speed_the_population_knows_means_no_comparison(self):
         context = self.context([a_game("g1", "60+0")], self.reference(0.10, 0.30))
 
-        assert context.peer_rate("missed_motif.pin.own") is None
+        assert context.peer_rate("allowed_motif.hangingPiece.own") is None
 
     def test_a_corpus_without_controls_falls_back_to_the_stated_time_control(self):
         # Every test fixture in this project builds games without a TimeControl
@@ -192,4 +198,4 @@ class TestTheBaselineFollowsTheMix:
             self.reference(0.10, 0.30),
         )
 
-        assert context.peer_rate("missed_motif.pin.own") == pytest.approx(0.10)
+        assert context.peer_rate("allowed_motif.hangingPiece.own") == pytest.approx(0.10)

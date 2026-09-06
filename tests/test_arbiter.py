@@ -32,8 +32,12 @@ def a_finding(
     # A claim players actually differ on. `fork` was the default until E83 found
     # players interchangeable on it, which makes `_unusualness` return neutral
     # for it and changes the ranking these tests are about -- correctly, and for
-    # a reason that has nothing to do with what they are checking.
-    subject: str = "hangingPiece",
+    # a reason that has nothing to do with what they are checking. `hangingPiece`
+    # replaced it and then went the same way when the register was regenerated
+    # against the corrected detectors, so the rule is: **any subject used here
+    # must be absent from `chesscoach.separation.DOES_NOT_SEPARATE`**, and that
+    # register moves whenever the detectors do.
+    subject: str = "trappedPiece",
     tier: ConfidenceTier = ConfidenceTier.FOCUS,
     rate: float = 0.30,
     peer_rate: float | None = 0.15,
@@ -106,20 +110,23 @@ class TestRanking:
         assert chosen.finding.claim.subject == "pin"
 
     def test_within_a_tier_the_more_unusual_claim_wins(self):
-        ordinary = a_finding(subject="fork", rate=0.20, peer_rate=0.18)
-        unusual = a_finding(subject="pin", rate=0.40, peer_rate=0.10)
+        ordinary = a_finding(subject="capturingDefender", rate=0.20, peer_rate=0.18)
+        unusual = a_finding(subject="trappedPiece", rate=0.40, peer_rate=0.10)
 
         chosen = select_priorities((ordinary, unusual)).priorities[0]
 
-        assert chosen.finding.claim.subject == "pin"
+        assert chosen.finding.claim.subject == "trappedPiece"
 
     def test_falls_back_to_the_self_baseline_without_a_peer_rate(self):
         findings = (
-            a_finding(subject="fork", rate=0.20, peer_rate=None),
-            a_finding(subject="pin", rate=0.50, peer_rate=None),
+            a_finding(subject="capturingDefender", rate=0.20, peer_rate=None),
+            a_finding(subject="trappedPiece", rate=0.50, peer_rate=None),
         )
 
-        assert select_priorities(findings).priorities[0].finding.claim.subject == "pin"
+        assert (
+            select_priorities(findings).priorities[0].finding.claim.subject
+            == "trappedPiece"
+        )
 
     def test_is_deterministic(self):
         findings = tuple(a_finding(subject=f"m{n}", rate=0.3) for n in range(5))

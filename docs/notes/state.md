@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788678924778
+updated: 1788683251875
 created: 1785254500000
 ---
 
@@ -280,34 +280,47 @@ struck through: a list nobody can act on is not a plan.
    one of them was written earlier in the same session from my own reading of a shape the author had
    already rejected twice in writing.
 
-0. **P0 — four claims now fire for nobody, and that is the author's decision** *(2026-09-06)*.
-   The sheet was regenerated at `b6ea303` and compared against `98184a6`, the commit immediately
-   before the first fix — same 15 players, same peer reference, same evaluation cache, only
-   `tactics.py`/`squares.py`/`kingsafety.py` differing.
+0. **DONE — the four silent claims were compared against the old detectors** *(2026-09-06)*.
+   The author chose *"loosen the confidence gate"*. **The gate was not the cause.** Every section's
+   `measure()` showed the detectors still producing instances — 19 for `allows_pressure.king`, 64 for
+   `allowed_motif.pin`, 67 for `allowed_motif.hangingPiece`. They died on `rate <= baseline_rate` in
+   `assign_tier`, and `peers-e84.json` was built at `c8ed84f`, **before the fixes**. Player rates fell
+   60–91 %; the population rates did not move. Loosening the gate would have manufactured findings
+   from a comparison whose two arms were computed by different code (**L-058**).
 
-   | claim | before | after |
-   |---|---|---|
-   | `allowed_motif.capturingDefender` | 105 | **0** |
-   | `missed_motif.capturingDefender` | 19 | **0** |
-   | `allows_pressure.king` | 31 | **0** |
-   | `missed_motif.trappedPiece` | 4 | **0** |
-   | `allowed_motif.pin` | 75 | 16 |
-   | `missed_motif.pin` | 34 | 8 |
-   | `allowed_motif.hangingPiece` | 81 | 14 |
-   | `allows_square.outpost` | 24 | 6 |
+   **Reference rebuilt at HEAD** — six band/speed references, 262 player-slots, 348 → **821 cells**.
 
-   **This is not a mis-set threshold.** `PRESSURE_WEIGHT` was the suspect and was measured out: it
-   accounts for 107 of the 976 removed crossings, the rest coming from counting *pieces* instead of
-   pawns and kings — the change the author's own rejections demanded. The claims are silent because
-   their rule now says most of what they used to report was not the thing they name.
+   | claim | peer rate before | after | sheet instances |
+   |---|---|---|---|
+   | `allowed_motif.pin` | 12.1 % | **4.8 %** | 16 → **23** |
+   | `allowed_motif.hangingPiece` | 11.0 % | **5.2 %** | 14 → **20** |
+   | `missed_motif.pin` | — | — | 8 → **11** |
+   | `allows_square.outpost` | — | — | 6 → **10** |
 
-   Three options are written up in [[experiments.e86-detector-audit]]: accept the silence and retire
-   the two claims from the vocabulary; **loosen the confidence gate** so a claim with few but sound
-   instances can still be made (the option that keeps both the corrections and the coverage); or
-   revert the strictest rules and take back the false positives. **Not decided here.**
+   **No gate threshold was changed and none should be.**
 
-   Sheet to mark: `experiments/e55-detector-precision/results/detection-sheet-2026-09-06-fixed-detectors.txt`,
-   stamped `commit b6ea303`, 28 claims with instances. Neither marked sheet was overwritten.
+   **`separation.py` was stale the same way** — it is generated from the reference. Regenerated,
+   21 → 24 entries: the three `trappedPiece` claims get a peer comparison back, and
+   `allows_pressure.king` and `missed_motif.pin` become flat. `allows_pressure.king` at dispersion
+   **1.14, p = 0.23** over 50 players, so **S8 now asserts nothing at all** — the old detector counted
+   pawns and the king as attackers, so what looked like players differing on king safety was largely
+   how many endgames each played. Measured before accepting: asserted coverage is **identical** under
+   both registers (12 claim-instances, 10 claims, 4 players); the regenerated one costs one
+   sub-threshold claim.
+
+   Twelve tests failed, none wrong about its own subject — each had borrowed a claim key that has
+   since gone flat (`test_speed_strata` testing speed mixing, `test_arbiter`/`test_planner`/
+   `test_explainer` testing ranking). All now use a subject absent from the register and say why.
+   S8's five reporting tests lift the register entry for their duration; two new tests record what a
+   player actually gets. **Full suite green.**
+
+   Sheet: `experiments/e55-detector-precision/results/detection-sheet-2026-09-06-fixed-detectors.txt`,
+   stamped `commit 64e1259`, 22 claims with instances. Neither marked sheet was overwritten.
+
+   **Still open, and genuinely:** `capturingDefender` remains silent for honest reasons — one instance
+   in seven opportunities for the missed claim, and the allowed claim sits *below* the player's own
+   rate on other motifs. And `separation.py` states *"nothing here retires a detector"* while S8, having
+   one claim and no sibling baseline, is retired by it. Recorded, not fixed.
 
 0. **DONE — both detector defects fixed** *(2026-09-06)*.
    **`trappedPiece`** tested escape squares with `is_attacked_by` rather than an exchange: on **6,249

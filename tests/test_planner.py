@@ -66,10 +66,17 @@ def plan_for(*findings, created: str = "2026-07-31"):
 
 class TestShape:
     def test_one_step_per_priority_in_rank_order(self):
-        plan = plan_for(a_finding(subject="pin"), a_finding(subject="fork", rate=0.25))
+        # Both subjects must be absent from `separation.DOES_NOT_SEPARATE`, or
+        # `_unusualness` returns neutral for them and the rank this asserts is
+        # decided by something else. `pin` and `fork` were used until the
+        # register was regenerated against the corrected detectors.
+        plan = plan_for(
+            a_finding(subject="trappedPiece"),
+            a_finding(subject="capturingDefender", rate=0.25),
+        )
 
         assert len(plan.steps) == 2
-        assert plan.steps[0].finding_id.endswith("pin.own")
+        assert plan.steps[0].finding_id.endswith("trappedPiece.own")
 
     def test_no_priorities_means_no_plan(self):
         assert build_plan((), created="2026-07-31") is None

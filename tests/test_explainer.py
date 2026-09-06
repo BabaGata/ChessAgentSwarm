@@ -106,14 +106,25 @@ class TestNotTheAntiPattern:
     def test_the_two_numbered_lists_are_in_the_same_order(self):
         # Both sections are numbered, so a reader takes item 1 in one to be item
         # 1 in the other. Profile order is insertion order, not the ranking.
-        # Listed fork-first, but pin deviates further and the arbiter ranks it
-        # first. Both sections must agree with the arbiter, not with the list.
-        findings = (a_finding(subject="fork", rate=0.20), a_finding(subject="pin", rate=0.40))
+        # Listed capturingDefender-first, but trappedPiece deviates further and
+        # the arbiter ranks it first. Both sections must agree with the arbiter,
+        # not with the list. Both subjects have to be absent from
+        # `separation.DOES_NOT_SEPARATE` or `_unusualness` is neutral for them
+        # and there is no ranking to check; `fork` and `pin` were used until the
+        # register was regenerated against the corrected detectors.
+        findings = (
+            a_finding(subject="capturingDefender", rate=0.20),
+            a_finding(subject="trappedPiece", rate=0.40),
+        )
 
         report = render(a_profile(*findings))
 
-        assert report.index("miss pin tactics") < report.index("miss fork tactics")
-        assert report.index("Drill `pin`") < report.index("Drill `fork`")
+        assert report.index("miss trapped piece tactics") < report.index(
+            "miss capturing the defender tactics"
+        )
+        assert report.index("Drill `trappedPiece`") < report.index(
+            "Drill `capturingDefender`"
+        )
 
     def test_silence_is_explained_when_nothing_reached_confidence(self):
         # An empty report reads as "you are fine", which is not what it means.

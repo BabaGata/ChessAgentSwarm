@@ -2,7 +2,7 @@
 id: cas-learning-lessons
 title: Lessons Learned
 desc: 'Generalisable lessons extracted from executed work — what worked, what did not, and why.'
-updated: 1788648045747
+updated: 1788683165836
 created: 1785254500000
 ---
 
@@ -23,6 +23,32 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 ```
 
 ---
+
+### L-058 — Fix a detector and every artifact derived from it is stale
+
+Correcting seven detectors silenced four claims completely. The obvious reading was that the
+confidence gate had become too strict for the thinner evidence, and **that reading was wrong**. The
+detectors were producing 19, 64 and 67 instances; every claim died on `rate <= baseline_rate`, where
+the baseline came from a peer reference built **before** the corrections. Player rates fell 60-91 %,
+the population rates did not move at all, and no claim could clear a bar that had not come down with
+it.
+
+Rebuilding the reference restored the claims with **no threshold changed**. Then the same staleness
+turned up one layer further out: `separation.py`, which decides which claims may carry a peer
+comparison, is *generated from that reference*, and regenerating it moved five verdicts — including
+one that retired a whole section's only claim.
+
+Loosening the gate would have "worked" in the sense that findings would have reappeared. They would
+have been findings about a comparison whose two arms were computed by different code.
+
+**Lesson:** a detector change invalidates everything downstream that was computed from its output —
+peer references, screens generated from those references, and the tests that borrowed a claim key
+from either. Before concluding that a gate or threshold is wrong, check whether the thing it compares
+against was built by the code you just changed. The tell is the direction: **if a change makes
+everything fall below its baseline at once, suspect the baseline.**
+
+**Applied to:** [[experiments.e86-detector-audit]] round three; `data/raw/out/peers-e84.json` and
+`chesscoach/separation.py` rebuilt at HEAD; twelve tests that had borrowed a now-flat claim key.
 
 ### L-057 — The person who marked it wrong usually wrote down why
 
