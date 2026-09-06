@@ -149,7 +149,7 @@ class PeerReference:
         claims were written into references as `kind.subject`, because they
         predate the convention, and commit 20b1cef then normalised the *section*
         side through `_key()`. From that point the lookup missed and
-        `slow_development`, `late_castling`, `repeat_move` and `pawn_error`
+        `slow_development`, `late_castling`, `repeat_move` and `opening_pawn_error`
         produced **no findings for anybody** -- four shipped, screened claims,
         silent because their baseline was spelled differently.
 

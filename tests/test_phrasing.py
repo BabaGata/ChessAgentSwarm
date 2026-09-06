@@ -39,7 +39,7 @@ KINDS = (
     "allows_square", "allows_pressure", "endgame_error", "long_think_error",
     "time_pressure_error", "time_budget_error", "instant_move_error",
     "moved_into_attack", "miscounted_exchange", "sacrificed_for_attack",
-    "out_of_book", "pawn_error", "repeat_move", "late_castling", "slow_development",
+    "out_of_book", "opening_pawn_error", "repeat_move", "late_castling", "slow_development",
 )
 
 

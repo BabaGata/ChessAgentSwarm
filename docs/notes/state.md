@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788707996676
+updated: 1788712748319
 created: 1785254500000
 ---
 
@@ -279,6 +279,35 @@ struck through: a list nobody can act on is not a plan.
    Five existing tests asserted the old behaviour and were corrected, each saying so where it changed;
    one of them was written earlier in the same session from my own reading of a shape the author had
    already rejected twice in writing.
+
+0. **DONE — `pawn_error` renamed and given the opening claims' criteria** *(2026-09-06)*.
+
+   **`pawn_error` → `opening_pawn_error`**, on the author's instruction: the old name said nothing
+   about the opening or about development, which is the whole claim. A claim key is not a label —
+   12 code/test files, the **knowledge-base entry** (retrieval would otherwise miss it) and **6 peer
+   cells** rebuilt; the register had no entry; experiments left as records of the old name.
+
+   **Four criteria asked for, three already present** and recorded so they are not asked twice:
+   after the out-of-book move (`_is_theory`), until the end of the opening (`window_moves` stops at
+   `ready_at`), and not when the move cost nothing (`observation.is_error`). **Added:** not when a
+   motif detector already explains the error — the `overlap.py` double-count, and the same rule
+   `drift_before` follows. The move leaves the *opportunities* too, being a tactical moment rather
+   than a test of whether the player develops.
+
+   **And then the claim stopped separating players.** The register rebuild withdrew
+   `opening_pawn_error.any.own` — dispersion **1.26** against a 1.29 threshold, p = 0.102, 50
+   players, conclusive — and it now reaches **0 of 12** reviewed players. Two independent lines agree:
+   the author's *"I don't see any value from this kind information"*, and the screen's finding that
+   there is no difference to compare. **A retirement candidate, and the author's decision**; the shape
+   is set twice over.
+
+   **`miscounted_exchange` loses the king clause entirely.** Jargon, then an explanation of jargon;
+   the claim *names* carry the distinction (`sacrificed_for_attack` is the capture beside the king,
+   this is every other one). Now: *"Exchanges you start turn out to lose material more often than they
+   do for players at your level."*
+
+   **The gambit window was already right.** `EARLY_PLIES = 10` is exactly the author's *"first 5
+   moves"*; recorded so the match is not mistaken for luck.
 
 0. **DONE — four sheet questions answered; gambits and jargon fixed** *(2026-09-06)*.
 

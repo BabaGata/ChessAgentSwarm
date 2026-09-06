@@ -392,7 +392,7 @@ class TestOnlyChargedWhenDevelopingWasBetter:
     """The condition that makes each claim's NAME true.
 
     Found by reading positions, not counts: across the review corpus the engine
-    wanted another *pawn* move on 40 % of the moves `pawn_error` charged. Those
+    wanted another *pawn* move on 40 % of the moves `opening_pawn_error` charged. Those
     are real errors and not errors of this habit -- "you pushed the wrong pawn"
     is not "you pushed a pawn instead of developing", and a plan built on the
     second sends the player to fix the wrong thing.
@@ -434,7 +434,7 @@ class TestPawnErrorClaim:
             for o in rows
         )
         tallies = count(marked, PLAYER, book, norms())
-        pawns = tallies["pawn_error.any"]
+        pawns = tallies["opening_pawn_error.any"]
         assert pawns.opportunities > pawns.instances
         assert pawns.instances == 1
         assert pawns.examples[0].ply == 7
@@ -456,7 +456,7 @@ class TestClaimKeysMatchTheRestOfTheSystem:
 
         # What the section reports must round-trip through Claim.key().
         for kind, subject in (("slow_development", "book"), ("late_castling", "own"),
-                              ("repeat_move", "any"), ("pawn_error", "any")):
+                              ("repeat_move", "any"), ("opening_pawn_error", "any")):
             key = _key(kind, subject)
             assert key.endswith(".own")
             assert Claim.of(kind=kind, subject=subject).key() == key

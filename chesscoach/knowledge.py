@@ -230,7 +230,7 @@ def write_definition(base: KnowledgeBase, key: str, definition: str,
 
     Four claims are this project's error categories rather than terms the
     literature names -- `hangingPawn`, `allows_pressure`, `moved_into_attack`,
-    `pawn_error` -- so the swarm has nothing to offer and the only door was
+    `opening_pawn_error` -- so the swarm has nothing to offer and the only door was
     `endorse`, which needs something to endorse. This is the other door.
 
     **Hard rule 7 does not bend for the author.** A definition still carries a

@@ -1,504 +1,504 @@
 {
- "note": "Drafted by the swarm; nothing with reviewed=false is ever shown to a player.",
- "entries": [
-  {
-   "key": "allows_pressure",
-   "definition": "This claim counts moves after which more enemy pieces bear on the squares around the player's king than before. It is a measurement this project defines, not a term of art.",
-   "quote": "This claim counts moves after which more enemy pieces bear on the squares around the player's king than before. It is a measurement this project defines, not a term of art.",
-   "sources": [
+  "note": "Drafted by the swarm; nothing with reviewed=false is ever shown to a player.",
+  "entries": [
     {
-     "url": "design://detectors-name-consequences",
-     "publisher": "This project's operational definition (docs/notes/design.detectors-name-consequences)",
-     "evidence_class": "single-expert"
+      "key": "allows_pressure",
+      "definition": "This claim counts moves after which more enemy pieces bear on the squares around the player's king than before. It is a measurement this project defines, not a term of art.",
+      "quote": "This claim counts moves after which more enemy pieces bear on the squares around the player's king than before. It is a measurement this project defines, not a term of art.",
+      "sources": [
+        {
+          "url": "design://detectors-name-consequences",
+          "publisher": "This project's operational definition (docs/notes/design.detectors-name-consequences)",
+          "evidence_class": "single-expert"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/King_(chess)",
+          "publisher": "en.wikipedia.org",
+          "evidence_class": "single-expert"
+        }
+      ],
+      "not_this": [],
+      "why": "It results in a loss for the checkmated player.",
+      "practice": [
+        "Practice responding to checks by moving your king to a safe square."
+      ],
+      "drafted_by": "author",
+      "checked_on": "2026-09-05",
+      "reviewed": true,
+      "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. This project's own measurement. Screened and shipped at the weakest spread the project has used (E11), which E84 later re-measured at 2.4x within band."
     },
     {
-     "url": "https://en.wikipedia.org/wiki/King_(chess)",
-     "publisher": "en.wikipedia.org",
-     "evidence_class": "single-expert"
+      "key": "allows_square",
+      "definition": "In chess , an outpost is a square protected by a pawn (or rarely, two pawns) on the player's fourth, fifth, sixth, or seventh rank and which cannot be attacked by an opponent's pawn.",
+      "quote": "In chess , an outpost is a square protected by a pawn (or rarely, two pawns) on the player's fourth, fifth, sixth, or seventh rank and which cannot be attacked by an opponent's pawn.",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Outpost_(chess)",
+          "publisher": "Wikipedia, Outpost (chess)",
+          "evidence_class": "expert-consensus"
+        },
+        {
+          "url": "book://philidor-studies-of-chess#61",
+          "publisher": "François-André Danican Philidor, Studies of Chess (1817)",
+          "evidence_class": "single-expert"
+        },
+        {
+          "url": "book://philidor-studies-of-chess#62",
+          "publisher": "François-André Danican Philidor, Studies of Chess (1817)",
+          "evidence_class": "single-expert"
+        }
+      ],
+      "not_this": [],
+      "why": "If a player fails to secure an outpost, it can lead to a disadvantageous position, making it difficult to launch an effective attack, especially with a knight.",
+      "practice": [],
+      "drafted_by": "phi4-mini:3.8b",
+      "checked_on": "2026-09-05",
+      "reviewed": true,
+      "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. Matches: `can_ever_be_covered` is exactly the 'cannot be attacked by an enemy pawn' clause, which casual definitions omit. Attribution corrected to Wikipedia, whose text this is; it was credited to Philidor."
+    },
+    {
+      "key": "backRankMate",
+      "definition": "Back Rank Mate: Checkmate the king on the home rank, when it is trapped there by its own pieces.",
+      "quote": "Back Rank Mate: Checkmate the king on the home rank, when it is trapped there by its own pieces.",
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/lichess-org/lila/master/translation/source/puzzleTheme.xml",
+          "publisher": "Lichess (lichess-org/lila), puzzle theme definitions",
+          "evidence_class": "expert-consensus"
+        }
+      ],
+      "not_this": [],
+      "why": "",
+      "practice": [],
+      "drafted_by": "lichess puzzleTheme.xml (seeded verbatim, not extracted)",
+      "checked_on": "2026-09-05",
+      "reviewed": true,
+      "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. The detector does NOT test Lichess's clause 'trapped there by its own pieces'. It requires mate delivered along the home rank by a rook or queen, which excludes smothered mates deliberately (D17)."
+    },
+    {
+      "key": "capturingDefender",
+      "definition": "Capturing Defender: Removing a piece that is critical to defence of another piece, allowing the now undefended piece to be captured on a following move.",
+      "quote": "Capturing Defender: Removing a piece that is critical to defence of another piece, allowing the now undefended piece to be captured on a following move.",
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/lichess-org/lila/master/translation/source/puzzleTheme.xml",
+          "publisher": "Lichess (lichess-org/lila), puzzle theme definitions",
+          "evidence_class": "expert-consensus"
+        },
+        {
+          "url": "book://edward-lasker-chess-strategy#20",
+          "publisher": "Edward Lasker, Chess Strategy (1915)",
+          "evidence_class": "single-expert"
+        },
+        {
+          "url": "book://edward-lasker-chess-strategy#21",
+          "publisher": "Edward Lasker, Chess Strategy (1915)",
+          "evidence_class": "single-expert"
+        }
+      ],
+      "not_this": [],
+      "why": "",
+      "practice": [],
+      "drafted_by": "lichess puzzleTheme.xml (seeded verbatim, not extracted)",
+      "checked_on": "2026-09-05",
+      "reviewed": true,
+      "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. Detector and definition agree."
+    },
+    {
+      "key": "discoveredAttack",
+      "definition": "Discovered Attack: Moving a piece (such as a knight), that previously blocked an attack by a long range piece (such as a rook), out of the way of that piece.",
+      "quote": "Discovered Attack: Moving a piece (such as a knight), that previously blocked an attack by a long range piece (such as a rook), out of the way of that piece.",
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/lichess-org/lila/master/translation/source/puzzleTheme.xml",
+          "publisher": "Lichess (lichess-org/lila), puzzle theme definitions",
+          "evidence_class": "expert-consensus"
+        }
+      ],
+      "not_this": [],
+      "why": "",
+      "practice": [],
+      "drafted_by": "lichess puzzleTheme.xml (seeded verbatim, not extracted)",
+      "checked_on": "2026-09-05",
+      "reviewed": true,
+      "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. The detector adds an unsourced floor: the revealed target must be worth 3 or more, or be the king."
+    },
+    {
+      "key": "endgame_error",
+      "definition": "This claim counts mistakes made once the position has reached an endgame, grouped by the material still on the board -- queen, rook, rook and minor, minor, or pawn. It is a measurement this project defines.",
+      "quote": "This claim counts mistakes made once the position has reached an endgame, grouped by the material still on the board -- queen, rook, rook and minor, minor, or pawn. It is a measurement this project defines.",
+      "sources": [
+        {
+          "url": "design://detectors-name-consequences",
+          "publisher": "This project's operational definition (docs/notes/design.detectors-name-consequences)",
+          "evidence_class": "single-expert"
+        },
+        {
+          "url": "https://en.wikibooks.org/wiki/Chess/The_Endgame/Rook_and_Pawn_Endings",
+          "publisher": "en.wikibooks.org",
+          "evidence_class": "single-expert"
+        }
+      ],
+      "not_this": [],
+      "why": "Knowing the concepts of how these endgames work is essential to the intermediate to advanced player, and can result in many wins from otherwise drawn situations (or draws from otherwise lost situations).",
+      "practice": [
+        "Study rook and pawn endings to understand their complexity and how professional players execute them correctly."
+      ],
+      "drafted_by": "author",
+      "checked_on": "2026-09-05",
+      "reviewed": true,
+      "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. This project's own measurement. The material classes are deliberately coarse (E08 measured finer ones firing for nobody)."
+    },
+    {
+      "key": "fork",
+      "definition": "Fork: A move where a piece attacks two or more opposing pieces simultaneously.",
+      "quote": "Fork: A move where a piece attacks two or more opposing pieces simultaneously.",
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/lichess-org/lila/master/translation/source/puzzleTheme.xml",
+          "publisher": "Lichess (lichess-org/lila), puzzle theme definitions",
+          "evidence_class": "expert-consensus"
+        },
+        {
+          "url": "book://edward-lasker-chess-strategy#101",
+          "publisher": "Edward Lasker, Chess Strategy (1915)",
+          "evidence_class": "single-expert"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Zwischenzug",
+          "publisher": "en.wikipedia.org",
+          "evidence_class": "single-expert"
+        },
+        {
+          "url": "https://www.chesskid.com/learn/terms/skewer-chess",
+          "publisher": "chesskid.com",
+          "evidence_class": "single-expert"
+        }
+      ],
+      "not_this": [
+        "a double attack delivered by two different pieces; this claim requires one piece to attack two targets"
+      ],
+      "why": "",
+      "practice": [],
+      "drafted_by": "lichess puzzleTheme.xml (seeded verbatim, not extracted)",
+      "checked_on": "2026-09-05",
+      "reviewed": true,
+      "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. The detector is NARROWER than this definition: it requires two targets NEWLY attacked by the piece that moved, the attacker to survive, and material to be definitely lost. It also has a known defect (E86 D-1): a fork whose victim was already attacked by another friendly piece is missed."
+    },
+    {
+      "key": "hangingPawn",
+      "definition": "En prise: unprotected and exposed to capture. A hanging piece may also be said to be en prise.",
+      "quote": "En prise: unprotected and exposed to capture. A hanging piece may also be said to be en prise.",
+      "sources": [
+        {
+          "url": "https://en.wiktionary.org/wiki/Appendix:Glossary_of_chess",
+          "publisher": "Wiktionary, Appendix: Glossary of chess",
+          "evidence_class": "expert-consensus"
+        },
+        {
+          "url": "book://edward-lasker-chess-and-checkers#11",
+          "publisher": "Edward Lasker, Chess and Checkers: the Way to Mastership (1918)",
+          "evidence_class": "single-expert"
+        },
+        {
+          "url": "book://staunton-blue-book-of-chess#30",
+          "publisher": "Howard Staunton, The Blue Book of Chess (1848)",
+          "evidence_class": "single-expert"
+        }
+      ],
+      "not_this": [
+        "hanging pawns in Steinitz's sense -- two adjacent pawns on central half-open files, which is a structure and a different subject"
+      ],
+      "why": "",
+      "practice": [
+        "Practice protecting your King's Bishop's Pawn as it is usually the point of the first attack.",
+        "When you have a diagonal line of Pawns, make sure to protect the Pawn at the head."
+      ],
+      "drafted_by": "author",
+      "checked_on": "2026-09-05",
+      "reviewed": true,
+      "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. The tactical sense of hanging, one rank below hangingPiece. NOT the Steinitz structure, which is what the earlier extracted entry had wrongly retrieved."
+    },
+    {
+      "key": "hangingPiece",
+      "definition": "Hanging Piece: A tactic involving an opponent piece being undefended or insufficiently defended and free to capture.",
+      "quote": "Hanging Piece: A tactic involving an opponent piece being undefended or insufficiently defended and free to capture.",
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/lichess-org/lila/master/translation/source/puzzleTheme.xml",
+          "publisher": "Lichess (lichess-org/lila), puzzle theme definitions",
+          "evidence_class": "expert-consensus"
+        },
+        {
+          "url": "book://staunton-blue-book-of-chess#13",
+          "publisher": "Howard Staunton, The Blue Book of Chess (1848)",
+          "evidence_class": "single-expert"
+        },
+        {
+          "url": "book://edward-lasker-chess-strategy#12",
+          "publisher": "Edward Lasker, Chess Strategy (1915)",
+          "evidence_class": "single-expert"
+        },
+        {
+          "url": "https://en.wikibooks.org/wiki/Chess_Strategy/Pawn_structure#Hanging_pawns_and_the_isolated_pawn_couple",
+          "publisher": "en.wikibooks.org",
+          "evidence_class": "single-expert"
+        }
+      ],
+      "not_this": [
+        "a hanging pawn, which is counted separately as hangingPawn"
+      ],
+      "why": "",
+      "practice": [],
+      "drafted_by": "lichess puzzleTheme.xml (seeded verbatim, not extracted)",
+      "checked_on": "2026-09-05",
+      "reviewed": true,
+      "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. The definition describes a STATE; the detector fires on the ACT of capturing such a piece, and excludes pawns, which are counted as hangingPawn."
+    },
+    {
+      "key": "late_castling",
+      "definition": "To avoid being a victim of a quick checkmate, you should try and make sure your king gets castled early in the game. Preferably, this should be before move 10.",
+      "quote": "To avoid being a victim of a quick checkmate, you should try and make sure your king gets castled early in the game. Preferably, this should be before move 10.",
+      "sources": [
+        {
+          "url": "https://www.chessstrategyonline.com/content/tutorials/how-to-start-a-game-of-chess-opening-principles",
+          "publisher": "Chess Strategy Online, opening principles",
+          "evidence_class": "single-expert"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Castling",
+          "publisher": "en.wikipedia.org",
+          "evidence_class": "single-expert"
+        }
+      ],
+      "not_this": [],
+      "why": "",
+      "practice": [
+        "Practice moving the king and rook according to the rules of castling, ensuring the king does not pass through or finish on an attacked square.",
+        "Practice completing the castling move with one hand to avoid making illegal moves."
+      ],
+      "drafted_by": "author",
+      "checked_on": "2026-09-05",
+      "reviewed": true,
+      "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. The source's 'before move 10' is advice, not the detector's threshold; the claim is measured against a per-opening norm."
+    },
+    {
+      "key": "long_think_error",
+      "definition": "This claim counts mistakes made on a move that followed an unusually long think for that player -- three times their own median thinking time. It is a measurement this project defines, not a term of art.",
+      "quote": "This claim counts mistakes made on a move that followed an unusually long think for that player -- three times their own median thinking time. It is a measurement this project defines, not a term of art.",
+      "sources": [
+        {
+          "url": "design://detectors-name-consequences",
+          "publisher": "This project's operational definition (docs/notes/design.detectors-name-consequences)",
+          "evidence_class": "single-expert"
+        },
+        {
+          "url": "book://young-chess-generalship#78",
+          "publisher": "Franklin K. Young, Chess Generalship, Vol. I (1910)",
+          "evidence_class": "single-expert"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Time_trouble",
+          "publisher": "en.wikipedia.org",
+          "evidence_class": "single-expert"
+        }
+      ],
+      "not_this": [
+        "time trouble, which is time_pressure_error -- this is about a long think, not a short clock"
+      ],
+      "why": "Players often spend large amounts of time after the opening as they consider their plans and calculate various tactical variations.",
+      "practice": [
+        "Lars Bo Hansen's principles are to ensure that pieces remain protected, avoid unnecessary pawn moves, and avoid analyzing unnecessary tactics."
+      ],
+      "drafted_by": "author",
+      "checked_on": "2026-09-05",
+      "reviewed": true,
+      "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. This project's own measurement, not a term of art. Distinct from time trouble, which is time_pressure_error."
+    },
+    {
+      "key": "moved_into_attack",
+      "definition": "En prise: unprotected and exposed to capture. A hanging piece may also be said to be en prise.",
+      "quote": "En prise: unprotected and exposed to capture. A hanging piece may also be said to be en prise.",
+      "sources": [
+        {
+          "url": "https://en.wiktionary.org/wiki/Appendix:Glossary_of_chess",
+          "publisher": "Wiktionary, Appendix: Glossary of chess",
+          "evidence_class": "expert-consensus"
+        }
+      ],
+      "not_this": [
+        "a capture that loses material once recaptures are counted, which is miscounted_exchange"
+      ],
+      "why": "",
+      "practice": [],
+      "drafted_by": "author",
+      "checked_on": "2026-09-05",
+      "reviewed": true,
+      "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. En prise is the right concept. The claim narrows it to QUIET moves; a capture that loses material is miscounted_exchange."
+    },
+    {
+      "key": "opening_pawn_error",
+      "definition": "This claim counts mistakes made on a pawn move in the opening, where the engine preferred developing a piece. It is a measurement this project defines, not a term of art.",
+      "quote": "This claim counts mistakes made on a pawn move in the opening, where the engine preferred developing a piece. It is a measurement this project defines, not a term of art.",
+      "sources": [
+        {
+          "url": "design://detectors-name-consequences",
+          "publisher": "This project's operational definition (docs/notes/design.detectors-name-consequences)",
+          "evidence_class": "single-expert"
+        },
+        {
+          "url": "book://staunton-blue-book-of-chess#30",
+          "publisher": "Howard Staunton, The Blue Book of Chess (1848)",
+          "evidence_class": "single-expert"
+        },
+        {
+          "url": "book://edward-lasker-chess-strategy#76",
+          "publisher": "Edward Lasker, Chess Strategy (1915)",
+          "evidence_class": "single-expert"
+        },
+        {
+          "url": "book://capablanca-chess-fundamentals#22",
+          "publisher": "José Raúl Capablanca, Chess Fundamentals (1921)",
+          "evidence_class": "single-expert"
+        }
+      ],
+      "not_this": [],
+      "why": "A player who advances their pawns too far without proper support risks weakening their position and losing the advantage.",
+      "practice": [],
+      "drafted_by": "author",
+      "checked_on": "2026-09-05",
+      "reviewed": true,
+      "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. This project's own measurement, and the narrowest of them: it fires only where the engine preferred developing a piece."
+    },
+    {
+      "key": "pin",
+      "definition": "Pin: A tactic involving pins, where a piece is unable to move without revealing an attack on a higher value piece.",
+      "quote": "Pin: A tactic involving pins, where a piece is unable to move without revealing an attack on a higher value piece.",
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/lichess-org/lila/master/translation/source/puzzleTheme.xml",
+          "publisher": "Lichess (lichess-org/lila), puzzle theme definitions",
+          "evidence_class": "expert-consensus"
+        }
+      ],
+      "not_this": [],
+      "why": "",
+      "practice": [],
+      "drafted_by": "lichess puzzleTheme.xml (seeded verbatim, not extracted)",
+      "checked_on": "2026-09-05",
+      "reviewed": true,
+      "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. The detector is narrower: the piece behind must be a rook, queen or king (PIN_TARGET_MIN_VALUE = 5), so a bishop pinned to a rook counts and a knight pinned to a bishop does not."
+    },
+    {
+      "key": "repeat_move",
+      "definition": "To “lose a move” means to make a move which is not essential to the attainment of a desired position.",
+      "quote": "To “lose a move” means to make a move which is not essential to the attainment of a desired position.",
+      "sources": [
+        {
+          "url": "book://edward-lasker-chess-strategy#24",
+          "publisher": "Edward Lasker, Chess Strategy (1915)",
+          "evidence_class": "single-expert"
+        },
+        {
+          "url": "book://capablanca-chess-fundamentals#11",
+          "publisher": "José Raúl Capablanca, Chess Fundamentals (1921)",
+          "evidence_class": "single-expert"
+        },
+        {
+          "url": "book://capablanca-chess-fundamentals#9",
+          "publisher": "José Raúl Capablanca, Chess Fundamentals (1921)",
+          "evidence_class": "single-expert"
+        }
+      ],
+      "not_this": [],
+      "why": "It results in the loss of a move, which can lead to swift and deadly consequences.",
+      "practice": [
+        "Focus on combining development and attack in your moves."
+      ],
+      "drafted_by": "phi4-mini:3.8b",
+      "checked_on": "2026-08-30",
+      "reviewed": true,
+      "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. Edward Lasker's own definition of losing a move, which is what the claim counts."
+    },
+    {
+      "key": "skewer",
+      "definition": "Skewer: A motif involving a high value piece being attacked, moving out the way, and allowing a lower value piece behind it to be captured or attacked, the inverse of a pin.",
+      "quote": "Skewer: A motif involving a high value piece being attacked, moving out the way, and allowing a lower value piece behind it to be captured or attacked, the inverse of a pin.",
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/lichess-org/lila/master/translation/source/puzzleTheme.xml",
+          "publisher": "Lichess (lichess-org/lila), puzzle theme definitions",
+          "evidence_class": "expert-consensus"
+        }
+      ],
+      "not_this": [],
+      "why": "",
+      "practice": [],
+      "drafted_by": "lichess puzzleTheme.xml (seeded verbatim, not extracted)",
+      "checked_on": "2026-09-05",
+      "reviewed": true,
+      "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. Detector and definition agree."
+    },
+    {
+      "key": "slow_development",
+      "definition": "Development means moving your pieces out from their starting squares ready for battle; as an opening principle it is the most important concept.",
+      "quote": "Development means moving your pieces out from their starting squares ready for battle; as an opening principle it is the most important concept.",
+      "sources": [
+        {
+          "url": "https://www.chessstrategyonline.com/content/tutorials/how-to-start-a-game-of-chess-opening-principles",
+          "publisher": "Chess Strategy Online, opening principles",
+          "evidence_class": "single-expert"
+        },
+        {
+          "url": "book://edward-lasker-chess-strategy#24",
+          "publisher": "Edward Lasker, Chess Strategy (1915)",
+          "evidence_class": "single-expert"
+        },
+        {
+          "url": "https://en.wikibooks.org/wiki/Chess_Strategy/Development#Development",
+          "publisher": "en.wikibooks.org",
+          "evidence_class": "single-expert"
+        }
+      ],
+      "not_this": [],
+      "why": "Losing moves can hinder a player's progress and make it difficult to achieve a desired position in the game.",
+      "practice": [
+        "Study games by advanced players to see how they efficiently develop their pieces and convert a lead in development into a larger advantage.",
+        "Practice moving all pieces to their most advantageous squares while hindering the opponent's development without wasting moves (tempo)."
+      ],
+      "drafted_by": "author",
+      "checked_on": "2026-09-05",
+      "reviewed": true,
+      "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. An operational claim resting on a real principle. The detector measures development against a per-opening norm, not against this sentence."
+    },
+    {
+      "key": "trappedPiece",
+      "definition": "Trapped Piece: A piece is unable to escape capture as it has limited moves.",
+      "quote": "Trapped Piece: A piece is unable to escape capture as it has limited moves.",
+      "sources": [
+        {
+          "url": "https://raw.githubusercontent.com/lichess-org/lila/master/translation/source/puzzleTheme.xml",
+          "publisher": "Lichess (lichess-org/lila), puzzle theme definitions",
+          "evidence_class": "expert-consensus"
+        },
+        {
+          "url": "book://staunton-blue-book-of-chess#15",
+          "publisher": "Howard Staunton, The Blue Book of Chess (1848)",
+          "evidence_class": "single-expert"
+        },
+        {
+          "url": "book://edward-lasker-chess-strategy#25",
+          "publisher": "Edward Lasker, Chess Strategy (1915)",
+          "evidence_class": "single-expert"
+        }
+      ],
+      "not_this": [],
+      "why": "",
+      "practice": [],
+      "drafted_by": "lichess puzzleTheme.xml (seeded verbatim, not extracted)",
+      "checked_on": "2026-09-05",
+      "reviewed": true,
+      "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. KNOWN DEFECT (E86 D-2): the detector tests escape squares with is_attacked_by rather than an exchange, so a piece that could escape safely is reported trapped. Endorsed as a definition of the concept, NOT as a description of what the code currently does."
     }
-   ],
-   "not_this": [],
-   "why": "It results in a loss for the checkmated player.",
-   "practice": [
-    "Practice responding to checks by moving your king to a safe square."
-   ],
-   "drafted_by": "author",
-   "checked_on": "2026-09-05",
-   "reviewed": true,
-   "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. This project's own measurement. Screened and shipped at the weakest spread the project has used (E11), which E84 later re-measured at 2.4x within band."
-  },
-  {
-   "key": "allows_square",
-   "definition": "In chess , an outpost is a square protected by a pawn (or rarely, two pawns) on the player's fourth, fifth, sixth, or seventh rank and which cannot be attacked by an opponent's pawn.",
-   "quote": "In chess , an outpost is a square protected by a pawn (or rarely, two pawns) on the player's fourth, fifth, sixth, or seventh rank and which cannot be attacked by an opponent's pawn.",
-   "sources": [
-    {
-     "url": "https://en.wikipedia.org/wiki/Outpost_(chess)",
-     "publisher": "Wikipedia, Outpost (chess)",
-     "evidence_class": "expert-consensus"
-    },
-    {
-     "url": "book://philidor-studies-of-chess#61",
-     "publisher": "Fran\u00e7ois-Andr\u00e9 Danican Philidor, Studies of Chess (1817)",
-     "evidence_class": "single-expert"
-    },
-    {
-     "url": "book://philidor-studies-of-chess#62",
-     "publisher": "Fran\u00e7ois-Andr\u00e9 Danican Philidor, Studies of Chess (1817)",
-     "evidence_class": "single-expert"
-    }
-   ],
-   "not_this": [],
-   "why": "If a player fails to secure an outpost, it can lead to a disadvantageous position, making it difficult to launch an effective attack, especially with a knight.",
-   "practice": [],
-   "drafted_by": "phi4-mini:3.8b",
-   "checked_on": "2026-09-05",
-   "reviewed": true,
-   "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. Matches: `can_ever_be_covered` is exactly the 'cannot be attacked by an enemy pawn' clause, which casual definitions omit. Attribution corrected to Wikipedia, whose text this is; it was credited to Philidor."
-  },
-  {
-   "key": "backRankMate",
-   "definition": "Back Rank Mate: Checkmate the king on the home rank, when it is trapped there by its own pieces.",
-   "quote": "Back Rank Mate: Checkmate the king on the home rank, when it is trapped there by its own pieces.",
-   "sources": [
-    {
-     "url": "https://raw.githubusercontent.com/lichess-org/lila/master/translation/source/puzzleTheme.xml",
-     "publisher": "Lichess (lichess-org/lila), puzzle theme definitions",
-     "evidence_class": "expert-consensus"
-    }
-   ],
-   "not_this": [],
-   "why": "",
-   "practice": [],
-   "drafted_by": "lichess puzzleTheme.xml (seeded verbatim, not extracted)",
-   "checked_on": "2026-09-05",
-   "reviewed": true,
-   "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. The detector does NOT test Lichess's clause 'trapped there by its own pieces'. It requires mate delivered along the home rank by a rook or queen, which excludes smothered mates deliberately (D17)."
-  },
-  {
-   "key": "capturingDefender",
-   "definition": "Capturing Defender: Removing a piece that is critical to defence of another piece, allowing the now undefended piece to be captured on a following move.",
-   "quote": "Capturing Defender: Removing a piece that is critical to defence of another piece, allowing the now undefended piece to be captured on a following move.",
-   "sources": [
-    {
-     "url": "https://raw.githubusercontent.com/lichess-org/lila/master/translation/source/puzzleTheme.xml",
-     "publisher": "Lichess (lichess-org/lila), puzzle theme definitions",
-     "evidence_class": "expert-consensus"
-    },
-    {
-     "url": "book://edward-lasker-chess-strategy#20",
-     "publisher": "Edward Lasker, Chess Strategy (1915)",
-     "evidence_class": "single-expert"
-    },
-    {
-     "url": "book://edward-lasker-chess-strategy#21",
-     "publisher": "Edward Lasker, Chess Strategy (1915)",
-     "evidence_class": "single-expert"
-    }
-   ],
-   "not_this": [],
-   "why": "",
-   "practice": [],
-   "drafted_by": "lichess puzzleTheme.xml (seeded verbatim, not extracted)",
-   "checked_on": "2026-09-05",
-   "reviewed": true,
-   "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. Detector and definition agree."
-  },
-  {
-   "key": "discoveredAttack",
-   "definition": "Discovered Attack: Moving a piece (such as a knight), that previously blocked an attack by a long range piece (such as a rook), out of the way of that piece.",
-   "quote": "Discovered Attack: Moving a piece (such as a knight), that previously blocked an attack by a long range piece (such as a rook), out of the way of that piece.",
-   "sources": [
-    {
-     "url": "https://raw.githubusercontent.com/lichess-org/lila/master/translation/source/puzzleTheme.xml",
-     "publisher": "Lichess (lichess-org/lila), puzzle theme definitions",
-     "evidence_class": "expert-consensus"
-    }
-   ],
-   "not_this": [],
-   "why": "",
-   "practice": [],
-   "drafted_by": "lichess puzzleTheme.xml (seeded verbatim, not extracted)",
-   "checked_on": "2026-09-05",
-   "reviewed": true,
-   "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. The detector adds an unsourced floor: the revealed target must be worth 3 or more, or be the king."
-  },
-  {
-   "key": "endgame_error",
-   "definition": "This claim counts mistakes made once the position has reached an endgame, grouped by the material still on the board -- queen, rook, rook and minor, minor, or pawn. It is a measurement this project defines.",
-   "quote": "This claim counts mistakes made once the position has reached an endgame, grouped by the material still on the board -- queen, rook, rook and minor, minor, or pawn. It is a measurement this project defines.",
-   "sources": [
-    {
-     "url": "design://detectors-name-consequences",
-     "publisher": "This project's operational definition (docs/notes/design.detectors-name-consequences)",
-     "evidence_class": "single-expert"
-    },
-    {
-     "url": "https://en.wikibooks.org/wiki/Chess/The_Endgame/Rook_and_Pawn_Endings",
-     "publisher": "en.wikibooks.org",
-     "evidence_class": "single-expert"
-    }
-   ],
-   "not_this": [],
-   "why": "Knowing the concepts of how these endgames work is essential to the intermediate to advanced player, and can result in many wins from otherwise drawn situations (or draws from otherwise lost situations).",
-   "practice": [
-    "Study rook and pawn endings to understand their complexity and how professional players execute them correctly."
-   ],
-   "drafted_by": "author",
-   "checked_on": "2026-09-05",
-   "reviewed": true,
-   "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. This project's own measurement. The material classes are deliberately coarse (E08 measured finer ones firing for nobody)."
-  },
-  {
-   "key": "fork",
-   "definition": "Fork: A move where a piece attacks two or more opposing pieces simultaneously.",
-   "quote": "Fork: A move where a piece attacks two or more opposing pieces simultaneously.",
-   "sources": [
-    {
-     "url": "https://raw.githubusercontent.com/lichess-org/lila/master/translation/source/puzzleTheme.xml",
-     "publisher": "Lichess (lichess-org/lila), puzzle theme definitions",
-     "evidence_class": "expert-consensus"
-    },
-    {
-     "url": "book://edward-lasker-chess-strategy#101",
-     "publisher": "Edward Lasker, Chess Strategy (1915)",
-     "evidence_class": "single-expert"
-    },
-    {
-     "url": "https://en.wikipedia.org/wiki/Zwischenzug",
-     "publisher": "en.wikipedia.org",
-     "evidence_class": "single-expert"
-    },
-    {
-     "url": "https://www.chesskid.com/learn/terms/skewer-chess",
-     "publisher": "chesskid.com",
-     "evidence_class": "single-expert"
-    }
-   ],
-   "not_this": [
-    "a double attack delivered by two different pieces; this claim requires one piece to attack two targets"
-   ],
-   "why": "",
-   "practice": [],
-   "drafted_by": "lichess puzzleTheme.xml (seeded verbatim, not extracted)",
-   "checked_on": "2026-09-05",
-   "reviewed": true,
-   "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. The detector is NARROWER than this definition: it requires two targets NEWLY attacked by the piece that moved, the attacker to survive, and material to be definitely lost. It also has a known defect (E86 D-1): a fork whose victim was already attacked by another friendly piece is missed."
-  },
-  {
-   "key": "hangingPawn",
-   "definition": "En prise: unprotected and exposed to capture. A hanging piece may also be said to be en prise.",
-   "quote": "En prise: unprotected and exposed to capture. A hanging piece may also be said to be en prise.",
-   "sources": [
-    {
-     "url": "https://en.wiktionary.org/wiki/Appendix:Glossary_of_chess",
-     "publisher": "Wiktionary, Appendix: Glossary of chess",
-     "evidence_class": "expert-consensus"
-    },
-    {
-     "url": "book://edward-lasker-chess-and-checkers#11",
-     "publisher": "Edward Lasker, Chess and Checkers: the Way to Mastership (1918)",
-     "evidence_class": "single-expert"
-    },
-    {
-     "url": "book://staunton-blue-book-of-chess#30",
-     "publisher": "Howard Staunton, The Blue Book of Chess (1848)",
-     "evidence_class": "single-expert"
-    }
-   ],
-   "not_this": [
-    "hanging pawns in Steinitz's sense -- two adjacent pawns on central half-open files, which is a structure and a different subject"
-   ],
-   "why": "",
-   "practice": [
-    "Practice protecting your King's Bishop's Pawn as it is usually the point of the first attack.",
-    "When you have a diagonal line of Pawns, make sure to protect the Pawn at the head."
-   ],
-   "drafted_by": "author",
-   "checked_on": "2026-09-05",
-   "reviewed": true,
-   "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. The tactical sense of hanging, one rank below hangingPiece. NOT the Steinitz structure, which is what the earlier extracted entry had wrongly retrieved."
-  },
-  {
-   "key": "hangingPiece",
-   "definition": "Hanging Piece: A tactic involving an opponent piece being undefended or insufficiently defended and free to capture.",
-   "quote": "Hanging Piece: A tactic involving an opponent piece being undefended or insufficiently defended and free to capture.",
-   "sources": [
-    {
-     "url": "https://raw.githubusercontent.com/lichess-org/lila/master/translation/source/puzzleTheme.xml",
-     "publisher": "Lichess (lichess-org/lila), puzzle theme definitions",
-     "evidence_class": "expert-consensus"
-    },
-    {
-     "url": "book://staunton-blue-book-of-chess#13",
-     "publisher": "Howard Staunton, The Blue Book of Chess (1848)",
-     "evidence_class": "single-expert"
-    },
-    {
-     "url": "book://edward-lasker-chess-strategy#12",
-     "publisher": "Edward Lasker, Chess Strategy (1915)",
-     "evidence_class": "single-expert"
-    },
-    {
-     "url": "https://en.wikibooks.org/wiki/Chess_Strategy/Pawn_structure#Hanging_pawns_and_the_isolated_pawn_couple",
-     "publisher": "en.wikibooks.org",
-     "evidence_class": "single-expert"
-    }
-   ],
-   "not_this": [
-    "a hanging pawn, which is counted separately as hangingPawn"
-   ],
-   "why": "",
-   "practice": [],
-   "drafted_by": "lichess puzzleTheme.xml (seeded verbatim, not extracted)",
-   "checked_on": "2026-09-05",
-   "reviewed": true,
-   "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. The definition describes a STATE; the detector fires on the ACT of capturing such a piece, and excludes pawns, which are counted as hangingPawn."
-  },
-  {
-   "key": "late_castling",
-   "definition": "To avoid being a victim of a quick checkmate, you should try and make sure your king gets castled early in the game. Preferably, this should be before move 10.",
-   "quote": "To avoid being a victim of a quick checkmate, you should try and make sure your king gets castled early in the game. Preferably, this should be before move 10.",
-   "sources": [
-    {
-     "url": "https://www.chessstrategyonline.com/content/tutorials/how-to-start-a-game-of-chess-opening-principles",
-     "publisher": "Chess Strategy Online, opening principles",
-     "evidence_class": "single-expert"
-    },
-    {
-     "url": "https://en.wikipedia.org/wiki/Castling",
-     "publisher": "en.wikipedia.org",
-     "evidence_class": "single-expert"
-    }
-   ],
-   "not_this": [],
-   "why": "",
-   "practice": [
-    "Practice moving the king and rook according to the rules of castling, ensuring the king does not pass through or finish on an attacked square.",
-    "Practice completing the castling move with one hand to avoid making illegal moves."
-   ],
-   "drafted_by": "author",
-   "checked_on": "2026-09-05",
-   "reviewed": true,
-   "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. The source's 'before move 10' is advice, not the detector's threshold; the claim is measured against a per-opening norm."
-  },
-  {
-   "key": "long_think_error",
-   "definition": "This claim counts mistakes made on a move that followed an unusually long think for that player -- three times their own median thinking time. It is a measurement this project defines, not a term of art.",
-   "quote": "This claim counts mistakes made on a move that followed an unusually long think for that player -- three times their own median thinking time. It is a measurement this project defines, not a term of art.",
-   "sources": [
-    {
-     "url": "design://detectors-name-consequences",
-     "publisher": "This project's operational definition (docs/notes/design.detectors-name-consequences)",
-     "evidence_class": "single-expert"
-    },
-    {
-     "url": "book://young-chess-generalship#78",
-     "publisher": "Franklin K. Young, Chess Generalship, Vol. I (1910)",
-     "evidence_class": "single-expert"
-    },
-    {
-     "url": "https://en.wikipedia.org/wiki/Time_trouble",
-     "publisher": "en.wikipedia.org",
-     "evidence_class": "single-expert"
-    }
-   ],
-   "not_this": [
-    "time trouble, which is time_pressure_error -- this is about a long think, not a short clock"
-   ],
-   "why": "Players often spend large amounts of time after the opening as they consider their plans and calculate various tactical variations.",
-   "practice": [
-    "Lars Bo Hansen's principles are to ensure that pieces remain protected, avoid unnecessary pawn moves, and avoid analyzing unnecessary tactics."
-   ],
-   "drafted_by": "author",
-   "checked_on": "2026-09-05",
-   "reviewed": true,
-   "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. This project's own measurement, not a term of art. Distinct from time trouble, which is time_pressure_error."
-  },
-  {
-   "key": "moved_into_attack",
-   "definition": "En prise: unprotected and exposed to capture. A hanging piece may also be said to be en prise.",
-   "quote": "En prise: unprotected and exposed to capture. A hanging piece may also be said to be en prise.",
-   "sources": [
-    {
-     "url": "https://en.wiktionary.org/wiki/Appendix:Glossary_of_chess",
-     "publisher": "Wiktionary, Appendix: Glossary of chess",
-     "evidence_class": "expert-consensus"
-    }
-   ],
-   "not_this": [
-    "a capture that loses material once recaptures are counted, which is miscounted_exchange"
-   ],
-   "why": "",
-   "practice": [],
-   "drafted_by": "author",
-   "checked_on": "2026-09-05",
-   "reviewed": true,
-   "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. En prise is the right concept. The claim narrows it to QUIET moves; a capture that loses material is miscounted_exchange."
-  },
-  {
-   "key": "pawn_error",
-   "definition": "This claim counts mistakes made on a pawn move in the opening, where the engine preferred developing a piece. It is a measurement this project defines, not a term of art.",
-   "quote": "This claim counts mistakes made on a pawn move in the opening, where the engine preferred developing a piece. It is a measurement this project defines, not a term of art.",
-   "sources": [
-    {
-     "url": "design://detectors-name-consequences",
-     "publisher": "This project's operational definition (docs/notes/design.detectors-name-consequences)",
-     "evidence_class": "single-expert"
-    },
-    {
-     "url": "book://staunton-blue-book-of-chess#30",
-     "publisher": "Howard Staunton, The Blue Book of Chess (1848)",
-     "evidence_class": "single-expert"
-    },
-    {
-     "url": "book://edward-lasker-chess-strategy#76",
-     "publisher": "Edward Lasker, Chess Strategy (1915)",
-     "evidence_class": "single-expert"
-    },
-    {
-     "url": "book://capablanca-chess-fundamentals#22",
-     "publisher": "Jos\u00e9 Ra\u00fal Capablanca, Chess Fundamentals (1921)",
-     "evidence_class": "single-expert"
-    }
-   ],
-   "not_this": [],
-   "why": "A player who advances their pawns too far without proper support risks weakening their position and losing the advantage.",
-   "practice": [],
-   "drafted_by": "author",
-   "checked_on": "2026-09-05",
-   "reviewed": true,
-   "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. This project's own measurement, and the narrowest of them: it fires only where the engine preferred developing a piece."
-  },
-  {
-   "key": "pin",
-   "definition": "Pin: A tactic involving pins, where a piece is unable to move without revealing an attack on a higher value piece.",
-   "quote": "Pin: A tactic involving pins, where a piece is unable to move without revealing an attack on a higher value piece.",
-   "sources": [
-    {
-     "url": "https://raw.githubusercontent.com/lichess-org/lila/master/translation/source/puzzleTheme.xml",
-     "publisher": "Lichess (lichess-org/lila), puzzle theme definitions",
-     "evidence_class": "expert-consensus"
-    }
-   ],
-   "not_this": [],
-   "why": "",
-   "practice": [],
-   "drafted_by": "lichess puzzleTheme.xml (seeded verbatim, not extracted)",
-   "checked_on": "2026-09-05",
-   "reviewed": true,
-   "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. The detector is narrower: the piece behind must be a rook, queen or king (PIN_TARGET_MIN_VALUE = 5), so a bishop pinned to a rook counts and a knight pinned to a bishop does not."
-  },
-  {
-   "key": "repeat_move",
-   "definition": "To \u201close a move\u201d means to make a move which is not essential to the attainment of a desired position.",
-   "quote": "To \u201close a move\u201d means to make a move which is not essential to the attainment of a desired position.",
-   "sources": [
-    {
-     "url": "book://edward-lasker-chess-strategy#24",
-     "publisher": "Edward Lasker, Chess Strategy (1915)",
-     "evidence_class": "single-expert"
-    },
-    {
-     "url": "book://capablanca-chess-fundamentals#11",
-     "publisher": "Jos\u00e9 Ra\u00fal Capablanca, Chess Fundamentals (1921)",
-     "evidence_class": "single-expert"
-    },
-    {
-     "url": "book://capablanca-chess-fundamentals#9",
-     "publisher": "Jos\u00e9 Ra\u00fal Capablanca, Chess Fundamentals (1921)",
-     "evidence_class": "single-expert"
-    }
-   ],
-   "not_this": [],
-   "why": "It results in the loss of a move, which can lead to swift and deadly consequences.",
-   "practice": [
-    "Focus on combining development and attack in your moves."
-   ],
-   "drafted_by": "phi4-mini:3.8b",
-   "checked_on": "2026-08-30",
-   "reviewed": true,
-   "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. Edward Lasker's own definition of losing a move, which is what the claim counts."
-  },
-  {
-   "key": "skewer",
-   "definition": "Skewer: A motif involving a high value piece being attacked, moving out the way, and allowing a lower value piece behind it to be captured or attacked, the inverse of a pin.",
-   "quote": "Skewer: A motif involving a high value piece being attacked, moving out the way, and allowing a lower value piece behind it to be captured or attacked, the inverse of a pin.",
-   "sources": [
-    {
-     "url": "https://raw.githubusercontent.com/lichess-org/lila/master/translation/source/puzzleTheme.xml",
-     "publisher": "Lichess (lichess-org/lila), puzzle theme definitions",
-     "evidence_class": "expert-consensus"
-    }
-   ],
-   "not_this": [],
-   "why": "",
-   "practice": [],
-   "drafted_by": "lichess puzzleTheme.xml (seeded verbatim, not extracted)",
-   "checked_on": "2026-09-05",
-   "reviewed": true,
-   "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. Detector and definition agree."
-  },
-  {
-   "key": "slow_development",
-   "definition": "Development means moving your pieces out from their starting squares ready for battle; as an opening principle it is the most important concept.",
-   "quote": "Development means moving your pieces out from their starting squares ready for battle; as an opening principle it is the most important concept.",
-   "sources": [
-    {
-     "url": "https://www.chessstrategyonline.com/content/tutorials/how-to-start-a-game-of-chess-opening-principles",
-     "publisher": "Chess Strategy Online, opening principles",
-     "evidence_class": "single-expert"
-    },
-    {
-     "url": "book://edward-lasker-chess-strategy#24",
-     "publisher": "Edward Lasker, Chess Strategy (1915)",
-     "evidence_class": "single-expert"
-    },
-    {
-     "url": "https://en.wikibooks.org/wiki/Chess_Strategy/Development#Development",
-     "publisher": "en.wikibooks.org",
-     "evidence_class": "single-expert"
-    }
-   ],
-   "not_this": [],
-   "why": "Losing moves can hinder a player's progress and make it difficult to achieve a desired position in the game.",
-   "practice": [
-    "Study games by advanced players to see how they efficiently develop their pieces and convert a lead in development into a larger advantage.",
-    "Practice moving all pieces to their most advantageous squares while hindering the opponent's development without wasting moves (tempo)."
-   ],
-   "drafted_by": "author",
-   "checked_on": "2026-09-05",
-   "reviewed": true,
-   "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. An operational claim resting on a real principle. The detector measures development against a per-opening norm, not against this sentence."
-  },
-  {
-   "key": "trappedPiece",
-   "definition": "Trapped Piece: A piece is unable to escape capture as it has limited moves.",
-   "quote": "Trapped Piece: A piece is unable to escape capture as it has limited moves.",
-   "sources": [
-    {
-     "url": "https://raw.githubusercontent.com/lichess-org/lila/master/translation/source/puzzleTheme.xml",
-     "publisher": "Lichess (lichess-org/lila), puzzle theme definitions",
-     "evidence_class": "expert-consensus"
-    },
-    {
-     "url": "book://staunton-blue-book-of-chess#15",
-     "publisher": "Howard Staunton, The Blue Book of Chess (1848)",
-     "evidence_class": "single-expert"
-    },
-    {
-     "url": "book://edward-lasker-chess-strategy#25",
-     "publisher": "Edward Lasker, Chess Strategy (1915)",
-     "evidence_class": "single-expert"
-    }
-   ],
-   "not_this": [],
-   "why": "",
-   "practice": [],
-   "drafted_by": "lichess puzzleTheme.xml (seeded verbatim, not extracted)",
-   "checked_on": "2026-09-05",
-   "reviewed": true,
-   "note": "Reviewed by the assistant on 2026-09-06 under the author's explicit delegation (\"you should endorse the statements yourself... for now lets say that your review is enough\"). Not a human reading. KNOWN DEFECT (E86 D-2): the detector tests escape squares with is_attacked_by rather than an exchange, so a piece that could escape safely is reported trapped. Endorsed as a definition of the concept, NOT as a description of what the code currently does."
-  }
- ]
+  ]
 }

@@ -2,7 +2,7 @@
 id: cas-exp-e86
 title: 'E86 — Auditing every detector against a real definition, and finding the knowledge base cannot be one'
 desc: 'The audit was designed to judge detectors against the sourced knowledge graph. The graph cannot do it: fourteen entries, none endorsed, and forks definition is a definition of a skewer. Audited against Lichess own theme text instead. Two defects demonstrated on positions: a fork is missed when a victim was already attacked, and a trapped piece is reported when it has a safe escape.'
-updated: 1788707971375
+updated: 1788711968034
 created: 1788681600000
 ---
 
@@ -1119,3 +1119,90 @@ model to explain a chess position — which is the folklore hard rule 7 and R-03
 is where an LLM produces its most confident nonsense. The honest options are to keep the claim as a
 pointer to positions the player reviews themselves, or to retire it as the author retired
 `early_error`. **Recorded as the author's decision, not taken here.**
+
+---
+
+## Round eleven — `pawn_error` becomes `opening_pawn_error`, and gets the opening claims' criteria
+
+### The name
+
+> *"also rename the detector so it is clear that the move is about inacurate opening pawn moves"*
+
+`pawn_error` said nothing about the opening and nothing about development, which is the whole claim:
+*a pawn pushed instead of bringing a piece out, inside the opening, that went wrong.* Renamed to
+**`opening_pawn_error`**, putting it in the family it belongs to beside `late_castling`,
+`slow_development`, `out_of_book` and `repeat_move`.
+
+**A claim key is not just a label** — the peer reference, the separation register and the knowledge
+base are all keyed on it, so this is a migration:
+
+| | |
+|---|---|
+| code and tests | 12 files |
+| knowledge-base entry | `pawn_error` → `opening_pawn_error`, retrieval would otherwise miss it |
+| separation register | not present, nothing to do |
+| **peer reference** | **6 cells rebuilt** — a renamed claim has no peer rate until it is |
+| experiments | **left alone**: they are records of what was measured under the old name |
+
+### The criteria the author asked for
+
+> *"it should have similar criteria as late casteling or slow development where it shuldnt be counted
+> befor the moves are reached out of book move and until the end of the opening. Also they shouldnt be
+> counted when the issue is missing some motif that was triggered by other detector, or when the move
+> was actually ok move and it didn't produced wp loss."*
+
+Four conditions. **Three were already there** and are recorded here so they are not asked for twice:
+
+| condition | how it is met |
+|---|---|
+| after the out-of-book move | `_is_theory(game, ply)` skips moves still in the book |
+| until the end of the opening | `window_moves` stops at `ready_at` — and that bound was itself wrong until round nine, when a game with no castle had the whole game as its window |
+| not when the move cost nothing | `observation.is_error`, which is `label is not None` |
+| **not when a motif explains it** | **added** |
+
+The fourth is the same rule `drift_before` follows: an error a motif detector already names is charged
+to that motif, and counting it here too is the double-count `overlap.py` exists to prevent. *"You
+pushed a pawn instead of developing"* and *"you missed a fork"* are different lessons, and a plan
+built on the first while the second is true sends the player to fix the wrong thing. The move is
+dropped from the **opportunities** as well, because it was a tactical moment rather than a test of
+whether the player develops.
+
+After it: **84 instances over 1,286 opportunities (6.5 %)** across the reviewed games.
+
+### `miscounted_exchange` loses the king clause entirely
+
+> *"this can be removed from the statement, it just makes it confusing."*
+
+It was jargon (*"away from the kings"*), then an explanation of jargon (*"with no attack on the enemy
+king behind it"*), and the author was right that both are worse than nothing. **The claim names carry
+the distinction**: `sacrificed_for_attack` is the losing capture beside the enemy king, this is every
+other one. A reader looking at one sentence does not need the boundary of the other spelled out
+inside it. Now simply: *"Exchanges you start turn out to lose material more often than they do for
+players at your level."*
+
+### The gambit window was already the right size
+
+The author: *"in gambits pawns are usually given in the first 5 moves, after that not really."* The
+exemption added in round ten uses `EARLY_PLIES = 10`, which is **exactly the first five moves each**.
+No change needed; recorded so the coincidence is not mistaken for luck later.
+
+### …and then it stopped separating players
+
+Rebuilding the register after the change withdrew **`opening_pawn_error.any.own`**: dispersion
+**1.26** against a 1.29 threshold, p = 0.102, over 50 players, **conclusive**. It sits just under the
+bar, so with the motif-explained errors removed players no longer differ on it by more than sampling
+noise. It now reaches **0 of 12** reviewed players.
+
+Two independent lines arrive at the same place. The author's, before any of this was measured:
+
+> *"What does it mean pawn error any. What can be learned from that, what can be done to make this
+> weakness better? I don't see any value from this kind information."*
+
+and the screen's: there is no peer comparison to make, because there is no difference to compare.
+
+**A retirement candidate, and the author's decision.** The shape is already set twice over
+(`ADVANTAGE_ERROR_RETIRED`, `EARLY_ERROR_RETIRED`) and the same argument applies — the tally is worth
+keeping behind a flag to ask later whether pawn moves in the opening are explained elsewhere. Two
+`out_of_book` families moved in the same rebuild (`King's Pawn Game` and `Scotch Game` recover a
+comparison, `Italian Game` loses one), which is the register doing its job on a claim whose
+denominators changed.

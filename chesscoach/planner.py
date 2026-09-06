@@ -407,7 +407,7 @@ def _action(finding: Finding) -> str:
         # plan told a player to "Work on any" or "Work on Bird Opening" -- the
         # subject key with a verb in front of it. Each of these names something
         # the player can actually do between games.
-        "pawn_error": (
+        "opening_pawn_error": (
             "Before pushing a pawn, ask which piece is still at home. Most of these went "
             "wrong because a developing move was there and the pawn move looked useful; "
             "play the piece out and come back to the pawn."

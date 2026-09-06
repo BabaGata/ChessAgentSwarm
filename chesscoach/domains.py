@@ -125,7 +125,7 @@ UNMAPPED_ON_PURPOSE: dict[str, str] = {
                      "depending on why the player delayed",
     "slow_development": "the same ambiguity as late_castling",
     "repeat_move": "the same ambiguity as late_castling",
-    "pawn_error": "a pawn move judged by the engine — K4 if it is structure, "
+    "opening_pawn_error": "a pawn move judged by the engine — K4 if it is structure, "
                   "K3 if it is calculation, and the detector cannot tell",
     "early_error": "any error inside the opening window, so it spans every "
                    "domain an error can belong to",

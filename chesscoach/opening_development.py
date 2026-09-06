@@ -47,7 +47,7 @@ REPEAT_MOVE = "repeat_move"
 # as 2600s in the same opening. This is "when you push one instead of
 # developing, how often does it go wrong", which is what E61's cost finding
 # actually pointed at: same number of pawn moves, worse ones.
-PAWN_ERROR = "pawn_error"
+OPENING_PAWN_ERROR = "opening_pawn_error"
 # "You leave known theory earlier than players at your level."
 # design.detectors-name-consequences § 1a, released by the author's ruling:
 # "It is coaching to tell the player that they don't know the opening".
@@ -203,7 +203,7 @@ def engine_wanted_development(observation: Observation) -> bool:
 
     **The condition that makes the claim's NAME true**, added after reading the
     positions rather than the counts. Across the review corpus the engine wanted
-    another *pawn* move on 40 % of the moves `pawn_error` charged, 28 % of
+    another *pawn* move on 40 % of the moves `opening_pawn_error` charged, 28 % of
     `repeat_move`'s and 31 % of the castling claim's -- and wanted castling on
     only 26 % of the moves the castling claim was built from.
 
@@ -294,7 +294,7 @@ def habit_costs(game: GameDevelopment) -> dict[str, float]:
                 or window_move.pawn_instead_of_developing):
             union += loss
     return {LATE_CASTLING: castle, REPEAT_MOVE: repeat,
-            SLOW_DEVELOPMENT: union, PAWN_ERROR: pawn}
+            SLOW_DEVELOPMENT: union, OPENING_PAWN_ERROR: pawn}
 
 
 def count(
@@ -334,7 +334,7 @@ def count(
     # "When you push a pawn instead of developing, how often does it go wrong?"
     # The denominator is those pawn moves, not every move: the question is about
     # the quality of a choice the player made, not how often they made it.
-    pawns = tallies[f"{PAWN_ERROR}.any"]
+    pawns = tallies[f"{OPENING_PAWN_ERROR}.any"]
     for game in played:
         by_ply = {o.ply: o for o in game.mine}
         for window_move in game.development.window_moves:
@@ -345,12 +345,23 @@ def count(
             observation = by_ply.get(window_move.ply)
             if observation is None:
                 continue
+            # An error a motif detector already names is charged to that motif.
+            # The author's rule, and the same one `drift_before` follows:
+            #
+            # > *"they shouldnt be counted when the issue is missing some motif
+            # > that was triggered by other detector"*
+            #
+            # "You pushed a pawn instead of developing" and "you missed a fork"
+            # are different lessons, and a plan built on the first when the
+            # second is true sends the player to fix the wrong thing.
+            if _explained_by_a_motif(observation):
+                continue
             pawns.opportunities += 1
             if observation.is_error and engine_wanted_development(observation):
                 pawns.instances += 1
                 pawns.games.add(game.game_id)
                 pawns.examples.append(observation)
-        pawns.cost_wp += habit_costs(game)[PAWN_ERROR]
+        pawns.cost_wp += habit_costs(game)[OPENING_PAWN_ERROR]
 
     repeats = tallies[f"{REPEAT_MOVE}.any"]
     for game in played:
@@ -450,7 +461,7 @@ def declined_development(game: GameDevelopment) -> int:
     develop this bishop before without loosing material or advantage."* That is
     development not being what the position wanted, and
     `engine_wanted_development` already answers it -- it gates the habit costs and
-    `pawn_error` and was simply never applied to this claim's instances.
+    `opening_pawn_error` and was simply never applied to this claim's instances.
 
     On the five marked games it separates cleanly: **0 and 0** for the two
     rejected, **3, 5 and 7** for the three accepted.

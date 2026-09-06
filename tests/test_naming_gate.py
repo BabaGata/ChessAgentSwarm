@@ -51,7 +51,7 @@ class TestItRejectsTheKnownFailures:
         assert not _names(STORED_AS_FORK, "fork")
 
     def test_a_pawn_ending_is_not_an_attack_on_the_king(self):
-        # Passes a presence test on "king". It is better matched by `pawn_error`,
+        # Passes a presence test on "king". It is better matched by `opening_pawn_error`,
         # which is what makes it refusable without knowing any chess.
         assert not _names(PAWN_ENDING, "allows_pressure")
 

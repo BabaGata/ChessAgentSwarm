@@ -28,7 +28,7 @@ from chesscoach.book_depth import BookDepthNorms
 from chesscoach.opening_development import (
     LATE_CASTLING,
     OUT_OF_BOOK,
-    PAWN_ERROR,
+    OPENING_PAWN_ERROR,
     REPEAT_MOVE,
     SLOW_DEVELOPMENT,
 )
@@ -114,7 +114,7 @@ OPENING_DISADVANTAGE = "opening_disadvantage"
 
 ANY = "any"
 
-_DEVELOPMENT_KINDS = (SLOW_DEVELOPMENT, LATE_CASTLING, REPEAT_MOVE, PAWN_ERROR,
+_DEVELOPMENT_KINDS = (SLOW_DEVELOPMENT, LATE_CASTLING, REPEAT_MOVE, OPENING_PAWN_ERROR,
                       OUT_OF_BOOK)
 
 # Move 15, in plies. The catalogue's own figure and conventional rather than

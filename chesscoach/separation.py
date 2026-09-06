@@ -52,27 +52,27 @@ class Separation:
 # Screened within band on peers-e84: three bands, two speeds, denominator A.
 DOES_NOT_SEPARATE: dict[str, Separation] = {
     "executed_motif.hangingPiece.own": Separation(1.29, 0.0826, 1.04, 50, conclusive=True),  # 1400-1800|blitz
-    "out_of_book.Queen's Pawn Game.own": Separation(1.07, 0.359, 1.11, 29, conclusive=True),  # 1400-1800|blitz
-    "concedes_weakness.any.own": Separation(1.09, 0.31, 1.13, 50, conclusive=True),  # 1400-1800|blitz
-    "out_of_book.King's Pawn Game.own": Separation(0.28, 0.986, 1.15, 11, conclusive=True),  # 1400-1800|blitz
+    "concedes_weakness.any.own": Separation(1.16, 0.209, 1.13, 50, conclusive=True),  # 1400-1800|blitz
+    "out_of_book.Queen's Pawn Game.own": Separation(1.33, 0.168, 1.13, 17, conclusive=True),  # 1400-1800|rapid
     "concedes_weakness.isolated.own": Separation(1.07, 0.337, 1.17, 50, conclusive=True),  # 1400-1800|blitz
     "allowed_motif.fork.own": Separation(1.32, 0.0678, 1.20, 50, conclusive=True),  # 1400-1800|blitz
-    "out_of_book.Caro-Kann Defense.own": Separation(1.25, 0.209, 1.21, 19, conclusive=True),  # 1400-1800|rapid
-    "allows_square.any.own": Separation(1.13, 0.243, 1.21, 50, conclusive=True),  # 1400-1800|blitz
+    "allows_square.any.own": Separation(1.10, 0.29, 1.22, 50, conclusive=True),  # 1400-1800|blitz
     "executed_motif.fork.own": Separation(1.10, 0.326, 1.23, 27, conclusive=True),  # 1400-1800|blitz
     "executed_motif.pin.own": Separation(1.13, 0.282, 1.24, 33, conclusive=True),  # 1400-1800|blitz
     "allowed_motif.discoveredAttack.own": Separation(1.27, 0.0938, 1.24, 50, conclusive=True),  # 1400-1800|blitz
-    "concedes_weakness.backward.own": Separation(1.08, 0.328, 1.24, 50, conclusive=True),  # 1400-1800|blitz
+    "concedes_weakness.backward.own": Separation(1.20, 0.159, 1.25, 50, conclusive=True),  # 1400-1800|blitz
     "executed_motif.discoveredAttack.own": Separation(1.23, 0.214, 1.25, 22, conclusive=True),  # 1400-1800|rapid
+    "out_of_book.Caro-Kann Defense.own": Separation(1.40, 0.165, 1.27, 12, conclusive=True),  # 1600-2000|rapid
     "missed_motif.fork.own": Separation(0.77, 0.789, 1.27, 27, conclusive=True),  # 1400-1800|blitz
     "missed_motif.hangingPiece.own": Separation(1.24, 0.125, 1.27, 50, conclusive=True),  # 1400-1800|blitz
     "missed_motif.pin.own": Separation(0.84, 0.719, 1.29, 33, conclusive=True),  # 1400-1800|blitz
     "missed_motif.discoveredAttack.own": Separation(1.20, 0.238, 1.29, 22, conclusive=True),  # 1400-1800|rapid
+    "opening_pawn_error.any.own": Separation(1.26, 0.102, 1.29, 50, conclusive=True),  # 1400-1800|blitz
     "allows_pressure.king.own": Separation(1.14, 0.23, 1.34, 50, conclusive=True),  # 1400-1800|blitz
     "allows_square.rook_seventh.own": Separation(0.82, 0.804, 1.35, 50, conclusive=False),  # 1400-1800|blitz
     "sacrificed_for_attack.own_move.own": Separation(1.24, 0.123, 1.39, 50, conclusive=False),  # 1400-1800|blitz
+    "out_of_book.Italian Game.own": Separation(1.64, 0.0673, 1.41, 14, conclusive=False),  # 1400-1800|blitz
     "allowed_motif.skewer.own": Separation(1.02, 0.435, 1.42, 41, conclusive=False),  # 1400-1800|blitz
-    "out_of_book.Scotch Game.own": Separation(1.75, 0.0558, 1.47, 12, conclusive=False),  # 1200-1600|rapid
     "allowed_motif.capturingDefender.own": Separation(0.32, 1, 1.56, 34, conclusive=False),  # 1400-1800|rapid
     "allowed_motif.backRankMate.own": Separation(0.25, 0.993, 1.82, 12, conclusive=False),  # 1400-1800|blitz
 }

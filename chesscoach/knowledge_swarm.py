@@ -108,7 +108,7 @@ TERMS: dict[str, tuple[str, ...]] = {
                          "loss of time", "gain of time"),
     "repeat_move": ("moving the same piece twice chess", "same piece twice",
                     "loss of time", "waste of time"),
-    "pawn_error": ("pawn moves in the opening chess", "premature advance",
+    "opening_pawn_error": ("pawn moves in the opening chess", "premature advance",
                    "pawn advance"),
 
     # --- position and phase --------------------------------------------------
@@ -543,7 +543,7 @@ NAMES: dict[str, tuple[str, ...]] = {
     "late_castling": ("castling", "castle", "castled"),
     "slow_development": ("development", "develop", "developed", "developing"),
     "repeat_move": ("same piece twice", "lose a move", "lost move", "tempo"),
-    "pawn_error": ("pawn advance", "premature advance", "pawn move"),
+    "opening_pawn_error": ("pawn advance", "premature advance", "pawn move"),
     "allows_square": ("outpost", "hole", "weak square"),
     "allows_pressure": ("attack on the king", "king-side attack", "assault on the king"),
     "concedes_weakness": ("isolated", "doubled", "backward", "weak pawn"),

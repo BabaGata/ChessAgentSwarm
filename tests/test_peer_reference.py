@@ -176,7 +176,7 @@ class TestClaimKeysAreCanonical:
     `_key()` -- correctly, it fixed the detection sheet -- and the reference on
     disk kept the old spelling. From that point `peer_rate("slow_development.
     book.own")` missed, `_assess` returned None for want of a baseline, and
-    `slow_development`, `late_castling`, `repeat_move` and `pawn_error` produced
+    `slow_development`, `late_castling`, `repeat_move` and `opening_pawn_error` produced
     **no findings for anybody**.
 
     I-07 recorded the same shape one pair of arms earlier and called it fixed
