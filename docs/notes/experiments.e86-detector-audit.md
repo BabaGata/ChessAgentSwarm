@@ -2,7 +2,7 @@
 id: cas-exp-e86
 title: 'E86 — Auditing every detector against a real definition, and finding the knowledge base cannot be one'
 desc: 'The audit was designed to judge detectors against the sourced knowledge graph. The graph cannot do it: fourteen entries, none endorsed, and forks definition is a definition of a skewer. Audited against Lichess own theme text instead. Two defects demonstrated on positions: a fork is missed when a victim was already attacked, and a trapped piece is reported when it has a safe escape.'
-updated: 1788695004048
+updated: 1788703602049
 created: 1788681600000
 ---
 
@@ -876,3 +876,90 @@ never comes back empty for a motif that did fire.
 **This is the same failure as `_still_there_later` two rounds earlier** — a second implementation of a
 rule that already had one, silently drifting from it. The lesson holds in both directions: state the
 rule once and call it, or test that the copy agrees.
+
+---
+
+## Round eight — the opening claims, and two things withheld
+
+### Withheld from the report
+
+**Style** and **the prober's gap type**, both on the author's instruction and both behind a flag
+rather than deleted (`explainer.STYLE_IN_REPORT`, `explainer.GAP_TYPE_IN_REPORT`). The measurements
+continue: `plays_queenless` still feeds the peer reference, probes are still recorded, and `--collect`
+still grows the answer set D10 needs. For the gap type the flag also removes a live inconsistency —
+`--apply` is off by default, so `determined_by` is `INFERRED` on every real finding and the paragraph
+could not appear anyway; the report now says the same thing whether the gate is ever opened or not.
+
+### `slow_development` cited checkmate as evidence
+
+> *"There is a slow opening detected for the move with a rook in the move ~36 and the rook was
+> developed long before that."*
+
+True, and the mechanism was not the one the author proposed. They suspected the detector treats the
+first rank as home; `HOME_SQUARES` contains only the four minor-piece squares, so rooks are not in it
+at all. What actually happened: **`ready_at` is `None` whenever the player never castled**, and
+`at_ply(None)` fell through to a fallback whose docstring promised *"their last opening move"* while
+the code returned `self.mine[-1]` — the last move of the **game**. For `goydorak/EHDkU9YW` that is
+`Rf7#`, checkmate on move 36, printed as evidence of slow development.
+
+Bounded to the opening window (`EARLY_PLIES = 10`), it now cites **move 5**. A test asserting ply 19
+was asserting the defect.
+
+### `slow_development` needed a gate, and not the one that was asked for
+
+The author asked for *"similar check for the slow development as it is for late casteling"*. The
+drift test was built first and **measured, and it does not separate their marks**:
+
+| mark | game | drift |
+|---|---|--:|
+| y | `LQU5WA5o` | 1 |
+| y | `pYo52H1u` | 4 |
+| y | `2jVB3ZGU` | **0** |
+| n | `cfosGjRb` | 1 |
+| n | `EHDkU9YW` | 1 |
+
+An accepted game at zero and both rejections at one: no threshold works. Their *reason* is not drift
+— *"There was not really a possibility to develop this bishop before without loosing material or
+advantage"* — it is development not being what the position wanted. `engine_wanted_development`
+already answers that, gates the habit costs and `pawn_error`, and had simply never been applied to
+this claim's instances. It separates cleanly:
+
+| mark | engine wanted development |
+|---|--:|
+| the two rejected | **0, 0** |
+| the three accepted | **3, 5, 7** |
+
+**5/5**, and across the reviewed games 169 slow games become 157 — it removes only what it names.
+
+### `out_of_book` charges half its instances to the wrong player
+
+> *"There are plenty of the opening detections that are just a product of not having the proper
+> variants in the downloaded books."*
+
+The coverage problem is real and there is a worse one underneath it. A book walk stops at the first
+move outside the tree, so **once anyone leaves it, no later position is in it** — and the claim
+counted the player's window plies past `plies_in_book` without ever asking *whose move left*.
+
+Measured across the reviewed games:
+
+| | games | instances |
+|---|--:|--:|
+| the player left theory first | 281 (43 %) | 811 |
+| **the opponent left first** | **377 (57 %)** | **918 (53 %)** |
+
+`1.e4 d5 2.exd5 Nf6 3.c3` is one of the author's own examples: White plays an offbeat third move and
+**Black** is charged for the recapture, and for every move after it. *"You are out of known opening
+theory sooner than players at your level"* is not a true sentence about that player.
+
+`left_book_themselves` now gates the whole game — **not an opportunity either**, because a game where
+staying in book was impossible would dilute the rate rather than measure it, and peers are measured
+the same way so the comparison holds.
+
+**This does not fix the coverage problem underneath.** The book is thin on offbeat lines and a
+natural recapture can still fall outside it — `3.Nc3 Nxd5` in the Scandinavian is book to 5 plies and
+the recapture leaves it. What the fix removes is the half of the claim that was never about the
+player at all.
+
+A fixture caught by the change: `test_out_of_book_per_opening`'s Sicilian line was commented *"White
+in both, so every game's exits belong to the player under test"* and left the book on **Black's**
+move at ply 16, so the split had no Sicilian to find.

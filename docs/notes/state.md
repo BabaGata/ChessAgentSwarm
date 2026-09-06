@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788698344687
+updated: 1788703626983
 created: 1785254500000
 ---
 
@@ -279,6 +279,39 @@ struck through: a list nobody can act on is not a plan.
    Five existing tests asserted the old behaviour and were corrected, each saying so where it changed;
    one of them was written earlier in the same session from my own reading of a shape the author had
    already rejected twice in writing.
+
+0. **DONE — the opening claims corrected; style and gap type withheld** *(2026-09-06)*.
+
+   **Withheld from the report**, both behind flags rather than deleted: **style**
+   (`STYLE_IN_REPORT`) and **the prober's gap type** (`GAP_TYPE_IN_REPORT`), on the author's
+   instruction. Measurements continue — `plays_queenless` still feeds the peer reference, probes are
+   still recorded, `--collect` still grows D10's answer set. The gap-type flag also removes a live
+   inconsistency: `--apply` is off by default, so `determined_by` is `INFERRED` on every real finding
+   and the paragraph could not have appeared anyway.
+
+   **`slow_development` cited checkmate as its evidence.** `ready_at` is `None` whenever the player
+   never castled, and `at_ply` fell through to a fallback promising *"their last opening move"* while
+   returning the last move of the **game** — `Rf7#` on move 36. Bounded to the opening window, it now
+   cites move 5. The author's proposed cause (first rank read as home) was not it: `HOME_SQUARES`
+   holds only the four minor-piece squares.
+
+   **`slow_development` now fires only where development was on offer.** The drift test was built by
+   analogy with `late_castling` and **measured out** — an accepted game at drift 0 against both
+   rejections at 1, so no threshold separates. `engine_wanted_development`, which already gates the
+   habit costs and `pawn_error`, separates **0/0 against 3/5/7**. **5/5** on the marks; 169 slow games
+   become 157.
+
+   **`out_of_book` charged 53 % of its instances to the wrong player.** A book walk stops at the first
+   move outside the tree, so once anyone leaves it no later position is in it — and the claim never
+   asked whose move left. Across the reviewed games the book ran out in 658 games and **the opponent
+   left first in 377 (57 %)**, carrying **918 of 1,729 instances**. `1.e4 d5 2.exd5 Nf6 3.c3` is the
+   author's own case: White deviates and *Black* is charged for the recapture and everything after.
+   `left_book_themselves` now gates the game entirely — not an opportunity either, since a game where
+   staying in book was impossible dilutes the rate rather than measuring it.
+
+   **The coverage problem underneath is not fixed and is not claimed to be:** the book is thin on
+   offbeat lines, so `3.Nc3 Nxd5` in the Scandinavian still counts as a departure. What went is the
+   half of the claim that was never about the player.
 
 0. **DONE — style withheld from the report; the prober's standing traced** *(2026-09-06)*.
 

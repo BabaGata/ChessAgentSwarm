@@ -576,3 +576,50 @@ class TestSlowDevelopmentNeedsDevelopmentToHaveBeenOnOffer:
         tallies = count(rows, PLAYER, OpeningBook.load(), expectation)
 
         assert tallies[f"slow_development.{BY_BOOK}"].opportunities == 1
+
+
+class TestOutOfBookChargesOnlyYourOwnDeparture:
+    """You cannot be out of theory before there is any theory left to be in.
+
+    The author: *"There are plenty of the opening detections that are just a
+    product of not having the proper variants in the downloaded books."*
+
+    Measured across the reviewed games: the book ran out in 658, and in **377
+    (57 %) the opponent left first**, carrying **53 % of every instance the claim
+    charged**. A book walk stops at the first move outside the tree, so after an
+    opponent's deviation no later position is in the book and the player is out
+    of theory by construction.
+    """
+
+    def test_the_player_who_deviates_is_charged(self, book):
+        # 1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5 is theory; White's a3 leaves it.
+        rows = observations_for(SLOW_ITALIAN, "g1", player_is_white=True)
+
+        tallies = count(rows, PLAYER, book, norms())
+
+        assert tallies["out_of_book.any"].instances > 0
+
+    def test_the_player_whose_OPPONENT_deviates_is_not(self):
+        """Same game, read from Black: White left theory, so Black is not charged."""
+        rows = observations_for(SLOW_ITALIAN, "g1", player_is_white=False)
+
+        tallies = count(rows, PLAYER, OpeningBook.load(), norms())
+
+        assert tallies["out_of_book.any"].instances == 0
+        # ...and it is not counted as an opportunity either: scoring zero on a
+        # game where staying in book was impossible would dilute the rate rather
+        # than measure it.
+        assert tallies["out_of_book.any"].opportunities == 0
+
+    def test_who_left_is_read_from_the_ply(self):
+        from chesscoach.opening_development import left_book_themselves
+
+        white = GameDevelopment(game_id="g", family="X", colour=chess.WHITE,
+                                development=measure_development([], chess.WHITE),
+                                left_at_ply=5)
+        black = GameDevelopment(game_id="g", family="X", colour=chess.BLACK,
+                                development=measure_development([], chess.BLACK),
+                                left_at_ply=5)
+
+        assert left_book_themselves(white)      # ply 5 is White's third move
+        assert not left_book_themselves(black)

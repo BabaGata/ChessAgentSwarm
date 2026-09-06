@@ -31,19 +31,21 @@ allowed_motif.hangingPawn.own
     claims: When you go wrong, it is often a pawn you simply drop.
     231 instances across 4 players
 ------------------------------------------------------------------------------
-  [ ] Crossfire1983         move  23  White Kb1      lost   5.1 wp
+  [y] Crossfire1983         move  23  White Kb1      lost   5.1 wp
       lichess.org/6VIj14yA#45
       punished by Bxd3+ -- takes Pd3, with bd3
-  [ ] Hirsican              move   5  White exf6     lost  12.5 wp
+  [n] Hirsican              move   5  White exf6     lost  12.5 wp
       lichess.org/mdpdLHYI#9
       punished by Nxf6 -- takes Pf6, with nf6
-  [ ] Hirsican              move  26  Black Qxa2     lost   5.6 wp
+      This is a pawn exchange, it should not be counted.
+  [n] Hirsican              move  26  Black Qxa2     lost   5.6 wp
       lichess.org/vyI9oLv3#52
       punished by Bxe4 -- takes pe4, with Be4
-  [ ] Hirsican              move  37  White Bb3      lost  25.8 wp
+      There was a pawn hanging but defending this pawn was a worse move then the one that was played by the black. Also the black took white's hanging pawn and the white took black's hanging pawn.
+  [y] Hirsican              move  37  White Bb3      lost  25.8 wp
       lichess.org/3ULhxbZa#73
       punished by Rxg3 -- takes Pg3, with rg3
-  [ ] Maximilian_Honigtopf  move  13  White Nxc7     lost  17.7 wp
+  [y] Maximilian_Honigtopf  move  13  White Nxc7     lost  17.7 wp
       lichess.org/IGCmSgiy#25
       punished by Qxh3+ -- takes Ph3, with qh3
 
@@ -51,84 +53,88 @@ long_think_error.long_think.own
     claims: Your long thinks tend to end in a mistake.
     227 instances across 3 players
 ------------------------------------------------------------------------------
-  [ ] Hirsican              move  11  White Nc4      lost  11.2 wp
+  [y] Hirsican              move  11  White Nc4      lost  11.2 wp
       lichess.org/3pPHPEC4#21
-  [ ] Hirsican              move  15  White Rg1      lost  13.9 wp
+  [y] Hirsican              move  15  White Rg1      lost  13.9 wp
       lichess.org/2woiFZBd#29
-  [ ] Hirsican              move  16  Black f5       lost  36.1 wp
+  [y] Hirsican              move  16  Black f5       lost  36.1 wp
       lichess.org/NF4Pv6NH#32
-  [ ] Hirsican              move  19  Black Rb8      lost   5.8 wp
+  [y] Hirsican              move  19  Black Rb8      lost   5.8 wp
       lichess.org/KVh1nudO#38
-  [ ] Hirsican              move  24  White Bb3      lost   8.4 wp
+  [y] Hirsican              move  24  White Bb3      lost   8.4 wp
       lichess.org/zU1S5uVh#47
 
 allowed_motif.fork.own
     claims: When you go wrong, it is often a fork that punishes you.
     181 instances across 8 players
 ------------------------------------------------------------------------------
-  [ ] Hirsican              move  24  White Nb5      lost  38.2 wp
+  [n] Hirsican              move  24  White Nb5      lost  38.2 wp
       lichess.org/GV23qiD1#47
       punished by R8d3+ -- forker rd3, target Pb3, target Kf3
-  [ ] Maximilian_Honigtopf  move  15  White c3       lost  41.1 wp
+      This is actually a skewer, I just yesterday found out what a skewer is. So when the both attacked pieces and the attacker are aligned on the same file/diagonal/rank then that is a skewer. And a difference between a skewer is that it always directly attacks the stronger piece and the less valuable piece might be hidden behind of the stronger piece or it can be on the other side of the attacking piece. The difference for the pin is that a pin occurs when a more valuable piece is hidden behing the less valuable piece. A fork occurs when at least one of the 3 involved pieces (attacker and 2 attacked) is not aligned on the file/rank/line.
+  [y] Maximilian_Honigtopf  move  15  White c3       lost  41.1 wp
       lichess.org/IGCmSgiy#29
       punished by Qxh3+ -- forker qh3, target Kh1, target Pf3
-  [ ] Maximilian_Honigtopf  move  32  White Kc6      lost  18.2 wp
+  [y] Maximilian_Honigtopf  move  32  White Kc6      lost  18.2 wp
       lichess.org/sQ2h2BRg#63
       punished by Nxb4+ -- forker nb4, target Pa2, target Kc6
-  [ ] Sheriwoyama           move  30  Black Rg6      lost  33.9 wp
+  [y] Sheriwoyama           move  30  Black Rg6      lost  33.9 wp
       lichess.org/WymCY4M1#60
       punished by Qxg6+ -- forker Qg6, target pa6, target pf7, target kg8
-  [ ] cademan               move  24  White Nd4      lost  17.9 wp
+  [n] cademan               move  24  White Nd4      lost  17.9 wp
       lichess.org/vmYdIpZ1#47
       punished by Bg5+ -- forker bg5, target Kc1, target Qh6
+      This should be a skewer again, all the pieces are on the same diagonal and both pieces are more valuable then the attacker.
 
 out_of_book.Queen's Pawn Game.own
     claims: out_of_book: Queen's Pawn Game.
     145 instances across 5 players
 ------------------------------------------------------------------------------
-  [ ] Crossfire1983         move   4  Black c5       lost   2.4 wp
+  [y] Crossfire1983         move   4  Black c5       lost   2.4 wp
       lichess.org/s8pqhQcF#8
-  [ ] bernes                move   4  White cxd5     lost   2.9 wp
+  [y] bernes                move   4  White cxd5     lost   2.9 wp
       lichess.org/2F6G9tIr#7
-  [ ] bernes                move   5  Black e6       lost   0.0 wp
+  [n] bernes                move   5  Black e6       lost   0.0 wp
       lichess.org/eso2RWcP#10
-  [ ] goydorak              move   3  White Bf4      lost   2.5 wp
+      Out of book move happened on move 3 when black played a6. This detected move didn't even had wp loss.
+  [?] goydorak              move   3  White Bf4      lost   2.5 wp
       lichess.org/AFcYJ63x#5
-  [ ] maxhayastan           move   4  Black Nd7      lost   1.4 wp
+      This could be London system variant.
+  [y] maxhayastan           move   4  Black Nd7      lost   1.4 wp
       lichess.org/Zbmtj0PF#8
 
 time_pressure_error.clock.own
     claims: Your play falls off when the clock is short.
     145 instances across 4 players
 ------------------------------------------------------------------------------
-  [ ] maikel5               move  15  Black Nb3+     lost  16.7 wp
+  [y] maikel5               move  15  Black Nb3+     lost  16.7 wp
       lichess.org/yKHBrF0e#30
-  [ ] maikel5               move  24  Black Nexc2    lost   9.8 wp
+  [y] maikel5               move  24  Black Nexc2    lost   9.8 wp
       lichess.org/5KQuvjWo#48
-  [ ] maikel5               move  26  Black Qxa4     lost  26.4 wp
+  [y] maikel5               move  26  Black Qxa4     lost  26.4 wp
       lichess.org/zcStry0S#52
-  [ ] maikel5               move  30  Black Kg7      lost  10.1 wp
+  [y] maikel5               move  30  Black Kg7      lost  10.1 wp
       lichess.org/e7cTUscH#60
-  [ ] maikel5               move  55  White Ke3      lost  27.3 wp
+  [y] maikel5               move  55  White Ke3      lost  27.3 wp
       lichess.org/EGOMa6lY#109
 
 allowed_motif.pin.own
     claims: When you go wrong, it is often a pin that punishes you.
     139 instances across 8 players
 ------------------------------------------------------------------------------
-  [ ] Hirsican              move  13  Black Be6      lost  15.8 wp
+  [y] Hirsican              move  13  Black Be6      lost  15.8 wp
       lichess.org/NF4Pv6NH#26
       punished by Qb5 -- pinner Qb5, pinned nc6, against ke8
-  [ ] Hirsican              move  32  Black Kd7      lost  18.6 wp
+  [y] Hirsican              move  32  Black Kd7      lost  18.6 wp
       lichess.org/htcjpYak#64
       punished by Qxb7 -- pinner Qb7, pinned bc7, against kd7
-  [ ] Maximilian_Honigtopf  move   9  White O-O      lost  34.0 wp
+  [y] Maximilian_Honigtopf  move   9  White O-O      lost  34.0 wp
       lichess.org/rEJOQ7iq#17
       punished by Bxg4 -- pinner bg4, pinned Nf3, against Qd1
-  [ ] Odin5306              move  10  Black Qe7      lost   9.6 wp
+  [y] Odin5306              move  10  Black Qe7      lost   9.6 wp
       lichess.org/LZH9NLtu#20
       punished by Bg5 -- pinner Bg5, pinned nf6, against qe7
-  [ ] simonvj               move  24  White Bh3      lost   7.3 wp
+  [y] simonvj               move  24  White Bh3      lost   7.3 wp
       lichess.org/uLLfSAV7#47
       punished by Bd4 -- pinner bd4, pinned Ne3, against Kg1
 

@@ -71,6 +71,10 @@ class GameDevelopment:
     # How deep this game stayed in named theory. Moves inside it are not the
     # player's own choices and are never charged to them -- see `_is_theory`.
     plies_in_book: int = 0
+    # The ply that left the book, and whose it was. **Once any move leaves the
+    # tree no later position is in it**, so after an opponent's deviation the
+    # player is out of theory by construction rather than by choice.
+    left_at_ply: int | None = None
     # The player's own observations, by ply. Carried because **V8 requires every
     # claim to cite the player's own games**, and a claim about a game needs a
     # move to point at.
@@ -158,6 +162,7 @@ def developments(
                 development=measure_development(moves, colour),
                 mine=tuple(sorted(mine_by_game[game_id], key=lambda o: o.ply)),
                 plies_in_book=walk.plies_in_book,
+                left_at_ply=walk.left_at_ply,
             )
         )
     return tuple(found)
@@ -379,6 +384,11 @@ def count(
     out_of_book = tallies[f"{OUT_OF_BOOK}.{ANY_OPENING}"]
     for game in played:
         white = game.colour == chess.WHITE
+        if not left_book_themselves(game):
+            # Not an opportunity either: the player was never in a position to
+            # stay in theory, so counting the game and scoring zero would dilute
+            # the rate rather than measure it.
+            continue
         by_ply = {o.ply: o for o in game.mine}
         per_family = tallies[f"{OUT_OF_BOOK}.{game.family}"] if game.family else None
         out_of_book.opportunities += moves_per_game()
@@ -530,6 +540,34 @@ def _explained_by_a_motif(observation: Observation) -> bool:
     if best not in board.legal_moves:
         return False
     return bool(detect_motifs(board, best))
+
+
+def left_book_themselves(game: GameDevelopment) -> bool:
+    """Was it the player who left known theory, or their opponent?
+
+    > *"There are plenty of the opening detections that are just a product of not
+    > having the proper variants in the downloaded books."*
+
+    The author's reading, and the measurement is worse than it sounds: across the
+    reviewed games the book ran out in 658 of them, and in **377 (57 %) the
+    opponent left first** -- carrying **53 % of every instance the claim
+    charged**. `1.e4 d5 2.exd5 Nf6 3.c3` is one of theirs: White plays an offbeat
+    third move and *Black* is charged for the recapture, and for every move after
+    it.
+
+    A book walk stops at the first move outside the tree, so once anyone leaves
+    it **no later position is in it**. After an opponent's deviation the player
+    is out of theory by construction, and *"you are out of known opening theory
+    sooner than players at your level"* is not a true sentence about them.
+
+    This does not fix the coverage problem underneath -- the book is thin on
+    offbeat lines and a natural recapture can still fall outside it. It removes
+    the half of the claim that was never about the player at all.
+    """
+    if game.left_at_ply is None:
+        return False
+    played_by_white = game.left_at_ply % 2 == 1
+    return played_by_white == (game.colour == chess.WHITE)
 
 
 def _record(tallies: dict[str, Tally], basis: str, game: GameDevelopment, verdict) -> None:

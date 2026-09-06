@@ -30,11 +30,18 @@ from chesscoach.openings import OpeningBook
 
 from test_opening_development import PLAYER, observations_for
 
-# White in both, so every game's exits belong to the player under test.
+# White in both, and in both it is **White's** move that leaves the book -- which
+# the comment used to claim and the moves did not deliver. `out_of_book` now
+# charges only the player's own departure, so a line whose last theory move is
+# Black's produces nothing for White and the split had no Sicilian to find.
+#
+# Italian leaves at ply 11 (`Bg5`), Sicilian at ply 15 (`a3`); the Najdorf line
+# below is book to ply 14, so `f3` -- which is theory -- became `a3`, which is
+# not.
 ITALIAN = ("e4", "e5", "Nf3", "Nc6", "Bc4", "Bc5", "O-O", "Nf6", "d3", "d6",
            "Bg5", "Bg4", "Nbd2", "Nd4")
 SICILIAN = ("e4", "c5", "Nf3", "d6", "d4", "cxd4", "Nxd4", "Nf6", "Nc3", "a6",
-            "Be3", "e5", "Nb3", "Be6", "f3", "Be7")
+            "Be3", "e5", "Nb3", "Be6", "a3", "Be7")
 
 
 @pytest.fixture(scope="module")
