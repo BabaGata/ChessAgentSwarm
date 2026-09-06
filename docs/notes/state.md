@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788706252840
+updated: 1788707996676
 created: 1785254500000
 ---
 
@@ -279,6 +279,35 @@ struck through: a list nobody can act on is not a plan.
    Five existing tests asserted the old behaviour and were corrected, each saying so where it changed;
    one of them was written earlier in the same session from my own reading of a shape the author had
    already rejected twice in writing.
+
+0. **DONE — four sheet questions answered; gambits and jargon fixed** *(2026-09-06)*.
+
+   **`.own` is not the missed/allowed distinction.** That is the `kind`: `missed_motif` is an
+   opportunity you did not take, `allowed_motif` is one your mistake gave the opponent.
+   `Claim.direction` **defaults to `"own"` and is never set otherwise** — an unused axis adding a
+   constant to every key. Noted, not removed: it is in the serialised keys, the peer cells and the
+   separation register, so it is a migration.
+
+   **`miscounted_exchange`'s "away from the kings"** meant *not a sacrifice*: a losing capture within
+   `ATTACK_RADIUS` of the enemy king is `sacrificed_for_attack`, the same capture elsewhere had no
+   attacking idea behind it (E35 split them, 1.75x → 2.71x and 1.84x). The sentence named the geometry
+   and now names the meaning.
+
+   **`moved_into_attack` exempts a pawn offered inside the opening** — a gambit is a decision, not an
+   oversight. Narrow, and measured: **9 of 833** diagnosable firings. Pawns are *not* exempt as a
+   class — two of the author's own accepted marks are mid-game pawn pushes.
+
+   **`out_of_book` scoping was already what was asked for.** "Played often" is
+   `WATCH/FOCUS/PRIORITY_DISTINCT_GAMES = 3/5/8`, so an opening played once cannot reach a report;
+   "out of book often" is `assign_tier`'s `rate <= baseline_rate` → NONE. Across the twelve players,
+   **14 per-opening claims reach a report, fewest games behind any of them = 3**, and the two at
+   `focus` are exactly the valuable shape — Scandinavian 4 of 5 games, Hungarian 8 of 12. Nothing
+   changed; evidence recorded.
+
+   **`pawn_error`'s limit is structural and is the author's call.** The report says *what* was better
+   (*"you played e6 (Nc6 was better)"*) and never *why*. Saying why needs either engine variations
+   read back in vocabulary this project lacks, or an LLM explaining a position — which hard rule 7 and
+   R-03 forbid. Keep it as a pointer to positions, or retire it as `early_error` was. **Not decided.**
 
 0. **DONE — the opening ends when the king moves; style stops being measured** *(2026-09-06)*.
 

@@ -2,7 +2,7 @@
 id: cas-exp-e86
 title: 'E86 — Auditing every detector against a real definition, and finding the knowledge base cannot be one'
 desc: 'The audit was designed to judge detectors against the sourced knowledge graph. The graph cannot do it: fourteen entries, none endorsed, and forks definition is a definition of a skewer. Audited against Lichess own theme text instead. Two defects demonstrated on positions: a fork is missed when a victim was already attacked, and a trapped piece is reported when it has a safe escape.'
-updated: 1788706223091
+updated: 1788707971375
 created: 1788681600000
 ---
 
@@ -1038,3 +1038,84 @@ over every move — and it is the field the prober would write into. Removing it
 sections, the model, the serialiser and their tests for zero runtime saving, and would have to be
 rebuilt to re-enable the prober. Recorded as inert rather than removed; the author's condition —
 *"if there isn't any usefulness"* — is met on usefulness but not on cost.
+
+---
+
+## Round ten — four questions answered, two of them defects
+
+### `.own` is not the distinction the author was looking for
+
+> *"there are on every detector `.own` suffix, how can I separate the mistakes that are done by not
+> taking an opportunity or mistakes that are because of giving an opponent that opportunity?"*
+
+**That separation already exists, and it is the `kind`, not the suffix.** `missed_motif.fork` is a
+fork *you had and did not play*; `allowed_motif.fork` is a fork *your mistake gave them*;
+`executed_motif.fork` is one you played, and is never asserted.
+
+`.own` is `Claim.direction`, which **defaults to `"own"` and is never set to anything else** anywhere
+in the codebase. It was an axis for "about this player" versus "about their opponent" that nothing
+ever used, so it adds a constant to every key and distinguishes nothing. Noted rather than removed:
+it is embedded in the serialised claim keys, in the peer-reference cells and in the separation
+register, so taking it out is a migration and not an edit.
+
+### `miscounted_exchange`: what "away from the kings" meant
+
+> *"Away from the kings, what is the meaning of this part?"*
+
+It is the half of the old claim that is **not a sacrifice**. A losing capture within
+`material.ATTACK_RADIUS` of the enemy king is `sacrificed_for_attack` — a deliberate idea, whose
+soundness this project deliberately does not judge (conditioning on it dragged the claim into
+restating the error rate, r = +0.682 against +0.125). The same capture anywhere else has no attacking
+idea behind it and is simply an exchange that did not add up. E35 split them because it sharpened
+both halves: 1.75x combined against 2.71x and 1.84x apart.
+
+The sentence named the geometry instead of the meaning and now says it: *"When you start an exchange
+with no attack on the enemy king behind it, it turns out to lose material more often than it does for
+players at your level."*
+
+### `moved_into_attack` and gambits
+
+> *"aren't those detections when the piece is placed on a square where it can be taken for free? ...
+> Pawns are regularly given in gambits."*
+
+Right about the mechanism — a **quiet** move whose piece can be won on arrival — and the pawn worry
+is real but narrower than it looks. Across the reviewed games **61 % of firings are pawn moves**, and
+two of the author's own accepted marks are mid-game pawn pushes (`f5` on move 16, `g5` on move 19), so
+pawns are not exempt as a class. What is exempt is a pawn offered **while the opening is still
+running**, which is a decision rather than an oversight.
+
+Measured: **9 of 833** diagnosable firings. Implemented at that size and recorded at it.
+
+### `out_of_book` scoping — already what the author asked for
+
+> *"count for everything ... But as long as scoring prioritizes those that player play more often and
+> they go out of book more often. Playing some opening once and going out of the book early doesn't
+> mean much."*
+
+Both halves are already enforced, by the confidence policy rather than by anything in the detector:
+
+* **played often** — `WATCH_DISTINCT_GAMES = 3`, `FOCUS = 5`, `PRIORITY = 8` distinct games. An
+  opening played once cannot reach a report at all.
+* **out of book often** — `assign_tier` returns `NONE` when `rate <= baseline_rate`, so the rate must
+  beat players at the same level.
+
+Across the twelve reviewed players, **14 per-opening claims reach a report and the fewest games behind
+any of them is 3**. The two that reach `focus` are exactly the shape the author describes as valuable:
+`maxhayastan` leaving the Scandinavian in 4 of 5 games, `Odin5306` the Hungarian in 8 of 12. Nothing
+was changed; the evidence is recorded so the question does not have to be asked again.
+
+### `pawn_error`, and the limit the author identified
+
+> *"even with good wording I don't think that the player could have any value from that if he doesnt
+> understand why the pawn_error was an error, like why it makes it a bad move?"*
+
+The wording is now *"When you push a pawn instead of developing a piece, it goes wrong more often than
+it does for players at your level"*, and every cited example carries the engine's move —
+*"move 6, you played e6 (Nc6 was better)"*. So the report says **what** was better and never **why**.
+
+**That gap is structural, not an oversight.** Saying why `Nc6` was better means either reading engine
+variations back to a player, which needs vocabulary this project does not have, or asking a language
+model to explain a chess position — which is the folklore hard rule 7 and R-03 exist to forbid, and
+is where an LLM produces its most confident nonsense. The honest options are to keep the claim as a
+pointer to positions the player reviews themselves, or to retire it as the author retired
+`early_error`. **Recorded as the author's decision, not taken here.**

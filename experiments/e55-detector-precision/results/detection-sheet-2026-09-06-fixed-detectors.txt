@@ -606,16 +606,16 @@ missed_motif.capturingDefender.own
     claims: You miss capturing the defender tactics that were available.
     4 instances across 1 players
 ------------------------------------------------------------------------------
-  [ ] bjagus                move  11  Black Bf6      lost  43.6 wp
+  [y] bjagus                move  11  Black Bf6      lost  43.6 wp
       lichess.org/cfosGjRb#22
       was available Nxf3+ -- takes defender on Nf3, they recapture Bg2, then falls Bg5
-  [ ] bjagus                move  15  Black Qb5      lost  39.5 wp
+  [y] bjagus                move  15  Black Qb5      lost  39.5 wp
       lichess.org/g6HpNh5P#30
       was available Bxe2 -- takes defender on Ne2, they recapture Qd1, then falls Bd4
-  [ ] bjagus                move  17  Black Nh5      lost  12.6 wp
+  [y] bjagus                move  17  Black Nh5      lost  12.6 wp
       lichess.org/nHlswj7q#34
       was available gxf4 -- takes defender on Pf4, they recapture Qg3, then falls Ne5
-  [ ] bjagus                move  22  Black bxc4     lost   8.7 wp
+  [y] bjagus                move  22  Black bxc4     lost   8.7 wp
       lichess.org/nHlswj7q#44
       was available Bxe5 -- takes defender on Ne5, they recapture Qg7, then falls Bc4
 
@@ -623,16 +623,16 @@ missed_motif.skewer.own
     claims: You miss skewer tactics that were available.
     4 instances across 1 players
 ------------------------------------------------------------------------------
-  [ ] Hirsican              move   9  White Bb5      lost  34.9 wp
+  [y] Hirsican              move   9  White Bb5      lost  34.9 wp
       lichess.org/f16UIT0m#17
       was available Bh3 -- skewerer Bh3, front qd7, behind bc8
-  [ ] Hirsican              move  15  White Bg5      lost  31.9 wp
+  [y] Hirsican              move  15  White Bg5      lost  31.9 wp
       lichess.org/8zsVzk0T#29
       was available Qc8+ -- skewerer Qc8, front ke8, behind rh8
-  [ ] Hirsican              move  21  White Bxc7     lost  22.5 wp
+  [y] Hirsican              move  21  White Bxc7     lost  22.5 wp
       lichess.org/QK2OAaFT#41
       was available Bf2 -- skewerer Bf2, front qe3, behind bd4
-  [ ] Hirsican              move  25  Black Nxe4     lost  22.9 wp
+  [y] Hirsican              move  25  Black Nxe4     lost  22.9 wp
       lichess.org/f66m6egS#50
       was available Re8 -- skewerer re8, front Qe6, behind Ne4
 

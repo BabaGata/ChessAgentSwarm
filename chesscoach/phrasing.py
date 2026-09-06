@@ -48,7 +48,9 @@ QUANTITIES: dict[str, str] = {
     "allows_square": "moves that let your opponent establish {subject}",
     "allows_pressure": "moves that let an attack build against your king",
     "moved_into_attack": "moves that leave the piece you moved takeable",
-    "miscounted_exchange": "exchanges you start away from the kings that lose material",
+    "miscounted_exchange": (
+        "exchanges you start that lose material, with no attack on the king behind them"
+    ),
     "sacrificed_for_attack": "material given up to attack the king",
     "out_of_book": "moves played outside known theory in the {subject}",
     "pawn_error": "pawn pushes played instead of developing that went wrong",
@@ -108,9 +110,16 @@ STATEMENTS: dict[str, str] = {
         "You move the same piece again while another is still at home, more often "
         "than players at your level."
     ),
+    # "Away from the kings" was the jargon and the author asked what it meant.
+    # It is the half of the old claim that is **not** a sacrifice: a losing
+    # capture within `material.ATTACK_RADIUS` of the enemy king is
+    # `sacrificed_for_attack`, a deliberate idea whose soundness this project
+    # does not judge; the same capture anywhere else is an exchange that simply
+    # did not add up. The sentence now says that instead of naming the geometry.
     "miscounted_exchange": (
-        "Away from the kings, exchanges you start turn out to lose material more "
-        "often than they do for players at your level."
+        "When you start an exchange with no attack on the enemy king behind it, "
+        "it turns out to lose material more often than it does for players at "
+        "your level."
     ),
     # Stated without a verdict. 43 % of these are sacrifices the engine did
     # not fault, so calling them mistakes would be wrong; the cost line below

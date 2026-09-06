@@ -58,6 +58,7 @@ import chess
 from chesscoach.analysis.observations import Observation
 from chesscoach.confidence import MIN_GAMES_WITH_DATA, ClaimStats, assign_tier
 from chesscoach.evaluation.splithalf import split_half_check
+from chesscoach.book_depth import EARLY_PLIES
 from chesscoach.material import (
     miscounted_exchange_away_from_king,
     moved_into_attack,
@@ -87,6 +88,30 @@ from chesscoach.sections.base import (
 SECTION = "S7"
 
 MOVED_INTO_ATTACK = "moved_into_attack"
+
+
+def _offered_pawn(board: chess.Board, move: chess.Move, observation) -> bool:
+    """A pawn left takeable while the opening is still running -- a gambit.
+
+    The author, on a pawn move at move 5 that this claimed:
+
+    > *"aren't those detections when the piece is placed on a square where it can
+    > be taken for free? ... Pawns are regularly given in gambits."*
+
+    Their reading holds only inside the opening: two of the firings they
+    **accepted** are mid-game pawn pushes (`f5` on move 16, `g5` on move 19), so
+    pawns are not exempt as such. What is exempt is a pawn offered while theory
+    is still running, which is a decision rather than an oversight.
+
+    Narrow, and measured: **9 of 833** diagnosable firings across the reviewed
+    games. Recorded at that size rather than implied to be more.
+    """
+    piece = board.piece_at(move.from_square)
+    return (
+        piece is not None
+        and piece.piece_type == chess.PAWN
+        and observation.ply <= EARLY_PLIES
+    )
 MISCOUNTED = "miscounted_exchange"
 SACRIFICED = "sacrificed_for_attack"
 
@@ -175,7 +200,11 @@ def _count(context: SectionContext) -> _Counts:
 
         # Every move is a chance to walk into an attack; only a capture is a
         # chance to miscount one. Denominators are opportunities, never moves.
-        _record(tallies[MOVED_INTO_ATTACK], observation, moved_into_attack(board, move))
+        _record(
+            tallies[MOVED_INTO_ATTACK],
+            observation,
+            moved_into_attack(board, move) and not _offered_pawn(board, move, observation),
+        )
         if board.is_capture(move):
             # Split on the reviewer's distinction, and the split sharpened
             # both halves: the combined claim spread 1.75x, these spread
