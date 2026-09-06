@@ -2,7 +2,7 @@
 id: cas-exp-e86
 title: 'E86 — Auditing every detector against a real definition, and finding the knowledge base cannot be one'
 desc: 'The audit was designed to judge detectors against the sourced knowledge graph. The graph cannot do it: fourteen entries, none endorsed, and forks definition is a definition of a skewer. Audited against Lichess own theme text instead. Two defects demonstrated on positions: a fork is missed when a victim was already attacked, and a trapped piece is reported when it has a safe escape.'
-updated: 1788692052276
+updated: 1788695004048
 created: 1788681600000
 ---
 
@@ -829,3 +829,50 @@ like:
 
 **All 32 of the author's rejections are now accounted for**: 28 no longer fire, 3 remain as motif
 *naming* collisions, and 1 (`early_error`) is retired.
+
+---
+
+## Round seven — the sheet now shows what it is asking about
+
+The three remaining `[n]` marks were logged above as *"motif naming collisions"* and treated as an
+open defect. **The author closed that reading:**
+
+> *"If the position detects multiple motifs at the same time it is ok, they are valuable input for
+> the general overview. I might not seen the other motif because I saw the first one, but now since
+> the detectors should mark the pieces involved with the motif I should be able to see if the
+> detector really detected the wrong motif instead of the correct one."*
+
+Two motifs on one move is the position being richer than one word, not a fault. **The real defect was
+that the sheet could not show why a name was given**, so a reader had no way to tell a wrong label
+from a right one — and for an `allowed_motif` claim, not even the right move: the line carried the
+player's own losing move, while the motif belongs to the **opponent's reply**. The punishing move was
+already stored in `tally.better_moves` and had never been rendered.
+
+`chesscoach/motif_evidence.py` names the squares a motif rests on and the sheet prints them beside the
+executing move:
+
+```
+  [ ] Hirsican              move  13  Black Be6      lost  15.8 wp
+      lichess.org/NF4Pv6NH#26
+      punished by Qb5 -- pinner Qb5, pinned nc6, against ke8
+```
+
+Derived, never stored, so it cannot go stale against the detectors; free, because both positions are
+already in the observation. **53 of 53 motif examples carry the line.**
+
+### A defect this introduced, and how it was caught
+
+The first version re-stated each detector's conditions in order to locate the squares, and restated
+them **incompletely** — missing `_lands_safely` for a fork, the surviving-pinner guard for a pin, the
+value floor for a hanging piece. On one game it disagreed with the detector on **303 of 5,935 moves**
+for `hangingPawn` alone, and on `fork`, `pin`, `skewer`, `hangingPiece`, `backRankMate` and
+`capturingDefender` besides.
+
+The corpus test written for exactly this caught all seven. `evidence()` now asks `detect_motifs`
+first and only then locates, so the two agree **by construction** rather than by my copying
+conditions correctly. What the test checks is the weaker and more useful property: that a finder
+never comes back empty for a motif that did fire.
+
+**This is the same failure as `_still_there_later` two rounds earlier** — a second implementation of a
+rule that already had one, silently drifting from it. The lesson holds in both directions: state the
+rule once and call it, or test that the copy agrees.

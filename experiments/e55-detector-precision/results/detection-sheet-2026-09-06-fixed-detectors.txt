@@ -22,7 +22,7 @@ these games, which is worth knowing too.
 
 ==============================================================================
 
-GENERATED 2026-09-06 from commit 5047dc3.
+GENERATED 2026-09-06 from commit 48d8c89.
 Marks on this sheet judge THAT code. If a detector changes afterwards its
 marks stop being evidence about it -- record this line with them.
 
@@ -33,14 +33,19 @@ allowed_motif.hangingPawn.own
 ------------------------------------------------------------------------------
   [ ] Crossfire1983         move  23  White Kb1      lost   5.1 wp
       lichess.org/6VIj14yA#45
+      punished by Bxd3+ -- takes Pd3, with bd3
   [ ] Hirsican              move   5  White exf6     lost  12.5 wp
       lichess.org/mdpdLHYI#9
+      punished by Nxf6 -- takes Pf6, with nf6
   [ ] Hirsican              move  26  Black Qxa2     lost   5.6 wp
       lichess.org/vyI9oLv3#52
+      punished by Bxe4 -- takes pe4, with Be4
   [ ] Hirsican              move  37  White Bb3      lost  25.8 wp
       lichess.org/3ULhxbZa#73
+      punished by Rxg3 -- takes Pg3, with rg3
   [ ] Maximilian_Honigtopf  move  13  White Nxc7     lost  17.7 wp
       lichess.org/IGCmSgiy#25
+      punished by Qxh3+ -- takes Ph3, with qh3
 
 long_think_error.long_think.own
     claims: Your long thinks tend to end in a mistake.
@@ -63,14 +68,19 @@ allowed_motif.fork.own
 ------------------------------------------------------------------------------
   [ ] Hirsican              move  24  White Nb5      lost  38.2 wp
       lichess.org/GV23qiD1#47
+      punished by R8d3+ -- forker rd3, target Pb3, target Kf3
   [ ] Maximilian_Honigtopf  move  15  White c3       lost  41.1 wp
       lichess.org/IGCmSgiy#29
+      punished by Qxh3+ -- forker qh3, target Kh1, target Pf3
   [ ] Maximilian_Honigtopf  move  32  White Kc6      lost  18.2 wp
       lichess.org/sQ2h2BRg#63
+      punished by Nxb4+ -- forker nb4, target Pa2, target Kc6
   [ ] Sheriwoyama           move  30  Black Rg6      lost  33.9 wp
       lichess.org/WymCY4M1#60
+      punished by Qxg6+ -- forker Qg6, target pa6, target pf7, target kg8
   [ ] cademan               move  24  White Nd4      lost  17.9 wp
       lichess.org/vmYdIpZ1#47
+      punished by Bg5+ -- forker bg5, target Kc1, target Qh6
 
 out_of_book.Queen's Pawn Game.own
     claims: out_of_book: Queen's Pawn Game.
@@ -108,14 +118,19 @@ allowed_motif.pin.own
 ------------------------------------------------------------------------------
   [ ] Hirsican              move  13  Black Be6      lost  15.8 wp
       lichess.org/NF4Pv6NH#26
+      punished by Qb5 -- pinner Qb5, pinned nc6, against ke8
   [ ] Hirsican              move  32  Black Kd7      lost  18.6 wp
       lichess.org/htcjpYak#64
+      punished by Qxb7 -- pinner Qb7, pinned bc7, against kd7
   [ ] Maximilian_Honigtopf  move   9  White O-O      lost  34.0 wp
       lichess.org/rEJOQ7iq#17
+      punished by Bxg4 -- pinner bg4, pinned Nf3, against Qd1
   [ ] Odin5306              move  10  Black Qe7      lost   9.6 wp
       lichess.org/LZH9NLtu#20
+      punished by Bg5 -- pinner Bg5, pinned nf6, against qe7
   [ ] simonvj               move  24  White Bh3      lost   7.3 wp
       lichess.org/uLLfSAV7#47
+      punished by Bd4 -- pinner bd4, pinned Ne3, against Kg1
 
 moved_into_attack.own_move.own
     claims: You put the piece you have just moved on a square where it can be won, more often than players at your level.
@@ -168,14 +183,19 @@ allowed_motif.hangingPiece.own
 ------------------------------------------------------------------------------
   [ ] Maximilian_Honigtopf  move  63  White Rd2+     lost  29.5 wp
       lichess.org/R9GJUKUy#125
+      punished by Kxd2 -- takes Rd2, with kd2
   [ ] cademan               move  35  White Ra8      lost  31.8 wp
       lichess.org/0fP06oYk#69
+      punished by Rxh5 -- takes Bh5, with rh5
   [ ] cademan               move  35  Black Kb8      lost  15.8 wp
       lichess.org/T7AhF7X3#70
+      punished by Qxc2 -- takes qc2, with Qc2
   [ ] goydorak              move  21  Black Be6      lost  13.0 wp
       lichess.org/QMc52cvf#42
+      punished by Rxd6 -- takes bd6, with Rd6
   [ ] goydorak              move  33  White Kh3      lost  13.7 wp
       lichess.org/YX1zeqwo#65
+      punished by bxc4 -- takes Bc4, with pc4
 
 pawn_error.any.own
     claims: pawn_error: any.
@@ -192,50 +212,25 @@ pawn_error.any.own
   [ ] bernes                move   6  White a3       lost   6.8 wp
       lichess.org/zNztqNrd#11
 
-concedes_weakness.doubled.own
-    claims: You end up with doubled pawns more often than players at your level.
-    72 instances across 4 players
-------------------------------------------------------------------------------
-  [ ] Hirsican              move  13  White gxf3     lost   0.0 wp
-      lichess.org/QK2OAaFT#25
-  [ ] Maximilian_Honigtopf  move   6  Black gxf6     lost   3.8 wp
-      lichess.org/DRPg8Bme#12
-  [ ] cademan               move  16  Black gxh6     lost   0.0 wp
-      lichess.org/T7AhF7X3#32
-  [ ] maikel5               move  15  White bxc3     lost  10.1 wp
-      lichess.org/t3GHhpTd#29
-  [ ] maikel5               move  20  White gxh5     lost   9.3 wp
-      lichess.org/ssS6uIix#39
-
-late_castling.book.own
-    claims: late_castling: book.
-    69 instances across 4 players
-------------------------------------------------------------------------------
-  [ ] Crossfire1983         move  20  Black O-O-O    lost   0.0 wp
-      lichess.org/wiwekygE#40
-  [ ] Hirsican              move  14  Black O-O-O    lost  10.2 wp
-      lichess.org/8DJv0UWy#28
-  [ ] Hirsican              move  15  Black O-O-O    lost  12.8 wp
-      lichess.org/7NsTbBDr#30
-  [ ] Hirsican              move  17  White O-O-O    lost  11.8 wp
-      lichess.org/3pPHPEC4#33
-  [ ] Hirsican              move  25  Black Ng6      lost  22.0 wp
-      lichess.org/ReM1VOAj#50
-
 missed_motif.discoveredAttack.own
     claims: You miss discovered attack tactics that were available.
     61 instances across 8 players
 ------------------------------------------------------------------------------
   [ ] Hirsican              move  13  Black f5       lost   7.1 wp
       lichess.org/rZRSwVcG#26
+      was available Nxd3+ -- revealed bd6, target Bf4, moved nd3
   [ ] Hirsican              move  38  White Nd7      lost  21.8 wp
       lichess.org/3pPHPEC4#75
+      was available Kc6 -- revealed Qd1, target rd8, moved Kc6
   [ ] bjagus                move  13  White g4       lost  18.3 wp
       lichess.org/RmdC3Y9L#25
+      was available Nxe5 -- revealed Qd1, target bh5, moved Ne5
   [ ] goydorak              move   9  Black Nf6      lost  41.6 wp
       lichess.org/jkBsv35s#18
+      was available d5 -- revealed bc8, target Qf5, moved pd5
   [ ] goydorak              move  15  Black Nf4      lost  14.8 wp
       lichess.org/4OOkY1h2#30
+      was available Bxg5 -- revealed rf8, target Nf3, moved bg5
 
 out_of_book.English Opening.own
     claims: out_of_book: English Opening.
@@ -258,14 +253,19 @@ missed_motif.fork.own
 ------------------------------------------------------------------------------
   [ ] Crossfire1983         move  36  Black Nd7      lost  25.1 wp
       lichess.org/SuvK6tPc#72
+      was available Rd1+ -- forker rd1, target Bb1, target Kg1
   [ ] Odin5306              move  22  Black cxd4     lost  27.0 wp
       lichess.org/z6Zw4EtZ#44
+      was available Rxd4 -- forker rd4, target Pc4, target Pe4
   [ ] bjagus                move  41  Black Kg6      lost  21.1 wp
       lichess.org/wW19J75A#82
+      was available Rd2+ -- forker rd2, target Pb2, target Kf2
   [ ] goydorak              move  23  White Rfc1     lost   7.8 wp
       lichess.org/JpiP6HBj#45
+      was available Bxg7 -- forker Bg7, target ph6, target rf8
   [ ] maikel5               move  25  Black Rc2      lost  15.0 wp
       lichess.org/zcStry0S#50
+      was available b6 -- forker pb6, target Qa5, target Nc5
 
 allows_square.outpost.own
     claims: You let opponents establish a knight you cannot chase away more often than players at your level.
@@ -288,14 +288,19 @@ missed_motif.pin.own
 ------------------------------------------------------------------------------
   [ ] Hirsican              move  23  White Bh6      lost  21.4 wp
       lichess.org/9bsVByg5#45
+      was available Qa1 -- pinner Qa1, pinned nd4, against kh8
   [ ] Odin5306              move  11  Black Rc8      lost   8.0 wp
       lichess.org/IiqB2QPs#22
+      was available Ba6 -- pinner ba6, pinned Nc4, against Rf1
   [ ] Odin5306              move  15  White Nxd7     lost  23.6 wp
       lichess.org/rBfHcNcI#29
+      was available Bd6 -- pinner Bd6, pinned ne7, against rf8
   [ ] bjagus                move  24  Black Qe6      lost  24.6 wp
       lichess.org/cAPWWpqR#48
+      was available Qd7 -- pinner qd7, pinned Nc6, against Qb5
   [ ] cademan               move  15  Black e4       lost  40.7 wp
       lichess.org/UdN4P8Uy#30
+      was available Bg4 -- pinner bg4, pinned Nf3, against Kd1
 
 out_of_book.Owen Defense.own
     claims: out_of_book: Owen Defense.
@@ -342,20 +347,20 @@ time_budget_error.after_overspending.own
   [ ] maikel5               move  32  Black Rc1+     lost  16.0 wp
       lichess.org/zcStry0S#64
 
-late_castling.own.own
-    claims: late_castling: own.
-    35 instances across 4 players
+late_castling.book.own
+    claims: late_castling: book.
+    35 instances across 3 players
 ------------------------------------------------------------------------------
-  [ ] Odin5306              move  10  Black O-O-O    lost   3.3 wp
-      lichess.org/e1r8GGSk#20
-  [ ] Odin5306              move  14  Black O-O      lost   0.0 wp
-      lichess.org/JXUaj8EK#28
-  [ ] Odin5306              move  15  White O-O-O    lost   0.6 wp
-      lichess.org/mZA6m9k4#29
-  [ ] Odin5306              move  16  Black O-O      lost   0.0 wp
-      lichess.org/Nx5KGmeB#32
-  [ ] maikel5               move  14  White O-O      lost   8.3 wp
-      lichess.org/ZE94KpSd#27
+  [ ] Crossfire1983         move   8  Black Bxb4     lost   0.0 wp
+      lichess.org/iMTtSaZs#16
+  [ ] Crossfire1983         move  15  White O-O-O+   lost   1.0 wp
+      lichess.org/tY3LMtd9#29
+  [ ] Crossfire1983         move  20  Black O-O-O    lost   0.0 wp
+      lichess.org/wiwekygE#40
+  [ ] Crossfire1983         move  39  Black Qh4+     lost   1.6 wp
+      lichess.org/zTcFsBjV#78
+  [ ] Hirsican              move  16  White O-O      lost   0.0 wp
+      lichess.org/9bsVByg5#31
 
 out_of_book.Bird Opening.own
     claims: out_of_book: Bird Opening.
@@ -372,20 +377,40 @@ out_of_book.Bird Opening.own
   [ ] bjagus                move   3  Black Nc6      lost   0.0 wp
       lichess.org/79f9Jh09#6
 
+concedes_weakness.doubled.own
+    claims: You end up with doubled pawns more often than players at your level.
+    30 instances across 2 players
+------------------------------------------------------------------------------
+  [ ] Maximilian_Honigtopf  move  10  White gxf3     lost   9.9 wp
+      lichess.org/IGCmSgiy#19
+  [ ] cademan               move   8  White exf4     lost   0.0 wp
+      lichess.org/vmYdIpZ1#15
+  [ ] cademan               move   8  Black gxf5     lost   1.8 wp
+      lichess.org/h7rhc8WZ#16
+  [ ] cademan               move  11  White fxe5     lost   4.0 wp
+      lichess.org/dw3zY6IW#21
+  [ ] cademan               move  11  White gxf3     lost   2.5 wp
+      lichess.org/liX9MImV#21
+
 allowed_motif.discoveredAttack.own
     claims: When you go wrong, it is often a discovered attack that punishes you.
     29 instances across 3 players
 ------------------------------------------------------------------------------
   [ ] Odin5306              move  15  Black Nd7      lost  20.3 wp
       lichess.org/Wdtrc0A6#30
+      punished by Nxf7 -- revealed Bf4, target bd6, moved Nf7
   [ ] Odin5306              move  15  Black Bg4      lost   5.2 wp
       lichess.org/n3uQfuWO#30
+      punished by Rh3 -- revealed Qd1, target bg4, moved Rh3
   [ ] bernes                move   8  White b4       lost  11.8 wp
       lichess.org/akIZ3faz#15
+      punished by Ne8 -- revealed bg7, target Nc3, moved ne8
   [ ] bernes                move  12  Black Be7      lost  31.2 wp
       lichess.org/G2tV1k1i#24
+      punished by Nc7+ -- revealed Qa4, target nc6, moved Nc7
   [ ] maikel5               move  14  Black g5       lost  14.4 wp
       lichess.org/hgx0M7Ir#28
+      punished by Nxg5 -- revealed Bg2, target ne4, moved Ng5
 
 opening_disadvantage.any.own
     claims: You come out of the opening worse more often than most.
@@ -513,14 +538,19 @@ missed_motif.trappedPiece.own
 ------------------------------------------------------------------------------
   [ ] Crossfire1983         move   9  White b5       lost  30.3 wp
       lichess.org/c9tGvWUt#17
+      was available c5 -- traps bb6, with Pc5
   [ ] Crossfire1983         move  17  White Neg5     lost  22.1 wp
       lichess.org/L9x84PMC#33
+      was available Re1 -- traps qe3, with Re1
   [ ] Crossfire1983         move  19  Black Ng6      lost  11.2 wp
       lichess.org/PjZgPmwV#38
+      was available f5 -- traps Be4, with pf5
   [ ] cademan               move  23  White f5       lost   6.2 wp
       lichess.org/M2HQqz8u#45
+      was available a4 -- traps nb5, with Pa4
   [ ] cademan               move  24  Black g6       lost  26.9 wp
       lichess.org/Dy9m84se#48
+      was available Qg6 -- traps Bh6, with qg6
 
 out_of_book.King's Pawn Game.own
     claims: out_of_book: King's Pawn Game.
@@ -537,18 +567,37 @@ out_of_book.King's Pawn Game.own
   [ ] goydorak              move   5  White d3       lost   2.2 wp
       lichess.org/EHDkU9YW#9
 
+late_castling.own.own
+    claims: late_castling: own.
+    7 instances across 2 players
+------------------------------------------------------------------------------
+  [ ] Sheriwoyama           move  17  Black O-O      lost   0.0 wp
+      lichess.org/xrSnYMfN#34
+  [ ] Sheriwoyama           move  40  White Bxh2     lost   0.0 wp
+      lichess.org/muFW0btL#79
+  [ ] maxhayastan           move  12  Black O-O      lost   4.8 wp
+      lichess.org/nMB2nVZH#24
+  [ ] maxhayastan           move  12  Black O-O      lost   0.0 wp
+      lichess.org/OK82drHY#24
+  [ ] maxhayastan           move  15  Black O-O      lost   0.8 wp
+      lichess.org/p2JWZ8ce#30
+
 missed_motif.capturingDefender.own
     claims: You miss capturing the defender tactics that were available.
     4 instances across 1 players
 ------------------------------------------------------------------------------
   [ ] bjagus                move  11  Black Bf6      lost  43.6 wp
       lichess.org/cfosGjRb#22
+      was available Nxf3+ -- takes defender on Nf3, they recapture Bg2, then falls Bg5
   [ ] bjagus                move  15  Black Qb5      lost  39.5 wp
       lichess.org/g6HpNh5P#30
+      was available Bxe2 -- takes defender on Ne2, they recapture Qd1, then falls Bd4
   [ ] bjagus                move  17  Black Nh5      lost  12.6 wp
       lichess.org/nHlswj7q#34
+      was available gxf4 -- takes defender on Pf4, they recapture Qg3, then falls Ne5
   [ ] bjagus                move  22  Black bxc4     lost   8.7 wp
       lichess.org/nHlswj7q#44
+      was available Bxe5 -- takes defender on Ne5, they recapture Qg7, then falls Bc4
 
 missed_motif.skewer.own
     claims: You miss skewer tactics that were available.
@@ -556,12 +605,16 @@ missed_motif.skewer.own
 ------------------------------------------------------------------------------
   [ ] Hirsican              move   9  White Bb5      lost  34.9 wp
       lichess.org/f16UIT0m#17
+      was available Bh3 -- skewerer Bh3, front qd7, behind bc8
   [ ] Hirsican              move  15  White Bg5      lost  31.9 wp
       lichess.org/8zsVzk0T#29
+      was available Qc8+ -- skewerer Qc8, front ke8, behind rh8
   [ ] Hirsican              move  21  White Bxc7     lost  22.5 wp
       lichess.org/QK2OAaFT#41
+      was available Bf2 -- skewerer Bf2, front qe3, behind bd4
   [ ] Hirsican              move  25  Black Nxe4     lost  22.9 wp
       lichess.org/f66m6egS#50
+      was available Re8 -- skewerer re8, front Qe6, behind Ne4
 
 ==============================================================================
 NEVER FIRED IN THESE GAMES

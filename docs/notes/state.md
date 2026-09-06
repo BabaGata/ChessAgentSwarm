@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788692052320
+updated: 1788695004038
 created: 1785254500000
 ---
 
@@ -280,6 +280,19 @@ struck through: a list nobody can act on is not a plan.
    one of them was written earlier in the same session from my own reading of a shape the author had
    already rejected twice in writing.
 
+0. **DONE — the sheet shows the motif's own move and the pieces that make it true** *(2026-09-06)*.
+   For an `allowed_motif` claim the sheet showed the player's **losing** move, not the motif — the
+   motif belongs to the opponent's reply, and that reply was stored in `tally.better_moves` and never
+   rendered. So a reader judging *"is this a pin?"* was shown a move that is not the pin.
+   `chesscoach/motif_evidence.py` names the squares and the sheet prints them:
+   `punished by Qb5 -- pinner Qb5, pinned nc6, against ke8`. **53 of 53 motif examples carry it.**
+
+   The first version re-stated each detector's conditions to locate the squares and restated them
+   incompletely, disagreeing on **303 of 5,935 moves** in one game for `hangingPawn` alone and on six
+   other motifs. The corpus test caught it; `evidence()` now defers to `detect_motifs` so the two
+   agree by construction. **Same failure as `_still_there_later`** — a second implementation of a rule
+   that already had one.
+
 0. **DONE — `late_castling` conditioned on drift; 28 of 32 rejections resolved** *(2026-09-06)*.
    Every position the author marked `[n]` was reconstructed and re-run: **24 no longer fire**, 3 are
    moot (`early_error` retired), 1 is fixed by the castling gate below, **3 still fire**, and 1 is
@@ -312,8 +325,10 @@ struck through: a list nobody can act on is not a plan.
    those to survive. **15/15 on every `concedes_weakness` mark**; across the corpus `isolated` 96 %,
    `backward` 96 %, `doubled` 90 % kept — narrow, as a fix aimed at one defect should be.
 
-   **All 32 rejections are now accounted for**: 28 no longer fire, 3 remain as motif *naming*
-   collisions (two motifs firing on one move, with nothing to arbitrate), 1 retired.
+   **All 32 rejections are now accounted for**: 28 no longer fire, 1 retired, and the 3 remaining
+   are **not a defect** — the author: *"If the position detects multiple motifs at the same time it is
+   ok, they are valuable input for the general overview."* What was missing was the ability to see
+   *why* a name was given, which round seven adds.
 
 0. **DONE — the detection sheet reads 60 games, not 20** *(2026-09-06)*.
    `capturingDefender` was correct after the rebuild and still said nothing. The cause was the review
