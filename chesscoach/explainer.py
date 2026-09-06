@@ -317,8 +317,32 @@ TENDENCY_PHRASING = {
 }
 
 
+# Withheld from the report on the author's instruction, 2026-09-06:
+#
+# > *"Style keep out of the report, this is a functionallity that was not fully
+# > developed and tested."*
+#
+# The measurement stays -- `S10StyleTendencies` still feeds `plays_queenless`
+# into the peer reference, and `chesscoach.style.describe` still computes the
+# tendency -- so nothing is lost and turning it back on is one flag. What is
+# withheld is the paragraph a player reads.
+#
+# The reasoning is the author's and it is consistent with what E14 already found:
+# only the *tendency* half survived screening and the *performance* half did not,
+# so the section could say what a player does and never whether it helps them.
+# A half a reader cannot act on is a half worth holding back until it is finished.
+#
+# Same shape as `s3_endgame_technique.ADVANTAGE_ERROR_RETIRED` and
+# `s4_opening_outcomes.EARLY_ERROR_RETIRED`.
+STYLE_IN_REPORT = False
+
+
 def _how_you_play(profile: PlayerProfile) -> list[str]:
     """Tendencies, stated flatly and with no verdict attached.
+
+    **Not currently rendered** -- see `STYLE_IN_REPORT`. Kept whole rather than
+    deleted, because the measurement behind it is sound and the decision is
+    about readiness, not correctness.
 
     Kept away from WHAT STANDS OUT on purpose: those are weaknesses with a plan
     behind them, and this is not one. **It also stops short of saying whether the
@@ -327,6 +351,9 @@ def _how_you_play(profile: PlayerProfile) -> list[str]:
     differing by too little to tell one from another. Saying "and it suits you"
     would be the personality label domain.coaching § 6 warns against.
     """
+    if not STYLE_IN_REPORT:
+        return []
+
     notable = [t for t in profile.style if _notable(t)]
     if not notable:
         return []

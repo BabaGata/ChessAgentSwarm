@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788696719160
+updated: 1788698344687
 created: 1785254500000
 ---
 
@@ -279,6 +279,39 @@ struck through: a list nobody can act on is not a plan.
    Five existing tests asserted the old behaviour and were corrected, each saying so where it changed;
    one of them was written earlier in the same session from my own reading of a shape the author had
    already rejected twice in writing.
+
+0. **DONE — style withheld from the report; the prober's standing traced** *(2026-09-06)*.
+
+   **Style is out of the report**, on the author's instruction — *"this is a functionallity that was
+   not fully developed and tested"*. Behind `explainer.STYLE_IN_REPORT`, the shape the two earlier
+   retirements set. **The measurement stays**: `S10StyleTendencies` still feeds `plays_queenless` into
+   the peer reference and `style.describe` still computes the tendency, so the population figure keeps
+   accumulating and turning the paragraph back on needs no rebuild. Three tests asserted it rendered;
+   they lift the flag and say why, because if the missing half is ever finished this is the wording it
+   must come back with — including the refusal, which is the part most easily lost.
+
+   **The prober: built, measured, wired — and by default it changes nothing a player reads.**
+
+   | | |
+   |---|---|
+   | runs end to end | yes — `cli probe` asks, checks the move deterministically, classifies the reason locally, writes `ProbeRecord`s |
+   | consumed downstream | **only** by `explainer._gap_meaning`, and only when `determined_by is PROBED` |
+   | `gap_type` rewritten | **no** — `--apply` is off by default |
+   | planner / arbiter use it | **no** — zero references to `gap_type` in either |
+
+   So with the shipped flags a probe is **recorded and inert**: it cannot change the ranking, the
+   plan, or the report. The gate is shut deliberately, not by oversight — E07's kappa 0.74 is
+   **in-sample**, on answers the author wrote and labelled, with the refusal fix made after seeing
+   which items failed. What it needs is **~40 answers from people who are not the author**, which is
+   what `--collect` accumulates.
+
+   **What it would reach if opened**, measured over the twelve reviewed players at a 60-game window:
+   `PROBEABLE_KINDS` is `allowed_motif`/`missed_motif`, which is **15 of 28 asserted findings**, and
+   **8 of 12 players** have at least one. So the value is real and it is currently unbanked.
+
+   **Its one unconditional value today**: the move check is deterministic and runs with no model at
+   all, so *"played the right move"* versus *"did not"* is established either way, and an unreachable
+   classifier records as **unavailable** rather than as the player being unclear (L-020, I-02).
 
 0. **DONE — status check on the preference system, cost and wording** *(2026-09-06)*.
 

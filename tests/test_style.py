@@ -221,6 +221,26 @@ class TestDescribing:
 
 
 class TestWhatTheReportSaysAndRefuses:
+    """What the style paragraph would say, with `STYLE_IN_REPORT` lifted.
+
+    **The report does not carry it.** The author withheld it on 2026-09-06 --
+    *"Style keep out of the report, this is a functionallity that was not fully
+    developed and tested"* -- and `TestStyleIsWithheldFromTheReport` below is the
+    test for what a player actually gets.
+
+    These keep their value because the decision is about **readiness, not
+    correctness**: the measurement is sound, only one of E14's two halves
+    survived screening, and if the other is ever finished this is the wording it
+    has to come back with -- including the refusal, which is the part most easily
+    lost.
+    """
+
+    @pytest.fixture(autouse=True)
+    def _style_is_rendered(self, monkeypatch):
+        from chesscoach import explainer
+
+        monkeypatch.setattr(explainer, "STYLE_IN_REPORT", True)
+
     def profile(self, share: float, peer: float = 0.28):
         from chesscoach.profile.models import CorpusRef, PlayerProfile, PlayerRef, StyleTendency
 
@@ -288,3 +308,36 @@ def test_style_survives_a_round_trip():
     )
 
     assert from_dict(to_dict(profile)).style == profile.style
+
+
+class TestStyleIsWithheldFromTheReport:
+    """What a player gets, with the flag as shipped."""
+
+    def profile(self, share: float = 0.50, peer: float = 0.28):
+        from chesscoach.profile.models import CorpusRef, PlayerProfile, PlayerRef, StyleTendency
+
+        return PlayerProfile(
+            player=PlayerRef(source="lichess", username="alice", band="1400-1800"),
+            corpus=CorpusRef(corpus_id="c1", n_games=24),
+            style=(StyleTendency(TENDENCY, share, peer, 400),),
+        )
+
+    def test_a_notable_tendency_is_not_shown(self):
+        from chesscoach.explainer import render
+
+        report = render(self.profile())
+
+        assert "HOW YOU PLAY" not in report
+        assert "queens off" not in report
+
+    def test_the_measurement_is_still_taken(self):
+        """Withheld from the page, not switched off.
+
+        `plays_queenless` still reaches the peer reference, so the population
+        figure a future report would compare against keeps accumulating, and
+        turning the paragraph back on needs no rebuild.
+        """
+        profile = self.profile()
+
+        assert profile.style
+        assert profile.style[0].share == pytest.approx(0.50)

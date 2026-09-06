@@ -446,76 +446,85 @@ endgame_error.any.own
     claims: Your play falls off in the endgame.
     23 instances across 2 players
 ------------------------------------------------------------------------------
-  [ ] Crossfire1983         move  29  White Ke2      lost   9.0 wp
+  [y] Crossfire1983         move  29  White Ke2      lost   9.0 wp
       lichess.org/tY3LMtd9#57
-  [ ] Crossfire1983         move  37  Black h4       lost   6.5 wp
+  [y] Crossfire1983         move  37  Black h4       lost   6.5 wp
       lichess.org/Dy63sMIT#74
-  [ ] Crossfire1983         move  38  Black Kb6      lost   6.9 wp
+  [y] Crossfire1983         move  38  Black Kb6      lost   6.9 wp
       lichess.org/Dy63sMIT#76
-  [ ] Crossfire1983         move  39  Black Bg5      lost   6.9 wp
+  [y] Crossfire1983         move  39  Black Bg5      lost   6.9 wp
       lichess.org/Dy63sMIT#78
-  [ ] bjagus                move  72  White Qa4      lost   9.8 wp
+  [y] bjagus                move  72  White Qa4      lost   9.8 wp
       lichess.org/qzchYSYO#143
 
 out_of_book.Caro-Kann Defense.own
     claims: out_of_book: Caro-Kann Defense.
     23 instances across 2 players
 ------------------------------------------------------------------------------
-  [ ] goydorak              move   5  White d3       lost   2.7 wp
+  [y] goydorak              move   5  White d3       lost   2.7 wp
       lichess.org/YX1zeqwo#9
-  [ ] maxhayastan           move   3  White f4       lost   5.7 wp
+  [y] maxhayastan           move   3  White f4       lost   5.7 wp
       lichess.org/Cukv91fm#5
-  [ ] maxhayastan           move   3  White f4       lost   5.7 wp
+  [y] maxhayastan           move   3  White f4       lost   5.7 wp
       lichess.org/CRNg7hA1#5
-  [ ] maxhayastan           move   3  White f4       lost   5.7 wp
+  [y] maxhayastan           move   3  White f4       lost   5.7 wp
       lichess.org/FnS6cApa#5
-  [ ] maxhayastan           move   5  White Bb5      lost   1.1 wp
+  [n] maxhayastan           move   5  White Bb5      lost   1.1 wp
       lichess.org/K49fz0r0#9
+      Out of book was on move 3 f4, after first out of book move, not another one should be detected.
 
 out_of_book.Indian Defense.own
     claims: out_of_book: Indian Defense.
     20 instances across 1 players
 ------------------------------------------------------------------------------
-  [ ] Hirsican              move   2  Black e6       lost   0.0 wp
+  [n] Hirsican              move   2  Black e6       lost   0.0 wp
       lichess.org/HFyK2wD9#4
-  [ ] Hirsican              move   2  Black e6       lost   0.0 wp
+      This is Nimzo-Indian defense.
+  [n] Hirsican              move   2  Black e6       lost   0.0 wp
       lichess.org/VVCte6No#4
-  [ ] Hirsican              move   2  Black e6       lost   0.0 wp
+      This is Nimzo-Indian defense.
+  [n] Hirsican              move   2  Black e6       lost   0.0 wp
       lichess.org/5853VxPL#4
-  [ ] Hirsican              move   3  Black c5       lost   0.0 wp
+      This is Nimzo-Indian defense.
+  [?] Hirsican              move   3  Black c5       lost   0.0 wp
       lichess.org/HFyK2wD9#6
-  [ ] Hirsican              move   5  Black cxd4     lost   0.8 wp
+      Yes it might be, but Nimzo-Indian defense should be downloaded.
+  [n] Hirsican              move   5  Black cxd4     lost   0.8 wp
       lichess.org/VVCte6No#10
+      There should be another move that was previously detected as out of book, after that, no out of book moves should be detected again.
 
 slow_development.own.own
     claims: slow_development: own.
     20 instances across 3 players
 ------------------------------------------------------------------------------
-  [ ] Sheriwoyama           move  16  White Nd2      lost   6.1 wp
+  [y] Sheriwoyama           move  16  White Nd2      lost   6.1 wp
       lichess.org/LQU5WA5o#31
-  [ ] Sheriwoyama           move  25  Black Bb7      lost   0.0 wp
+  [y] Sheriwoyama           move  25  Black Bb7      lost   0.0 wp
       lichess.org/pYo52H1u#50
-  [ ] bjagus                move  15  Black Bg4      lost   2.2 wp
+  [n] bjagus                move  15  Black Bg4      lost   2.2 wp
       lichess.org/cfosGjRb#30
-  [ ] bjagus                move  25  White Bd2      lost   0.9 wp
+      There was not really a possibility to develop this bishop before without loosing material or advantage. And the cause was out of the book move 6. Nbd7
+  [y] bjagus                move  25  White Bd2      lost   0.9 wp
       lichess.org/2jVB3ZGU#49
-  [ ] goydorak              move  36  White Rf7#     lost   0.0 wp
+  [n] goydorak              move  36  White Rf7#     lost   0.0 wp
       lichess.org/EHDkU9YW#71
+      The rook was developed before. I think that the detector is checking if the piece was moved from the first rank but the detector should check if the piece was moved from its original spot. Rooks usually are moved from the first/last rank in the late middle game or endgame.
 
 out_of_book.Dutch Defense.own
     claims: out_of_book: Dutch Defense.
     18 instances across 1 players
 ------------------------------------------------------------------------------
-  [ ] simonvj               move   4  Black b6       lost   0.0 wp
+  [?] simonvj               move   4  Black b6       lost   0.0 wp
       lichess.org/H8N7nKeU#8
-  [ ] simonvj               move   4  Black b6       lost   0.0 wp
+  [?] simonvj               move   4  Black b6       lost   0.0 wp
       lichess.org/bYSIp4BH#8
-  [ ] simonvj               move   4  Black b6       lost   2.0 wp
+  [?] simonvj               move   4  Black b6       lost   2.0 wp
       lichess.org/lRYv4FJQ#8
-  [ ] simonvj               move   5  White cxd5     lost   6.1 wp
+  [y] simonvj               move   5  White cxd5     lost   6.1 wp
       lichess.org/h8kneGDt#9
-  [ ] simonvj               move   5  Black Bb7      lost   0.0 wp
+  [?] simonvj               move   5  Black Bb7      lost   0.0 wp
       lichess.org/lRYv4FJQ#10
+      If the same player repeatedly goes out of book and he didnt lost any wp it probably means that the downloaded books dont have those variants.
 
 out_of_book.French Defense.own
     claims: out_of_book: French Defense.
