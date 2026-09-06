@@ -44,7 +44,9 @@ from chesscoach.orchestrator import default_agents, diagnose  # noqa: E402
 from chesscoach.peers import PeerReference  # noqa: E402
 from chesscoach.phrasing import move_number, statement  # noqa: E402
 from chesscoach.pipeline import engine_session, load_games  # noqa: E402
+from chesscoach.motif_evidence import describe  # noqa: E402
 from chesscoach.sections.base import SectionContext  # noqa: E402
+from chesscoach.tactics import detect_motifs  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2] / "expert-review"
 
@@ -90,6 +92,60 @@ def provenance() -> str:
         f"Marks on this sheet judge THAT code. If a detector changes afterwards its\n"
         f"marks stop being evidence about it -- record this line with them."
     )
+
+
+def motif_line(claim_key: str, observation) -> str | None:
+    """The move that executes the motif, and the pieces that make it true.
+
+    Without this a reader judging *"is this a pin?"* has only the player's own
+    move to look at -- and for an `allowed_motif` claim that move is **not the
+    pin**: it is the mistake that allowed one, and the pin belongs to the
+    opponent's reply. The author asked for the pieces to be marked so a wrong
+    name can be told from a right one; this is that line.
+
+    Derived rather than stored, so it cannot go stale against the detectors, and
+    free: no engine call, both positions are already in the observation.
+    """
+    parts = claim_key.split(".")
+    if len(parts) < 2 or parts[0] not in ("allowed_motif", "missed_motif", "executed_motif"):
+        return None
+    kind, motif = parts[0], parts[1]
+
+    try:
+        board = chess.Board(observation.fen_before)
+    except ValueError:
+        return None
+
+    if kind == "allowed_motif":
+        # The opponent is to move after the player's mistake, and theirs is the
+        # move that executes the motif.
+        try:
+            played = chess.Move.from_uci(observation.move_played)
+        except ValueError:
+            return None
+        if played not in board.legal_moves:
+            return None
+        board.push(played)
+        candidates = list(board.legal_moves)
+        label = "punished by"
+    else:
+        if not observation.best_move:
+            return None
+        try:
+            candidates = [chess.Move.from_uci(observation.best_move)]
+        except ValueError:
+            return None
+        label = "was available"
+
+    for move in candidates:
+        if move not in board.legal_moves:
+            continue
+        if motif not in {str(m) for m in detect_motifs(board, move)}:
+            continue
+        told = describe(board, move, motif)
+        san = board.san(move)
+        return f"{label} {san}" + (f" -- {told}" if told else "")
+    return None
 
 
 def main() -> int:
@@ -215,6 +271,9 @@ def main() -> int:
                 f"{san:<8} lost {o.loss_wp:>5.1f} wp"
             )
             lines.append(f"      lichess.org/{o.game_id}#{o.ply}")
+            told = motif_line(key, o)
+            if told:
+                lines.append(f"      {told}")
 
     silent = sorted(vocabulary - set(claims))
     if silent:
