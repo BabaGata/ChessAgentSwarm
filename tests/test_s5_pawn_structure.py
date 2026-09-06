@@ -19,7 +19,7 @@ from chesscoach.ingest.corpus import Corpus
 from chesscoach.profile.models import Claim, DeterminedBy, GapTypeHypothesis, Provenance
 from chesscoach.sections.base import SectionContext
 from chesscoach.sections.s5_pawn_structure import CONCEDES, S5PawnStructure
-from chesscoach.structure import DOUBLED, ISOLATED
+from chesscoach.structure import DOUBLED, ISOLATED, created_files, doubled_files
 
 PROVENANCE = Provenance(engine="stub", depth=15, corpus_id="c1", analysed_at="2026-08-05")
 
@@ -298,7 +298,10 @@ class TestAWeaknessMustLast:
             ply = 10
 
         created = frozenset({ISOLATED})
-        assert _still_there_later(created, Obs(), chess.WHITE, {"g": []}) == created
+        board = chess.Board()
+        assert _still_there_later(
+            created, Obs(), chess.WHITE, {"g": []}, board, board
+        ) == created
 
     def test_nothing_conceded_stays_nothing(self):
         from chesscoach.sections.s5_pawn_structure import _still_there_later
@@ -307,4 +310,62 @@ class TestAWeaknessMustLast:
             game_id = "g"
             ply = 1
 
-        assert _still_there_later(frozenset(), Obs(), chess.WHITE, {}) == frozenset()
+        board = chess.Board()
+        assert _still_there_later(
+            frozenset(), Obs(), chess.WHITE, {}, board, board
+        ) == frozenset()
+
+
+class TestPersistenceTracksTheFileThatWasMade:
+    """A weakness the move did not create cannot keep the concession alive.
+
+    The author, on a move that doubled Black's c-pawns while their f-pawns were
+    already doubled: *"It lasted for 1 move."* The c-file cleared on the very
+    next move; the pre-existing f-file doubling did not, and
+    `_still_there_later` asked only whether *anything* was doubled -- so the
+    concession was held in place by a weakness the move never made.
+
+    `chesscoach.structure` states the rule beside `LOCATORS`: *"a weakness that
+    appears on one file and clears on another is two episodes and not one that
+    lasted."* This is that rule reaching the persistence test.
+    """
+
+    # DRPg8Bme#30, Black dxc5. Doubled f-pawns before; the move doubles the
+    # c-pawns; the c-file is clear again by Black's next move.
+    REPAIRED = (
+        "r2q1rk1/p4p1p/Q1pp1p2/1pB1p3/4P3/3P1n2/PPP2P1P/2KR1B1R b - - 0 15",
+        "r2q1rk1/p4p1p/Q1p2p2/1pp1p3/4P3/3P1n2/PPP2P1P/2KR1B1R w - - 0 16",
+        ("r2q1rk1/p4p1p/2Q2p2/1pp1p3/4P3/3P1n2/PPP2P1P/2KR1B1R b - - 0 16",
+         "2rq1rk1/p4p1p/5p2/1Qp1p3/4P3/3P1n2/PPP2P1P/2KR1B1R b - - 0 17",
+         "1r1q1rk1/p4p1p/5p2/2Q1p3/4P3/3P1n2/PPP2P1P/2KR1B1R b - - 0 18"),
+    )
+
+    def test_the_created_file_is_the_one_that_must_last(self):
+        before, after, _ = self.REPAIRED
+        made = created_files(chess.Board(before), chess.Board(after), chess.BLACK, DOUBLED)
+
+        assert made == frozenset({chess.FILE_NAMES.index("c")})
+
+    def test_a_pre_existing_doubling_does_not_hold_it_alive(self):
+        before, after, ahead = self.REPAIRED
+        colour = chess.BLACK
+        made = created_files(chess.Board(before), chess.Board(after), colour, DOUBLED)
+
+        # f stays doubled the whole way, so the old "is anything doubled" test
+        # passed; the c-file the move actually made is gone at once.
+        assert all(doubled_files(chess.Board(fen), colour) for fen in ahead)
+        assert not any(made & doubled_files(chess.Board(fen), colour) for fen in ahead)
+
+    def test_a_genuine_concession_still_lasts(self):
+        """cademan ytkNIOc2#19, marked [y]: the doubling the move made persists."""
+        before = "r1bq1rk1/ppp1bppp/4pn2/3pn3/3P1BPP/3BPP2/PPP5/RN1QK2R w KQ - 0 10"
+        after = "r1bq1rk1/ppp1bppp/4pn2/3pP3/5BPP/3BPP2/PPP5/RN1QK2R b KQ - 0 10"
+        ahead = (
+            "r1bq1rk1/pppnbppp/4p3/3pP3/5BPP/3BPP2/PPP5/RN1QK2R w KQ - 1 11",
+            "r1bq1rk1/pppn1ppp/4p3/3pP3/5BPb/2NBPP2/PPP5/R2QK2R w KQ - 0 12",
+            "r1bq1rk1/ppp2ppp/4p3/2npP3/5BPb/2NBPP2/PPP1K3/R2Q3R w - - 2 13",
+        )
+        made = created_files(chess.Board(before), chess.Board(after), chess.WHITE, DOUBLED)
+
+        assert made
+        assert all(made & doubled_files(chess.Board(fen), chess.WHITE) for fen in ahead)

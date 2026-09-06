@@ -287,6 +287,26 @@ def weakness_counts(board: chess.Board, colour: chess.Color) -> dict[str, int]:
     return {name: counter(board, colour) for name, counter in COUNTERS.items()}
 
 
+def created_files(
+    before: chess.Board, after: chess.Board, colour: chess.Color, feature: str
+) -> frozenset[int]:
+    """Which files this move put the weakness on that did not carry it before.
+
+    **The unit of a weakness is the file, not the count.** This module already
+    says so beside `LOCATORS` -- *"a weakness that appears on one file and clears
+    on another is two episodes and not one that lasted"* -- but a caller holding
+    only the feature name cannot honour it, and the persistence test in S5 did
+    not: it asked whether *anything* was still doubled, so a doubling elsewhere
+    that the move never created held a repaired one in place.
+
+    The author found it: `dxc5` doubled Black's c-pawns while their f-pawns were
+    already doubled, the c-file cleared on the very next move, and the claim
+    fired anyway. *"It lasted for 1 move."*
+    """
+    locate = LOCATORS[feature]
+    return locate(after, colour) - locate(before, colour)
+
+
 def conceded(before: chess.Board, after: chess.Board, colour: chess.Color) -> frozenset[str]:
     """Weaknesses that `colour` has more of after the move than before it.
 

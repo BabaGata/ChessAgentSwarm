@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788691379856
+updated: 1788692052320
 created: 1785254500000
 ---
 
@@ -303,11 +303,17 @@ struck through: a list nobody can act on is not a plan.
    `missed_motif.pin` (`xGJzDV3d`). Nothing in the vocabulary arbitrates between two motifs firing on
    one move.
 
-   **Next thing to look at:** `concedes_weakness.doubled` (`DRPg8Bme`, *"It lasted for 1 move"*) still
-   fires. The persistence rule is implemented (`PERSISTS_MOVES = 3`) and the doubling does hold on
-   this game, so mark and code disagree on facts, not rule. Suspect `_still_there_later`, whose
-   docstring says *"still on the same file"* while the code is truthy when **any** file is doubled —
-   a pre-existing doubling elsewhere would hold a repaired one in place. **Unconfirmed.**
+   **`concedes_weakness` fixed, and the suspicion was right.** `_still_there_later`'s docstring said
+   *"still on the same file"* and the code asked whether **any** file carried the weakness —
+   `conceded()` returns feature names, so the caller never had a file to track. On the author's game
+   Black was already doubled on **f**, `dxc5` doubled **c**, the c-file cleared on the very next move
+   (*"It lasted for 1 move"*) and the unrelated f-file doubling held the concession alive.
+   `created_files()` now returns the files the move made and the persistence test requires one of
+   those to survive. **15/15 on every `concedes_weakness` mark**; across the corpus `isolated` 96 %,
+   `backward` 96 %, `doubled` 90 % kept — narrow, as a fix aimed at one defect should be.
+
+   **All 32 rejections are now accounted for**: 28 no longer fire, 3 remain as motif *naming*
+   collisions (two motifs firing on one move, with nothing to arbitrate), 1 retired.
 
 0. **DONE — the detection sheet reads 60 games, not 20** *(2026-09-06)*.
    `capturingDefender` was correct after the rebuild and still said nothing. The cause was the review

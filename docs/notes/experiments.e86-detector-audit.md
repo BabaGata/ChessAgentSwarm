@@ -2,7 +2,7 @@
 id: cas-exp-e86
 title: 'E86 — Auditing every detector against a real definition, and finding the knowledge base cannot be one'
 desc: 'The audit was designed to judge detectors against the sourced knowledge graph. The graph cannot do it: fourteen entries, none endorsed, and forks definition is a definition of a skewer. Audited against Lichess own theme text instead. Two defects demonstrated on positions: a fork is missed when a victim was already attacked, and a trapped piece is reported when it has a safe escape.'
-updated: 1788691354865
+updated: 1788692052276
 created: 1788681600000
 ---
 
@@ -787,3 +787,45 @@ playing well, which is the advice that would have made their game worse.
 
 A late game that no longer fires is still counted as an **opportunity**, so the rate keeps its
 denominator and the player is not silently dropped from the claim.
+
+### `concedes_weakness` — the persistence test was not tracking the file
+
+The last outstanding `[n]`, and the docstring was right while the code was not.
+
+`chesscoach/structure.py` states the rule beside `LOCATORS`: *"Persistence is tracked per FILE rather
+than per count, because a weakness that appears on one file and clears on another is two episodes and
+not one that lasted."* `_still_there_later`'s own docstring repeated it — *"still on the same file"* —
+and then asked `all(locate(board, colour) for board in boards)`, which is true whenever **any** file
+carries the weakness.
+
+`conceded()` compares counts and returns feature names, so the caller never had a file to track. The
+rule could not be honoured by a function that was not told which file to watch.
+
+**The author's position, traced:**
+
+| | |
+|---|---|
+| before `dxc5` | Black doubled on **f** |
+| after | doubled on **c** and f — the move made **c** |
+| Black's next three moves | doubled on **f**, **f**, **f** |
+
+The c-file cleared immediately — *"It lasted for 1 move"* — and the pre-existing f-file doubling,
+which the move had nothing to do with, kept the concession alive.
+
+`created_files(before, after, colour, feature)` returns the files the move put the weakness on, and
+the persistence test now requires one of **those** to survive the window. A count that rises with no
+new file — a third pawn on a file already doubled — keeps the old test, since there is nothing to
+track and dropping it silently would be a different bug.
+
+**15/15 on every `concedes_weakness` mark**: the `[n]` stops firing and all fourteen `[y]` are kept.
+Across the reviewed games the effect is narrow, which is what a fix aimed at one defect should look
+like:
+
+| feature | before | after | kept |
+|---|--:|--:|--:|
+| `isolated` | 889 | 856 | 96 % |
+| `backward` | 405 | 388 | 96 % |
+| `doubled` | 430 | 388 | 90 % |
+
+**All 32 of the author's rejections are now accounted for**: 28 no longer fire, 3 remain as motif
+*naming* collisions, and 1 (`early_error`) is retired.

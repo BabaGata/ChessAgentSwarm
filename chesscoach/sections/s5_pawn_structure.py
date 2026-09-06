@@ -56,7 +56,7 @@ from chesscoach.sections.base import (
     instance_moves,
     split_by_tier,
 )
-from chesscoach.structure import LOCATORS, PERSISTS_MOVES, conceded
+from chesscoach.structure import LOCATORS, PERSISTS_MOVES, conceded, created_files
 
 SECTION = "S5"
 
@@ -171,10 +171,12 @@ def _count(context: SectionContext) -> _Counts:
             continue  # last move of the game: nothing to compare against
 
         colour = chess.WHITE if observation.mover_is_white else chess.BLACK
-        created = conceded(
-            chess.Board(observation.fen_before), chess.Board(after.fen_before), colour
+        before_board = chess.Board(observation.fen_before)
+        after_board = chess.Board(after.fen_before)
+        created = conceded(before_board, after_board, colour)
+        created = _still_there_later(
+            created, observation, colour, later, before_board, after_board
         )
-        created = _still_there_later(created, observation, colour, later)
 
         _tally(tallies, _key(POOLED_SUBJECT), observation, bool(created))
         for feature in sorted(created):
@@ -216,6 +218,8 @@ def _still_there_later(
     observation: Observation,
     colour: chess.Color,
     later: dict[str, list[tuple[int, str]]],
+    before: chess.Board,
+    after: chess.Board,
 ) -> frozenset[str]:
     """Drop weaknesses the player repaired before they could cost anything.
 
@@ -229,7 +233,14 @@ def _still_there_later(
     a section that compares one board against the next cannot see the
     difference. This looks forward over the player's OWN following moves --
     their word was "moves" -- and keeps the concession only if the weakness is
-    still on the same file at the end of the window.
+    still **on a file this move put it on**.
+
+    That last clause used to be a claim in this docstring and not a thing the
+    code did: it asked `all(locate(board, colour) ...)`, which is true when *any*
+    file carries the weakness. So a doubling the move never created could hold a
+    repaired one in place, and the author caught it -- `dxc5` doubled Black's
+    c-pawns while the f-pawns were already doubled, the c-file cleared on the
+    very next move, and the claim fired anyway. *"It lasted for 1 move."*
 
     **A game that ends first is not a repair.** Those moves were never played,
     so the weakness is kept rather than dropped: refusing it would make short
@@ -246,8 +257,16 @@ def _still_there_later(
     boards = [chess.Board(fen) for fen in ahead]
     kept = set()
     for feature in created:
+        made = created_files(before, after, colour, feature)
+        if not made:
+            # The count rose without any new file carrying it -- a third pawn on
+            # a file already doubled. Nothing to track, so the old behaviour
+            # stands rather than silently dropping the concession.
+            if all(LOCATORS[feature](board, colour) for board in boards):
+                kept.add(feature)
+            continue
         locate = LOCATORS[feature]
-        if all(locate(board, colour) for board in boards):
+        if all(made & locate(board, colour) for board in boards):
             kept.add(feature)
     return frozenset(kept)
 
