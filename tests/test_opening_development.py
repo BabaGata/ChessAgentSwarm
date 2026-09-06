@@ -623,3 +623,68 @@ class TestOutOfBookChargesOnlyYourOwnDeparture:
 
         assert left_book_themselves(white)      # ply 5 is White's third move
         assert not left_book_themselves(black)
+
+
+class TestOpeningPawnErrorHasItsOwnBaseline:
+    """The claim compares the player against themselves, not against peers.
+
+    The separation register withdrew its peer comparison (dispersion 1.26 against
+    a 1.29 threshold), and the author kept the claim:
+
+    > *"opening_pawn_error should stay and it gives good information for players
+    > that push pawns unnecessarily instead of developing, if it doesn't reach
+    > players it doesn't mean that some other players this wouldn't reach."*
+
+    Right about the sample -- but S4 returns None without a baseline, so the
+    claim was **unreachable** rather than unreached. The within-player baseline
+    is *how often the player's other opening moves went wrong*, on the same terms
+    (out of book, not explained by a motif), which needs no population at all.
+
+    Across the twelve reviewed players every one errs **less** on pawn pushes
+    than on their other opening moves -- 1.5-13.7 % against 12.9-22.7 % -- so
+    0 of 12 is an honest answer about them and not a broken claim.
+    """
+
+    def test_the_other_moves_are_tallied_as_a_comparison_arm(self, book):
+        from chesscoach.opening_development import (
+            OPENING_PAWN_ERROR,
+            OTHER_OPENING_MOVES,
+        )
+
+        tallies = count(drifting(SLOW_ITALIAN, "g1", best=DEVELOPS), PLAYER, book, norms())
+        arm = tallies[f"{OPENING_PAWN_ERROR}.{OTHER_OPENING_MOVES}"]
+
+        assert arm.opportunities > 0
+
+    def test_the_comparison_arm_is_never_asserted(self):
+        """It is a denominator, not a claim about the player."""
+        from chesscoach.opening_development import (
+            OPENING_PAWN_ERROR,
+            OTHER_OPENING_MOVES,
+        )
+        from chesscoach.sections.s4_opening_outcomes import _is_comparison_arm
+
+        assert _is_comparison_arm(f"{OPENING_PAWN_ERROR}.{OTHER_OPENING_MOVES}")
+        assert not _is_comparison_arm(f"{OPENING_PAWN_ERROR}.any")
+
+    def test_the_baseline_is_the_rate_on_those_other_moves(self):
+        from chesscoach.opening_development import (
+            OPENING_PAWN_ERROR,
+            OTHER_OPENING_MOVES,
+        )
+        from chesscoach.sections.s4_opening_outcomes import (
+            _Counts, _Tally, _other_opening_moves_rate,
+        )
+
+        arm = _Tally(instances=3, opportunities=12)
+        counts = _Counts(
+            tallies={f"{OPENING_PAWN_ERROR}.{OTHER_OPENING_MOVES}": arm},
+            games_with_data=20,
+        )
+
+        assert _other_opening_moves_rate(counts) == pytest.approx(0.25)
+
+    def test_without_the_arm_there_is_no_baseline_rather_than_a_wrong_one(self):
+        from chesscoach.sections.s4_opening_outcomes import _Counts, _other_opening_moves_rate
+
+        assert _other_opening_moves_rate(_Counts(tallies={}, games_with_data=20)) is None

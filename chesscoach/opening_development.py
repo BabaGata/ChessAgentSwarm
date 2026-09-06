@@ -48,6 +48,10 @@ REPEAT_MOVE = "repeat_move"
 # developing, how often does it go wrong", which is what E61's cost finding
 # actually pointed at: same number of pawn moves, worse ones.
 OPENING_PAWN_ERROR = "opening_pawn_error"
+
+# The subject holding this claim's comparison arm. Never asserted -- S4 reads it
+# as a baseline and `_is_comparison_arm` keeps it out of the candidate list.
+OTHER_OPENING_MOVES = "__other_opening_moves"
 # "You leave known theory earlier than players at your level."
 # design.detectors-name-consequences § 1a, released by the author's ruling:
 # "It is coaching to tell the player that they don't know the opening".
@@ -334,13 +338,37 @@ def count(
     # "When you push a pawn instead of developing, how often does it go wrong?"
     # The denominator is those pawn moves, not every move: the question is about
     # the quality of a choice the player made, not how often they made it.
+    # The comparison arm, and the reason this claim survives without peers.
+    #
+    # The author kept the claim after the register withdrew its peer comparison:
+    #
+    # > *"opening_pawn_error should stay and it gives good information for
+    # > players that push pawns unnecessarily instead of developing, if it
+    # > doesn't reach players it doesn't mean that some other players this
+    # > wouldn't reach."*
+    #
+    # They are right that 0 of 12 is a fact about twelve players, not about the
+    # claim -- but S4 returns None without a baseline, so the claim was not
+    # merely unreached, it was **unreachable**. This is the within-player
+    # baseline S4's own comment said did not exist for these claims, and for this
+    # one it does: *how often a pawn push instead of developing goes wrong,
+    # against how often the player's other opening moves do.* Both arms come from
+    # the same observations, so it needs no engine and no peer reference.
+    others = tallies[f"{OPENING_PAWN_ERROR}.{OTHER_OPENING_MOVES}"]
     pawns = tallies[f"{OPENING_PAWN_ERROR}.any"]
     for game in played:
         by_ply = {o.ply: o for o in game.mine}
         for window_move in game.development.window_moves:
-            if not window_move.pawn_instead_of_developing:
-                continue
             if _is_theory(game, window_move.ply):
+                continue
+            if not window_move.pawn_instead_of_developing:
+                # The other arm: everything else the player did in the window,
+                # on the same terms -- out of book, and not a move some motif
+                # already explains.
+                other = by_ply.get(window_move.ply)
+                if other is not None and not _explained_by_a_motif(other):
+                    others.opportunities += 1
+                    others.instances += bool(other.is_error)
                 continue
             observation = by_ply.get(window_move.ply)
             if observation is None:

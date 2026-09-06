@@ -27,6 +27,7 @@ from chesscoach.confidence import MIN_GAMES_WITH_DATA, ClaimStats, assign_tier
 from chesscoach.book_depth import BookDepthNorms
 from chesscoach.opening_development import (
     LATE_CASTLING,
+    OTHER_OPENING_MOVES,
     OUT_OF_BOOK,
     OPENING_PAWN_ERROR,
     REPEAT_MOVE,
@@ -185,7 +186,11 @@ class S4OpeningOutcomes:
                 ),
             )
 
-        candidates = [_assess(key, counts, context) for key in sorted(counts.tallies)]
+        candidates = [
+            _assess(key, counts, context)
+            for key in sorted(counts.tallies)
+            if not _is_comparison_arm(key)
+        ]
         asserted, watched = split_by_tier(candidates)
         kept = drop_redundant_aggregates(asserted)
         return SectionReport(
@@ -362,6 +367,24 @@ def _out_of_book_baseline(context: SectionContext) -> float | None:
     return weighted / total if total else None
 
 
+def _is_comparison_arm(key: str) -> bool:
+    """Keys that exist to be compared against, never to be asserted."""
+    return key.endswith(f".{OTHER_OPENING_MOVES}")
+
+
+def _other_opening_moves_rate(counts: _Counts) -> float | None:
+    """How often the player's *other* opening moves went wrong.
+
+    The baseline for `opening_pawn_error`: *"when you push a pawn instead of
+    developing it goes wrong more often than when you do something else in the
+    opening"* is a claim about one player and needs no population at all.
+    """
+    arm = counts.tallies.get(f"{OPENING_PAWN_ERROR}.{OTHER_OPENING_MOVES}")
+    if arm is None or arm.opportunities == 0:
+        return None
+    return arm.instances / arm.opportunities
+
+
 def _assess(key: str, counts: _Counts, context: SectionContext) -> Finding | None:
     tally = counts.tallies[key]
     kind, subject = key.split(".")[0], key.split(".")[1]
@@ -380,6 +403,14 @@ def _assess(key: str, counts: _Counts, context: SectionContext) -> Finding | Non
     # `development-norms.json` already has ([[experiments.e76-leaving-theory]]).
     if kind == OUT_OF_BOOK:
         peer_rate = _out_of_book_baseline(context)
+    elif kind == OPENING_PAWN_ERROR:
+        # This one **does** have a meaningful within-player baseline, which is
+        # the exception the comment above did not foresee: how often the player's
+        # other opening moves went wrong, measured on the same terms. So the
+        # claim survives the register withdrawing its peer comparison -- and
+        # without this it was unreachable rather than merely unreached, since
+        # a missing peer rate returns None below.
+        peer_rate = _other_opening_moves_rate(counts)
     else:
         peer_rate = context.peer_rate(key)
     if peer_rate is None:
