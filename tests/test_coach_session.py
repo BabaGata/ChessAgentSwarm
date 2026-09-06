@@ -82,6 +82,22 @@ def a_profile(*findings: Finding, probes: tuple[ProbeRecord, ...] = ()) -> Playe
 
 
 class TestProbedGapTypesCarryTheirProvenance:
+    """The gap-type paragraph, with `GAP_TYPE_IN_REPORT` lifted.
+
+    **The report does not carry it** -- the author withheld the prober and the
+    gap type on 2026-09-06 as unnecessary, and with `--apply` off by default it
+    could not have appeared anyway. Kept and tested because the provenance rule
+    is the valuable part: if a gap type is ever shown again it must say how many
+    probes it rests on and that a local model read them, and that is the sentence
+    a rewrite would quietly drop.
+    """
+
+    @pytest.fixture(autouse=True)
+    def _gap_type_is_rendered(self, monkeypatch):
+        from chesscoach import explainer
+
+        monkeypatch.setattr(explainer, "GAP_TYPE_IN_REPORT", True)
+
     """D10 is unresolved, so a probed gap type is better evidence than an
     inference and still thin. The report says so rather than asserting it."""
 
@@ -230,3 +246,29 @@ class TestTheCommandRefusesToGuess:
 
         assert _load_peers(argparse.Namespace(peers=str(path), depth=15)) is None
         assert "not comparable across depths" in capsys.readouterr().out
+
+
+class TestTheReportWithholdsTheGapType:
+    """What a player gets with `GAP_TYPE_IN_REPORT` as shipped.
+
+    The author withheld the prober and the gap type as unnecessary. With
+    `--apply` off by default `determined_by` is `INFERRED` on every real finding
+    anyway, so this makes the report say the same thing either way instead of
+    changing shape under a flag nobody sets.
+    """
+
+    def test_a_probed_finding_says_nothing_about_the_gap(self):
+        from chesscoach.explainer import render
+
+        from chesscoach.session import apply_to_findings
+
+        finding = a_finding()
+        record = a_probe(finding.id, "ok")
+        probed = apply_to_findings((finding,), (record,))
+        profile = a_profile(*probed, probes=(record,))
+
+        report = render(profile)
+
+        assert "From 1 question" not in report
+        assert "read by a local model" not in report
+        assert "the pattern is there" not in report

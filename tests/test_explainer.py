@@ -173,6 +173,22 @@ class TestEvidence:
 
 
 class TestGapTypeIsOnlyExplainedWhenProbed:
+    """The gap-type paragraph, with `GAP_TYPE_IN_REPORT` lifted.
+
+    **The report does not carry it** -- the author withheld the prober and the
+    gap type on 2026-09-06 as unnecessary, and with `--apply` off by default it
+    could not have appeared anyway. Kept and tested because the provenance rule
+    is the valuable part: if a gap type is ever shown again it must say how many
+    probes it rests on and that a local model read them, and that is the sentence
+    a rewrite would quietly drop.
+    """
+
+    @pytest.fixture(autouse=True)
+    def _gap_type_is_rendered(self, monkeypatch):
+        from chesscoach import explainer
+
+        monkeypatch.setattr(explainer, "GAP_TYPE_IN_REPORT", True)
+
     def test_an_inferred_gap_type_is_not_explained_away(self):
         # Dressing a guess in an explanation is how a report stops being honest.
         report = render(a_profile(a_finding()))
@@ -374,3 +390,4 @@ class TestTheOpeningResource:
         report = render(a_profile(a_finding()), opening=None, resource=a_resource())
 
         assert "1. e4 c5" in report
+

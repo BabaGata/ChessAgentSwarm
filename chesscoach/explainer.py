@@ -561,8 +561,27 @@ def _finding(index: int, finding: Finding, probes: tuple[ProbeRecord, ...]) -> l
     return lines + [""]
 
 
+# Withheld from the report on the author's instruction, 2026-09-06:
+#
+# > *"keep the prober out of the report too and the gap_type. It is
+# > unnecessary."*
+#
+# Consistent with where the prober actually stands: `--apply` is off by default,
+# so `determined_by` is `INFERRED` on every finding a real run produces and this
+# paragraph could not appear anyway. Withholding it makes the report say the same
+# thing whether or not the gate is ever opened, rather than changing shape under
+# a flag nobody sets.
+#
+# The probes themselves are still recorded on the profile, and `--collect` still
+# grows the answer set D10 needs, so nothing that would unblock the prober is
+# lost. Same shape as `STYLE_IN_REPORT` above.
+GAP_TYPE_IN_REPORT = False
+
+
 def _gap_meaning(finding: Finding, probes: tuple[ProbeRecord, ...]) -> list[str]:
     """Only said when a probe established it, and never without its provenance.
+
+    **Not currently rendered** -- see `GAP_TYPE_IN_REPORT`.
 
     An inferred gap type is a guess, and dressing a guess in an explanation is
     how a report stops being honest. A *probed* one is better evidence and still
@@ -571,6 +590,9 @@ def _gap_meaning(finding: Finding, probes: tuple[ProbeRecord, ...]) -> list[str]
     a sentence like "the pattern is there" carries more authority than one probe
     can support.
     """
+    if not GAP_TYPE_IN_REPORT:
+        return []
+
     if finding.gap_type.determined_by is not DeterminedBy.PROBED:
         return []
 

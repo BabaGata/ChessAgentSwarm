@@ -81,6 +81,21 @@ class GameDevelopment:
 
         A player who never castled is cited by their last opening move, which is
         the honest evidence: *"and here the king was still in the centre"*.
+
+        **The last opening move, not the last move of the game.** `mine` holds
+        every move the player made, so this fell through to whatever they played
+        last -- and the author caught it citing `Rf7#`, checkmate on move 36, as
+        evidence of slow development:
+
+        > *"The rook was developed before ... Rooks usually are moved from the
+        > first/last rank in the late middle game or endgame."*
+
+        Their reading of the cause was a different one; the mechanism is that
+        `ready_at` is None whenever the player never castled, so the claim fell
+        straight through to the end of the game. A move thirty plies past the
+        opening cannot be evidence about the opening, and citing mate as a
+        development failure is the kind of thing that makes a whole report
+        untrustworthy.
         """
         if not self.mine:
             return None
@@ -88,7 +103,10 @@ class GameDevelopment:
             for observation in self.mine:
                 if observation.ply == ply:
                     return observation
-        return self.mine[-1]
+
+        window = set(own_plies_in_window(self.colour == chess.WHITE))
+        inside = [o for o in self.mine if o.ply in window]
+        return inside[-1] if inside else self.mine[-1]
 
 
 def games_from(observations: tuple[Observation, ...], username: str):
@@ -395,6 +413,55 @@ DRIFT_MOVES = 2
 
 
 def drift_before_castling(game: GameDevelopment) -> tuple[int, float]:
+    """Unexplained errors between leaving book and castling."""
+    return drift_before(game, game.development.castled_at)
+
+
+# One is enough: the author's two rejections measured **zero** against three,
+# five and seven for the three they accepted, so nothing here is fitted to a
+# boundary.
+WANTED_DEVELOPMENT_MOVES = 1
+
+
+def declined_development(game: GameDevelopment) -> int:
+    """Window moves before the pieces were out where the engine wanted them out.
+
+    The author asked for *"similar check for the slow development as it is for
+    late casteling"*, and gave the reason:
+
+    > *"There are detected some slow development moves that are product of the
+    > other moves like out of the book incorrect move, forced exchanges and
+    > defenses and other moves that were better in those positions than the
+    > development moves."*
+
+    **The drift test was tried first and does not separate their marks** -- one
+    accepted game has zero drift and both rejected ones have one, so no threshold
+    works. Their reason is not drift: *"There was not really a possibility to
+    develop this bishop before without loosing material or advantage."* That is
+    development not being what the position wanted, and
+    `engine_wanted_development` already answers it -- it gates the habit costs and
+    `pawn_error` and was simply never applied to this claim's instances.
+
+    On the five marked games it separates cleanly: **0 and 0** for the two
+    rejected, **3, 5 and 7** for the three accepted.
+    """
+    by_ply = {o.ply: o for o in game.mine}
+    until = game.development.developed_at
+    declined = 0
+    for window_move in game.development.window_moves:
+        if _is_theory(game, window_move.ply):
+            continue
+        # After the pieces are out, nothing says anything about why they were
+        # late; a player who never got them out declined for the whole window.
+        if until is not None and window_move.ply >= until:
+            continue
+        observation = by_ply.get(window_move.ply)
+        if observation is not None and engine_wanted_development(observation):
+            declined += 1
+    return declined
+
+
+def drift_before(game: GameDevelopment, until: int | None) -> tuple[int, float]:
     """The player's unexplained errors between leaving book and castling.
 
     Design: [[design.castling-under-drift]]. The author, rejecting a firing where
@@ -423,7 +490,6 @@ def drift_before_castling(game: GameDevelopment) -> tuple[int, float]:
     Returns the count and what it cost in win probability. **No engine call**:
     every observation was analysed once already.
     """
-    castled = game.development.castled_at
     count, cost = 0, 0.0
 
     for observation in game.mine:
@@ -431,10 +497,11 @@ def drift_before_castling(game: GameDevelopment) -> tuple[int, float]:
             continue
         if observation.ply <= game.plies_in_book:
             continue
-        # A player who never castled drifted for the whole window rather than
-        # for none of it -- reading "no castling ply" as an empty window would
-        # excuse exactly the games where the king never reached safety.
-        if castled is not None and observation.ply >= castled:
+        # A player who never got there drifted for the whole window rather than
+        # for none of it -- reading "no ply" as an empty window would excuse
+        # exactly the games where the king never reached safety, or the pieces
+        # never came out.
+        if until is not None and observation.ply >= until:
             continue
         if _explained_by_a_motif(observation):
             continue
@@ -469,10 +536,14 @@ def _record(tallies: dict[str, Tally], basis: str, game: GameDevelopment, verdic
     """Each claim cites the move that decided it, and carries what it cost."""
     costs = habit_costs(game)
     if verdict.slow_development is not None:
+        # Late only counts as a fault if development was actually on offer and
+        # declined. Same purpose as `late_castling`'s gate, different test --
+        # see `declined_development` for why drift does not work here.
+        slow = (verdict.slow_development
+                and declined_development(game) >= WANTED_DEVELOPMENT_MOVES)
         tally = tallies[f"{SLOW_DEVELOPMENT}.{basis}"]
-        tally.add(verdict.slow_development, game.game_id,
-                  game.at_ply(game.development.ready_at))
-        tally.cost_wp += costs[SLOW_DEVELOPMENT]
+        tally.add(slow, game.game_id, game.at_ply(game.development.ready_at))
+        tally.cost_wp += costs[SLOW_DEVELOPMENT] if slow else 0.0
     if verdict.late_castling is not None:
         # **Late is only a fault if they were drifting while they were late.**
         # Castling on move 13 having seized the initiative and castling on move
