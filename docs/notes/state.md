@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788695004038
+updated: 1788696719160
 created: 1785254500000
 ---
 
@@ -279,6 +279,41 @@ struck through: a list nobody can act on is not a plan.
    Five existing tests asserted the old behaviour and were corrected, each saying so where it changed;
    one of them was written earlier in the same session from my own reading of a shape the author had
    already rejected twice in writing.
+
+0. **DONE — status check on the preference system, cost and wording** *(2026-09-06)*.
+
+   **Preference system (V3, `plays_queenless`) — working, and its absence from the sheet is by
+   design.** `S10StyleTendencies` **never emits a finding**: a tendency is not a weakness and routing
+   it through the arbiter would make it compete for a priority slot. It reaches the report as a style
+   line instead, so `plays_queenless.any.own` sits in the sheet's NEVER FIRED list correctly rather
+   than as a broken detector. Measured for all 12 reviewed players (494–1,707 moves each, all past
+   `MIN_MOVES`), **notable for 6** — Crossfire1983 at 1.50× the population, cademan and Hirsican at
+   0.58–0.59×. The performance half stays refused, per E14.
+
+   **Cost — both senses working.** Ranking (D5): a real run for `Crossfire1983` produces 3 priorities
+   ranked on excess cost over peers, each with a falsifiable target — *"Costing you about 7.1 points
+   of win probability a game. Players at your level lose about 3.3 to the same thing, so roughly 3.8
+   a game is what fixing this could get back."* Runtime (D9): 60 games with a warm cache,
+   **10,419 / 10,419 cache hits**, zero engine calls, zero cash.
+
+   **Wording — the D8 defect was back, and is fixed.** Found by reading a real report rather than by
+   any test. The five development and opening claims had **no phrasing at all**, so the headline read
+   `pawn_error: any.` and the plan said `Work on any:`; splitting `out_of_book` per opening
+   reintroduced it a second way, since only the pooled subject had a sentence. Sentences, plan
+   phrases and actions added for all five, with `late_castling`/`slow_development` keyed by **basis**
+   so *"later than is usual in the openings you play"* and *"later than you usually do"* stay
+   distinct. `tests/test_phrasing.py` was **empty** and is now the guard.
+
+   **Checked and not a defect:** two `out_of_book` findings with byte-identical statistics
+   (`Bird Opening` and `Queen's Pawn Game`, both 21 instances over 6 games, 70.0 % against 49.2 %).
+   The tallies are per-family and cite different games; the collision is small-integer arithmetic —
+   6 games × a fixed window, 21 plies out of theory in each — and per-opening counts vary widely
+   elsewhere on the sheet.
+
+   **Still open, minor:** the plan's *why* line says *"against 3.9 % elsewhere"* for a self-baseline
+   and *"for peers at your level"* for a peer rate. Both are accurate, the wording is inconsistent,
+   and making them uniform would misstate which baseline was used — so it needs a phrasing decision
+   rather than an edit.
 
 0. **DONE — the sheet shows the motif's own move and the pieces that make it true** *(2026-09-06)*.
    For an `allowed_motif` claim the sheet showed the player's **losing** move, not the motif — the
