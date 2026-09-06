@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788689595216
+updated: 1788691379856
 created: 1785254500000
 ---
 
@@ -279,6 +279,35 @@ struck through: a list nobody can act on is not a plan.
    Five existing tests asserted the old behaviour and were corrected, each saying so where it changed;
    one of them was written earlier in the same session from my own reading of a shape the author had
    already rejected twice in writing.
+
+0. **DONE — `late_castling` conditioned on drift; 28 of 32 rejections resolved** *(2026-09-06)*.
+   Every position the author marked `[n]` was reconstructed and re-run: **24 no longer fire**, 3 are
+   moot (`early_error` retired), 1 is fixed by the castling gate below, **3 still fire**, and 1 is
+   undiagnosed.
+
+   **`late_castling` now asks whether the player was drifting while they were late**
+   ([[design.castling-under-drift]]). `drift_before_castling` counts their errors after the book move
+   and before castling that **no motif explains** — motif-explained errors are already charged to
+   `allowed_motif`/`missed_motif`, and charging them twice is what `overlap.py` prevents. This gives
+   the retired `early_error` the use its retirement note promised: it failed as a *claim* because "you
+   go wrong early" names a circumstance, but as an **input** it was never wrong about what it counted.
+
+   **5/5 on the marks**, with the rejected game at **drift 0** against 2/3/3/7 for the accepted ones.
+   The separation is wide enough that `DRIFT_MOVES = 2` is not load-bearing — a bar of 1 gives the
+   same answers — and the note says so rather than implying the number was calibrated. Across the
+   reviewed games **168 late-castling games → 93 (55 % kept)**, with **33 at zero drift**: a fifth of
+   the claim was firing on players who castled late while playing well.
+
+   **Still firing, and all naming rather than detection problems:** `allowed_motif.trappedPiece`
+   (`9biHZYZy` — the author says *"This is fork"*), `missed_motif.trappedPiece` (`5853VxPL`),
+   `missed_motif.pin` (`xGJzDV3d`). Nothing in the vocabulary arbitrates between two motifs firing on
+   one move.
+
+   **Next thing to look at:** `concedes_weakness.doubled` (`DRPg8Bme`, *"It lasted for 1 move"*) still
+   fires. The persistence rule is implemented (`PERSISTS_MOVES = 3`) and the doubling does hold on
+   this game, so mark and code disagree on facts, not rule. Suspect `_still_there_later`, whose
+   docstring says *"still on the same file"* while the code is truthy when **any** file is doubled —
+   a pre-existing doubling elsewhere would hold a repaired one in place. **Unconfirmed.**
 
 0. **DONE — the detection sheet reads 60 games, not 20** *(2026-09-06)*.
    `capturingDefender` was correct after the rebuild and still said nothing. The cause was the review

@@ -66,6 +66,30 @@ def observations_for(sans, game_id: str, player_is_white: bool = True):
     return tuple(rows)
 
 
+def drifting(sans, game_id, player_is_white=True, plies=(15, 17)):
+    """A game whose player made unexplained errors before castling.
+
+    `late_castling` now fires only when the player was **drifting** while they
+    were late ([[design.castling-under-drift]]), so a fixture with a clean
+    opening no longer counts however late the king is -- which is the point of
+    the change and not a fault in these tests.
+
+    `label` and `loss_wp` make the move an error; `best_move` stays None so no
+    motif explains it, which is what makes it drift rather than a missed tactic.
+    """
+    from chesscoach.analysis.observations import ErrorLabel
+
+    rows = observations_for(sans, game_id, player_is_white)
+    return tuple(
+        Observation(**{
+            **o.__dict__,
+            "label": ErrorLabel.INACCURACY if o.ply in plies else o.label,
+            "loss_wp": 6.0 if o.ply in plies else o.loss_wp,
+        })
+        for o in rows
+    )
+
+
 @pytest.fixture(scope="module")
 def book():
     return OpeningBook.load()
@@ -123,7 +147,7 @@ class TestJudging:
         # Norm: castle by ply 7, ready by ply 13. Tolerance is 4 plies, so the
         # slow game (castles ply 19) is past both.
         expectation = norms({("Italian Game", True): (7, 13, 50)})
-        tallies = count(observations_for(SLOW_ITALIAN, "g1"), PLAYER, book, expectation)
+        tallies = count(drifting(SLOW_ITALIAN, "g1"), PLAYER, book, expectation)
         assert tallies[f"late_castling.{BY_BOOK}"].instances == 1
         assert tallies[f"slow_development.{BY_BOOK}"].instances == 1
 
@@ -157,11 +181,13 @@ class TestTheTwoBasesStayApart:
         rows = ()
         for i in range(4):
             rows += observations_for(ITALIAN, f"fast{i}")
-        rows += observations_for(
+        # The Sicilian is the one being judged, so it is the one that has to be
+        # drifting for the claim to fire at all.
+        rows += drifting(
             ("e4", "c5", "Nf3", "d6", "a3", "Nf6", "h3", "g6", "a4", "Bg7",
              "h4", "O-O", "Nc3", "Nc6", "d3", "Bd7", "Be3", "Rc8", "Be2", "b6",
              "O-O", "Qc7"),
-            "slow_sicilian",
+            "slow_sicilian", plies=(15, 17),
         )
         tallies = count(rows, PLAYER, book, expectation)
         assert tallies[f"late_castling.{BY_BOOK}"].opportunities == 4
@@ -205,7 +231,7 @@ class TestEvidence:
 
     def test_every_instance_carries_a_move_to_cite(self, book):
         expectation = norms({("Italian Game", True): (7, 13, 50)})
-        tallies = count(observations_for(SLOW_ITALIAN, "g1"), PLAYER, book, expectation)
+        tallies = count(drifting(SLOW_ITALIAN, "g1"), PLAYER, book, expectation)
         for key in (f"late_castling.{BY_BOOK}", f"slow_development.{BY_BOOK}",
                     "repeat_move.any"):
             tally = tallies[key]
@@ -216,7 +242,7 @@ class TestEvidence:
     def test_the_cited_move_is_the_one_that_decided_it(self, book):
         # SLOW_ITALIAN castles on ply 19, so that is the move the claim points at.
         expectation = norms({("Italian Game", True): (7, 13, 50)})
-        tallies = count(observations_for(SLOW_ITALIAN, "g1"), PLAYER, book, expectation)
+        tallies = count(drifting(SLOW_ITALIAN, "g1"), PLAYER, book, expectation)
         assert tallies[f"late_castling.{BY_BOOK}"].examples[0].ply == 19
 
     def test_a_player_who_never_castled_is_cited_by_their_last_move(self, book):
@@ -225,7 +251,9 @@ class TestEvidence:
         expectation = norms({("Italian Game", True): (7, 13, 50)})
         never = ("e4", "e5", "Nf3", "Nc6", "Bc4", "Bc5", "d3", "d6", "a3", "a6",
                  "h3", "h6", "a4", "b6", "h4", "Nf6", "Nc3", "Bg4", "Be3", "Qd7")
-        tallies = count(observations_for(never, "g1"), PLAYER, book, expectation)
+        # Drifting, because a king left at home while the player was playing
+        # well is not the fault the claim names.
+        tallies = count(drifting(never, "g1"), PLAYER, book, expectation)
         tally = tallies[f"late_castling.{BY_BOOK}"]
         assert tally.instances == 1
         assert tally.examples[0].mover == PLAYER
@@ -414,3 +442,75 @@ class TestClaimKeysMatchTheRestOfTheSystem:
             key = _key(kind, subject)
             assert key.endswith(".own")
             assert Claim.of(kind=kind, subject=subject).key() == key
+
+
+class TestCastlingUnderDrift:
+    """`late_castling` fires only when the player was drifting while they were late.
+
+    Design: [[design.castling-under-drift]]. The author, rejecting a firing:
+
+    > *"In this example white took opportunities in the opening and now is
+    > better of even though he castled late. This should be taken in the account
+    > only when there are repeated bad moves before having the opportunity to
+    > castle."*
+
+    Measured on that game (`0tP1Rbmj`): drift **0**, against 2, 3 and 7 for the
+    three the author accepted. The bar is not load-bearing at that separation --
+    it is named in `DRIFT_MOVES` so moving it stays visible.
+    """
+
+    def test_a_clean_opening_is_not_a_late_castling_fault(self, book):
+        expectation = norms({("Italian Game", True): (7, 13, 50)})
+
+        tallies = count(observations_for(SLOW_ITALIAN, "g1"), PLAYER, book, expectation)
+
+        assert tallies[f"late_castling.{BY_BOOK}"].instances == 0
+        # ...and it is still counted as an opportunity, so the rate has a
+        # denominator and the player is not silently dropped from the claim.
+        assert tallies[f"late_castling.{BY_BOOK}"].opportunities == 1
+
+    def test_drifting_before_castling_is(self, book):
+        expectation = norms({("Italian Game", True): (7, 13, 50)})
+
+        tallies = count(drifting(SLOW_ITALIAN, "g1"), PLAYER, book, expectation)
+
+        assert tallies[f"late_castling.{BY_BOOK}"].instances == 1
+
+    def test_one_bad_move_is_not_repeated(self, book):
+        expectation = norms({("Italian Game", True): (7, 13, 50)})
+
+        tallies = count(drifting(SLOW_ITALIAN, "g1", plies=(15,)), PLAYER, book, expectation)
+
+        assert tallies[f"late_castling.{BY_BOOK}"].instances == 0
+
+    def test_an_error_a_motif_explains_is_not_drift(self, book):
+        """It belongs to `missed_motif`; charging it here counts it twice."""
+        from chesscoach.opening_development import _explained_by_a_motif
+
+        # Nxf6+ is a verified capturingDefender (tests/test_capturing_defender_
+        # precision.py): the engine's move executes a motif, so an error here is
+        # a missed tactic and not aimless play.
+        tactical = Observation(**{
+            **observations_for(SLOW_ITALIAN, "g1")[14].__dict__,
+            "fen_before": "1r1q1rk1/pp1n1ppp/5b2/2pNn3/2P5/PP2P3/1B2BPPP/R2Q1RK1 w - - 5 16",
+            "best_move": "d5f6",
+        })
+        assert _explained_by_a_motif(tactical)
+
+    def test_a_quiet_error_is_drift(self, book):
+        """The other side of the same test: no motif, so it counts."""
+        from chesscoach.opening_development import _explained_by_a_motif
+
+        quiet = Observation(**{
+            **observations_for(SLOW_ITALIAN, "g1")[14].__dict__,
+            "best_move": "b1c3",
+        })
+        assert not _explained_by_a_motif(quiet)
+
+    def test_errors_inside_the_book_are_not_the_players_own(self, book):
+        """Theory is not a choice, so it cannot be drift."""
+        expectation = norms({("Italian Game", True): (7, 13, 50)})
+
+        tallies = count(drifting(SLOW_ITALIAN, "g1", plies=(1, 3)), PLAYER, book, expectation)
+
+        assert tallies[f"late_castling.{BY_BOOK}"].instances == 0

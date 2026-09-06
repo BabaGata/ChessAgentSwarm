@@ -2,7 +2,7 @@
 id: cas-exp-e86
 title: 'E86 — Auditing every detector against a real definition, and finding the knowledge base cannot be one'
 desc: 'The audit was designed to judge detectors against the sourced knowledge graph. The graph cannot do it: fourteen entries, none endorsed, and forks definition is a definition of a skewer. Audited against Lichess own theme text instead. Two defects demonstrated on positions: a fork is missed when a victim was already attacked, and a trapped piece is reported when it has a safe escape.'
-updated: 1788689571924
+updated: 1788691354865
 created: 1788681600000
 ---
 
@@ -705,3 +705,85 @@ failure `separation.py` exists to prevent, appearing one level down.
 
 **`--window` now defaults to 60 in `detection_sheet.py` only.** The other review experiments keep 20,
 because they *are* the ranked comparison E39 was about.
+
+---
+
+## Round six — every remaining `[n]`, and castling conditioned on drift
+
+### Where the author's 32 rejections stand
+
+Each `[n]` position was reconstructed and re-run against the detectors as they now stand.
+
+| | |
+|---|--:|
+| no longer fire | **24** |
+| moot — `early_error` retired | 3 |
+| fixed by the castling gate below | 1 |
+| **still firing** | **3** |
+| not yet examined | 1 |
+
+**The three still firing**, all motif confusions rather than material errors:
+
+| claim | position | the author's note |
+|---|---|---|
+| `allowed_motif.trappedPiece` | `9biHZYZy` `Qe2` | *"This is fork."* |
+| `missed_motif.trappedPiece` | `5853VxPL` `Ke7` | — |
+| `missed_motif.pin` | `xGJzDV3d` `Qxe6` | — |
+
+Two of the three are positions where a *different* motif is the right name, which is a **naming**
+problem and not a detection one: the position is tactical, the detector fires, and the label is wrong.
+Nothing in the vocabulary currently arbitrates between two motifs firing on one move.
+
+**`concedes_weakness.doubled` (`DRPg8Bme`, *"It lasted for 1 move"*) still fires** and is not yet
+diagnosed. The persistence rule the author asked for **is** implemented — `PERSISTS_MOVES = 3` — and
+on this game the doubling does hold across the next three of the player's own moves, so the mark and
+the code disagree about the facts rather than about the rule. One thing to check first:
+`_still_there_later`'s docstring says it keeps the concession *"only if the weakness is still on the
+**same file**"*, while the code asks `all(locate(board, colour) for board in boards)`, which is
+truthy when **any** file is doubled. A pre-existing doubling elsewhere would then hold a repaired one
+in place. Not confirmed — recorded as the next thing to look at.
+
+### `late_castling` conditioned on drift
+
+Design: [[design.castling-under-drift]]. The author's rejection and the design both:
+
+> *"white took opportunities in the opening and now is better of even though he castled late. This
+> should be taken in the account only when there are repeated bad moves before having the
+> opportunity to castle."*
+
+> *"there could be use of the early_error any detector that has been retired … count together all the
+> imprecise moves before castling and after out of the book move … only errors that have not been
+> detected by some motif detector."*
+
+`drift_before_castling` counts the player's errors after the book move and before castling that **no
+motif explains**, and `late_castling` records only when that count reaches `DRIFT_MOVES = 2`.
+Excluding motif-explained errors is not an extra filter — those errors are already charged to
+`allowed_motif` or `missed_motif`, and charging them again is the double-count `overlap.py` exists to
+prevent.
+
+**The retired `early_error` gets the use its retirement note promised.** Both retirements in this
+project were justified on the argument that the tally is a cheap way to ask later whether errors in a
+window are explained elsewhere. This is that question asked for real: `early_error` failed as a
+*claim* because "you go wrong early" names a circumstance, but as an **input to another claim** it is
+exactly right — it was never wrong about what it counted.
+
+**Against the author's five marks: 5/5.**
+
+| mark | game | drift | cost | fires |
+|---|---|--:|--:|---|
+| **[n]** | `0tP1Rbmj` | **0** | 0.0 wp | no |
+| [y] | `b3xwTVVW` | 2 | 52.5 wp | yes |
+| [y] | `9bsVByg5` | 3 | 39.2 wp | yes |
+| [y] | `CCoHBALM` | 7 | 74.0 wp | yes |
+| [?] | `8zsVzk0T` | 3 | 19.6 wp | yes |
+
+The separation is 0 against 2/3/3/7, so **`DRIFT_MOVES` is not load-bearing at this evidence** — a
+bar of 1 gives the same five answers. It is named so that moving it stays visible, and the note says
+plainly that two is a reading of *"repeated"* rather than a calibrated number.
+
+Across the reviewed games: **168 late-castling games → 93 (55 % kept)**, median drift when late 2, and
+**33 games with zero drift** — a fifth of the claim was firing on players who castled late while
+playing well, which is the advice that would have made their game worse.
+
+A late game that no longer fires is still counted as an **opportunity**, so the rate keeps its
+denominator and the player is not silently dropped from the claim.

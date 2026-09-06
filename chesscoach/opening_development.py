@@ -38,6 +38,7 @@ from chesscoach.development import HOME_SQUARES, Development, measure_developmen
 from chesscoach.book_depth import moves_per_game, own_plies_in_window
 from chesscoach.development_norms import DevelopmentNorms
 from chesscoach.openings import OpeningBook, _family
+from chesscoach.tactics import detect_motifs
 
 SLOW_DEVELOPMENT = "slow_development"
 LATE_CASTLING = "late_castling"
@@ -386,6 +387,84 @@ def count(
     return dict(tallies)
 
 
+# "Repeated bad moves" is the author's bar for when castling late is a fault at
+# all, and repeated is at least two. Named rather than buried so moving it is
+# visible; [[design.castling-under-drift]] records that two is a reading of their
+# words and not a calibrated number.
+DRIFT_MOVES = 2
+
+
+def drift_before_castling(game: GameDevelopment) -> tuple[int, float]:
+    """The player's unexplained errors between leaving book and castling.
+
+    Design: [[design.castling-under-drift]]. The author, rejecting a firing where
+    White castled on move 13 and was better for it:
+
+    > *"This should be taken in the account only when there are repeated bad
+    > moves before having the opportunity to castle."*
+
+    and on how to measure that:
+
+    > *"count together all the imprecise moves before castling and after out of
+    > the book move ... only errors that have not been detected by some motif
+    > detector."*
+
+    Three boundaries, each with a reason:
+
+    * **after the book move** -- moves inside named theory are not the player's
+      own choices, the line `plies_in_book` already draws for the other claims;
+    * **before castling** -- the question is what they were doing *instead* of
+      castling, so errors after the king is safe say nothing;
+    * **no motif explains it** -- an error the vocabulary already names is
+      charged to that motif, and charging it here too counts one mistake twice
+      (`chesscoach/overlap.py`). What is left is the residue with no tactic to
+      point at, which is what *"just played badly"* means.
+
+    Returns the count and what it cost in win probability. **No engine call**:
+    every observation was analysed once already.
+    """
+    castled = game.development.castled_at
+    count, cost = 0, 0.0
+
+    for observation in game.mine:
+        if observation.label is None:
+            continue
+        if observation.ply <= game.plies_in_book:
+            continue
+        # A player who never castled drifted for the whole window rather than
+        # for none of it -- reading "no castling ply" as an empty window would
+        # excuse exactly the games where the king never reached safety.
+        if castled is not None and observation.ply >= castled:
+            continue
+        if _explained_by_a_motif(observation):
+            continue
+        count += 1
+        cost += observation.loss_wp
+    return count, cost
+
+
+def _explained_by_a_motif(observation: Observation) -> bool:
+    """Does a named tactic already account for this error?
+
+    Two sides, because the vocabulary has two: a **punishment** the opponent
+    could have played (`allowed_motif`), and a motif the engine's own move would
+    have executed (`missed_motif`). Either one means the mistake has a name and
+    an owner, so it is not part of the residue.
+    """
+    if observation.punishments:
+        return True
+    if observation.best_move is None:
+        return False
+    board = chess.Board(observation.fen_before)
+    try:
+        best = chess.Move.from_uci(observation.best_move)
+    except ValueError:
+        return False
+    if best not in board.legal_moves:
+        return False
+    return bool(detect_motifs(board, best))
+
+
 def _record(tallies: dict[str, Tally], basis: str, game: GameDevelopment, verdict) -> None:
     """Each claim cites the move that decided it, and carries what it cost."""
     costs = habit_costs(game)
@@ -395,7 +474,13 @@ def _record(tallies: dict[str, Tally], basis: str, game: GameDevelopment, verdic
                   game.at_ply(game.development.ready_at))
         tally.cost_wp += costs[SLOW_DEVELOPMENT]
     if verdict.late_castling is not None:
+        # **Late is only a fault if they were drifting while they were late.**
+        # Castling on move 13 having seized the initiative and castling on move
+        # 13 having drifted are the same number and opposite diagnoses, and the
+        # advice that follows -- castle sooner -- would have made the first
+        # player's game worse.
+        drifted, _ = drift_before_castling(game)
+        late = verdict.late_castling and drifted >= DRIFT_MOVES
         tally = tallies[f"{LATE_CASTLING}.{basis}"]
-        tally.add(verdict.late_castling, game.game_id,
-                  game.at_ply(game.development.castled_at))
-        tally.cost_wp += costs[LATE_CASTLING]
+        tally.add(late, game.game_id, game.at_ply(game.development.castled_at))
+        tally.cost_wp += costs[LATE_CASTLING] if late else 0.0
