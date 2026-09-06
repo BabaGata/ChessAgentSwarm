@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788712748319
+updated: 1788715696416
 created: 1785254500000
 ---
 
@@ -279,6 +279,28 @@ struck through: a list nobody can act on is not a plan.
    Five existing tests asserted the old behaviour and were corrected, each saying so where it changed;
    one of them was written earlier in the same session from my own reading of a shape the author had
    already rejected twice in writing.
+
+0. **DONE — `opening_pawn_error` made reachable; motif claims audited and reworded** *(2026-09-06)*.
+
+   **The claim stays, on the author's instruction, and it was worse than unreached.** S4 returns
+   `None` without a peer rate, so once the register withdrew the comparison **no player could ever
+   have received it**. It now compares the player against themselves: pawn pushes that went wrong
+   against *their other opening moves* that went wrong, same window and same exclusions, no engine and
+   no peers. Across the twelve, every one errs **less** on pawn pushes (1.5–13.7 %) than on the rest of
+   their opening (12.9–22.7 %) — an honest 0 of 12 about those twelve, exactly the author's point.
+
+   **All 25 motif claims audited.** 9 reach a player, 16 do not, and 7 of those 16 are
+   `executed_motif`, which `NOT_ASSERTED` refuses by design. **Nothing is structurally dead** — the
+   non-separating ones fall back to `_rate_on_other_motifs` and that works. Recorded: **base rate
+   dominates that self-baseline** (`allowed_motif.fork` 5.6 % reports 8/12; `skewer` 0.9 % and
+   `capturingDefender` 0.8 % report none), which is defensible for a claim phrased *"often a fork"*
+   and is L-056's shape one level down.
+
+   **Two motif claims could not be said in English.** `capturingDefender`'s friendly name is a verb
+   phrase, so the report said *"it is often **a capturing the defender** that punishes you"*; and
+   `hangingPiece` was called a tactic while `hangingPawn`, written beside it, already had the override
+   saying it is not. Both now have their own sentences, and the piece and pawn versions differ by one
+   word — which is a test.
 
 0. **DONE — `pawn_error` renamed and given the opening claims' criteria** *(2026-09-06)*.
 

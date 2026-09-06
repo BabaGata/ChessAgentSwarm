@@ -119,9 +119,10 @@ class TestNotTheAntiPattern:
 
         report = render(a_profile(*findings))
 
-        assert report.index("miss trapped piece tactics") < report.index(
-            "miss capturing the defender tactics"
-        )
+        # Matched on the claim's own words rather than a template's: both of
+        # these subjects now have their own sentences, because the generic
+        # templates could not say them properly.
+        assert report.index("trapped piece tactics") < report.index("take a defender")
         assert report.index("Drill `trappedPiece`") < report.index(
             "Drill `capturingDefender`"
         )

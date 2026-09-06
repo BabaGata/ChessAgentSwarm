@@ -2,7 +2,7 @@
 id: cas-exp-e86
 title: 'E86 — Auditing every detector against a real definition, and finding the knowledge base cannot be one'
 desc: 'The audit was designed to judge detectors against the sourced knowledge graph. The graph cannot do it: fourteen entries, none endorsed, and forks definition is a definition of a skewer. Audited against Lichess own theme text instead. Two defects demonstrated on positions: a fork is missed when a victim was already attacked, and a trapped piece is reported when it has a safe escape.'
-updated: 1788711968034
+updated: 1788715696403
 created: 1788681600000
 ---
 
@@ -1206,3 +1206,64 @@ keeping behind a flag to ask later whether pawn moves in the opening are explain
 `out_of_book` families moved in the same rebuild (`King's Pawn Game` and `Scotch Game` recover a
 comparison, `Italian Game` loses one), which is the register doing its job on a claim whose
 denominators changed.
+
+---
+
+## Round twelve — the motif claims, audited and reworded
+
+### `opening_pawn_error` kept, and made reachable
+
+> *"opening_pawn_error should stay ... if it doesn't reach players it doesn't mean that some other
+> players this wouldn't reach."*
+
+Right about the sample, and there was a worse problem than the sample: **S4 returns `None` when there
+is no peer rate**, so once the register withdrew the comparison the claim was *unreachable*, not
+merely unreached. No player could have received it, ever.
+
+S4's own comment says these claims have no meaningful within-player baseline. **This one does**, and
+it is the exception the comment did not foresee: *how often a pawn push instead of developing goes
+wrong, against how often the player's other opening moves go wrong* — same window, same book
+exclusion, same motif exclusion. Both arms come from the same observations, so it needs no engine and
+no peer reference, and the arm is tallied under a subject S4 never asserts.
+
+Measured across the twelve, and the result is worth keeping:
+
+| | pawn pushes | other opening moves |
+|---|--:|--:|
+| range | **1.5 – 13.7 %** | **12.9 – 22.7 %** |
+
+**Every one of the twelve errs less on pawn pushes than on the rest of their opening.** So 0 of 12 is
+an honest answer about those twelve, exactly as the author said — and the claim will now reach a
+player who genuinely does push pawns badly.
+
+### Every motif claim, audited
+
+| | |
+|---|---|
+| claims measured | 25 |
+| reported for at least one player | 9 |
+| never reported | 16 — of which **7 are `executed_motif`**, which `NOT_ASSERTED` refuses by design |
+
+Nothing is structurally dead: the nine non-separating motif claims fall back to S1's
+`_rate_on_other_motifs`, which works. What the audit does show is that **base rate dominates the
+self-baseline**: `allowed_motif.fork` at 5.6 % reports for 8 of 12 while `allowed_motif.skewer` at
+0.9 % and `capturingDefender` at 0.8 % report for none, because the comparison is against *sibling
+motifs* whose base rates differ by an order of magnitude. That is defensible for a claim phrased
+*"when you go wrong it is **often** a fork"* — it is a comparison between motifs by construction —
+and it is L-056's shape one level down, so it is recorded rather than left to be rediscovered.
+
+### Two motif claims could not be said in English
+
+The templates are `"You miss {subject} tactics that were available"` and `"it is often a {subject}
+that punishes you"`, and two subjects break them:
+
+* **`capturingDefender`** — its friendly name is a **verb phrase**, so the report said *"it is often a
+  capturing the defender that punishes you"*, which is not a sentence, and *"You miss capturing the
+  defender tactics"*.
+* **`hangingPiece`** — a hanging piece is not a tactic, for the same reason a hanging pawn is not:
+  taking one is looking at the board. **`hangingPawn` already carried that override and the piece it
+  was written beside did not**, so the pair said two different kinds of thing about one idea.
+
+Both now have their own sentences: *"You miss chances to take a defender and win the piece it was
+guarding"*, *"When you go wrong, it is often a piece you simply drop."* The piece and the pawn now
+differ by one word, which is a test.

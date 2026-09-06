@@ -140,6 +140,27 @@ SUBJECT_QUANTITIES: dict[tuple[str, str], str] = {
 # "You miss free pawn tactics that were available" is grammatical and wrong:
 # taking a free pawn is not a tactic, it is looking at the board.
 SUBJECT_STATEMENTS: dict[tuple[str, str], str] = {
+    # `capturingDefender` is a Lichess theme key whose friendly name is a verb
+    # phrase, so the generic templates produced **"it is often a capturing the
+    # defender that punishes you"** -- not a sentence -- and "You miss capturing
+    # the defender tactics that were available".
+    ("missed_motif", "capturingDefender"): (
+        "You miss chances to take a defender and win the piece it was guarding."
+    ),
+    ("allowed_motif", "capturingDefender"): (
+        "When you go wrong, your opponent often takes a defender and wins the "
+        "piece behind it."
+    ),
+    # A hanging piece is not a tactic, for the same reason a hanging pawn is not:
+    # taking one is looking at the board. `hangingPawn` already had this override
+    # and the piece it was written beside did not, so the pair said two different
+    # kinds of thing about the same idea.
+    ("missed_motif", "hangingPiece"): (
+        "You leave free pieces on the board — material that was there for the taking."
+    ),
+    ("allowed_motif", "hangingPiece"): (
+        "When you go wrong, it is often a piece you simply drop."
+    ),
     # `late_castling` and `slow_development` are keyed by **basis**, not by a
     # chess subject: "book" is the norm for the opening being played and "own" is
     # the player's own habit. The design keeps them in separate claim keys so the

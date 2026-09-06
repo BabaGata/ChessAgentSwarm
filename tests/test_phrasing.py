@@ -100,3 +100,40 @@ class TestTheSubjectIsNeverARawKey:
 
         assert by_book != by_own
         assert "book" not in by_book and "own" not in by_own.split()
+
+
+class TestMotifSubjectsThatBreakTheTemplate:
+    """Two motif subjects the generic templates could not say properly.
+
+    `capturingDefender`'s friendly name is a **verb phrase**, so
+    `"it is often a {subject} that punishes you"` produced *"it is often a
+    capturing the defender that punishes you"* -- not a sentence.
+
+    And a hanging piece is not a tactic, for the same reason a hanging pawn is
+    not: taking one is looking at the board, not seeing something. `hangingPawn`
+    carried that override from the start and `hangingPiece`, written beside it,
+    did not -- so the pair said two different kinds of thing about one idea.
+    """
+
+    def test_capturing_the_defender_reads_as_a_sentence(self):
+        from chesscoach.phrasing import statement
+
+        allowed = statement(a_finding("allowed_motif", "capturingDefender"))
+        missed = statement(a_finding("missed_motif", "capturingDefender"))
+
+        assert "a capturing the defender" not in allowed
+        assert "capturing the defender tactics" not in missed
+        assert allowed.endswith(".") and missed.endswith(".")
+
+    def test_a_hanging_piece_is_not_called_a_tactic(self):
+        from chesscoach.phrasing import statement
+
+        assert "tactics" not in statement(a_finding("missed_motif", "hangingPiece"))
+
+    def test_the_piece_and_the_pawn_say_the_same_kind_of_thing(self):
+        from chesscoach.phrasing import statement
+
+        piece = statement(a_finding("allowed_motif", "hangingPiece"))
+        pawn = statement(a_finding("allowed_motif", "hangingPawn"))
+
+        assert piece.replace("piece", "X") == pawn.replace("pawn", "X")
