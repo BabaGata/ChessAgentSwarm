@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788683251875
+updated: 1788687160741
 created: 1785254500000
 ---
 
@@ -279,6 +279,43 @@ struck through: a list nobody can act on is not a plan.
    Five existing tests asserted the old behaviour and were corrected, each saying so where it changed;
    one of them was written earlier in the same session from my own reading of a shape the author had
    already rejected twice in writing.
+
+0. **DONE — `early_error` retired, `capturingDefender` rebuilt on the author's design** *(2026-09-06)*.
+
+   **`early_error` retired** on the author's instruction — *"this is not valueable measure"*. It
+   counted any error inside 30 plies split by colour and nothing else; the sentence built on it
+   implied a cause it never established. Behind `EARLY_ERROR_RETIRED`, the shape
+   `s3_endgame_technique.ADVANTAGE_ERROR_RETIRED` already set, so the tally survives for asking later
+   whether opening-window errors are explained elsewhere. Its three claims go **63/85/129 → 0** on the
+   sheet. `slow_development`, `late_castling`, `repeat_move` and `out_of_book` already carry the
+   opening, and each names a behaviour.
+
+   **`capturingDefender` rebuilt** on the design the author gave rather than on another correction:
+   take the defender, **let them recapture**, then ask whether a piece it guarded can now be taken.
+   The shipped rule asked a one-ply question; this is a two-ply one. Four readings were measured
+   against the eight marks; two tied at 6/8 and the tie was broken by the author's own example —
+   `Nxf6+ Nd7xf6 Bxe5`, *"I take a bishop, knight takes a bishop and then I can take another knight"*
+   — which only the pieces-only reading finds, and which the one-ply rule could not see at all.
+   Pawns are not targets (the line `_is_hanging_piece` draws) and every recapture is tried rather than
+   the cheapest, because the recapture is theirs to choose. Corpus firings **1,729 → 149 → 80**.
+
+   One branch needed a distinction the author's sentence does not make: whether the guarded piece may
+   run turns on **who holds a move**. In their line the defender spends theirs recapturing, so an
+   immediate exchange test is right; a capture nothing can answer leaves them a free move, so that
+   branch asks whether the piece falls whatever they do.
+
+   **Reference and register rebuilt again afterwards** — this is L-058's own discipline applied to
+   itself, since two detectors changed. 821 → **803 cells**, `early_error` down to **zero cells**, and
+   the register's 24 verdicts unchanged. Full suite green; sheet regenerated, 19 claims with
+   instances, 125 boxes to mark.
+
+   **`capturingDefender` is still silent for these twelve players**, and honestly so: at 80 firings
+   across 47,932 positions it is too rare to reach the confidence gate on a 20-game window. The
+   detector is now right and the corpus is too small to say anything with it — a different problem
+   from the one it had.
+
+   Two marks the design overrules, recorded rather than hidden: `Bxe6+` (**[y]**) guards only a pawn,
+   and `Qxd8` (**[y]**) wins nothing under any of the four readings.
 
 0. **DONE — the four silent claims were compared against the old detectors** *(2026-09-06)*.
    The author chose *"loosen the confidence gate"*. **The gate was not the cause.** Every section's

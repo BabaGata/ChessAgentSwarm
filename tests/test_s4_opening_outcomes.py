@@ -94,6 +94,19 @@ def measured(observations, peers=None):
 
 
 class TestTheWindow:
+    @pytest.fixture(autouse=True)
+    def _early_error_is_counted(self, monkeypatch):
+        """`early_error` is retired; these tests are about the machinery.
+
+        The window, the colour partition and the reporting path are all still
+        worth testing -- the author kept the tally for asking later whether
+        errors inside the opening window are explained by some other detector.
+        See `TestEarlyErrorIsRetired` for what a player actually gets.
+        """
+        from chesscoach.sections import s4_opening_outcomes
+
+        monkeypatch.setattr(s4_opening_outcomes, "EARLY_ERROR_RETIRED", False)
+
     def test_moves_after_the_opening_are_not_counted(self):
         observations = games(12) + [
             an_observation(game_id="g0", ply=OPENING_END_PLY + 2, erred=True)
@@ -122,6 +135,19 @@ class TestTheWindow:
 
 
 class TestTheColourSplit:
+    @pytest.fixture(autouse=True)
+    def _early_error_is_counted(self, monkeypatch):
+        """`early_error` is retired; these tests are about the machinery.
+
+        The window, the colour partition and the reporting path are all still
+        worth testing -- the author kept the tally for asking later whether
+        errors inside the opening window are explained by some other detector.
+        See `TestEarlyErrorIsRetired` for what a player actually gets.
+        """
+        from chesscoach.sections import s4_opening_outcomes
+
+        monkeypatch.setattr(s4_opening_outcomes, "EARLY_ERROR_RETIRED", False)
+
     def test_white_and_black_partition_the_aggregate(self):
         observations = games(8, white=True) + [
             an_observation(game_id=f"b{n}", ply=12 + m, white=False, erred=(m == 0))
@@ -211,6 +237,19 @@ class TestOpeningDisadvantage:
 
 
 class TestReporting:
+    @pytest.fixture(autouse=True)
+    def _early_error_is_counted(self, monkeypatch):
+        """`early_error` is retired; these tests are about the machinery.
+
+        The window, the colour partition and the reporting path are all still
+        worth testing -- the author kept the tally for asking later whether
+        errors inside the opening window are explained by some other detector.
+        See `TestEarlyErrorIsRetired` for what a player actually gets.
+        """
+        from chesscoach.sections import s4_opening_outcomes
+
+        monkeypatch.setattr(s4_opening_outcomes, "EARLY_ERROR_RETIRED", False)
+
     def peers(self, rate: float = 0.03):
         from chesscoach.peers import ConditionMeasurement, build_reference
 
@@ -321,3 +360,33 @@ def test_no_claim_is_named_after_an_opening(subject):
     # The evidence may name an opening; the claim may not. A per-opening claim
     # on a 24-game corpus has two games behind it (L-022).
     assert Claim.of(kind=EARLY_ERROR, subject=subject).key().count(".") == 2
+
+
+class TestEarlyErrorIsRetired:
+    """Retired 2026-09-06 on the author's instruction.
+
+    > *"early_error retire this, this is not valueable measure."*
+
+    It counted any error inside the first 30 plies split by colour, and the
+    sentence built on that -- *"You go wrong early as Black"* -- implied a cause
+    it never established. The author rejected three firings on exactly that
+    ground. `slow_development`, `late_castling`, `repeat_move` and `out_of_book`
+    make opening claims that name a behaviour instead.
+    """
+
+    def test_it_is_not_counted_at_all(self):
+        observations = games(20, erred_share=1.0)
+
+        measured = {m.claim_key for m in S4OpeningOutcomes().measure(a_context(observations))}
+
+        for subject in ("any", "white", "black"):
+            assert Claim.of(kind=EARLY_ERROR, subject=subject).key() not in measured
+
+    def test_the_rest_of_the_section_still_measures(self):
+        """Retiring one claim must not silence the section that carried it."""
+        observations = games(20, erred_share=1.0)
+
+        measured = {m.claim_key for m in S4OpeningOutcomes().measure(a_context(observations))}
+
+        assert measured, "S4 measured nothing at all"
+        assert not any(k.startswith(f"{EARLY_ERROR}.") for k in measured)

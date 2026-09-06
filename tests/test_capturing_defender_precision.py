@@ -40,8 +40,9 @@ class TestTheRecaptureTakesTheWinnerAway:
             "1k1r3r/pp4pp/8/2P1Q3/3q4/P7/5PPP/R3R1K1 b - - 1 21", "Qxe5"
         )
 
-    def test_the_defender_may_simply_defend_again(self):
-        # Bxc3 loosens e4 -- and White answers bxc3 and has moves that re-cover it.
+    def test_a_pawn_recovered_after_a_trade_is_not_the_motif(self):
+        # `Bxc3 bxc3 Nxe4` wins a pawn back after an ordinary exchange. The
+        # author's design names a *piece*, so this no longer counts.
         assert not removes_defender(
             "r1bqk2r/pp1p1ppp/2n1pn2/8/1b1NP3/2N5/PPP1BPPP/R1BQ1RK1 b kq - 5 7", "Bxc3"
         )
@@ -50,10 +51,30 @@ class TestTheRecaptureTakesTheWinnerAway:
 class TestTheRealOnesStillFire:
     """Two of the author's [y] marks, which the fix must not take with it."""
 
-    def test_hirsican_bxe6(self):
-        """`allowed_motif.capturingDefender`, marked [y] at 36.1 wp lost."""
-        assert removes_defender(
+    def test_hirsican_bxe6_is_a_pawn_and_no_longer_counts(self):
+        """A case the author marked [y] that their own later design excludes.
+
+        `Bxe6+` takes the bishop guarding **f5, a pawn**. Under the design the
+        author gave afterwards -- *"another piece becomes hanging"* -- pawns are
+        not targets, the same line `_is_hanging_piece` draws. Recorded as a
+        disagreement rather than smoothed over: the mark says yes, the design
+        says no, and the design is the later and more specific statement.
+        """
+        assert not removes_defender(
             "2krr3/ppq3pp/2nbb3/5pB1/2B1Q3/P4N2/1P3PPP/R3R1K1 w - - 0 17", "Bxe6+"
+        )
+
+    def test_the_authors_own_example(self):
+        """Take a bishop, knight recaptures, take the knight the bishop guarded.
+
+        > *"I take a bishop, knight takes a bishop and then I can take another
+        > knight that was defended by the bishop."*
+
+        `Nxf6+ Nd7xf6 Bxe5` is that line move for move, and it is the position
+        the previous one-ply rule could not see.
+        """
+        assert removes_defender(
+            "1r1q1rk1/pp1n1ppp/5b2/2pNn3/2P5/PP2P3/1B2BPPP/R2Q1RK1 w - - 5 16", "Nxf6+"
         )
 
     def test_goydorak_qxg3(self):

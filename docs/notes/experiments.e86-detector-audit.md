@@ -2,7 +2,7 @@
 id: cas-exp-e86
 title: 'E86 — Auditing every detector against a real definition, and finding the knowledge base cannot be one'
 desc: 'The audit was designed to judge detectors against the sourced knowledge graph. The graph cannot do it: fourteen entries, none endorsed, and forks definition is a definition of a skewer. Audited against Lichess own theme text instead. Two defects demonstrated on positions: a fork is missed when a victim was already attacked, and a trapped piece is reported when it has a safe escape.'
-updated: 1788683148955
+updated: 1788685258916
 created: 1788681600000
 ---
 
@@ -566,3 +566,77 @@ section does *once a peer rate exists*, which is still worth testing, so they li
 for their duration and say so. Two new tests record what a player actually gets: the claim withheld,
 and `measure()` still reporting the instances it saw — which is what separates *"this claim cannot be
 compared"* from *"this detector is broken"*.
+
+---
+
+## Round four — `early_error` retired, `capturingDefender` rebuilt on the author's design
+
+### `early_error` retired
+
+> *"early_error retire this, this is not valueable measure."*
+
+Retired as `EARLY_ERROR_RETIRED = True` in `s4_opening_outcomes`, following the shape
+`s3_endgame_technique.ADVANTAGE_ERROR_RETIRED` already set: the tally stays behind the flag rather
+than being deleted, because it is a cheap way to ask later whether errors inside the opening window
+are explained by some other detector — a question about the swarm's coverage rather than a claim
+about a player.
+
+Round two answered *what it detects*: any error inside 30 plies, split by colour, and nothing else.
+The sentence built on it implied a cause it never established. What replaces it is already shipped —
+`slow_development`, `late_castling`, `repeat_move`, `out_of_book` — all of which name a behaviour.
+
+Eight tests exercised it. Three classes cover the window, the colour partition and S4's reporting
+path, and that machinery is still worth testing, so they lift the flag for their duration and say so.
+`TestEarlyErrorIsRetired` records what a player gets, including that **the rest of S4 still measures**
+— retiring one claim must not silence the section carrying it.
+
+### `capturingDefender` rebuilt on the author's design
+
+The author gave the design rather than another correction:
+
+> *"when captured the defender in a couple of moves (1-3) another piece becomes hanging and can be
+> taken by the opponent by a forced exchange … I take a bishop, knight takes a bishop and then I can
+> take another knight that was defended by the bishop. So what should be checked is after an exchange
+> plays out, is there any other piece that lost the piece that was defending it and now can be taken
+> by the opponent."*
+
+**This is a two-ply question and the shipped rule asked a one-ply one.** Take the defender, *let them
+recapture*, then look. Four readings were built and measured against the eight marks before one was
+chosen:
+
+| target | recapture line | agrees |
+|---|---|---|
+| any piece or pawn | cheapest attacker | 5/8 |
+| any piece or pawn | any recapture | 6/8 |
+| pieces only | cheapest attacker | 5/8 |
+| **pieces only** | **any recapture** | **6/8, and it is the author's own line** |
+
+The two 6/8 readings tie on the marks, and the tie is broken by the author's example: `Nxf6+ Nd7xf6
+Bxe5` is *"I take a bishop, knight takes a bishop and then I can take another knight"* move for move,
+and only the pieces-only reading finds it. The previous one-ply rule could not see it at all.
+
+Both details come from their sentence:
+
+* **"another *piece*"** — pawns are not targets, the line `_is_hanging_piece` already draws. This is
+  what rejects `Bxc3 bxc3 Nxe4`: a pawn recovered after an ordinary trade is not the motif.
+* **the recapture is theirs to choose**, so every recapture is tried rather than the cheapest by SEE
+  convention. Their own example has a knight recapturing where a pawn also could, and taking the
+  cheapest lost exactly that position.
+
+**One branch needed a distinction the sentence does not make.** Whether the guarded piece may run
+turns on who holds a move. In the author's line the defender spends theirs recapturing, so the next
+move is ours and the piece cannot step away — an immediate exchange test is right. When the capture
+**cannot be answered at all**, they keep their move and can simply save it, so that branch asks the
+stronger question `_is_fork` asks of its targets: does it fall whatever they do. Without this a rook
+taking a free bishop "trapped" a knight that just hops away.
+
+Corpus firings across the reviewed games: **1,729 → 149 (one-ply rule) → 80**. Stricter again,
+because most captures loosen pawns.
+
+### A mark the design overrules
+
+`Bxe6+` (`NF4Pv6NH`) was marked **[y]** and no longer fires: the bishop it takes guards **f5, a
+pawn**. The mark and the design disagree, the design is the later and more specific statement, and
+the test now records the disagreement rather than hiding it. `ZcA3N99e`'s `Qxd8` is the other
+outstanding **[y]** — after `Qxd8 Rxd8` nothing it guarded is winnable under any of the four
+readings, so it is likely a generous mark or a different move than the one the detector proposed.

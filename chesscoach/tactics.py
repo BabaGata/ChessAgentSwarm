@@ -428,38 +428,84 @@ def _is_back_rank_mate(
 def _is_removing_the_defender(
     board: chess.Board, after: chess.Board, move: chess.Move, mover: chess.Color
 ) -> bool:
-    """Capturing a piece so that something it defended is now loose and attacked."""
+    """Capture a defender, let the exchange play out, and something it guarded falls.
+
+    The author's design, which is a **two-ply** question and not a one-ply one:
+
+    > *"when captured the defender in a couple of moves (1-3) another piece
+    > becomes hanging and can be taken by the opponent by a forced exchange. So
+    > for example, I take a bishop, knight takes a bishop and then I can take
+    > another knight that was defended by the bishop. So what should be checked
+    > is after an exchange plays out, is there any other piece that lost the
+    > piece that was defending it and now can be taken by the opponent."*
+
+    So the order is: take the defender, **let them recapture**, then look. Reading
+    the guarded piece off the position immediately after the capture asks whether
+    it is loose while it is not their turn, which every recapture answers -- and
+    the piece standing to collect it was usually the capturer itself, which the
+    recapture removes (E86 D-3).
+
+    Two details, both from the author's sentence:
+
+    * **another *piece*.** Pawns are not targets here, the same line
+      `_is_hanging_piece` draws: winning a pawn back after an exchange is not the
+      motif, and counting it fired on ordinary trades like `Bxc3 bxc3 Nxe4`.
+    * **the recapture is theirs to choose**, so every recapture is tried rather
+      than only the cheapest. The author's own example is a knight recapturing
+      where a pawn also could, and taking the cheapest by convention lost exactly
+      that position.
+
+    **Whether the guarded piece may run turns on who has a move.** In the
+    author's line the defender spends theirs recapturing, so the next move is
+    ours and the piece never gets to step away -- an immediate exchange test is
+    the right one. When the capture cannot be answered at all they keep their
+    move and can simply save it, so that branch asks the stronger question
+    `_is_fork` asks of its targets: does it fall whatever they do.
+    """
     if not board.is_capture(move) or board.is_en_passant(move):
         return False
 
     # A capture that loses material has not removed a defender, it has donated a
-    # piece; and the loosened piece has to be winnable rather than merely looked
-    # at (D17).
+    # piece (D17).
     if exchange_value(board, move) < 0:
         return False
 
-    defended = tuple(
+    guarded = tuple(
         square
         for square in board.attacks(move.to_square)
         if (piece := board.piece_at(square)) is not None
         and piece.color != mover
-        and wins_material(after, square, mover) > 0
+        # The king is a target but never a prize, and `wins_material` answers 100
+        # for its square -- so without this every capture beside the enemy king
+        # claimed the king as loot.
+        and piece.piece_type not in (chess.PAWN, chess.KING)
     )
-    if not defended:
+    if not guarded:
         return False
 
-    # **The defender moves next, and usually recaptures.** Reading the loosened
-    # piece off `after` alone asks "is it loose while it is not their turn",
-    # which every recapture answers. All three positions the author rejected
-    # were this one shape -- `Rxf1+ Kxf1` and the Nf5 is defended again;
-    # `Qxe5 Rxe5` and the c5 pawn is defended again; `Bxc3 bxc3` and e4 is
-    # defended again -- and in each the piece doing the "winning" was the
-    # capturer itself, standing en prise (E86 D-3).
-    #
-    # `_is_fork` already answers exactly this question, including the guard that
-    # a **king is a target but never a prize**: without it, every capture on a
-    # square beside the enemy king claimed the king as loot worth 100.
-    return _loses_material_whatever_the_defender_does(after, defended, mover)
+    answers = [reply for reply in after.legal_moves if reply.to_square == move.to_square]
+    if not answers:
+        return _loses_material_whatever_the_defender_does(after, guarded, mover)
+
+    return any(_after_reply(after, reply, guarded, mover) for reply in answers)
+
+
+def _after_reply(
+    after: chess.Board, reply: chess.Move, guarded: tuple[int, ...], mover: chess.Color
+) -> bool:
+    """Play the recapture, then ask what the departed defender was holding up."""
+    settled = after.copy(stack=False)
+    settled.push(reply)
+    return _any_falls(settled, guarded, mover)
+
+
+def _any_falls(position: chess.Board, guarded: tuple[int, ...], mover: chess.Color) -> bool:
+    """Is one of the guarded pieces now winnable? It must still be standing there."""
+    return any(
+        position.piece_at(square) is not None
+        and wins_material(position, square, mover) > 0
+        for square in guarded
+    )
 
 
 def _lost_on_arrival(after: chess.Board, escape: chess.Move, mover: chess.Color) -> bool:

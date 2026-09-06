@@ -22,7 +22,7 @@ these games, which is worth knowing too.
 
 ==============================================================================
 
-GENERATED 2026-09-06 from commit 64e1259.
+GENERATED 2026-09-06 from commit 7c2f331.
 Marks on this sheet judge THAT code. If a detector changes afterwards its
 marks stop being evidence about it -- record this line with them.
 
@@ -56,51 +56,6 @@ allowed_motif.hangingPawn.own
       lichess.org/Tfb8OGuN#31
   [ ] goydorak              move  40  Black Rxa5     lost   9.0 wp
       lichess.org/4AP4HOjm#80
-
-early_error.white.own
-    claims: You go wrong early as White.
-    129 instances across 4 players
-------------------------------------------------------------------------------
-  [ ] Crossfire1983         move  10  White f5       lost   7.8 wp
-      lichess.org/F5E8p3lR#19
-  [ ] Crossfire1983         move  13  White Nxh4     lost   9.6 wp
-      lichess.org/akv2n6B0#25
-  [ ] bernes                move   8  White dxe6     lost   5.4 wp
-      lichess.org/zNztqNrd#15
-  [ ] bernes                move  14  White Nb3      lost   7.0 wp
-      lichess.org/EGKTN6wj#27
-  [ ] bernes                move  14  White Nb5      lost  12.9 wp
-      lichess.org/qa4FPgCK#27
-
-early_error.black.own
-    claims: You go wrong early as Black.
-    85 instances across 3 players
-------------------------------------------------------------------------------
-  [ ] Crossfire1983         move   6  Black f6       lost   6.4 wp
-      lichess.org/PjZgPmwV#12
-  [ ] Crossfire1983         move  13  Black Bxf3     lost   9.6 wp
-      lichess.org/VaWiK76d#26
-  [ ] Crossfire1983         move  14  Black Be7      lost   8.8 wp
-      lichess.org/wiwekygE#28
-  [ ] Hirsican              move  12  Black fxe4     lost  17.5 wp
-      lichess.org/CCoHBALM#24
-  [ ] cademan               move  15  Black Nh6      lost  32.5 wp
-      lichess.org/T7AhF7X3#30
-
-early_error.any.own
-    claims: You go wrong early, before the middlegame starts.
-    63 instances across 1 players
-------------------------------------------------------------------------------
-  [ ] Hirsican              move   5  White d4       lost   5.0 wp
-      lichess.org/zU1S5uVh#9
-  [ ] Hirsican              move   5  Black Nc6      lost   6.7 wp
-      lichess.org/5853VxPL#10
-  [ ] Hirsican              move   7  Black Ne4      lost  10.1 wp
-      lichess.org/vyI9oLv3#14
-  [ ] Hirsican              move   9  White Ba4      lost   6.5 wp
-      lichess.org/IPkBTNT3#17
-  [ ] Hirsican              move  10  Black Bd6      lost   6.0 wp
-      lichess.org/NF4Pv6NH#20
 
 out_of_book.any.own
     claims: You are out of known opening theory sooner than players at your level.
@@ -533,4 +488,4 @@ fires wrongly, and it cannot be seen from the sheet above.
   time_budget_error.after_overspending.own
 
 ==============================================================================
-28 claims with instances, 76 that never fired, 104 in the vocabulary.
+25 claims with instances, 76 that never fired, 101 in the vocabulary.

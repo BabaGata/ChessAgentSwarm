@@ -60,6 +60,34 @@ SECTION = "S4"
 
 EARLY_ERROR = "early_error"
 
+# Retired 2026-09-06, on the author's instruction: *"early_error retire this,
+# this is not valueable measure."*
+#
+# It counts **any error inside the first 30 plies, split by colour**, and nothing
+# else -- no theory, no book depth, no notion of understanding. The sentence it
+# produced, *"You go wrong early as Black"*, implies a cause it never
+# established, and the author rejected three of its firings on exactly that:
+#
+# > *"This is just missed tactics, not the result of lack of opening
+# > understanding."*
+# > *"This is not opening anymore."*
+#
+# Thirty plies is move 15, which is past the opening in most games, so the claim
+# was also naming the wrong phase. The detector was never wrong about what it
+# counted -- it was the claim built on top of it that could not be supported
+# ([[experiments.e86-detector-audit]]).
+#
+# **What replaces it is already here.** `slow_development`, `late_castling`,
+# `repeat_move` and `out_of_book` make opening claims that name a *behaviour* a
+# player can act on, which is what D22 asked for.
+#
+# The code stays rather than being deleted, on the same reasoning as
+# `s3_endgame_technique.ADVANTAGE_ERROR_RETIRED`: the tally is a cheap way to ask
+# later whether errors inside the opening window are being explained by some
+# other detector, which is a question about the swarm's coverage rather than a
+# claim about a player.
+EARLY_ERROR_RETIRED = True
+
 # Loaded once. The book is 1.4 MB and the norms a few kB, and rebuilding either
 # per player would dominate a section that otherwise costs nothing.
 _BOOK: OpeningBook | None = None
@@ -178,8 +206,9 @@ def _count(context: SectionContext) -> _Counts:
     tallies: dict[str, _Tally] = defaultdict(_Tally)
 
     for observation in early:
-        _tally(tallies, _key(EARLY_ERROR, ANY), observation)
-        _tally(tallies, _key(EARLY_ERROR, _colour(observation)), observation)
+        if not EARLY_ERROR_RETIRED:
+            _tally(tallies, _key(EARLY_ERROR, ANY), observation)
+            _tally(tallies, _key(EARLY_ERROR, _colour(observation)), observation)
 
     _count_disadvantage(tallies, early)
     _count_development(tallies, context)
