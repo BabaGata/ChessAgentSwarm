@@ -403,6 +403,41 @@ def _action(finding: Finding) -> str:
             "they got a third attacker there — that is where the game turned, not the move "
             "the attack landed on."
         ),
+        # The five development and opening claims shipped with no action, so the
+        # plan told a player to "Work on any" or "Work on Bird Opening" -- the
+        # subject key with a verb in front of it. Each of these names something
+        # the player can actually do between games.
+        "pawn_error": (
+            "Before pushing a pawn, ask which piece is still at home. Most of these went "
+            "wrong because a developing move was there and the pawn move looked useful; "
+            "play the piece out and come back to the pawn."
+        ),
+        "repeat_move": (
+            "When you are about to move a piece for the second time, check whether "
+            "another one has not moved at all. Moving it again is usually answering your "
+            "opponent's last move instead of finishing your own development."
+        ),
+        "slow_development": (
+            "Count your undeveloped pieces at move ten in the cited games. Aim to have "
+            "the minor pieces out and the king castled before starting anything on a "
+            "wing."
+        ),
+        "late_castling": (
+            "In the cited games the king stayed in the centre while the position was "
+            "already slipping. When you notice two or three moves going wrong, castle "
+            "before looking for the plan -- the drift is what makes the delay expensive."
+        ),
+        "out_of_book": (
+            f"Learn a few more moves of the {name}. Play through the cited games to the "
+            "move where you left theory and look up what is played there -- that move is "
+            "the edge of your repertoire."
+            if subject != POOLED
+            else (
+                "Pick the opening you play most and learn a few more moves of it. Play "
+                "through the cited games to the move where you left theory and look up "
+                "what is played there."
+            )
+        ),
     }
     return actions.get(
         finding.claim.kind,

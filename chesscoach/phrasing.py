@@ -50,6 +50,11 @@ QUANTITIES: dict[str, str] = {
     "moved_into_attack": "moves that leave the piece you moved takeable",
     "miscounted_exchange": "exchanges you start away from the kings that lose material",
     "sacrificed_for_attack": "material given up to attack the king",
+    "out_of_book": "moves played outside known theory in the {subject}",
+    "pawn_error": "pawn pushes played instead of developing that went wrong",
+    "repeat_move": "moves of a piece you had already moved",
+    "late_castling": "games where the king stayed in the centre while you drifted",
+    "slow_development": "games where your pieces came out late",
 }
 
 # The finding as a sentence a person would say. Deliberately flat: no severity
@@ -85,6 +90,24 @@ STATEMENTS: dict[str, str] = {
         "You put the piece you have just moved on a square where it can be won, "
         "more often than players at your level."
     ),
+    # The five development and opening claims (E58-E62) shipped without any
+    # phrasing, so every one of them reached a player as a raw claim key --
+    # "pawn_error: any." in the report and "Work on any:" in the plan. That is
+    # the **D8 defect** the `out_of_book` note below warns about, and splitting
+    # `out_of_book` per opening reintroduced it for the per-opening subjects,
+    # which are not POOLED and so fall through the pooled entry.
+    "out_of_book": (
+        "You leave known theory sooner than players at your level when you play "
+        "the {subject}."
+    ),
+    "pawn_error": (
+        "When you push a pawn instead of developing a piece, it goes wrong more "
+        "often than it does for players at your level."
+    ),
+    "repeat_move": (
+        "You move the same piece again while another is still at home, more often "
+        "than players at your level."
+    ),
     "miscounted_exchange": (
         "Away from the kings, exchanges you start turn out to lose material more "
         "often than they do for players at your level."
@@ -107,6 +130,29 @@ SUBJECT_QUANTITIES: dict[tuple[str, str], str] = {
 # "You miss free pawn tactics that were available" is grammatical and wrong:
 # taking a free pawn is not a tactic, it is looking at the board.
 SUBJECT_STATEMENTS: dict[tuple[str, str], str] = {
+    # `late_castling` and `slow_development` are keyed by **basis**, not by a
+    # chess subject: "book" is the norm for the opening being played and "own" is
+    # the player's own habit. The design keeps them in separate claim keys so the
+    # two can never pool, and they are different sentences for the same reason.
+    #
+    # `late_castling` also carries its gate: it counts only games where the
+    # player was **drifting** while the king stayed at home
+    # ([[design.castling-under-drift]]), so the sentence says so rather than
+    # implying that castling late is a fault by itself.
+    ("late_castling", "book"): (
+        "In games where you were already drifting, your king stays in the centre "
+        "longer than is usual in the openings you play."
+    ),
+    ("late_castling", "own"): (
+        "In games where you were already drifting, your king stays in the centre "
+        "longer than you usually leave it."
+    ),
+    ("slow_development", "book"): (
+        "You finish developing later than is usual in the openings you play."
+    ),
+    ("slow_development", "own"): (
+        "You finish developing later than you usually do."
+    ),
     ("missed_motif", "hangingPawn"): (
         "You leave free pawns on the board — material that was there for the taking."
     ),
