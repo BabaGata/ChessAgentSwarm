@@ -98,7 +98,30 @@ def main() -> int:
     parser.add_argument("--peers", required=True)
     parser.add_argument("--cache", default=None)
     parser.add_argument("--depth", type=int, default=15)
-    parser.add_argument("--window", type=int, default=20)
+    # 60, not the 20 the rest of the review experiments use.
+    #
+    # **20 exists to match what a human read**: [[experiments.e39-review-window]]
+    # found the swarm's leading finding changes 75 % of the time between a
+    # 20-game window and the full corpus, so a ranked comparison against a
+    # reviewer who read 20 games has to be built from those same 20 or it
+    # measures the sample and not the diagnosis.
+    #
+    # **That argument does not reach this sheet.** Nothing here is ranked or
+    # compared against a human's ordering: each box asks whether one claim is
+    # true of one position, which does not depend on which games were read.
+    # What the narrow window did instead was judge the swarm at what E39 itself
+    # called "its weakest operating point" -- the system's own default is 60
+    # (`cli.py --games`), every reviewed player has 60 games on disk, and E43
+    # measured 15 claims blocked at 20 and none at 60.
+    #
+    # Measured here: **25 -> 36 claims with instances**, twelve of them silent
+    # at 20 -- including `missed_motif.capturingDefender`, which goes from 1
+    # instance in 6 opportunities to 8 in 24, crossing its peer rate. Two claims
+    # stop firing and both sat *below* the peer rate at either window, so the
+    # extra games confirmed the players are ordinary rather than hiding
+    # anything. Marking cost rises only 125 -> 178 boxes, because `--examples`
+    # caps the sample per claim however many instances there are.
+    parser.add_argument("--window", type=int, default=60)
     parser.add_argument("--examples", type=int, default=5)
     parser.add_argument("--out", type=Path, default=Path(__file__).parent / "results")
     args = parser.parse_args()

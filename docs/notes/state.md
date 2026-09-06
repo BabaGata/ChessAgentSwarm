@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788687160741
+updated: 1788689595216
 created: 1785254500000
 ---
 
@@ -279,6 +279,40 @@ struck through: a list nobody can act on is not a plan.
    Five existing tests asserted the old behaviour and were corrected, each saying so where it changed;
    one of them was written earlier in the same session from my own reading of a shape the author had
    already rejected twice in writing.
+
+0. **DONE — the detection sheet reads 60 games, not 20** *(2026-09-06)*.
+   `capturingDefender` was correct after the rebuild and still said nothing. The cause was the review
+   window. **20 exists because a human read 20** ([[experiments.e39-review-window]]: the leading
+   finding changes 75 % of the time between 20 games and the full corpus, so a ranked comparison
+   against a reviewer must use their games). **That argument does not reach the detection sheet** —
+   no box on it is ranked or compared against a human's ordering; each asks whether one claim is true
+   of one position. E39 already named the cost of the narrow window: *"judging the swarm at its
+   weakest operating point"*.
+
+   Everything else says 60: `cli.py` defaults to 60 for `corpus` and `session`, `state.md` describes
+   *"one player across ~60 games"*, every reviewed player has 60 on disk, and E43 measured 15 claims
+   blocked at 20 and none at 60.
+
+   | | window 20 | window 60 |
+   |---|--:|--:|
+   | claims with instances | 25 | **36** |
+   | boxes to mark | 125 | 178 |
+
+   **Twelve silent claims now fire** — `endgame_error.any` (23), `late_castling.own` (35),
+   `time_budget_error.after_overspending` (38), `slow_development.own` (20),
+   `missed_motif.trappedPiece` (9), `missed_motif.skewer` (4), `missed_motif.capturingDefender` (4)
+   among them. **Marking cost barely moves** because `--examples` caps the sample at five per claim:
+   53 more boxes buys eleven more claims.
+
+   `capturingDefender` went from **1 instance in 6 opportunities (16.7 %)** to **8 in 24 (33.3 %)**
+   against a 30.2 % peer rate. The detector was right and the corpus was too small to use it.
+
+   Two claims stopped firing — `out_of_book.any` and `missed_motif.hangingPawn` — and both sat
+   **below the peer rate at either window**, so the extra games confirmed the players are ordinary
+   rather than hiding anything. At 20 they were reaching players on sampling noise.
+
+   `--window` defaults to 60 in `detection_sheet.py` **only**; the other review experiments keep 20
+   because they are the ranked comparison E39 was about. Sheet regenerated: **36 claims, 178 boxes**.
 
 0. **DONE — `early_error` retired, `capturingDefender` rebuilt on the author's design** *(2026-09-06)*.
 

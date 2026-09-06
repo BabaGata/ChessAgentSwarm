@@ -2,7 +2,7 @@
 id: cas-exp-e86
 title: 'E86 — Auditing every detector against a real definition, and finding the knowledge base cannot be one'
 desc: 'The audit was designed to judge detectors against the sourced knowledge graph. The graph cannot do it: fourteen entries, none endorsed, and forks definition is a definition of a skewer. Audited against Lichess own theme text instead. Two defects demonstrated on positions: a fork is missed when a victim was already attacked, and a trapped piece is reported when it has a safe escape.'
-updated: 1788685258916
+updated: 1788689571924
 created: 1788681600000
 ---
 
@@ -640,3 +640,68 @@ pawn**. The mark and the design disagree, the design is the later and more speci
 the test now records the disagreement rather than hiding it. `ZcA3N99e`'s `Qxd8` is the other
 outstanding **[y]** — after `Qxd8 Rxd8` nothing it guarded is winnable under any of the four
 readings, so it is likely a generous mark or a different move than the one the detector proposed.
+
+---
+
+## Round five — the review window was the binding constraint, not the detectors
+
+`capturingDefender` was correct after round four and still said nothing, and the reason was not the
+detector. The author asked why the window was 20.
+
+**It is 20 because a human read 20.** [[experiments.e39-review-window]] found the swarm's leading
+finding changes **75 % of the time** between a 20-game window and the full corpus — 3 of 12 players
+kept the same top claim, median overlap 1 of 3 — so a ranked comparison against a reviewer who read
+20 games has to be built from those same 20, or it measures the sample rather than the diagnosis.
+E39 priced the alternative and rejected it: reading ~50 games each was about 72 hours against the
+2 h 30 per twenty already measured.
+
+**But that argument does not reach the detection sheet.** Nothing on the sheet is ranked or compared
+against a human's ordering. Each box asks whether one claim is true of one position, and that
+judgement does not depend on which games were read. E39 said what the narrow window costs, in its own
+words:
+
+> *"The review would therefore be judging the swarm **at its weakest operating point** rather than at
+> the ~50 games a real session fetches, and the thesis has to say so."*
+
+Everything else agrees that 60 is the right number: `cli.py`'s own default is **60** for both
+`corpus` and `session`, `state.md` describes the swarm as diagnosing *"one player across ~60 games"*,
+every reviewed player has **60 games on disk**, and [[experiments.e43-focus-gates]] measured **15
+claims blocked at a 20-game window and none at 60**.
+
+### Measured, at 20 against 60
+
+| | window 20 | window 60 |
+|---|--:|--:|
+| claims with instances | 25 | **36** |
+| boxes to mark | 125 | 178 |
+
+**Twelve claims that were silent now fire**, among them `endgame_error.any` (23), `late_castling.own`
+(35), `time_budget_error.after_overspending` (38), `slow_development.own` (20),
+`missed_motif.trappedPiece` (9), `missed_motif.skewer` (4) and — the one this started from —
+`missed_motif.capturingDefender` (4).
+
+**The marking cost barely moves** because `--examples` caps the sample at five per claim however many
+instances there are. Fifty-three more boxes buys eleven more claims.
+
+### Why `capturingDefender` came back
+
+| window | instances / opportunities | rate | peer |
+|---|--:|--:|--:|
+| 20 | 1 / 6 | 16.7 % | 30.2 % |
+| 60 | **8 / 24** | **33.3 %** | 30.2 % |
+
+At 20 games the aggregate was one instance in six opportunities — not a measurement. At 60 it is
+8 in 24 and crosses the peer rate. **The detector was right after round four and the corpus was too
+small to use it**, which is exactly what round four predicted and is now fixed by looking at the
+games that were already on disk.
+
+### The two claims that stopped firing
+
+`out_of_book.any` (53 → 0) and `missed_motif.hangingPawn` (15 → 0). Both sat **below the peer rate at
+either window** — 49.0 % against 49.9 % and 16.0 % against 23.5 % at 20 games, 49.3 % and 18.0 % at
+60. So the wider window did not hide them; it confirmed that these players are ordinary on both, and
+at 20 games the claims were reaching a player on the strength of sampling noise. That is the same
+failure `separation.py` exists to prevent, appearing one level down.
+
+**`--window` now defaults to 60 in `detection_sheet.py` only.** The other review experiments keep 20,
+because they *are* the ranked comparison E39 was about.
