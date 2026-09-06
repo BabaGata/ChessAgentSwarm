@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788648071195
+updated: 1788678924778
 created: 1785254500000
 ---
 
@@ -279,6 +279,35 @@ struck through: a list nobody can act on is not a plan.
    Five existing tests asserted the old behaviour and were corrected, each saying so where it changed;
    one of them was written earlier in the same session from my own reading of a shape the author had
    already rejected twice in writing.
+
+0. **P0 — four claims now fire for nobody, and that is the author's decision** *(2026-09-06)*.
+   The sheet was regenerated at `b6ea303` and compared against `98184a6`, the commit immediately
+   before the first fix — same 15 players, same peer reference, same evaluation cache, only
+   `tactics.py`/`squares.py`/`kingsafety.py` differing.
+
+   | claim | before | after |
+   |---|---|---|
+   | `allowed_motif.capturingDefender` | 105 | **0** |
+   | `missed_motif.capturingDefender` | 19 | **0** |
+   | `allows_pressure.king` | 31 | **0** |
+   | `missed_motif.trappedPiece` | 4 | **0** |
+   | `allowed_motif.pin` | 75 | 16 |
+   | `missed_motif.pin` | 34 | 8 |
+   | `allowed_motif.hangingPiece` | 81 | 14 |
+   | `allows_square.outpost` | 24 | 6 |
+
+   **This is not a mis-set threshold.** `PRESSURE_WEIGHT` was the suspect and was measured out: it
+   accounts for 107 of the 976 removed crossings, the rest coming from counting *pieces* instead of
+   pawns and kings — the change the author's own rejections demanded. The claims are silent because
+   their rule now says most of what they used to report was not the thing they name.
+
+   Three options are written up in [[experiments.e86-detector-audit]]: accept the silence and retire
+   the two claims from the vocabulary; **loosen the confidence gate** so a claim with few but sound
+   instances can still be made (the option that keeps both the corrections and the coverage); or
+   revert the strictest rules and take back the false positives. **Not decided here.**
+
+   Sheet to mark: `experiments/e55-detector-precision/results/detection-sheet-2026-09-06-fixed-detectors.txt`,
+   stamped `commit b6ea303`, 28 claims with instances. Neither marked sheet was overwritten.
 
 0. **DONE — both detector defects fixed** *(2026-09-06)*.
    **`trappedPiece`** tested escape squares with `is_attacked_by` rather than an exchange: on **6,249

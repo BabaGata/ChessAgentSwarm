@@ -2,7 +2,7 @@
 id: cas-exp-e86
 title: 'E86 — Auditing every detector against a real definition, and finding the knowledge base cannot be one'
 desc: 'The audit was designed to judge detectors against the sourced knowledge graph. The graph cannot do it: fourteen entries, none endorsed, and forks definition is a definition of a skewer. Audited against Lichess own theme text instead. Two defects demonstrated on positions: a fork is missed when a victim was already attacked, and a trapped piece is reported when it has a safe escape.'
-updated: 1788648026209
+updated: 1788678901158
 created: 1788681600000
 ---
 
@@ -391,3 +391,82 @@ was **written by me earlier in this same session** from my own reading that a wi
 makes a pawn-pin real; the author's sheet says otherwise twice. It now records their rule and names
 the reading it replaced — L-051 in its sharpest form, since the test and the thing it tested were
 authored an hour apart.
+
+---
+
+## What the fixes did to the *claims*, measured against the right baseline
+
+The corpus sweeps above count detector firings. They do not say whether a claim still reaches a
+player, because a firing becomes an instance only after the punishment filter, the phase filter and
+the confidence gate. So the sheet was regenerated and compared.
+
+**The first comparison was wrong, and it is worth recording why.** I took the baseline from
+`6de59ad` — the HEAD recorded in a stale git status carried through a compaction — and there are
+**28 commits between that and the fixes**, including D-1, D-2 and the whole `punishment.py` rewrite.
+Claims I had never touched moved by ±100 % and to zero, and had I read that as noise I would have
+concluded the sheet was unusable as an instrument. **The arms of the comparison were not what the
+comparison claimed** — [[learning.lessons]] L-046 again, and the specific trap is that a compacted
+summary's git status describes the session's *start*, not the work's.
+
+Rebuilt at **`98184a6`**, the commit immediately before the first fix, where `git diff` is exactly
+`tactics.py`, `squares.py` and `kingsafety.py`. Same 15 players, same peer reference, same evaluation
+cache; only the detectors differ.
+
+| claim | before | after |
+|---|---|---|
+| `allowed_motif.capturingDefender` | 105 | **0** |
+| `missed_motif.capturingDefender` | 19 | **0** |
+| `allows_pressure.king` | 31 | **0** |
+| `missed_motif.trappedPiece` | 4 | **0** |
+| `allowed_motif.pin` | 75 | 16 |
+| `missed_motif.pin` | 34 | 8 |
+| `allowed_motif.hangingPiece` | 81 | 14 |
+| `allows_square.outpost` | 24 | 6 |
+
+**Four claims now say nothing to any of the fifteen players.** The sheet's own header is the right
+judgement on that: *"a detector that never fires is as much a defect as one that fires wrongly."*
+
+Two claims rose — `allowed_motif.fork` 26 → 52 and `allowed_motif.discoveredAttack` 0 → 15 — without
+their detectors being touched. The mechanism is `candidates_in`, which skips a reply whose motifs the
+**best** reply already covers (`motifs <= covered`). Removing motifs from the best reply shrinks
+`covered`, so moves previously skipped are now evaluated and counted. Named as the mechanism; not
+separately verified.
+
+### Was a threshold too tight? Measured, and no
+
+`PRESSURE_WEIGHT` was the obvious suspect for silencing `allows_pressure.king`, being calibrated on
+five positions. It is not the cause. Across the reviewed games:
+
+| rule | crossings |
+|---|---|
+| old — any attacker, ≥3 | 1,251 |
+| pieces only, ≥3, no weight gate | 382 |
+| pieces only, ≥3, weight ≥ 10 | 374 |
+| pieces only, ≥3, weight ≥ 13 (shipped) | 275 |
+
+**The weight gate accounts for 107 of the 976 removed.** The cut is made by counting *pieces* rather
+than pawns and kings, which is the change the author's own rejections demanded — *"This is an
+endgame, a few checks happen regularly in the endgame."* Dropping the weight gate would restore about
+a third of the loss, cost one of the five marks, and still very likely leave the claim under the
+confidence gate. **So the claim is silent because the author's rule says most of what it used to
+report was not king pressure**, not because a threshold was set badly.
+
+The same reading applies to `capturingDefender`: 91 % of its firings were the recapture shape the
+author rejected, and what survives is too thin to reach a player.
+
+### The decision this leaves
+
+This is a trade the author owns, not one to settle here:
+
+1. **Accept the silence.** Four claims stop being made; the rest are far more trustworthy. Defensible
+   for a coaching system where a false accusation costs more than a missed observation — but it means
+   `capturingDefender` and `allows_pressure.king` are *de facto* retired, and the vocabulary should
+   say so rather than listing claims that cannot fire.
+2. **Loosen the confidence gate for these claims**, so a claim with few but sound instances can still
+   be made. This is the option that keeps the corrections and the coverage, and it moves the problem
+   to a place where it is about evidence strength rather than about chess.
+3. **Revert the two strictest rules** and accept the false positives the author marked. Not
+   recommended, and recorded only so the option is visible.
+
+The regenerated sheet is `experiments/e55-detector-precision/results/detection-sheet-2026-09-06-fixed-detectors.txt`,
+stamped `commit b6ea303`, 28 claims with instances. **Neither marked sheet was overwritten.**
