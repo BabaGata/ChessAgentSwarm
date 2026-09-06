@@ -46,7 +46,7 @@ from chesscoach.sections.base import (
     instance_moves,
     split_by_tier,
 )
-from chesscoach.squares import FEATURES, allowed
+from chesscoach.squares import FEATURES, OUTPOST, allowed
 
 SECTION = "S6"
 
@@ -113,6 +113,24 @@ class S6SquaresAndFiles:
 # --- counting ---------------------------------------------------------------
 
 
+# Features that stop meaning what they are named once the pieces come off. The
+# author, on an outpost counted in an endgame:
+#
+# > *"This is the endgame, it shouldn't be counted."*
+#
+# An outpost is a middlegame idea -- a knight sitting where no pawn can evict it
+# matters because there is a position to restrict, and the advice that follows
+# ("do not concede the square") is about how you handle the middlegame. With a
+# handful of pieces left it is describing the board rather than naming a fault.
+#
+# **`rook_seventh` is deliberately not here.** A rook on the seventh is at its
+# most dangerous in an endgame, so exempting it there would remove the claim
+# where it is truest. The same filter is right for one feature and wrong for the
+# other, which is why it is a set and not a phase check on the whole section
+# (`s8_attack_and_defence.attacking_phase` is the same idea one section over).
+ENDGAME_EXEMPT = frozenset({OUTPOST})
+
+
 def _count(context: SectionContext) -> _Counts:
     """One pass over the player's moves, looking through the opponent's answer."""
     by_ply = {(o.game_id, o.ply): o for o in context.observations}
@@ -130,6 +148,8 @@ def _count(context: SectionContext) -> _Counts:
         established = allowed(
             chess.Board(observation.fen_before), chess.Board(answered.fen_before), colour
         )
+        if observation.phase == "endgame":
+            established = established - ENDGAME_EXEMPT
 
         _tally(tallies, _key(POOLED_SUBJECT), observation, bool(established))
         for feature in FEATURES:

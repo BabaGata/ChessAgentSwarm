@@ -67,6 +67,21 @@ class WindowMove:
     declined_available_castle: bool
 
 
+# How many of the four minors count as "most of the pieces". The author, on what
+# ends an opening:
+#
+# > *"Casteling is not a good measure for end of the opening, sometimes the
+# > castle happens before most of the pieces were developed and sometimes the
+# > king had to move because of check or something else and is not possible to do
+# > the casteling again. So any king movement together with development of most
+# > of the pieces should be counted as a signal for end of the opening phase."*
+#
+# Requiring all four means a player who leaves one bishop home never finishes
+# their opening, and **11 % of player-games in the reviewed corpus never develop
+# all four**.
+DEVELOPED_MINORS = 3
+
+
 @dataclass(frozen=True)
 class Development:
     """One player's opening, as facts. No judgement, no thresholds."""
@@ -74,6 +89,13 @@ class Development:
     # Ply (1-based, counting both sides) at which the player castled. `None` if
     # they never did -- which is a real answer, not a missing one.
     castled_at: int | None
+    # Ply at which the player's king first moved, castling included. **This, not
+    # castling, is what ends the opening.** A king forced off e1 by a capture can
+    # never castle afterwards, and reading that as "the opening never ended" made
+    # the whole game the opening window: 18 % of player-games never castle, the
+    # king moved anyway in 69 of those 122, and 21 % of windows never closed --
+    # `moves_in_window` reaching **89**.
+    king_moved_at: int | None
     # Ply at which the last of the four minors left home.
     developed_at: int | None
     # Home squares still holding their original minor when the game ended, by
@@ -97,12 +119,19 @@ class Development:
     def ready_at(self) -> int | None:
         """The ply the opening was over for this player, or `None` if it wasn't.
 
-        The later of castling and development: a player with every piece out and
-        a king in the centre has not finished the opening.
+        The later of **the king moving** and development: a player with their
+        pieces out and a king still on its original square has not finished the
+        opening, and one whose king has moved but whose pieces are home has not
+        either.
+
+        Castling used to stand in for the first half and it is the wrong signal
+        (`king_moved_at`). `goydorak/EHDkU9YW` is the case that showed it: the
+        king was forced to `Kxf2` on ply 7, could never castle again, and walked
+        to g1 by ply 19 -- so the opening plainly ended, and this returned None.
         """
-        if self.castled_at is None or self.developed_at is None:
+        if self.king_moved_at is None or self.developed_at is None:
             return None
-        return max(self.castled_at, self.developed_at)
+        return max(self.king_moved_at, self.developed_at)
 
     def rate(self, count: int) -> float | None:
         """A count as a share of the window, or `None` when there is no window."""
@@ -136,6 +165,7 @@ def measure_development(
     left_home: set[int] = set()
 
     castled_at: int | None = None
+    king_moved_at: int | None = None
     developed_at: int | None = None
     moves_in_window = repeat_moves = pawn_moves = 0
     window_moves: list[WindowMove] = []
@@ -144,7 +174,7 @@ def measure_development(
         ply = index + 1
         ours = board.turn == mover
 
-        if ours and _still_open(castled_at, developed_at):
+        if ours and _still_open(king_moved_at, developed_at):
             moves_in_window += 1
             repeat = move.from_square in has_moved
             if repeat:
@@ -175,6 +205,10 @@ def measure_development(
 
         if ours and board.is_castling(move):
             castled_at = ply
+        if ours and king_moved_at is None:
+            piece = board.piece_at(move.from_square)
+            if piece is not None and piece.piece_type == chess.KING:
+                king_moved_at = ply
 
         _record_move(board, move, mover, has_moved)
         board.push(move)
@@ -183,27 +217,33 @@ def measure_development(
         # as no longer there: nothing is left to develop, and waiting for it
         # would mean development never completes in such a game.
         left_home |= {square for square in home if not _minor_at_home(board, square, mover)}
-        if developed_at is None and left_home == home:
+        if developed_at is None and len(left_home) >= DEVELOPED_MINORS:
             developed_at = ply
 
-        if castled_at is not None and developed_at is not None:
+        if king_moved_at is not None and developed_at is not None:
             break
 
     return Development(
         castled_at=castled_at,
+        king_moved_at=king_moved_at,
         developed_at=developed_at,
         still_at_home=frozenset(chess.square_name(s) for s in sorted(home - left_home)),
         moves_in_window=moves_in_window,
         repeat_moves=repeat_moves,
         pawn_moves=pawn_moves,
-        completed=castled_at is not None and developed_at is not None,
+        completed=king_moved_at is not None and developed_at is not None,
         window_moves=tuple(window_moves),
     )
 
 
-def _still_open(castled_at: int | None, developed_at: int | None) -> bool:
-    """Is the opening still running for this player?"""
-    return castled_at is None or developed_at is None
+def _still_open(king_moved_at: int | None, developed_at: int | None) -> bool:
+    """Is the opening still running for this player?
+
+    Keyed on the king **moving**, not castling: a window that waits for a
+    castle that can no longer happen never closes, and then the whole game is
+    the opening.
+    """
+    return king_moved_at is None or developed_at is None
 
 
 def _minor_at_home(board: chess.Board, square: int, mover: chess.Color) -> bool:

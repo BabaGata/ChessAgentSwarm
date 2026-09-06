@@ -49,10 +49,16 @@ class TestCastling:
 
 
 class TestDevelopment:
-    def test_all_four_minors_must_have_moved(self):
-        # White's minors leave on plies 3 (Nf3), 5 (Bc4), 11 (Bg5), 13 (Nbd2).
+    def test_most_of_the_minors_must_have_moved(self):
+        """**Most**, not all: the author's rule for when an opening is over.
+
+        White's minors leave on plies 3 (Nf3), 5 (Bc4), 11 (Bg5), 13 (Nbd2), so
+        the third of them is out at ply 11. Requiring all four meant a player who
+        leaves one bishop at home never finishes their opening, and **11 % of
+        player-games in the reviewed corpus never develop all four**.
+        """
         white = measure_development(moves(*ITALIAN), chess.WHITE)
-        assert white.developed_at == 13
+        assert white.developed_at == 11
 
     def test_development_is_incomplete_while_a_minor_sits_at_home(self):
         white = measure_development(moves("e4", "e5", "Nf3", "Nc6"), chess.WHITE)
@@ -68,9 +74,29 @@ class TestDevelopment:
         white = measure_development(played, chess.WHITE)
         assert "c1" not in white.still_at_home
 
-    def test_ready_is_the_later_of_castling_and_development(self):
+    def test_ready_is_the_later_of_the_king_moving_and_development(self):
         white = measure_development(moves(*ITALIAN), chess.WHITE)
-        assert white.ready_at == 13
+        assert white.ready_at == 11
+        assert white.completed
+
+    def test_a_king_that_moved_without_castling_still_ends_the_opening(self):
+        """The case that showed castling is the wrong signal.
+
+        The author: *"sometimes the king had to move because of check or
+        something else and is not possible to do the casteling again."* In
+        `goydorak/EHDkU9YW` the king was forced to `Kxf2` on ply 7 and walked to
+        g1 by ply 19 -- so the opening plainly ended, and `ready_at` returned
+        None because no castle ever happened. The window then ran to the end of
+        the game: 21 % of player-games never closed one, reaching 89 moves.
+        """
+        # 1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5 4.Ke2 -- the king moves, castling is gone.
+        played = moves("e4", "e5", "Nf3", "Nc6", "Bc4", "Bc5", "Ke2", "d6",
+                       "Nc3", "Nf6", "d3", "Bg4")
+        white = measure_development(played, chess.WHITE)
+
+        assert white.castled_at is None
+        assert white.king_moved_at == 7
+        assert white.ready_at is not None
         assert white.completed
 
 
@@ -122,9 +148,8 @@ class TestTheWindow:
         # is over for this player.
         played = moves(*ITALIAN, "a3", "a6", "b4", "b5", "c3")
         white = measure_development(played, chess.WHITE)
-        assert white.ready_at == 13
-        assert white.pawn_moves == 2
-        assert white.moves_in_window == 7
+        assert white.ready_at == 11
+        assert white.moves_in_window == 6
 
     def test_an_unfinished_game_reports_what_it_saw_and_says_so(self):
         # Right-censored: development had not finished and could not have. The

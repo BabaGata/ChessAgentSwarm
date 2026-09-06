@@ -105,7 +105,6 @@ def default_agents() -> tuple[SectionAgent, ...]:
     from chesscoach.sections.s6_squares_and_files import S6SquaresAndFiles
     from chesscoach.sections.s7_material_safety import S7MaterialSafety
     from chesscoach.sections.s8_attack_and_defence import S8AttackAndDefence
-    from chesscoach.style import S10StyleTendencies
 
     return (
         S2DecisionProcess(),
@@ -116,11 +115,18 @@ def default_agents() -> tuple[SectionAgent, ...]:
         S6SquaresAndFiles(),
         S7MaterialSafety(),
         S8AttackAndDefence(),
-        # Measures and never asserts. It is here so its tendency reaches the peer
-        # reference -- a preference means nothing without a population to be
-        # unusual against -- and nowhere near the arbiter, because a tendency is
-        # not a weakness and must not compete for a player's two priorities.
-        S10StyleTendencies(),
+        # `S10StyleTendencies` used to sit here. It measures and never asserts,
+        # and the author withdrew it on 2026-09-06:
+        #
+        # > *"style measurements should not be done, they are taking up
+        # > processing time but are not needed. They don't have to be deleted as
+        # > a potential part for future upgrades."*
+        #
+        # `queens_off` parses a FEN for every diagnosable move of every player,
+        # which is the whole cost, and nothing downstream reads the result now
+        # that the report withholds the paragraph (`explainer.STYLE_IN_REPORT`).
+        # The module and its tests are kept whole; re-adding it here is the only
+        # step needed to turn it back on.
     )
 
 

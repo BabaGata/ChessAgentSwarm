@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788703626983
+updated: 1788706252840
 created: 1785254500000
 ---
 
@@ -279,6 +279,48 @@ struck through: a list nobody can act on is not a plan.
    Five existing tests asserted the old behaviour and were corrected, each saying so where it changed;
    one of them was written earlier in the same session from my own reading of a shape the author had
    already rejected twice in writing.
+
+0. **DONE — the opening ends when the king moves; style stops being measured** *(2026-09-06)*.
+
+   **`ready_at` was keyed on castling and that is the wrong signal.** The author: *"sometimes the king
+   had to move because of check or something else and is not possible to do the casteling again."*
+   `goydorak/EHDkU9YW` proves it — White was forced to `Kxf2` on ply 7, could never castle, and walked
+   to g1 by ply 19. **The damage was not only the citation**: `measure_development` closes its window
+   at `ready_at`, so a game with no castle had *the whole game* as its opening window, and
+   `moves_in_window` is the denominator of `slow_development`, `repeat_move` and `pawn_error`.
+
+   | | before | after |
+   |---|--:|--:|
+   | windows that never closed | **140 (21 %)** | **57 (8 %)** |
+   | largest `moves_in_window` | **89** | **33** |
+   | never "developed" | 73 (11 %) | 29 (4 %) |
+
+   `king_moved_at` (castling included) replaces `castled_at` in `ready_at`, and `DEVELOPED_MINORS = 3`
+   of 4 replaces all four. `castled_at` is kept because `late_castling` is about castling.
+   **Not changed:** `late_castling` still measures the castling ply, so a player whose king walked to
+   safety is still judged on not castling — a separate decision.
+
+   **Style is no longer measured.** `S10StyleTendencies` unhooked from `default_agents`, `cli._style`
+   returns early behind `STYLE_MEASURED`. `queens_off` parsed a FEN per diagnosable move per player and
+   nothing read the result. Module and tests kept whole.
+
+   **Two more marks fixed:** `allows_square.outpost` is exempt in endgame positions (`ENDGAME_EXEMPT`;
+   `rook_seventh` deliberately is **not** — a rook on the seventh is most dangerous there), and
+   `concedes_weakness.backward` no longer counts an a/h-file pawn with an enemy pawn still on that
+   file — **12,772 → 10,820 (−15 %)**.
+
+   **`determined_by` explained and kept.** `GapType` is *knowledge or skill gap* (`hypothesis`) and
+   *guessed or asked* (`determined_by`). Sections can only write `UNKNOWN`/`INFERRED` (L-002); only the
+   prober writes `PROBED`, and `--apply` is off. Inert — planner and arbiter never read it, the report
+   withholds it — but **unlike style it costs nothing to keep**: two constants in a frozen dataclass,
+   not a walk over every move, and it is the field the prober would write into. Removing it means
+   editing eight sections, the model and the serialiser for zero runtime saving.
+
+   **Still open from the sheet, needing a decision rather than a fix:** `out_of_book` should perhaps be
+   scoped to *"the main openings of the players ... that they play regularly"*; `pawn_error.any`'s value
+   was questioned (*"I don't see any value from this kind information"*) and only its wording has been
+   improved; `moved_into_attack` may need an opening exemption (*"could be a normal move in the
+   opening"*); and `miscounted_exchange`'s *"away from the kings"* phrasing was queried.
 
 0. **DONE — the opening claims corrected; style and gap type withheld** *(2026-09-06)*.
 

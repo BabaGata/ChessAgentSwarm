@@ -551,19 +551,19 @@ missed_motif.trappedPiece.own
     claims: You miss trapped piece tactics that were available.
     9 instances across 2 players
 ------------------------------------------------------------------------------
-  [ ] Crossfire1983         move   9  White b5       lost  30.3 wp
+  [y] Crossfire1983         move   9  White b5       lost  30.3 wp
       lichess.org/c9tGvWUt#17
       was available c5 -- traps bb6, with Pc5
-  [ ] Crossfire1983         move  17  White Neg5     lost  22.1 wp
+  [y] Crossfire1983         move  17  White Neg5     lost  22.1 wp
       lichess.org/L9x84PMC#33
       was available Re1 -- traps qe3, with Re1
-  [ ] Crossfire1983         move  19  Black Ng6      lost  11.2 wp
+  [y] Crossfire1983         move  19  Black Ng6      lost  11.2 wp
       lichess.org/PjZgPmwV#38
       was available f5 -- traps Be4, with pf5
-  [ ] cademan               move  23  White f5       lost   6.2 wp
+  [y] cademan               move  23  White f5       lost   6.2 wp
       lichess.org/M2HQqz8u#45
       was available a4 -- traps nb5, with Pa4
-  [ ] cademan               move  24  Black g6       lost  26.9 wp
+  [y] cademan               move  24  Black g6       lost  26.9 wp
       lichess.org/Dy9m84se#48
       was available Qg6 -- traps Bh6, with qg6
 
@@ -586,16 +586,21 @@ late_castling.own.own
     claims: late_castling: own.
     7 instances across 2 players
 ------------------------------------------------------------------------------
-  [ ] Sheriwoyama           move  17  Black O-O      lost   0.0 wp
+  [?] Sheriwoyama           move  17  Black O-O      lost   0.0 wp
       lichess.org/xrSnYMfN#34
-  [ ] Sheriwoyama           move  40  White Bxh2     lost   0.0 wp
+      There wasn't too many bad moves that would indicate that this late castling was bad. Developing the knight that would allow black to castle on the king side was not a good move until it was played, and casteling on the queen size was a bad option.
+  [n] Sheriwoyama           move  40  White Bxh2     lost   0.0 wp
       lichess.org/muFW0btL#79
-  [ ] maxhayastan           move  12  Black O-O      lost   4.8 wp
+      White never castled because he moved a king because of check. First movement of the king should immediatly stop the detector.
+  [?] maxhayastan           move  12  Black O-O      lost   4.8 wp
       lichess.org/nMB2nVZH#24
-  [ ] maxhayastan           move  12  Black O-O      lost   0.0 wp
+      Castling was not a good option until it was played.
+  [?] maxhayastan           move  12  Black O-O      lost   0.0 wp
       lichess.org/OK82drHY#24
-  [ ] maxhayastan           move  15  Black O-O      lost   0.8 wp
+      Casteling was not possible earlier while taking ok moves.
+  [?] maxhayastan           move  15  Black O-O      lost   0.8 wp
       lichess.org/p2JWZ8ce#30
+      There was normal development before castling, it should not be detected as late castling.
 
 missed_motif.capturingDefender.own
     claims: You miss capturing the defender tactics that were available.

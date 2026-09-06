@@ -1019,10 +1019,21 @@ def _load_peers(args: argparse.Namespace):
     return peers
 
 
+# The author withdrew the style measurement on 2026-09-06 as processing time
+# spent on something nothing reads. `describe` walks every diagnosable move and
+# parses a FEN each time; the report withholds the paragraph and the agent no
+# longer runs, so this computed a number for nobody. Kept whole for a future
+# upgrade -- returning `()` is the only change.
+STYLE_MEASURED = False
+
+
 def _style(observations, args, peers, corpus) -> tuple:
     """V3 — how the player plays, never as a finding."""
     from chesscoach.profile.models import StyleTendency
     from chesscoach.style import describe
+
+    if not STYLE_MEASURED:
+        return ()
 
     tendency = describe(
         observations, args.player, peers, args.band, args.time_control, corpus.speed_mix

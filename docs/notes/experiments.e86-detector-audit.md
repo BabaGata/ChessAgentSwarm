@@ -2,7 +2,7 @@
 id: cas-exp-e86
 title: 'E86 — Auditing every detector against a real definition, and finding the knowledge base cannot be one'
 desc: 'The audit was designed to judge detectors against the sourced knowledge graph. The graph cannot do it: fourteen entries, none endorsed, and forks definition is a definition of a skewer. Audited against Lichess own theme text instead. Two defects demonstrated on positions: a fork is missed when a victim was already attacked, and a trapped piece is reported when it has a safe escape.'
-updated: 1788703602049
+updated: 1788706223091
 created: 1788681600000
 ---
 
@@ -963,3 +963,78 @@ player at all.
 A fixture caught by the change: `test_out_of_book_per_opening`'s Sicilian line was commented *"White
 in both, so every game's exits belong to the player under test"* and left the book on **Black's**
 move at ply 16, so the split had no Sicilian to find.
+
+---
+
+## Round nine — the opening ends when the king moves, not when it castles
+
+### The end-of-opening signal was wrong
+
+> *"Casteling is not a good measure for end of the opening ... sometimes the king had to move because
+> of check or something else and is not possible to do the casteling again. So any king movement
+> together with development of most of the pieces should be counted as a signal for end of the
+> opening phase."*
+
+`goydorak/EHDkU9YW` is the proof and it is a better example than it first looked. The author recalled
+both players castling; in fact **White never castled** — the king was forced to `Kxf2` on ply 7, so
+castling was gone for good, and the king walked to g1 by ply 19. The opening plainly ended. The old
+`ready_at` returned `None`.
+
+**The damage was not only the citation.** `measure_development` closes its window at `ready_at`, so a
+game where the player never castles had *the whole game* as its opening window — and
+`moves_in_window` is the denominator of `slow_development`, `repeat_move` and `pawn_error`.
+
+| | before | after |
+|---|--:|--:|
+| player-games where the window never closed | **140 (21 %)** | **57 (8 %)** |
+| largest `moves_in_window` | **89** | **33** |
+| never "developed" | 73 (11 %) | 29 (4 %) |
+
+Two changes, both the author's: `king_moved_at` (castling included) replaces `castled_at` as the
+first half of `ready_at`, and **most** of the minors — `DEVELOPED_MINORS = 3` of 4 — replaces all
+four. `castled_at` is kept, because `late_castling` is a claim about castling specifically.
+
+**Not changed, and worth stating:** `late_castling` still measures the castling ply. A player whose
+king reached safety by walking there is arguably not guilty of leaving it in the centre, and that is a
+separate decision from the one asked for here.
+
+### Style is no longer measured
+
+> *"style measurements should not be done, they are taking up processing time but are not needed. They
+> don't have to be deleted as a potential part for future upgrades."*
+
+`S10StyleTendencies` is unhooked from `default_agents` and `cli._style` returns early behind
+`STYLE_MEASURED`. `queens_off` parsed a FEN for every diagnosable move of every player, which was the
+whole cost, and with the report withholding the paragraph nothing read the result. The module and its
+tests are kept whole; re-adding one line turns it back on.
+
+### Two more marks from the sheet
+
+**`allows_square.outpost` in an endgame** — *"This is the endgame, it shouldn't be counted."* An
+outpost is a middlegame idea: a knight where no pawn can evict it matters because there is a position
+to restrict. `ENDGAME_EXEMPT` now drops it in endgame positions, the same shape as
+`s8_attack_and_defence.attacking_phase`. **`rook_seventh` is deliberately not exempt** — a rook on the
+seventh is at its most dangerous in an endgame, and exempting it would remove the claim where it is
+truest.
+
+**`concedes_weakness.backward` on a sheltered edge file** — *"backward pawns in the last file should
+not really be counted if that file is not open."* A backward pawn is a weakness because the enemy can
+pile on it down the file; with an enemy pawn still on that file there is nothing to pile on with, and
+on the edge there is no second front to combine with. Corpus instances **12,772 → 10,820 (−15 %)**.
+Scoped to the a- and h-files because that is where the author scoped it; the same argument is
+available for the centre and is deliberately not made.
+
+### `determined_by`, and why it is being kept
+
+The author asked what it is. `GapType` has two parts: `hypothesis` — is this a **knowledge** gap or a
+**skill** gap — and `determined_by` — was that **INFERRED** (a section's guess) or **PROBED**
+(established by asking the player). Every section writes `UNKNOWN`/`INFERRED`, because a detector
+cannot tell *doesn't know the pattern* from *knew it and did not see it here* (L-002). Only the prober
+writes `PROBED`, and `--apply` is off.
+
+So it is inert today: the planner and arbiter never read it, and the report now withholds it. **Unlike
+the style measurement it costs nothing** — it is a frozen dataclass holding two constants, not a walk
+over every move — and it is the field the prober would write into. Removing it means editing eight
+sections, the model, the serialiser and their tests for zero runtime saving, and would have to be
+rebuilt to re-enable the prober. Recorded as inert rather than removed; the author's condition —
+*"if there isn't any usefulness"* — is met on usefulness but not on cost.

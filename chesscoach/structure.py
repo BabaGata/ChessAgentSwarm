@@ -119,9 +119,36 @@ def _backward_pawns(board: chess.Board, colour: chess.Color) -> list[int]:
             continue  # blocked by a piece: a different problem
         if not _attacked_by_pawn(board, ahead, not colour):
             continue
+        if _sheltered_on_the_edge(board, file_, colour):
+            continue
 
         found.append(square)
     return found
+
+
+def _sheltered_on_the_edge(board: chess.Board, file_: int, colour: chess.Color) -> bool:
+    """An a- or h-file backward pawn behind an enemy pawn on the same file.
+
+    The author, on a firing they accepted only in part:
+
+    > *"Yes but this is not a really serious weakness, backward pawns in the last
+    > file should not really be counted if that file is not open."*
+
+    A backward pawn is a weakness because the enemy can pile on it down the file.
+    With an enemy pawn still on that file there is nothing to pile on with, and on
+    the edge there is no second front to combine with -- so it is a feature of the
+    structure rather than something the player conceded.
+
+    Scoped to the edge files because that is where they scoped it. The same
+    argument is available for the centre and is not made here: a backward d-pawn
+    on a closed file still sits in front of squares that matter, and turning one
+    remark into a general rule is how a detector stops matching its name.
+    """
+    if file_ not in (0, 7):
+        return False
+    return any(
+        chess.square_file(square) == file_ for square in _pawns(board, not colour)
+    )
 
 
 # How far apart two pawns on a file may be and still be the weakness the claim
