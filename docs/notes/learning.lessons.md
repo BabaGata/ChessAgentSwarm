@@ -2,7 +2,7 @@
 id: cas-learning-lessons
 title: Lessons Learned
 desc: 'Generalisable lessons extracted from executed work — what worked, what did not, and why.'
-updated: 1788683165836
+updated: 1788809269828
 created: 1785254500000
 ---
 
@@ -23,6 +23,31 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 ```
 
 ---
+
+### L-059 — A stale norm hides a definition error by moving with it
+
+`slow_development` was verified at 5/5 against hand marks, then silently fell to 2/5 two rounds later.
+The cause was mine: an end-of-opening rule was applied to `developed_at`, which is not a boundary but
+**the quantity the claim measures** and the basis of the strong-player norms.
+
+The instructive part is the repair that did not work. Rebuilding `development-norms.json` shifted
+`ready_ply` by a median of **-8 plies** and changed **nothing** about the marks -- because the
+measurement and the norm had moved together, so every consistency check passed while the claim
+measured something it no longer meant. A norm rebuilt from a wrong definition looks healthy.
+
+[[learning.lessons]] L-058 caught the peer reference and the separation register because they are
+built from a detector's *output*. This file is built from a **definition**, and the definition was
+what changed, so the rule as written did not reach it.
+
+**Lesson:** when a definition changes, rebuilding the artefacts derived from it is necessary and not
+sufficient -- they will agree with the new definition whether or not it is the right one. The check
+that catches it is the one against **hand-marked evidence**, which does not move. And re-run those
+marks after *every* later change, not once: two rounds of verification sat between the break and its
+discovery, both run before the change that broke it.
+
+**Applied to:** `Development.developed_at` / `developed_enough_at` / `phase_over_at` split;
+[[experiments.e86-detector-audit]] round thirteen; the re-verification harness now covering
+`late_castling` and `slow_development` together.
 
 ### L-058 — Fix a detector and every artifact derived from it is stale
 

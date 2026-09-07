@@ -12,7 +12,7 @@
    "family": "Alekhine Defense",
    "colour": "black",
    "castle_ply": 22.0,
-   "ready_ply": 30.0,
+   "ready_ply": 28.0,
    "games": 57
   },
   {
@@ -26,7 +26,7 @@
    "family": "Anderssen's Opening",
    "colour": "black",
    "castle_ply": null,
-   "ready_ply": null,
+   "ready_ply": 44.0,
    "games": 4
   },
   {
@@ -40,7 +40,7 @@
    "family": "Barnes Defense",
    "colour": "black",
    "castle_ply": null,
-   "ready_ply": null,
+   "ready_ply": 44.0,
    "games": 4
   },
   {
@@ -54,14 +54,14 @@
    "family": "Barnes Opening",
    "colour": "black",
    "castle_ply": null,
-   "ready_ply": null,
+   "ready_ply": 41.0,
    "games": 4
   },
   {
    "family": "Barnes Opening",
    "colour": "white",
    "castle_ply": null,
-   "ready_ply": null,
+   "ready_ply": 40.0,
    "games": 4
   },
   {
@@ -89,7 +89,7 @@
    "family": "Benko Gambit",
    "colour": "white",
    "castle_ply": null,
-   "ready_ply": null,
+   "ready_ply": 27.0,
    "games": 4
   },
   {
@@ -103,7 +103,7 @@
    "family": "Benko Gambit Accepted",
    "colour": "white",
    "castle_ply": 25.0,
-   "ready_ply": 39.0,
+   "ready_ply": 35.0,
    "games": 27
   },
   {
@@ -152,7 +152,7 @@
    "family": "Bishop's Opening",
    "colour": "black",
    "castle_ply": 18.0,
-   "ready_ply": 31.0,
+   "ready_ply": 28.0,
    "games": 30
   },
   {
@@ -166,7 +166,7 @@
    "family": "Blackmar-Diemer Gambit",
    "colour": "black",
    "castle_ply": 32.0,
-   "ready_ply": 42.0,
+   "ready_ply": 38.0,
    "games": 4
   },
   {
@@ -222,7 +222,7 @@
    "family": "Blumenfeld Countergambit Accepted",
    "colour": "black",
    "castle_ply": null,
-   "ready_ply": null,
+   "ready_ply": 32.0,
    "games": 3
   },
   {
@@ -250,14 +250,14 @@
    "family": "Borg Defense",
    "colour": "black",
    "castle_ply": null,
-   "ready_ply": null,
+   "ready_ply": 32.0,
    "games": 3
   },
   {
    "family": "Borg Defense",
    "colour": "white",
    "castle_ply": null,
-   "ready_ply": null,
+   "ready_ply": 29.0,
    "games": 3
   },
   {
@@ -271,14 +271,14 @@
    "family": "Canard Opening",
    "colour": "white",
    "castle_ply": null,
-   "ready_ply": null,
+   "ready_ply": 26.0,
    "games": 2
   },
   {
    "family": "Caro-Kann Defense",
    "colour": "black",
    "castle_ply": 26.0,
-   "ready_ply": 32.0,
+   "ready_ply": 30.0,
    "games": 400
   },
   {
@@ -348,7 +348,7 @@
    "family": "Czech Defense",
    "colour": "black",
    "castle_ply": 25.0,
-   "ready_ply": 33.0,
+   "ready_ply": 32.0,
    "games": 18
   },
   {
@@ -362,7 +362,7 @@
    "family": "Danish Gambit Accepted",
    "colour": "black",
    "castle_ply": null,
-   "ready_ply": null,
+   "ready_ply": 60.0,
    "games": 3
   },
   {
@@ -509,21 +509,21 @@
    "family": "Global Opening",
    "colour": "white",
    "castle_ply": null,
-   "ready_ply": null,
+   "ready_ply": 37.0,
    "games": 1
   },
   {
    "family": "Grob Opening",
    "colour": "black",
    "castle_ply": null,
-   "ready_ply": null,
+   "ready_ply": 42.5,
    "games": 6
   },
   {
    "family": "Grob Opening",
    "colour": "white",
    "castle_ply": null,
-   "ready_ply": null,
+   "ready_ply": 41.0,
    "games": 6
   },
   {
@@ -537,7 +537,7 @@
    "family": "Gr\u00fcnfeld Defense",
    "colour": "white",
    "castle_ply": 26.0,
-   "ready_ply": 28.0,
+   "ready_ply": 27.0,
    "games": 52
   },
   {
@@ -572,7 +572,7 @@
    "family": "Horwitz Defense",
    "colour": "black",
    "castle_ply": 16.0,
-   "ready_ply": 30.0,
+   "ready_ply": 24.0,
    "games": 13
   },
   {
@@ -642,14 +642,14 @@
    "family": "King's Gambit Accepted",
    "colour": "black",
    "castle_ply": null,
-   "ready_ply": null,
+   "ready_ply": 33.0,
    "games": 8
   },
   {
    "family": "King's Gambit Accepted",
    "colour": "white",
    "castle_ply": 12.0,
-   "ready_ply": 34.0,
+   "ready_ply": 33.5,
    "games": 8
   },
   {
@@ -684,7 +684,7 @@
    "family": "King's Indian Attack, with Bf5",
    "colour": "black",
    "castle_ply": 21.0,
-   "ready_ply": 28.0,
+   "ready_ply": 26.0,
    "games": 4
   },
   {
@@ -740,14 +740,14 @@
    "family": "King's Pawn Game",
    "colour": "black",
    "castle_ply": 16.0,
-   "ready_ply": 34.0,
+   "ready_ply": 26.0,
    "games": 9
   },
   {
    "family": "King's Pawn Game",
    "colour": "white",
    "castle_ply": 23.0,
-   "ready_ply": 41.0,
+   "ready_ply": 33.0,
    "games": 9
   },
   {
@@ -768,7 +768,7 @@
    "family": "Latvian Gambit",
    "colour": "black",
    "castle_ply": 26.0,
-   "ready_ply": null,
+   "ready_ply": 28.0,
    "games": 5
   },
   {
@@ -782,7 +782,7 @@
    "family": "Latvian Gambit Accepted",
    "colour": "black",
    "castle_ply": null,
-   "ready_ply": null,
+   "ready_ply": 42.0,
    "games": 1
   },
   {
@@ -796,14 +796,14 @@
    "family": "Lion Defense",
    "colour": "black",
    "castle_ply": null,
-   "ready_ply": null,
+   "ready_ply": 31.0,
    "games": 2
   },
   {
    "family": "Lion Defense",
    "colour": "white",
    "castle_ply": null,
-   "ready_ply": null,
+   "ready_ply": 31.0,
    "games": 2
   },
   {
@@ -866,7 +866,7 @@
    "family": "Mieses Opening",
    "colour": "black",
    "castle_ply": 17.0,
-   "ready_ply": 28.0,
+   "ready_ply": 20.0,
    "games": 4
   },
   {
@@ -894,7 +894,7 @@
    "family": "Modern Defense",
    "colour": "black",
    "castle_ply": 22.0,
-   "ready_ply": 29.0,
+   "ready_ply": 28.0,
    "games": 72
   },
   {
@@ -929,7 +929,7 @@
    "family": "Nimzo-Indian Defense",
    "colour": "white",
    "castle_ply": 23.0,
-   "ready_ply": 31.0,
+   "ready_ply": 29.0,
    "games": 127
   },
   {
@@ -957,7 +957,7 @@
    "family": "Nimzowitsch Defense",
    "colour": "white",
    "castle_ply": 19.0,
-   "ready_ply": 30.0,
+   "ready_ply": 29.0,
    "games": 20
   },
   {
@@ -1020,7 +1020,7 @@
    "family": "Pirc Defense",
    "colour": "black",
    "castle_ply": 12.0,
-   "ready_ply": 31.0,
+   "ready_ply": 30.0,
    "games": 80
   },
   {
@@ -1083,7 +1083,7 @@
    "family": "Ponziani Opening",
    "colour": "white",
    "castle_ply": 35.0,
-   "ready_ply": null,
+   "ready_ply": 31.0,
    "games": 9
   },
   {
@@ -1167,7 +1167,7 @@
    "family": "Queen's Indian Accelerated",
    "colour": "white",
    "castle_ply": 20.0,
-   "ready_ply": 31.0,
+   "ready_ply": 28.0,
    "games": 16
   },
   {
@@ -1202,7 +1202,7 @@
    "family": "Queen's Pawn Game",
    "colour": "black",
    "castle_ply": 22.0,
-   "ready_ply": 30.0,
+   "ready_ply": 28.0,
    "games": 222
   },
   {
@@ -1244,14 +1244,14 @@
    "family": "Rat Defense",
    "colour": "black",
    "castle_ply": 20.0,
-   "ready_ply": 46.0,
+   "ready_ply": 34.0,
    "games": 14
   },
   {
    "family": "Rat Defense",
    "colour": "white",
    "castle_ply": 20.0,
-   "ready_ply": 42.0,
+   "ready_ply": 39.0,
    "games": 14
   },
   {
@@ -1356,7 +1356,7 @@
    "family": "Scotch Game",
    "colour": "black",
    "castle_ply": 24.0,
-   "ready_ply": 32.0,
+   "ready_ply": 30.0,
    "games": 69
   },
   {
@@ -1370,7 +1370,7 @@
    "family": "Semi-Slav Defense",
    "colour": "black",
    "castle_ply": 24.0,
-   "ready_ply": 39.0,
+   "ready_ply": 37.0,
    "games": 48
   },
   {
@@ -1398,7 +1398,7 @@
    "family": "Sicilian Defense",
    "colour": "black",
    "castle_ply": 22.0,
-   "ready_ply": 30.0,
+   "ready_ply": 28.0,
    "games": 1157
   },
   {
@@ -1419,7 +1419,7 @@
    "family": "Slav Defense",
    "colour": "white",
    "castle_ply": 22.0,
-   "ready_ply": 31.0,
+   "ready_ply": 28.0,
    "games": 110
   },
   {
@@ -1454,14 +1454,14 @@
    "family": "St. George Defense",
    "colour": "black",
    "castle_ply": null,
-   "ready_ply": null,
+   "ready_ply": 50.5,
    "games": 2
   },
   {
    "family": "St. George Defense",
    "colour": "white",
    "castle_ply": null,
-   "ready_ply": null,
+   "ready_ply": 33.0,
    "games": 2
   },
   {
@@ -1489,7 +1489,7 @@
    "family": "Three Knights Opening",
    "colour": "white",
    "castle_ply": 21.0,
-   "ready_ply": 31.0,
+   "ready_ply": 27.0,
    "games": 9
   },
   {
@@ -1510,14 +1510,14 @@
    "family": "Trompowsky Attack",
    "colour": "black",
    "castle_ply": 24.0,
-   "ready_ply": 36.0,
+   "ready_ply": 32.0,
    "games": 70
   },
   {
    "family": "Trompowsky Attack",
    "colour": "white",
    "castle_ply": 25.0,
-   "ready_ply": 27.0,
+   "ready_ply": 25.0,
    "games": 70
   },
   {
@@ -1538,7 +1538,7 @@
    "family": "Van't Kruijs Opening",
    "colour": "black",
    "castle_ply": 20.0,
-   "ready_ply": null,
+   "ready_ply": 37.0,
    "games": 4
   },
   {
@@ -1552,7 +1552,7 @@
    "family": "Vienna Gambit, with Max Lange Defense",
    "colour": "black",
    "castle_ply": null,
-   "ready_ply": null,
+   "ready_ply": 20.0,
    "games": 1
   },
   {
@@ -1566,14 +1566,14 @@
    "family": "Vienna Game",
    "colour": "black",
    "castle_ply": 22.0,
-   "ready_ply": 36.0,
+   "ready_ply": 32.0,
    "games": 30
   },
   {
    "family": "Vienna Game",
    "colour": "white",
    "castle_ply": 23.0,
-   "ready_ply": 30.0,
+   "ready_ply": 28.0,
    "games": 30
   },
   {

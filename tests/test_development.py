@@ -49,16 +49,26 @@ class TestCastling:
 
 
 class TestDevelopment:
-    def test_most_of_the_minors_must_have_moved(self):
-        """**Most**, not all: the author's rule for when an opening is over.
+    def test_finished_developing_means_all_four_minors(self):
+        """What `slow_development` measures, and what the norms are built from.
 
-        White's minors leave on plies 3 (Nf3), 5 (Bc4), 11 (Bg5), 13 (Nbd2), so
-        the third of them is out at ply 11. Requiring all four meant a player who
-        leaves one bishop at home never finishes their opening, and **11 % of
-        player-games in the reviewed corpus never develop all four**.
+        White's minors leave on plies 3 (Nf3), 5 (Bc4), 11 (Bg5), 13 (Nbd2).
         """
         white = measure_development(moves(*ITALIAN), chess.WHITE)
-        assert white.developed_at == 11
+        assert white.developed_at == 13
+
+    def test_most_of_them_is_the_end_of_the_PHASE_and_a_different_number(self):
+        """The author's rule -- and it is about the phase, not about finishing.
+
+        Applying "most of the pieces" to `developed_at` itself changed what
+        `slow_development` measures and silenced three firings the author had
+        accepted. The phase boundary closes the counting window; `developed_at`
+        answers *"when did you finish developing"*, and they are different plies.
+        """
+        white = measure_development(moves(*ITALIAN), chess.WHITE)
+
+        assert white.developed_enough_at == 11
+        assert white.developed_at == 13
 
     def test_development_is_incomplete_while_a_minor_sits_at_home(self):
         white = measure_development(moves("e4", "e5", "Nf3", "Nc6"), chess.WHITE)
@@ -76,7 +86,8 @@ class TestDevelopment:
 
     def test_ready_is_the_later_of_the_king_moving_and_development(self):
         white = measure_development(moves(*ITALIAN), chess.WHITE)
-        assert white.ready_at == 11
+        assert white.ready_at == 13
+        assert white.phase_over_at == 11
         assert white.completed
 
     def test_a_king_that_moved_without_castling_still_ends_the_opening(self):
@@ -96,7 +107,7 @@ class TestDevelopment:
 
         assert white.castled_at is None
         assert white.king_moved_at == 7
-        assert white.ready_at is not None
+        assert white.phase_over_at is not None
         assert white.completed
 
 
@@ -148,7 +159,9 @@ class TestTheWindow:
         # is over for this player.
         played = moves(*ITALIAN, "a3", "a6", "b4", "b5", "c3")
         white = measure_development(played, chess.WHITE)
-        assert white.ready_at == 11
+        # Counting stops at the **phase** boundary, not when the last minor
+        # finally comes out.
+        assert white.phase_over_at == 11
         assert white.moves_in_window == 6
 
     def test_an_unfinished_game_reports_what_it_saw_and_says_so(self):

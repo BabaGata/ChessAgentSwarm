@@ -96,8 +96,16 @@ class Development:
     # king moved anyway in 69 of those 122, and 21 % of windows never closed --
     # `moves_in_window` reaching **89**.
     king_moved_at: int | None
-    # Ply at which the last of the four minors left home.
+    # Ply at which the **last** of the four minors left home. This is what
+    # `slow_development` measures and what the strong-player norms are built
+    # from, so it stays "all four" -- *finished developing* is a different
+    # question from *the opening is over*.
     developed_at: int | None
+    # Ply at which **most** of them had (`DEVELOPED_MINORS`). The author's
+    # end-of-phase signal, and it closes the counting window; conflating it with
+    # `developed_at` changed what `slow_development` measures and silenced three
+    # firings the author had accepted.
+    developed_enough_at: int | None
     # Home squares still holding their original minor when the game ended, by
     # square name. Empty when development finished.
     still_at_home: frozenset[str]
@@ -107,8 +115,11 @@ class Development:
     repeat_moves: int
     pawn_moves: int
 
-    # False when the game ended before the player had castled and developed.
-    # **Read this before averaging anything above.**
+    # False when the game ended before the opening phase closed -- the king had
+    # not moved, or most pieces were still at home. **Read this before averaging
+    # anything above**, because it is the window's own guarantee: it tracks
+    # `phase_over_at`, which is what stops the counting, and not `developed_at`,
+    # which may never arrive if one bishop stays home all game.
     completed: bool
 
     # Every move the player made inside the window, labelled. Joined against the
@@ -132,6 +143,20 @@ class Development:
         if self.king_moved_at is None or self.developed_at is None:
             return None
         return max(self.king_moved_at, self.developed_at)
+
+    @property
+    def phase_over_at(self) -> int | None:
+        """The ply the **opening phase** ended: king moved, most pieces out.
+
+        Distinct from `ready_at`, which waits for the last minor. This is the
+        author's signal and it is what closes the counting window -- a window
+        that waits for a fourth piece that never comes runs to the end of the
+        game, which is the defect `king_moved_at` was added to fix and which
+        `developed_at` alone would have reintroduced.
+        """
+        if self.king_moved_at is None or self.developed_enough_at is None:
+            return None
+        return max(self.king_moved_at, self.developed_enough_at)
 
     def rate(self, count: int) -> float | None:
         """A count as a share of the window, or `None` when there is no window."""
@@ -167,6 +192,7 @@ def measure_development(
     castled_at: int | None = None
     king_moved_at: int | None = None
     developed_at: int | None = None
+    developed_enough_at: int | None = None
     moves_in_window = repeat_moves = pawn_moves = 0
     window_moves: list[WindowMove] = []
 
@@ -174,7 +200,7 @@ def measure_development(
         ply = index + 1
         ours = board.turn == mover
 
-        if ours and _still_open(king_moved_at, developed_at):
+        if ours and _still_open(king_moved_at, developed_enough_at):
             moves_in_window += 1
             repeat = move.from_square in has_moved
             if repeat:
@@ -217,9 +243,14 @@ def measure_development(
         # as no longer there: nothing is left to develop, and waiting for it
         # would mean development never completes in such a game.
         left_home |= {square for square in home if not _minor_at_home(board, square, mover)}
-        if developed_at is None and len(left_home) >= DEVELOPED_MINORS:
+        if developed_enough_at is None and len(left_home) >= DEVELOPED_MINORS:
+            developed_enough_at = ply
+        if developed_at is None and left_home == home:
             developed_at = ply
 
+        # Scanning continues past the window's close until the last minor is
+        # out, because `slow_development` is judged on that. Only the *counting*
+        # stops at the phase boundary.
         if king_moved_at is not None and developed_at is not None:
             break
 
@@ -227,23 +258,24 @@ def measure_development(
         castled_at=castled_at,
         king_moved_at=king_moved_at,
         developed_at=developed_at,
+        developed_enough_at=developed_enough_at,
         still_at_home=frozenset(chess.square_name(s) for s in sorted(home - left_home)),
         moves_in_window=moves_in_window,
         repeat_moves=repeat_moves,
         pawn_moves=pawn_moves,
-        completed=king_moved_at is not None and developed_at is not None,
+        completed=king_moved_at is not None and developed_enough_at is not None,
         window_moves=tuple(window_moves),
     )
 
 
-def _still_open(king_moved_at: int | None, developed_at: int | None) -> bool:
+def _still_open(king_moved_at: int | None, developed_enough_at: int | None) -> bool:
     """Is the opening still running for this player?
 
     Keyed on the king **moving**, not castling: a window that waits for a
     castle that can no longer happen never closes, and then the whole game is
     the opening.
     """
-    return king_moved_at is None or developed_at is None
+    return king_moved_at is None or developed_enough_at is None
 
 
 def _minor_at_home(board: chess.Board, square: int, mover: chess.Color) -> bool:

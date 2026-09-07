@@ -2,7 +2,7 @@
 id: cas-exp-e86
 title: 'E86 — Auditing every detector against a real definition, and finding the knowledge base cannot be one'
 desc: 'The audit was designed to judge detectors against the sourced knowledge graph. The graph cannot do it: fourteen entries, none endorsed, and forks definition is a definition of a skewer. Audited against Lichess own theme text instead. Two defects demonstrated on positions: a fork is missed when a victim was already attacked, and a trapped piece is reported when it has a safe escape.'
-updated: 1788715696403
+updated: 1788809269809
 created: 1788681600000
 ---
 
@@ -1267,3 +1267,49 @@ that punishes you"`, and two subjects break them:
 Both now have their own sentences: *"You miss chances to take a defender and win the piece it was
 guarding"*, *"When you go wrong, it is often a piece you simply drop."* The piece and the pawn now
 differ by one word, which is a test.
+
+---
+
+## Round thirteen — a regression found by re-asking a settled question
+
+The author asked whether all the detectors are fixed. Re-running every `[n]` position rather than
+answering from the record found **`slow_development` back at 2/5** after having been verified at 5/5.
+
+**I caused it two rounds earlier.** The author's end-of-opening rule — *"any king movement together
+with development of most of the pieces"* — was applied to `developed_at` itself, and `developed_at` is
+not a phase boundary: it is **the quantity `slow_development` measures** and what the strong-player
+norms are built from. Redefining it to three minors moved every player's "finished developing" earlier
+and silenced three firings the author had accepted.
+
+The two ideas are now separate, which is what the sentence actually asked for:
+
+| | meaning | used by |
+|---|---|---|
+| `developed_at` | the **last** minor left home | `slow_development`, and the norms |
+| `developed_enough_at` | **most** of them did (3 of 4) | — |
+| `phase_over_at` | king moved **and** most pieces out | closes the counting window |
+| `ready_at` | king moved **and** development finished | judged against the norm |
+
+Scanning continues past the window's close so the last minor is still seen; only the *counting* stops
+at the phase boundary. `completed` now tracks the phase, because it is the window's guarantee and a
+bishop that never moves must not make it false.
+
+**Both results hold at once**: `slow_development` is back to **9/9** across its marks and
+`late_castling`'s, and the runaway window stays fixed — 21 % → **8 %** of player-games never closing
+one, largest `moves_in_business` 89 → **33**.
+
+`development-norms.json` was rebuilt twice on the way, and the first rebuild is the instructive one:
+it shifted `ready_ply` by a median of **−8 plies** and did *not* restore the marks, because the
+measurement and the norm had moved together. **A stale derived artifact can hide a definition error
+by moving with it** — the norms looked consistent while measuring something the claim no longer meant.
+
+### L-058 applied to itself, twice
+
+The lesson recorded three rounds earlier says a detector change invalidates everything computed from
+its output. It caught the peer reference and the separation register. It did not catch
+`development-norms.json`, because that file is not built from a detector — it is built from a
+**definition**, and the definition is what changed. The rule wants widening: *anything derived from a
+measurement, including the artefacts that encode what "normal" looks like for it.*
+
+**And the check that found this was re-running a question already answered.** Two rounds of
+verification had passed since; neither would have caught it, because both were run before the change.
