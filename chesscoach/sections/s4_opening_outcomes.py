@@ -171,7 +171,13 @@ class S4OpeningOutcomes:
                     else None
                 ),
             )
+            # The comparison arm is a denominator, not a condition anyone
+            # measured about the player. Left in, it reached the detection
+            # sheet's vocabulary as a claim named
+            # `opening_pawn_error.__other_opening_moves`, which is the raw-key
+            # defect (D8) arriving by a different door.
             for key, tally in sorted(counts.tallies.items())
+            if not _is_comparison_arm(key)
         )
 
     def report(self, context: SectionContext) -> SectionReport:

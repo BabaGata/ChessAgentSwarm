@@ -12986,6 +12986,316 @@
         "player": "Vahramavakian"
       }
     ],
+    "1200-1600|blitz|opening_pawn_error.__other_opening_moves.own": [
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 16,
+        "opportunities": 158,
+        "player": "Aclr99"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 25,
+        "instances": 11,
+        "opportunities": 116,
+        "player": "AGM_EliasBelmonte035"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 27,
+        "instances": 20,
+        "opportunities": 128,
+        "player": "altaham"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 24,
+        "opportunities": 138,
+        "player": "babakorisko"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 22,
+        "opportunities": 133,
+        "player": "BLITZ_GRIEK"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 21,
+        "opportunities": 127,
+        "player": "Dhananjay2106"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 28,
+        "opportunities": 115,
+        "player": "ege_tagil"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 26,
+        "opportunities": 131,
+        "player": "ElderlyCent"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 35,
+        "opportunities": 200,
+        "player": "engin_demir007"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 34,
+        "opportunities": 151,
+        "player": "ergili"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 26,
+        "instances": 24,
+        "opportunities": 133,
+        "player": "FANG_2013"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 16,
+        "instances": 17,
+        "opportunities": 83,
+        "player": "FeatureNotBug"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 41,
+        "opportunities": 219,
+        "player": "garvitbhalla"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 20,
+        "opportunities": 152,
+        "player": "hhussie"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 32,
+        "opportunities": 176,
+        "player": "Ik_chih"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 11,
+        "instances": 2,
+        "opportunities": 47,
+        "player": "JamesJB2017"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 38,
+        "opportunities": 139,
+        "player": "kamilerden"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 21,
+        "opportunities": 138,
+        "player": "karliderfl"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 16,
+        "opportunities": 135,
+        "player": "khall74"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 35,
+        "opportunities": 173,
+        "player": "Kirillinyo"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 21,
+        "instances": 54,
+        "opportunities": 189,
+        "player": "ledlnakdfmn"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 11,
+        "opportunities": 118,
+        "player": "leoausin"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 22,
+        "opportunities": 188,
+        "player": "Lethal_Velociraptor"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 37,
+        "opportunities": 174,
+        "player": "levit79"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 55,
+        "opportunities": 228,
+        "player": "Mermed"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 41,
+        "opportunities": 230,
+        "player": "MeryemZ"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 28,
+        "opportunities": 147,
+        "player": "mira2004"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 58,
+        "opportunities": 228,
+        "player": "Mishhking"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 13,
+        "opportunities": 138,
+        "player": "mohansapa"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 24,
+        "instances": 21,
+        "opportunities": 106,
+        "player": "MoisesEntenza"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 31,
+        "opportunities": 138,
+        "player": "mooz1873"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 15,
+        "instances": 17,
+        "opportunities": 74,
+        "player": "Moscadeiro97"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 14,
+        "opportunities": 158,
+        "player": "Muhemmed_055"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 25,
+        "opportunities": 143,
+        "player": "Raddy7_best"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 75,
+        "opportunities": 238,
+        "player": "RadinAhanin"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 50,
+        "opportunities": 189,
+        "player": "Sadi2016"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 14,
+        "opportunities": 102,
+        "player": "SamLyn2023"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 27,
+        "instances": 46,
+        "opportunities": 178,
+        "player": "sinobaba"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 27,
+        "instances": 55,
+        "opportunities": 302,
+        "player": "superkiko624"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 24,
+        "opportunities": 146,
+        "player": "The_Nameless_Knight"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 22,
+        "instances": 23,
+        "opportunities": 130,
+        "player": "Thehas0405"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 38,
+        "opportunities": 160,
+        "player": "tinoz21"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 15,
+        "instances": 19,
+        "opportunities": 80,
+        "player": "Tom-Bombadil-0"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 24,
+        "opportunities": 146,
+        "player": "Vahramavakian"
+      }
+    ],
     "1200-1600|blitz|opening_pawn_error.any.own": [
       {
         "cost_wp": 51.61,
@@ -17081,254 +17391,254 @@
     ],
     "1200-1600|blitz|slow_development.book.own": [
       {
-        "cost_wp": 6.91,
+        "cost_wp": 29.22,
         "games_with_data": 29,
-        "instances": 4,
+        "instances": 9,
         "opportunities": 25,
         "player": "Aclr99"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 20.2,
         "games_with_data": 25,
-        "instances": 0,
+        "instances": 3,
         "opportunities": 23,
         "player": "AGM_EliasBelmonte035"
       },
       {
-        "cost_wp": 30.23,
+        "cost_wp": 68.18,
         "games_with_data": 27,
-        "instances": 3,
+        "instances": 10,
         "opportunities": 22,
         "player": "altaham"
       },
       {
-        "cost_wp": 44.48,
+        "cost_wp": 98.02,
         "games_with_data": 30,
-        "instances": 3,
+        "instances": 8,
         "opportunities": 26,
         "player": "babakorisko"
       },
       {
-        "cost_wp": 35.96,
+        "cost_wp": 88.57,
         "games_with_data": 28,
-        "instances": 3,
+        "instances": 9,
         "opportunities": 25,
         "player": "BLITZ_GRIEK"
       },
       {
-        "cost_wp": 21.55,
+        "cost_wp": 31.15,
         "games_with_data": 30,
-        "instances": 3,
+        "instances": 8,
         "opportunities": 26,
         "player": "Dhananjay2106"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 19.22,
         "games_with_data": 30,
-        "instances": 0,
+        "instances": 5,
         "opportunities": 23,
         "player": "ege_tagil"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 14.24,
         "games_with_data": 30,
-        "instances": 0,
+        "instances": 5,
         "opportunities": 25,
         "player": "ElderlyCent"
       },
       {
-        "cost_wp": 14.93,
+        "cost_wp": 59.38,
         "games_with_data": 30,
-        "instances": 3,
+        "instances": 8,
         "opportunities": 28,
         "player": "engin_demir007"
       },
       {
-        "cost_wp": 104.8,
+        "cost_wp": 136.63,
         "games_with_data": 28,
-        "instances": 6,
+        "instances": 12,
         "opportunities": 25,
         "player": "ergili"
       },
       {
-        "cost_wp": 82.16,
+        "cost_wp": 209.03,
         "games_with_data": 26,
-        "instances": 6,
+        "instances": 10,
         "opportunities": 23,
         "player": "FANG_2013"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 12.21,
         "games_with_data": 16,
-        "instances": 0,
+        "instances": 1,
         "opportunities": 7,
         "player": "FeatureNotBug"
       },
       {
-        "cost_wp": 72.99,
+        "cost_wp": 83.73,
         "games_with_data": 30,
-        "instances": 3,
+        "instances": 6,
         "opportunities": 21,
         "player": "garvitbhalla"
       },
       {
-        "cost_wp": 47.15,
+        "cost_wp": 93.82,
         "games_with_data": 30,
-        "instances": 2,
+        "instances": 8,
         "opportunities": 22,
         "player": "hhussie"
       },
       {
-        "cost_wp": 55.54,
+        "cost_wp": 98.98,
         "games_with_data": 30,
-        "instances": 2,
+        "instances": 10,
         "opportunities": 23,
         "player": "Ik_chih"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 2.52,
         "games_with_data": 11,
-        "instances": 0,
+        "instances": 2,
         "opportunities": 8,
         "player": "JamesJB2017"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 58.42,
         "games_with_data": 30,
-        "instances": 0,
+        "instances": 8,
         "opportunities": 29,
         "player": "kamilerden"
       },
       {
         "cost_wp": 33.95,
         "games_with_data": 29,
-        "instances": 4,
+        "instances": 7,
         "opportunities": 26,
         "player": "karliderfl"
       },
       {
-        "cost_wp": 45.14,
+        "cost_wp": 76.09,
         "games_with_data": 30,
-        "instances": 6,
+        "instances": 12,
         "opportunities": 30,
         "player": "khall74"
       },
       {
-        "cost_wp": 20.19,
+        "cost_wp": 60.05,
         "games_with_data": 28,
-        "instances": 5,
+        "instances": 11,
         "opportunities": 23,
         "player": "Kirillinyo"
       },
       {
         "cost_wp": 7.29,
         "games_with_data": 21,
-        "instances": 1,
+        "instances": 4,
         "opportunities": 9,
         "player": "ledlnakdfmn"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 3.37,
         "games_with_data": 29,
-        "instances": 1,
+        "instances": 5,
         "opportunities": 26,
         "player": "leoausin"
       },
       {
-        "cost_wp": 24.0,
+        "cost_wp": 38.18,
         "games_with_data": 28,
-        "instances": 2,
+        "instances": 4,
         "opportunities": 16,
         "player": "Lethal_Velociraptor"
       },
       {
-        "cost_wp": 45.94,
+        "cost_wp": 122.29,
         "games_with_data": 30,
-        "instances": 5,
+        "instances": 13,
         "opportunities": 23,
         "player": "levit79"
       },
       {
-        "cost_wp": 38.18,
+        "cost_wp": 44.28,
         "games_with_data": 30,
-        "instances": 4,
+        "instances": 7,
         "opportunities": 9,
         "player": "Mermed"
       },
       {
-        "cost_wp": 31.56,
+        "cost_wp": 77.54,
         "games_with_data": 29,
-        "instances": 8,
+        "instances": 12,
         "opportunities": 26,
         "player": "MeryemZ"
       },
       {
-        "cost_wp": 12.32,
+        "cost_wp": 57.1,
         "games_with_data": 29,
-        "instances": 1,
+        "instances": 7,
         "opportunities": 23,
         "player": "mira2004"
       },
       {
-        "cost_wp": 261.7,
+        "cost_wp": 431.97,
         "games_with_data": 29,
-        "instances": 14,
+        "instances": 23,
         "opportunities": 26,
         "player": "Mishhking"
       },
       {
-        "cost_wp": 41.02,
+        "cost_wp": 88.18,
         "games_with_data": 29,
-        "instances": 1,
+        "instances": 10,
         "opportunities": 26,
         "player": "mohansapa"
       },
       {
-        "cost_wp": 8.98,
+        "cost_wp": 75.55,
         "games_with_data": 24,
-        "instances": 3,
+        "instances": 8,
         "opportunities": 18,
         "player": "MoisesEntenza"
       },
       {
-        "cost_wp": 84.32,
+        "cost_wp": 100.28,
         "games_with_data": 28,
-        "instances": 9,
+        "instances": 15,
         "opportunities": 23,
         "player": "mooz1873"
       },
       {
-        "cost_wp": 34.16,
+        "cost_wp": 37.95,
         "games_with_data": 15,
-        "instances": 1,
+        "instances": 3,
         "opportunities": 12,
         "player": "Moscadeiro97"
       },
       {
-        "cost_wp": 34.99,
+        "cost_wp": 40.77,
         "games_with_data": 30,
-        "instances": 5,
+        "instances": 9,
         "opportunities": 26,
         "player": "Muhemmed_055"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 24.55,
         "games_with_data": 28,
-        "instances": 0,
+        "instances": 4,
         "opportunities": 20,
         "player": "Raddy7_best"
       },
       {
-        "cost_wp": 205.41,
+        "cost_wp": 229.1,
         "games_with_data": 29,
-        "instances": 16,
+        "instances": 18,
         "opportunities": 19,
         "player": "RadinAhanin"
       },
       {
-        "cost_wp": 38.41,
+        "cost_wp": 42.55,
         "games_with_data": 30,
-        "instances": 4,
+        "instances": 7,
         "opportunities": 26,
         "player": "Sadi2016"
       },
@@ -17340,51 +17650,51 @@
         "player": "SamLyn2023"
       },
       {
-        "cost_wp": 57.95,
+        "cost_wp": 64.08,
         "games_with_data": 27,
-        "instances": 6,
+        "instances": 9,
         "opportunities": 25,
         "player": "sinobaba"
       },
       {
-        "cost_wp": 136.41,
+        "cost_wp": 161.65,
         "games_with_data": 27,
-        "instances": 12,
+        "instances": 18,
         "opportunities": 23,
         "player": "superkiko624"
       },
       {
-        "cost_wp": 27.21,
+        "cost_wp": 146.64,
         "games_with_data": 30,
-        "instances": 3,
+        "instances": 9,
         "opportunities": 22,
         "player": "The_Nameless_Knight"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 58.55,
         "games_with_data": 22,
-        "instances": 0,
+        "instances": 5,
         "opportunities": 15,
         "player": "Thehas0405"
       },
       {
-        "cost_wp": 16.35,
+        "cost_wp": 41.39,
         "games_with_data": 28,
-        "instances": 3,
+        "instances": 8,
         "opportunities": 23,
         "player": "tinoz21"
       },
       {
-        "cost_wp": 68.51,
+        "cost_wp": 104.82,
         "games_with_data": 15,
-        "instances": 4,
+        "instances": 7,
         "opportunities": 11,
         "player": "Tom-Bombadil-0"
       },
       {
-        "cost_wp": 40.13,
+        "cost_wp": 99.81,
         "games_with_data": 30,
-        "instances": 2,
+        "instances": 8,
         "opportunities": 28,
         "player": "Vahramavakian"
       }
@@ -17393,7 +17703,7 @@
       {
         "cost_wp": 3.59,
         "games_with_data": 29,
-        "instances": 2,
+        "instances": 1,
         "opportunities": 4,
         "player": "Aclr99"
       },
@@ -17405,21 +17715,21 @@
         "player": "AGM_EliasBelmonte035"
       },
       {
-        "cost_wp": 16.38,
+        "cost_wp": 30.5,
         "games_with_data": 27,
-        "instances": 3,
+        "instances": 4,
         "opportunities": 5,
         "player": "altaham"
       },
       {
-        "cost_wp": 39.81,
+        "cost_wp": 0.0,
         "games_with_data": 30,
-        "instances": 2,
+        "instances": 1,
         "opportunities": 4,
         "player": "babakorisko"
       },
       {
-        "cost_wp": 5.07,
+        "cost_wp": 0.81,
         "games_with_data": 28,
         "instances": 1,
         "opportunities": 3,
@@ -17433,9 +17743,9 @@
         "player": "Dhananjay2106"
       },
       {
-        "cost_wp": 50.59,
+        "cost_wp": 38.89,
         "games_with_data": 30,
-        "instances": 5,
+        "instances": 2,
         "opportunities": 7,
         "player": "ege_tagil"
       },
@@ -17447,9 +17757,9 @@
         "player": "ElderlyCent"
       },
       {
-        "cost_wp": 13.9,
+        "cost_wp": 50.01,
         "games_with_data": 30,
-        "instances": 1,
+        "instances": 2,
         "opportunities": 2,
         "player": "engin_demir007"
       },
@@ -17468,35 +17778,35 @@
         "player": "FANG_2013"
       },
       {
-        "cost_wp": 14.15,
+        "cost_wp": 22.36,
         "games_with_data": 16,
-        "instances": 1,
+        "instances": 6,
         "opportunities": 9,
         "player": "FeatureNotBug"
       },
       {
         "cost_wp": 95.47,
         "games_with_data": 30,
-        "instances": 2,
+        "instances": 3,
         "opportunities": 9,
         "player": "garvitbhalla"
       },
       {
         "cost_wp": 0.0,
         "games_with_data": 30,
-        "instances": 1,
+        "instances": 3,
         "opportunities": 8,
         "player": "hhussie"
       },
       {
         "cost_wp": 21.57,
         "games_with_data": 30,
-        "instances": 1,
+        "instances": 3,
         "opportunities": 7,
         "player": "Ik_chih"
       },
       {
-        "cost_wp": 14.79,
+        "cost_wp": 1.74,
         "games_with_data": 11,
         "instances": 1,
         "opportunities": 4,
@@ -17517,16 +17827,16 @@
         "player": "karliderfl"
       },
       {
-        "cost_wp": 23.8,
+        "cost_wp": 10.82,
         "games_with_data": 28,
         "instances": 2,
         "opportunities": 5,
         "player": "Kirillinyo"
       },
       {
-        "cost_wp": 20.41,
+        "cost_wp": 14.49,
         "games_with_data": 21,
-        "instances": 2,
+        "instances": 6,
         "opportunities": 12,
         "player": "ledlnakdfmn"
       },
@@ -17538,30 +17848,30 @@
         "player": "leoausin"
       },
       {
-        "cost_wp": 31.46,
+        "cost_wp": 15.96,
         "games_with_data": 28,
-        "instances": 6,
+        "instances": 4,
         "opportunities": 12,
         "player": "Lethal_Velociraptor"
       },
       {
-        "cost_wp": 38.45,
+        "cost_wp": 26.22,
         "games_with_data": 30,
-        "instances": 4,
+        "instances": 3,
         "opportunities": 7,
         "player": "levit79"
       },
       {
-        "cost_wp": 131.61,
+        "cost_wp": 137.95,
         "games_with_data": 30,
-        "instances": 11,
+        "instances": 14,
         "opportunities": 21,
         "player": "Mermed"
       },
       {
         "cost_wp": 0.0,
         "games_with_data": 29,
-        "instances": 0,
+        "instances": 1,
         "opportunities": 3,
         "player": "MeryemZ"
       },
@@ -17573,7 +17883,7 @@
         "player": "mira2004"
       },
       {
-        "cost_wp": 9.2,
+        "cost_wp": 6.83,
         "games_with_data": 29,
         "instances": 1,
         "opportunities": 3,
@@ -17596,7 +17906,7 @@
       {
         "cost_wp": 0.0,
         "games_with_data": 28,
-        "instances": 1,
+        "instances": 0,
         "opportunities": 5,
         "player": "mooz1873"
       },
@@ -17608,23 +17918,23 @@
         "player": "Moscadeiro97"
       },
       {
-        "cost_wp": 72.32,
+        "cost_wp": 43.38,
         "games_with_data": 30,
-        "instances": 3,
+        "instances": 2,
         "opportunities": 4,
         "player": "Muhemmed_055"
       },
       {
         "cost_wp": 4.23,
         "games_with_data": 28,
-        "instances": 2,
+        "instances": 3,
         "opportunities": 8,
         "player": "Raddy7_best"
       },
       {
-        "cost_wp": 47.32,
+        "cost_wp": 75.29,
         "games_with_data": 29,
-        "instances": 5,
+        "instances": 7,
         "opportunities": 11,
         "player": "RadinAhanin"
       },
@@ -17636,9 +17946,9 @@
         "player": "Sadi2016"
       },
       {
-        "cost_wp": 9.01,
+        "cost_wp": 17.05,
         "games_with_data": 30,
-        "instances": 1,
+        "instances": 2,
         "opportunities": 6,
         "player": "SamLyn2023"
       },
@@ -17650,14 +17960,14 @@
         "player": "sinobaba"
       },
       {
-        "cost_wp": 4.42,
+        "cost_wp": 17.6,
         "games_with_data": 27,
-        "instances": 1,
+        "instances": 3,
         "opportunities": 6,
         "player": "superkiko624"
       },
       {
-        "cost_wp": 84.99,
+        "cost_wp": 75.96,
         "games_with_data": 30,
         "instances": 4,
         "opportunities": 8,
@@ -17671,9 +17981,9 @@
         "player": "Thehas0405"
       },
       {
-        "cost_wp": 8.36,
+        "cost_wp": 18.45,
         "games_with_data": 28,
-        "instances": 1,
+        "instances": 3,
         "opportunities": 5,
         "player": "tinoz21"
       },
@@ -29660,6 +29970,288 @@
         "player": "Vahramavakian"
       }
     ],
+    "1200-1600|rapid|opening_pawn_error.__other_opening_moves.own": [
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 21,
+        "instances": 17,
+        "opportunities": 89,
+        "player": "AGM_EliasBelmonte035"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 30,
+        "opportunities": 153,
+        "player": "Barsa1984"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 11,
+        "opportunities": 119,
+        "player": "bidochon"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 26,
+        "instances": 83,
+        "opportunities": 257,
+        "player": "Chloekalypse"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 36,
+        "opportunities": 169,
+        "player": "Dhananjay2106"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 22,
+        "instances": 21,
+        "opportunities": 115,
+        "player": "ege_tagil"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 25,
+        "instances": 27,
+        "opportunities": 117,
+        "player": "engin_demir007"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 19,
+        "opportunities": 132,
+        "player": "ergili"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 28,
+        "opportunities": 139,
+        "player": "FANG_2013"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 20,
+        "instances": 28,
+        "opportunities": 113,
+        "player": "GarryMcwormeater"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 45,
+        "opportunities": 228,
+        "player": "garvitbhalla"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 11,
+        "instances": 14,
+        "opportunities": 63,
+        "player": "GERDBAD92"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 19,
+        "instances": 30,
+        "opportunities": 142,
+        "player": "harshak12"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 21,
+        "opportunities": 149,
+        "player": "hhussie"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 34,
+        "opportunities": 172,
+        "player": "Ik_chih"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 11,
+        "instances": 17,
+        "opportunities": 71,
+        "player": "jeffouille7"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 24,
+        "instances": 17,
+        "opportunities": 92,
+        "player": "kamilerden"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 27,
+        "opportunities": 156,
+        "player": "karliderfl"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 22,
+        "instances": 16,
+        "opportunities": 100,
+        "player": "Keshav-Kumar-Gautam"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 32,
+        "opportunities": 145,
+        "player": "Kirillinyo"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 26,
+        "instances": 38,
+        "opportunities": 184,
+        "player": "ledlnakdfmn"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 14,
+        "instances": 22,
+        "opportunities": 92,
+        "player": "levit79"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 23,
+        "instances": 34,
+        "opportunities": 146,
+        "player": "manlikefinbar"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 27,
+        "instances": 23,
+        "opportunities": 112,
+        "player": "MeryemZ"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 12,
+        "instances": 9,
+        "opportunities": 48,
+        "player": "mira2004"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 25,
+        "opportunities": 135,
+        "player": "MoisesEntenza"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 26,
+        "opportunities": 154,
+        "player": "mooz1873"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 17,
+        "instances": 24,
+        "opportunities": 95,
+        "player": "Moscadeiro97"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 15,
+        "opportunities": 123,
+        "player": "Muhemmed_055"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 23,
+        "instances": 40,
+        "opportunities": 184,
+        "player": "RadinAhanin"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 36,
+        "opportunities": 148,
+        "player": "Rokiman7"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 23,
+        "instances": 14,
+        "opportunities": 107,
+        "player": "SamLyn2023"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 20,
+        "opportunities": 101,
+        "player": "shulman1954"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 32,
+        "opportunities": 162,
+        "player": "sinobaba"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 36,
+        "opportunities": 164,
+        "player": "Sixtorene"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 26,
+        "instances": 24,
+        "opportunities": 137,
+        "player": "The_Nameless_Knight"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 15,
+        "opportunities": 90,
+        "player": "Thehas0405"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 32,
+        "opportunities": 151,
+        "player": "tinoz21"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 32,
+        "opportunities": 182,
+        "player": "TrustyPenguin"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 20,
+        "opportunities": 140,
+        "player": "Vahramavakian"
+      }
+    ],
     "1200-1600|rapid|opening_pawn_error.any.own": [
       {
         "cost_wp": 39.89,
@@ -33204,303 +33796,303 @@
     ],
     "1200-1600|rapid|slow_development.book.own": [
       {
-        "cost_wp": 15.21,
+        "cost_wp": 33.13,
         "games_with_data": 21,
-        "instances": 3,
+        "instances": 6,
         "opportunities": 21,
         "player": "AGM_EliasBelmonte035"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 14.01,
         "games_with_data": 28,
-        "instances": 0,
+        "instances": 5,
         "opportunities": 15,
         "player": "Barsa1984"
       },
       {
-        "cost_wp": 6.19,
+        "cost_wp": 9.9,
         "games_with_data": 29,
-        "instances": 2,
+        "instances": 8,
         "opportunities": 23,
         "player": "bidochon"
       },
       {
-        "cost_wp": 20.29,
+        "cost_wp": 67.98,
         "games_with_data": 26,
-        "instances": 5,
+        "instances": 8,
         "opportunities": 11,
         "player": "Chloekalypse"
       },
       {
-        "cost_wp": 62.45,
+        "cost_wp": 115.26,
         "games_with_data": 29,
-        "instances": 4,
+        "instances": 7,
         "opportunities": 25,
         "player": "Dhananjay2106"
       },
       {
-        "cost_wp": 123.68,
+        "cost_wp": 152.89,
         "games_with_data": 22,
-        "instances": 4,
+        "instances": 8,
         "opportunities": 17,
         "player": "ege_tagil"
       },
       {
-        "cost_wp": 106.75,
+        "cost_wp": 125.2,
         "games_with_data": 25,
-        "instances": 4,
+        "instances": 11,
         "opportunities": 20,
         "player": "engin_demir007"
       },
       {
-        "cost_wp": 40.16,
+        "cost_wp": 67.29,
         "games_with_data": 29,
-        "instances": 1,
+        "instances": 5,
         "opportunities": 21,
         "player": "ergili"
       },
       {
-        "cost_wp": 9.44,
+        "cost_wp": 24.63,
         "games_with_data": 28,
-        "instances": 6,
+        "instances": 11,
         "opportunities": 24,
         "player": "FANG_2013"
       },
       {
-        "cost_wp": 27.92,
+        "cost_wp": 65.98,
         "games_with_data": 20,
-        "instances": 4,
+        "instances": 8,
         "opportunities": 17,
         "player": "GarryMcwormeater"
       },
       {
-        "cost_wp": 100.19,
+        "cost_wp": 166.11,
         "games_with_data": 30,
-        "instances": 6,
+        "instances": 10,
         "opportunities": 28,
         "player": "garvitbhalla"
       },
       {
-        "cost_wp": 13.88,
+        "cost_wp": 26.85,
         "games_with_data": 11,
-        "instances": 3,
+        "instances": 7,
         "opportunities": 10,
         "player": "GERDBAD92"
       },
       {
-        "cost_wp": 105.98,
+        "cost_wp": 155.8,
         "games_with_data": 19,
-        "instances": 4,
+        "instances": 9,
         "opportunities": 18,
         "player": "harshak12"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 49.4,
         "games_with_data": 29,
-        "instances": 1,
+        "instances": 7,
         "opportunities": 20,
         "player": "hhussie"
       },
       {
-        "cost_wp": 25.06,
+        "cost_wp": 87.46,
         "games_with_data": 29,
-        "instances": 2,
+        "instances": 7,
         "opportunities": 24,
         "player": "Ik_chih"
       },
       {
-        "cost_wp": 15.87,
+        "cost_wp": 34.71,
         "games_with_data": 11,
-        "instances": 2,
+        "instances": 4,
         "opportunities": 9,
         "player": "jeffouille7"
       },
       {
-        "cost_wp": 2.68,
+        "cost_wp": 75.48,
         "games_with_data": 24,
-        "instances": 2,
+        "instances": 8,
         "opportunities": 24,
         "player": "kamilerden"
       },
       {
-        "cost_wp": 30.31,
+        "cost_wp": 44.69,
         "games_with_data": 29,
-        "instances": 2,
+        "instances": 6,
         "opportunities": 28,
         "player": "karliderfl"
       },
       {
-        "cost_wp": 27.24,
+        "cost_wp": 58.22,
         "games_with_data": 22,
-        "instances": 1,
+        "instances": 5,
         "opportunities": 21,
         "player": "Keshav-Kumar-Gautam"
       },
       {
-        "cost_wp": 91.51,
+        "cost_wp": 95.99,
         "games_with_data": 30,
-        "instances": 3,
+        "instances": 8,
         "opportunities": 27,
         "player": "Kirillinyo"
       },
       {
-        "cost_wp": 0.39,
+        "cost_wp": 59.11,
         "games_with_data": 26,
-        "instances": 1,
+        "instances": 6,
         "opportunities": 11,
         "player": "ledlnakdfmn"
       },
       {
-        "cost_wp": 133.87,
+        "cost_wp": 142.89,
         "games_with_data": 14,
-        "instances": 6,
+        "instances": 8,
         "opportunities": 15,
         "player": "levit79"
       },
       {
-        "cost_wp": 175.29,
+        "cost_wp": 200.16,
         "games_with_data": 23,
-        "instances": 7,
+        "instances": 12,
         "opportunities": 20,
         "player": "manlikefinbar"
       },
       {
-        "cost_wp": 3.0,
+        "cost_wp": 15.51,
         "games_with_data": 27,
-        "instances": 1,
+        "instances": 6,
         "opportunities": 25,
         "player": "MeryemZ"
       },
       {
-        "cost_wp": 35.48,
+        "cost_wp": 39.05,
         "games_with_data": 12,
-        "instances": 1,
+        "instances": 4,
         "opportunities": 9,
         "player": "mira2004"
       },
       {
-        "cost_wp": 59.44,
+        "cost_wp": 75.71,
         "games_with_data": 29,
-        "instances": 4,
+        "instances": 9,
         "opportunities": 27,
         "player": "MoisesEntenza"
       },
       {
-        "cost_wp": 37.75,
+        "cost_wp": 45.18,
         "games_with_data": 30,
-        "instances": 5,
+        "instances": 12,
         "opportunities": 21,
         "player": "mooz1873"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 62.46,
         "games_with_data": 17,
-        "instances": 1,
+        "instances": 5,
         "opportunities": 14,
         "player": "Moscadeiro97"
       },
       {
-        "cost_wp": 79.97,
+        "cost_wp": 87.01,
         "games_with_data": 30,
-        "instances": 6,
+        "instances": 11,
         "opportunities": 30,
         "player": "Muhemmed_055"
       },
       {
-        "cost_wp": 88.4,
+        "cost_wp": 117.18,
         "games_with_data": 23,
-        "instances": 7,
+        "instances": 13,
         "opportunities": 17,
         "player": "RadinAhanin"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 36.47,
         "games_with_data": 28,
-        "instances": 0,
+        "instances": 4,
         "opportunities": 14,
         "player": "Rokiman7"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 1.33,
         "games_with_data": 23,
-        "instances": 1,
+        "instances": 7,
         "opportunities": 20,
         "player": "SamLyn2023"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 13.94,
         "games_with_data": 29,
-        "instances": 0,
+        "instances": 5,
         "opportunities": 22,
         "player": "shulman1954"
       },
       {
-        "cost_wp": 26.17,
+        "cost_wp": 37.2,
         "games_with_data": 29,
-        "instances": 3,
+        "instances": 5,
         "opportunities": 24,
         "player": "sinobaba"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 8.93,
         "games_with_data": 30,
-        "instances": 0,
+        "instances": 6,
         "opportunities": 17,
         "player": "Sixtorene"
       },
       {
-        "cost_wp": 1.85,
+        "cost_wp": 19.14,
         "games_with_data": 26,
-        "instances": 1,
+        "instances": 5,
         "opportunities": 20,
         "player": "The_Nameless_Knight"
       },
       {
         "cost_wp": 0.0,
         "games_with_data": 28,
-        "instances": 0,
+        "instances": 1,
         "opportunities": 22,
         "player": "Thehas0405"
       },
       {
-        "cost_wp": 52.09,
+        "cost_wp": 57.38,
         "games_with_data": 29,
-        "instances": 4,
+        "instances": 8,
         "opportunities": 24,
         "player": "tinoz21"
       },
       {
-        "cost_wp": 13.97,
+        "cost_wp": 64.9,
         "games_with_data": 30,
-        "instances": 4,
+        "instances": 12,
         "opportunities": 25,
         "player": "TrustyPenguin"
       },
       {
-        "cost_wp": 39.01,
+        "cost_wp": 59.8,
         "games_with_data": 30,
-        "instances": 4,
+        "instances": 7,
         "opportunities": 24,
         "player": "Vahramavakian"
       }
     ],
     "1200-1600|rapid|slow_development.own.own": [
       {
-        "cost_wp": 38.46,
+        "cost_wp": 46.85,
         "games_with_data": 28,
-        "instances": 6,
+        "instances": 8,
         "opportunities": 13,
         "player": "Barsa1984"
       },
       {
-        "cost_wp": 0.74,
+        "cost_wp": 10.36,
         "games_with_data": 29,
-        "instances": 1,
+        "instances": 2,
         "opportunities": 6,
         "player": "bidochon"
       },
       {
-        "cost_wp": 205.34,
+        "cost_wp": 200.03,
         "games_with_data": 26,
         "instances": 7,
         "opportunities": 15,
@@ -33509,28 +34101,28 @@
       {
         "cost_wp": 9.16,
         "games_with_data": 29,
-        "instances": 2,
+        "instances": 4,
         "opportunities": 4,
         "player": "Dhananjay2106"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 2.79,
         "games_with_data": 22,
-        "instances": 0,
+        "instances": 2,
         "opportunities": 6,
         "player": "ege_tagil"
       },
       {
-        "cost_wp": 2.12,
+        "cost_wp": 0.0,
         "games_with_data": 25,
         "instances": 1,
         "opportunities": 6,
         "player": "engin_demir007"
       },
       {
-        "cost_wp": 59.49,
+        "cost_wp": 41.51,
         "games_with_data": 29,
-        "instances": 2,
+        "instances": 1,
         "opportunities": 8,
         "player": "ergili"
       },
@@ -33542,9 +34134,9 @@
         "player": "FANG_2013"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 4.77,
         "games_with_data": 20,
-        "instances": 0,
+        "instances": 1,
         "opportunities": 3,
         "player": "GarryMcwormeater"
       },
@@ -33556,9 +34148,9 @@
         "player": "garvitbhalla"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 2.09,
         "games_with_data": 11,
-        "instances": 0,
+        "instances": 1,
         "opportunities": 1,
         "player": "GERDBAD92"
       },
@@ -33570,16 +34162,16 @@
         "player": "harshak12"
       },
       {
-        "cost_wp": 34.81,
+        "cost_wp": 38.16,
         "games_with_data": 29,
-        "instances": 5,
+        "instances": 4,
         "opportunities": 9,
         "player": "hhussie"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 12.94,
         "games_with_data": 29,
-        "instances": 0,
+        "instances": 2,
         "opportunities": 5,
         "player": "Ik_chih"
       },
@@ -33619,7 +34211,7 @@
         "player": "Kirillinyo"
       },
       {
-        "cost_wp": 35.54,
+        "cost_wp": 0.0,
         "games_with_data": 26,
         "instances": 2,
         "opportunities": 16,
@@ -33656,70 +34248,70 @@
       {
         "cost_wp": 0.0,
         "games_with_data": 29,
-        "instances": 1,
+        "instances": 2,
         "opportunities": 2,
         "player": "MoisesEntenza"
       },
       {
-        "cost_wp": 35.24,
+        "cost_wp": 30.04,
         "games_with_data": 30,
-        "instances": 6,
+        "instances": 3,
         "opportunities": 9,
         "player": "mooz1873"
       },
       {
         "cost_wp": 0.0,
         "games_with_data": 17,
-        "instances": 0,
+        "instances": 1,
         "opportunities": 3,
         "player": "Moscadeiro97"
       },
       {
-        "cost_wp": 44.83,
+        "cost_wp": 69.64,
         "games_with_data": 23,
-        "instances": 6,
+        "instances": 8,
         "opportunities": 9,
         "player": "RadinAhanin"
       },
       {
-        "cost_wp": 59.28,
+        "cost_wp": 66.37,
         "games_with_data": 28,
-        "instances": 5,
+        "instances": 6,
         "opportunities": 14,
         "player": "Rokiman7"
       },
       {
         "cost_wp": 0.0,
         "games_with_data": 23,
-        "instances": 0,
+        "instances": 2,
         "opportunities": 5,
         "player": "SamLyn2023"
       },
       {
-        "cost_wp": 3.34,
+        "cost_wp": 0.0,
         "games_with_data": 29,
-        "instances": 2,
+        "instances": 1,
         "opportunities": 7,
         "player": "shulman1954"
       },
       {
-        "cost_wp": 20.79,
+        "cost_wp": 9.73,
         "games_with_data": 29,
         "instances": 2,
         "opportunities": 5,
         "player": "sinobaba"
       },
       {
-        "cost_wp": 1.1,
+        "cost_wp": 0.0,
         "games_with_data": 30,
-        "instances": 4,
+        "instances": 2,
         "opportunities": 13,
         "player": "Sixtorene"
       },
       {
-        "cost_wp": 9.36,
+        "cost_wp": 34.69,
         "games_with_data": 26,
-        "instances": 1,
+        "instances": 2,
         "opportunities": 6,
         "player": "The_Nameless_Knight"
       },
@@ -33731,16 +34323,16 @@
         "player": "Thehas0405"
       },
       {
-        "cost_wp": 34.15,
+        "cost_wp": 27.49,
         "games_with_data": 29,
-        "instances": 4,
+        "instances": 2,
         "opportunities": 5,
         "player": "tinoz21"
       },
       {
         "cost_wp": 0.0,
         "games_with_data": 30,
-        "instances": 3,
+        "instances": 2,
         "opportunities": 5,
         "player": "TrustyPenguin"
       },
@@ -48779,6 +49371,358 @@
         "player": "vinhhienbkhn196085"
       }
     ],
+    "1400-1800|blitz|opening_pawn_error.__other_opening_moves.own": [
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 16,
+        "opportunities": 158,
+        "player": "Aclr99"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 25,
+        "instances": 11,
+        "opportunities": 116,
+        "player": "AGM_EliasBelmonte035"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 27,
+        "instances": 20,
+        "opportunities": 128,
+        "player": "altaham"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 16,
+        "opportunities": 119,
+        "player": "bidochon"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 22,
+        "opportunities": 133,
+        "player": "BLITZ_GRIEK"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 31,
+        "opportunities": 164,
+        "player": "cafelitosolo"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 15,
+        "opportunities": 98,
+        "player": "CheckZILLA1"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 17,
+        "opportunities": 123,
+        "player": "chessmanuz2023"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 63,
+        "opportunities": 226,
+        "player": "Drexy2525"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 26,
+        "opportunities": 131,
+        "player": "ElderlyCent"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 35,
+        "opportunities": 200,
+        "player": "engin_demir007"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 34,
+        "opportunities": 151,
+        "player": "ergili"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 26,
+        "instances": 24,
+        "opportunities": 133,
+        "player": "FANG_2013"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 16,
+        "instances": 17,
+        "opportunities": 83,
+        "player": "FeatureNotBug"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 41,
+        "opportunities": 219,
+        "player": "garvitbhalla"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 51,
+        "opportunities": 184,
+        "player": "goldmafia"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 20,
+        "opportunities": 152,
+        "player": "hhussie"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 26,
+        "opportunities": 162,
+        "player": "igorgg88"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 32,
+        "opportunities": 176,
+        "player": "Ik_chih"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 38,
+        "opportunities": 139,
+        "player": "kamilerden"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 21,
+        "opportunities": 138,
+        "player": "karliderfl"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 16,
+        "opportunities": 135,
+        "player": "khall74"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 35,
+        "opportunities": 173,
+        "player": "Kirillinyo"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 11,
+        "opportunities": 118,
+        "player": "leoausin"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 22,
+        "opportunities": 188,
+        "player": "Lethal_Velociraptor"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 37,
+        "opportunities": 174,
+        "player": "levit79"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 55,
+        "opportunities": 228,
+        "player": "Mermed"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 41,
+        "opportunities": 230,
+        "player": "MeryemZ"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 28,
+        "opportunities": 147,
+        "player": "mira2004"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 58,
+        "opportunities": 228,
+        "player": "Mishhking"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 13,
+        "opportunities": 138,
+        "player": "mohansapa"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 31,
+        "opportunities": 138,
+        "player": "mooz1873"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 15,
+        "instances": 17,
+        "opportunities": 74,
+        "player": "Moscadeiro97"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 14,
+        "opportunities": 158,
+        "player": "Muhemmed_055"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 17,
+        "instances": 23,
+        "opportunities": 111,
+        "player": "PawnSnatch2025"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 26,
+        "instances": 16,
+        "opportunities": 116,
+        "player": "pooo94"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 25,
+        "opportunities": 143,
+        "player": "Raddy7_best"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 75,
+        "opportunities": 238,
+        "player": "RadinAhanin"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 50,
+        "opportunities": 189,
+        "player": "Sadi2016"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 14,
+        "opportunities": 102,
+        "player": "SamLyn2023"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 18,
+        "opportunities": 126,
+        "player": "Savely-2015"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 22,
+        "instances": 21,
+        "opportunities": 120,
+        "player": "SerhiiNe"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 27,
+        "instances": 46,
+        "opportunities": 178,
+        "player": "sinobaba"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 27,
+        "instances": 55,
+        "opportunities": 302,
+        "player": "superkiko624"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 24,
+        "opportunities": 146,
+        "player": "The_Nameless_Knight"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 14,
+        "opportunities": 122,
+        "player": "TheQueensVictory"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 38,
+        "opportunities": 160,
+        "player": "tinoz21"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 34,
+        "opportunities": 188,
+        "player": "Tobi-DE"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 24,
+        "opportunities": 146,
+        "player": "Vahramavakian"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 25,
+        "instances": 5,
+        "opportunities": 108,
+        "player": "vinhhienbkhn196085"
+      }
+    ],
     "1400-1800|blitz|opening_pawn_error.any.own": [
       {
         "cost_wp": 51.61,
@@ -53397,275 +54341,275 @@
     ],
     "1400-1800|blitz|slow_development.book.own": [
       {
-        "cost_wp": 6.91,
+        "cost_wp": 29.22,
         "games_with_data": 29,
-        "instances": 4,
+        "instances": 9,
         "opportunities": 25,
         "player": "Aclr99"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 20.2,
         "games_with_data": 25,
-        "instances": 0,
+        "instances": 3,
         "opportunities": 23,
         "player": "AGM_EliasBelmonte035"
       },
       {
-        "cost_wp": 30.23,
+        "cost_wp": 68.18,
         "games_with_data": 27,
-        "instances": 3,
+        "instances": 10,
         "opportunities": 22,
         "player": "altaham"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 17.46,
         "games_with_data": 30,
-        "instances": 0,
+        "instances": 5,
         "opportunities": 26,
         "player": "bidochon"
       },
       {
-        "cost_wp": 35.96,
+        "cost_wp": 88.57,
         "games_with_data": 28,
-        "instances": 3,
+        "instances": 9,
         "opportunities": 25,
         "player": "BLITZ_GRIEK"
       },
       {
-        "cost_wp": 7.04,
+        "cost_wp": 55.06,
         "games_with_data": 29,
-        "instances": 3,
+        "instances": 14,
         "opportunities": 27,
         "player": "cafelitosolo"
       },
       {
-        "cost_wp": 1.92,
+        "cost_wp": 11.55,
         "games_with_data": 28,
-        "instances": 2,
+        "instances": 7,
         "opportunities": 26,
         "player": "CheckZILLA1"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 13.44,
         "games_with_data": 29,
-        "instances": 0,
+        "instances": 5,
         "opportunities": 17,
         "player": "chessmanuz2023"
       },
       {
-        "cost_wp": 143.74,
+        "cost_wp": 216.9,
         "games_with_data": 30,
-        "instances": 9,
+        "instances": 12,
         "opportunities": 13,
         "player": "Drexy2525"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 14.24,
         "games_with_data": 30,
-        "instances": 0,
+        "instances": 5,
         "opportunities": 25,
         "player": "ElderlyCent"
       },
       {
-        "cost_wp": 14.93,
+        "cost_wp": 59.38,
         "games_with_data": 30,
-        "instances": 3,
+        "instances": 8,
         "opportunities": 28,
         "player": "engin_demir007"
       },
       {
-        "cost_wp": 104.8,
+        "cost_wp": 136.63,
         "games_with_data": 28,
-        "instances": 6,
+        "instances": 12,
         "opportunities": 25,
         "player": "ergili"
       },
       {
-        "cost_wp": 82.16,
+        "cost_wp": 209.03,
         "games_with_data": 26,
-        "instances": 6,
+        "instances": 10,
         "opportunities": 23,
         "player": "FANG_2013"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 12.21,
         "games_with_data": 16,
-        "instances": 0,
+        "instances": 1,
         "opportunities": 7,
         "player": "FeatureNotBug"
       },
       {
-        "cost_wp": 72.99,
+        "cost_wp": 83.73,
         "games_with_data": 30,
-        "instances": 3,
+        "instances": 6,
         "opportunities": 21,
         "player": "garvitbhalla"
       },
       {
-        "cost_wp": 88.77,
+        "cost_wp": 129.67,
         "games_with_data": 29,
-        "instances": 4,
+        "instances": 12,
         "opportunities": 17,
         "player": "goldmafia"
       },
       {
-        "cost_wp": 47.15,
+        "cost_wp": 93.82,
         "games_with_data": 30,
-        "instances": 2,
+        "instances": 8,
         "opportunities": 22,
         "player": "hhussie"
       },
       {
-        "cost_wp": 31.36,
+        "cost_wp": 63.12,
         "games_with_data": 29,
-        "instances": 4,
+        "instances": 12,
         "opportunities": 27,
         "player": "igorgg88"
       },
       {
-        "cost_wp": 55.54,
+        "cost_wp": 98.98,
         "games_with_data": 30,
-        "instances": 2,
+        "instances": 10,
         "opportunities": 23,
         "player": "Ik_chih"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 58.42,
         "games_with_data": 30,
-        "instances": 0,
+        "instances": 8,
         "opportunities": 29,
         "player": "kamilerden"
       },
       {
         "cost_wp": 33.95,
         "games_with_data": 29,
-        "instances": 4,
+        "instances": 7,
         "opportunities": 26,
         "player": "karliderfl"
       },
       {
-        "cost_wp": 45.14,
+        "cost_wp": 76.09,
         "games_with_data": 30,
-        "instances": 6,
+        "instances": 12,
         "opportunities": 30,
         "player": "khall74"
       },
       {
-        "cost_wp": 20.19,
+        "cost_wp": 60.05,
         "games_with_data": 28,
-        "instances": 5,
+        "instances": 11,
         "opportunities": 23,
         "player": "Kirillinyo"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 3.37,
         "games_with_data": 29,
-        "instances": 1,
+        "instances": 5,
         "opportunities": 26,
         "player": "leoausin"
       },
       {
-        "cost_wp": 24.0,
+        "cost_wp": 38.18,
         "games_with_data": 28,
-        "instances": 2,
+        "instances": 4,
         "opportunities": 16,
         "player": "Lethal_Velociraptor"
       },
       {
-        "cost_wp": 45.94,
+        "cost_wp": 122.29,
         "games_with_data": 30,
-        "instances": 5,
+        "instances": 13,
         "opportunities": 23,
         "player": "levit79"
       },
       {
-        "cost_wp": 38.18,
+        "cost_wp": 44.28,
         "games_with_data": 30,
-        "instances": 4,
+        "instances": 7,
         "opportunities": 9,
         "player": "Mermed"
       },
       {
-        "cost_wp": 31.56,
+        "cost_wp": 77.54,
         "games_with_data": 29,
-        "instances": 8,
+        "instances": 12,
         "opportunities": 26,
         "player": "MeryemZ"
       },
       {
-        "cost_wp": 12.32,
+        "cost_wp": 57.1,
         "games_with_data": 29,
-        "instances": 1,
+        "instances": 7,
         "opportunities": 23,
         "player": "mira2004"
       },
       {
-        "cost_wp": 261.7,
+        "cost_wp": 431.97,
         "games_with_data": 29,
-        "instances": 14,
+        "instances": 23,
         "opportunities": 26,
         "player": "Mishhking"
       },
       {
-        "cost_wp": 41.02,
+        "cost_wp": 88.18,
         "games_with_data": 29,
-        "instances": 1,
+        "instances": 10,
         "opportunities": 26,
         "player": "mohansapa"
       },
       {
-        "cost_wp": 84.32,
+        "cost_wp": 100.28,
         "games_with_data": 28,
-        "instances": 9,
+        "instances": 15,
         "opportunities": 23,
         "player": "mooz1873"
       },
       {
-        "cost_wp": 34.16,
+        "cost_wp": 37.95,
         "games_with_data": 15,
-        "instances": 1,
+        "instances": 3,
         "opportunities": 12,
         "player": "Moscadeiro97"
       },
       {
-        "cost_wp": 34.99,
+        "cost_wp": 40.77,
         "games_with_data": 30,
-        "instances": 5,
+        "instances": 9,
         "opportunities": 26,
         "player": "Muhemmed_055"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 18.87,
         "games_with_data": 17,
-        "instances": 0,
+        "instances": 4,
         "opportunities": 10,
         "player": "PawnSnatch2025"
       },
       {
-        "cost_wp": 12.55,
+        "cost_wp": 24.03,
         "games_with_data": 26,
-        "instances": 1,
+        "instances": 4,
         "opportunities": 24,
         "player": "pooo94"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 24.55,
         "games_with_data": 28,
-        "instances": 0,
+        "instances": 4,
         "opportunities": 20,
         "player": "Raddy7_best"
       },
       {
-        "cost_wp": 205.41,
+        "cost_wp": 229.1,
         "games_with_data": 29,
-        "instances": 16,
+        "instances": 18,
         "opportunities": 19,
         "player": "RadinAhanin"
       },
       {
-        "cost_wp": 38.41,
+        "cost_wp": 42.55,
         "games_with_data": 30,
-        "instances": 4,
+        "instances": 7,
         "opportunities": 26,
         "player": "Sadi2016"
       },
@@ -53677,72 +54621,72 @@
         "player": "SamLyn2023"
       },
       {
-        "cost_wp": 85.0,
+        "cost_wp": 131.07,
         "games_with_data": 28,
-        "instances": 5,
+        "instances": 9,
         "opportunities": 25,
         "player": "Savely-2015"
       },
       {
-        "cost_wp": 51.85,
+        "cost_wp": 53.69,
         "games_with_data": 22,
-        "instances": 5,
+        "instances": 7,
         "opportunities": 15,
         "player": "SerhiiNe"
       },
       {
-        "cost_wp": 57.95,
+        "cost_wp": 64.08,
         "games_with_data": 27,
-        "instances": 6,
+        "instances": 9,
         "opportunities": 25,
         "player": "sinobaba"
       },
       {
-        "cost_wp": 136.41,
+        "cost_wp": 161.65,
         "games_with_data": 27,
-        "instances": 12,
+        "instances": 18,
         "opportunities": 23,
         "player": "superkiko624"
       },
       {
-        "cost_wp": 27.21,
+        "cost_wp": 146.64,
         "games_with_data": 30,
-        "instances": 3,
+        "instances": 9,
         "opportunities": 22,
         "player": "The_Nameless_Knight"
       },
       {
-        "cost_wp": 38.21,
+        "cost_wp": 38.64,
         "games_with_data": 29,
-        "instances": 3,
+        "instances": 11,
         "opportunities": 27,
         "player": "TheQueensVictory"
       },
       {
-        "cost_wp": 16.35,
+        "cost_wp": 41.39,
         "games_with_data": 28,
-        "instances": 3,
+        "instances": 8,
         "opportunities": 23,
         "player": "tinoz21"
       },
       {
-        "cost_wp": 81.45,
+        "cost_wp": 94.27,
         "games_with_data": 30,
-        "instances": 5,
+        "instances": 7,
         "opportunities": 26,
         "player": "Tobi-DE"
       },
       {
-        "cost_wp": 40.13,
+        "cost_wp": 99.81,
         "games_with_data": 30,
-        "instances": 2,
+        "instances": 8,
         "opportunities": 28,
         "player": "Vahramavakian"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 3.77,
         "games_with_data": 25,
-        "instances": 1,
+        "instances": 2,
         "opportunities": 18,
         "player": "vinhhienbkhn196085"
       }
@@ -53751,7 +54695,7 @@
       {
         "cost_wp": 3.59,
         "games_with_data": 29,
-        "instances": 2,
+        "instances": 1,
         "opportunities": 4,
         "player": "Aclr99"
       },
@@ -53763,21 +54707,21 @@
         "player": "AGM_EliasBelmonte035"
       },
       {
-        "cost_wp": 16.38,
+        "cost_wp": 30.5,
         "games_with_data": 27,
-        "instances": 3,
+        "instances": 4,
         "opportunities": 5,
         "player": "altaham"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 5.02,
         "games_with_data": 30,
-        "instances": 1,
+        "instances": 3,
         "opportunities": 4,
         "player": "bidochon"
       },
       {
-        "cost_wp": 5.07,
+        "cost_wp": 0.81,
         "games_with_data": 28,
         "instances": 1,
         "opportunities": 3,
@@ -53791,21 +54735,21 @@
         "player": "cafelitosolo"
       },
       {
-        "cost_wp": 23.82,
+        "cost_wp": 0.0,
         "games_with_data": 28,
         "instances": 1,
         "opportunities": 3,
         "player": "CheckZILLA1"
       },
       {
-        "cost_wp": 15.59,
+        "cost_wp": 6.34,
         "games_with_data": 29,
-        "instances": 4,
+        "instances": 5,
         "opportunities": 12,
         "player": "chessmanuz2023"
       },
       {
-        "cost_wp": 28.53,
+        "cost_wp": 44.64,
         "games_with_data": 30,
         "instances": 2,
         "opportunities": 17,
@@ -53819,9 +54763,9 @@
         "player": "ElderlyCent"
       },
       {
-        "cost_wp": 13.9,
+        "cost_wp": 50.01,
         "games_with_data": 30,
-        "instances": 1,
+        "instances": 2,
         "opportunities": 2,
         "player": "engin_demir007"
       },
@@ -53840,44 +54784,44 @@
         "player": "FANG_2013"
       },
       {
-        "cost_wp": 14.15,
+        "cost_wp": 22.36,
         "games_with_data": 16,
-        "instances": 1,
+        "instances": 6,
         "opportunities": 9,
         "player": "FeatureNotBug"
       },
       {
         "cost_wp": 95.47,
         "games_with_data": 30,
-        "instances": 2,
+        "instances": 3,
         "opportunities": 9,
         "player": "garvitbhalla"
       },
       {
-        "cost_wp": 44.98,
+        "cost_wp": 3.2,
         "games_with_data": 29,
-        "instances": 3,
+        "instances": 1,
         "opportunities": 12,
         "player": "goldmafia"
       },
       {
         "cost_wp": 0.0,
         "games_with_data": 30,
-        "instances": 1,
+        "instances": 3,
         "opportunities": 8,
         "player": "hhussie"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 7.18,
         "games_with_data": 29,
-        "instances": 0,
+        "instances": 1,
         "opportunities": 3,
         "player": "igorgg88"
       },
       {
         "cost_wp": 21.57,
         "games_with_data": 30,
-        "instances": 1,
+        "instances": 3,
         "opportunities": 7,
         "player": "Ik_chih"
       },
@@ -53896,7 +54840,7 @@
         "player": "karliderfl"
       },
       {
-        "cost_wp": 23.8,
+        "cost_wp": 10.82,
         "games_with_data": 28,
         "instances": 2,
         "opportunities": 5,
@@ -53910,30 +54854,30 @@
         "player": "leoausin"
       },
       {
-        "cost_wp": 31.46,
+        "cost_wp": 15.96,
         "games_with_data": 28,
-        "instances": 6,
+        "instances": 4,
         "opportunities": 12,
         "player": "Lethal_Velociraptor"
       },
       {
-        "cost_wp": 38.45,
+        "cost_wp": 26.22,
         "games_with_data": 30,
-        "instances": 4,
+        "instances": 3,
         "opportunities": 7,
         "player": "levit79"
       },
       {
-        "cost_wp": 131.61,
+        "cost_wp": 137.95,
         "games_with_data": 30,
-        "instances": 11,
+        "instances": 14,
         "opportunities": 21,
         "player": "Mermed"
       },
       {
         "cost_wp": 0.0,
         "games_with_data": 29,
-        "instances": 0,
+        "instances": 1,
         "opportunities": 3,
         "player": "MeryemZ"
       },
@@ -53945,7 +54889,7 @@
         "player": "mira2004"
       },
       {
-        "cost_wp": 9.2,
+        "cost_wp": 6.83,
         "games_with_data": 29,
         "instances": 1,
         "opportunities": 3,
@@ -53961,7 +54905,7 @@
       {
         "cost_wp": 0.0,
         "games_with_data": 28,
-        "instances": 1,
+        "instances": 0,
         "opportunities": 5,
         "player": "mooz1873"
       },
@@ -53973,14 +54917,14 @@
         "player": "Moscadeiro97"
       },
       {
-        "cost_wp": 72.32,
+        "cost_wp": 43.38,
         "games_with_data": 30,
-        "instances": 3,
+        "instances": 2,
         "opportunities": 4,
         "player": "Muhemmed_055"
       },
       {
-        "cost_wp": 34.28,
+        "cost_wp": 25.07,
         "games_with_data": 17,
         "instances": 4,
         "opportunities": 7,
@@ -53996,14 +54940,14 @@
       {
         "cost_wp": 4.23,
         "games_with_data": 28,
-        "instances": 2,
+        "instances": 3,
         "opportunities": 8,
         "player": "Raddy7_best"
       },
       {
-        "cost_wp": 47.32,
+        "cost_wp": 75.29,
         "games_with_data": 29,
-        "instances": 5,
+        "instances": 7,
         "opportunities": 11,
         "player": "RadinAhanin"
       },
@@ -54015,23 +54959,23 @@
         "player": "Sadi2016"
       },
       {
-        "cost_wp": 9.01,
+        "cost_wp": 17.05,
         "games_with_data": 30,
-        "instances": 1,
+        "instances": 2,
         "opportunities": 6,
         "player": "SamLyn2023"
       },
       {
-        "cost_wp": 7.66,
+        "cost_wp": 7.31,
         "games_with_data": 28,
-        "instances": 2,
+        "instances": 1,
         "opportunities": 3,
         "player": "Savely-2015"
       },
       {
-        "cost_wp": 24.81,
+        "cost_wp": 16.86,
         "games_with_data": 22,
-        "instances": 3,
+        "instances": 2,
         "opportunities": 7,
         "player": "SerhiiNe"
       },
@@ -54043,14 +54987,14 @@
         "player": "sinobaba"
       },
       {
-        "cost_wp": 4.42,
+        "cost_wp": 17.6,
         "games_with_data": 27,
-        "instances": 1,
+        "instances": 3,
         "opportunities": 6,
         "player": "superkiko624"
       },
       {
-        "cost_wp": 84.99,
+        "cost_wp": 75.96,
         "games_with_data": 30,
         "instances": 4,
         "opportunities": 8,
@@ -54059,14 +55003,14 @@
       {
         "cost_wp": 43.7,
         "games_with_data": 29,
-        "instances": 2,
+        "instances": 1,
         "opportunities": 2,
         "player": "TheQueensVictory"
       },
       {
-        "cost_wp": 8.36,
+        "cost_wp": 18.45,
         "games_with_data": 28,
-        "instances": 1,
+        "instances": 3,
         "opportunities": 5,
         "player": "tinoz21"
       },
@@ -54085,9 +55029,9 @@
         "player": "Vahramavakian"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 30.15,
         "games_with_data": 25,
-        "instances": 0,
+        "instances": 4,
         "opportunities": 7,
         "player": "vinhhienbkhn196085"
       }
@@ -69140,6 +70084,358 @@
         "player": "yorgger"
       }
     ],
+    "1400-1800|rapid|opening_pawn_error.__other_opening_moves.own": [
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 21,
+        "instances": 17,
+        "opportunities": 89,
+        "player": "AGM_EliasBelmonte035"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 23,
+        "opportunities": 117,
+        "player": "babakorisko"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 30,
+        "opportunities": 153,
+        "player": "Barsa1984"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 11,
+        "opportunities": 119,
+        "player": "bidochon"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 26,
+        "instances": 14,
+        "opportunities": 99,
+        "player": "BLITZ_GRIEK"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 20,
+        "instances": 14,
+        "opportunities": 94,
+        "player": "der_zocker09"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 83,
+        "opportunities": 258,
+        "player": "Drexy2525"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 22,
+        "instances": 21,
+        "opportunities": 115,
+        "player": "ege_tagil"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 25,
+        "instances": 27,
+        "opportunities": 117,
+        "player": "engin_demir007"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 19,
+        "opportunities": 132,
+        "player": "ergili"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 28,
+        "opportunities": 139,
+        "player": "FANG_2013"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 20,
+        "instances": 28,
+        "opportunities": 113,
+        "player": "GarryMcwormeater"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 45,
+        "opportunities": 228,
+        "player": "garvitbhalla"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 11,
+        "instances": 14,
+        "opportunities": 63,
+        "player": "GERDBAD92"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 21,
+        "opportunities": 149,
+        "player": "hhussie"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 17,
+        "opportunities": 148,
+        "player": "igorgg88"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 34,
+        "opportunities": 172,
+        "player": "Ik_chih"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 11,
+        "instances": 17,
+        "opportunities": 71,
+        "player": "jeffouille7"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 24,
+        "instances": 17,
+        "opportunities": 92,
+        "player": "kamilerden"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 27,
+        "opportunities": 156,
+        "player": "karliderfl"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 22,
+        "instances": 16,
+        "opportunities": 100,
+        "player": "Keshav-Kumar-Gautam"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 34,
+        "opportunities": 194,
+        "player": "khall74"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 32,
+        "opportunities": 145,
+        "player": "Kirillinyo"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 26,
+        "instances": 38,
+        "opportunities": 184,
+        "player": "ledlnakdfmn"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 20,
+        "opportunities": 134,
+        "player": "leoausin"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 14,
+        "instances": 22,
+        "opportunities": 92,
+        "player": "levit79"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 23,
+        "instances": 13,
+        "opportunities": 111,
+        "player": "miguelsuperzing"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 12,
+        "instances": 9,
+        "opportunities": 48,
+        "player": "mira2004"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 17,
+        "instances": 4,
+        "opportunities": 68,
+        "player": "mohansapa"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 18,
+        "opportunities": 107,
+        "player": "moisandu22"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 25,
+        "opportunities": 135,
+        "player": "MoisesEntenza"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 26,
+        "opportunities": 154,
+        "player": "mooz1873"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 17,
+        "instances": 24,
+        "opportunities": 95,
+        "player": "Moscadeiro97"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 15,
+        "opportunities": 123,
+        "player": "Muhemmed_055"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 26,
+        "opportunities": 178,
+        "player": "oleksiy_4uk"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 23,
+        "instances": 40,
+        "opportunities": 184,
+        "player": "RadinAhanin"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 14,
+        "opportunities": 129,
+        "player": "Ramphoma"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 36,
+        "opportunities": 148,
+        "player": "Rokiman7"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 18,
+        "opportunities": 150,
+        "player": "Sadi2016"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 11,
+        "opportunities": 97,
+        "player": "samyragabb"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 20,
+        "opportunities": 101,
+        "player": "shulman1954"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 32,
+        "opportunities": 162,
+        "player": "sinobaba"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 36,
+        "opportunities": 164,
+        "player": "Sixtorene"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 26,
+        "instances": 24,
+        "opportunities": 137,
+        "player": "The_Nameless_Knight"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 15,
+        "opportunities": 90,
+        "player": "Thehas0405"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 32,
+        "opportunities": 151,
+        "player": "tinoz21"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 27,
+        "instances": 26,
+        "opportunities": 118,
+        "player": "Tom-Bombadil-0"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 20,
+        "opportunities": 140,
+        "player": "Vahramavakian"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 6,
+        "opportunities": 112,
+        "player": "vinhhienbkhn196085"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 24,
+        "instances": 18,
+        "opportunities": 93,
+        "player": "yorgger"
+      }
+    ],
     "1400-1800|rapid|opening_pawn_error.any.own": [
       {
         "cost_wp": 39.89,
@@ -73609,352 +74905,352 @@
     ],
     "1400-1800|rapid|slow_development.book.own": [
       {
-        "cost_wp": 15.21,
+        "cost_wp": 33.13,
         "games_with_data": 21,
-        "instances": 3,
+        "instances": 6,
         "opportunities": 21,
         "player": "AGM_EliasBelmonte035"
       },
       {
-        "cost_wp": 30.72,
+        "cost_wp": 65.84,
         "games_with_data": 30,
-        "instances": 4,
+        "instances": 8,
         "opportunities": 27,
         "player": "babakorisko"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 14.01,
         "games_with_data": 28,
-        "instances": 0,
+        "instances": 5,
         "opportunities": 15,
         "player": "Barsa1984"
       },
       {
-        "cost_wp": 6.19,
+        "cost_wp": 9.9,
         "games_with_data": 29,
-        "instances": 2,
+        "instances": 8,
         "opportunities": 23,
         "player": "bidochon"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 8.06,
         "games_with_data": 26,
-        "instances": 1,
+        "instances": 8,
         "opportunities": 24,
         "player": "BLITZ_GRIEK"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 28.75,
         "games_with_data": 20,
-        "instances": 0,
+        "instances": 1,
         "opportunities": 16,
         "player": "der_zocker09"
       },
       {
-        "cost_wp": 161.21,
+        "cost_wp": 210.29,
         "games_with_data": 30,
-        "instances": 6,
+        "instances": 9,
         "opportunities": 14,
         "player": "Drexy2525"
       },
       {
-        "cost_wp": 123.68,
+        "cost_wp": 152.89,
         "games_with_data": 22,
-        "instances": 4,
+        "instances": 8,
         "opportunities": 17,
         "player": "ege_tagil"
       },
       {
-        "cost_wp": 106.75,
+        "cost_wp": 125.2,
         "games_with_data": 25,
-        "instances": 4,
+        "instances": 11,
         "opportunities": 20,
         "player": "engin_demir007"
       },
       {
-        "cost_wp": 40.16,
+        "cost_wp": 67.29,
         "games_with_data": 29,
-        "instances": 1,
+        "instances": 5,
         "opportunities": 21,
         "player": "ergili"
       },
       {
-        "cost_wp": 9.44,
+        "cost_wp": 24.63,
         "games_with_data": 28,
-        "instances": 6,
+        "instances": 11,
         "opportunities": 24,
         "player": "FANG_2013"
       },
       {
-        "cost_wp": 27.92,
+        "cost_wp": 65.98,
         "games_with_data": 20,
-        "instances": 4,
+        "instances": 8,
         "opportunities": 17,
         "player": "GarryMcwormeater"
       },
       {
-        "cost_wp": 100.19,
+        "cost_wp": 166.11,
         "games_with_data": 30,
-        "instances": 6,
+        "instances": 10,
         "opportunities": 28,
         "player": "garvitbhalla"
       },
       {
-        "cost_wp": 13.88,
+        "cost_wp": 26.85,
         "games_with_data": 11,
-        "instances": 3,
+        "instances": 7,
         "opportunities": 10,
         "player": "GERDBAD92"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 49.4,
         "games_with_data": 29,
-        "instances": 1,
+        "instances": 7,
         "opportunities": 20,
         "player": "hhussie"
       },
       {
-        "cost_wp": 88.73,
+        "cost_wp": 112.61,
         "games_with_data": 29,
-        "instances": 2,
+        "instances": 11,
         "opportunities": 26,
         "player": "igorgg88"
       },
       {
-        "cost_wp": 25.06,
+        "cost_wp": 87.46,
         "games_with_data": 29,
-        "instances": 2,
+        "instances": 7,
         "opportunities": 24,
         "player": "Ik_chih"
       },
       {
-        "cost_wp": 15.87,
+        "cost_wp": 34.71,
         "games_with_data": 11,
-        "instances": 2,
+        "instances": 4,
         "opportunities": 9,
         "player": "jeffouille7"
       },
       {
-        "cost_wp": 2.68,
+        "cost_wp": 75.48,
         "games_with_data": 24,
-        "instances": 2,
+        "instances": 8,
         "opportunities": 24,
         "player": "kamilerden"
       },
       {
-        "cost_wp": 30.31,
+        "cost_wp": 44.69,
         "games_with_data": 29,
-        "instances": 2,
+        "instances": 6,
         "opportunities": 28,
         "player": "karliderfl"
       },
       {
-        "cost_wp": 27.24,
+        "cost_wp": 58.22,
         "games_with_data": 22,
-        "instances": 1,
+        "instances": 5,
         "opportunities": 21,
         "player": "Keshav-Kumar-Gautam"
       },
       {
-        "cost_wp": 20.66,
+        "cost_wp": 47.51,
         "games_with_data": 29,
-        "instances": 3,
+        "instances": 7,
         "opportunities": 24,
         "player": "khall74"
       },
       {
-        "cost_wp": 91.51,
+        "cost_wp": 95.99,
         "games_with_data": 30,
-        "instances": 3,
+        "instances": 8,
         "opportunities": 27,
         "player": "Kirillinyo"
       },
       {
-        "cost_wp": 0.39,
+        "cost_wp": 59.11,
         "games_with_data": 26,
-        "instances": 1,
+        "instances": 6,
         "opportunities": 11,
         "player": "ledlnakdfmn"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 13.17,
         "games_with_data": 30,
-        "instances": 0,
+        "instances": 4,
         "opportunities": 25,
         "player": "leoausin"
       },
       {
-        "cost_wp": 133.87,
+        "cost_wp": 142.89,
         "games_with_data": 14,
-        "instances": 6,
+        "instances": 8,
         "opportunities": 15,
         "player": "levit79"
       },
       {
-        "cost_wp": 35.98,
+        "cost_wp": 57.73,
         "games_with_data": 23,
-        "instances": 4,
+        "instances": 7,
         "opportunities": 22,
         "player": "miguelsuperzing"
       },
       {
-        "cost_wp": 35.48,
+        "cost_wp": 39.05,
         "games_with_data": 12,
-        "instances": 1,
+        "instances": 4,
         "opportunities": 9,
         "player": "mira2004"
       },
       {
-        "cost_wp": 26.43,
+        "cost_wp": 39.34,
         "games_with_data": 17,
-        "instances": 1,
+        "instances": 3,
         "opportunities": 16,
         "player": "mohansapa"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 44.93,
         "games_with_data": 30,
-        "instances": 0,
+        "instances": 9,
         "opportunities": 27,
         "player": "moisandu22"
       },
       {
-        "cost_wp": 59.44,
+        "cost_wp": 75.71,
         "games_with_data": 29,
-        "instances": 4,
+        "instances": 9,
         "opportunities": 27,
         "player": "MoisesEntenza"
       },
       {
-        "cost_wp": 37.75,
+        "cost_wp": 45.18,
         "games_with_data": 30,
-        "instances": 5,
+        "instances": 12,
         "opportunities": 21,
         "player": "mooz1873"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 62.46,
         "games_with_data": 17,
-        "instances": 1,
+        "instances": 5,
         "opportunities": 14,
         "player": "Moscadeiro97"
       },
       {
-        "cost_wp": 79.97,
+        "cost_wp": 87.01,
         "games_with_data": 30,
-        "instances": 6,
+        "instances": 11,
         "opportunities": 30,
         "player": "Muhemmed_055"
       },
       {
-        "cost_wp": 12.52,
+        "cost_wp": 52.51,
         "games_with_data": 28,
-        "instances": 3,
+        "instances": 7,
         "opportunities": 24,
         "player": "oleksiy_4uk"
       },
       {
-        "cost_wp": 88.4,
+        "cost_wp": 117.18,
         "games_with_data": 23,
-        "instances": 7,
+        "instances": 13,
         "opportunities": 17,
         "player": "RadinAhanin"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 24.52,
         "games_with_data": 30,
-        "instances": 0,
+        "instances": 7,
         "opportunities": 25,
         "player": "Ramphoma"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 36.47,
         "games_with_data": 28,
-        "instances": 0,
+        "instances": 4,
         "opportunities": 14,
         "player": "Rokiman7"
       },
       {
         "cost_wp": 0.0,
         "games_with_data": 28,
-        "instances": 3,
+        "instances": 6,
         "opportunities": 22,
         "player": "Sadi2016"
       },
       {
-        "cost_wp": 27.25,
+        "cost_wp": 33.15,
         "games_with_data": 28,
-        "instances": 1,
+        "instances": 3,
         "opportunities": 24,
         "player": "samyragabb"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 13.94,
         "games_with_data": 29,
-        "instances": 0,
+        "instances": 5,
         "opportunities": 22,
         "player": "shulman1954"
       },
       {
-        "cost_wp": 26.17,
+        "cost_wp": 37.2,
         "games_with_data": 29,
-        "instances": 3,
+        "instances": 5,
         "opportunities": 24,
         "player": "sinobaba"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 8.93,
         "games_with_data": 30,
-        "instances": 0,
+        "instances": 6,
         "opportunities": 17,
         "player": "Sixtorene"
       },
       {
-        "cost_wp": 1.85,
+        "cost_wp": 19.14,
         "games_with_data": 26,
-        "instances": 1,
+        "instances": 5,
         "opportunities": 20,
         "player": "The_Nameless_Knight"
       },
       {
         "cost_wp": 0.0,
         "games_with_data": 28,
-        "instances": 0,
+        "instances": 1,
         "opportunities": 22,
         "player": "Thehas0405"
       },
       {
-        "cost_wp": 52.09,
+        "cost_wp": 57.38,
         "games_with_data": 29,
-        "instances": 4,
+        "instances": 8,
         "opportunities": 24,
         "player": "tinoz21"
       },
       {
-        "cost_wp": 42.35,
+        "cost_wp": 73.74,
         "games_with_data": 27,
-        "instances": 4,
+        "instances": 8,
         "opportunities": 22,
         "player": "Tom-Bombadil-0"
       },
       {
-        "cost_wp": 39.01,
+        "cost_wp": 59.8,
         "games_with_data": 30,
-        "instances": 4,
+        "instances": 7,
         "opportunities": 24,
         "player": "Vahramavakian"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 43.26,
         "games_with_data": 30,
-        "instances": 1,
+        "instances": 7,
         "opportunities": 16,
         "player": "vinhhienbkhn196085"
       },
       {
         "cost_wp": 69.56,
         "games_with_data": 24,
-        "instances": 5,
+        "instances": 7,
         "opportunities": 19,
         "player": "yorgger"
       }
@@ -73963,21 +75259,21 @@
       {
         "cost_wp": 2.68,
         "games_with_data": 30,
-        "instances": 1,
+        "instances": 2,
         "opportunities": 3,
         "player": "babakorisko"
       },
       {
-        "cost_wp": 38.46,
+        "cost_wp": 46.85,
         "games_with_data": 28,
-        "instances": 6,
+        "instances": 8,
         "opportunities": 13,
         "player": "Barsa1984"
       },
       {
-        "cost_wp": 0.74,
+        "cost_wp": 10.36,
         "games_with_data": 29,
-        "instances": 1,
+        "instances": 2,
         "opportunities": 6,
         "player": "bidochon"
       },
@@ -73996,30 +75292,30 @@
         "player": "der_zocker09"
       },
       {
-        "cost_wp": 89.46,
+        "cost_wp": 132.68,
         "games_with_data": 30,
-        "instances": 5,
+        "instances": 8,
         "opportunities": 16,
         "player": "Drexy2525"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 2.79,
         "games_with_data": 22,
-        "instances": 0,
+        "instances": 2,
         "opportunities": 6,
         "player": "ege_tagil"
       },
       {
-        "cost_wp": 2.12,
+        "cost_wp": 0.0,
         "games_with_data": 25,
         "instances": 1,
         "opportunities": 6,
         "player": "engin_demir007"
       },
       {
-        "cost_wp": 59.49,
+        "cost_wp": 41.51,
         "games_with_data": 29,
-        "instances": 2,
+        "instances": 1,
         "opportunities": 8,
         "player": "ergili"
       },
@@ -74031,9 +75327,9 @@
         "player": "FANG_2013"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 4.77,
         "games_with_data": 20,
-        "instances": 0,
+        "instances": 1,
         "opportunities": 3,
         "player": "GarryMcwormeater"
       },
@@ -74045,30 +75341,30 @@
         "player": "garvitbhalla"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 2.09,
         "games_with_data": 11,
-        "instances": 0,
+        "instances": 1,
         "opportunities": 1,
         "player": "GERDBAD92"
       },
       {
-        "cost_wp": 34.81,
+        "cost_wp": 38.16,
         "games_with_data": 29,
-        "instances": 5,
+        "instances": 4,
         "opportunities": 9,
         "player": "hhussie"
       },
       {
-        "cost_wp": 5.67,
+        "cost_wp": 2.21,
         "games_with_data": 29,
         "instances": 1,
         "opportunities": 3,
         "player": "igorgg88"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 12.94,
         "games_with_data": 29,
-        "instances": 0,
+        "instances": 2,
         "opportunities": 5,
         "player": "Ik_chih"
       },
@@ -74101,7 +75397,7 @@
         "player": "Keshav-Kumar-Gautam"
       },
       {
-        "cost_wp": 27.09,
+        "cost_wp": 24.93,
         "games_with_data": 29,
         "instances": 2,
         "opportunities": 5,
@@ -74115,7 +75411,7 @@
         "player": "Kirillinyo"
       },
       {
-        "cost_wp": 35.54,
+        "cost_wp": 0.0,
         "games_with_data": 26,
         "instances": 2,
         "opportunities": 16,
@@ -74166,91 +75462,91 @@
       {
         "cost_wp": 0.0,
         "games_with_data": 29,
-        "instances": 1,
+        "instances": 2,
         "opportunities": 2,
         "player": "MoisesEntenza"
       },
       {
-        "cost_wp": 35.24,
+        "cost_wp": 30.04,
         "games_with_data": 30,
-        "instances": 6,
+        "instances": 3,
         "opportunities": 9,
         "player": "mooz1873"
       },
       {
         "cost_wp": 0.0,
         "games_with_data": 17,
-        "instances": 0,
+        "instances": 1,
         "opportunities": 3,
         "player": "Moscadeiro97"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 6.73,
         "games_with_data": 28,
-        "instances": 0,
+        "instances": 2,
         "opportunities": 4,
         "player": "oleksiy_4uk"
       },
       {
-        "cost_wp": 44.83,
+        "cost_wp": 69.64,
         "games_with_data": 23,
-        "instances": 6,
+        "instances": 8,
         "opportunities": 9,
         "player": "RadinAhanin"
       },
       {
-        "cost_wp": 1.88,
+        "cost_wp": 5.88,
         "games_with_data": 30,
         "instances": 2,
         "opportunities": 5,
         "player": "Ramphoma"
       },
       {
-        "cost_wp": 59.28,
+        "cost_wp": 66.37,
         "games_with_data": 28,
-        "instances": 5,
+        "instances": 6,
         "opportunities": 14,
         "player": "Rokiman7"
       },
       {
-        "cost_wp": 60.6,
+        "cost_wp": 58.31,
         "games_with_data": 28,
-        "instances": 2,
+        "instances": 1,
         "opportunities": 6,
         "player": "Sadi2016"
       },
       {
         "cost_wp": 0.0,
         "games_with_data": 28,
-        "instances": 1,
+        "instances": 2,
         "opportunities": 4,
         "player": "samyragabb"
       },
       {
-        "cost_wp": 3.34,
+        "cost_wp": 0.0,
         "games_with_data": 29,
-        "instances": 2,
+        "instances": 1,
         "opportunities": 7,
         "player": "shulman1954"
       },
       {
-        "cost_wp": 20.79,
+        "cost_wp": 9.73,
         "games_with_data": 29,
         "instances": 2,
         "opportunities": 5,
         "player": "sinobaba"
       },
       {
-        "cost_wp": 1.1,
+        "cost_wp": 0.0,
         "games_with_data": 30,
-        "instances": 4,
+        "instances": 2,
         "opportunities": 13,
         "player": "Sixtorene"
       },
       {
-        "cost_wp": 9.36,
+        "cost_wp": 34.69,
         "games_with_data": 26,
-        "instances": 1,
+        "instances": 2,
         "opportunities": 6,
         "player": "The_Nameless_Knight"
       },
@@ -74262,16 +75558,16 @@
         "player": "Thehas0405"
       },
       {
-        "cost_wp": 34.15,
+        "cost_wp": 27.49,
         "games_with_data": 29,
-        "instances": 4,
+        "instances": 2,
         "opportunities": 5,
         "player": "tinoz21"
       },
       {
-        "cost_wp": 54.06,
+        "cost_wp": 60.98,
         "games_with_data": 27,
-        "instances": 2,
+        "instances": 4,
         "opportunities": 6,
         "player": "Tom-Bombadil-0"
       },
@@ -74283,16 +75579,16 @@
         "player": "Vahramavakian"
       },
       {
-        "cost_wp": 34.62,
+        "cost_wp": 49.5,
         "games_with_data": 30,
-        "instances": 2,
+        "instances": 5,
         "opportunities": 14,
         "player": "vinhhienbkhn196085"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 12.8,
         "games_with_data": 24,
-        "instances": 0,
+        "instances": 2,
         "opportunities": 5,
         "player": "yorgger"
       }
@@ -83696,6 +84992,225 @@
         "player": "vinhhienbkhn196085"
       }
     ],
+    "1600-2000|blitz|opening_pawn_error.__other_opening_moves.own": [
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 25,
+        "instances": 11,
+        "opportunities": 116,
+        "player": "AGM_EliasBelmonte035"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 27,
+        "instances": 20,
+        "opportunities": 128,
+        "player": "altaham"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 22,
+        "opportunities": 115,
+        "player": "BASHENDI"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 16,
+        "opportunities": 119,
+        "player": "bidochon"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 22,
+        "opportunities": 133,
+        "player": "BLITZ_GRIEK"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 31,
+        "opportunities": 164,
+        "player": "cafelitosolo"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 15,
+        "opportunities": 98,
+        "player": "CheckZILLA1"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 17,
+        "opportunities": 123,
+        "player": "chessmanuz2023"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 13,
+        "instances": 11,
+        "opportunities": 68,
+        "player": "der_zocker09"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 63,
+        "opportunities": 226,
+        "player": "Drexy2525"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 26,
+        "opportunities": 131,
+        "player": "ElderlyCent"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 16,
+        "instances": 17,
+        "opportunities": 83,
+        "player": "FeatureNotBug"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 41,
+        "opportunities": 219,
+        "player": "garvitbhalla"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 51,
+        "opportunities": 184,
+        "player": "goldmafia"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 26,
+        "opportunities": 162,
+        "player": "igorgg88"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 32,
+        "opportunities": 176,
+        "player": "Ik_chih"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 11,
+        "opportunities": 118,
+        "player": "leoausin"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 37,
+        "opportunities": 174,
+        "player": "levit79"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 28,
+        "opportunities": 147,
+        "player": "mira2004"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 13,
+        "opportunities": 138,
+        "player": "mohansapa"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 31,
+        "opportunities": 138,
+        "player": "mooz1873"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 17,
+        "instances": 23,
+        "opportunities": 111,
+        "player": "PawnSnatch2025"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 26,
+        "instances": 16,
+        "opportunities": 116,
+        "player": "pooo94"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 25,
+        "opportunities": 143,
+        "player": "Raddy7_best"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 6,
+        "opportunities": 113,
+        "player": "Ramphoma"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 18,
+        "opportunities": 126,
+        "player": "Savely-2015"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 22,
+        "instances": 21,
+        "opportunities": 120,
+        "player": "SerhiiNe"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 14,
+        "opportunities": 122,
+        "player": "TheQueensVictory"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 38,
+        "opportunities": 160,
+        "player": "tinoz21"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 34,
+        "opportunities": 188,
+        "player": "Tobi-DE"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 25,
+        "instances": 5,
+        "opportunities": 108,
+        "player": "vinhhienbkhn196085"
+      }
+    ],
     "1600-2000|blitz|opening_pawn_error.any.own": [
       {
         "cost_wp": 56.54,
@@ -86686,58 +88201,58 @@
     ],
     "1600-2000|blitz|slow_development.book.own": [
       {
-        "cost_wp": 0.0,
+        "cost_wp": 20.2,
         "games_with_data": 25,
-        "instances": 0,
+        "instances": 3,
         "opportunities": 23,
         "player": "AGM_EliasBelmonte035"
       },
       {
-        "cost_wp": 30.23,
+        "cost_wp": 68.18,
         "games_with_data": 27,
-        "instances": 3,
+        "instances": 10,
         "opportunities": 22,
         "player": "altaham"
       },
       {
-        "cost_wp": 26.63,
+        "cost_wp": 43.96,
         "games_with_data": 29,
-        "instances": 1,
+        "instances": 5,
         "opportunities": 28,
         "player": "BASHENDI"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 17.46,
         "games_with_data": 30,
-        "instances": 0,
+        "instances": 5,
         "opportunities": 26,
         "player": "bidochon"
       },
       {
-        "cost_wp": 35.96,
+        "cost_wp": 88.57,
         "games_with_data": 28,
-        "instances": 3,
+        "instances": 9,
         "opportunities": 25,
         "player": "BLITZ_GRIEK"
       },
       {
-        "cost_wp": 7.04,
+        "cost_wp": 55.06,
         "games_with_data": 29,
-        "instances": 3,
+        "instances": 14,
         "opportunities": 27,
         "player": "cafelitosolo"
       },
       {
-        "cost_wp": 1.92,
+        "cost_wp": 11.55,
         "games_with_data": 28,
-        "instances": 2,
+        "instances": 7,
         "opportunities": 26,
         "player": "CheckZILLA1"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 13.44,
         "games_with_data": 29,
-        "instances": 0,
+        "instances": 5,
         "opportunities": 17,
         "player": "chessmanuz2023"
       },
@@ -86749,156 +88264,156 @@
         "player": "der_zocker09"
       },
       {
-        "cost_wp": 143.74,
+        "cost_wp": 216.9,
         "games_with_data": 30,
-        "instances": 9,
+        "instances": 12,
         "opportunities": 13,
         "player": "Drexy2525"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 14.24,
         "games_with_data": 30,
-        "instances": 0,
+        "instances": 5,
         "opportunities": 25,
         "player": "ElderlyCent"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 12.21,
         "games_with_data": 16,
-        "instances": 0,
+        "instances": 1,
         "opportunities": 7,
         "player": "FeatureNotBug"
       },
       {
-        "cost_wp": 72.99,
+        "cost_wp": 83.73,
         "games_with_data": 30,
-        "instances": 3,
+        "instances": 6,
         "opportunities": 21,
         "player": "garvitbhalla"
       },
       {
-        "cost_wp": 88.77,
+        "cost_wp": 129.67,
         "games_with_data": 29,
-        "instances": 4,
+        "instances": 12,
         "opportunities": 17,
         "player": "goldmafia"
       },
       {
-        "cost_wp": 31.36,
+        "cost_wp": 63.12,
         "games_with_data": 29,
-        "instances": 4,
+        "instances": 12,
         "opportunities": 27,
         "player": "igorgg88"
       },
       {
-        "cost_wp": 55.54,
+        "cost_wp": 98.98,
         "games_with_data": 30,
-        "instances": 2,
+        "instances": 10,
         "opportunities": 23,
         "player": "Ik_chih"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 3.37,
         "games_with_data": 29,
-        "instances": 1,
+        "instances": 5,
         "opportunities": 26,
         "player": "leoausin"
       },
       {
-        "cost_wp": 45.94,
+        "cost_wp": 122.29,
         "games_with_data": 30,
-        "instances": 5,
+        "instances": 13,
         "opportunities": 23,
         "player": "levit79"
       },
       {
-        "cost_wp": 12.32,
+        "cost_wp": 57.1,
         "games_with_data": 29,
-        "instances": 1,
+        "instances": 7,
         "opportunities": 23,
         "player": "mira2004"
       },
       {
-        "cost_wp": 41.02,
+        "cost_wp": 88.18,
         "games_with_data": 29,
-        "instances": 1,
+        "instances": 10,
         "opportunities": 26,
         "player": "mohansapa"
       },
       {
-        "cost_wp": 84.32,
+        "cost_wp": 100.28,
         "games_with_data": 28,
-        "instances": 9,
+        "instances": 15,
         "opportunities": 23,
         "player": "mooz1873"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 18.87,
         "games_with_data": 17,
-        "instances": 0,
+        "instances": 4,
         "opportunities": 10,
         "player": "PawnSnatch2025"
       },
       {
-        "cost_wp": 12.55,
+        "cost_wp": 24.03,
         "games_with_data": 26,
-        "instances": 1,
+        "instances": 4,
         "opportunities": 24,
         "player": "pooo94"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 24.55,
         "games_with_data": 28,
-        "instances": 0,
+        "instances": 4,
         "opportunities": 20,
         "player": "Raddy7_best"
       },
       {
-        "cost_wp": 7.37,
+        "cost_wp": 28.29,
         "games_with_data": 29,
-        "instances": 2,
+        "instances": 9,
         "opportunities": 23,
         "player": "Ramphoma"
       },
       {
-        "cost_wp": 85.0,
+        "cost_wp": 131.07,
         "games_with_data": 28,
-        "instances": 5,
+        "instances": 9,
         "opportunities": 25,
         "player": "Savely-2015"
       },
       {
-        "cost_wp": 51.85,
+        "cost_wp": 53.69,
         "games_with_data": 22,
-        "instances": 5,
+        "instances": 7,
         "opportunities": 15,
         "player": "SerhiiNe"
       },
       {
-        "cost_wp": 38.21,
+        "cost_wp": 38.64,
         "games_with_data": 29,
-        "instances": 3,
+        "instances": 11,
         "opportunities": 27,
         "player": "TheQueensVictory"
       },
       {
-        "cost_wp": 16.35,
+        "cost_wp": 41.39,
         "games_with_data": 28,
-        "instances": 3,
+        "instances": 8,
         "opportunities": 23,
         "player": "tinoz21"
       },
       {
-        "cost_wp": 81.45,
+        "cost_wp": 94.27,
         "games_with_data": 30,
-        "instances": 5,
+        "instances": 7,
         "opportunities": 26,
         "player": "Tobi-DE"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 3.77,
         "games_with_data": 25,
-        "instances": 1,
+        "instances": 2,
         "opportunities": 18,
         "player": "vinhhienbkhn196085"
       }
@@ -86912,28 +88427,28 @@
         "player": "AGM_EliasBelmonte035"
       },
       {
-        "cost_wp": 16.38,
+        "cost_wp": 30.5,
         "games_with_data": 27,
-        "instances": 3,
+        "instances": 4,
         "opportunities": 5,
         "player": "altaham"
       },
       {
         "cost_wp": 0.0,
         "games_with_data": 29,
-        "instances": 0,
+        "instances": 1,
         "opportunities": 1,
         "player": "BASHENDI"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 5.02,
         "games_with_data": 30,
-        "instances": 1,
+        "instances": 3,
         "opportunities": 4,
         "player": "bidochon"
       },
       {
-        "cost_wp": 5.07,
+        "cost_wp": 0.81,
         "games_with_data": 28,
         "instances": 1,
         "opportunities": 3,
@@ -86947,16 +88462,16 @@
         "player": "cafelitosolo"
       },
       {
-        "cost_wp": 23.82,
+        "cost_wp": 0.0,
         "games_with_data": 28,
         "instances": 1,
         "opportunities": 3,
         "player": "CheckZILLA1"
       },
       {
-        "cost_wp": 15.59,
+        "cost_wp": 6.34,
         "games_with_data": 29,
-        "instances": 4,
+        "instances": 5,
         "opportunities": 12,
         "player": "chessmanuz2023"
       },
@@ -86968,7 +88483,7 @@
         "player": "der_zocker09"
       },
       {
-        "cost_wp": 28.53,
+        "cost_wp": 44.64,
         "games_with_data": 30,
         "instances": 2,
         "opportunities": 17,
@@ -86982,37 +88497,37 @@
         "player": "ElderlyCent"
       },
       {
-        "cost_wp": 14.15,
+        "cost_wp": 22.36,
         "games_with_data": 16,
-        "instances": 1,
+        "instances": 6,
         "opportunities": 9,
         "player": "FeatureNotBug"
       },
       {
         "cost_wp": 95.47,
         "games_with_data": 30,
-        "instances": 2,
+        "instances": 3,
         "opportunities": 9,
         "player": "garvitbhalla"
       },
       {
-        "cost_wp": 44.98,
+        "cost_wp": 3.2,
         "games_with_data": 29,
-        "instances": 3,
+        "instances": 1,
         "opportunities": 12,
         "player": "goldmafia"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 7.18,
         "games_with_data": 29,
-        "instances": 0,
+        "instances": 1,
         "opportunities": 3,
         "player": "igorgg88"
       },
       {
         "cost_wp": 21.57,
         "games_with_data": 30,
-        "instances": 1,
+        "instances": 3,
         "opportunities": 7,
         "player": "Ik_chih"
       },
@@ -87024,9 +88539,9 @@
         "player": "leoausin"
       },
       {
-        "cost_wp": 38.45,
+        "cost_wp": 26.22,
         "games_with_data": 30,
-        "instances": 4,
+        "instances": 3,
         "opportunities": 7,
         "player": "levit79"
       },
@@ -87047,12 +88562,12 @@
       {
         "cost_wp": 0.0,
         "games_with_data": 28,
-        "instances": 1,
+        "instances": 0,
         "opportunities": 5,
         "player": "mooz1873"
       },
       {
-        "cost_wp": 34.28,
+        "cost_wp": 25.07,
         "games_with_data": 17,
         "instances": 4,
         "opportunities": 7,
@@ -87068,42 +88583,42 @@
       {
         "cost_wp": 4.23,
         "games_with_data": 28,
-        "instances": 2,
+        "instances": 3,
         "opportunities": 8,
         "player": "Raddy7_best"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 2.85,
         "games_with_data": 29,
-        "instances": 0,
+        "instances": 2,
         "opportunities": 6,
         "player": "Ramphoma"
       },
       {
-        "cost_wp": 7.66,
+        "cost_wp": 7.31,
         "games_with_data": 28,
-        "instances": 2,
+        "instances": 1,
         "opportunities": 3,
         "player": "Savely-2015"
       },
       {
-        "cost_wp": 24.81,
+        "cost_wp": 16.86,
         "games_with_data": 22,
-        "instances": 3,
+        "instances": 2,
         "opportunities": 7,
         "player": "SerhiiNe"
       },
       {
         "cost_wp": 43.7,
         "games_with_data": 29,
-        "instances": 2,
+        "instances": 1,
         "opportunities": 2,
         "player": "TheQueensVictory"
       },
       {
-        "cost_wp": 8.36,
+        "cost_wp": 18.45,
         "games_with_data": 28,
-        "instances": 1,
+        "instances": 3,
         "opportunities": 5,
         "player": "tinoz21"
       },
@@ -87115,9 +88630,9 @@
         "player": "Tobi-DE"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 30.15,
         "games_with_data": 25,
-        "instances": 0,
+        "instances": 4,
         "opportunities": 7,
         "player": "vinhhienbkhn196085"
       }
@@ -100483,6 +101998,323 @@
         "player": "yorgger"
       }
     ],
+    "1600-2000|rapid|opening_pawn_error.__other_opening_moves.own": [
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 21,
+        "instances": 17,
+        "opportunities": 89,
+        "player": "AGM_EliasBelmonte035"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 23,
+        "opportunities": 117,
+        "player": "babakorisko"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 21,
+        "instances": 10,
+        "opportunities": 75,
+        "player": "BASHENDI"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 11,
+        "opportunities": 119,
+        "player": "bidochon"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 26,
+        "instances": 14,
+        "opportunities": 99,
+        "player": "BLITZ_GRIEK"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 21,
+        "opportunities": 141,
+        "player": "CheckZILLA1"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 20,
+        "instances": 14,
+        "opportunities": 94,
+        "player": "der_zocker09"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 83,
+        "opportunities": 258,
+        "player": "Drexy2525"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 28,
+        "opportunities": 139,
+        "player": "FANG_2013"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 45,
+        "opportunities": 228,
+        "player": "garvitbhalla"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 11,
+        "instances": 14,
+        "opportunities": 63,
+        "player": "GERDBAD92"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 21,
+        "opportunities": 149,
+        "player": "hhussie"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 17,
+        "opportunities": 148,
+        "player": "igorgg88"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 34,
+        "opportunities": 172,
+        "player": "Ik_chih"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 11,
+        "instances": 17,
+        "opportunities": 71,
+        "player": "jeffouille7"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 27,
+        "opportunities": 156,
+        "player": "karliderfl"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 22,
+        "instances": 16,
+        "opportunities": 100,
+        "player": "Keshav-Kumar-Gautam"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 34,
+        "opportunities": 194,
+        "player": "khall74"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 32,
+        "opportunities": 145,
+        "player": "Kirillinyo"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 20,
+        "opportunities": 134,
+        "player": "leoausin"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 14,
+        "instances": 22,
+        "opportunities": 92,
+        "player": "levit79"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 14,
+        "opportunities": 155,
+        "player": "LogicT37"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 23,
+        "instances": 13,
+        "opportunities": 111,
+        "player": "miguelsuperzing"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 12,
+        "instances": 9,
+        "opportunities": 48,
+        "player": "mira2004"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 17,
+        "instances": 4,
+        "opportunities": 68,
+        "player": "mohansapa"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 18,
+        "opportunities": 107,
+        "player": "moisandu22"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 25,
+        "opportunities": 135,
+        "player": "MoisesEntenza"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 26,
+        "opportunities": 154,
+        "player": "mooz1873"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 15,
+        "opportunities": 123,
+        "player": "Muhemmed_055"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 26,
+        "opportunities": 178,
+        "player": "oleksiy_4uk"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 18,
+        "instances": 15,
+        "opportunities": 105,
+        "player": "pooo94"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 14,
+        "opportunities": 129,
+        "player": "Ramphoma"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 36,
+        "opportunities": 148,
+        "player": "Rokiman7"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 18,
+        "opportunities": 150,
+        "player": "Sadi2016"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 28,
+        "instances": 11,
+        "opportunities": 97,
+        "player": "samyragabb"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 27,
+        "instances": 24,
+        "opportunities": 120,
+        "player": "Savely-2015"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 28,
+        "opportunities": 178,
+        "player": "Tabooot"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 26,
+        "instances": 24,
+        "opportunities": 137,
+        "player": "The_Nameless_Knight"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 21,
+        "instances": 24,
+        "opportunities": 124,
+        "player": "TheQueensVictory"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 29,
+        "instances": 32,
+        "opportunities": 151,
+        "player": "tinoz21"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 23,
+        "opportunities": 206,
+        "player": "Tobi-DE"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 27,
+        "instances": 26,
+        "opportunities": 118,
+        "player": "Tom-Bombadil-0"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 20,
+        "opportunities": 140,
+        "player": "Vahramavakian"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 30,
+        "instances": 6,
+        "opportunities": 112,
+        "player": "vinhhienbkhn196085"
+      },
+      {
+        "cost_wp": 0.0,
+        "games_with_data": 24,
+        "instances": 18,
+        "opportunities": 93,
+        "player": "yorgger"
+      }
+    ],
     "1600-2000|rapid|opening_pawn_error.any.own": [
       {
         "cost_wp": 39.89,
@@ -104486,317 +106318,317 @@
     ],
     "1600-2000|rapid|slow_development.book.own": [
       {
-        "cost_wp": 15.21,
+        "cost_wp": 33.13,
         "games_with_data": 21,
-        "instances": 3,
+        "instances": 6,
         "opportunities": 21,
         "player": "AGM_EliasBelmonte035"
       },
       {
-        "cost_wp": 30.72,
+        "cost_wp": 65.84,
         "games_with_data": 30,
-        "instances": 4,
+        "instances": 8,
         "opportunities": 27,
         "player": "babakorisko"
       },
       {
-        "cost_wp": 7.8,
+        "cost_wp": 14.13,
         "games_with_data": 21,
-        "instances": 1,
+        "instances": 5,
         "opportunities": 19,
         "player": "BASHENDI"
       },
       {
-        "cost_wp": 6.19,
+        "cost_wp": 9.9,
         "games_with_data": 29,
-        "instances": 2,
+        "instances": 8,
         "opportunities": 23,
         "player": "bidochon"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 8.06,
         "games_with_data": 26,
-        "instances": 1,
+        "instances": 8,
         "opportunities": 24,
         "player": "BLITZ_GRIEK"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 11.83,
         "games_with_data": 30,
-        "instances": 5,
+        "instances": 11,
         "opportunities": 28,
         "player": "CheckZILLA1"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 28.75,
         "games_with_data": 20,
-        "instances": 0,
+        "instances": 1,
         "opportunities": 16,
         "player": "der_zocker09"
       },
       {
-        "cost_wp": 161.21,
+        "cost_wp": 210.29,
         "games_with_data": 30,
-        "instances": 6,
+        "instances": 9,
         "opportunities": 14,
         "player": "Drexy2525"
       },
       {
-        "cost_wp": 9.44,
+        "cost_wp": 24.63,
         "games_with_data": 28,
-        "instances": 6,
+        "instances": 11,
         "opportunities": 24,
         "player": "FANG_2013"
       },
       {
-        "cost_wp": 100.19,
+        "cost_wp": 166.11,
         "games_with_data": 30,
-        "instances": 6,
+        "instances": 10,
         "opportunities": 28,
         "player": "garvitbhalla"
       },
       {
-        "cost_wp": 13.88,
+        "cost_wp": 26.85,
         "games_with_data": 11,
-        "instances": 3,
+        "instances": 7,
         "opportunities": 10,
         "player": "GERDBAD92"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 49.4,
         "games_with_data": 29,
-        "instances": 1,
+        "instances": 7,
         "opportunities": 20,
         "player": "hhussie"
       },
       {
-        "cost_wp": 88.73,
+        "cost_wp": 112.61,
         "games_with_data": 29,
-        "instances": 2,
+        "instances": 11,
         "opportunities": 26,
         "player": "igorgg88"
       },
       {
-        "cost_wp": 25.06,
+        "cost_wp": 87.46,
         "games_with_data": 29,
-        "instances": 2,
+        "instances": 7,
         "opportunities": 24,
         "player": "Ik_chih"
       },
       {
-        "cost_wp": 15.87,
+        "cost_wp": 34.71,
         "games_with_data": 11,
-        "instances": 2,
+        "instances": 4,
         "opportunities": 9,
         "player": "jeffouille7"
       },
       {
-        "cost_wp": 30.31,
+        "cost_wp": 44.69,
         "games_with_data": 29,
-        "instances": 2,
+        "instances": 6,
         "opportunities": 28,
         "player": "karliderfl"
       },
       {
-        "cost_wp": 27.24,
+        "cost_wp": 58.22,
         "games_with_data": 22,
-        "instances": 1,
+        "instances": 5,
         "opportunities": 21,
         "player": "Keshav-Kumar-Gautam"
       },
       {
-        "cost_wp": 20.66,
+        "cost_wp": 47.51,
         "games_with_data": 29,
-        "instances": 3,
+        "instances": 7,
         "opportunities": 24,
         "player": "khall74"
       },
       {
-        "cost_wp": 91.51,
+        "cost_wp": 95.99,
         "games_with_data": 30,
-        "instances": 3,
+        "instances": 8,
         "opportunities": 27,
         "player": "Kirillinyo"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 13.17,
         "games_with_data": 30,
-        "instances": 0,
+        "instances": 4,
         "opportunities": 25,
         "player": "leoausin"
       },
       {
-        "cost_wp": 133.87,
+        "cost_wp": 142.89,
         "games_with_data": 14,
-        "instances": 6,
+        "instances": 8,
         "opportunities": 15,
         "player": "levit79"
       },
       {
         "cost_wp": 63.13,
         "games_with_data": 29,
-        "instances": 9,
+        "instances": 10,
         "opportunities": 28,
         "player": "LogicT37"
       },
       {
-        "cost_wp": 35.98,
+        "cost_wp": 57.73,
         "games_with_data": 23,
-        "instances": 4,
+        "instances": 7,
         "opportunities": 22,
         "player": "miguelsuperzing"
       },
       {
-        "cost_wp": 35.48,
+        "cost_wp": 39.05,
         "games_with_data": 12,
-        "instances": 1,
+        "instances": 4,
         "opportunities": 9,
         "player": "mira2004"
       },
       {
-        "cost_wp": 26.43,
+        "cost_wp": 39.34,
         "games_with_data": 17,
-        "instances": 1,
+        "instances": 3,
         "opportunities": 16,
         "player": "mohansapa"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 44.93,
         "games_with_data": 30,
-        "instances": 0,
+        "instances": 9,
         "opportunities": 27,
         "player": "moisandu22"
       },
       {
-        "cost_wp": 59.44,
+        "cost_wp": 75.71,
         "games_with_data": 29,
-        "instances": 4,
+        "instances": 9,
         "opportunities": 27,
         "player": "MoisesEntenza"
       },
       {
-        "cost_wp": 37.75,
+        "cost_wp": 45.18,
         "games_with_data": 30,
-        "instances": 5,
+        "instances": 12,
         "opportunities": 21,
         "player": "mooz1873"
       },
       {
-        "cost_wp": 79.97,
+        "cost_wp": 87.01,
         "games_with_data": 30,
-        "instances": 6,
+        "instances": 11,
         "opportunities": 30,
         "player": "Muhemmed_055"
       },
       {
-        "cost_wp": 12.52,
+        "cost_wp": 52.51,
         "games_with_data": 28,
-        "instances": 3,
+        "instances": 7,
         "opportunities": 24,
         "player": "oleksiy_4uk"
       },
       {
-        "cost_wp": 18.36,
+        "cost_wp": 22.68,
         "games_with_data": 18,
-        "instances": 2,
+        "instances": 3,
         "opportunities": 16,
         "player": "pooo94"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 24.52,
         "games_with_data": 30,
-        "instances": 0,
+        "instances": 7,
         "opportunities": 25,
         "player": "Ramphoma"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 36.47,
         "games_with_data": 28,
-        "instances": 0,
+        "instances": 4,
         "opportunities": 14,
         "player": "Rokiman7"
       },
       {
         "cost_wp": 0.0,
         "games_with_data": 28,
-        "instances": 3,
+        "instances": 6,
         "opportunities": 22,
         "player": "Sadi2016"
       },
       {
-        "cost_wp": 27.25,
+        "cost_wp": 33.15,
         "games_with_data": 28,
-        "instances": 1,
+        "instances": 3,
         "opportunities": 24,
         "player": "samyragabb"
       },
       {
-        "cost_wp": 56.9,
+        "cost_wp": 105.92,
         "games_with_data": 27,
-        "instances": 5,
+        "instances": 11,
         "opportunities": 27,
         "player": "Savely-2015"
       },
       {
-        "cost_wp": 58.06,
+        "cost_wp": 64.12,
         "games_with_data": 30,
-        "instances": 3,
+        "instances": 7,
         "opportunities": 25,
         "player": "Tabooot"
       },
       {
-        "cost_wp": 1.85,
+        "cost_wp": 19.14,
         "games_with_data": 26,
-        "instances": 1,
+        "instances": 5,
         "opportunities": 20,
         "player": "The_Nameless_Knight"
       },
       {
-        "cost_wp": 28.18,
+        "cost_wp": 46.1,
         "games_with_data": 21,
-        "instances": 2,
+        "instances": 9,
         "opportunities": 18,
         "player": "TheQueensVictory"
       },
       {
-        "cost_wp": 52.09,
+        "cost_wp": 57.38,
         "games_with_data": 29,
-        "instances": 4,
+        "instances": 8,
         "opportunities": 24,
         "player": "tinoz21"
       },
       {
-        "cost_wp": 108.87,
+        "cost_wp": 115.81,
         "games_with_data": 30,
-        "instances": 5,
+        "instances": 9,
         "opportunities": 30,
         "player": "Tobi-DE"
       },
       {
-        "cost_wp": 42.35,
+        "cost_wp": 73.74,
         "games_with_data": 27,
-        "instances": 4,
+        "instances": 8,
         "opportunities": 22,
         "player": "Tom-Bombadil-0"
       },
       {
-        "cost_wp": 39.01,
+        "cost_wp": 59.8,
         "games_with_data": 30,
-        "instances": 4,
+        "instances": 7,
         "opportunities": 24,
         "player": "Vahramavakian"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 43.26,
         "games_with_data": 30,
-        "instances": 1,
+        "instances": 7,
         "opportunities": 16,
         "player": "vinhhienbkhn196085"
       },
       {
         "cost_wp": 69.56,
         "games_with_data": 24,
-        "instances": 5,
+        "instances": 7,
         "opportunities": 19,
         "player": "yorgger"
       }
@@ -104805,7 +106637,7 @@
       {
         "cost_wp": 2.68,
         "games_with_data": 30,
-        "instances": 1,
+        "instances": 2,
         "opportunities": 3,
         "player": "babakorisko"
       },
@@ -104817,9 +106649,9 @@
         "player": "BASHENDI"
       },
       {
-        "cost_wp": 0.74,
+        "cost_wp": 10.36,
         "games_with_data": 29,
-        "instances": 1,
+        "instances": 2,
         "opportunities": 6,
         "player": "bidochon"
       },
@@ -104845,9 +106677,9 @@
         "player": "der_zocker09"
       },
       {
-        "cost_wp": 89.46,
+        "cost_wp": 132.68,
         "games_with_data": 30,
-        "instances": 5,
+        "instances": 8,
         "opportunities": 16,
         "player": "Drexy2525"
       },
@@ -104866,30 +106698,30 @@
         "player": "garvitbhalla"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 2.09,
         "games_with_data": 11,
-        "instances": 0,
+        "instances": 1,
         "opportunities": 1,
         "player": "GERDBAD92"
       },
       {
-        "cost_wp": 34.81,
+        "cost_wp": 38.16,
         "games_with_data": 29,
-        "instances": 5,
+        "instances": 4,
         "opportunities": 9,
         "player": "hhussie"
       },
       {
-        "cost_wp": 5.67,
+        "cost_wp": 2.21,
         "games_with_data": 29,
         "instances": 1,
         "opportunities": 3,
         "player": "igorgg88"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 12.94,
         "games_with_data": 29,
-        "instances": 0,
+        "instances": 2,
         "opportunities": 5,
         "player": "Ik_chih"
       },
@@ -104915,7 +106747,7 @@
         "player": "Keshav-Kumar-Gautam"
       },
       {
-        "cost_wp": 27.09,
+        "cost_wp": 24.93,
         "games_with_data": 29,
         "instances": 2,
         "opportunities": 5,
@@ -104980,21 +106812,21 @@
       {
         "cost_wp": 0.0,
         "games_with_data": 29,
-        "instances": 1,
+        "instances": 2,
         "opportunities": 2,
         "player": "MoisesEntenza"
       },
       {
-        "cost_wp": 35.24,
+        "cost_wp": 30.04,
         "games_with_data": 30,
-        "instances": 6,
+        "instances": 3,
         "opportunities": 9,
         "player": "mooz1873"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 6.73,
         "games_with_data": 28,
-        "instances": 0,
+        "instances": 2,
         "opportunities": 4,
         "player": "oleksiy_4uk"
       },
@@ -105006,65 +106838,65 @@
         "player": "pooo94"
       },
       {
-        "cost_wp": 1.88,
+        "cost_wp": 5.88,
         "games_with_data": 30,
         "instances": 2,
         "opportunities": 5,
         "player": "Ramphoma"
       },
       {
-        "cost_wp": 59.28,
+        "cost_wp": 66.37,
         "games_with_data": 28,
-        "instances": 5,
+        "instances": 6,
         "opportunities": 14,
         "player": "Rokiman7"
       },
       {
-        "cost_wp": 60.6,
+        "cost_wp": 58.31,
         "games_with_data": 28,
-        "instances": 2,
+        "instances": 1,
         "opportunities": 6,
         "player": "Sadi2016"
       },
       {
         "cost_wp": 0.0,
         "games_with_data": 28,
-        "instances": 1,
+        "instances": 2,
         "opportunities": 4,
         "player": "samyragabb"
       },
       {
-        "cost_wp": 57.14,
+        "cost_wp": 50.34,
         "games_with_data": 30,
         "instances": 2,
         "opportunities": 5,
         "player": "Tabooot"
       },
       {
-        "cost_wp": 9.36,
+        "cost_wp": 34.69,
         "games_with_data": 26,
-        "instances": 1,
+        "instances": 2,
         "opportunities": 6,
         "player": "The_Nameless_Knight"
       },
       {
         "cost_wp": 0.0,
         "games_with_data": 21,
-        "instances": 1,
+        "instances": 3,
         "opportunities": 3,
         "player": "TheQueensVictory"
       },
       {
-        "cost_wp": 34.15,
+        "cost_wp": 27.49,
         "games_with_data": 29,
-        "instances": 4,
+        "instances": 2,
         "opportunities": 5,
         "player": "tinoz21"
       },
       {
-        "cost_wp": 54.06,
+        "cost_wp": 60.98,
         "games_with_data": 27,
-        "instances": 2,
+        "instances": 4,
         "opportunities": 6,
         "player": "Tom-Bombadil-0"
       },
@@ -105076,16 +106908,16 @@
         "player": "Vahramavakian"
       },
       {
-        "cost_wp": 34.62,
+        "cost_wp": 49.5,
         "games_with_data": 30,
-        "instances": 2,
+        "instances": 5,
         "opportunities": 14,
         "player": "vinhhienbkhn196085"
       },
       {
-        "cost_wp": 0.0,
+        "cost_wp": 12.8,
         "games_with_data": 24,
-        "instances": 0,
+        "instances": 2,
         "opportunities": 5,
         "player": "yorgger"
       }

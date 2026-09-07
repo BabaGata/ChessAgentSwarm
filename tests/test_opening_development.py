@@ -688,3 +688,29 @@ class TestOpeningPawnErrorHasItsOwnBaseline:
         from chesscoach.sections.s4_opening_outcomes import _Counts, _other_opening_moves_rate
 
         assert _other_opening_moves_rate(_Counts(tallies={}, games_with_data=20)) is None
+
+    def test_the_arm_is_not_reported_as_a_condition(self):
+        """It reached the detection sheet's vocabulary as a claim named
+        `opening_pawn_error.__other_opening_moves` -- the raw-key defect (D8)
+        arriving by a different door than the phrasing one."""
+        from chesscoach.opening_development import OTHER_OPENING_MOVES
+        from chesscoach.sections.s4_opening_outcomes import S4OpeningOutcomes
+
+        from chesscoach.ingest.corpus import Corpus
+        from chesscoach.profile.models import Provenance
+        from chesscoach.sections.base import SectionContext
+
+        rows = drifting(SLOW_ITALIAN, "g1", best=DEVELOPS)
+        context = SectionContext(
+            rows,
+            Corpus(username=PLAYER, corpus_id="c1",
+                   game_ids=tuple(sorted({o.game_id for o in rows}))),
+            Provenance(engine="stub", depth=15, corpus_id="c1",
+                       analysed_at="2026-09-07"),
+            band="1400-1800",
+            time_control="rapid",
+        )
+
+        measured = {m.claim_key for m in S4OpeningOutcomes().measure(context)}
+
+        assert not any(k.endswith(OTHER_OPENING_MOVES) for k in measured)
