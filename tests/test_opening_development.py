@@ -666,6 +666,11 @@ class TestOpeningPawnErrorHasItsOwnBaseline:
 
         assert _is_comparison_arm(f"{OPENING_PAWN_ERROR}.{OTHER_OPENING_MOVES}")
         assert not _is_comparison_arm(f"{OPENING_PAWN_ERROR}.any")
+        # S4 re-keys its tallies through `Claim.key()`, which appends the
+        # direction -- so the key it actually sees carries `.own` and a suffix
+        # test matched nothing at either call site.
+        assert _is_comparison_arm(f"{OPENING_PAWN_ERROR}.{OTHER_OPENING_MOVES}.own")
+        assert not _is_comparison_arm(f"{OPENING_PAWN_ERROR}.any.own")
 
     def test_the_baseline_is_the_rate_on_those_other_moves(self):
         from chesscoach.opening_development import (

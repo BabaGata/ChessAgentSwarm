@@ -374,8 +374,15 @@ def _out_of_book_baseline(context: SectionContext) -> float | None:
 
 
 def _is_comparison_arm(key: str) -> bool:
-    """Keys that exist to be compared against, never to be asserted."""
-    return key.endswith(f".{OTHER_OPENING_MOVES}")
+    """Keys that exist to be compared against, never to be asserted.
+
+    Matched on containment rather than suffix: S4 re-keys its tallies through
+    `Claim.key()`, which appends the direction, so the key is
+    `opening_pawn_error.__other_opening_moves.own` and an `endswith` test on the
+    subject silently matched nothing -- at **both** call sites, so the arm was
+    neither kept out of the vocabulary nor out of the candidates.
+    """
+    return f".{OTHER_OPENING_MOVES}" in key
 
 
 def _other_opening_moves_rate(counts: _Counts) -> float | None:
