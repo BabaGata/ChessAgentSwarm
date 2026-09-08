@@ -2,18 +2,19 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788715696416
+updated: 1788825600000
 created: 1785254500000
 ---
 
 # State
 
-**Snapshot date:** 2026-08-31
-**Active mission step:** **M6/M7** — correcting what the detectors name, and giving each claim
-something to say
-**Last commit:** `chore(M6): regenerate at the normalised keys, and record a silenced player`
-**Scale:** 18,882 lines in `chesscoach/`, **1,683 tests at 88 % coverage**, 57 experiments,
-138 vault notes
+**Snapshot date:** 2026-09-08
+**Active mission steps:** **M6/M7** — correcting what the detectors name, and giving each claim
+something to say · **M8** — write the thesis, added 2026-09-08
+([[decisions.0018-the-thesis-is-a-mission-step]]) and running alongside
+**Last commit:** `chore(M6): regenerate the detection sheet at the corrected detectors`
+**Scale:** 23,235 lines in `chesscoach/`, **1,800 tests at 88 % coverage**, 87 experiments,
+170 vault notes, 18 ADRs, 60 lessons
 
 Rewritten at the end of every cycle. The honest answer to "if someone joined today, what would they
 need to know?"
@@ -83,6 +84,7 @@ need to know?"
 | **Development correlation screen** | **done 2026-08-31** | The screen [[design.opening-development-signals]] promised before the claims shipped, run at last and read straight from the rebuilt peer reference — no engine pass, and current by construction ([[experiments.e69-development-correlations]]). **No pair exceeds the 0.85 ceiling, so all four ship.** `slow_development`/`repeat_move` at **0.81** is distinct **narrowly** and should be re-run whenever either detector changes. The pair E59 measured at **0.68 is now 0.75** — nothing about the claims changed, the detectors underneath them did five times, which is the stamp lesson in a different artefact. `pawn_error` is the outlier and earns its slot: 0.16–0.29 against the others, median rate 6 % against their 41–46 %. Against `early_error` the highest is 0.55, so none is restating the general opening error rate |
 | **Development claim keys, and a sheet that lied** | **fixed 2026-08-31** | Every claim in the system is `kind.subject.own`; the development tallies emitted `kind.subject`, because I built them without going through `_key()`. **That made the detection sheet lie**: it builds its vocabulary from `measure()` and its fired set from `Claim.key()`, subtracts one from the other, and so listed four claims as **NEVER FIRED** while the peer check showed them reaching **3 of 12 plans**. The never-fired list is the half of that sheet the author **cannot check by reading positions**, because there are no positions to read — a false entry there is invisible by construction. Keys normalised, a test pins the shape, reference and sheet rebuilt. **Open:** `maikel5` now has **no priorities at all**, and E56 established silence was 0/12 |
 | **One-command session** | **built** | `cli coach` — username in, report out; verified end to end on a live player, deterministic across runs |
+| **The thesis** | **first full draft 2026-09-08** | [[thesis]] — 9 chapters and 5 appendices in `FIDIT_template_hrv/` (gitignored, syncs to Overleaf). Every number is a macro in `Src/brojke.tex`, one file, each with its source note. **Not done:** never compiled (no local LaTeX), supervisor field is the template default, only one figure drawn, and chapters 7–8 carry pre-regeneration numbers. Its first pass is recorded below, because it found things |
 
 ## Distance to vision
 
@@ -129,6 +131,16 @@ cannot confirm, so the silence is a measurement limit rather than a verdict.
 
 **The move this cycle is D11 down one**, which is the whole point of scoring the process alongside
 the product: the work was sound and the record of it was not.
+
+**D11 stays at 3 after the thesis's first pass, and the reason is the finding.** Writing chapters 6–9
+against the code found **three claims in this vault stronger than the code supports** — the planner's
+untreated-share range is withdrawn at runtime by `calibration_is_stale()` and this note read as
+though it still ships; determinism holds only on a warm cache
+([[experiments.e91-fixed-depth-is-not-reproducible]]); and E31's headline here was the one-player
+pre-[[experiments.e82-move-number-rerun]] figure rather than the corrected 76 % / 37 %. Each was
+recorded correctly *somewhere*. Nothing forced them to be read together, which is exactly the defect
+that took D11 down in the first place — so this is the same finding recurring, not evidence the
+process now catches it. One audit pass is not a trend. **D11 moves when a second pass finds nothing.**
 
 **And the gap that now dominates everything is external validity.** Of the six success criteria in
 [[vision]], three are measured — the strength estimate against real ratings, the cost, and
@@ -243,7 +255,21 @@ struck through: a list nobody can act on is not a plan.
    theory or from peers ([[experiments.e58-opening-development]]), and whether a check that also wins
    a pawn is too small to call a fork ([[experiments.e57-fork-rebuilt]]).
 
+0. **P1 — Compile the thesis, and supply the supervisor names** (M8). There is no LaTeX toolchain on
+   this machine, so `FIDIT_template_hrv/` has been checked by script — labels, citations, macro
+   definitions, environment balance — and **never compiled**. The title page carries the template's
+   default supervisors. Both need a person.
+
 ### Open, and unblocked
+
+0. **M8 — carry the regeneration into the thesis.** Chapters 7–8 quote figures measured before the
+   detector rebuild. Every one of them is a macro in `FIDIT_template_hrv/Src/brojke.tex` with its
+   source note beside it, so this is one file's worth of edits, not a re-read of 85 pages. Do it once
+   the sheet is marked and the numbers settle, not before.
+
+0. **M8 — the figures that are not drawn.** Only the scorecard trajectory exists. Candidates, each
+   already measured: split-half agreement, the cost profile cold against warm, and the strength
+   estimate against actual rating for both speeds (which would show the blitz repair visually).
 
 0. **DONE — seven detectors rebuilt against the author's marked sheet** *(2026-09-06)*.
    Round two of [[experiments.e86-detector-audit]], driven by the 33 `[n]` marks on

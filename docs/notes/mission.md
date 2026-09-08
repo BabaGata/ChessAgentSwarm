@@ -2,7 +2,7 @@
 id: cas-mission
 title: Mission
 desc: 'The iterative steps that move the project from the current state toward the vision.'
-updated: 1788170400000
+updated: 1788825600000
 created: 1785254500000
 ---
 
@@ -11,7 +11,11 @@ created: 1785254500000
 The mission is the **path**, not the destination. It exists to serve [[vision]]; if a step stops
 serving the vision, the step is rewritten — not obeyed out of inertia.
 
-**Active step:** M6/M7 — maintain and repeat. The current iteration is **correcting what the detectors name** ([[design.detectors-name-consequences]]) and **giving each claim something to say** ([[design.knowledge-base]]).
+**Active steps:** M6/M7 — maintain and repeat; the current iteration is **correcting what the
+detectors name** ([[design.detectors-name-consequences]]) and **giving each claim something to say**
+([[design.knowledge-base]]). And **M8 — write the thesis**, added 2026-09-08 and running alongside
+rather than after, because a chapter written now audits the notes it draws from while there is still
+time to act on what it finds.
 
 The prober is built and assessed ([[mission.step-08-assess-prober]]), and that assessment expired
 the reason sections were deferred. [[decisions.0009-prober-before-breadth]] held that a swarm
@@ -80,6 +84,27 @@ and it quietly encoded a wrong objective — it makes eleven detectors the finis
 schedules the prober or the explainer, which between them carry V2, V8, V9 and three of the four
 zeroed scorecard dimensions. Coverage of [[domain.sections]] is a means, not the goal.
 
+### M8 — Write the thesis
+Added 2026-09-08 → [[decisions.0018-the-thesis-is-a-mission-step]]. **Runs alongside M7, not after
+it.** Steps M1–M7 build and measure the swarm and none of them produce the artefact the project is
+actually assessed on, so for most of the project the deliverable was unscheduled — the same class of
+gap that V9 was before it was named.
+
+Deliverable: the Croatian diploma thesis in `FIDIT_template_hrv/`, structured and sourced per
+[[thesis]]. **Definition of done:** every chapter drafted; every number in it generated from an
+experiment note rather than retyped; a reader who has never seen this vault can follow the argument;
+and it compiles.
+
+**The load-bearing rule is that the thesis may never claim more than [[state]] does** — R-06 pointed
+outward. That is what makes M8 a *measurement* step and not a reporting step, and it earned its keep
+on the first pass: writing chapters 6–9 forced three claims to be weakened against the code, each of
+which had read as settled in this vault
+([[decisions.0018-the-thesis-is-a-mission-step]] § consequences).
+
+**Why it is not last.** A thesis written only at the end is written from memory of the project rather
+than from its record, and the gaps it finds arrive too late to fix. Written alongside, each chapter
+is an external audit of the notes it draws from, and what it finds is still actionable.
+
 ## Alignment argument (why this mission serves this vision)
 
 | Vision capability | Served by |
@@ -91,6 +116,7 @@ zeroed scorecard dimensions. Coverage of [[domain.sections]] is a means, not the
 | V9 (dialogue & active assessment) | M3's interaction/probe protocol design; evaluated per-cycle from M5 onward. |
 | C1–C4 (cost) | M3's architecture decisions; cost measured every M5. |
 | C6 (incrementally useful) | The M4→M5→M6 loop always ends on a working, committed system. |
+| C5 (auditable) + success criterion 6 (reproducible from this vault) | M8 — the thesis *is* the audit, made external and readable by someone who was never here. |
 
 **Gap watch — resolved 2026-07-28.** The unscheduled "player-facing interaction" gap became a named
 vision capability (V9, [[decisions.0003-add-v9-dialogue-and-active-assessment]]) and an explicit M3
@@ -109,6 +135,7 @@ dedicated step is still needed.
 | M5 | **done** | [[mission.step-05-assess-s2]] — information flow was broken and is fixed; two defects found by real players; peer corpus promoted to blocking |
 | M6 | recurring | [[mission.step-06-maintain]] — assessments logged per cycle, including what was left alone |
 | M7 | **two iterations done** | iteration 2 → [[mission.step-07-second-iteration]] (S1); iteration 3 → [[mission.step-08-assess-prober]] (the prober and explainer, the first agents with a model in them). **S1–S8 now all exist**; the iterations since have been corrections and knowledge rather than new sections |
+| M8 | **first full draft, 2026-09-08** | [[thesis]] — 9 chapters and 5 appendices in `FIDIT_template_hrv/`, every number a macro in `Src/brojke.tex`. Not done: not compiled (no local LaTeX), supervisor field is the template default, figures beyond the scorecard trajectory undrawn, and chapters 7–8 carry pre-regeneration numbers |
 
 ## Review triggers
 
