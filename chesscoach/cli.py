@@ -782,6 +782,28 @@ def build_parser() -> argparse.ArgumentParser:
     )
     session.set_defaults(handler=coach)
 
+    chat = subcommands.add_parser(
+        "talk", help="a coaching conversation: it asks, analyses, then coaches one thing"
+    )
+    chat.add_argument("--engine", required=True, help="path to the Stockfish binary")
+    chat.add_argument("--peers", default=None, help="peer reference built by build-peer-reference")
+    chat.add_argument("--out", default=None, help="where to write the full profile")
+    chat.add_argument("--pgn", default=None, help="analyse this PGN instead of fetching")
+    chat.add_argument("--previous", default=None, help="an earlier profile, to accumulate games")
+    chat.add_argument("--cache", default=None, help="SQLite evaluation cache path")
+    chat.add_argument("--band", default="1400-1800")
+    chat.add_argument("--time-control", default="rapid")
+    chat.add_argument("--source", default="lichess")
+    chat.add_argument("--games", type=int, default=60, help="how many recent games to fetch")
+    chat.add_argument("--depth", type=int, default=DEFAULT_DEPTH)
+    chat.add_argument("--workers", type=int, default=None)
+    chat.add_argument("--runs", type=int, default=0)
+    chat.add_argument("--model", default=None)
+    chat.add_argument("--collect", default=None)
+    chat.add_argument("--probe", action="store_true", help="ask about the shortlist (V9)")
+    # The conversation asks its own questions, so the context prompts stay off.
+    chat.set_defaults(handler=talk, player=None, no_questions=True)
+
     report = subcommands.add_parser("report", help="render a profile for a person to read")
     report.add_argument("--profile", required=True)
     report.add_argument("--out", default=None, help="write to a file instead of the terminal")
@@ -892,16 +914,15 @@ def _opening_resource(games):
     return build_resource(played.most_common(1)[0][0], book, library, reached=reached)
 
 
-def coach(args: argparse.Namespace) -> int:
-    """One coaching session, from a username to something a person can read.
+def _coached_profile(args):
+    """Username in, analysed profile out. Shared by `coach` and `talk`.
 
-    Implements the session flow in architecture.interaction § 1. Every stage
-    already existed and was tested; what did not exist was a way to run them as
-    one thing, which meant "using the swarm" started with a script in an
-    experiments directory.
+    Extracted so the conversation does not carry a second copy of the
+    pipeline: two copies drift, and the one nobody runs drifts first.
+    Returns `(profile, games)`, or `None` when there is nothing to analyse
+    and the reason has already been printed.
     """
     from chesscoach.band import notes_for
-    from chesscoach.explainer import render
     from chesscoach.ingest.lichess import LichessUnavailable, fetch_games_pgn
     from chesscoach.ingest.pgn import parse_pgn_text
 
@@ -921,17 +942,17 @@ def coach(args: argparse.Namespace) -> int:
             games = parse_pgn_text(fetch_games_pgn(args.player, wanted))
         except LichessUnavailable as error:
             print(f"could not fetch games: {error}")
-            return 1
+            return None
         print(f"games    {len(games)}")
 
     corpus = build_corpus(args.player, games)
     if corpus.n_games == 0:
         print(f"no rated rapid or classical games found for {args.player!r}")
-        return 1
+        return None
 
     peers = _load_peers(args)
     if peers is None:
-        return 1
+        return None
 
     # Asked before the engine runs, not after. Analysis takes minutes, and
     # someone who has just answered four questions waits more willingly than
@@ -964,6 +985,80 @@ def coach(args: argparse.Namespace) -> int:
         diagnosis,
     )
     profile = _planned(profile, peers, args, also=diagnosis.sub_threshold)
+    return profile, games
+
+
+def talk(args: argparse.Namespace) -> int:
+    """The conversation: greet, ask, analyse, say the few things, coach one.
+
+    Design: docs/notes/design.coaching-conversation.md. This is the terminal
+    around `chesscoach.conversation`, and deliberately thin -- the agent decides
+    what to say and holds no I/O of its own, so the dialogue is tested without a
+    terminal and this loop has nothing in it worth testing.
+    """
+    from chesscoach.conversation import Conversation, Stage
+    from chesscoach.knowledge import KnowledgeBase
+
+    try:
+        knowledge = KnowledgeBase.load()
+    except Exception:  # noqa: BLE001 - an explanation is optional, the coaching is not
+        knowledge = None
+
+    talker = Conversation(knowledge=knowledge)
+    print(talker.open().say)
+
+    while talker.stage is Stage.AWAITING_USERNAME:
+        try:
+            said = input("\n> ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print()
+            return 0
+        turn = talker.reply(said)
+        print("\n" + turn.say)
+        if turn.analyse:
+            args.player = turn.analyse
+
+    made = _coached_profile(args)
+    if made is None:
+        return 1
+    profile, _games = made
+
+    if args.out:
+        save_profile(profile, args.out)
+
+    print("\n" + "=" * 68 + "\n")
+    print(talker.present(profile).say)
+
+    while talker.stage is not Stage.CLOSED:
+        try:
+            said = input("\n> ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print()
+            break
+        print("\n" + talker.reply(said).say)
+
+    if args.out:
+        print(f"\nThe full write-up is in {args.out} if you want the detail.")
+    return 0
+
+
+def coach(args: argparse.Namespace) -> int:
+    """One coaching session, from a username to something a person can read.
+
+    Implements the session flow in architecture.interaction § 1. Every stage
+    already existed and was tested; what did not exist was a way to run them as
+    one thing, which meant "using the swarm" started with a script in an
+    experiments directory.
+    """
+    from chesscoach.band import notes_for
+    from chesscoach.explainer import render
+    from chesscoach.ingest.lichess import LichessUnavailable, fetch_games_pgn
+    from chesscoach.ingest.pgn import parse_pgn_text
+
+    made = _coached_profile(args)
+    if made is None:
+        return 1
+    profile, games = made
 
     if args.probe:
         profile = _probe_interactively(profile, peers, args)
