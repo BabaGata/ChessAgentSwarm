@@ -2,7 +2,7 @@
 id: cas-design-coaching-conversation
 title: 'Design — The conversation the player actually has with the swarm'
 desc: 'A front agent that greets, asks for a username, runs the analysis, says the few things that matter, answers "explain that" from the knowledge base, and commits the player to one weakness for a week. Every sentence it can say is already computed; the model never supplies chess.'
-updated: 1788888822570
+updated: 2026-09-08
 created: 1788818400000
 ---
 
@@ -72,8 +72,12 @@ because *"here are your nine weaknesses"* is the recorded anti-pattern (R-12,
 exercise for that one, and the others are explicitly deferred rather than listed again.
 
 **A week is a duration and the plan measures games**, which are not the same thing and must not be
-silently equated. `PlanStep.check_after_games` is the falsifiable part and stays; the week is the
-human framing around it. The agent says both: *"for the next week — about N games — …"*.
+silently equated. `PlanStep.check_after_games` is the falsifiable part and stays — but it is written
+for the *measurement*, not for the player, and it is not said out loud. The author, on the first
+draft's *"for the next 7 days, about 78 games"*: *"Keep this a week or two, until you feel confident
+in finding the pins easily. 78 is too much, nobody would do that."* So the horizon the player is
+given is a duration plus a standard they can feel, and the count stays in the plan for
+`check-progress` to read.
 
 ## Definition of done
 
@@ -82,8 +86,8 @@ human framing around it. The agent says both: *"for the next week — about N ga
 - [ ] greeting and username prompt; `cli talk` wires it to stdin/stdout and to `coach`'s pipeline
 - [ ] the short presentation: weaknesses, one comparison each, the area map
 - [ ] *"explain X"* serves `for_player(key)` and says so when there is nothing endorsed to serve
-- [ ] a focus choice yields the planner's exercise for that claim, the week framing with its game
-      count, and an explicit deferral of the rest
+- [ ] a focus choice yields the planner's exercise for that claim, a horizon the player can act on,
+      and an explicit deferral of the rest
 - [ ] no sentence about chess originates in the agent — asserted by a test over its whole vocabulary
 - [ ] works with no model at all
 
@@ -134,10 +138,23 @@ the kind.
 but the step is the artefact the player keeps; recomputing gives a second answer that can drift from
 the written plan.
 
-**A week and a game count are not the same horizon.** `check_after_games` reached **78** for a real
-player, and the first draft said *"For the next 7 days, about 78 games"* — nobody plays 78 games in a
-week. The week is when to stop thinking about anything else; the count is when the sign can be
-checked, and it is only said in the sign.
+**A week and a game count are not the same horizon, and only one of them is the player's.**
+`check_after_games` reached **78** for a real player, and the first draft said *"For the next 7 days,
+about 78 games"*. The author cut it: *"78 is too much, nobody would do that."* The count is what the
+*rate* needs before it means anything — a property of the measurement, not an instruction — so it
+stays in the plan and is stripped from every sentence the player sees, the progress sign included.
+What replaces it is the author's own framing: a week or two, **until you can spot it easily**. A
+standard someone can feel is a horizon they can act on; a number they will not reach is a reason to
+stop.
+
+**Endorsed practice is context; the plan is the instruction.** The knowledge base carries a
+`practice` field, and where it is filled the player now sees it — attributed, as *"one source
+suggests"*. It is not promoted to the exercise: `practice` is populated for **7 of 18** entries and
+is written for a *topic* rather than for this player's finding, and some of it does not fit the claim
+it sits under at all (`late_castling` carries *"practice completing the castling move with one hand
+to avoid making illegal moves"*, which is about the rules of castling, not about castling late). The
+plan step is written per claim and carries the target rate the progress check reads, so it stays the
+thing the player is asked to do.
 
 Two smaller ones: the progress sign's trailing bookkeeping is trimmed before a player sees it (*"the
 share of players who reach this without changing anything has not been recalibrated…"* is written for
@@ -154,6 +171,9 @@ ask; today it asks only for a username.
 promises it — *"run this again and I will check whether the sign showed up"* — but `talk` does not yet
 take a previous profile and open with the verdict.
 
-**The optional classifier.** Free text is matched literally against the numbered choices, which works
-with no model at all. Nothing yet reads *"the fork thing"*; the menu is the interface and the design
-says it stays that way unless the literal match proves too thin in use.
+**The optional classifier.** The agent reads the player's typed reply with `str` operations only —
+it looks for a digit and for words like *"explain"* — so the numbered menu is the whole interface and
+the conversation runs with nothing installed (C1). What is *not* built is a language model reading
+free text: nothing maps *"tell me about the fork thing"* onto a claim, and the design says it stays
+that way unless the literal match proves too thin in use. That is a choice, not a gap — a classifier
+here would be the one place a model touches the content path.

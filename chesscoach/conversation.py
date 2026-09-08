@@ -30,10 +30,6 @@ from chesscoach.phrasing import move_number, quantity, statement
 from chesscoach.planner import _action
 from chesscoach.profile.models import Finding, PlayerProfile
 
-# How the week is framed. The plan measures **games**, not days, and the two are
-# not the same thing -- so both are said and neither is presented as the other.
-WEEK_DAYS = 7
-
 EXPLAIN_WORDS = (
     "explain", "what is", "what's", "whats", "why", "more about",
     "tell me more", "mean", "detail",
@@ -211,6 +207,14 @@ class Conversation:
         parts = [head, "", shown["what"]]
         if shown.get("why"):
             parts += ["", shown["why"]]
+        # **The entry's own practice advice, where it has any.** Offered as
+        # context and attributed, never as the instruction: `practice` is
+        # populated for 7 of 18 entries and some of it does not fit the claim it
+        # sits under -- `late_castling` carries advice about the *rules* of
+        # castling, which is not what that claim is about. What the player is
+        # asked to do stays the plan's, which is written per claim.
+        for line in tuple(shown.get("practice") or ())[:2]:
+            parts += ["", f"One source suggests: {line}"]
         if shown.get("links"):
             source = shown["links"][0]
             parts += ["", f"Source: {source['publisher']}"]
@@ -232,18 +236,19 @@ class Conversation:
             "",
             f"   {exercise}",
             "",
-            f"Work on this one only for the next {WEEK_DAYS} days.",
+            f"Give this a week or two, until you can spot {quantity(finding)} "
+            "easily. Work on this one only until then.",
         ]
-        # **The week and the game count are not the same horizon and are not
-        # said as if they were.** `check_after_games` is how many games the
-        # measurement needs to be worth re-reading -- it reached 78 for one
-        # player -- and nobody plays 78 games in a week. The week is when to stop
-        # thinking about anything else; the count is when the sign can be
-        # checked.
-        if step is not None:
-            parts.append(
-                f"What would show it worked: {_plainly(step.progress_sign)}"
-            )
+        # **The game count is not said to the player.** `check_after_games` is
+        # how many games the *measurement* needs before a rate means anything,
+        # and it reached **78** for a real player: an instruction nobody would
+        # follow, and a discouraging thing to open a fortnight's work with. The
+        # number stays in the plan, where `check-progress` reads it. What the
+        # player gets is a duration and a standard they can feel -- the author's
+        # framing, *"until you feel confident in finding the pins easily"*.
+        target = _target(step)
+        if target:
+            parts.append(f"What would show it worked: {target}")
 
         deferred = [f for f in self._offered if f is not finding]
         if deferred:
@@ -314,6 +319,19 @@ def _entry_for(knowledge: KnowledgeBase | None, finding: Finding) -> dict | None
         if entry:
             return entry
     return None
+
+
+def _target(step) -> str:
+    """The falsifiable part of the sign, without the count or the bookkeeping.
+
+    `progress_sign` is written for the record: it carries the game count the
+    progress check needs and, at one point, a note on how the number was
+    derived. Both are true, and neither belongs in a sentence meant to keep
+    someone going for a fortnight.
+    """
+    if step is None:
+        return ""
+    return _plainly(step.progress_sign).split(" over the next", 1)[0].strip()
 
 
 def _plainly(sign: str) -> str:

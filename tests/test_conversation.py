@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import pytest
 
-from chesscoach.conversation import Conversation, Stage, WEEK_DAYS
+from chesscoach.conversation import Conversation, Stage
 from chesscoach.profile.models import (
     Claim,
     Confidence,
@@ -204,6 +204,35 @@ class TestExplainingOnRequest:
 
         assert "Which one?" not in said
 
+    def test_endorsed_practice_is_offered_as_context_and_attributed(self):
+        """The knowledge base carries a `practice` field, so where it is filled
+        the player should see it -- attributed, so it reads as one source's
+        suggestion rather than as the system's instruction."""
+        knowledge = self._Knowledge({
+            "pin": {"what": "definition", "practice": ["look for lined-up pieces"]}
+        })
+
+        said = opened(a_finding(), knowledge=knowledge).reply("explain 1").say
+
+        assert "One source suggests: look for lined-up pieces" in said
+
+    def test_the_exercise_is_still_the_plans_and_not_the_entrys(self):
+        """Practice from the knowledge base is written for a *topic*; the plan
+        step is written for *this player's* finding, with the target rate the
+        progress check will read. So the entry informs, and the plan instructs
+        -- `late_castling` carries practice about the rules of castling, which
+        would be a nonsense exercise for that claim."""
+        knowledge = self._Knowledge({
+            "pin": {"what": "definition", "practice": ["do the entry's thing"]}
+        })
+        talker = opened(a_finding(), knowledge=knowledge)
+        talker.reply("explain 1")
+
+        said = talker.reply("1").say
+
+        assert "do something about pin" in said
+        assert "do the entry's thing" not in said
+
     def test_asking_without_naming_one_asks_back(self):
         said = opened(a_finding()).reply("explain that").say
 
@@ -217,18 +246,25 @@ class TestCommittingToOne:
         assert "do something about pin" in turn.say
         assert turn.focus == "missed_motif.pin.own"
 
-    def test_it_commits_the_player_for_a_week(self):
+    def test_the_horizon_is_a_duration_and_a_standard_not_a_deadline(self):
+        """The author's framing: *"Keep this a week or two, until you feel
+        confident in finding the pins easily."* A duration says when to stop
+        thinking about anything else; the standard says what finished looks
+        like. Neither is a date, and the player is not asked to count."""
         said = opened(a_finding()).reply("1").say
 
-        assert f"next {WEEK_DAYS} days" in said
+        assert "a week or two" in said
+        assert "easily" in said
 
-    def test_the_week_is_not_equated_with_the_game_count(self):
-        """`check_after_games` reached 78 for a real player, and nobody plays 78
-        games in a week. The week is when to stop thinking about anything else;
-        the count is when the sign can be checked."""
+    def test_the_game_count_never_reaches_the_player(self):
+        """`check_after_games` reached **78** for a real player. It is the
+        number the *measurement* needs before a rate means anything, not an
+        instruction -- *"78 is too much, nobody would do that."* It stays in the
+        plan for `check-progress` to read and is not said out loud."""
         said = opened(a_finding()).reply("1").say
 
-        assert "78 games" not in said.split("What would show it worked")[0]
+        assert "78" not in said
+        assert "games" not in said.lower()
 
     def test_the_progress_sign_drops_its_bookkeeping(self):
         said = opened(a_finding()).reply("1").say
