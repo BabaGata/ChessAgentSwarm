@@ -31,7 +31,7 @@ from enum import Enum
 # CorpusRef gains `game_ids`, so a later check knows which games are new. And
 # Plan gains `outcomes`, so a plan carries its own verdict -- a system that
 # quietly drops its failed predictions is unfalsifiable.
-SCHEMA_VERSION = 15
+SCHEMA_VERSION = 16
 
 _Z = 1.96  # 95% normal quantile, for Wilson intervals
 
@@ -752,6 +752,14 @@ class PlayerProfile:
     # with findings for a priority slot.
     band_notes: tuple[BandNote, ...] = ()
     history: tuple[ProfileHistoryEntry, ...] = ()
+    # Every claim key a section actually measured this run, whatever the
+    # confidence policy then did with it. **Findings alone cannot answer "was
+    # this area looked at"**: they carry what was asserted, the watch-tier
+    # entries that reached a plan, and the refusals -- not the conditions that
+    # were measured and turned out unremarkable. Without this the by-area map
+    # would have to call an unmeasured area "nothing unusual", which is the
+    # empty case answering like a real one (L-046).
+    coverage: tuple[str, ...] = ()
     schema_version: int = SCHEMA_VERSION
 
     def with_findings(self, findings: tuple[Finding, ...]) -> PlayerProfile:

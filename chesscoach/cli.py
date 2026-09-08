@@ -75,12 +75,14 @@ def analyse(args: argparse.Namespace) -> int:
         time_control=args.time_control,
         peers=peers,
     )
-    diagnosis = diagnose(context, default_agents())
+    agents = default_agents()
+    diagnosis = diagnose(context, agents)
 
     profile = apply_to_profile(
         PlayerProfile(
             player=PlayerRef(source=args.source, username=args.player, band=args.band),
             corpus=corpus.to_ref(),
+            coverage=_coverage(context, agents),
         ),
         diagnosis,
     )
@@ -947,7 +949,8 @@ def coach(args: argparse.Namespace) -> int:
         observations, corpus, provenance,
         band=args.band, time_control=args.time_control, peers=peers,
     )
-    diagnosis = diagnose(context, default_agents())
+    agents = default_agents()
+    diagnosis = diagnose(context, agents)
     profile = apply_to_profile(
         PlayerProfile(
             player=PlayerRef(source="lichess", username=args.player, band=args.band),
@@ -956,6 +959,7 @@ def coach(args: argparse.Namespace) -> int:
             style=_style(observations, args, peers, corpus),
             band_notes=notes_for(context),
             context=player_context,
+            coverage=_coverage(context, agents),
         ),
         diagnosis,
     )
@@ -1055,6 +1059,24 @@ def ask_context():
     from chesscoach.context import ask
 
     return ask()
+
+
+def _coverage(context, agents) -> tuple[str, ...]:
+    """Every claim key the sections measured, whatever the gate then did.
+
+    The by-area map needs to tell *"looked at, nothing unusual"* from *"not
+    looked at"*, and findings answer neither -- they carry what was asserted,
+    the watch-tier entries that reached a plan, and the refusals. A section that
+    cannot measure is skipped rather than reported as clean, which is the same
+    refusal `measure` already makes.
+    """
+    keys: set[str] = set()
+    for agent in agents:
+        try:
+            keys.update(condition.claim_key for condition in agent.measure(context))
+        except Exception:  # noqa: BLE001 - a section that cannot measure says nothing
+            continue
+    return tuple(sorted(keys))
 
 
 def _planned(profile, peers, args, also=()):

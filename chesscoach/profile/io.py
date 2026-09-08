@@ -69,6 +69,10 @@ from chesscoach.profile.models import (
 #  v11 -> v12 added PlayerProfile.band_notes -- what the player's whole band loses
 #             points to. Statements about a population, not findings, and they
 #             never compete for a priority slot (E25)
+#  v14 -> v15 see models.SCHEMA_VERSION history
+#  v15 -> v16 added PlayerProfile.coverage -- every claim key a section measured,
+#             so the by-area map can tell "looked at, nothing unusual" from
+#             "not looked at". Findings carry neither
 #  v12 -> v13 added Strength.speed -- a player with games at two speeds has two
 #             ratings ~80 points apart, so an estimate must name which one
 #
@@ -77,7 +81,12 @@ from chesscoach.profile.models import (
 # checked. That is not corrupted data -- it is accurately "this plan predates
 # falsifiable targets", and the progress check already treats a missing target as
 # not measurable rather than as failure.
-READABLE_SCHEMA_VERSIONS = frozenset({2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, SCHEMA_VERSION})
+READABLE_SCHEMA_VERSIONS = frozenset(
+    # Every version this reader accepts, listed rather than ranged: a bump
+    # that only appends `SCHEMA_VERSION` silently orphans the version it
+    # just replaced, which is what happened to 15.
+    {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, SCHEMA_VERSION}
+)
 
 
 def to_dict(profile: PlayerProfile) -> dict[str, Any]:
@@ -109,6 +118,7 @@ def to_dict(profile: PlayerProfile) -> dict[str, Any]:
             }
             for t in profile.style
         ],
+        "coverage": list(profile.coverage),
         "band_notes": [
             {
                 "claim_key": n.claim_key,
@@ -172,6 +182,7 @@ def from_dict(payload: dict[str, Any]) -> PlayerProfile:
         style=tuple(StyleTendency(**t) for t in payload.get("style") or ()),
         # Absent before v12, where the band was never described to a player.
         band_notes=tuple(BandNote(**n) for n in payload.get("band_notes") or ()),
+        coverage=tuple(payload.get("coverage") or ()),
         findings=tuple(_finding_from_dict(f) for f in payload.get("findings") or ()),
         probes=tuple(_probe_from_dict(p) for p in payload.get("probes") or ()),
         context=_context_from_dict(payload.get("context")),

@@ -2,13 +2,13 @@
 id: cas-design-report-by-aspect
 title: 'Design — A report organised by aspect, with a standard per aspect'
 desc: 'The authors proposal: openings, tactics, endgames, style and time each reported in the way that suits them, with the comprehensive report as a reference point and the focus chosen in conversation. Reviewed against R-12, with the failure modes and three alternatives.'
-updated: 1788732000000
+updated: 1788886394095
 created: 1788732000000
 ---
 
 # Design — A report organised by aspect
 
-**Status:** recorded, **not built**. Superseded in priority by [[state]]'s two-day plan.
+**Status:** **built 2026-09-08**, as shape **D**. `explainer._by_area`.
 
 ## The author's proposition
 
@@ -67,3 +67,50 @@ everyone does. Each aspect needs its own **standard**:
 | an aspect with genuinely nothing to say | **not avoidable, and fine** — "tactics: nothing unusual" is honest |
 
 **Nothing here is inevitable.** The third is the one that sinks it quietly.
+
+
+---
+
+## What was built
+
+Shape **D**, on the author's instruction. `BY AREA OF THE GAME` sits **after** the ranked headline and
+**before** the plan, labelled *"A map, not a to-do list — the plan above is what to act on."* The
+ranked one or two priorities are untouched, so R-12's *"here are your nine weaknesses"* is answered by
+position rather than by omission: the map is a reference point, which is the role the author asked
+for.
+
+Areas are ordered by the prerequisite chain in `domain.chess-concepts` § C, so it reads
+foundations-first. **`chesscoach/domains.py` had been loaded only into the knowledge graph until
+now**; this is the first thing a player sees that uses it.
+
+### The third state, and why the schema moved
+
+The note's failure table called filler in empty aspects *"manageable"*. It is worse than that: with
+findings alone there is no way to tell *"measured, nothing unusual"* from *"never measured"*, and
+collapsing them tells a player their endgames are fine when they reached no endgames — the empty case
+answering like a real one (L-046).
+
+So `PlayerProfile.coverage` (schema **16**) records every claim key a section measured, whatever the
+gate then did with it, and the map has three states:
+
+| state | line |
+|---|---|
+| a finding | names it |
+| measured, nothing found | *"nothing stood out"* |
+| a detector exists, nothing came up | listed under *"Nothing came up in these games"* |
+| **no detector at all** | listed under *"Not measured by this system at all"* |
+
+The last row is the one that matters most and is not about the player: **K1 Fundamentals, K3
+Calculation, K5 Planning and K10 Meta-learning have no detector in this system**. Saying "nothing
+stood out" there would be a claim about the player drawn from a gap in the software.
+
+### What is not built
+
+**The per-aspect standards are not finished**, and the note is explicit that this is the failure that
+sinks the shape quietly. Two arrived on their own while the detectors were being corrected —
+`out_of_book` judges against the line's own theory depth, `opening_pawn_error` against the player's
+other opening moves — and the rest still rest on the peer comparison. The map therefore does **not**
+say *"for your level"* on its lines, because that would be wrong for the two that no longer use it.
+
+Shape D's *"expand on request"* half is also not built: there is no way to ask for one area in depth.
+That needs V9, and the conversation it needs is the same one the author's proposition rests on.

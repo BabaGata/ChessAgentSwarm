@@ -140,6 +140,7 @@ def render(
         + _what_you_said(profile)
         + _how_you_play(profile)
         + _findings_section(profile)
+        + _by_area(profile)
         + _plan_section(profile)
         + _opening_moves(resource)
         + _opening_section(opening)
@@ -692,6 +693,81 @@ def _band_section(profile: PlayerProfile) -> list[str]:
         ]
     lines.append("")
     return lines
+
+
+def _by_area(profile: PlayerProfile) -> list[str]:
+    """One line per area of the game: the map, under the headline.
+
+    Design: [[design.report-by-aspect]], shape **D** -- *"one headline, one line
+    per aspect, expand on request"*. The author's proposition was a full
+    per-aspect report with the focus chosen in conversation; the risk the note
+    named is R-12, *"here are your nine weaknesses"*, which is the recorded
+    anti-pattern and the reason the arbiter caps priorities at two.
+
+    D answers it by **keeping the headline first**. What stands out is still one
+    or two things with a plan behind them; this is the reference point the
+    author asked for -- *"the comprehensive report would just be the reference
+    point for the user and then it can be discussed with the user what aspect
+    should be focused on"* -- and it is a map rather than a second list of
+    weaknesses.
+
+    **Three states, and the third is why `coverage` exists.** An area with a
+    finding names it; an area that was measured and produced nothing says so; an
+    area nobody could measure says *that*, and does not get called clean. Without
+    `coverage` the last two collapse into one and the report tells a player their
+    endgames are fine when they reached no endgames -- the empty case answering
+    like a real one (L-046).
+
+    Ordered by the prerequisite chain from `domain.chess-concepts` § C, so the
+    map reads foundations-first rather than alphabetically. Areas outside the
+    corpus entirely are left out: a row per unmeasured domain is the filler the
+    design note warned about.
+    """
+    from chesscoach.domains import CLAIM_DOMAINS, DOMAINS, domain_of
+
+    reported: dict[str, list[Finding]] = {}
+    measured: set[str] = set()
+    for key in profile.coverage:
+        area = domain_of(key.split(".")[0])
+        if area is not None:
+            measured.add(area)
+    for finding in profile.findings:
+        if finding.status == "insufficient_data":
+            continue
+        area = domain_of(finding.claim.kind)
+        if area is not None:
+            reported.setdefault(area, []).append(finding)
+            measured.add(area)
+
+    if not measured:
+        return []
+
+    lines = ["BY AREA OF THE GAME", "",
+             "   A map, not a to-do list — the plan above is what to act on.", ""]
+    for domain in DOMAINS:
+        if domain.key not in measured:
+            continue
+        found = reported.get(domain.key, ())
+        # "for your level" is not said here. Several claims no longer rest on a
+        # peer comparison at all -- `out_of_book` judges against the line's own
+        # theory depth and `opening_pawn_error` against the player's other
+        # opening moves -- so naming the standard in a line that covers all of
+        # them would be wrong for some of them.
+        said = "; ".join(sorted(quantity(f) for f in found)) if found else "nothing stood out"
+        lines.append(f"   {domain.name:<26} {said}")
+
+    # **Two different silences, and collapsing them would be a lie.** An area
+    # with detectors that found nothing to measure is a fact about these games;
+    # an area with no detector at all is a fact about this system, and a player
+    # must not read it as "your calculation was checked and is fine".
+    detectable = set(CLAIM_DOMAINS.values())
+    quiet = [d.name for d in DOMAINS if d.key not in measured and d.key in detectable]
+    absent = [d.name for d in DOMAINS if d.key not in detectable]
+    if quiet:
+        lines += ["", "   Nothing came up in these games: " + ", ".join(quiet) + "."]
+    if absent:
+        lines += ["", "   Not measured by this system at all: " + ", ".join(absent) + "."]
+    return lines + [""]
 
 
 def _not_assessed(profile: PlayerProfile) -> list[str]:

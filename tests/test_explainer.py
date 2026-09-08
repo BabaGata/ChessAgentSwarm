@@ -392,3 +392,71 @@ class TestTheOpeningResource:
 
         assert "1. e4 c5" in report
 
+
+
+class TestTheMapByArea:
+    """Shape D from [[design.report-by-aspect]]: headline first, map underneath.
+
+    The author asked for a per-aspect report used as *"the reference point for
+    the user"*, with the focus then chosen in conversation. The risk the design
+    note named is R-12 -- *"here are your nine weaknesses"* -- which is why the
+    arbiter caps priorities at two. D answers it by keeping the ranked headline
+    and putting the map below it, labelled as a map.
+    """
+
+    def profile(self, *findings, coverage=()):
+        """`a_profile` builds the plan, which is what makes a headline render."""
+        from dataclasses import replace
+
+        return replace(a_profile(*findings), coverage=tuple(coverage))
+
+    def test_the_headline_still_comes_first(self):
+        report = render(self.profile(a_finding(), coverage=("allowed_motif.fork.own",)))
+
+        assert report.index("WHAT STANDS OUT") < report.index("BY AREA OF THE GAME")
+
+    def test_an_area_with_a_finding_names_it(self):
+        report = render(self.profile(a_finding(), coverage=("allowed_motif.fork.own",)))
+
+        area = report[report.index("BY AREA OF THE GAME"):]
+        assert "Tactics" in area
+
+    def test_an_area_that_was_measured_and_found_nothing_says_so(self):
+        report = render(self.profile(coverage=("endgame_error.any.own",)))
+
+        area = report[report.index("BY AREA OF THE GAME"):]
+        assert "Endgames" in area and "nothing stood out" in area
+
+    def test_an_area_with_no_detector_is_not_called_clean(self):
+        """A player must not read "Calculation: nothing stood out" and conclude
+        their calculation was checked. It never was -- this system has no
+        detector for it, which is a fact about the system."""
+        report = render(self.profile(coverage=("endgame_error.any.own",)))
+
+        assert "Not measured by this system at all" in report
+        assert "Calculation & visualisation" in report.split(
+            "Not measured by this system at all"
+        )[1]
+
+    def test_an_area_measured_but_silent_is_kept_apart_from_one_never_measured(self):
+        """Two different silences; collapsing them would be the empty case
+        answering like a real one."""
+        report = render(self.profile(coverage=("endgame_error.any.own",)))
+
+        assert "Nothing came up in these games" in report
+        quiet = report.split("Nothing came up in these games")[1].split(".")[0]
+        assert "Tactics" in quiet
+
+    def test_a_profile_with_no_coverage_gets_no_map(self):
+        """No filler: a section that can say nothing says nothing."""
+        report = render(self.profile())
+
+        assert "BY AREA OF THE GAME" not in report
+
+    def test_the_standard_is_not_named_in_the_line(self):
+        """Several claims no longer rest on a peer comparison, so "for your
+        level" would be wrong for some of the areas this line covers."""
+        report = render(self.profile(coverage=("endgame_error.any.own",)))
+
+        area = report[report.index("BY AREA OF THE GAME"):]
+        assert "for your level" not in area.split("WHAT")[0]
