@@ -229,8 +229,8 @@ def _is_pin(board: chess.Board, after: chess.Board, move: chess.Move, mover: che
     if wins_material(after, move.to_square, not mover) > 0:
         return False
 
-    for front_square, front, behind_square, behind in _lined_up_pairs(
-        after, move.to_square, mover
+    for front_square, front, behind_square, behind in _newly_lined_up(
+        board, after, move, mover
     ):
         if PIECE_VALUE[behind.piece_type] <= PIECE_VALUE[front.piece_type]:
             continue
@@ -293,8 +293,8 @@ def _is_skewer(
         PIECE_VALUE[front.piece_type] > PIECE_VALUE[behind.piece_type]
         and PIECE_VALUE[behind.piece_type] >= SKEWER_TARGET_MIN_VALUE
         and _wins_once_vacated(after, front_square, behind_square, mover)
-        for front_square, front, behind_square, behind in _lined_up_pairs(
-            after, move.to_square, mover
+        for front_square, front, behind_square, behind in _newly_lined_up(
+            board, after, move, mover
         )
     )
 
@@ -386,6 +386,20 @@ def _is_hanging_pawn(
     not on the destination square, so it has to be handled rather than inherited.
     """
     if not board.is_capture(move):
+        return False
+
+    # **An exchange is not a dropped pawn**, and this counterpart did not
+    # inherit the rule its own docstring claims to mirror. The author, on
+    # `exf6` answered by `Nxf6`:
+    #
+    # > *"This was an exchange. If the pawn took another pawn or a piece a move
+    # > before it became hanging then it should not be detected as hanging
+    # > pawn."*
+    #
+    # Which is `_is_hanging_piece`'s rule, written from the same marks one
+    # value-band up. A pawn that captured and is taken back has not been given
+    # away; something was traded for it.
+    if _is_recapture(board, move):
         return False
 
     if board.is_en_passant(move):
@@ -631,6 +645,39 @@ def _lined_up_pairs(
                 pairs.append((*found[0], *found[1]))
                 break
     return pairs
+
+
+def _newly_lined_up(
+    board: chess.Board, after: chess.Board, move: chess.Move, mover: chess.Color
+) -> list[tuple[int, chess.Piece, int, chess.Piece]]:
+    """`_lined_up_pairs`, minus the pairs this piece was already lined up on.
+
+    The author, on a bishop stepping from `c5` to `d6` along the diagonal it
+    was already pinning on:
+
+    > *"This was a pin but those pieces were pinned already by the same bishop,
+    > even before that move, this was additional attack with that bishop on the
+    > rook."*
+
+    `_lined_up_pairs` already refuses a piece that was standing still, because
+    *"attributing a pin to a piece that was already there would report the same
+    motif on every subsequent move"*. Sliding along the same line is the same
+    defect wearing a move: the pair's situation is unchanged, so there was no
+    pin to miss and none to allow. What the move did do -- add a second
+    attacker to the rook behind -- is a different thing, and this claim is not
+    it.
+    """
+    before = {
+        (front_square, behind_square)
+        for front_square, _, behind_square, _ in _lined_up_pairs(
+            board, move.from_square, mover
+        )
+    }
+    return [
+        pair
+        for pair in _lined_up_pairs(after, move.to_square, mover)
+        if (pair[0], pair[2]) not in before
+    ]
 
 
 def _wins_once_vacated(

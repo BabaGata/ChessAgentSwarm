@@ -7,6 +7,8 @@ venv/
 .pytest_cache/
 .coverage
 htmlcov/
+Primjeri/
+Masters-thesis/
 
 # Node
 node_modules/

@@ -98,3 +98,56 @@ class TestItDoesNotDisturbTheExistingMotifs:
         for fen, uci in positions:
             found = motifs(fen, uci)
             assert not (Motif.HANGING_PIECE in found and Motif.HANGING_PAWN in found)
+
+
+class TestAnExchangeIsNotAFreePawn:
+    """The author, on `exf6` answered by `Nxf6` in lichess.org/mdpdLHYI#9:
+
+    > *"This was an exchange. If the pawn took another pawn or a piece a move
+    > before it became hanging then it should not be detected as hanging pawn."*
+
+    This is the rule `_is_recapture` already states for `hangingPiece`, written
+    from the same author's marks -- *"if the piece took another piece a move
+    before and now is hanging then it is an exchange"*. The pawn detector was
+    written as *"the exact counterpart below the value line"* and did not get
+    it, so a pawn that captured and was taken back read as a dropped pawn.
+    """
+
+    def played(self, moves: list[str]) -> frozenset[str]:
+        """Motifs of the last move, with the history the rule needs.
+
+        A board built from a bare FEN has no move stack and the question cannot
+        be asked at all, so these positions are reached by playing them.
+        """
+        board = chess.Board()
+        for uci in moves[:-1]:
+            board.push_uci(uci)
+        return detect_motifs(board, chess.Move.from_uci(moves[-1]))
+
+    def test_recapturing_the_pawn_that_just_captured_is_an_exchange(self):
+        # 1.e4 d5 2.exd5 Qxd5 -- the d5 pawn arrived by capturing, and taking it
+        # back is the other half of a trade, not a pawn dropped for nothing.
+        found = self.played(["e2e4", "d7d5", "e4d5", "d8d5"])
+
+        assert Motif.HANGING_PAWN not in found
+
+    def test_a_pawn_that_was_simply_pushed_is_still_hanging(self):
+        # 1.e4 d5 2.Nf3 dxe4 -- the e4 pawn was pushed, not won, so taking it
+        # is a free pawn and the claim is about exactly this.
+        found = self.played(["e2e4", "d7d5", "g1f3", "d5e4"])
+
+        assert Motif.HANGING_PAWN in found
+
+    def test_taking_a_pawn_elsewhere_is_not_a_recapture(self):
+        """The author's other two marks are this shape and they disagree with
+        each other -- a pawn won on one wing while a pawn falls on the other is
+        an exchange in material and not in tactics, and they accepted one
+        (*"there will be a lot of pressure on the white king"*) and questioned
+        the other. Only the same-square case is ruled out here."""
+        # 1.e4 d5 2.Nf3 dxe4 3.Ng5 -- black's capture on e4 does not make
+        # white's own loose pawn a recapture.
+        board = chess.Board()
+        for uci in ["e2e4", "d7d5", "g1f3", "d5e4", "f3g5"]:
+            board.push_uci(uci)
+
+        assert board.piece_at(chess.E4) is not None

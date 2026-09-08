@@ -61,3 +61,35 @@ class TestRealPinsSurvive:
         # The other branch, which always required the pin to win something and
         # is not changed here: Bh4 pins the f6 knight against the queen on d8.
         assert pins("r1bqk2r/1pp3pp/p1nb1n2/4p3/8/P1NBP1B1/1P2NPPP/R2QK2R w KQkq - 4 12", "Bh4")
+
+
+class TestAPinThatAlreadyExisted:
+    """The author, on `Bd6` in lichess.org/rBfHcNcI#29:
+
+    > *"This was a pin but those pieces were pinned already by the same bishop,
+    > even before that move, this was additional attack with that bishop on the
+    > rook."*
+
+    `_lined_up_pairs` already refuses to attribute a pin to a piece that was
+    standing still, *"attributing a pin to a piece that was already there would
+    report the same motif on every subsequent move"*. It does not refuse the
+    same piece **sliding along its own line**, which reports the same motif
+    again for the same reason: nothing about the position changed for the
+    pinned pair. A missed motif has to have been missed.
+    """
+
+    def test_sliding_along_the_line_it_already_pinned_on_is_not_a_new_pin(self):
+        # White bishop c5, black knight e7, black rook f8: the pin exists from
+        # c5, through the empty d6. Stepping to d6 keeps exactly that pin.
+        board = chess.Board("5rk1/4n3/8/2B5/8/8/6PP/6K1 w - - 0 1")
+
+        assert Motif.PIN not in detect_motifs(board, chess.Move.from_uci("c5d6"))
+
+    def test_the_same_bishop_arriving_from_off_the_line_does_pin(self):
+        # f4 and d6 share the *other* diagonal through d6, so from f4 the
+        # bishop sees neither the knight nor the rook. Landing on d6 puts the
+        # knight in front of the rook for the first time, which is the motif --
+        # the rule is about the pair, not about the piece having moved far.
+        board = chess.Board("5rk1/4n3/8/8/5B2/8/6PP/6K1 w - - 0 1")
+
+        assert Motif.PIN in detect_motifs(board, chess.Move.from_uci("f4d6"))

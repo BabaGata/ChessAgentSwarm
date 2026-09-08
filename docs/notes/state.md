@@ -271,6 +271,28 @@ struck through: a list nobody can act on is not a plan.
    already measured: split-half agreement, the cost profile cold against warm, and the strength
    estimate against actual rating for both speeds (which would show the blitz repair visually).
 
+0. **DONE — the sheet is scored for the first time, and two more detectors fixed** *(2026-09-08)*.
+   The author marked **60 boxes across the twelve most-firing detectors**, and
+   `e55-detector-precision/score.py` read them. **Two condemned**: `out_of_book.any` at **0/3** and
+   `missed_motif.fork` at **25 %**. Six detectors scored 100 % on 4-5 marks each, which the screen
+   correctly refuses to call confirmed. Full table → [[experiments.e55-detector-precision]].
+   **Moves D4 off "no precision has been measured".**
+
+   **Two fixed.** `_is_hanging_pawn` never called `_is_recapture`, though its docstring calls itself
+   *"the exact counterpart"* of the detector that does — an exchange read as a dropped pawn, **165 of
+   884 firings over 60 games, -18.7 %** ([[learning.lessons]] L-060). And `pin`/`skewer` now require
+   the pair to be **newly** lined up: a bishop sliding along the diagonal it was already pinning on
+   reported a pin the player could not have missed.
+
+   **The other two causes are not code.** Six of ten rejected fork rows are one vocabulary
+   disagreement — the author calls a slider hitting two pieces on one line a *skewer*, the project's
+   endorsed Lichess definitions call it a *fork* — worth **18 % of fork firings**, and the motif key
+   is also the puzzle filter the exercise sends the player to, so it is the author's call and is
+   put to them rather than chosen. And three detectors were marked *"informative but I don't know
+   what kind of practices could be done"*: the advice existed in `planner`, the **sheet never showed
+   it**, so it could only ever ask half its question. `detection_sheet.py` now prints `tells you:`
+   under each claim.
+
 0. **DONE — seven detectors rebuilt against the author's marked sheet** *(2026-09-06)*.
    Round two of [[experiments.e86-detector-audit]], driven by the 33 `[n]` marks on
    `detection-sheet copy.txt` rather than by reading code. Every rejected firing was reconstructed

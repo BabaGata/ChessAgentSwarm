@@ -43,6 +43,7 @@ from chesscoach.ingest.corpus import build_corpus  # noqa: E402
 from chesscoach.orchestrator import default_agents, diagnose  # noqa: E402
 from chesscoach.peers import PeerReference  # noqa: E402
 from chesscoach.phrasing import move_number, statement  # noqa: E402
+from chesscoach.planner import _action  # noqa: E402
 from chesscoach.pipeline import engine_session, load_games  # noqa: E402
 from chesscoach.motif_evidence import describe  # noqa: E402
 from chesscoach.sections.base import SectionContext  # noqa: E402
@@ -186,7 +187,7 @@ def main() -> int:
     peers = PeerReference.load(args.peers)
     # claim key -> {"say": sentence, "hits": [instance, ...], "players": {names}}
     claims: dict[str, dict] = defaultdict(
-        lambda: {"say": "", "hits": [], "players": set()}
+        lambda: {"say": "", "do": "", "hits": [], "players": set()}
     )
     vocabulary: set[str] = set()
 
@@ -222,6 +223,20 @@ def main() -> int:
             for finding in tuple(result.findings) + tuple(result.sub_threshold):
                 entry = claims[finding.claim.key()]
                 entry["say"] = statement(finding)
+                # **What the player would be told to do about it.** The author,
+                # reviewing the sheet:
+                #
+                # > *"there are still some vauge detectors that I don't really
+                # > understand what is the purpose of the finding, I mean those
+                # > are just informative but I don't know what kind of practices
+                # > could be done."*
+                #
+                # The advice existed -- `planner` writes one per claim -- but the
+                # sheet showed only the sentence, so a detector could only be
+                # judged on whether it fired correctly and never on whether the
+                # thing it leads to is worth a player's week. Those are the two
+                # questions this sheet is for, and it was asking one.
+                entry["do"] = _action(finding)
                 entry["players"].add(player)
                 for ref in finding.measurement.instances_at:
                     observation = at.get(ref)
@@ -243,6 +258,8 @@ def main() -> int:
         lines.append("")
         lines.append(f"{key}")
         lines.append(f"    claims: {entry['say']}")
+        if entry["do"]:
+            lines.append(f"    tells you: {entry['do']}")
         if not hits:
             lines.append("    NO INSTANCES in these games.")
             lines.append("-" * 78)

@@ -2,7 +2,7 @@
 id: cas-learning-lessons
 title: Lessons Learned
 desc: 'Generalisable lessons extracted from executed work — what worked, what did not, and why.'
-updated: 1788809269828
+updated: 2026-09-08
 created: 1785254500000
 ---
 
@@ -21,6 +21,25 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 **Lesson:** the generalisable claim
 **Applied to:** the note/rule/code changed because of it
 ```
+
+---
+
+### L-060 — A detector written as "the counterpart of that one" does not inherit its rules
+
+**Date:** 2026-09-08 · **Cycle / mission step:** M6 · **Class:** technique
+**Context:** `hangingPawn` was built as *"the exact counterpart of `_is_hanging_piece` below the value
+line"* -- its docstring says so. The author then rejected a firing on `exf6` answered by `Nxf6`:
+*"This was an exchange. If the pawn took another pawn or a piece a move before it became hanging then
+it should not be detected as hanging pawn."*
+**Observation:** That is word for word the rule `_is_recapture` already implements, written from the
+same author's marks one value band up -- and the pawn detector never called it. Measured over 60
+games and every legal reply: **165 of 884 firings, 18.7 %**, were recaptures.
+**Lesson:** A docstring claiming a detector mirrors another is a **statement of intent, not a shared
+implementation**. The prose said "exact counterpart" and no test compared them, so the two drifted
+from the day the second was written. When a detector is described as another's counterpart, either
+share the code path or write the test that holds the pair together -- and prefer the first.
+**Applied to:** `chesscoach/tactics.py` (`_is_hanging_pawn` now calls `_is_recapture`),
+`tests/test_hanging_pawn.py` (`TestAnExchangeIsNotAFreePawn`), [[experiments.e55-detector-precision]].
 
 ---
 
