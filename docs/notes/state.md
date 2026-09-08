@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788886412934
+updated: 1788888841218
 created: 1785254500000
 ---
 
@@ -305,6 +305,33 @@ struck through: a list nobody can act on is not a plan.
    Five existing tests asserted the old behaviour and were corrected, each saying so where it changed;
    one of them was written earlier in the same session from my own reading of a shape the author had
    already rejected twice in writing.
+
+0. **DONE — the coaching conversation, and shape D's *"expand on request"*** *(2026-09-08)*.
+   `chesscoach/conversation.py` + `cli talk`: greet → ask for a username → analyse → say the few
+   things that matter → explain on request → take **one** focus → its exercise, for a week, with the
+   rest explicitly deferred. Design: [[design.coaching-conversation]]. **Moves D12 dialogue off 0.**
+
+   **The agent never supplies chess.** Findings come from `phrasing`, the comparison from
+   `Measurement`, an explanation from the knowledge base, the evidence from the player's own games,
+   the exercise from the plan step. `TestTheAgentNeverSuppliesChess` is the guard, and it parses the
+   AST to check **only the strings the module can print** — its first version read the source and
+   failed on the module's own comments, which is policing prose rather than behaviour.
+
+   The presentation answers *"there shouldnt be to many statistics"*: weaknesses, one comparison each,
+   game counts. No cost arithmetic, no tiers, no limits section. **The full report stays** as the
+   durable artefact.
+
+   **Three defects the build found.** The knowledge base is keyed by the *thing* (`pin`) not the claim
+   (`missed_motif.pin.own`), so every lookup missed and the agent claimed to have no explanation for
+   entries the project has endorsed. The exercise is now taken from the **plan step** rather than
+   recomputed, since the step is what the player keeps. And **a week is not a game count** —
+   `check_after_games` reached 78 for a real player, and the first draft said *"for the next 7 days,
+   about 78 games"*.
+
+   **Not built, and recorded as such:** the context questions (`talk` runs with `--no-questions`, so
+   the plan is not yet sized to the player), return sessions through the conversation (`check-progress`
+   exists but `talk` does not open with its verdict), and any model in the loop — free text is matched
+   literally against numbered choices, so it works with nothing running (C1).
 
 0. **DONE — the report is organised by area of the game (shape D)** *(2026-09-08)*.
    [[design.report-by-aspect]] was *recorded, not built*; it is now built as **shape D**.
