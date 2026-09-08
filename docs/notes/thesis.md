@@ -9,8 +9,7 @@ created: 1788780000000
 # Thesis
 
 The Croatian-language diploma thesis (*diplomski rad*), written in LaTeX against the FIDIT template.
-Lives in `FIDIT_template_hrv/`, which is **gitignored** — it syncs to Overleaf separately, so nothing
-here is committed with the code.
+Lives in `Masters-thesis/`, which is **gitignored** — nothing there is committed with the code.
 
 **Working title:** *Roj agenata za personalizirano šahovsko podučavanje*
 
@@ -97,8 +96,9 @@ Rebuild with `python tools/build_docx.py`.
 ## Open
 
 - The **supervisor field is the template's default** and needs the real names.
-- Figures beyond the scorecard trajectory are not drawn yet; candidates are the split-half agreement,
-  the cost profile, and the strength estimate against actual rating.
+- Two figures exist (the scorecard trajectory and the layer diagram). Candidates for more, each
+  already measured: split-half agreement, the cost profile cold against warm, and the strength
+  estimate against actual rating.
 - Chapter 7–8 numbers will move when the detector regeneration now running lands. That is one edit to
   `Src/brojke.tex`.
 - The system's own output is **English**; the thesis says so rather than translating the sample
