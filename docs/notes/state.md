@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 1788825600000
+updated: 1788886412934
 created: 1785254500000
 ---
 
@@ -305,6 +305,32 @@ struck through: a list nobody can act on is not a plan.
    Five existing tests asserted the old behaviour and were corrected, each saying so where it changed;
    one of them was written earlier in the same session from my own reading of a shape the author had
    already rejected twice in writing.
+
+0. **DONE — the report is organised by area of the game (shape D)** *(2026-09-08)*.
+   [[design.report-by-aspect]] was *recorded, not built*; it is now built as **shape D**.
+   `BY AREA OF THE GAME` sits **after** the ranked headline and **before** the plan, labelled *"A map,
+   not a to-do list"*. The one or two priorities are untouched, so R-12 is answered by **position**
+   rather than omission — the map is the reference point the author asked for. Ordered by the
+   prerequisite chain in `domain.chess-concepts` § C: **the first use of `chesscoach/domains.py`
+   outside the knowledge graph**.
+
+   **The third state needed a schema change.** Findings cannot tell *"measured, nothing unusual"* from
+   *"never measured"*, and collapsing them tells a player their endgames are fine when they reached no
+   endgames (L-046). `PlayerProfile.coverage` (**schema 16**) records every claim key a section
+   measured, whatever the gate then did. Four states now: a finding names it; measured-and-quiet says
+   *"nothing stood out"*; a detector that found nothing is listed apart; and **an area with no
+   detector at all** — K1 Fundamentals, K3 Calculation, K5 Planning, K10 Meta-learning — is listed as
+   *"Not measured by this system at all"* rather than called clean. That last row is a fact about the
+   software, not the player.
+
+   **Not built, and the note says which:** the *"expand on request"* half needs V9, and the
+   **per-aspect standards** the design calls the real risk are unfinished. Two arrived while the
+   detectors were being corrected (`out_of_book` against the line's own theory depth,
+   `opening_pawn_error` against the player's other opening moves); the rest still use peers, which is
+   why the map's lines deliberately do not say *"for your level"*.
+
+   A bug found on the way: `READABLE_SCHEMA_VERSIONS` ended with `SCHEMA_VERSION`, so bumping it
+   silently orphaned **v15**. Now listed explicitly.
 
 0. **DONE — `opening_pawn_error` made reachable; motif claims audited and reworded** *(2026-09-06)*.
 
