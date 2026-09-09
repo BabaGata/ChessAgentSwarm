@@ -185,6 +185,49 @@ differ *on purpose*.
   page rather than something the build can produce.
 - **IEEE reference formatting** is close but not audited entry by entry.
 
+### The prose read as model-written, 2026-09-09
+
+The author noticed it from one construction: an explanation inserted into a
+sentence between dashes. She was right, and the size of it is measurable.
+
+| | author's own reports | thesis before | thesis after |
+|---|--:|--:|--:|
+| em-dash asides per 1,000 words | **0.0** (4 in 4,039 words, two in a caption) | **8.6** | **0.1** |
+| one aside every ... words | ~1,010 | **116** | 8,308 |
+
+Everything left is a table cell where the dash means "nothing here".
+
+**`.claude/skills/human-prose/` was built for this**, with `check_prose.py` to
+measure and `references/sources.md` for where the tells come from. The research
+was done in English deliberately, since the material is far thicker there, and
+the sentence-level habits carry over.
+
+Two findings worth keeping:
+
+- **The em dash is a stronger tell in Croatian than in English.** In English it
+  is merely dense; the aside is a normal English construction. Croatian writers
+  use a comma, a relative clause (`a to je`, `pri čemu`) or brackets, so the same
+  habit reads as foreign. That is why it was the first thing noticed.
+- **Every source says none of these markers proves anything**, and academic prose
+  is false-positive-prone: formal tone, hedging and symmetry look the same either
+  way. So the target is not to defeat a detector. It is that the thesis reads
+  like the person defending it, measured against **her own baseline**.
+
+The rule that kept the revision honest: **remove the mannerism, keep the
+honesty.** Hedges, negative results and stated limits are the argument, not
+style, and none were touched.
+
+### Other changes in the same pass
+
+- **One font throughout.** The template asks for Arial headings against a Times
+  New Roman body; the author asked for Times New Roman everywhere, which
+  overrides it. The test now asserts the override rather than the template.
+- **Sažetak and Abstract** are left-aligned and share one heading shape.
+- **The task sheet is embedded.** `AgataVujic_Zadatak_za_diplomski_rad.pdf` is
+  rendered to an image and placed after the cover, since Word cannot hold a PDF
+  as a page. It is a signed scan either way, so nothing is lost by the text not
+  being selectable.
+
 ## Mechanics
 
 - `report.tex` — preamble and `\input` only. Chapters in `Poglavlja/`.
