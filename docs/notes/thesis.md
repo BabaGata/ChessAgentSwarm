@@ -164,18 +164,25 @@ that was a defect -- the theme font made them Calibri Light -- and half is what
 the faculty requires: Arial headings against a Times New Roman body. They now
 differ *on purpose*.
 
-### Still not conforming, and needing a decision
+### Resolved by the author, 2026-09-09
+
+- **Appendices are numbered, not lettered** -- "Prilog 1" through "Prilog 5",
+  as the template's "Prilozi (1, 2, ...)" asks. Headings inside an appendix are
+  now **unnumbered**: numbered "3.1." there would be indistinguishable from
+  section 3.1 of the body, and nothing cross-references them. Appendix bookmarks
+  use an `app_` prefix for the same reason -- numbered 1..N like the chapters,
+  `ch_3` would otherwise name two different places.
+- **The cover carries "Sveučilišni diplomski studij Informatika"** in place of
+  the department. Worth recording *why* this was ever wrong: the LaTeX class in
+  `Src/template.cls` is the author's own, made a few years ago, so its
+  `\department` field was never authoritative. **The faculty template is the
+  authority; the LaTeX class is not.**
+
+### Still open
 
 - **Zadatak diplomskog rada** -- the template wants the mentor's original task
-  sheet bound in after the title page. It cannot be generated; a physical or
-  supplied page.
-- **Appendices are lettered A-E**, while the template writes "Prilozi (1, 2,
-  ...)". Letters are the LaTeX convention and avoid colliding with chapter
-  numbers; the template is not emphatic. Left as letters, flagged rather than
-  changed silently.
-- **The cover** carries faculty and department where the template lists "naziv
-  studija i studijske grupe". Whether "Sveučilišni diplomski studij Informatika"
-  should appear verbatim is the author's call.
+  sheet bound in after the title page. Deferred by the author; it is a supplied
+  page rather than something the build can produce.
 - **IEEE reference formatting** is close but not audited entry by entry.
 
 ## Mechanics
