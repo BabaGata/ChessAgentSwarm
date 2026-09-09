@@ -2,7 +2,7 @@
 id: cas-thesis
 title: Thesis
 desc: 'The written thesis: structure, where each chapter draws from, and the rules that keep it from claiming more than the vault does.'
-updated: 1789084800000
+updated: 1789171200000
 created: 1788780000000
 ---
 
@@ -100,6 +100,44 @@ single backslash, so both mentors ran onto one line. A lost escape from the orig
 and it would have shown in the PDF too.
 
 Output: 15 chapters, 36 tables (one is the logo layout), 6 images, ~21,700 words, 49 references.
+
+### Tests on the .docx, 2026-09-09
+
+`tools/test_docx.py` -- 19 tests, run with `python -m pytest tools/test_docx.py -q`.
+Written because the author reported the file would not open, and a generic Word
+error message says nothing about which part disagrees with which.
+
+**They found no corruption.** Every package-integrity test passes: the zip is
+sound, every part has a content type, every relationship target exists, every
+`r:id` used is declared, and -- the usual cause of a Word repair prompt -- every
+table row's cells add up to its declared grid width. So the file is structurally
+valid and the failure to open is environmental, most likely Protected View on a
+file downloaded from a browser. **Asked, not assumed.**
+
+What the tests do guard, beyond the package:
+
+- **content completeness** -- chapters 1-9 then A-E, table count equal to
+  `tabular` + `longtable` + `lstlisting` in the sources plus the logo row, no
+  leftover LaTeX, every cited number present in the bibliography;
+- **the links**, with the expectation derived from the sources rather than
+  guessed: one `ch_` link per chapter, and one `ref_` link per `\cite` key.
+  The first version of that test asserted a made-up threshold of 80 and failed
+  at 56 -- when the real answer was 56 of 56. A test with an invented
+  expectation reports a defect that is not there;
+- **heading fonts are not theme fonts**, so the Calibri-Light regression cannot
+  come back silently.
+
+### What was added for the reader
+
+- The contents list and every citation are now **internal hyperlinks** --
+  bookmarks on headings and on bibliography entries, `w:hyperlink w:anchor`
+  built by hand since python-docx has no API for one. The bibliography is in the
+  contents too; a reader looks for it there.
+- **"Motor" is now defined where it is first used.** It appeared in the
+  introduction and was only explained in chapter 2, which is backwards. The
+  introduction now says what a chess engine is in one clause, chapter 2 gives it
+  a paragraph including what it does *not* do (it does not write the text the
+  player reads), and the glossary carries it with `ocjena` and `dubina`.
 
 ## Mechanics
 
