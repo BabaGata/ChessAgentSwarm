@@ -2,7 +2,7 @@
 id: cas-learning-lessons
 title: Lessons Learned
 desc: 'Generalisable lessons extracted from executed work — what worked, what did not, and why.'
-updated: 2026-09-08
+updated: 2026-09-09
 created: 1785254500000
 ---
 
@@ -21,6 +21,40 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 **Lesson:** the generalisable claim
 **Applied to:** the note/rule/code changed because of it
 ```
+
+---
+
+### L-061 — A within-player baseline makes the claims non-independent, so fixing one detector moves the others
+
+**Date:** 2026-09-09 · **Cycle / mission step:** M6 · **Class:** technique
+**Context:** After fixing `hangingPawn`, `pin` and `fork`, the regenerated sheet showed
+`allowed_motif.discoveredAttack` rising **29 → 49 (+69 %)** and appearing for a fourth player. Nothing
+in the cycle touched `_is_discovered_attack`, and `missed_motif.discoveredAttack` was byte-identical
+across the two sheets.
+**Observation:** Measured for that player, by running the section twice over the same games with the
+old and new detectors:
+
+| | before | after |
+|---|--:|--:|
+| instances | 20 | **20** |
+| opportunities | 402 | **402** |
+| rate | 4.9751 % | **4.9751 %** |
+| within-player baseline | 5.2239 % | **4.5842 %** |
+| peer_rate | None | None |
+| tier | **NONE** — never reaches the sheet | **WATCH** |
+
+Not one of the claim's own numbers moved. `_rate_on_other_motifs` builds the baseline from the
+player's **other** motifs, and `hangingPawn` falling 83 % dragged it below a rate that had not
+changed. With no peer rate for this cell, that sibling baseline was the only gate.
+**Lesson:** The motif claims are **coupled through their own baseline**. A detector fix is never
+local: every other claim of the same kind can cross its tier in either direction, and a claim
+appearing or vanishing after an unrelated fix is **not** evidence about its own detector. Two
+consequences. Verifying a detector fix means re-checking *its* positions (`recheck.py`), never reading
+the sibling counts as a regression. And a claim whose peer rate is missing is judged **only** against
+its siblings, which makes it the most sensitive to work done elsewhere -- worth knowing before
+concluding anything from a number that moved.
+**Applied to:** [[experiments.e55-detector-precision]]; `experiments/e55-detector-precision/recheck.py`
+is the instrument this argues for.
 
 ---
 

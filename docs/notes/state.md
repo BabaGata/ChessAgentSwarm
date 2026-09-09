@@ -271,6 +271,29 @@ struck through: a list nobody can act on is not a plan.
    already measured: split-half agreement, the cost profile cold against warm, and the strength
    estimate against actual rating for both speeds (which would show the blitz repair visually).
 
+0. **DONE — the +69 % explained, and the 18 carried rejections reduced to five causes** *(2026-09-09)*.
+
+   **`allowed_motif.discoveredAttack` never changed.** Running the analysis twice over the same games
+   with the old and new detectors: punishments identical, gained at **0** errors, lost at **0**. The
+   variable is *visibility* — instances 20 → 20, rate 4.9751 % → 4.9751 %, **within-player baseline
+   5.2239 % → 4.5842 %**, tier NONE → WATCH. `_rate_on_other_motifs` builds the bar from the player's
+   **other** motifs, so `hangingPawn` falling 83 % dragged it under a rate that never moved, and with
+   no peer rate for that cell the sibling baseline was the only gate. **The claims are coupled through
+   their own baseline** ([[learning.lessons]] L-061): a detector fix is never local, and a claim
+   appearing after an unrelated fix is not evidence about its own detector. My first hypothesis —
+   `candidates_in`'s skip — was wrong and is recorded as wrong.
+
+   **The 18 carried `[n]`/`[?]` rows are five causes, not eighteen.** One is now fixed: every rejected
+   `late_castling` and `slow_development` row cited **exactly the last ply of the out-of-book window**
+   — ply 9 for White, ply 10 for Black, both **move 5**. `at_ply`'s fallback borrowed `EARLY_PLIES`,
+   which E76 calibrated for `out_of_book`, for claims about moves 10 to 22. `CITABLE_OPENING_PLIES`
+   now bounds the citation by the opening, preferring the game's own `phase_over_at`. Same shape as
+   the punishment display bug: right about the move, and the move was never what the claim rested on.
+
+   Still open: **book coverage** (4 rows), **who left book first** (2 rows), and **three that need an
+   engine rather than a rule** — the capture that loses to mate, the exchange recovered a move later,
+   the doubling resolved mid-exchange.
+
 0. **DONE — the sheet regenerated, the marks carried, and every rejection re-asked** *(2026-09-09)*.
    `detection-sheet-2026-09-09.txt` at `726b476`, plus two tools that stop a regeneration throwing the
    author's work away: **`carry_marks.py`** (a mark is about a position, so it survives a rebuild —

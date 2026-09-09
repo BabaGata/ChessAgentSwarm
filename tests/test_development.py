@@ -12,7 +12,9 @@ from __future__ import annotations
 
 import chess
 
-from chesscoach.development import measure_development
+from chesscoach.book_depth import own_plies_in_window
+from chesscoach.development import Development, measure_development
+from chesscoach.opening_development import CITABLE_OPENING_PLIES, GameDevelopment
 
 
 def moves(*sans: str, start: str | None = None) -> list[chess.Move]:
@@ -173,3 +175,84 @@ class TestTheWindow:
         assert not white.completed
         assert white.ready_at is None
         assert white.moves_in_window == 2
+
+
+class TestWhatIsCitedWhenTheDecidingMoveNeverCame:
+    """A claim about move 15 must not be evidenced by move 5.
+
+    `at_ply` falls back to *"the player's last move inside the opening window"*
+    when the deciding move does not exist -- they never castled, or never
+    finished developing. The window it used was `EARLY_PLIES = 10`, which E76
+    calibrated for `out_of_book` and which ends at **move 5 for both colours**.
+    So every fallback citation was move 5, whatever the claim.
+
+    All five rejected `late_castling` and `slow_development` rows on the
+    2026-09-07 sheet were exactly this, and the author rejected each for the
+    same reason:
+
+    > *"this exact move did not had any significant wp loss and should not be
+    > counted"*
+
+    > *"There were some unnecessary movements of the pawns instead of developing
+    > pieces and allowing the king to castle but d5 was not one of them"*
+
+    They are right about the move and it was never the move the claim rested
+    on. The claim is about a game; the citation is meant to say *"and here the
+    king was still in the centre"*, which move 5 cannot say -- nobody has
+    castled by move 5.
+    """
+
+    def game(self, plies: int, colour, **development):
+        observations = tuple(
+            _observation(ply=ply)
+            for ply in range(1, plies + 1)
+            if (ply % 2 == 1) == (colour == chess.WHITE)
+        )
+        fields = {
+            "castled_at": None, "king_moved_at": None, "developed_at": None,
+            "developed_enough_at": None, "still_at_home": 0, "moves_in_window": 0,
+            "repeat_moves": 0, "pawn_moves": 0, "completed": False,
+        }
+        fields.update(development)
+        return GameDevelopment(
+            game_id="g", family="Test", colour=colour,
+            development=Development(**fields), mine=observations,
+        )
+
+    def test_the_fallback_reaches_past_the_out_of_book_window(self):
+        # White never castled. The old fallback stopped at ply 9 (move 5); the
+        # opening does not end there and neither does the evidence.
+        game = self.game(40, chess.WHITE, castled_at=None)
+
+        cited = game.at_ply(None)
+
+        assert cited is not None
+        assert cited.ply > own_plies_in_window(True)[-1]
+
+    def test_it_still_refuses_the_late_middlegame(self):
+        """The defect this fallback was written to fix: it once cited `Rf7#` on
+        move 36 as evidence of slow development. Reaching further must not
+        reach that far."""
+        game = self.game(80, chess.WHITE, castled_at=None)
+
+        cited = game.at_ply(None)
+
+        assert cited.ply <= CITABLE_OPENING_PLIES
+
+    def test_the_deciding_move_still_wins_when_there_is_one(self):
+        game = self.game(40, chess.WHITE, castled_at=21)
+
+        assert game.at_ply(21).ply == 21
+
+
+def _observation(ply: int):
+    """One ply, with only the fields a citation actually reads filled in."""
+    from chesscoach.analysis.observations import Observation
+
+    return Observation(
+        game_id="g", ply=ply, mover="player", mover_is_white=ply % 2 == 1,
+        fen_before="8/8/8/8/8/8/8/K6k w - - 0 1", move_played="a1a2",
+        best_move=None, score_cp_before=0, score_cp_after=0, loss_wp=0.0,
+        label=None, phase="opening", played_best=False,
+        clock_before=None, clock_after=None, engine="test", depth=1,
+    )

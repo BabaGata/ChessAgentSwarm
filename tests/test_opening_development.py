@@ -275,7 +275,20 @@ class TestEvidence:
         # The last move **of the opening**, not of the game. `mine` holds every
         # move the player made, and citing the last of those put `Rf7#` --
         # checkmate on move 36 -- under a slow-development claim.
-        assert tally.examples[0].ply == 9
+        #
+        # This asserted **ply 9** until the author rejected all five rows the
+        # fallback produced on the marked sheet. Ply 9 is White's move 5, and
+        # so is ply 10 for Black: the bound was `EARLY_PLIES`, which E76
+        # calibrated for `out_of_book`, used for a claim about castling. Nobody
+        # has castled by move 5, so *"and here the king was still at home"* said
+        # nothing, and it read to the author as an accusation about a pawn move
+        # that cost nothing. The bound is now the opening
+        # (`CITABLE_OPENING_PLIES`, or the game's own `phase_over_at`), and this
+        # fixture's last opening move is ply 19 -- `Be3`, White's move 10.
+        #
+        # That the bound still holds at all is asserted in test_development.py,
+        # on an eighty-ply game; this fixture is too short to test it.
+        assert tally.examples[0].ply == 19
 
 
 # Nc3 -- a developing move, legal throughout the SLOW_ITALIAN window. A habit is

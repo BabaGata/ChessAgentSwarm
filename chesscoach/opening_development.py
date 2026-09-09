@@ -95,6 +95,28 @@ OUT_OF_BOOK_ANY_RETIRED = True
 BY_BOOK = "book"
 BY_SELF = "own"
 
+# How far a **citation** may reach when the deciding move never happened.
+#
+# `at_ply` used `EARLY_PLIES` for this, which E76 calibrated for `out_of_book`
+# and which ends at **move 5 for both colours**. So every fallback citation was
+# move 5, whatever the claim -- and `late_castling` and `slow_development` are
+# about moves 10 to 22. All five of the author's rejections on those two claims
+# were this one line:
+#
+# > *"this exact move did not had any significant wp loss and should not be
+# > counted"*
+#
+# > *"There were some unnecessary movements of the pawns instead of developing
+# > pieces and allowing the king to castle but d5 was not one of them"*
+#
+# Right about the move, which was never the move the claim rested on. Thirty
+# plies is move 15, the same figure `s4_opening_outcomes.OPENING_END_PLY` uses
+# for the end of the opening, and it is a **bound on the citation only** -- no
+# claim is measured over it. The bound exists at all because the fallback once
+# reached the end of the game and cited `Rf7#` on move 36 as evidence of slow
+# development.
+CITABLE_OPENING_PLIES = 30
+
 
 @dataclass(frozen=True)
 class GameDevelopment:
@@ -144,9 +166,13 @@ class GameDevelopment:
                 if observation.ply == ply:
                     return observation
 
-        window = set(own_plies_in_window(self.colour == chess.WHITE))
-        inside = [o for o in self.mine if o.ply in window]
-        return inside[-1] if inside else self.mine[-1]
+        # The end of the **opening**, not the end of the out-of-book window --
+        # see `CITABLE_OPENING_PLIES`. Where the game says when its own opening
+        # finished, that is better still: it is this player's opening rather
+        # than a constant.
+        until = self.development.phase_over_at or CITABLE_OPENING_PLIES
+        inside = [o for o in self.mine if o.ply <= until]
+        return inside[-1] if inside else self.mine[0]
 
 
 def games_from(observations: tuple[Observation, ...], username: str):

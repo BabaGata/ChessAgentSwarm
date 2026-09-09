@@ -357,10 +357,100 @@ gap is the point: `allowed_motif` counts *punishments*, and a punishment is a re
 a recapture is enormously more common than among legal moves at large. The rule bit hardest exactly
 where the author said it hurt.
 
-### Not explained, and flagged rather than glossed
+### Explained: `allowed_motif.discoveredAttack` +69 % is not a detection change at all
 
-**`allowed_motif.discoveredAttack` rose 29 → 49 (+69 %)** and nothing in this cycle touched
-`_is_discovered_attack`. The plausible mechanism is `candidates_in`'s skip — a reply whose motifs the
-best reply already covers is never evaluated, and the fork/skewer relabel changes those `covered`
-sets — but that is a hypothesis and it has not been measured. A detector moving 69 % for reasons
-unknown is a defect until it is explained.
+The hypothesis in the first draft of this section — `candidates_in`'s skip interacting with the
+relabel — was **wrong**. Measured by running the analysis twice over the same games with the old and
+new detectors: the punishments are identical, `discoveredAttack` gained at **0** errors and lost at
+**0**.
+
+The variable is **visibility**. Run through the section for the player who newly appears:
+
+| | before | after |
+|---|--:|--:|
+| instances | 20 | **20** |
+| opportunities | 402 | **402** |
+| rate | 4.9751 % | **4.9751 %** |
+| within-player baseline | 5.2239 % | **4.5842 %** |
+| peer_rate | None | None |
+| tier | **NONE** — never reaches the sheet | **WATCH** |
+
+`_rate_on_other_motifs` builds the baseline from the player's **other** motifs, and `assign_tier`
+returns `NONE` when `rate <= baseline`. `hangingPawn` falling 83 % dragged the bar under a rate that
+never moved, and with no peer rate for this cell the sibling baseline was the only gate.
+
+**The claims are coupled through their own baseline** ([[learning.lessons]] L-061). A detector fix is
+never local, and a claim appearing or vanishing after an unrelated fix is not evidence about its own
+detector. This is the argument for `recheck.py`: verification has to go back to the positions.
+
+## The 18 rejections that carried, and why each still fires
+
+`carry_marks.py` brought 18 `[n]`/`[?]` rows onto the new sheet with their comments. They are not 18
+problems — they are five, and two of the five are the same defect as the `discoveredAttack` one.
+
+### 1. The citation is arbitrary — 5 rows, one cause, fixed
+
+Every rejected `late_castling.book` and `slow_development.book` row cites **exactly the last ply of
+the out-of-book window**: ply 9 for White, ply 10 for Black. Both are **move 5**.
+
+| row | ply | window ends |
+|---|--:|--:|
+| `GV23qiD1#9` `late_castling` | 9 | 9 |
+| `CUlbDaPp#10` `late_castling` | 10 | 10 |
+| `mdDgr7XJ#10` `late_castling` | 10 | 10 |
+| `IKF2xcAF#9` `slow_development` | 9 | 9 |
+| `oIJVS7Pv#10` `slow_development` | 10 | 10 |
+
+`at_ply` falls back to *"the player's last move inside the opening window"* when the deciding move
+does not exist — they never castled, or never finished developing — and the window it used was
+`EARLY_PLIES = 10`, which E76 calibrated for `out_of_book`. So **every fallback citation was move 5**,
+for claims about moves 10 to 22. The author:
+
+> *"this exact move did not had any significant wp loss and should not be counted"*
+
+> *"There were some unnecessary movements of the pawns instead of developing pieces and allowing the
+> king to castle but d5 was not one of them"*
+
+Right about the move, which was never the move the claim rested on — the same shape as the punishment
+display bug, in a different claim family. The accepted rows cite real moves: `O-O` at 15 and 16, `Bb2`
+at 20, `Bxg5` at 22.
+
+**Fixed.** `CITABLE_OPENING_PLIES = 30` bounds the fallback, and the game's own `phase_over_at` is
+preferred where it exists. It bounds the **citation only**; nothing is measured over it. The bound
+exists because this fallback once reached the end of the game and cited `Rf7#` on move 36 as evidence
+of slow development, and a test now holds both ends.
+
+### 2. The punishment shown was not the punishment counted — 1 row, fixed
+
+`allowed_motif.discoveredAttack` `akIZ3faz#15`. Covered above; the carried sheet now shows
+`punished by Ne4` with the author's *"Ne4 is a good one"* sitting under it.
+
+### 3. Book coverage — 4 rows, not fixed
+
+*"This is just some less known variant"*, *"a variant of the accelerated london system"*, *"a variant
+of the hungarian opening:slav formation"*. The book does not have the line, so a normal move reads as
+leaving theory. Known, recorded, and untouched by the `.any` retirement — these are the per-opening
+claims that were kept.
+
+### 4. Attribution — 2 rows, not fixed
+
+*"White exited the line a move before instead of black"*, *"Black exited book in move 3"*.
+`left_book_themselves` catches the clean half; it cannot catch the case where the book holds the
+opponent's odd move but not the natural reply, so the deviation is recorded one ply late and changes
+sides.
+
+### 5. Needs an engine, not a rule — 3 rows, not fixed
+
+- `moved_into_attack` — *"taking the knight would result in a forced checkmate for white"*. SEE says
+  the piece is winnable; the capture loses. [[design.punishment-validity]] Option 1, pointed at a
+  capture.
+- `miscounted_exchange` — *"after an exchange there was a fork tactics by white queen … The move
+  didn't had any significant wp loss after all"*. The exchange is recovered a move later, which a
+  one-ply exchange evaluation cannot see.
+- `concedes_weakness.doubled` — *"a beginning of the exchange that white did not continue
+  immediately"*. Doubling mid-exchange, resolved afterwards.
+
+### What is left over
+
+`long_think_error`'s `[?]` is the *"what can be practised"* question, answered by the sheet now
+printing `tells you:` under each claim rather than by any change to the detector.
