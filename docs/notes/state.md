@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 2026-09-08
+updated: 2026-09-09
 created: 1785254500000
 ---
 
@@ -284,14 +284,32 @@ struck through: a list nobody can act on is not a plan.
    the pair to be **newly** lined up: a bishop sliding along the diagonal it was already pinning on
    reported a pin the player could not have missed.
 
-   **The other two causes are not code.** Six of ten rejected fork rows are one vocabulary
-   disagreement — the author calls a slider hitting two pieces on one line a *skewer*, the project's
-   endorsed Lichess definitions call it a *fork* — worth **18 % of fork firings**, and the motif key
-   is also the puzzle filter the exercise sends the player to, so it is the author's call and is
-   put to them rather than chosen. And three detectors were marked *"informative but I don't know
-   what kind of practices could be done"*: the advice existed in `planner`, the **sheet never showed
-   it**, so it could only ever ask half its question. `detection_sheet.py` now prints `tells you:`
-   under each claim.
+   **Two more were the author's to decide, and they decided both.**
+
+   *Fork versus skewer* — six of ten rejected fork rows are one vocabulary disagreement, worth **18 %
+   of fork firings**. The author's rule wins over the endorsed Lichess definition
+   ([[decisions.0019-fork-and-skewer-by-geometry]]): a slider attacking two pieces that all lie on
+   **one line through it** is a `skewer`. `_all_on_one_line` decides the name; `_fork_on_one_line` is
+   one predicate used from both sides so the pair cannot drift. The material test is untouched.
+   Measured over 60 games: `fork` **237 → 185**, `skewer` **61 → 110**, and the 52-out against 49-in
+   accounts for itself — 3 of the moved positions were already skewers by the front-and-behind rule.
+   `data/knowledge.json` moved with it — `fork` keeps the Lichess sentence with the narrowing noted,
+   `skewer` gets an author-written definition because the detector now fires on a shape that sentence
+   does not describe. **The known cost is accepted**: the motif key is also the Lichess puzzle filter,
+   so `skewer` exercises point at the other geometry.
+
+   *`out_of_book.any` retired* — condemned at 0/3, and the author chose replacement over repair:
+   *"there should be concrete opening detected."* `OUT_OF_BOOK_ANY_RETIRED` silences the pooled claim;
+   the per-opening ones stand alone and a thin repertoire now yields nothing, which is honest. Neither
+   cause underneath — book coverage, and a deviation recorded one ply late so the blame changes sides
+   — is fixed.
+
+   **And three detectors were marked** *"informative but I don't know what kind of practices could be
+   done"*: the advice existed in `planner`, the **sheet never showed it**, so it could only ever ask
+   half its question. `detection_sheet.py` now prints `tells you:` under each claim.
+
+   **Stale, and blocking**: the peer reference and separation register still hold the old `fork` and
+   `skewer` rates (L-058). About fifty minutes of rebuild, not yet run.
 
 0. **DONE — seven detectors rebuilt against the author's marked sheet** *(2026-09-06)*.
    Round two of [[experiments.e86-detector-audit]], driven by the 33 `[n]` marks on

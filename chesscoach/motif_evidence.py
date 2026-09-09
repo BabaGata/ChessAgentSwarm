@@ -29,9 +29,10 @@ from chesscoach.tactics import (
     SKEWER_TARGET_MIN_VALUE,
     TRAPPABLE_MIN_VALUE,
     Motif,
+    _all_on_one_line,
     _friendly_sliders,
     _is_winnable,
-    _lined_up_pairs,
+    _newly_lined_up,
     _lost_on_arrival,
     _newly_attacked,
     _wins_once_vacated,
@@ -96,12 +97,14 @@ def _fork(board, after, move, mover) -> tuple[Role, ...]:
     targets = _newly_attacked(board, after, move, mover)
     if len(targets) < 2:
         return ()
+    if _all_on_one_line(after, move.to_square, targets):
+        return ()  # `skewer` names this one (ADR-0019)
     return (("forker", move.to_square),) + tuple(("target", s) for s in targets)
 
 
 def _pin(board, after, move, mover) -> tuple[Role, ...]:
-    for front_square, front, behind_square, behind in _lined_up_pairs(
-        after, move.to_square, mover
+    for front_square, front, behind_square, behind in _newly_lined_up(
+        board, after, move, mover
     ):
         if PIECE_VALUE[behind.piece_type] <= PIECE_VALUE[front.piece_type]:
             continue
@@ -121,14 +124,24 @@ def _pin(board, after, move, mover) -> tuple[Role, ...]:
 
 
 def _skewer(board, after, move, mover) -> tuple[Role, ...]:
-    for front_square, front, behind_square, behind in _lined_up_pairs(
-        after, move.to_square, mover
+    for front_square, front, behind_square, behind in _newly_lined_up(
+        board, after, move, mover
     ):
         if (PIECE_VALUE[front.piece_type] > PIECE_VALUE[behind.piece_type]
                 and PIECE_VALUE[behind.piece_type] >= SKEWER_TARGET_MIN_VALUE
                 and _wins_once_vacated(after, front_square, behind_square, mover)):
             return (("skewerer", move.to_square), ("front", front_square),
                     ("behind", behind_square))
+
+    # The author's second shape: the attacker **between** two pieces on one
+    # line rather than behind them (ADR-0019). Both are targets and neither is
+    # in front of the other, so they are named as such rather than forced into
+    # front/behind roles that would read backwards on the board.
+    targets = _newly_attacked(board, after, move, mover)
+    if len(targets) >= 2 and _all_on_one_line(after, move.to_square, targets):
+        return (("skewerer", move.to_square),) + tuple(
+            ("on the line", square) for square in targets
+        )
     return ()
 
 

@@ -58,6 +58,38 @@ OTHER_OPENING_MOVES = "__other_opening_moves"
 OUT_OF_BOOK = "out_of_book"
 ANY_OPENING = "any"
 
+# **`out_of_book.any` is not asserted.** It scored **0 of 3** on the author's
+# marked sheet -- the worst result of the round and the only detector to score
+# nothing -- and they asked for the claim to be replaced rather than repaired:
+#
+# > *"This out of book any is not so informative, there should be concrete
+# > opening detected."*
+#
+# The reading behind that is right. Pooling every opening into one rate says
+# *"you leave theory early"* about a player who may know one repertoire well and
+# have no theory at all in another, and there is nothing to do about the pooled
+# number. The per-family claims -- `out_of_book.Sicilian Defense` and the rest --
+# name a body of knowledge a player can go and learn, which is what
+# [[design.better-claims]] asks a claim to do.
+#
+# **A thin repertoire now produces no claim, and that is the honest answer.**
+# The confidence policy already refuses a family with too few games, so the
+# pooled claim was acting as a safety net that fired *because* it pooled. A
+# player who plays eight different openings twice each has not shown a pattern
+# and should be told nothing.
+#
+# **Neither of the two causes underneath is fixed by this**, and both are still
+# live: the book is thin on offbeat lines (*"this is a variant of the
+# accelerated london system"*), and the deviation is recorded one ply late when
+# the book holds an opponent's odd move but not the natural reply, which moves
+# the blame across the board (*"out of book was white in the move 3"*).
+# `left_book_themselves` catches the clean half of that and not this half.
+#
+# The tally stays and is still counted, on the same reasoning as
+# `s4_opening_outcomes.EARLY_ERROR_RETIRED`: it is a cheap way to ask later
+# whether the per-family claims cover the games the pooled one used to.
+OUT_OF_BOOK_ANY_RETIRED = True
+
 # The basis a claim was judged on, and part of its key so the two can never be
 # pooled into one number.
 BY_BOOK = "book"

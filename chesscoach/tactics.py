@@ -126,6 +126,12 @@ def _is_fork(board: chess.Board, after: chess.Board, move: chess.Move,
     targets = _newly_attacked(board, after, move, mover)
     if len(targets) < 2:
         return False
+    # **The author's line rule**, which moves the name and not the material
+    # test: a slider hitting both targets along one line is `skewer`. Six of
+    # the ten fork rows on the marked sheet were rejected for this and nothing
+    # else. See `_all_on_one_line` and ADR-0019.
+    if _all_on_one_line(after, move.to_square, targets):
+        return False  # -> `skewer`, via `_fork_on_one_line`
     return _loses_material_whatever_the_defender_does(after, targets, mover)
 
 
@@ -286,17 +292,59 @@ def _is_skewer(
     skewering piece must itself survive, and "worth winning" is now settled by an
     exchange rather than by piece values alone (D17).
     """
+    # **One guard for both shapes**, and measured rather than assumed: over 60
+    # games no position passes every `fork` test, falls to the line rule, and
+    # then fails this -- so scoping it to the front-and-behind shape would have
+    # changed nothing, and a second survival test would be a second thing to
+    # keep in step for no gain.
     if wins_material(after, move.to_square, not mover) > 0:
         return False
 
-    return any(
+    if any(
         PIECE_VALUE[front.piece_type] > PIECE_VALUE[behind.piece_type]
         and PIECE_VALUE[behind.piece_type] >= SKEWER_TARGET_MIN_VALUE
         and _wins_once_vacated(after, front_square, behind_square, mover)
         for front_square, front, behind_square, behind in _newly_lined_up(
             board, after, move, mover
         )
-    )
+    ):
+        return True
+
+    # **The author's second shape**, which `_fork_on_one_line` names for the
+    # same reason `_is_fork` refuses it: a slider attacking two pieces that lie
+    # on one line through it, most often in opposite directions with the king
+    # as one of them. `Rd1+` between `Bb1` and `Kg1` is the position -- the
+    # check drives the king off the rank and the bishop falls, which is a
+    # skewer's *effect* reached from the middle of the line rather than from
+    # one end of it.
+    #
+    # The material test is the fork's, unchanged, because the question *"does
+    # this definitely win something"* does not depend on what the pattern is
+    # called (ADR-0019).
+    return _fork_on_one_line(board, after, move, mover)
+
+
+def _fork_on_one_line(
+    board: chess.Board, after: chess.Board, move: chess.Move, mover: chess.Color
+) -> bool:
+    """A double attack that meets every fork test **except** the line rule.
+
+    One predicate, used by both detectors from opposite sides: `_is_fork`
+    returns False when it holds, `_is_skewer` returns True. Written once so the
+    two cannot drift into claiming the same move or into claiming neither --
+    the failure L-060 records, from the last pair described as counterparts.
+    """
+    if not _lands_safely(after, move.to_square, mover):
+        return False
+    if after.piece_at(move.to_square) is None:
+        return False
+
+    targets = _newly_attacked(board, after, move, mover)
+    if len(targets) < 2:
+        return False
+    if not _all_on_one_line(after, move.to_square, targets):
+        return False
+    return _loses_material_whatever_the_defender_does(after, targets, mover)
 
 
 def _is_discovered_attack(
@@ -645,6 +693,49 @@ def _lined_up_pairs(
                 pairs.append((*found[0], *found[1]))
                 break
     return pairs
+
+
+def _all_on_one_line(
+    after: chess.Board, square: int, targets: tuple[int, ...]
+) -> bool:
+    """Do every one of these targets sit on a single line through `square`?
+
+    The author's rule, which decides whether a double attack is named `fork` or
+    `skewer` (ADR-0019):
+
+    > *"This is a skewer, fork is only when one of the involved pieces is not
+    > aligned on the same line/diagonal."*
+
+    "One line" is a **chess** line -- a rank, a file or a diagonal -- and both
+    directions along it are the same line, which is the case the author kept
+    marking: a rook dropping onto the back rank between a bishop and the king
+    hits both ways down one rank.
+
+    A knight can never attack along a line from its own square, so this can
+    never fire for one, and neither can it for a pawn. *"Forks are usually done
+    by knights, pawns and sometimes queens"* therefore falls out of the geometry
+    rather than being written in as a list of piece types.
+    """
+    piece = after.piece_at(square)
+    if piece is None or piece.piece_type not in SLIDERS or not targets:
+        return False
+
+    rank, file = chess.square_rank(square), chess.square_file(square)
+    lines = set()
+    for target in targets:
+        up = chess.square_rank(target) - rank
+        across = chess.square_file(target) - file
+        if up == 0:
+            lines.add("rank")
+        elif across == 0:
+            lines.add("file")
+        elif abs(up) == abs(across):
+            # The two diagonals through a square are different lines, so a
+            # queen hitting one piece down each is a fork and not this.
+            lines.add("diagonal+" if up * across > 0 else "diagonal-")
+        else:
+            return False
+    return len(lines) == 1
 
 
 def _newly_lined_up(

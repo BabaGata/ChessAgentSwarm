@@ -21,7 +21,7 @@ from __future__ import annotations
 
 import chess
 
-from chesscoach.tactics import _is_fork
+from chesscoach.tactics import Motif, _is_fork, detect_motifs
 
 
 def forks(fen: str, san: str) -> bool:
@@ -122,3 +122,122 @@ class TestTheGameMustContinue:
 
         # No stalemate fixture: a stalemating move leaves the king un-attacked,
         # so it never reaches two targets and would pass for the wrong reason.
+
+
+class TestTheAuthorsLineRule:
+    """Two pieces on one line through the attacker is a skewer, not a fork.
+
+    The author, rejecting six of the ten marked fork rows for one reason:
+
+    > *"This is a skewer, fork is only when one of the involved pieces is not
+    > aligned on the same line/diagonal."*
+
+    > *"Just a note, forks are usually done by knights, pawns and sometimes
+    > queens, skewers are usually done by rooks, bishops and queens."*
+
+    Every rejected row had the same geometry -- a **slider** hitting two pieces
+    that lie on **one line through it**, usually in opposite directions, and
+    usually with one of them the king. `Rd1+` hitting `Bb1` and `Kg1` is the
+    shape: the check drives the king off the rank and the bishop falls.
+
+    This is **narrower than the Lichess definition** the vocabulary is drawn
+    from -- *"a move where a piece attacks two or more opposing pieces
+    simultaneously"*, with no geometry in it -- and the author chose their rule
+    over it knowing that ([[decisions.0019-fork-and-skewer-by-geometry]]). The
+    material test does not change; only which name the position gets.
+    """
+
+    def motifs(self, fen: str, uci: str) -> frozenset[str]:
+        return detect_motifs(chess.Board(fen), chess.Move.from_uci(uci))
+
+    def test_a_rook_hitting_both_ways_along_a_rank_is_a_skewer(self):
+        # Rd1+: the black rook checks Kg1 along the first rank and hits Bb1 the
+        # other way down it. The author's `lichess.org/SuvK6tPc#72`.
+        found = self.motifs("3r2k1/8/8/8/8/8/6PP/1B4K1 b - - 0 1", "d8d1")
+
+        assert Motif.SKEWER in found
+        assert Motif.FORK not in found
+
+    def test_a_bishop_hitting_both_ways_along_a_diagonal_is_a_skewer(self):
+        # Bg5+ checking Kc1 down the diagonal and hitting Qh6 up it, which is
+        # `lichess.org/vmYdIpZ1#47`.
+        found = self.motifs("k2b4/5n2/7Q/8/8/8/8/2K5 b - - 0 1", "d8g5")
+
+        assert Motif.SKEWER in found
+        assert Motif.FORK not in found
+
+    def test_a_knight_is_still_a_fork(self):
+        # Nc2+ hits Ke1 and Ra1. A knight can never attack along a line from
+        # its own square, so the
+        # rule cannot reach it -- which is the author's *"forks are usually done
+        # by knights"* falling out rather than being written in.
+        found = self.motifs("4k3/8/8/8/1n6/8/8/R3K3 b - - 0 1", "b4c2")
+
+        assert Motif.FORK in found
+
+    def test_a_queen_on_two_different_lines_is_still_a_fork(self):
+        # Qe4+ hits Kh1 down one diagonal and Nb1 down the other: two lines,
+        # so the pieces are not aligned with each other. The author accepted
+        # `Qxh3+ -- target Kh1, target Pf3` for exactly this reason
+        # (`lichess.org/IGCmSgiy#29`).
+        found = self.motifs("4k3/4q3/8/8/8/8/8/1N5K b - - 0 1", "e7e4")
+
+        assert Motif.FORK in found
+
+    def test_a_double_attack_is_never_named_neither(self):
+        """The property the split has to have: the two detectors cannot both
+        refuse the same move.
+
+        `_fork_on_one_line` is one predicate read from both sides, so they
+        cannot both *claim* a move. The other half is not structural -- the two
+        test the attacker's survival differently, `_lands_safely` here and
+        `wins_material` there -- so a position could in principle leave `fork`
+        under the line rule and fail the stricter test on the way in, and be
+        named nothing. Swept over 60 games it never happens, which is why one
+        guard serves both; this holds that measurement in place.
+
+        It is a **weak test and says so**: it has never seen a failure, so it
+        guards the invariant rather than reproducing a bug.
+        """
+        import chess.pgn
+        from pathlib import Path
+
+        from chesscoach.tactics import (
+            _all_on_one_line,
+            _loses_material_whatever_the_defender_does,
+            _newly_attacked,
+        )
+
+        games = Path("data/raw/corpus-blitz").glob("*.pgn")
+        source = next(iter(sorted(games)), None)
+        if source is None:
+            import pytest
+
+            pytest.skip("no corpus available")
+
+        with open(source, encoding="utf-8", errors="ignore") as handle:
+            game = chess.pgn.read_game(handle)
+        board = game.board()
+        checked = orphaned = 0
+        for played in game.mainline_moves():
+            for move in board.legal_moves:
+                after = board.copy(stack=False)
+                after.push(move)
+                targets = _newly_attacked(board, after, move, board.turn)
+                if len(targets) < 2 or not _all_on_one_line(
+                    after, move.to_square, targets
+                ):
+                    continue
+                if not _loses_material_whatever_the_defender_does(
+                    after, targets, board.turn
+                ):
+                    continue
+                checked += 1
+                found = {str(m) for m in detect_motifs(board, move)}
+                orphaned += "fork" not in found and "skewer" not in found
+            board.push(played)
+
+        assert orphaned == 0, (
+            f"{orphaned} of {checked} one-line double attacks are named neither "
+            "-- the fork and skewer guards disagree about the same position"
+        )

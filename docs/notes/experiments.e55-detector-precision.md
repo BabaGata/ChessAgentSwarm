@@ -2,7 +2,7 @@
 id: cas-exp-e55
 title: 'E55 — The precision screen exists, and it has nothing valid to measure yet'
 desc: 'Five samples can condemn a detector and cannot exonerate one, so the screen runs in two stages. The 23 existing marks cannot be dated against the code they judged, which makes them unusable rather than merely old — and the sheet now stamps its own commit so that cannot happen again.'
-updated: 2026-09-08
+updated: 2026-09-09
 created: 1788652800000
 ---
 
@@ -143,16 +143,48 @@ pieces that lie on **one line through it, in opposite directions** (`Rd1+` hitti
 Measured: **43 of 237 fork firings (18 %)** have that shape, against 61 firings of `skewer` itself.
 
 This contradicts the project's own endorsed source. The motif vocabulary is the Lichess puzzle theme
-list, and `data/knowledge.json` carries both definitions verbatim:
+list, and `data/knowledge.json` carried both definitions verbatim:
 
 - **fork** — *"A move where a piece attacks two or more opposing pieces simultaneously."* No geometry.
 - **skewer** — *"a high value piece being attacked, moving out the way, and allowing a lower value
   piece **behind it** to be captured."* Behind, and high-then-low.
 
-The author's six cases are forks under both. **The decision is not free**, because the motif key is
+The author's six cases are forks under both. **The decision was not free**, because the motif key is
 also the exercise: `missed_motif.fork` becomes *"drill `fork` puzzles"* against the Lichess theme
-filter. Relabelling sends a player to puzzles with the other geometry. Put to the author rather than
-chosen.
+filter, so relabelling sends a player to puzzles with the other geometry.
+
+**Decided by the author: their rule wins** ([[decisions.0019-fork-and-skewer-by-geometry]]). A slider
+attacking two pieces that all lie on one line through it is now `skewer`. `_all_on_one_line` decides
+the name and `_fork_on_one_line` is **one predicate used from both sides**, so the two detectors
+cannot drift into claiming the same move or neither — L-060's lesson applied before it could recur.
+The material test is untouched; only the name moves.
+
+The reasoning that makes it more than deference: the two shapes are different **recognition skills**.
+A knight fork is pattern recognition on the knight's move; *"my rook can drop onto that rank and hit
+two things along it"* is line vision, the same skill as pins and skewers. Grouping by what a player
+has to learn to see beats grouping by the puzzle database's tag.
+
+**Measured over the same 60 games, and it accounts for itself exactly.**
+
+| | before | after |
+|---|--:|--:|
+| `fork` | 237 | **185** (−52, −22 %) |
+| `skewer` | 61 | **110** (+49, +80 %) |
+
+52 out and 49 in is not a leak: **3** of the moved positions were already skewers by the
+front-and-behind rule as well, so they lost `fork` and kept a `skewer` they already had. Chasing that
+three-position gap produced a wrong diagnosis first — that the two detectors' different survival
+tests (`_lands_safely` against `wins_material`) were dropping positions between them — and a change
+made on it. Swept over the same games, **no position** passes every fork test, falls to the line
+rule, and then fails the skewer guard, so the change was reverted and one guard still serves both.
+The measurement is now in the code where the guess was.
+
+`data/knowledge.json` moved with it. `fork` keeps the Lichess sentence — every move still called a
+fork is a fork under it — with the narrowing in its note. `skewer` could not: the detector now fires
+on a shape that sentence does not describe, so it carries an author-written definition covering both
+geometries, sourced to the marked sheet, with the Lichess source retained beneath. The puzzle-filter
+mismatch is **accepted and unfixed**, and recorded in that note so the next person meets it rather
+than rediscovers it.
 
 **4. Detectors whose finding the author cannot act on** — `long_think_error`, `time_pressure_error`,
 `out_of_book.any`: *"those are just informative but I don't know what kind of practices could be
@@ -164,11 +196,18 @@ both questions from the next generation on.
 
 ### Still open after this round
 
-- `out_of_book.any` is condemned at 0/3 and the author asks for *"concrete opening detected"* instead.
-  Two causes are entangled in its marks: book coverage (*"a variant of the accelerated london
-  system"*) and attribution (*"out of book was white in the move 3"*) — the latter despite
-  `left_book_themselves` existing, because the book contains the offbeat move and not the natural
-  reply, so the deviation is recorded one ply late and changes hands.
+- `out_of_book.any` is **retired** — condemned at 0/3, and the author chose replacement over repair:
+  *"there should be concrete opening detected."* `OUT_OF_BOOK_ANY_RETIRED` silences the pooled claim
+  and the per-opening ones stand alone. A thin repertoire now yields no claim at all, which is the
+  honest answer: the pooled version was a safety net that fired *because* it pooled.
+
+  **Neither cause underneath is fixed**, and both are still live: book coverage (*"a variant of the
+  accelerated london system"*) and attribution (*"out of book was white in the move 3"*) — the latter
+  despite `left_book_themselves` existing, because the book holds the offbeat move and not the
+  natural reply, so the deviation is recorded one ply late and changes hands.
 - `moved_into_attack` at 44 % is stale (marked before `material.py` changed) and its one new rejection
   needs search, not SEE: *"taking the knight would result in a forced checkmate for white."* That is
   [[design.punishment-validity]] Option 1 pointed at a capture rather than at a punishment.
+- **The peer reference and the separation register are stale for `fork` and `skewer`** (L-058), and
+  the marks on those two rows now judge code that no longer exists. Nothing quoting either rate is
+  trustworthy until `e84-band-references/build.py` is re-run — about fifty minutes.

@@ -2,7 +2,7 @@
 id: cas-decisions
 title: Decisions
 desc: 'Decision log — every choice that constrains future work, with its context and consequences.'
-updated: 1788825600000
+updated: 2026-09-08
 created: 1785254500000
 ---
 
@@ -33,6 +33,7 @@ real work, or if a future reader would otherwise ask *"why on earth is it like t
 | [[decisions.0016-a-run-store-for-the-swarm]] | 2026-08-28 | SQLite (stdlib, no dependency) for what the agents did, written as the run proceeds so a rate limit leaves what it had; JSON stays for the opening book, measured at 0.04 s to load and 1.2 ms per game walked, because it is a load format rather than a query format |
 | [[decisions.0017-constrain-the-answer-with-a-schema]] | 2026-08-29 | Ollama's `format` field makes a malformed answer unrepresentable rather than unlikely, at no dependency cost. The prose parsers stay as the fallback and are tested on both paths. Adopted on construction rather than measurement: the parse rate was already 100 % |\n
 | [[decisions.0018-the-thesis-is-a-mission-step]] | 2026-09-08 | The thesis becomes **M8** and runs alongside M7, not after it. It may never claim more than [[state]] does, which makes it a measurement step: its first pass forced three claims in this vault to be weakened against the code | accepted |
+| [[decisions.0019-fork-and-skewer-by-geometry]] | 2026-09-08 | A slider attacking two pieces on one line through it is a **skewer**, not a fork — the author's rule over the endorsed Lichess definition, knowing the motif key is also the puzzle filter | accepted |
 
 ## Template
 

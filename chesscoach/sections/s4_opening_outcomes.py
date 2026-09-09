@@ -29,6 +29,7 @@ from chesscoach.opening_development import (
     LATE_CASTLING,
     OTHER_OPENING_MOVES,
     OUT_OF_BOOK,
+    OUT_OF_BOOK_ANY_RETIRED,
     OPENING_PAWN_ERROR,
     REPEAT_MOVE,
     SLOW_DEVELOPMENT,
@@ -403,6 +404,12 @@ def _assess(key: str, counts: _Counts, context: SectionContext) -> Finding | Non
     kind, subject = key.split(".")[0], key.split(".")[1]
 
     if tally.opportunities == 0 or not tally.examples:
+        return None
+
+    # Counted, never asserted: the pooled `out_of_book` claim is retired and the
+    # per-opening ones replace it. `opening_development.OUT_OF_BOOK_ANY_RETIRED`
+    # carries the reasoning and the author's words.
+    if kind == OUT_OF_BOOK and subject == ANY and OUT_OF_BOOK_ANY_RETIRED:
         return None
 
     # Everybody errs in the opening (R-14), and there is no meaningful
