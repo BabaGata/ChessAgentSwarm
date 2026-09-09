@@ -228,6 +228,60 @@ style, and none were touched.
   as a page. It is a signed scan either way, so nothing is lost by the text not
   being selectable.
 
+### Grounding pass, 2026-09-09
+
+Every claim about the code, the numbers and the literature checked against the
+repository, the vault and the sources. Script:
+`scratchpad/verify_code_claims.py` shape, re-runnable.
+
+**What was wrong.** One thing, and it was a real fabrication: the implementation
+chapter said **"Deset detektora"** and then named nine, and `tactics.py` has
+nine. Corrected to *devet*.
+
+**What had drifted**, because the project kept moving while the thesis was
+written: lines of code 23,235 → 24,170, tests 1,800 → 1,847, vault notes 169 →
+173, lessons 60 → 62, ADRs 18 → 20. All live in `Src/brojke.tex`, so it was one
+file. Appendix D gained the two missing ADRs so its list matches its count.
+
+**What held.** Every module name, CLI command, motif name and constant quoted in
+the thesis exists in the repository with the quoted value: the error thresholds
+(5.0 / 17.5 / 30.0), `MAX_PRIORITIES = 3`, `NO_CHANGE_RATIO = 0.58`, both
+strength fits including the corrected blitz intercept, the win-probability
+constant, and `calibration_is_stale`. Every headline result figure traces to its
+experiment note.
+
+**The honest qualification about the bibliography.** It mixes two kinds of
+source, and the difference matters at a defence:
+
+- sources the **project actually read**, recorded in [[domain.sources]] and
+  [[domain.expertise-research]] with an evidence class -- the chess, coaching and
+  expertise literature, and the five prior-art projects;
+- **standard background added while writing chapter 2** -- rating systems (Elo,
+  Glickman), intelligent tutoring (Bloom, VanLehn, Corbett, Piech), multi-agent
+  and LLM work (Erman, Nii, Wu, Hong, Qian, Park, Ji, Lewis), chess AI (Silver,
+  McIlroy-Young), and statistics (Barnett, Efron, Cohen, Nosek, Spearman).
+
+The second group is ordinary scholarship rather than a problem, and the specific
+findings attributed to them were checked rather than assumed: Chase & Simon's
+volume and pages, Chabris & Hearst's 5.02 against 6.85 blunders per 1,000 moves,
+and Hambrick's 34 % of variance in chess, which also confirmed the journal,
+volume and page range. **The author should skim that second group before the
+defence**, since they are the citations she did not read during the work.
+
+### Serbian in Croatian text
+
+`check_croatian.py` added to the skill. Three genuine `treba da` + present
+constructions found and rewritten; no Serbian vocabulary survived.
+
+The lesson from building it is worth more than the result. The first version
+matched stems and reported **133 hits of which roughly three were real** --
+`detektor` flagged as `dete`, `rečenica` as `reč`, `vremenski` as `vreme`,
+`također` as `takođe`. Narrowed to whole words with explicit inflections, it
+reports what is actually there. Two traps it now encodes: **oblique cases are
+often shared** (Croatian `vremena` is identical to Serbian, only nominative
+`vreme` is a tell), and **a Serbian noun can be a Croatian verb** (`prevodi` is
+*prijevod* in Serbian, *prevoditi* in Croatian).
+
 ## Mechanics
 
 - `report.tex` — preamble and `\input` only. Chapters in `Poglavlja/`.

@@ -99,6 +99,29 @@ or a number.
 `predstavlja`, `služi kao` where `je` would do; `čime se naglašava`, `što
 odražava širi trend`. Say the plain thing.
 
+## Serbian words in Croatian text
+
+`python .claude/skills/human-prose/check_croatian.py <paths>`
+
+A model trained mostly on the larger Serbian and Bosnian web corpora slips
+ekavica, Serbian lexis and the `da` + present construction into Croatian. The
+script matches **whole words only**, and that is the point: the first version
+used stems and flagged `detektor` as `dete`, `rečenica` as `reč`, `vremenski` as
+`vreme` and `također` as `takođe`. It reported 133 hits of which about three were
+real. **A checker that is wrong nine times in ten trains you to ignore it**, so
+prefer a narrow pattern that misses something to a broad one that cries wolf.
+
+Two traps worth remembering, both found this way:
+
+- **Oblique cases are often shared.** Croatian `vrijeme` has genitive `vremena`,
+  identical to Serbian. Only the nominative `vreme` is a tell.
+- **A Serbian noun can be a Croatian verb.** `prevodi` is the noun *prijevod*
+  in Serbian and the verb *prevoditi* in Croatian. Match the noun's case forms,
+  not the bare stem.
+
+The construction to watch for beyond vocabulary is `treba da` + present where
+Croatian takes an infinitive or `da bi`.
+
 ## Procedure
 
 1. **Measure first.** `python .claude/skills/human-prose/check_prose.py <file>`
