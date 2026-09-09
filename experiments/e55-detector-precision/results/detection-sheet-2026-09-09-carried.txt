@@ -32,16 +32,17 @@ long_think_error.long_think.own
     tells you: When a think runs long, stop and choose between your two best candidate moves rather than searching for a third.
     227 instances across 3 players
 ------------------------------------------------------------------------------
-  [ ] Hirsican              move  11  White Nc4      lost  11.2 wp
+  [y] Hirsican              move  11  White Nc4      lost  11.2 wp
       lichess.org/3pPHPEC4#21
-  [ ] Hirsican              move  15  White Rg1      lost  13.9 wp
+  [y] Hirsican              move  15  White Rg1      lost  13.9 wp
       lichess.org/2woiFZBd#29
-  [ ] Hirsican              move  16  Black f5       lost  36.1 wp
+  [y] Hirsican              move  16  Black f5       lost  36.1 wp
       lichess.org/NF4Pv6NH#32
-  [ ] Hirsican              move  19  Black Rb8      lost   5.8 wp
+  [y] Hirsican              move  19  Black Rb8      lost   5.8 wp
       lichess.org/KVh1nudO#38
-  [ ] Hirsican              move  24  White Bb3      lost   8.4 wp
+  [?] Hirsican              move  24  White Bb3      lost   8.4 wp
       lichess.org/zU1S5uVh#47
+      What can be done for long think errors at all? If there is nothing concrete to practice it then I don't know it should stay for the report.
 
 allowed_motif.fork.own
     claims: When you go wrong, it is often a fork that punishes you.
@@ -69,31 +70,33 @@ time_pressure_error.clock.own
     tells you: Spend less time in the opening so that the clock is not deciding your moves later.
     145 instances across 4 players
 ------------------------------------------------------------------------------
-  [ ] maikel5               move  15  Black Nb3+     lost  16.7 wp
+  [y] maikel5               move  15  Black Nb3+     lost  16.7 wp
       lichess.org/yKHBrF0e#30
-  [ ] maikel5               move  24  Black Nexc2    lost   9.8 wp
+  [y] maikel5               move  24  Black Nexc2    lost   9.8 wp
       lichess.org/5KQuvjWo#48
-  [ ] maikel5               move  26  Black Qxa4     lost  26.4 wp
+  [y] maikel5               move  26  Black Qxa4     lost  26.4 wp
       lichess.org/zcStry0S#52
-  [ ] maikel5               move  30  Black Kg7      lost  10.1 wp
+  [y] maikel5               move  30  Black Kg7      lost  10.1 wp
       lichess.org/e7cTUscH#60
-  [ ] maikel5               move  55  White Ke3      lost  27.3 wp
+  [y] maikel5               move  55  White Ke3      lost  27.3 wp
       lichess.org/EGOMa6lY#109
+      What is the advice for the time pressure?
 
 moved_into_attack.own_move.own
     claims: You put the piece you have just moved on a square where it can be won, more often than players at your level.
     tells you: Before you let go of a piece, ask one question about the square you are putting it on: what attacks it, and what defends it. Not the whole position -- one square, every move.
     120 instances across 5 players
 ------------------------------------------------------------------------------
-  [ ] Hirsican              move  13  White Ng5      lost   0.0 wp
+  [?] Hirsican              move  13  White Ng5      lost   0.0 wp
       lichess.org/tXOF3X1K#25
-  [ ] Maximilian_Honigtopf  move  21  Black c3       lost   9.2 wp
+      Taking the knight would result in a forced checkmate for white, in this case this was not the issue.
+  [y] Maximilian_Honigtopf  move  21  Black c3       lost   9.2 wp
       lichess.org/PbhJDtzW#42
-  [ ] cademan               move  22  Black Rd7      lost  27.0 wp
+  [y] cademan               move  22  Black Rd7      lost  27.0 wp
       lichess.org/xGJzDV3d#44
-  [ ] cademan               move  40  Black f4+      lost  19.9 wp
+  [y] cademan               move  40  Black f4+      lost  19.9 wp
       lichess.org/4Da7IGFw#80
-  [ ] goydorak              move  16  White c4       lost   0.0 wp
+  [y] goydorak              move  16  White c4       lost   0.0 wp
       lichess.org/Qk594pBd#31
 
 allowed_motif.hangingPiece.own
@@ -101,19 +104,19 @@ allowed_motif.hangingPiece.own
     tells you: Before committing a move, ask what your opponent's best reply threatens; a hanging piece is what has been punishing you.
     87 instances across 4 players
 ------------------------------------------------------------------------------
-  [ ] Maximilian_Honigtopf  move  63  White Rd2+     lost  29.5 wp
+  [y] Maximilian_Honigtopf  move  63  White Rd2+     lost  29.5 wp
       lichess.org/R9GJUKUy#125
       punished by Kxd2 -- takes Rd2, with kd2
-  [ ] cademan               move  35  White Ra8      lost  31.8 wp
+  [y] cademan               move  35  White Ra8      lost  31.8 wp
       lichess.org/0fP06oYk#69
       punished by Rxh5 -- takes Bh5, with rh5
-  [ ] cademan               move  35  Black Kb8      lost  15.8 wp
+  [y] cademan               move  35  Black Kb8      lost  15.8 wp
       lichess.org/T7AhF7X3#70
       punished by Qxc2 -- takes qc2, with Qc2
-  [ ] goydorak              move  21  Black Be6      lost  13.0 wp
+  [y] goydorak              move  21  Black Be6      lost  13.0 wp
       lichess.org/QMc52cvf#42
       punished by Rxd6 -- takes bd6, with Rd6
-  [ ] goydorak              move  33  White Kh3      lost  13.7 wp
+  [y] goydorak              move  33  White Kh3      lost  13.7 wp
       lichess.org/YX1zeqwo#65
       punished by bxc4 -- takes Bc4, with pc4
 
@@ -143,19 +146,19 @@ missed_motif.discoveredAttack.own
     tells you: Drill `discoveredAttack` puzzles, and solve to be right rather than fast — review every one you get wrong.
     61 instances across 8 players
 ------------------------------------------------------------------------------
-  [ ] Hirsican              move  13  Black f5       lost   7.1 wp
+  [y] Hirsican              move  13  Black f5       lost   7.1 wp
       lichess.org/rZRSwVcG#26
       was available Nxd3+ -- revealed bd6, target Bf4, moved nd3
-  [ ] Hirsican              move  38  White Nd7      lost  21.8 wp
+  [y] Hirsican              move  38  White Nd7      lost  21.8 wp
       lichess.org/3pPHPEC4#75
       was available Kc6 -- revealed Qd1, target rd8, moved Kc6
-  [ ] bjagus                move  13  White g4       lost  18.3 wp
+  [y] bjagus                move  13  White g4       lost  18.3 wp
       lichess.org/RmdC3Y9L#25
       was available Nxe5 -- revealed Qd1, target bh5, moved Ne5
-  [ ] goydorak              move   9  Black Nf6      lost  41.6 wp
+  [y] goydorak              move   9  Black Nf6      lost  41.6 wp
       lichess.org/jkBsv35s#18
       was available d5 -- revealed bc8, target Qf5, moved pd5
-  [ ] goydorak              move  15  Black Nf4      lost  14.8 wp
+  [y] goydorak              move  15  Black Nf4      lost  14.8 wp
       lichess.org/4OOkY1h2#30
       was available Bxg5 -- revealed rf8, target Nf3, moved bg5
 
@@ -164,23 +167,26 @@ out_of_book.Queen's Pawn Game.own
     tells you: Learn a few more moves of the Queen's Pawn Game. Play through the cited games to the move where you left theory and look up what is played there -- that move is the edge of your repertoire.
     59 instances across 3 players
 ------------------------------------------------------------------------------
-  [ ] bernes                move   2  White e3       lost   1.7 wp
+  [?] bernes                move   2  White e3       lost   1.7 wp
       lichess.org/EGKTN6wj#3
-  [ ] bernes                move   5  White Nf3      lost   1.6 wp
+      This is just some less known variant.
+  [?] bernes                move   5  White Nf3      lost   1.6 wp
       lichess.org/yyGtIp4d#9
-  [ ] goydorak              move   2  Black Nd7      lost   3.2 wp
+  [y] goydorak              move   2  Black Nd7      lost   3.2 wp
       lichess.org/XjJaJOwf#4
-  [ ] maxhayastan           move   5  Black e6       lost   0.0 wp
+  [n] maxhayastan           move   5  Black e6       lost   0.0 wp
       lichess.org/YrwNHqsx#10
-  [ ] maxhayastan           move   5  Black e6       lost   0.0 wp
+      White exited the line a move before instead of black.
+  [n] maxhayastan           move   5  Black e6       lost   0.0 wp
       lichess.org/GInElwNz#10
+      This is a variant of the accelerated london system.
 
 missed_motif.pin.own
     claims: You miss pin tactics that were available.
     tells you: Drill `pin` puzzles, and solve to be right rather than fast — review every one you get wrong.
     52 instances across 9 players
 ------------------------------------------------------------------------------
-  [ ] Hirsican              move  23  White Bh6      lost  21.4 wp
+  [y] Hirsican              move  23  White Bh6      lost  21.4 wp
       lichess.org/9bsVByg5#45
       was available Qa1 -- pinner Qa1, pinned nd4, against kh8
   [ ] Odin5306              move  14  Black Re8      lost  10.2 wp
@@ -207,9 +213,10 @@ allowed_motif.discoveredAttack.own
   [ ] Hirsican              move  33  Black Rc8      lost  14.9 wp
       lichess.org/htcjpYak#66
       punished by hxg4 -- revealed Rh1, target qh5, moved Pg4
-  [ ] bernes                move   8  White b4       lost  11.8 wp
+  [?] bernes                move   8  White b4       lost  11.8 wp
       lichess.org/akIZ3faz#15
       punished by Ne4 -- revealed bg7, target Nc3, moved ne4
+      Ne8 is a bad move for black with significant loss in wp, Ne4 is a good one.
   [ ] bernes                move  16  White Qc2      lost   7.2 wp
       lichess.org/3g6KpqF3#31
       punished by Nb6 -- revealed qd8, target Nd5, moved nb6
@@ -222,15 +229,15 @@ allows_square.outpost.own
     tells you: Before a pawn move, ask which square it gives up for good — a pawn cannot come back. In the cited games, find the move where the square your opponent later occupied stopped being defensible.
     41 instances across 4 players
 ------------------------------------------------------------------------------
-  [ ] Maximilian_Honigtopf  move  16  Black Nd7      lost  10.5 wp
+  [y] Maximilian_Honigtopf  move  16  Black Nd7      lost  10.5 wp
       lichess.org/PbhJDtzW#32
-  [ ] bjagus                move  15  White bxc5     lost   0.0 wp
+  [y] bjagus                move  15  White bxc5     lost   0.0 wp
       lichess.org/2B2tcJRK#29
-  [ ] bjagus                move  20  Black a6       lost   0.0 wp
+  [y] bjagus                move  20  Black a6       lost   0.0 wp
       lichess.org/gcTZhkqt#40
-  [ ] cademan               move  24  White exd4     lost   6.2 wp
+  [y] cademan               move  24  White exd4     lost   6.2 wp
       lichess.org/WW2QKoJn#47
-  [ ] simonvj               move  14  Black fxe5     lost   0.0 wp
+  [y] simonvj               move  14  Black fxe5     lost   0.0 wp
       lichess.org/R4HBrccz#28
 
 out_of_book.Hungarian Opening.own
@@ -238,16 +245,20 @@ out_of_book.Hungarian Opening.own
     tells you: Learn a few more moves of the Hungarian Opening. Play through the cited games to the move where you left theory and look up what is played there -- that move is the edge of your repertoire.
     40 instances across 1 players
 ------------------------------------------------------------------------------
-  [ ] Odin5306              move   3  White c4       lost   0.0 wp
+  [n] Odin5306              move   3  White c4       lost   0.0 wp
       lichess.org/Ql2xAOb4#5
-  [ ] Odin5306              move   4  White Qb3      lost   3.8 wp
+      This was a variant, the black exited it a move later, if it is suspected to be an out of book move then it should have at least significant loss in wp.
+  [y] Odin5306              move   4  White Qb3      lost   3.8 wp
       lichess.org/6SDh3ygT#7
-  [ ] Odin5306              move   4  White Nc3      lost  11.2 wp
+  [n] Odin5306              move   4  White Nc3      lost  11.2 wp
       lichess.org/Ql2xAOb4#7
-  [ ] Odin5306              move   4  White Bb2      lost   0.0 wp
+      Black exited book in move 3. This was a mistake because the white did not took opportuniti of taking a pawn and later taking a fully blocked rook.
+  [n] Odin5306              move   4  White Bb2      lost   0.0 wp
       lichess.org/Xy4JGnN9#7
-  [ ] Odin5306              move   5  White e3       lost   1.6 wp
+      This is a variant of the hungarian opening:slav formation, and it did not had any significant loss in wp.
+  [?] Odin5306              move   5  White e3       lost   1.6 wp
       lichess.org/PZvhzOfb#9
+      It is not the most popular move in the slav formation but it is not a significant loss in wp.
 
 allowed_motif.hangingPawn.own
     claims: When you go wrong, it is often a pawn you simply drop.
@@ -328,15 +339,16 @@ concedes_weakness.doubled.own
     tells you: In the cited positions, ask whether you chose the structure or simply allowed it. Conceding a weakness for something concrete is fine; doing it without noticing is the habit worth changing.
     30 instances across 2 players
 ------------------------------------------------------------------------------
-  [ ] Maximilian_Honigtopf  move  10  White gxf3     lost   9.9 wp
+  [y] Maximilian_Honigtopf  move  10  White gxf3     lost   9.9 wp
       lichess.org/IGCmSgiy#19
-  [ ] cademan               move   8  White exf4     lost   0.0 wp
+  [y] cademan               move   8  White exf4     lost   0.0 wp
       lichess.org/vmYdIpZ1#15
-  [ ] cademan               move   8  Black gxf5     lost   1.8 wp
+  [n] cademan               move   8  Black gxf5     lost   1.8 wp
       lichess.org/h7rhc8WZ#16
-  [ ] cademan               move  11  White fxe5     lost   4.0 wp
+      Black took a pawn, this was a beginning of the exchange that white did not continues immediately.
+  [y] cademan               move  11  White fxe5     lost   4.0 wp
       lichess.org/dw3zY6IW#21
-  [ ] cademan               move  11  White gxf3     lost   2.5 wp
+  [y] cademan               move  11  White gxf3     lost   2.5 wp
       lichess.org/liX9MImV#21
 
 miscounted_exchange.own_move.own
@@ -344,15 +356,16 @@ miscounted_exchange.own_move.own
     tells you: Before starting an exchange, count both sides of it: every attacker you have on that square against every defender they have, cheapest first. In the cited games, count them again and see where the total went wrong.
     26 instances across 3 players
 ------------------------------------------------------------------------------
-  [ ] Odin5306              move  34  White Nxf5     lost   0.0 wp
+  [n] Odin5306              move  34  White Nxf5     lost   0.0 wp
       lichess.org/HfHWPjFM#67
-  [ ] cademan               move  11  White Qxg4     lost  52.7 wp
+      This was not a miscalculated exchange because after an exchange there was a fork tactics by white queen to fork by Qe6 pieces Kg8 and Nf5 and take the knight back after that. The move didn't had any significant wp loss after all.
+  [y] cademan               move  11  White Qxg4     lost  52.7 wp
       lichess.org/JD2kOv8A#21
-  [ ] cademan               move  12  Black Bxb4     lost   5.4 wp
+  [y] cademan               move  12  Black Bxb4     lost   5.4 wp
       lichess.org/QjeRmzq0#24
-  [ ] cademan               move  16  White Nxb5     lost  18.3 wp
+  [y] cademan               move  16  White Nxb5     lost  18.3 wp
       lichess.org/M2HQqz8u#31
-  [ ] goydorak              move   7  White Nxd5     lost  23.9 wp
+  [y] goydorak              move   7  White Nxd5     lost  23.9 wp
       lichess.org/k7cM1Vo4#13
 
 missed_motif.skewer.own
@@ -397,16 +410,19 @@ late_castling.book.own
     tells you: In the cited games the king stayed in the centre while the position was already slipping. When you notice two or three moves going wrong, castle before looking for the plan -- the drift is what makes the delay expensive.
     21 instances across 2 players
 ------------------------------------------------------------------------------
-  [ ] Hirsican              move   5  White d4       lost   0.0 wp
+  [?] Hirsican              move   5  White d4       lost   0.0 wp
       lichess.org/GV23qiD1#9
-  [ ] Hirsican              move   5  Black Qxd5     lost   5.7 wp
+      In this game there were some unnecessary pawn movements which resulted with extending the period before casteling, but this exact move did not had any significant wp loss and should not be counted.
+  [n] Hirsican              move   5  Black Qxd5     lost   5.7 wp
       lichess.org/CUlbDaPp#10
-  [ ] Hirsican              move  15  White O-O      lost   0.0 wp
+      Here the casteling would be a worse move than the one that was played.
+  [y] Hirsican              move  15  White O-O      lost   0.0 wp
       lichess.org/IPkBTNT3#29
-  [ ] Hirsican              move  16  White O-O      lost   0.0 wp
+  [y] Hirsican              move  16  White O-O      lost   0.0 wp
       lichess.org/9bsVByg5#31
-  [ ] Odin5306              move   5  Black d5       lost   0.0 wp
+  [?] Odin5306              move   5  Black d5       lost   0.0 wp
       lichess.org/mdDgr7XJ#10
+      There were some unnecessary movements of the pawns instead of developing pieces and allowing the king to castle but d5 was not one of them, it didn't even had any significant wp loss.
 
 missed_motif.hangingPawn.own
     claims: You leave free pawns on the board — material that was there for the taking.
@@ -482,16 +498,20 @@ slow_development.book.own
     tells you: Count your undeveloped pieces at move ten in the cited games. Aim to have the minor pieces out and the king castled before starting anything on a wing.
     15 instances across 1 players
 ------------------------------------------------------------------------------
-  [ ] simonvj               move   5  White Qh5+     lost   0.0 wp
+  [n] simonvj               move   5  White Qh5+     lost   0.0 wp
       lichess.org/IKF2xcAF#9
-  [ ] simonvj               move   5  Black b6       lost   6.2 wp
+      This was a good move for white and also Queen was developed by that move.
+  [y] simonvj               move   5  Black b6       lost   6.2 wp
       lichess.org/oIJVS7Pv#10
-  [ ] simonvj               move  15  White O-O      lost   0.0 wp
+  [y] simonvj               move  15  White O-O      lost   0.0 wp
       lichess.org/Hh01gXYE#29
-  [ ] simonvj               move  20  White Bb2      lost   0.0 wp
+      There were some unnecessary moves and tactical mistakes but 0-0 was not one of them.
+      Oh I see, 0-0 was move for the end of the development and it was late, it really was it is good.
+  [y] simonvj               move  20  White Bb2      lost   0.0 wp
       lichess.org/Wkx21lEk#39
-  [ ] simonvj               move  22  White Bxg5     lost   0.0 wp
+  [n] simonvj               move  22  White Bxg5     lost   0.0 wp
       lichess.org/6iNu6ltz#43
+      White played good moves, completing the development and taking the bishop out was never a better move then one of those which white played.
 
 opening_disadvantage.any.own
     claims: You come out of the opening worse more often than most.

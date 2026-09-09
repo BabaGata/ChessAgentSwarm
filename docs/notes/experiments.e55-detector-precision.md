@@ -286,3 +286,81 @@ Two smaller ones: `concedes_weakness.doubled` is rejected once for doubling mid-
 (*"a beginning of the exchange that white did not continue immediately"*), and `endgame_error.any`
 carries the same complaint that retired `out_of_book.any` — *"Endgames should be separated by the
 types of the endgames, any is not informative."*
+
+## Regenerated, marks carried, and re-asked position by position (2026-09-09)
+
+`detection-sheet-2026-09-09.txt`, built at `726b476`. Two new tools, because the marking is the
+expensive part and every regeneration until now has thrown it away:
+
+- **`carry_marks.py`** moves a mark from an old sheet to a new one when the same claim still cites the
+  same `(game, ply)`, and carries the author's comment with it. It reports **kept / gone / new**, and
+  is explicit that a carried mark judges code that has since changed.
+- **`recheck.py`** answers the question `carry_marks` cannot. The sheet samples **5 of N**, so a row
+  leaves it either because the detector stopped firing or because the sample reshuffled — identical in
+  a diff, and reading one as the other is how a fix gets claimed that never happened. It rebuilds each
+  rejected position from the game and asks `detect_motifs` again. No engine.
+
+### Carried
+
+**62 of 95 marks carried**, 33 rows left the sheet, 102 rows are new and unjudged.
+
+### Re-asked: 15 rejected motif rows, position by position
+
+| | |
+|---|--:|
+| **no longer fire** | **8** |
+| still fire | 7 |
+
+| position | was | now |
+|---|---|---|
+| `mdpdLHYI#9` | `hangingPawn` — *"this was an exchange"* | **nothing** |
+| `GV23qiD1#47`, `vmYdIpZ1#47` | `fork` — *"this is a skewer"* | **skewer** |
+| `SuvK6tPc#72`, `z6Zw4EtZ#44`, `wW19J75A#82`, `JpiP6HBj#45` | `fork` — *"this is a skewer"* | **skewer** |
+| `rBfHcNcI#29` | `pin` — *"pinned already by the same bishop"* | **nothing** |
+
+Every fix lands on the exact position it was written for. Nothing was fixed by re-sampling.
+
+### The five that still fire are the sheet's fault, not the detector's — proved by the author
+
+All five `allowed_motif.discoveredAttack` rejections still fire **on the move the old sheet printed**,
+which is consistent with the display bug rather than against it: that move was never the one the claim
+rested on. The new sheet shows `primary(observation.punishments)`, and the author's own comments settle
+it.
+
+| position | old sheet showed | author said | new sheet shows |
+|---|---|---|---|
+| `akIZ3faz#15` | `punished by Ne8` | *"Ne8 is a bad move for black with significant loss in wp, **Ne4** is a good one"* | **`punished by Ne4`** |
+| `NF4Pv6NH#26` | `punished by Qb5` (as `pin`) | *"Qb5 is not among good moves for white … **Qe4** would be better"* | **`punished by Qe4`** |
+
+**Two independent rows where the move the author named as the good one is exactly the move the system
+had counted.** The finding was right and the illustration was wrong, and the author could not have
+known that from the sheet. `allowed_motif.discoveredAttack` and `allowed_motif.pin` are therefore
+**unscored, not wrong**, and their marks are void rather than negative.
+
+### The scoreboard after carrying
+
+**No detector is condemned.** `missed_motif.fork` and `out_of_book.any` were the two, and both are
+resolved — one by ADR-0019, one by retirement. Ten claims are *unsettled*: marked, above the floor,
+and short of the ~20 marks that would confirm them.
+
+| claim | instances before | after |
+|---|--:|--:|
+| `allowed_motif.hangingPawn` | 231 | **39** (−83 %) |
+| `allowed_motif.pin` | 139 | **78** (−44 %) |
+| `missed_motif.fork` | 59 | **35** (−41 %) |
+| `allowed_motif.fork` | 181 | **153** (−15 %) |
+| `missed_motif.skewer` | 4 | **26** (+550 %) |
+| `out_of_book.any` | 45 | **retired** |
+
+**`allowed_motif.hangingPawn` at −83 % is far past the −18.7 % measured over all legal moves**, and the
+gap is the point: `allowed_motif` counts *punishments*, and a punishment is a reply to an error, where
+a recapture is enormously more common than among legal moves at large. The rule bit hardest exactly
+where the author said it hurt.
+
+### Not explained, and flagged rather than glossed
+
+**`allowed_motif.discoveredAttack` rose 29 → 49 (+69 %)** and nothing in this cycle touched
+`_is_discovered_attack`. The plausible mechanism is `candidates_in`'s skip — a reply whose motifs the
+best reply already covers is never evaluated, and the fork/skewer relabel changes those `covered`
+sets — but that is a hypothesis and it has not been measured. A detector moving 69 % for reasons
+unknown is a defect until it is explained.

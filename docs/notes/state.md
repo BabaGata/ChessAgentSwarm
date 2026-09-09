@@ -271,6 +271,32 @@ struck through: a list nobody can act on is not a plan.
    already measured: split-half agreement, the cost profile cold against warm, and the strength
    estimate against actual rating for both speeds (which would show the blitz repair visually).
 
+0. **DONE — the sheet regenerated, the marks carried, and every rejection re-asked** *(2026-09-09)*.
+   `detection-sheet-2026-09-09.txt` at `726b476`, plus two tools that stop a regeneration throwing the
+   author's work away: **`carry_marks.py`** (a mark is about a position, so it survives a rebuild —
+   **62 of 95 carried**, with the comments) and **`recheck.py`** (the sheet samples 5 of N, so a row
+   leaving it is not proof of a fix; this rebuilds each rejected position and re-asks the detector).
+
+   **8 of 15 rejected motif rows no longer fire, each on the position it was written for** — the
+   exchange reads as nothing, the six "this is a skewer" rows read as `skewer`, the already-existing
+   pin reads as nothing. Nothing was fixed by re-sampling.
+
+   **The seven that remain are the sheet's fault, and the author proved it.** All five
+   `allowed_motif.discoveredAttack` rejections were about the move the sheet *printed*, which was
+   never the move the claim rested on. On `akIZ3faz#15` the author wrote *"Ne8 is a bad move … Ne4 is
+   a good one"* and the corrected sheet shows **`punished by Ne4`**; on `NF4Pv6NH#26` they wrote
+   *"Qe4 would be better"* and it shows **`punished by Qe4`**. Two rows where the move they named is
+   the move the system had counted all along. Those claims are **unscored, not wrong**.
+
+   **No detector is condemned any more** — `missed_motif.fork` and `out_of_book.any` were the two.
+   Ten are *unsettled*: above the floor and short of the ~20 marks that would confirm them.
+   `allowed_motif.hangingPawn` **231 → 39 (−83 %)**, far past the −18.7 % measured over all legal
+   moves, because a punishment is a reply to an error and that is where recaptures live.
+
+   **Unexplained and flagged:** `allowed_motif.discoveredAttack` rose **29 → 49 (+69 %)** with nothing
+   in this cycle touching it. Hypothesis is `candidates_in`'s skip interacting with the relabel;
+   unmeasured, and a detector moving 69 % for unknown reasons is a defect until explained.
+
 0. **DONE — the sheet is scored for the first time, and two more detectors fixed** *(2026-09-08)*.
    The author marked **60 boxes across the twelve most-firing detectors**, and
    `e55-detector-precision/score.py` read them. **Two condemned**: `out_of_book.any` at **0/3** and
