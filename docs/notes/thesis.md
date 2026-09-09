@@ -72,8 +72,7 @@ rather than pictures of equations, a live table of contents. What it does *not* 
 
 | pandoc gap | what the build does |
 |---|---|
-| `
-ef` to equations, listings, tables and figures left as `[eq:winprob]` | resolved from `numbering.py` before pandoc sees the file |
+| refs to equations, listings, tables and figures left as `[eq:winprob]` | resolved from `numbering.py` before pandoc sees the file |
 | appendices numbered 10–14, never A–E | chapter numbers baked into the titles; pandoc numbers nothing |
 | TikZ and pgfplots silently dropped — **every figure vanished** | swapped for PNGs rendered by `tools/assets.py` |
 | `--citeproc` gives author-date; the faculty template is numeric | citations resolved to `[n]` and the bibliography emitted in citation order |
