@@ -2,7 +2,7 @@
 id: cas-thesis
 title: Thesis
 desc: 'The written thesis: structure, where each chapter draws from, and the rules that keep it from claiming more than the vault does.'
-updated: 1789171200000
+updated: 1789257600000
 created: 1788780000000
 ---
 
@@ -138,6 +138,45 @@ What the tests do guard, beyond the package:
   introduction now says what a chess engine is in one clause, chapter 2 gives it
   a paragraph including what it does *not* do (it does not write the text the
   player reads), and the glossary carries it with `ocjena` and `dubina`.
+
+### Conformance with the faculty template, 2026-09-09
+
+`Masters-thesis/Predložak za diplomski rad.docx` states the required formatting
+in prose. The build now follows it, and `tools/test_docx.py` asserts each value
+so it cannot drift back.
+
+| the template asks for | was | now |
+|---|---|---|
+| body Times New Roman 12, spacing **1.15**, 0 before / **6pt** after, justified | spacing 1.4, 8pt after | fixed |
+| headings **Arial bold** 16 / 14 / 12, spacing 0-12 / 18-6 / 6-6 | Times New Roman 20 / 14 / 12.5 | fixed |
+| figures and tables numbered **by order of appearance**, not per chapter | per chapter (2.1, 3.4) | fixed |
+| captions **centred, Times New Roman 10**, "Tablica 1. Naziv" | bold, left, "Tablica 2.1: Naziv" | fixed |
+| page number **in the footer, right-aligned**, arabic from chapter 1, none on the cover | none at all | fixed, via a section break |
+| code in Consolas **9pt** | 8.5pt | fixed |
+| **Literatura**, **Popis tablica**, **Popis slika**, **Popis priloga** | only "Izvori" | fixed |
+| section numbers written **2.1.** with a trailing dot | 2.1 | fixed |
+| **every figure mentioned in the text** ("Na Slici 4. prikazano je") | **no figure was referenced anywhere** | fixed |
+| keywords separated by **semicolons** | commas | fixed |
+
+**The Arial headings settle an earlier complaint.** The author reported that the
+headings were in a different font from the body and read it as a defect. Half of
+that was a defect -- the theme font made them Calibri Light -- and half is what
+the faculty requires: Arial headings against a Times New Roman body. They now
+differ *on purpose*.
+
+### Still not conforming, and needing a decision
+
+- **Zadatak diplomskog rada** -- the template wants the mentor's original task
+  sheet bound in after the title page. It cannot be generated; a physical or
+  supplied page.
+- **Appendices are lettered A-E**, while the template writes "Prilozi (1, 2,
+  ...)". Letters are the LaTeX convention and avoid colliding with chapter
+  numbers; the template is not emphatic. Left as letters, flagged rather than
+  changed silently.
+- **The cover** carries faculty and department where the template lists "naziv
+  studija i studijske grupe". Whether "Sveučilišni diplomski studij Informatika"
+  should appear verbatim is the author's call.
+- **IEEE reference formatting** is close but not audited entry by entry.
 
 ## Mechanics
 
