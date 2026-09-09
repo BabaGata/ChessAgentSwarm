@@ -211,3 +211,78 @@ both questions from the next generation on.
 - **The peer reference and the separation register are stale for `fork` and `skewer`** (L-058), and
   the marks on those two rows now judge code that no longer exists. Nothing quoting either rate is
   trustworthy until `e84-band-references/build.py` is re-run — about fifty minutes.
+
+## The second half of the marking, and an instrument defect (2026-09-09)
+
+The author kept marking while the first round was being fixed: **95 marks**, not 60, across
+**19 detectors**. `score.py` now refuses the sheet outright — two detector commits landed after it
+was generated — which is the staleness guard doing its job, so the rest of this reads the marks
+directly.
+
+### The sheet was showing evidence the system never used
+
+`motif_line` built the *"punished by X"* line by taking the **first legal move in `legal_moves`
+order** that executed the motif. It never looked at `observation.punishments`, so it could illustrate
+a finding with a reply that `punishment.qualifying` had already thrown out as not worth playing.
+
+**`allowed_motif.discoveredAttack` scored 0 of 5, and four of the five rejections are this:**
+
+> *"Nxf7 would be a bad move for white with significant loss in wp, another move that leads to
+> discovered attack Nc6 is much better."*
+
+> *"Rh3 is a bad move for white with significant loss in wp, Rg3 is a good one."*
+
+> *"Ne8 is a bad move for black with significant loss in wp, Ne4 is a good one."*
+
+> *"Nxg5 is a really bad move for white with significant wp loss, Ne5 would be better."*
+
+Every one of those is a correct judgement **about the move on the page**, and in each the author names
+a *different* move that also delivers the motif. That is the shape of a display bug, not a detector
+bug: the finding may rest on the good move and the sheet printed the bad one. The claim cannot be
+scored either way until it is re-marked on a corrected sheet.
+
+`motif_line` now shows `primary(observation.punishments)` — the reply the report would name — then
+the other counted ones, and only then falls back to a search. **This affects every `allowed_motif`
+row ever marked**, including the rounds already scored.
+
+### The one rejection that is about the detector
+
+> *"nc6 is not a good target, the black knight is defended and queen would never take that one. There
+> was actually a fork by Nc7 … The check should be done to see if the detected attacked piece was
+> actually good to be taken a move after."*
+
+`_is_discovered_attack` does not require its **target** to be winnable, where `_is_fork` requires
+exactly that of every one of its targets. Not fixed.
+
+### The cross-cutting one: evidence that cost nothing
+
+**37 of 163 cited rows are `lost 0.0 wp`**, and the author rejects them wherever they appear, in four
+different detectors:
+
+> *"if it is suspected to be an out of book move then it should have at least significant loss in wp"*
+
+> *"this exact move did not had any significant wp loss and should not be counted"* (`late_castling`)
+
+> *"White played good moves, completing the development"* (`slow_development`)
+
+> *"The move didn't had any significant wp loss after all"* (`miscounted_exchange`)
+
+| detector | 0.0 wp rows | rejected |
+|---|--:|--:|
+| `late_castling.book` | 4 / 5 | 2 |
+| `slow_development.book` | 4 / 5 | 2 |
+| `out_of_book.Hungarian Opening` | 2 / 5 | 2 |
+| `out_of_book.Queen's Pawn Game` | 2 / 5 | 2 |
+| `miscounted_exchange` | 1 / 5 | 1 |
+
+**This is one question, not five**, and it is not obviously a bug: `late_castling` and
+`slow_development` are *habit* claims measured over opportunities rather than over errors, so a
+costless move can legitimately be an instance of the habit. What is wrong is citing a costless move
+as the **evidence** — the author reads it as *"the system says this move was a mistake"* and it is
+not saying that. The choice is between filtering instances by cost and choosing costly instances to
+cite; they are different claims and the second is nearly free.
+
+Two smaller ones: `concedes_weakness.doubled` is rejected once for doubling mid-exchange
+(*"a beginning of the exchange that white did not continue immediately"*), and `endgame_error.any`
+carries the same complaint that retired `out_of_book.any` — *"Endgames should be separated by the
+types of the endgames, any is not informative."*

@@ -44,6 +44,7 @@ from chesscoach.orchestrator import default_agents, diagnose  # noqa: E402
 from chesscoach.peers import PeerReference  # noqa: E402
 from chesscoach.phrasing import move_number, statement  # noqa: E402
 from chesscoach.planner import _action  # noqa: E402
+from chesscoach.punishment import primary  # noqa: E402
 from chesscoach.pipeline import engine_session, load_games  # noqa: E402
 from chesscoach.motif_evidence import describe  # noqa: E402
 from chesscoach.sections.base import SectionContext  # noqa: E402
@@ -127,7 +128,43 @@ def motif_line(claim_key: str, observation) -> str | None:
         if played not in board.legal_moves:
             return None
         board.push(played)
-        candidates = list(board.legal_moves)
+        # **The punishment the system actually counted, not one found again
+        # here.** This listed the first legal move that happened to execute the
+        # motif, in `legal_moves` order, with no reference to
+        # `observation.punishments` and no win-probability test -- so the sheet
+        # could illustrate a finding with a move the system had rejected as not
+        # worth playing, and did.
+        #
+        # The author rejected four of five `allowed_motif.discoveredAttack`
+        # rows for one reason and it was this one:
+        #
+        # > *"Nxf7 would be a bad move for white with significant loss in wp,
+        # > another move that leads to discovered attack Nc6 is much better."*
+        #
+        # > *"Rh3 is a bad move for white with significant loss in wp, Rg3 is a
+        # > good one."*
+        #
+        # They are right about the move on the page and it is not the move the
+        # claim rests on. `punishment.qualifying` had already required every
+        # counted reply to be within an inaccuracy of the opponent's best
+        # ([[design.punishment-validity]]); the sheet was asking them to judge
+        # evidence the system never used.
+        #
+        # `primary` first, because that is the one the report would name, then
+        # the rest, and only then a search -- which now cannot silently pass for
+        # a real punishment, because an observation carrying none is a finding
+        # with nothing to show.
+        counted = tuple(
+            chess.Move.from_uci(p.uci) for p in observation.punishments
+            if p.motif == motif
+        )
+        named = primary(tuple(
+            p for p in observation.punishments if p.motif == motif
+        ))
+        candidates = list(counted)
+        if named is not None:
+            first = chess.Move.from_uci(named.uci)
+            candidates = [first] + [m for m in candidates if m != first]
         label = "punished by"
     else:
         if not observation.best_move:
@@ -147,6 +184,14 @@ def motif_line(claim_key: str, observation) -> str | None:
         san = board.san(move)
         return f"{label} {san}" + (f" -- {told}" if told else "")
     return None
+
+
+def _action_for(finding) -> str:
+    """The exercise, or nothing if the planner has none for this claim."""
+    try:
+        return _action(finding)
+    except Exception:  # noqa: BLE001 - a missing exercise must not lose a row
+        return ""
 
 
 def main() -> int:
@@ -236,7 +281,7 @@ def main() -> int:
                 # judged on whether it fired correctly and never on whether the
                 # thing it leads to is worth a player's week. Those are the two
                 # questions this sheet is for, and it was asking one.
-                entry["do"] = _action(finding)
+                entry["do"] = _action_for(finding)
                 entry["players"].add(player)
                 for ref in finding.measurement.instances_at:
                     observation = at.get(ref)
