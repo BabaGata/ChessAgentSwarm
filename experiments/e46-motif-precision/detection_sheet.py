@@ -186,6 +186,108 @@ def motif_line(claim_key: str, observation) -> str | None:
     return None
 
 
+# How many engine lines to show beside a cited move. Three, because the sheet is
+# read by eye and a fourth line rarely changes a verdict -- and because MultiPV
+# costs roughly N times a single search ([[design.multipv-candidate-moves]]),
+# measured 2.83x at three against 5.28x at five.
+TOP_MOVES = 3
+
+
+def ranked_moves(analyser, board: chess.Board, played: chess.Move | None) -> str:
+    """The engine's best few replies with their scores, as a marker would see them.
+
+    The author, marking `allowed_motif.discoveredAttack`:
+
+    > *"Nxf7 would be a bad move for white with significant loss in wp, another
+    > move that leads to discovered attack Nc6 is much better."*
+
+    > *"Rh3 is a bad move for white with significant loss in wp, Rg3 is a good
+    > one."*
+
+    Four of five rows rejected with a judgement the sheet gave them no way to
+    make: whether the cited move is among the moves worth playing. They were
+    opening each link in Lichess and reading the engine's lines there by hand.
+    This puts the same lines on the page.
+
+    **It is the instrument, not the claim.** Nothing here decides anything --
+    `punishment.qualifying` already ran, with the same threshold, during the
+    analysis. This only shows the marker what that decision was made on, so a
+    `[n]` can mean *"the detector is wrong"* rather than *"the printed move is
+    wrong"*, which is the confusion that cost a whole marking round.
+
+    The move actually cited is starred where it appears, and where it does not
+    appear at all that is itself the answer.
+    """
+    try:
+        infos = analyser._engine.analyse(
+            board, analyser._limit, multipv=TOP_MOVES
+        )
+    except Exception:  # noqa: BLE001 - a sheet without scores beats no sheet
+        return ""
+    if isinstance(infos, dict):
+        infos = [infos]
+
+    shown = []
+    for info in infos:
+        variation = info.get("pv") or []
+        if not variation:
+            continue
+        move = variation[0]
+        score = info["score"].pov(board.turn)
+        if score.is_mate():
+            reads = f"#{score.mate()}"
+        else:
+            reads = f"{(score.score() or 0) / 100:+.2f}"
+        try:
+            san = board.san(move)
+        except ValueError:
+            san = move.uci()
+        star = " *" if played is not None and move == played else ""
+        shown.append(f"{san} {reads}{star}")
+    if not shown:
+        return ""
+
+    seen = played is not None and any(line.endswith(" *") for line in shown)
+    tail = "" if seen or played is None else "   (the move above is not in the top "
+    if tail:
+        tail += f"{TOP_MOVES})"
+    return "engine: " + " | ".join(shown) + tail
+
+
+def engine_line(claim_key: str, observation, analyser) -> str:
+    """`ranked_moves` pointed at the position the claim is actually about.
+
+    The side to move differs by claim, and getting it wrong would print the
+    wrong player's options:
+
+    * **`allowed_motif`** is about the **opponent's** reply, so the player's
+      move goes on the board first and the lines shown are the opponent's. This
+      is the case the author was marking by hand.
+    * **everything else** is about the player's own choice, so the position is
+      taken as it stood and the lines are the alternatives to what they played.
+    """
+    try:
+        board = chess.Board(observation.fen_before)
+        played = chess.Move.from_uci(observation.move_played)
+    except ValueError:
+        return ""
+    if played not in board.legal_moves:
+        return ""
+
+    if claim_key.split(".")[0] == "allowed_motif":
+        board.push(played)
+        # The punishment the claim counted, so the marker can see where it
+        # ranks. `motif_line` prints the same move on the line above.
+        named = primary(tuple(observation.punishments))
+        try:
+            starred = chess.Move.from_uci(named.uci) if named else None
+        except ValueError:
+            starred = None
+        return ranked_moves(analyser, board, starred)
+
+    return ranked_moves(analyser, board, played)
+
+
 def _action_for(finding) -> str:
     """The exercise, or nothing if the planner has none for this claim."""
     try:
@@ -298,44 +400,57 @@ def main() -> int:
     lines = [HEADER.format(n=args.examples), provenance(), ""]
     ordered = sorted(claims.items(), key=lambda kv: (-len(kv[1]["hits"]), kv[0]))
 
-    for key, entry in ordered:
-        hits = entry["hits"]
-        lines.append("")
-        lines.append(f"{key}")
-        lines.append(f"    claims: {entry['say']}")
-        if entry["do"]:
-            lines.append(f"    tells you: {entry['do']}")
-        if not hits:
-            lines.append("    NO INSTANCES in these games.")
-            lines.append("-" * 78)
-            continue
-        lines.append(
-            f"    {len(hits)} instances across {len(entry['players'])} players"
-        )
-        lines.append("-" * 78)
-
-        digest = hashlib.sha256(key.encode("utf-8")).digest()
-        rng = random.Random(int.from_bytes(digest[:8], "big"))
-        pool = sorted(hits, key=lambda h: (h[0], h[1].game_id, h[1].ply))
-        for player, o in sorted(
-            rng.sample(pool, min(args.examples, len(pool))),
-            key=lambda h: (h[0], h[1].ply),
-        ):
-            try:
-                board = chess.Board(o.fen_before)
-                move = chess.Move.from_uci(o.move_played)
-                san = board.san(move) if move in board.legal_moves else o.move_played
-            except (ValueError, IndexError):
-                san = o.move_played
-            colour = "White" if o.mover_is_white else "Black"
+    # **A second, short engine session, for the sampled rows only.** The first
+    # one analysed every position in every game; this one runs MultiPV on the
+    # ~160 rows that reach the page. MultiPV costs about N times a single search
+    # ([[design.multipv-candidate-moves]]), so doing it in the main pass would
+    # have tripled an eight-minute analysis to show three lines on 3 % of it.
+    print("  engine lines for the sampled rows...", flush=True)
+    with engine_session(args.engine, args.depth, args.cache) as marking:
+        for key, entry in ordered:
+            hits = entry["hits"]
+            lines.append("")
+            lines.append(f"{key}")
+            lines.append(f"    claims: {entry['say']}")
+            if entry["do"]:
+                lines.append(f"    tells you: {entry['do']}")
+            if not hits:
+                lines.append("    NO INSTANCES in these games.")
+                lines.append("-" * 78)
+                continue
             lines.append(
-                f"  [ ] {player:<21} move {move_number(o.ply):>3}  {colour:<5} "
-                f"{san:<8} lost {o.loss_wp:>5.1f} wp"
+                f"    {len(hits)} instances across {len(entry['players'])} players"
             )
-            lines.append(f"      lichess.org/{o.game_id}#{o.ply}")
-            told = motif_line(key, o)
-            if told:
-                lines.append(f"      {told}")
+            lines.append("-" * 78)
+
+            digest = hashlib.sha256(key.encode("utf-8")).digest()
+            rng = random.Random(int.from_bytes(digest[:8], "big"))
+            pool = sorted(hits, key=lambda h: (h[0], h[1].game_id, h[1].ply))
+            for player, o in sorted(
+                rng.sample(pool, min(args.examples, len(pool))),
+                key=lambda h: (h[0], h[1].ply),
+            ):
+                try:
+                    board = chess.Board(o.fen_before)
+                    move = chess.Move.from_uci(o.move_played)
+                    san = board.san(move) if move in board.legal_moves else o.move_played
+                except (ValueError, IndexError):
+                    san = o.move_played
+                colour = "White" if o.mover_is_white else "Black"
+                lines.append(
+                    f"  [ ] {player:<21} move {move_number(o.ply):>3}  {colour:<5} "
+                    f"{san:<8} lost {o.loss_wp:>5.1f} wp"
+                )
+                lines.append(f"      lichess.org/{o.game_id}#{o.ply}")
+                told = motif_line(key, o)
+                if told:
+                    lines.append(f"      {told}")
+                # What the engine thinks of this position, so a `[n]` can mean
+                # "the detector is wrong" rather than "the printed move is
+                # wrong" -- the confusion that cost a whole marking round.
+                scored = engine_line(key, o, marking.analyser)
+                if scored:
+                    lines.append(f"      {scored}")
 
     silent = sorted(vocabulary - set(claims))
     if silent:

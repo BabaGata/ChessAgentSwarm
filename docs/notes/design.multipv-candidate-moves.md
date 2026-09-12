@@ -167,6 +167,18 @@ Measured above: **3.5× more expensive for the same answer**. No.
 **Option 2 now, Option 1 with MultiPV 3 next**, and Option 1 wants its own cycle because it changes a
 claim's denominator and therefore every rate built on it.
 
+**Option 2 is built** (2026-09-12). `detection_sheet.py` opens a short second engine session over the
+~160 sampled rows and prints the engine's top three with scores under each. It is pointed at the
+position the claim is about — after the player's move for `allowed_motif`, where the lines shown are
+the *opponent's*, and before it otherwise. The counted move is starred, and a row whose move does not
+appear at all says so. Verified on the two rows the author rejected by naming a better move:
+
+    lichess.org/akIZ3faz#15   engine: Ne4 +1.67 | d5 +1.26 | Ne5 +0.99
+    lichess.org/n3uQfuWO#30   engine: Rg3 +0.00 | f5 -0.51 | Bb5 -1.22
+
+*"Ne8 is a bad move … **Ne4** is a good one"* and *"Rh3 is a bad move … **Rg3** is a good one"* — both
+named moves are the engine's first line, now on the page where the marker can see them.
+
 Option 2 is nearly free, needs no schema change, and improves the instrument that every other
 decision on this list depends on. Option 1 is the real fix and is affordable, but it makes
 `missed_motif` count opportunities it has never counted — **the peer reference and the separation
@@ -174,6 +186,120 @@ register both become stale for every `missed_motif` claim** (L-058), which is an
 a re-marking round, not a patch.
 
 Neither is built. This note exists so that the code has somewhere to come from (hard rule 4).
+
+## The real fix, in full
+
+**What changes is one line**, and everything after it is consequence.
+
+```python
+# chesscoach/sections/s1_tactical_gaps.py, _count_available
+best = _legal(board, observation.best_move)      # <- one move
+for motif in detect_motifs(board, best):
+    missed = tallies[_key(MISSED, motif)]
+    missed.opportunities += 1                    # the denominator
+    if erred:
+        missed.instances += 1                    # the numerator
+```
+
+becomes *"every move within `INACCURACY_WP` of the best"* — the rule
+[[design.punishment-validity]] already wrote for the other side.
+
+### Why it is not a one-line change
+
+**It moves the denominator, not only the count.** `missed.opportunities` is *"how many times a pin was
+on the board at all"*. Widening the rule adds positions where a pin was available-but-second-best, so
+**both** numerator and denominator grow and the rate can move either way. A claim can come out
+*quieter*. That is correct behaviour, and it is why this cannot be reasoned about without rebuilding:
+
+    rate = instances / opportunities
+
+Today, for `pin`, both are near zero in the sampled positions. Afterwards both are real numbers and
+the rate is a real rate. Whether it lands above or below the peer rate is **not** predictable from the
++220 % instance figure, because the peer rate moves too.
+
+### What goes stale, and why it is an hour rather than a patch
+
+1. **The peer reference** (`data/raw/out/peers-e84.json`) holds `missed_motif.*` rates computed under
+   the old rule, for 80 players across three bands and two speeds. Comparing a player measured the new
+   way against peers measured the old way measures **the rule change**, not the player. That is L-059
+   in the form where the norm does *not* move with the definition, and so reports a difference that is
+   not real. `build.py`, about fifty minutes.
+2. **The separation register** is generated from those rates and must be regenerated after it.
+3. **Every marked `missed_motif` row** judges the old rule. `recheck.py` can re-ask the detector, but
+   *"was this motif available"* now means something different — so `carry_marks.py` carrying a `[y]`
+   forward would carry a verdict about a different question. Those marks need re-doing, not carrying.
+
+### Where the engine call goes
+
+Not into `detect_motifs` — that stays static and free, for the 469× reason already measured. The
+MultiPV call belongs in the **analysis pass**, beside the one `punishment.candidates_in` already
+makes, where the position is open and the result can ride on the `Observation`:
+
+```python
+# chesscoach/analysis/core.py, per errored position
+punishments = _punishments(board, current, mover_is_white, analyser)   # exists
+candidates  = _candidate_moves(board, analyser)                        # new
+```
+
+`s1_tactical_gaps` then reads `observation.candidates` the way it reads `observation.punishments`, and
+**keeps its stated property of making no engine call of its own**. The cache needs a row shape holding
+N lines instead of one, which is the only schema work.
+
+### Cost, restated for the shape actually proposed
+
+MultiPV 3, at error positions only: **+38 s per player**, against the 32 s `allowed_motif` already
+spends and a 7.8-minute pass. The reference rebuild is the real bill, and it is paid once rather than
+per player.
+
+## Why a truncated list can still be a complete answer
+
+MultiPV 3 returns three moves, and the worry is obvious: *if the pin is the engine's 7th choice,
+MultiPV 3 never mentions it, so the claim silently misses it.*
+
+**Sometimes that worry is answerable, and the engine's own output says when.**
+
+The question a missed tactic asks is: **is there any move executing this motif that is within
+`INACCURACY_WP` of the best?** Call that the *qualifying set*. MultiPV returns its lines in
+**descending order of evaluation** — that is what MultiPV means. So line 1 is the best move, line N is
+the worst of the N shown, and every move **not shown is no better than line N**.
+
+That last clause is the whole argument. Take a real row from the sheet:
+
+    line 1:  Ne4  +1.67       <- the best
+    line 3:  Ne5  +0.99       <- the last one shown
+
+and suppose the inaccuracy threshold is about 0.35 in these terms. Then
+
+- line 3 is already **0.68 below** line 1, which is further than an inaccuracy;
+- every move the engine did **not** show is **no better than line 3**;
+- so every unshown move is also more than an inaccuracy below the best;
+- so **no unshown move can qualify**, and the three shown lines contain the entire qualifying set.
+
+The truncation hid nothing, and that is proved rather than hoped.
+
+Now the other case:
+
+    line 1:  Ne4  +1.67
+    line 3:  Nc6  +1.55       <- still within an inaccuracy
+
+Here line 3 qualifies, so line 4 might have qualified too and the list was cut mid-set. The claim is
+then looking at a **lower bound**: every motif it found is real, and there may be more it cannot see.
+
+**So the rule is a check, not a guess:**
+
+```python
+complete = (best_wp - worst_shown_wp) > INACCURACY_WP
+```
+
+When it holds the answer is exact. When it does not, the position is either re-asked at a larger N or
+recorded as a lower bound — and the honest version says which, rather than reporting a lower bound as
+though it were a count. How often it holds at N=3 is measurable on the existing corpus before anything
+is built, which is open question 1.
+
+**The same check does not apply to `allowed_motif`**, which does not truncate at all: it asks
+`detect_motifs` about every legal reply and evaluates only those executing a motif, so its qualifying
+set is complete by construction. Worth keeping in view — the two claims would reach the same rule by
+different routes, and only one of them needs a completeness test.
 
 ## What this forecloses
 
@@ -192,6 +318,7 @@ Neither is built. This note exists so that the code has somewhere to come from (
    discrimination one. [[design.punishment-validity]] made the same improvement on the allowed side
    and the register came out **net zero** — one claim recovered, one lost. The same could happen here
    and would still be worth having.
-3. **Does the author agree a second-best tactic is a missed tactic?** It is their own words that
-   argue for it, but they said them about the opponent's move. The player's side may deserve a
-   different answer, and it is their call rather than an inference from a quote.
+3. ~~**Does the author agree a second-best tactic is a missed tactic?**~~ **Answered 2026-09-12:
+   yes.** Asked whether *"doesn't have to be the very best move"* holds for the player's own side as
+   well as the opponent's, the author said it does. The rule is symmetric by decision rather than by
+   inference, and Option 1 has its warrant.
