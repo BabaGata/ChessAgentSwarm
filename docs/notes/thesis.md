@@ -390,6 +390,16 @@ numbers into the cache, and `build_docx.py` calls it. Two tests guard it: the
 cached results must take more than ten distinct values, and they must not
 decrease down the list.
 
+That was still not enough, and the reason is the sharpest thing learned here.
+The file on disk held the right numbers and the author still saw "1" on every
+line. **Word's update-on-open was undoing the fix.** `w:dirty` on each field
+and `w:updateFields` in `settings.xml` had been added earlier to force a
+recalculation, back when the cache was wrong; Word honours them before it has
+laid the document out, resolves every reference to 1, and discards what
+paginate measured. Both are gone, a third test fails if either returns, and
+the check that matters is now made the way a reader makes it -- open the file,
+change nothing, read the contents.
+
 **Chapter 1 genuinely starts on printed page 1.** The front matter is its own
 section and the body restarts numbering, so the first few contents entries read
 1, 1, 1, 2 and that is correct, not the old bug.
