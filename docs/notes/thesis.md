@@ -367,6 +367,81 @@ paragraphs break across pages normally.
 `test_table_count_matches_the_sources` had to change with it -- listings are no
 longer tables, so the expected count is tabulars plus the logo row.
 
+### Page numbers: the field was never the problem
+
+Three fixes were made to the PAGEREF fields before this round (bookmark after
+`w:pPr`, one run per field part, `w:updateFields` in its schema position) and
+the contents still read "1" everywhere. The measurement that settled it was to
+open the built file in Word over COM and ask each field what it resolved to.
+
+The first probe said **3** for all 91 fields, which looked like a worse bug. It
+was the probe: `Fields.Update()` was called before `Repaginate()`, so every
+reference resolved to the page the field itself sits on. The order has to be
+**repaginate, update, repaginate**, and with that the numbers were correct all
+along -- 1 through 63, ascending.
+
+So the fields were right and the *cache* was wrong. A field carries an
+instruction and a cached result Word shows until it recalculates; the builder
+can only write the instruction, so it cached "1". Anyone opening the file
+without letting Word update fields saw "1".
+
+`tools/paginate.py` now asks Word once after each build and writes the real
+numbers into the cache, and `build_docx.py` calls it. Two tests guard it: the
+cached results must take more than ten distinct values, and they must not
+decrease down the list.
+
+**Chapter 1 genuinely starts on printed page 1.** The front matter is its own
+section and the body restarts numbering, so the first few contents entries read
+1, 1, 1, 2 and that is correct, not the old bug.
+
+A bug inside the fix is worth recording: the substitution used `match.group(3)`
+for the closing `</w:t>`, but a named group in the middle of the pattern had
+shifted the numeric indexes, so the closing tag was eaten and the page number
+doubled -- `<w:t>11</w:r>`. Every group in that pattern is named now. The
+existing test suite would have caught it on the next run, because it parses
+`document.xml` and malformed XML cannot be parsed.
+
+### The word list, and what a blanket replacement costs
+
+The author rejected nine words: objašnjavač, antiuzorci, agregira,
+ponderiranje, poopćenje, atomarna, testabilni, recenzent and the unexplained
+"tilt". She also asked whether "tutorski" is a Serbism.
+
+**It is not.** *Inteligentni tutorski sustav* is the established Croatian term
+for the field and is used in the faculty's own repository. It stays, and is now
+glossed on first use, because nothing in the text said what it meant.
+
+"recenzija" ran through the whole thesis, so it was replaced by script -- and
+the script replaced it inside `\label{}` and `\newcommand{}` as well as in
+prose. That produced labels with spaces and diacritics
+(`\label{sec:stručni pregled}`), macro calls that were never defined
+(`\Stručni pregledN`), noun phrases whose gender no longer agreed ("Ekspertna
+stručni pregled provedena je"), and one changed fact: "Tri recenzentska
+obrasca" became "Tri ocjenjivačeva obrasca", losing that ADR-0011 rests on
+three filled-in **Form B/C**.
+
+This is the same hazard as the table-spacing replacement two rounds ago, and
+the second time it has cost a repair round. The rule that follows: **a
+replacement that runs over LaTeX source must be anchored on the sentence, not
+on the word**, and identifiers must be excluded outright. A checker now runs
+before every build and fails on a `\ref` without a label, an undefined macro,
+or a label that is not ASCII and space-free.
+
+### Three passages rewritten because they did not explain themselves
+
+- *tilt* was a borrowed poker word standing alone in a table cell. It now says
+  "igranje u ljutnji nakon poraza".
+- The abstract stated the 92 % control-group result without its mechanism. It
+  now names regression to the mean and says what follows: a target is set on a
+  weakness measured when it was extreme, re-measuring returns a lower value
+  even when nothing changed, so an improvement without a control group says
+  nothing.
+- "Nazivi vještina i proces obrnuti su u odnosu na standardni okvir, jer
+  izvještaj čita igrač, a ne inženjer sigurnosti" alluded to a mismatch instead
+  of stating it. It now says which name maps to which level in Rasmussen, and
+  that the names were chosen for a chess player rather than for that
+  literature.
+
 ## Mechanics
 
 - `report.tex` — preamble and `\input` only. Chapters in `Poglavlja/`.
