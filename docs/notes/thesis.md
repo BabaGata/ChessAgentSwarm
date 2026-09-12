@@ -2,7 +2,7 @@
 id: cas-thesis
 title: Thesis
 desc: 'The written thesis: structure, where each chapter draws from, and the rules that keep it from claiming more than the vault does.'
-updated: 1789257600000
+updated: 1789516800000
 created: 1788780000000
 ---
 
@@ -281,6 +281,47 @@ reports what is actually there. Two traps it now encodes: **oblique cases are
 often shared** (Croatian `vremena` is identical to Serbian, only nominative
 `vreme` is a tell), and **a Serbian noun can be a Croatian verb** (`prevodi` is
 *prijevod* in Serbian, *prevoditi* in Croatian).
+
+### Croatian chess terms, 2026-09-12
+
+The author noticed `vilica` for *fork* and was right: it is the English word
+translated literally. Checked against Croatian sources rather than guessed.
+
+| term | was | now | source |
+|---|---|---|---|
+| fork | vilica | **rašlje** | Chess.com's Croatian lesson is titled *Rašlje / dvostruki napad*; Croatian chess writing uses *rašlje* for one piece attacking two |
+| passed pawn | prohodni pješak | **slobodni pješak** | the standard Croatian term |
+| middlegame | sredina igre | **središnjica** | also the word the author used in her own earlier report |
+
+**Confirmed correct and left alone:** `vezivanje` (pin), `otkriveni napad`
+(discovered attack), `uporište` (outpost), `rupa` (hole -- Croatian sources
+define an outpost as a square that is "a hole for the opponent"), `otvorena
+linija`, `izolirani`/`zaostali`/`udvojeni pješak`, `rokada`, `završnica`.
+
+**One term could not be verified:** `nabadanje` for *skewer*. Croatian chess
+writing online is thin on it and no authoritative source was found either way.
+Left as it is and flagged rather than changed on a guess.
+
+### Why every page number in the contents read 1
+
+`w:bookmarkStart` was being inserted at index 0 of the paragraph, which puts it
+**before `w:pPr`**. The properties element must be the first child of a
+paragraph, so Word discarded the bookmark on open, every `PAGEREF` lost its
+target, and each one fell back to its placeholder. Fixed by inserting after
+`w:pPr`; all 140 bookmarks now sit in a valid position.
+
+The numbers still need one refresh in Word (`Ctrl+A`, then `F9`) the first time,
+which `w:updateFields` asks for.
+
+### Other format fixes
+
+- **Space around tables.** A table carries no space before or after it in Word,
+  so a thin empty paragraph now sits on each side. The template asks for this
+  too: *"Ispred tablice ostavite jedan prazan redak"*.
+- **`Opcije-za-kod.docx`** offers six ways of formatting the code blocks on the
+  same snippet, plus three of them repeated on a long JSON block where they
+  differ most. Built by `tools/code_style_options.py`; once chosen, the pick
+  goes into `docx_writer._listing`.
 
 ## Mechanics
 
