@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 2026-09-09
+updated: 2026-09-12
 created: 1785254500000
 ---
 
@@ -270,6 +270,28 @@ struck through: a list nobody can act on is not a plan.
 0. **M8 — the figures that are not drawn.** Only the scorecard trajectory exists. Candidates, each
    already measured: split-half agreement, the cost profile cold against warm, and the strength
    estimate against actual rating for both speeds (which would show the blitz repair visually).
+
+0. **P1 — `missed_motif` still reads only the engine's single best move** *(designed 2026-09-12)*.
+   The author asked whether Stockfish's several-good-moves output (MultiPV) could say which candidate
+   moves are worthwhile. Measured → [[design.multipv-candidate-moves]].
+
+   **As a saving it does not work**: MultiPV costs roughly N× a single search at fixed depth —
+   measured 2.83× at N=3, 5.28× at N=5 — so replacing `candidates_in`'s 1.52 evaluations per error
+   with one MultiPV 5 call is 3.5× *more* expensive for the same answer.
+
+   **It found something better.** `allowed_motif` was rebuilt on *"not best, good enough"* and
+   **`missed_motif` never was** — `_count_available` reads `observation.best_move` and nothing else,
+   so a tactic that was second best by a hair is not a missed tactic and is not even in the
+   denominator. Measured over 187 positions: best-move-only finds **10** tactics where within-an-
+   inaccuracy finds **32 (+220 %)**, and **`missed_motif.pin` finds 0 where the wider rule finds 8** —
+   structurally blind, because a pin is a quiet move the engine rarely ranks first. That is the same
+   fact E85 recorded from the other side.
+
+   Affordable: MultiPV 3 **at error positions only** is **+38 s per player**, against the 32 s
+   `allowed_motif` already spends. Not built — it changes a claim's denominator, so the peer reference
+   and separation register go stale for every `missed_motif` claim (L-058) and it wants its own cycle.
+   The free half (engine top-3 with scores **on the detection sheet**, 80 s for a whole sheet) is worth
+   doing first and needs no schema change.
 
 0. **DONE — the +69 % explained, and the 18 carried rejections reduced to five causes** *(2026-09-09)*.
 
