@@ -411,6 +411,23 @@ doubled -- `<w:t>11</w:r>`. Every group in that pattern is named now. The
 existing test suite would have caught it on the next run, because it parses
 `document.xml` and malformed XML cannot be parsed.
 
+### "Igrači kojima nitko ništa nije rekao" — tko im nije rekao?
+
+The author asked, and the phrase deserved it. E05 never contacted anyone: the
+games of 32 players were split by date, a plan was built from the earlier half
+and its predictions checked against the later half. Nobody was supposed to tell
+them anything; there was no one in the loop at all.
+
+Chapter 8 stated the method. The abstract, chapter 1 and chapter 9 stated only
+the conclusion, and a reader who met the result there first had no way to know
+what the control condition was. All three now say it: the plan was built from
+older games and checked on newer ones, and no player was ever contacted or
+shown a plan.
+
+The general lesson, which is not about this sentence: **a summary that carries
+a result must carry enough of the method to make the result mean something.**
+Dropping the method is what made a sound finding read as a riddle.
+
 ### The word list, and what a blanket replacement costs
 
 The author rejected nine words: objašnjavač, antiuzorci, agregira,
