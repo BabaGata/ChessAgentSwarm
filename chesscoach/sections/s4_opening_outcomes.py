@@ -334,7 +334,9 @@ def _key(kind: str, subject: str) -> str:
 _BOOK_DEPTH: BookDepthNorms | None = None
 
 
-def _out_of_book_baseline(context: SectionContext) -> float | None:
+def _out_of_book_baseline(
+    context: SectionContext, family: str = ""
+) -> float | None:
     """What this player's band and speed play outside theory, or None.
 
     **None silences the claim rather than defaulting it.** A player judged
@@ -366,7 +368,11 @@ def _out_of_book_baseline(context: SectionContext) -> float | None:
     )
     weighted = total = 0.0
     for speed, share in mix:
-        value = _BOOK_DEPTH.share_for(context.band, speed)
+        # **The family is half of what the claim says.** Without it,
+        # `out_of_book.Hungarian Opening` compares a 1.g3 player against every
+        # opening at their level, and the book is 57 points deeper in the
+        # Italian than in the Van't Kruijs -- see `BookDepthNorms.share_for`.
+        value = _BOOK_DEPTH.share_for(context.band, speed, family)
         if value is None:
             continue
         weighted += share * value
@@ -422,7 +428,11 @@ def _assess(key: str, counts: _Counts, context: SectionContext) -> Finding | Non
     # peer reference that costs an hour to rebuild -- the same separation
     # `development-norms.json` already has ([[experiments.e76-leaving-theory]]).
     if kind == OUT_OF_BOOK:
-        peer_rate = _out_of_book_baseline(context)
+        # `subject` is the opening family, or `any` for the pooled claim -- which
+        # is retired, and would have no per-family baseline in any case.
+        peer_rate = _out_of_book_baseline(
+            context, "" if subject == ANY else subject
+        )
     elif kind == OPENING_PAWN_ERROR:
         # This one **does** have a meaningful within-player baseline, which is
         # the exception the comment above did not foresee: how often the player's

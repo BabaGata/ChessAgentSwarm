@@ -34,6 +34,12 @@ REPO = Path(__file__).resolve().parents[2]
 BOOK = REPO / "data" / "openings" / "book.json"
 CORPORA = ("corpus-rapid", "corpus-blitz")
 MIN_GAMES_PER_PLAYER = 10
+# A family needs this many players before it gets its own baseline. Below it the
+# claim falls back to the pooled share, which is blunter and measured, rather
+# than to a number three people set -- the same reasoning as MIN_PLAYERS, and
+# lower because a family is a slice of an already-filtered population.
+MIN_PLAYERS_PER_FAMILY = 5
+MIN_GAMES_PER_PLAYER_FAMILY = 3
 # `opening_development.developments` skips games under this length; the baseline
 # must skip them too.
 MIN_MOVES = 8
@@ -55,6 +61,9 @@ def main() -> int:
     # than the directory's, because the corpora are not perfectly pure and a
     # mislabelled game lands in the wrong baseline.
     by_speed: dict[str, dict[str, list]] = defaultdict(lambda: defaultdict(list))
+    by_family: dict[str, dict[str, dict[str, list]]] = defaultdict(
+        lambda: defaultdict(lambda: defaultdict(list))
+    )
     total_games = 0
 
     for corpus in CORPORA:
@@ -84,6 +93,12 @@ def main() -> int:
                 if walk.opening is None:
                     continue
                 by_speed[speed][player].append((walk, white))
+                # **Per family too, because the claim is per family.** The book
+                # is 57 points deeper in the Italian Game than in the Van't
+                # Kruijs, so a pooled baseline scores the opening rather than
+                # the player -- see `BookDepthNorms.share_for`.
+                family = walk.opening.name.split(":")[0].strip()
+                by_family[speed][family][player].append((walk, white))
                 total_games += 1
 
     shares: dict[str, float] = {}
@@ -117,6 +132,24 @@ def main() -> int:
             f"{sum(len(w) for w in players.values()):>9}"
             f"{median:>14.1%}{quarters[2] - quarters[0]:>8.2f}"
         )
+
+    # Each family that clears the floor gets its own number, by the same
+    # per-player median as the pooled one: pooling would let a player with many
+    # games in one opening set that opening's baseline.
+    lines += ["", f"  {'family':<34}{'speed':<8}{'players':>8}{'median':>9}", "  " + "-" * 59]
+    for speed, families in sorted(by_family.items()):
+        for family, players in sorted(families.items()):
+            per_player = {
+                p: out_of_book_share(walks)
+                for p, walks in players.items()
+                if len(walks) >= MIN_GAMES_PER_PLAYER_FAMILY
+            }
+            per_player = {p: v for p, v in per_player.items() if v is not None}
+            if len(per_player) < MIN_PLAYERS_PER_FAMILY:
+                continue
+            median = statistics.median(per_player.values())
+            shares[BookDepthNorms.key(args.band, speed, family)] = round(median, 4)
+            lines.append(f"  {family[:33]:<34}{speed:<8}{len(per_player):>8}{median:>8.1%}")
 
     norms = BookDepthNorms(
         shares=shares,

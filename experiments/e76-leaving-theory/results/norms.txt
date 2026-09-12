@@ -12,6 +12,32 @@ band 1400-1800, first 10 plies, 3810 named lines.
   blitz                65     1817         50.0%    0.18
   rapid                72     2019         43.5%    0.16
 
+  family                            speed    players   median
+  -----------------------------------------------------------
+  Bishop's Opening                  blitz          6   53.0%
+  Caro-Kann Defense                 blitz          9   46.0%
+  French Defense                    blitz         14   46.0%
+  Horwitz Defense                   blitz          6   80.0%
+  Italian Game                      blitz         18   26.7%
+  King's Pawn Game                  blitz         10   61.1%
+  Modern Defense                    blitz          5   58.0%
+  Pirc Defense                      blitz          5   56.0%
+  Queen's Pawn Game                 blitz         25   65.0%
+  Scandinavian Defense              blitz         14   52.7%
+  Scotch Game                       blitz          5   20.0%
+  Sicilian Defense                  blitz         28   50.9%
+  Bishop's Opening                  rapid          6   53.8%
+  Caro-Kann Defense                 rapid         12   44.5%
+  French Defense                    rapid         14   36.7%
+  Horwitz Defense                   rapid          5   73.3%
+  Italian Game                      rapid         21   20.0%
+  King's Pawn Game                  rapid         11   60.0%
+  Queen's Pawn Game                 rapid         22   60.0%
+  Ruy Lopez                         rapid          6   20.0%
+  Scandinavian Defense              rapid          9   46.7%
+  Scotch Game                       rapid          8   16.7%
+  Sicilian Defense                  rapid         33   46.7%
+
 ============================================================================
 
   written to chesscoach/../data/openings/book-depth-norms.json

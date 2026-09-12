@@ -5,7 +5,30 @@
   "players": 137,
   "shares": {
     "1400-1800|blitz": 0.5,
-    "1400-1800|rapid": 0.4354
+    "1400-1800|blitz|Bishop's Opening": 0.5295,
+    "1400-1800|blitz|Caro-Kann Defense": 0.46,
+    "1400-1800|blitz|French Defense": 0.46,
+    "1400-1800|blitz|Horwitz Defense": 0.8,
+    "1400-1800|blitz|Italian Game": 0.2667,
+    "1400-1800|blitz|King's Pawn Game": 0.6111,
+    "1400-1800|blitz|Modern Defense": 0.58,
+    "1400-1800|blitz|Pirc Defense": 0.56,
+    "1400-1800|blitz|Queen's Pawn Game": 0.65,
+    "1400-1800|blitz|Scandinavian Defense": 0.5267,
+    "1400-1800|blitz|Scotch Game": 0.2,
+    "1400-1800|blitz|Sicilian Defense": 0.5094,
+    "1400-1800|rapid": 0.4354,
+    "1400-1800|rapid|Bishop's Opening": 0.5378,
+    "1400-1800|rapid|Caro-Kann Defense": 0.445,
+    "1400-1800|rapid|French Defense": 0.3667,
+    "1400-1800|rapid|Horwitz Defense": 0.7333,
+    "1400-1800|rapid|Italian Game": 0.2,
+    "1400-1800|rapid|King's Pawn Game": 0.6,
+    "1400-1800|rapid|Queen's Pawn Game": 0.6,
+    "1400-1800|rapid|Ruy Lopez": 0.2,
+    "1400-1800|rapid|Scandinavian Defense": 0.4667,
+    "1400-1800|rapid|Scotch Game": 0.1667,
+    "1400-1800|rapid|Sicilian Defense": 0.4667
   },
   "source": "corpus-rapid, corpus-blitz at band 1400-1800"
 }

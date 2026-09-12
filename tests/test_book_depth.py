@@ -122,3 +122,57 @@ class TestNorms:
         # decides what to do about a missing file; it must be told.
         with pytest.raises(OSError):
             BookDepthNorms.load(tmp_path / "nothing.json")
+
+
+class TestTheBaselineMatchesTheClaim:
+    """A per-opening claim needs a per-opening baseline.
+
+    `out_of_book.Hungarian Opening` says *"you leave known theory sooner than
+    players at your level **when you play the Hungarian Opening**"*. The
+    baseline it was compared against was keyed `band|speed` and nothing else --
+    so the second half of that sentence was not in the comparison at all.
+
+    It matters because the book is not equally deep everywhere. Measured over
+    the rapid corpus, the share of the first ten plies outside theory, by family:
+
+        Italian Game         22.4 %
+        Ruy Lopez            23.9 %
+        ...
+        Queen's Pawn Game    61.5 %
+        Van't Kruijs         79.5 %
+
+    **A 57-point spread**, against one pooled baseline of 43.5 %. Play the
+    Italian and you are never flagged; play 1.g3 and you always are. The claim
+    was measuring *which opening you play*, which is not a weakness, rather than
+    *how well you know it*, which is.
+
+    That is what the author was reading when they rejected four rows for book
+    coverage -- *"this is a variant of the accelerated london system"*, *"a
+    variant of the hungarian opening:slav formation"*. The moves were normal;
+    the book simply stops at move 2 in those lines.
+    """
+
+    def norms(self):
+        return BookDepthNorms(shares={
+            "1400-1800|rapid": 0.4354,
+            "1400-1800|rapid|Hungarian Opening": 0.7800,
+        })
+
+    def test_a_family_the_population_has_played_is_used(self):
+        norms = self.norms()
+
+        assert norms.share_for("1400-1800", "rapid", "Hungarian Opening") == 0.78
+
+    def test_an_unmeasured_family_falls_back_to_the_pooled_share(self):
+        """A rare opening nobody in the corpus plays must not silence the claim,
+        and must not be scored against a number invented for it."""
+        norms = self.norms()
+
+        assert norms.share_for("1400-1800", "rapid", "Grob Opening") == 0.4354
+
+    def test_the_pooled_share_is_still_reachable_without_a_family(self):
+        assert self.norms().share_for("1400-1800", "rapid") == 0.4354
+
+    def test_an_unmeasured_band_is_still_None_whatever_the_family(self):
+        """L-046: missing data silences the claim rather than defaulting it."""
+        assert self.norms().share_for("2000-2400", "rapid", "Italian Game") is None

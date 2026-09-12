@@ -116,16 +116,42 @@ class BookDepthNorms:
     games: int = 0
 
     @staticmethod
-    def key(band: str, time_control: str) -> str:
-        return f"{band}|{time_control}"
+    def key(band: str, time_control: str, family: str = "") -> str:
+        base = f"{band}|{time_control}"
+        return f"{base}|{family}" if family else base
 
-    def share_for(self, band: str, time_control: str) -> float | None:
+    def share_for(
+        self, band: str, time_control: str, family: str = ""
+    ) -> float | None:
         """The population's share, or None where it was never measured.
 
         None rather than a default: a player compared against an invented
         baseline is judged against a number nobody measured, and a **blitz**
         player compared against a *rapid* baseline is I-03 over again.
+
+        **`family` is not optional detail -- it is half of what the claim says.**
+        `out_of_book.Hungarian Opening` reads *"you leave known theory sooner
+        than players at your level **when you play the Hungarian Opening**"*,
+        and the baseline was keyed on band and speed alone, so the second half
+        of that sentence was not in the comparison. The book is not equally deep
+        everywhere: measured over the rapid corpus, the share of the first ten
+        plies outside theory runs from **22.4 % in the Italian Game to 79.5 % in
+        the Van't Kruijs Opening** -- a 57-point spread against one pooled
+        number of 43.5 %. Play the Italian and the claim can never fire; play
+        1.g3 and it always does. That measures *which opening you play*, which
+        is not a weakness, rather than *how well you know it*, which is.
+
+        **A family the population has not played falls back to the pooled
+        share** rather than to None. Silence would be worse: a rare opening is
+        exactly where a player is most likely to be out of theory for real, and
+        the pooled number is a measured number -- just a blunter one. The
+        fallback is recorded here so a reader knows the comparison got coarser
+        rather than assuming it got sharper.
         """
+        if family:
+            per_family = self.shares.get(self.key(band, time_control, family))
+            if per_family is not None:
+                return per_family
         return self.shares.get(self.key(band, time_control))
 
     def save(self, path: Path | str = DEFAULT_NORMS) -> None:

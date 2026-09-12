@@ -2,7 +2,7 @@
 id: cas-exp-e55
 title: 'E55 — The precision screen exists, and it has nothing valid to measure yet'
 desc: 'Five samples can condemn a detector and cannot exonerate one, so the screen runs in two stages. The 23 existing marks cannot be dated against the code they judged, which makes them unusable rather than merely old — and the sheet now stamps its own commit so that cannot happen again.'
-updated: 2026-09-09
+updated: 2026-09-12
 created: 1788652800000
 ---
 
@@ -425,21 +425,146 @@ of slow development, and a test now holds both ends.
 `allowed_motif.discoveredAttack` `akIZ3faz#15`. Covered above; the carried sheet now shows
 `punished by Ne4` with the author's *"Ne4 is a good one"* sitting under it.
 
-### 3. Book coverage — 4 rows, not fixed
+### 3. Book coverage — 4 rows, and it was never about coverage (2026-09-12)
 
 *"This is just some less known variant"*, *"a variant of the accelerated london system"*, *"a variant
-of the hungarian opening:slav formation"*. The book does not have the line, so a normal move reads as
-leaving theory. Known, recorded, and untouched by the `.any` retirement — these are the per-opening
-claims that were kept.
+of the hungarian opening:slav formation"*. Recorded as a coverage problem — the book is thin, nothing
+to be done. **That reading was wrong**, and measuring it found a definition error instead.
 
-### 4. Attribution — 2 rows, not fixed
+**The book is not thin; it is the whole CC0 reference.** `lichess-org/chess-openings`, all five TSVs,
+3,810 named lines over 7,854 positions. Nothing is missing from the fetch.
+
+**What is thin is how deep any opening book goes.** Walked over the 688 reviewed games:
+
+    median plies in book: 4  (move 2)     mean: 4.8
+
+The window is ten plies. So on median the book stops at **move 2** and everything from move 3 to move
+5 counts as out of theory, for everyone.
+
+**And it stops at very different depths in different openings.** Share of the first ten plies outside
+theory, by family, over the rapid corpus:
+
+| family | out of book |
+|---|--:|
+| Scotch Game | 16.7 % |
+| Italian Game | 20.0 % |
+| Ruy Lopez | 20.0 % |
+| … | |
+| King's Pawn Game | 60.0 % |
+| Queen's Pawn Game | 60.0 % |
+| Horwitz Defense | 73.3 % |
+
+**A 57-point spread.** The baseline the claim was compared against was
+`BookDepthNorms.share_for(band, speed)` — **band and speed only, no family** — one pooled number of
+43.5 %. But the claim is per-opening: *"you leave known theory sooner than players at your level
+**when you play the Hungarian Opening**"*. The second half of that sentence was not in the comparison.
+
+So play the Italian and the claim can never fire; play 1.g3 or the London and it always does. **It was
+scoring which opening you play, not how well you know it** — and every one of the four rejections is a
+player whose repertoire the book happens to leave early. Precisely the R-14 failure the project
+already knows about, in a claim that looked immune because it had a population baseline at all.
+
+**Fixed.** `share_for` takes a family and prefers the per-family share, falling back to the pooled one
+where the population has not played that opening enough to measure it — fallback rather than silence,
+because a rare opening is exactly where a player may be out of theory for real, and the pooled number
+is blunt but measured. `build_norms.py` now emits both, 22 families clearing five players each.
+
+**It fixes half of what the author marked, and the honest report is that it is half.**
+
+| row | rate | old bar | new bar | |
+|---|--:|--:|--:|---|
+| bernes, Queen's Pawn Game | 57.6 % | 50.0 % **fires** | 65.0 % | **silent** ✔ |
+| maxhayastan, Queen's Pawn Game | 69.1 % | 50.0 % fires | 65.0 % | still fires ✘ |
+| Odin5306, Hungarian Opening | 59.2 % | 50.0 % fires | 50.0 % *(no family baseline)* | still fires ✘ |
+| Odin5306, Owen Defense | 66.7 % | 50.0 % fires | 50.0 % *(no family baseline)* | still fires ✘ |
+
+The two that remain are one problem each. maxhayastan really is above the London-playing population,
+though by four points and the confidence gate may yet refuse it. Odin5306 plays 1.g3 and the **corpus**
+has too few 1.g3 players to build a baseline, so the claim falls back to a bar built mostly from
+opponents playing something else. That is a corpus-coverage limit, not a book one, and it is the
+honest place this stops.
+
+**A sharper baseline cuts both ways**, which is L-061 again: `bernes`'s Caro-Kann was silent at
+46.3 % against the pooled 50.0 % and now **fires** against the family bar of 46.0 %. Making a
+comparison correct is not the same as making it quieter.
+
+### 4. Attribution — 2 rows, not fixed, and here is the mechanism
 
 *"White exited the line a move before instead of black"*, *"Black exited book in move 3"*.
-`left_book_themselves` catches the clean half; it cannot catch the case where the book holds the
-opponent's odd move but not the natural reply, so the deviation is recorded one ply late and changes
-sides.
+
+`OpeningBook.walk` records `plies_in_book` as the **deepest** ply still in the tree, then blames
+`plies_in_book + 1`. `left_book_themselves` compares that ply's colour against the player's and drops
+the game when it was the opponent — which removed 57 % of games and was a real fix.
+
+What it cannot see is that **the ply after a named line is not always a deviation**. The book names
+White's sideline and then has no entry for Black's natural reply, so the blame lands on the reply:
+
+| game | moves | deepest named | book ends | blamed |
+|---|---|---|--:|---|
+| `GInElwNz` | 1.d4 d5 2.Bf4 **Bf5** | Accelerated London System | ply 3 | ply 4 → **Black** |
+| `YrwNHqsx` | 1.d4 d5 2.Bf4 **c6** | Accelerated London System | ply 3 | ply 4 → **Black** |
+| `Ql2xAOb4` | 1.g3 e5 **2.Bg2** | Hungarian Opening | ply 2 | ply 3 → **White** |
+
+`2.Bf4` is in the book *as the London*. `2…Bf5` and `2…c6` are the two most ordinary replies to it,
+and neither has an entry — so Black is charged for answering a named opening normally. `2.Bg2` is the
+entire point of 1.g3 and the book stops one ply before it.
+
+**The author's reading was right and better than the note recorded here.** *"White exited the line a
+move before instead of black"* is exactly it: from a player's point of view the sideline was White's
+choice, and Black is simply replying. The book's point of view is that a named line is theory
+whoever played it.
+
+Not fixed. Any fix means deciding what *"in theory"* means when the tree has a leaf but no
+continuation, and the honest options are a transposition check, a popularity source with actual move
+frequencies rather than names, or dropping the ply-after-a-leaf case entirely. None is a threshold
+change.
 
 ### 5. Needs an engine, not a rule — 3 rows, not fixed
+
+**The engine is not absent from the system; it is absent from the *detectors*, and that is a
+measured decision rather than an omission.** Three layers, and only the middle one is engine-free:
+
+| layer | what it asks | engine |
+|---|---|---|
+| `analysis/core.py` | how good is this position, what was best | **yes**, once per played move |
+| `tactics.py` · `material.py` | does this move execute a pin / win material | **no** — static exchange evaluation |
+| `punishment.py` | was this reply *worth playing* | **yes**, but only for replies that already passed layer 2 |
+
+The reason is arithmetic. `detect_motifs` is asked about **every legal reply** — E85 measured a
+median of **31.7** per position — and about ~4,900 positions for a 50-game history. At E01's measured
+**0.064 s** per depth-15 evaluation:
+
+    engine inside the detectors:  4,900 x 31.7 = 155,000 calls  ->  2.8 hours per player
+    what it costs today:                            331 calls  ->  0.4 minutes per player
+
+**A factor of 469.** C1 says free or near-free and prefers deterministic computation over everything
+else; 2.8 hours per player to analyse fifty games is not near-free on a laptop, and the project's
+whole cost argument rests on a player's history being analysable in about two minutes.
+
+**So the order is: cheap test first, engine only on survivors.** `detect_motifs` removes **93 %** of
+replies for nothing, and `punishment.candidates_in` then spends an engine call on each of the ~2.1
+that remain — which is exactly how [[design.punishment-validity]] got its validity test for 1.52
+evaluations per error instead of 31.7.
+
+**What that buys, and what it costs.** The static layer answers *"does this win material right here"*
+exactly, with no search. It cannot answer *"is this good for the position"*, and the author's three
+rows are all the second question:
+
+- `moved_into_attack` — *"taking the knight would result in a forced checkmate for white"*. SEE says
+  the piece is winnable; taking it loses the game.
+- `miscounted_exchange` — *"after an exchange there was a fork tactics by white queen … The move
+  didn't had any significant wp loss after all"*. The material comes back two plies later.
+- `concedes_weakness.doubled` — *"a beginning of the exchange that white did not continue
+  immediately"*. The structure resolves after the sequence finishes.
+
+**All three are the same shape: a one-ply answer to a several-ply question**, and the fix is the same
+one already built for punishments — run the cheap test, then ask the engine about the survivors. That
+is affordable here precisely because these detectors fire on the **played move**, not on every legal
+reply: `miscounted_exchange` fired 26 times and `moved_into_attack` 120 in the whole reviewed corpus,
+so the bill is hundreds of evaluations, not 155,000. It is not built, and it is the clearest piece of
+work left on this list.
+
+
 
 - `moved_into_attack` — *"taking the knight would result in a forced checkmate for white"*. SEE says
   the piece is winnable; the capture loses. [[design.punishment-validity]] Option 1, pointed at a
