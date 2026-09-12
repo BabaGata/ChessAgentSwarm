@@ -323,6 +323,50 @@ which `w:updateFields` asks for.
   differ most. Built by `tools/code_style_options.py`; once chosen, the pick
   goes into `docx_writer._listing`.
 
+### Why the page numbers stayed at 1 after the bookmark fix
+
+The bookmark placement was one of two bugs, and fixing it was not enough.
+
+**A field spans several runs.** `begin`, `instrText`, `separate`, the cached
+result and `end` were all packed into a single `w:r`, which is malformed. Word
+kept showing the cached placeholder and never recomputed the field. Each part
+now sits in its own run, which is what the format requires.
+
+Worth noting for next time: the footer's `PAGE` field was built the same wrong
+way and *did* render, so "it works here" said nothing about the other one. The
+difference is that `PAGE` has no `separate` and no cached result, so there was
+nothing for Word to fall back to.
+
+The numbers still want one refresh in Word the first time (`Ctrl+A`, then `F9`);
+`w:updateFields` asks for it but Word does not always oblige.
+
+### Space after tables, done properly
+
+The first attempt added empty paragraphs on both sides. That was wrong twice
+over: an ordinary paragraph already carries 6pt after it, so above the table the
+gap was that 6pt **plus a whole empty line**, while below it there was nothing.
+
+Word gives a table no space of its own, so the space is now **owed to the next
+paragraph**: `_table` records a debt and whichever paragraph comes next settles
+it with 12pt of `space_before`. No empty paragraphs anywhere.
+
+The wiring had a bug worth recording: a blanket string replacement put the
+"clear the debt" line into the block dispatcher as well as the constructor, so
+the table set the debt and the dispatcher cleared it one line later, before any
+paragraph could collect. **A replacement matched on a common line hits every
+copy of it**, which is the hazard of patching by text rather than by edit.
+
+### Code listings: option 6
+
+The author chose the rule down the left edge over very light shading
+(`FAFAF8`, rule `808080`). Listings are now **plain shaded paragraphs rather
+than a one-cell table**, which has a second benefit beyond looks: a table is
+held together, so a long listing was pushed whole onto the next page, while
+paragraphs break across pages normally.
+
+`test_table_count_matches_the_sources` had to change with it -- listings are no
+longer tables, so the expected count is tabulars plus the logo row.
+
 ## Mechanics
 
 - `report.tex` — preamble and `\input` only. Chapters in `Poglavlja/`.
