@@ -707,6 +707,73 @@ the appendix table at the author's request. The register still holds
 `\BrojADR` records and the intro now says the table lists those concerning the
 system, so the count stays honest.
 
+### All 63 sources, audited one by one
+
+A citation map was generated from the sources themselves -- every bib key
+against the sentence it supports -- so the audit is complete by construction:
+**no entry in `ref.bib` is without a citation and no citation is without an
+entry.** Then each was given a status by how far the check actually went:
+claim read in the source (18), bibliographic record matches but the sentence
+was not compared against full text (31), software or data (12), and two
+findings fixed on the spot.
+
+**Two real errors.**
+
+- **"Charness i suradnici (1996)" was named in the text with no entry in the
+  bibliography.** The claim itself is exact: Gobet & Charness (2006) report it
+  word for word. The 1996 study (Charness, Krampe & Mayr, in Ericsson's *Road
+  to Excellence*, 51--80) was added and cited.
+- **Hambrick: "oko trećine varijance" → "oko trećine pouzdane varijance".**
+  The source says *reliable* variance; dropping the word made the claim
+  stronger than its source.
+
+Three rows carry work the author has to finish, all of the same kind -- record
+correct, sentence not compared with full text: Chabris & Hearst's 5.02 and 6.85
+blunders per thousand moves, the strength of "slabo se prenose" in Sala &
+Gobet, and a page number for the Capablanca ordering. Embrey has no year.
+
+The audit is published as a page rather than buried here, because it is a
+checklist to work through rather than a record to keep.
+
+### Claim strength: what the evidence settles, and what it does not
+
+The same reviewer's sharper criticism was not about AI at all. **The thesis was
+more ambitious than its evidence**, and in one specific way: it demonstrated a
+carefully built, heavily measured system, and then let the reader carry that
+carefulness over to a question it never answered -- whether the advice is any
+good for a player.
+
+Five changes, in order of how much they matter.
+
+- **Eighty-four players are a sample, not a population.** Every "izmjereno
+  prema populaciji" was quietly borrowing the implication of a wider group to
+  generalise to, which this project does not have. Renamed throughout to
+  *referentni uzorak*, keeping "populacija" in the three places where it really
+  means the wider group. Chapter 6 now says so outright.
+- **A table of IP1--IP6 with a "Nije utvrđeno" column.** This is the single
+  most useful thing added. Each research question gets its experiments, what
+  the measurements establish, and what they cannot -- that the rapid held-out
+  result rests on seven players, that ranking by cost was never shown to
+  improve learning, that the progress check has an indication and no power
+  (p = 0.12).
+- **The expert review is a pilot and now says so in its own heading.** One
+  reviewer, one player of twelve planned, the reviewer being the author. What
+  follows from it is a list of defects it found, not a judgement of advice
+  quality.
+- **Multiple comparisons named.** With 87 experiments, each comparing several
+  properties, phases and subsets, something will look significant on its own.
+  The defence used was replication and a held-out set, **not** a formal
+  correction; the thesis now says that and says p-values here are descriptive
+  rather than confirmatory.
+- **The conclusion separates the two deliverables.** It opens by saying they
+  are not equally supported: a working prototype, and a measurement framework
+  whose findings are better supported and probably transfer beyond chess. "To
+  je prototip koji radi, a ne provjeren trener."
+
+The lesson worth keeping: **a thesis full of honest sentences can still make a
+dishonest impression**, if nowhere in it does a reader find the two lists side
+by side.
+
 ## Mechanics
 
 - `report.tex` — preamble and `\input` only. Chapters in `Poglavlja/`.
