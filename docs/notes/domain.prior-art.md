@@ -66,6 +66,33 @@ available short of building it ourselves.
 | **Curated trap library from CC0 data** | `scripts/build_traps.py` pulls the Lichess `chess-openings` CC0 dataset, filters to named traps/gambits (≤16 plies), vendored as JSON so runtime has no network dependency → 1,475 traps, 3,690 openings. | A second free CC0 asset we had not identified. Directly useful for opening diagnosis, and the vendoring pattern is right. |
 | **Engine settings in production** | depth 22, 6 threads, 512MB hash, configurable per-move time limit. | A real-world reference point for our A1 measurements. |
 
+### Re-read in the source, 2026-09-13
+
+Checked against the code held at `ChessLLMs/bleongcw-Arrakis_Engine-main`
+rather than against this note. Three corrections and one addition.
+
+- **Test count.** This note said "240+". The README says **725 backend + 228
+  frontend**. The thesis had repeated the smaller figure, which understates the
+  prior art by four times — the worst direction for that error to run.
+- **Motif count.** Twelve here; the source has **15** tactical identifiers
+  (fork, pin, skewer, deflection, discovered_check, back_rank_mate,
+  hanging_piece, mate_threat, overloaded_defender, removing_defender,
+  trapped_piece, zugzwang and others). Still tactical only — nothing positional.
+- **One LLM call per game confirmed by counting.** `call_provider` appears once
+  in `coach.py`, at line 1045.
+- **New, and the strongest differentiator we had not written down: Arrakis
+  never compares a player to anyone else.** `peer`, `cohort`, `percentile`,
+  `population`, `baseline` return nothing in `src/` but Python exception names.
+  Escalation rides on distinct-game spread and a recency streak — absolute
+  counts. There is also no interval, no significance test, no scipy or
+  statsmodels anywhere. So a weakness every 1500 has escalates exactly like one
+  that is genuinely unusual. That is the thing this project exists to do
+  differently, and it was missing from the thesis's list of differences.
+
+Also confirmed by search, with nothing found: ground truth, ablation, control
+group, expert review, inter-rater agreement, held-out set — and no code that
+asks the player anything, and no predicted rate to re-check later.
+
 ### Where they stop, and we do not
 
 These are the honest gaps — and collectively they are this thesis's contribution claim:
