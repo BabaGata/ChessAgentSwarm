@@ -166,3 +166,74 @@ class TestScope:
             move(40, erred=True, game_id="b"), move(41, erred=True, game_id="b"),
         ]
         assert _runs_of_imprecision(played) == frozenset()
+
+
+ROOK_ENDGAME = "8/5pk1/8/8/8/8/5PK1/R6r w - - 0 40"
+PAWN_ENDGAME = "8/5pk1/8/8/8/8/5PK1/6K1 w - - 0 40"
+
+
+def an_endgame_finding(fens: tuple[str, ...]):
+    """A pooled `endgame_error` finding citing positions of the given kinds."""
+    from chesscoach.profile.models import (
+        Claim, Confidence, ConfidenceTier, DeterminedBy, Evidence, Finding, GapType,
+        GapTypeHypothesis, Measurement, Provenance,
+    )
+
+    return Finding(
+        section="S3",
+        claim=Claim.of(kind="endgame_error", subject="any"),
+        measurement=Measurement(
+            instances=max(len(fens), 1), distinct_games=min(len(fens), 3) or 1,
+            games_with_data=20,
+            rate=0.2, baseline_rate=0.1, peer_rate=0.1,
+        ),
+        provenance=Provenance(engine="stub", depth=15, corpus_id="c1",
+                              analysed_at="2026-09-13"),
+        confidence=Confidence(tier=ConfidenceTier.WATCH, replicated=True),
+        gap_type=GapType(hypothesis=GapTypeHypothesis.UNKNOWN,
+                         determined_by=DeterminedBy.INFERRED),
+        evidence=tuple(
+            Evidence(game_id=f"g{i}", ply=60, fen=fen) for i, fen in enumerate(fens)
+        ),
+    )
+
+
+class TestThePooledClaimNamesTheEndgamesItSaw:
+    """*"Endgames should be separated by the types of the endgames, any is not
+    informative."* -- the author, on `endgame_error.any`.
+
+    The separation **already exists**: `_count` files every endgame error under
+    `material_class` as well as under `any`, and the peer reference carries all
+    five cells in every band. What does not exist is enough evidence per type --
+    23 endgame errors across five classes in a sixty-game window, against a
+    confidence gate that wants distinct games. So all five per-type claims sit
+    in the sheet's NEVER FIRED list.
+
+    **Retiring `any` the way `out_of_book.any` was retired would therefore
+    silence endgames completely**, which is the opposite of what the complaint
+    asks for: `out_of_book`'s per-family claims fire, and these do not.
+
+    So the pooled claim stays and is made to say what it knows. It counted the
+    types on the way past; it simply threw them away. *"Your play falls off in
+    the endgame"* is not informative, and *"...and it is rook endgames where it
+    happens"* is the same measurement, said usefully.
+    """
+
+    def test_the_exercise_names_the_types_the_errors_were_in(self):
+        from chesscoach.planner import _action
+
+        finding = an_endgame_finding((ROOK_ENDGAME, ROOK_ENDGAME, PAWN_ENDGAME))
+
+        said = _action(finding)
+
+        assert "rook" in said and "pawn" in said
+
+    def test_an_unreadable_position_still_produces_an_exercise(self):
+        """`Finding` guarantees evidence, so there is always something to read
+        -- but a FEN that will not parse must cost the advice rather than the
+        run (L-046). An older profile is exactly where this shows up."""
+        from chesscoach.planner import _action
+
+        said = _action(an_endgame_finding(("not a fen at all",)))
+
+        assert "endgame" in said.lower()

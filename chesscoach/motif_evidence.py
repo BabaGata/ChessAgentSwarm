@@ -33,6 +33,7 @@ from chesscoach.tactics import (
     _friendly_sliders,
     _is_winnable,
     _newly_lined_up,
+    _survives_every_reply,
     _lost_on_arrival,
     _newly_attacked,
     _wins_once_vacated,
@@ -153,7 +154,14 @@ def _discovered(board, after, move, mover) -> tuple[Role, ...]:
                 continue
             if PIECE_VALUE[piece.piece_type] < 3:
                 continue
-            if piece.piece_type == chess.KING or wins_material(after, square, mover) > 0:
+            if piece.piece_type == chess.KING:
+                return (("revealed", slider), ("target", square), ("moved", move.to_square))
+            if wins_material(after, square, mover) <= 0:
+                continue
+            # The same check guard the detector applies, or the two disagree
+            # about which square to name -- the drift `evidence()` exists to
+            # prevent. See `tactics._survives_every_reply`.
+            if not after.is_check() or _survives_every_reply(after, square, mover):
                 return (("revealed", slider), ("target", square), ("moved", move.to_square))
     return ()
 

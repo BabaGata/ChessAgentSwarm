@@ -147,3 +147,63 @@ class TestKingPressureIsNotAnEndgameClaim:
         assert attacking_phase("opening_middlegame")
         assert attacking_phase("late_middlegame")
         assert not attacking_phase("endgame")
+
+
+class TestADiscoveredAttackThatComesWithCheck:
+    """The opponent answers the check first, and that can save the target.
+
+    The author, rejecting `Nc7+` on `lichess.org/G2tV1k1i#24`:
+
+    > *"nc6 is not a good target, the black knight is defended and queen would
+    > never take that one. There was actually a fork by Nc7, forked was Ke8 and
+    > Ra8 and Ra8 would be taken move after. The check should be done to see if
+    > the detected attacked piece was actually good to be taken a move after."*
+
+    `_is_discovered_attack` does test that the target is winnable -- but it asks
+    `wins_material`, which flips the turn with a null move to ask *"what could
+    White win here?"*. After a checking move that makes the position illegal:
+    Black is in check and it is White's turn, so `is_check()` answers **False**
+    and SEE finds every black recapture illegal, because they all leave the king
+    in check. It concludes the defended knight is free.
+
+    **That is correct for a fork and wrong for a discovered attack**, and
+    `wins_material`'s docstring defends it for exactly the fork case -- two
+    targets, the check drives the king off, the other one falls. `Nc7+` really
+    is a fork here and the detector says so. A discovered attack has **one**
+    target, the opponent moves first, and the move they are forced to make can
+    defend it, capture the checker, or interpose.
+
+    So the question is the author's own: **is the target still winnable after the
+    check has been answered?** Asked of every legal reply, because the opponent
+    picks. Two plies, deterministic, no engine -- the shape
+    `_is_removing_the_defender` already uses.
+    """
+
+    def test_a_check_whose_answer_defends_the_target_is_not_one(self):
+        # Nc7+ reveals Qa4 onto the c6 knight, which is defended twice. Every
+        # legal answer to the check leaves the knight defended, so the queen
+        # never wins it -- the author's position.
+        board = chess.Board(
+            "r1b1k2r/1p1qbppp/p1n1pn2/1N6/Q2P1B2/5N2/PP2BPPP/R4RK1 w kq - 3 13"
+        )
+        found = motifs(board.fen(), board.parse_san("Nc7+").uci())
+
+        assert Motif.DISCOVERED_ATTACK not in found
+
+    def test_the_fork_in_the_same_position_is_untouched(self):
+        """The check case is the fork's whole point and must not be collateral:
+        `Nc7+` forks the king and the a8 rook, which the author agrees with."""
+        board = chess.Board(
+            "r1b1k2r/1p1qbppp/p1n1pn2/1N6/Q2P1B2/5N2/PP2BPPP/R4RK1 w kq - 3 13"
+        )
+        found = motifs(board.fen(), board.parse_san("Nc7+").uci())
+
+        assert Motif.FORK in found
+
+    def test_a_quiet_discovered_attack_still_fires(self):
+        # No check, so nothing about this rule applies and the motif is
+        # unchanged. Guards against fixing the check case by breaking the claim.
+        # Nd4-f5 steps off the d-file and reveals Qd1 onto the d8 rook.
+        found = motifs("3r1k2/8/8/8/3N4/8/8/3QK3 w - - 0 1", "d4f5")
+
+        assert Motif.DISCOVERED_ATTACK in found

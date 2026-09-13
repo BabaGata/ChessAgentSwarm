@@ -364,9 +364,55 @@ def _is_discovered_attack(
                 continue
             if PIECE_VALUE[piece.piece_type] < 3:
                 continue
-            if piece.piece_type == chess.KING or wins_material(after, square, mover) > 0:
+            if piece.piece_type == chess.KING:
+                return True
+            if wins_material(after, square, mover) <= 0:
+                continue
+            # **A check is answered before the attack can be collected.**
+            # `wins_material` flips the turn with a null move to ask *"what
+            # could White win here?"*, and after a checking move that makes the
+            # position illegal -- the opponent is in check and it is not their
+            # turn, so `is_check()` answers False and SEE finds every recapture
+            # illegal. It then calls a twice-defended knight free.
+            #
+            # `wins_material`'s docstring defends that **for forks**, correctly:
+            # a fork has two targets, the check drives the king off, and the
+            # other one falls. A discovered attack has one target, the opponent
+            # moves first, and the move they are forced to make can defend it,
+            # capture the checker, or interpose. The author, on `Nc7+`:
+            #
+            # > *"The check should be done to see if the detected attacked piece
+            # > was actually good to be taken a move after."*
+            #
+            # So it is asked: after every legal answer to the check, is the
+            # target still winnable? The opponent chooses, so one escape is
+            # enough to sink the claim. Two plies and no engine, the shape
+            # `_is_removing_the_defender` already uses.
+            if not after.is_check() or _survives_every_reply(after, square, mover):
                 return True
     return False
+
+
+def _survives_every_reply(after: chess.Board, target: int, mover: chess.Color) -> bool:
+    """Is `target` still winnable however the opponent answers the check?
+
+    A position with no legal reply is mate, and mate is not a claim about a
+    piece being loose -- the attack is never collected because there is no
+    game left. `False` refuses it here and `backRankMate` is the motif for it.
+    """
+    replies = list(after.legal_moves)
+    if not replies:
+        return False
+    return all(
+        _any_falls(_pushed(after, reply), (target,), mover) for reply in replies
+    )
+
+
+def _pushed(board: chess.Board, move: chess.Move) -> chess.Board:
+    """`board` with `move` played, leaving the original untouched."""
+    next_position = board.copy(stack=False)
+    next_position.push(move)
+    return next_position
 
 
 def _is_hanging_piece(

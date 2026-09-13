@@ -23,8 +23,9 @@ import math
 from chesscoach.analysis.labels import calibration_is_stale
 from chesscoach.arbiter import Priority
 from chesscoach.peers import PeerReference
-from chesscoach.phrasing import POOLED, quantity, subject_name
+from chesscoach.phrasing import ENDGAME_CLASSES, POOLED, quantity, subject_name
 from chesscoach.profile.models import Finding, Plan, PlanStep
+from chesscoach.sections.s3_endgame_technique import material_class
 
 # Enough games that a rate measured over them means something. Matches the
 # confidence policy's own threshold for a claim reaching `focus`.
@@ -250,6 +251,60 @@ def _why(finding: Finding) -> str:
     return f"{where}, at {measurement.rate:.1%} against {measurement.baseline_rate:.1%} elsewhere"
 
 
+def _pooled_endgame_action(finding) -> str:
+    """The pooled endgame exercise, naming the kinds of endgame it actually saw.
+
+    The author, on `endgame_error.any`:
+
+    > *"Endgames should be separated by the types of the endgames, any is not
+    > informative."*
+
+    **The separation exists and the evidence for it is already on the finding.**
+    `s3_endgame_technique._count` files every endgame error under
+    `material_class` as well as under `any`, and the peer reference carries all
+    five cells in every band. What is missing is *evidence per type* -- roughly
+    twenty endgame errors split five ways in a sixty-game window, against a
+    confidence gate that counts distinct games -- so all five per-type claims
+    sit in the sheet's NEVER FIRED list.
+
+    So this cannot be retired the way `out_of_book.any` was. That retirement
+    worked because the per-family claims fire; retiring this one would leave a
+    player with **nothing at all** about endgames, which is the opposite of what
+    the complaint asks for.
+
+    What is fixable is the *"not informative"* half, and it needs no new
+    measurement: every cited position carries its FEN, so the kinds can be read
+    back off the claim's own evidence. *"Your play falls off in the endgame"* is
+    not useful; *"and it is rook and pawn endgames where it happens"* is the same
+    measurement said usefully.
+
+    A FEN that will not parse costs the naming, never the advice (L-046).
+    """
+    generic = (
+        "Study endgames — start with the basic winning and drawing methods rather "
+        "than with studies, and play out the positions you got wrong."
+    )
+    seen: list[str] = []
+    for cited in finding.evidence:
+        try:
+            kind = material_class(cited.fen)
+        except ValueError:
+            continue
+        if kind not in seen:
+            seen.append(kind)
+    if not seen:
+        return generic
+
+    # Most-cited first would be better and is not available: `evidence` is a
+    # uniform sample, so its order carries no weight worth reading into.
+    named = ", ".join(ENDGAME_CLASSES.get(k, k) for k in seen[:3])
+    return (
+        f"Study endgames — yours go wrong in {named} endgames most often. Start "
+        "with the basic winning and drawing methods rather than with studies, and "
+        "play out the positions you got wrong."
+    )
+
+
 def _action(finding: Finding) -> str:
     """What to do about it.
 
@@ -342,10 +397,7 @@ def _action(finding: Finding) -> str:
             f"Study {name} endgames — start with the basic winning and drawing methods "
             "rather than with studies, and play out the positions you got wrong."
             if subject != POOLED
-            else (
-                "Study endgames — start with the basic winning and drawing methods rather "
-                "than with studies, and play out the positions you got wrong."
-            )
+            else _pooled_endgame_action(finding)
         ),
         "advantage_error": (
             "When you are clearly better, slow down rather than speed up: take the safe "
