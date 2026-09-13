@@ -140,13 +140,24 @@ class TestRanking:
 class TestDiversity:
     def test_the_second_slot_prefers_a_different_weakness(self):
         # Two views of the same pattern are one priority, not two.
-        strong_pin = a_finding(kind="missed_motif", subject="pin", rate=0.60, peer_rate=0.10)
-        same_pin = a_finding(kind="allowed_motif", subject="pin", rate=0.55, peer_rate=0.10)
-        other = a_finding(kind="missed_motif", subject="hangingPawn", rate=0.40, peer_rate=0.15)
+        #
+        # **Every subject here separates within band**, deliberately. This test
+        # is about diversity, and a subject sitting in `DOES_NOT_SEPARATE` has
+        # its peer rate withheld and its unusualness neutralised -- so the order
+        # would then be decided by the register rather than by the rule under
+        # test. It was written with `pin`, which entered the register on
+        # 2026-09-13, and the assertion flipped for a reason that had nothing to
+        # do with diversity. `hangingPawn` and `trappedPiece` both separate.
+        strong = a_finding(kind="missed_motif", subject="hangingPawn",
+                           rate=0.60, peer_rate=0.10)
+        same = a_finding(kind="allowed_motif", subject="hangingPawn",
+                         rate=0.55, peer_rate=0.10)
+        other = a_finding(kind="missed_motif", subject="trappedPiece",
+                          rate=0.40, peer_rate=0.15)
 
-        chosen = select_priorities((strong_pin, same_pin, other), limit=2).priorities
+        chosen = select_priorities((strong, same, other), limit=2).priorities
 
-        assert [p.finding.claim.subject for p in chosen] == ["pin", "hangingPawn"]
+        assert [p.finding.claim.subject for p in chosen] == ["hangingPawn", "trappedPiece"]
 
     def test_still_fills_the_second_slot_when_everything_shares_a_subject(self):
         findings = (

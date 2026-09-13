@@ -96,7 +96,19 @@ class TestTheRegister:
         # silence every claim the screen never reached.
         assert separation.separates("some_claim_e83_never_saw.any")
 
-    @pytest.mark.parametrize("written", ["allowed_motif.fork", "allowed_motif.fork.own"])
+    # **The example is a stand-in, and it has moved once already.** These tests
+    # are about key matching and withholding, not about which claim happens to
+    # be flat -- and they named `allowed_motif.fork`, which **left the register**
+    # when the fork/skewer relabel and the missed_motif widening landed
+    # (2026-09-13). `discoveredAttack` is the stand-in now, chosen because it
+    # was flat and conclusive on both the old reference and the rebuilt one.
+    #
+    # If it moves too, swap it again -- do not weaken the assertion. A test that
+    # reads the register to decide what to assert would pass whatever the
+    # register said, which is no test at all.
+    FLAT = "allowed_motif.discoveredAttack"
+
+    @pytest.mark.parametrize("written", [FLAT, FLAT + ".own"])
     def test_keys_match_with_or_without_the_direction_suffix(self, written):
         # Sections pass "kind.subject"; the reference stores "kind.subject.own".
         # I-10 was exactly this mismatch, and it muted four shipped claims.
@@ -110,25 +122,32 @@ class TestTheRegister:
             assert why.smallest_visible > 1.0, key
 
     def test_the_inconclusive_ones_are_marked_as_such(self):
-        # skewer and backRankMate failed at MDEs too wide to call flat, and E83
-        # says so; the register must not flatten that into one verdict.
+        # backRankMate failed at an MDE too wide to call flat, and E83 says so;
+        # the register must not flatten that into one verdict.
         assert not separation.DOES_NOT_SEPARATE["allowed_motif.backRankMate.own"].conclusive
-        assert separation.DOES_NOT_SEPARATE["allowed_motif.fork.own"].conclusive
+        assert separation.DOES_NOT_SEPARATE[self.FLAT + ".own"].conclusive
 
 
 class TestNoComparisonIsMade:
+    # A claim in the register and one that is not, both with the same rate, so
+    # only the register can explain the difference. `discoveredAttack` is flat
+    # and `hangingPiece` separates; see `TestTheRegister.FLAT` on why the flat
+    # one is not `fork` any more.
     def test_peer_rate_is_withheld_even_when_the_reference_has_the_number(self):
         context = a_context(
-            {"allowed_motif.fork.own": 0.30, "allowed_motif.hangingPiece.own": 0.30}
+            {
+                "allowed_motif.discoveredAttack.own": 0.30,
+                "allowed_motif.hangingPiece.own": 0.30,
+            }
         )
         assert context.peer_rate("allowed_motif.hangingPiece") == pytest.approx(0.30)
-        assert context.peer_rate("allowed_motif.fork") is None
+        assert context.peer_rate("allowed_motif.discoveredAttack") is None
 
     def test_a_withheld_claim_gets_neutral_unusualness(self):
         # Without this the claim would inherit lift_vs_baseline and outrank
         # claims that earned their place -- L-012, a universal behaviour scoring
         # high against the player's own average.
-        assert _unusualness(a_finding("allowed_motif", "fork", 3.0)) == 1.0
+        assert _unusualness(a_finding("allowed_motif", "discoveredAttack", 3.0)) == 1.0
 
     def test_a_separating_claim_keeps_its_baseline_lift(self):
         assert _unusualness(a_finding("allowed_motif", "hangingPiece", 3.0)) == 3.0
