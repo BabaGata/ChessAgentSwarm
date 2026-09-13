@@ -586,6 +586,73 @@ Worth a standing check before submission -- every framework, metric and
 taxonomy the thesis leans on should either carry a source or be claimed as
 original on purpose.
 
+### Every framework and measure, audited the same way
+
+After the VMCL finding the same question was put to every named framework,
+method and measure in the thesis: does a citation stand in the same paragraph,
+and if not, is that on purpose? Fifty-odd terms were scanned paragraph by
+paragraph, false positives discarded by hand.
+
+**Five were used as established and cited nowhere.**
+
+| what | now cited |
+|---|---|
+| win-probability formula | the Lichess accuracy page, which publishes it |
+| ACPL | same page |
+| Wilson intervals | Wilson (1927), JASA 22(158), 209--212 |
+| the domain/student/tutor division of an ITS | Anderson, Boyle & Reiser (1985), *Science* 228 |
+| architecture decision records | Nygard (2011), the essay that introduced them |
+
+**Four are this project's own and now say so.** An absent citation reads as a
+missing one unless the text claims the thing as original, so each of these got
+a sentence: the nine-phase work cycle (each phase answering a way the work had
+already gone wrong), the evidence classes (no such scale exists for chess
+knowledge), the seven families of measures (no settled set exists for judging
+chess advice), and the confidence classes (each promotion condition added after
+a measurement showed what got through without it).
+
+**One was already right.** Empirical-Bayes shrinkage carries Efron & Morris
+(1975) where the method is explained in chapter 8, so its mention in chapter 3
+needs nothing.
+
+### Why the process exists, in the author's words and in the literature
+
+The thesis gave two reasons for the process and was missing the one that
+actually caused it. The author's observation, from working this way: **in long
+sessions on projects with no known recipe** -- unlike, say, a web shop in a
+familiar framework -- **the model gets stuck circling one problem, or takes a
+direction that is locally sensible and walks the project away from what was
+wanted.**
+
+That is a working impression rather than a measurement made here, and the
+chapter now says so before citing four papers that measured the surrounding
+effects:
+
+- **Arike et al. (2025)**, AIES 8(1), 192--203 -- goal drift rises with context
+  length, because the model grows more prone to matching patterns in the
+  context than to the task it was given. This is the closest published match to
+  the observation.
+- **Wang et al. (2026)**, arXiv:2604.11978 -- 3100+ trajectories, four domains:
+  success falls as the horizon lengthens and the failure modes themselves shift
+  with duration.
+- **Liu et al. (2024)**, TACL 12, 157--173 -- a fact in the middle of a long
+  context is used less well than one at either end, so a goal stated at the
+  start of a long session loses weight.
+- **Huang et al. (2024)**, ICLR -- without external feedback a model does not
+  reliably correct its own reasoning, and sometimes makes it worse.
+
+The four together make the design argument the chapter had been making without
+support: **drift cannot be fixed by asking the model whether it has drifted.**
+The correction has to be external and written down. That is exactly the three
+properties the process has -- the goal lives outside the conversation and is
+re-read at the start of every unit of work, alignment against the vision is
+answered in writing before a plan runs, and a measurement is the gate a claim
+passes to enter the state note.
+
+Worth keeping in mind: this is the strongest justification in the thesis for
+the methodology chapter existing at all, and it was missing because it was the
+author's own reasoning rather than something already written in the vault.
+
 ## Mechanics
 
 - `report.tex` — preamble and `\input` only. Chapters in `Poglavlja/`.
