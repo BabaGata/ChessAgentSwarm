@@ -61,7 +61,7 @@ def observation(
     error: bool,
     mover: str = "alice",
     punishments: tuple[Punishment, ...] = (),
-    candidates: tuple = (),
+    available: tuple = (),
 ) -> Observation:
     """One observation. `punishments` is what analysis attaches to an error --
     the replies executing a motif that were worth playing (design.punishment
@@ -79,7 +79,7 @@ def observation(
         score_cp_after=-300 if error else 0,
         loss_wp=40.0 if error else 0.0,
         label=ErrorLabel.BLUNDER if error else None,
-        candidates=candidates,
+        available=available,
         phase="late_middlegame",
         played_best=played == best,
         clock_before=None,
@@ -387,28 +387,27 @@ class TestATacticThatWasNotTheVeryBestMove:
         return _count(a_context(observations))
 
     def test_a_second_best_fork_is_an_opportunity(self):
-        from chesscoach.analysis.cache import Line
-
-        # The engine prefers a quiet move by a hair; the fork is line two and
-        # well inside an inaccuracy of it.
+        # The analysis pass found the fork available and worth playing: second
+        # best by four points of win probability, well inside an inaccuracy.
+        available = (Punishment(motif="fork", uci=FORK_MOVE, wp=56.0,
+                                behind_best_wp=4.0),)
         rows = [observation(
             1, ply, fen=FORK_FEN, played=QUIET_MOVE, best=QUIET_MOVE, error=True,
-            candidates=(Line(QUIET_MOVE, 120, False), Line(FORK_MOVE, 110, False)),
+            available=available,
         ) for ply in (11, 21, 31)]
 
         counts = self.counted(rows)
 
         assert counts.tallies["missed_motif.fork.own"].opportunities == 3
 
-    def test_a_fork_the_engine_would_not_play_is_not_one(self):
-        """The threshold is the point. A fork that loses a queen is available
-        and is not a missed opportunity -- the same rule, and the same constant,
-        that `punishment.qualifying` uses for the opponent."""
-        from chesscoach.analysis.cache import Line
-
+    def test_a_fork_that_was_not_worth_playing_never_arrives(self):
+        """The threshold is applied **in the analysis pass**, by the same
+        `qualifying` the opponent's side uses -- so a fork that loses a queen is
+        simply not in `available`, and S1 has nothing to filter. One rule, one
+        place, and the same constant."""
         rows = [observation(
             1, ply, fen=FORK_FEN, played=QUIET_MOVE, best=QUIET_MOVE, error=True,
-            candidates=(Line(QUIET_MOVE, 120, False), Line(FORK_MOVE, -400, False)),
+            available=(),
         ) for ply in (11, 21, 31)]
 
         counts = self.counted(rows)
@@ -417,7 +416,7 @@ class TestATacticThatWasNotTheVeryBestMove:
         # exists with no opportunities would read as "measured and found none".
         assert "missed_motif.fork.own" not in counts.tallies
 
-    def test_without_candidates_it_reads_the_best_move_as_before(self):
+    def test_without_anything_recorded_it_reads_the_best_move_as_before(self):
         rows = [observation(
             1, ply, fen=FORK_FEN, played=QUIET_MOVE, best=FORK_MOVE, error=True,
         ) for ply in (11, 21, 31)]
@@ -429,12 +428,13 @@ class TestATacticThatWasNotTheVeryBestMove:
     def test_one_motif_counts_once_however_many_moves_execute_it(self):
         """Two squares offering the same fork is one fork missed, not two --
         the rule `_count_allowed` already applies on the other side."""
-        from chesscoach.analysis.cache import Line
-
+        available = (
+            Punishment(motif="fork", uci=FORK_MOVE, wp=56.0, behind_best_wp=4.0),
+            Punishment(motif="fork", uci="e4d2", wp=55.0, behind_best_wp=5.0),
+        )
         rows = [observation(
             1, ply, fen=FORK_FEN, played=QUIET_MOVE, best=QUIET_MOVE, error=True,
-            candidates=(Line(QUIET_MOVE, 120, False), Line(FORK_MOVE, 115, False),
-                        Line(FORK_MOVE, 115, False)),
+            available=available,
         ) for ply in (11, 21, 31)]
 
         counts = self.counted(rows)

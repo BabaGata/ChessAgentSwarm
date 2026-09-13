@@ -15,7 +15,7 @@ from typing import Protocol
 
 import chess
 
-from chesscoach.analysis.cache import Line, PositionEval
+from chesscoach.analysis.cache import PositionEval
 from chesscoach.analysis.labels import ErrorLabel, classify, move_loss_wp, win_probability
 from chesscoach.analysis.observations import Observation
 from chesscoach.ingest.corpus import Corpus
@@ -27,22 +27,6 @@ from chesscoach.punishment import Punishment, candidates_in, qualifying
 # observation rather than derived later.
 MIDDLEGAME_PIECES = 10
 LATE_MIDDLEGAME_PIECES = 5
-
-
-# How many candidate moves to ask for at an error position.
-#
-# **Three, and the number is a cost decision with a measurement behind it.**
-# MultiPV costs roughly N times a single search at a fixed depth -- measured
-# 2.83x at three against 5.28x at five -- because finding the second-best move
-# means not pruning the branches that prove it is second best. At three, and at
-# error positions only, the whole addition is about 38 seconds per player
-# ([[design.multipv-candidate-moves]]).
-#
-# Three is also enough to be *provably* complete much of the time: when the last
-# line shown is already more than an inaccuracy below the first, no unshown move
-# can qualify, because MultiPV returns its lines in descending order. See
-# `s1_tactical_gaps` for where that check is made.
-CANDIDATE_MOVES = 3
 
 
 class PositionAnalyser(Protocol):
@@ -95,13 +79,15 @@ def analyse_game(game: GameRecord, analyser: PositionAnalyser) -> tuple[Observat
         # measured 1.52 evaluations per error position, because `detect_motifs`
         # removes 93 % of replies for free before anything reaches the engine.
         punishments: tuple[Punishment, ...] = ()
-        candidates: tuple[Line, ...] = ()
+        available: tuple[Punishment, ...] = ()
         if label is not None:
             punishments = _punishments(board, current, mover_is_white, analyser)
             # **The position as it stood**, rebuilt from the FEN rather than by
             # unwinding: these are the player's own alternatives, and `board`
-            # has already had their move pushed onto it for the punishment call.
-            candidates = _candidates(chess.Board(fen_before), analyser)
+            # has already had their move pushed onto it for the call above.
+            available = _available(
+                chess.Board(fen_before), previous, mover_is_white, analyser
+            )
 
         observations.append(
             Observation(
@@ -124,7 +110,7 @@ def analyse_game(game: GameRecord, analyser: PositionAnalyser) -> tuple[Observat
                 opponent=game.black if mover_is_white else game.white,
                 played_on=game.date,
                 punishments=punishments,
-                candidates=candidates,
+                available=available,
                 engine=analyser.engine_name,
                 depth=analyser.depth,
             )
@@ -174,22 +160,55 @@ def _clock_before(game: GameRecord, index: int) -> float | None:
     return _clock_at(game, index - 2) if index >= 2 else None
 
 
-def _candidates(board: chess.Board, analyser: PositionAnalyser) -> tuple[Line, ...]:
-    """The engine's few best moves here, or nothing if it cannot say.
+def _available(
+    board: chess.Board,
+    here: PositionEval,
+    mover_is_white: bool,
+    analyser: PositionAnalyser,
+) -> tuple[Punishment, ...]:
+    """What the player could have played instead: `_punishments`, one ply earlier.
 
-    `PositionAnalyser` is a Protocol and `lines` is **not** part of it: the stubs
-    in the test suite implement `analyse` alone, and an older cache or a
-    different engine wrapper may too. A missing capability costs the candidates
-    and never the run (L-046) -- every claim that reads them already treats an
-    empty tuple as *"not measured"*.
+    `board` is the position they faced and `here` is its evaluation, which
+    already assumes they play their best -- so `here` *is* the best move's win
+    probability, the same equality `_punishments` relies on and which was
+    measured at a median 8 cp.
+
+    **The mirror is exact, and that is the point.** The author's *"doesn't have
+    to be the very best move"* now holds on both sides by the same code, not by
+    two rules that happen to agree. `candidates_in` enumerates every legal move
+    executing a motif -- `detect_motifs` removes 93 % of them for nothing -- and
+    `qualifying` keeps those within `WORTH_PLAYING_WP` of the best.
+
+    **Complete by construction.** The qualifying set is *"executes the motif and
+    is worth playing"*; enumerating all motif-executing moves and testing each
+    cannot miss one. The alternative considered here was the engine's top N,
+    which is both **truncatable** -- a motif ranked N+1 is invisible, and the
+    claim cannot tell -- and dearer: MultiPV costs about N times a single search,
+    2.83x at three, against a measured 1.52 evaluations per error position for
+    this ([[design.multipv-candidate-moves]]).
     """
-    asks = getattr(analyser, "lines", None)
-    if asks is None:
-        return ()
-    try:
-        return tuple(asks(board, CANDIDATE_MOVES))
-    except Exception:  # noqa: BLE001 - one unanswerable position must not end the game
-        return ()
+
+    def for_player(cp: int) -> float:
+        white_wp = win_probability(cp)
+        return white_wp if mover_is_white else 100.0 - white_wp
+
+    best_wp = for_player(here.score_cp)
+    best = None
+    if here.best_move:
+        try:
+            candidate = chess.Move.from_uci(here.best_move)
+        except ValueError:
+            candidate = None
+        if candidate is not None and candidate in board.legal_moves:
+            best = candidate
+
+    candidates = candidates_in(
+        board,
+        lambda b: for_player(analyser.analyse(b).score_cp),
+        best=best,
+        best_wp=best_wp,
+    )
+    return qualifying(candidates, best_wp)
 
 
 def _punishments(

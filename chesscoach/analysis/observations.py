@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from chesscoach.analysis.cache import Line
+
 from chesscoach.analysis.labels import ErrorLabel
 from chesscoach.punishment import Punishment
 
@@ -51,17 +51,21 @@ class Observation:
     # makes no engine call of its own, and this needs one per candidate.
     # Empty for every move that was not an error, which is most of them.
     punishments: tuple[Punishment, ...] = ()
-    # The engine's few best moves in the position **as it stood**, when this was
-    # an error: what the player could have played instead, in the engine's own
-    # order. `missed_motif` needs these because reading `best_move` alone makes
-    # a tactic that was second best by a hair not a missed tactic at all -- and
-    # not even an opportunity, since it never reaches the denominator. The
-    # symmetric rule to `punishments`, which the author confirmed applies to the
-    # player's own side too ([[design.multipv-candidate-moves]]).
+    # What the player could have played instead, when this was an error: the
+    # moves executing a motif that were **worth playing** -- within an
+    # inaccuracy of their own best. The exact mirror of `punishments`, computed
+    # by the same function one ply earlier.
     #
-    # Empty for every move that was not an error, and empty when the analyser
-    # cannot do MultiPV, which is what keeps the cost at roughly 4 % of moves.
-    candidates: tuple[Line, ...] = ()
+    # `missed_motif` needs this because reading `best_move` alone makes a tactic
+    # that was second best by a hair not a missed tactic at all -- and not even
+    # an opportunity, since it never reaches the denominator. The author
+    # confirmed the rule is symmetric ([[design.multipv-candidate-moves]]).
+    #
+    # **Complete by construction**, which is why it is this and not the engine's
+    # top N: enumerating every motif-executing move and testing each cannot miss
+    # one, so there is no truncation to check for. Empty for every move that was
+    # not an error, which is what keeps the cost at roughly 4 % of moves.
+    available: tuple[Punishment, ...] = ()
 
     @property
     def is_error(self) -> bool:

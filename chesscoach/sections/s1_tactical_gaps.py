@@ -229,27 +229,25 @@ def _available_motifs(
 ) -> frozenset[str]:
     """Every motif the player could have executed by a move worth playing.
 
-    **A motif counts once however many moves execute it** -- two squares
-    offering the same fork is one fork missed, which is the rule
-    `_count_allowed` already applies on the other side.
+    Read off `observation.available`, which the analysis pass computed with the
+    **same function** that produces `punishments` one ply later -- so the
+    author's *"doesn't have to be the very best move"* holds on both sides by
+    one code path rather than two rules that happen to agree.
+
+    **A motif counts once however many moves execute it.** Two squares offering
+    the same fork is one fork missed, which is what `_count_allowed` already
+    does on the other side; `frozenset` is the whole of that rule.
 
     The engine's own best move is always included, so this can only ever widen
-    what the old rule found. That matters for reading the rebuild: any change in
+    what the old rule found. That matters when reading the rebuild: a change in
     a `missed_motif` rate is an addition, never a substitution.
+
+    An observation with nothing recorded -- an older profile, or a move that was
+    not an error -- falls back to the best move alone. That measures less rather
+    than nothing (L-046).
     """
     found = set(detect_motifs(board, best))
-    if not observation.candidates:
-        return frozenset(found)
-
-    # MultiPV returns its lines in descending order, so line one is the best.
-    top = win_probability(observation.candidates[0].score_cp)
-    for line in observation.candidates:
-        if top - win_probability(line.score_cp) > WORTH_PLAYING_WP:
-            # Descending order again: everything after this is worse still.
-            break
-        move = _legal(board, line.uci)
-        if move is not None:
-            found |= {str(m) for m in detect_motifs(board, move)}
+    found |= {candidate.motif for candidate in observation.available}
     return frozenset(found)
 
 
