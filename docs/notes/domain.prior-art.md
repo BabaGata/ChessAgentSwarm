@@ -93,6 +93,28 @@ Also confirmed by search, with nothing found: ground truth, ablation, control
 group, expert review, inter-rater agreement, held-out set — and no code that
 asks the player anything, and no predicted rate to re-check later.
 
+### The other four, re-read in the source too, 2026-09-13
+
+- **The two LLM-ChessCoach projects are one lineage, not two systems.** Same
+  MIT copyright holder (Abhijit Krishna Menon, 2023), same filenames,
+  `analyze_games.py` 850 lines against 127 and `api_server.py` 788 against 70.
+  The larger is an expanded, productised version of the smaller — Dockerfile,
+  Apple auth, an app store module. So the review covers **four codebases, one
+  of them in two development stages**, and the thesis now says so.
+- **CoachFish asks questions, in the other direction.** Its coaching prompt
+  says "End with a short question to engage the user" and its adapter exposes
+  `answer_question(question)`. "Nijedan sustav igraču ništa ne pita" was
+  therefore contestable as written. The precise claim, which holds: no answer
+  is recorded and no answer changes what the system concludes. Reworded.
+- **ai-chess-training does persist to SQLite, but it is billing.** `users`,
+  `user_entitlements`, `daily_usage`, `subscriptions`,
+  `app_store_transactions`. No player model, so the table row stays "ne".
+- **No evaluation of advice anywhere in any of the four.** Ground truth,
+  ablation, expert review, control group and inter-rater all return zero files
+  across every repository. akmenon1996 and CoachFish have no tests at all;
+  ai-chess-training has 12 test files, Iamsdt 5.
+- File counts here said 61 JS/TS for Iamsdt; excluding `node_modules` it is 32.
+
 ### Where they stop, and we do not
 
 These are the honest gaps — and collectively they are this thesis's contribution claim:
