@@ -545,6 +545,47 @@ next pass argues from counts rather than impressions.
   supports the sentence.
 - **Stockfish 18 and the CC0 licence of the Lichess database.** Both check out.
 
+### The methodology chapter had no literature at all
+
+The author asked whether adaptive systems were sourced anywhere. They were not.
+"Adaptivni sustav" appeared six times across the abstract, chapter 1, chapter
+3, chapter 9 and ADR-0001, and chapter 3 -- the chapter whose whole subject is
+the process -- carried exactly **one** citation, for Dendron, the note-taking
+tool. The framework that shaped the entire project was presented as if it had
+been invented here.
+
+It was not invented here. The five structures are **VMCL** (vision, mission,
+capacity, learning) from Derek and Laura Cabrera, which the author learned from
+the Cabrera Lab podcast. Three sources now carry it:
+
+- **Cabrera & Cabrera (2018), *Flock Not Clock*** (Plectica Publishing) -- the
+  book that sets VMCL out. The title is the argument: an organisation is a
+  flock following simple rules, not a clock assembled from specified parts.
+- **Cabrera, Cabrera, Powers, Solin & Kushner (2018)**, *European Journal of
+  Operational Research* 268(3), 932--945 -- the peer-reviewed statement of
+  VMCL, which matters for a thesis in a way a book does not. Verified by
+  pulling the PDF: *"In VMCL, the word capacity refers to the ability to
+  execute the mission."*
+- **Cabrera, Cabrera & Powers (2015)**, *Systems Research and Behavioral
+  Science* 32(5), 534--545 -- DSRP, the systems-thinking theory underneath.
+
+**Two adaptations are now stated rather than hidden.** The project has a fifth
+structure, *stanje*, which VMCL does not: in an organisation the people doing
+the work are the feedback on the real state, and a one-person project needs a
+written record to play that part. And VMCL's *capacity* is mostly culture,
+meaning shared mental models across a group, which does not exist here, so it
+was narrowed to agents, tools and recorded knowledge.
+
+The contribution list in chapter 1 now says the project *applies* VMCL rather
+than implying the framework is part of the contribution. The application to a
+one-person research project is the contribution; the framework is Cabrera's.
+
+This is the second finding of the same shape as the wrong Charness reference:
+**the thesis stated something the vault knew and the chapter did not cite.**
+Worth a standing check before submission -- every framework, metric and
+taxonomy the thesis leans on should either carry a source or be claimed as
+original on purpose.
+
 ## Mechanics
 
 - `report.tex` — preamble and `\input` only. Chapters in `Poglavlja/`.
