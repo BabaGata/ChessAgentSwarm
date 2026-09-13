@@ -821,6 +821,42 @@ the range and closer to the target than to the floor. The bulk a reader
 notices is elsewhere: 11 pages of appendices and 8 of bibliography and lists,
 neither of which counts toward the 40.
 
+### The reviews, turned into a skill
+
+Three outside reviews found, between them, a wrong reference, five numbers that
+never reached the page, a contradiction spanning five chapters, and a document
+more certain than its evidence. None of that was found by reading harder; it
+was found by asking the same questions in the same order. That order is now
+`.claude/skills/thesis-review/`, with a checker that runs the mechanical half.
+
+Eight automated checks, each traceable to a defect a reviewer actually found:
+citation map complete in both directions, a year in brackets with no cite,
+macro names printed as words, measured numbers written as literals,
+claim-strength markers, **claims missing their qualifier in the same
+paragraph**, objected-to vocabulary, and pages against the 40-page floor.
+
+The paragraph-pair check is the interesting one. It encodes the contradictions
+directly: a sentence about the engine giving the same answer at the same depth
+must have "transpozicij" or an explicit caveat nearby; the
+regression-to-the-mean generalisation must carry its "no control group"
+condition. That is how a five-chapter contradiction becomes a one-line rule.
+
+Its first run found five things. Two were real -- the conclusion's second
+paragraph made the general claim without its condition, and `sec:populacija`
+was a label left behind when the heading was renamed two rounds earlier. Two
+were the check's own false positives, fixed in the same pass, per the standing
+rule that a checker wrong nine times in ten gets ignored. One was borderline
+and left.
+
+The skill also records what no check can do -- whether a citation supports
+*this* sentence, whether the process has crowded out the evidence, whether a
+result is a pilot -- and the judgement calls already made, so they are not
+re-argued each round.
+
+**Full round after the fixes:** every automated check clean, 35 tests pass, 0
+Serbisms, 0.2 em-dash asides per 1000 words against the author's own 1.0, 46
+pages without appendices.
+
 ## Mechanics
 
 - `report.tex` — preamble and `\input` only. Chapters in `Poglavlja/`.
