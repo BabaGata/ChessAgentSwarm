@@ -857,6 +857,41 @@ re-argued each round.
 Serbisms, 0.2 em-dash asides per 1000 words against the author's own 1.0, 46
 pages without appendices.
 
+### Did the control group simply get better?
+
+The author asked the right question about the headline result: if those players
+improved in the window, the 92 % might be real progress the system cannot see.
+
+**They did improve, and the project had already measured it.** E06 computes
+rating change per player from the PGN Elo headers over the same date split.
+Over 38 players and 52 predictions, the top third gained a mean of **+141**
+rating points; the other 26 lost a mean of **16**.
+
+That was in the vault and in the experiment list and **nowhere in the results
+chapter**, which is exactly where a reader meets the 92 % and forms the
+objection. It is now a paragraph there.
+
+Two things say the confound does not explain the finding:
+
+- If rating gain were regression wearing a disguise, the gainers would be the
+  players whose earlier rate was most inflated. That correlation is **+0.06**.
+- The 26 players whose rating **fell** still met 3 of their 36 targets. Target
+  meeting does not require improvement.
+
+And what cannot be claimed: at the calibrated rule improvers meet 25 % against
+8 % for the rest, but one-sided Fisher gives **p = 0.120**, so the difference
+between the groups is not established. The 92 % itself was never broken down by
+rating change and cannot be now -- the E05 PGN histories are no longer on disk,
+and only 2 of the 32 players appear anywhere in `data/raw`.
+
+One limitation is stated in the new paragraph because it is real: rating change
+is measured over the same split as the finding, so the earlier period feeds
+both. A cleaner design takes rating from before the measurement window.
+
+Side note: `experiments/e06-progress-power/power.py` names this confound in a
+comment -- "the confound's fingerprint" -- which is how the analysis was found
+at all. Writing the objection into the code paid off months later.
+
 ## Mechanics
 
 - `report.tex` — preamble and `\input` only. Chapters in `Poglavlja/`.
