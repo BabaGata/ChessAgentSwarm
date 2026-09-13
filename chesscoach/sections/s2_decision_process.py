@@ -41,6 +41,7 @@ from chesscoach.sections.base import (
     SectionReport,
     diagnosable,
     instance_moves,
+    worth_citing,
     split_by_tier,
 )
 
@@ -371,11 +372,9 @@ def _sample_evidence(
     digest = hashlib.sha256(seed_key.encode("utf-8")).digest()
     rng = random.Random(int.from_bytes(digest[:8], "big"))
 
-    ordered = sorted(errors, key=lambda o: (o.game_id, o.ply))
-    chosen = sorted(
-        rng.sample(ordered, min(EVIDENCE_SAMPLE_SIZE, len(ordered))),
-        key=lambda o: (o.game_id, o.ply),
-    )
+    # Prefers instances that cost the player something -- see
+    # `base.worth_citing`. The seed keeps a profile reproducible.
+    chosen = worth_citing(errors, EVIDENCE_SAMPLE_SIZE, seed_key)
 
     return tuple(
         Evidence.from_observation(o, note=condition.describe(o))

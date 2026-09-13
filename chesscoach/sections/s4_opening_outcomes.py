@@ -506,11 +506,22 @@ def _assess(key: str, counts: _Counts, context: SectionContext) -> Finding | Non
 
 
 def _sample_evidence(tally: _Tally, seed: str, with_better_move: bool) -> tuple[Evidence, ...]:
-    """One example per game first, then fill. Seeded, so a profile reproduces.
+    """One example per game first, then fill, preferring moves that cost
+    something. Seeded, so a profile reproduces.
 
     Spreading across games matters for how a claim reads: three examples from
     one game invite the reader to dismiss a pattern as one bad day, which is the
     mirror image of cherry-picking and just as misleading.
+
+    **Costly first, within that rule rather than instead of it.** The author
+    rejected rows from this section for one reason -- *"this exact move did not
+    had any significant wp loss and should not be counted"* for `late_castling`,
+    *"White played good moves, completing the development"* for
+    `slow_development` -- and 37 of 163 cited rows across the sheet cost 0.0 wp.
+    These are habit claims counted over opportunities, so a costless move is an
+    honest instance of the habit; showing it as the evidence is what invites
+    *"the system says this move was a mistake"*. See `base.worth_citing` for the
+    full reasoning; the structure here differs enough to keep its own copy.
     """
     rng = random.Random(hashlib.sha256(seed.encode()).hexdigest())
 
@@ -518,10 +529,19 @@ def _sample_evidence(tally: _Tally, seed: str, with_better_move: bool) -> tuple[
     for observation in tally.examples:
         by_game[observation.game_id].append(observation)
 
-    one_each = [rng.choice(sorted(v, key=lambda o: o.ply)) for _, v in sorted(by_game.items())]
+    def from_game(rows: list[Observation]) -> Observation:
+        """A costly move from this game if it has one, else any of them."""
+        costly = [o for o in rows if o.loss_wp]
+        return rng.choice(costly or rows)
+
+    one_each = [from_game(sorted(v, key=lambda o: o.ply)) for _, v in sorted(by_game.items())]
     rng.shuffle(one_each)
     remaining = [o for o in tally.examples if o not in one_each]
     rng.shuffle(remaining)
+    # Stable, so the shuffle still decides the order among equals: this only
+    # moves the costless ones to the back, it does not rank by how costly.
+    one_each.sort(key=lambda o: not o.loss_wp)
+    remaining.sort(key=lambda o: not o.loss_wp)
 
     chosen = sorted(
         (one_each + remaining)[:EVIDENCE_SAMPLE_SIZE], key=lambda o: (o.game_id, o.ply)

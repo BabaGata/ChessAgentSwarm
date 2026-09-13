@@ -36,17 +36,34 @@ from pathlib import Path
 EXPORT = "https://lichess.org/api/games/user/{name}"
 QUERY = ("max={games}&perfType=rapid&rated=true&clocks=false"
          "&evals=false&opening=true")
-PAUSE_S = 2.0  # Lichess asks for restraint; the export endpoint is the costly one
+PAUSE_S = 3.0  # Lichess asks for restraint; the export endpoint is the costly one
+BACKOFF_S = 65.0  # their documented answer to a 429 is to wait a full minute
+ATTEMPTS = 4
 
 
 def fetch(name: str, games: int, token: str | None) -> str:
-    request = urllib.request.Request(
-        EXPORT.format(name=name) + "?" + QUERY.format(games=games),
-        headers={"Accept": "application/x-chess-pgn"})
-    if token:
-        request.add_header("Authorization", f"Bearer {token}")
-    with urllib.request.urlopen(request, timeout=90) as response:
-        return response.read().decode("utf-8")
+    """One player's games, waiting out a rate limit rather than giving up.
+
+    The export endpoint answers 429 for a whole IP, not per user, so a burst
+    fails every request in it. Retrying immediately makes that worse; waiting
+    the documented minute is the only thing that works.
+    """
+    url = EXPORT.format(name=name) + "?" + QUERY.format(games=games)
+    for attempt in range(1, ATTEMPTS + 1):
+        request = urllib.request.Request(
+            url, headers={"Accept": "application/x-chess-pgn"})
+        if token:
+            request.add_header("Authorization", f"Bearer {token}")
+        try:
+            with urllib.request.urlopen(request, timeout=120) as response:
+                return response.read().decode("utf-8")
+        except urllib.error.HTTPError as error:
+            if error.code != 429 or attempt == ATTEMPTS:
+                raise
+            print(f'      429, čekam {BACKOFF_S:.0f} s '
+                  f'(pokušaj {attempt}/{ATTEMPTS})', flush=True)
+            time.sleep(BACKOFF_S)
+    raise RuntimeError('unreachable')
 
 
 def main() -> int:

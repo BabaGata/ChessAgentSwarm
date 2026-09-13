@@ -12,6 +12,8 @@ the ones most likely to be violated under pressure to make a demo look good:
 
 from __future__ import annotations
 
+import hashlib
+import random
 from dataclasses import dataclass
 from typing import Iterable, Protocol
 
@@ -69,6 +71,55 @@ def drop_redundant_aggregates(findings: tuple[Finding, ...]) -> tuple[Finding, .
         if not (f.claim.subject == POOLED_SUBJECT and f.claim.kind in subdivided)
     )
 
+
+
+def worth_citing(
+    examples: Iterable[Observation], size: int, seed: str
+) -> tuple[Observation, ...]:
+    """Which instances to show, preferring ones that cost the player something.
+
+    The author rejected rows across **four** detectors for one reason, and 37 of
+    163 cited rows on the sheet cost **0.0 wp**:
+
+    > *"this exact move did not had any significant wp loss and should not be
+    > counted"* — `late_castling`
+
+    > *"The move didn't had any significant wp loss after all"* —
+    > `miscounted_exchange`
+
+    **It is a citation problem, not a counting one, and the counting is left
+    alone.** `late_castling` and `slow_development` are habit claims measured
+    over opportunities rather than over errors, so a move that cost nothing can
+    honestly be an instance of the habit. What misleads is showing it as the
+    evidence: a reader takes *"here is the move"* to mean *"the system says this
+    move was a mistake"*, and the claim is not saying that. The measurement is
+    right and the pointing was wrong.
+
+    **Stratified, not ranked.** Costly instances are preferred, and *within*
+    them the choice stays random. Ranking by cost would make every claim
+    illustrate itself with its own worst moment, and a reader inferring typical
+    severity from four citations would be misled -- which is what `Evidence`'s
+    *"never cherry-picked"* was written against. This keeps that guarantee for
+    what it was protecting and drops it for the part that was hurting.
+
+    **A claim short of costly instances is topped up, never truncated.** Showing
+    two citations because only two cost anything would make a claim look thinner
+    than its evidence, and a habit claim may legitimately have none at all.
+    """
+    ordered = sorted(examples, key=lambda o: (o.game_id, o.ply))
+    if not ordered:
+        return ()
+
+    digest = hashlib.sha256(seed.encode("utf-8")).digest()
+    rng = random.Random(int.from_bytes(digest[:8], "big"))
+
+    costly = [o for o in ordered if o.loss_wp]
+    free = [o for o in ordered if not o.loss_wp]
+
+    chosen = rng.sample(costly, min(size, len(costly)))
+    if len(chosen) < size and free:
+        chosen += rng.sample(free, min(size - len(chosen), len(free)))
+    return tuple(sorted(chosen, key=lambda o: (o.game_id, o.ply)))
 
 
 def instance_moves(observations: Iterable[Observation]) -> tuple[tuple[str, int], ...]:
