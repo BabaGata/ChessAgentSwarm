@@ -774,6 +774,53 @@ The lesson worth keeping: **a thesis full of honest sentences can still make a
 dishonest impression**, if nowhere in it does a reader find the two lists side
 by side.
 
+### Numbered lists were one running sequence
+
+The author found chapter 2's four differences numbered 18 to 21. Word's
+built-in **List Number** style points every numbered paragraph at a single
+`w:numId`, so each list carried on from where the last one stopped. Each
+`enumerate` now gets its own `w:num` over the same abstract definition with a
+`startOverride`, which restarts the count without changing how the list looks.
+Verified in Word, list by list: all nine start at 1. A test fails if the number
+of numbering instances stops matching the number of `enumerate` environments.
+
+### The systematic claim pass
+
+Two scans, run over every sentence outside code and tables.
+
+**Claim-strength markers** -- proof verbs, guarantees, absolute quantifiers,
+sweeping generalisations -- returned 59 sentences. Most were exact rather than
+strong: "nijedan od pet pregledanih sustava" is a count, and "model nikada ne
+vidi partije" is a property of the code. Five needed work:
+
+- "To je najjači dostupan **dokaz** da je odluka ispravna" -- two projects
+  agreeing is agreement, not a measurement. Reworded, and a missing full stop
+  before it found in passing.
+- "svaki sustav koji izmjeri slabost, propiše lijek i ponovno izmjeri izgledat
+  će uspješno" -- true only without a control group, which was the whole point
+  and was left implicit. The condition is now in the sentence, in all four
+  places it appears including the English abstract.
+- "potvrđeno na nepoznatim igračima" -> "vrijedi i na igračima na kojima
+  sustav nije građen".
+- "praznine (proces) do kojeg podučavanje sadržajem **nikada** ne dopire" ->
+  "teško dopire". That was design rationale, never measured.
+- A double "će" introduced by an earlier edit of mine.
+
+**Numbers outside macros.** The project's rule is that every measured number
+lives in `Src/brojke.tex`, so a literal in prose is either not a measurement or
+has drifted from the one that is. The scan is clean apart from figures quoted
+from cited literature (1600, 5,02, 6,85) and rating-band examples, which is
+what it should be.
+
+### Length
+
+47 pages without appendices before this round, 46 after trimming the L-039
+retelling that chapter 8 already tells in full with the numbers. The rulebook's
+floor is 40 and the author's target is about 50, so the main text sits inside
+the range and closer to the target than to the floor. The bulk a reader
+notices is elsewhere: 11 pages of appendices and 8 of bibliography and lists,
+neither of which counts toward the 40.
+
 ## Mechanics
 
 - `report.tex` — preamble and `\input` only. Chapters in `Poglavlja/`.
