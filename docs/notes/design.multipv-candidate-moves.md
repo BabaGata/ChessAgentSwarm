@@ -283,6 +283,97 @@ MultiPV 3, at error positions only: **+38 s per player**, against the 32 s `allo
 spends and a 7.8-minute pass. The reference rebuild is the real bill, and it is paid once rather than
 per player.
 
+## Enforcing completeness — five ways, and the cheapest is also the exact one
+
+The built loop stops **soundly**: it breaks at the first line more than an inaccuracy below the top,
+and MultiPV returns descending order, so nothing is wrongly *included*. What it does not do is notice
+when the N=3 list was **cut mid-set** — line 3 still qualifying means line 4 might have, and the claim
+then counts a subset without saying so.
+
+The bias that creates is not noise. A position with many near-equal moves is a **quiet** position, and
+quiet positions are exactly where pins live. So the truncation under-counts hardest in the claim this
+whole change was made for.
+
+### A — leave it
+
+Silent lower bound.
+
+- ✅ Nothing to build.
+- ❌ Under-counts **non-uniformly**, worst in quiet positions, so it biases `missed_motif.pin`
+  specifically. The peer arm is truncated the same way and cancels *some* of it — but only some,
+  because players differ in how many quiet positions they reach, which is itself a style fact.
+- ❌ A claim that does not know it is a lower bound cannot say so, which is the standard everything
+  else here is held to.
+
+### B — record the flag
+
+One comparison: `complete = (top_wp - last_shown_wp) > WORTH_PLAYING_WP`. Then either
+
+- **B1 — count anyway, mark the claim.** The finding carries *"at least"*.
+  ✅ Honest and nearly free. ❌ A caveat the report must carry and the player must read past.
+- **B2 — drop incomplete positions from numerator *and* denominator.** A complete-case rate.
+  ✅ Unbiased on the positions it can answer, and the denominator stays meaningful.
+  ❌ Those positions are **not a random sample** — dropping the quiet ones answers a different
+  question, and the claim becomes *"you miss pins, among forcing positions"*.
+
+### C — adaptive N
+
+Re-ask with a larger N wherever the list was cut, to a cap.
+
+- ✅ Exact almost always, and pays only where needed.
+- ❌ A second engine call at those positions, and a cap means the residual case still exists. The cost
+  depends on a frequency nobody has measured.
+
+### D — bigger fixed N
+
+N=5 or N=8 everywhere.
+
+- ✅ Trivial: one constant.
+- ❌ **5.28× and 7.96×** against 2.83×, paid at every error position — and it does not remove the
+  problem, only makes truncation rarer. The check is still needed.
+
+### E — enumerate the motif moves instead of ranking all moves
+
+Stop asking MultiPV. Ask `detect_motifs` which legal moves execute the motif, then evaluate **those** —
+which is exactly what `punishment.candidates_in` already does for the opponent's replies, one ply
+later.
+
+**This is complete by construction.** The qualifying set is *"moves that execute the motif and are
+worth playing"*; enumerating every motif-executing move and testing each cannot miss one. There is no
+N, so there is nothing to truncate and no check to write.
+
+And E85 has already measured the cost, because `allowed_motif` has been paying it:
+
+| | per error position |
+|---|--:|
+| `detect_motifs` over ~31.7 legal moves | free — removes **93 %** |
+| survivors executing a motif | 2.1 |
+| **evaluations actually made** | **1.52** |
+
+**1.52× against MultiPV 3's 2.83×.** Cheaper *and* exact.
+
+- ✅ Complete by construction: no flag, no caveat, no second call.
+- ✅ Cheaper than what is built.
+- ✅ **Symmetric with `allowed_motif` in mechanism, not only in rule** — the author's *"doesn't have to
+  be the very best move"* implemented the same way on both sides, by the same function.
+- ❌ It answers only *"was a motif move worth playing"*. It cannot say where the player's **own** move
+  ranked, which MultiPV can.
+- ❌ The MultiPV path is already built and this claim would stop using it.
+
+### Recommendation
+
+**E** — and that is the honest conclusion even though it makes work already done the wrong mechanism
+for this claim. The question the author asked, *"check what next moves are worthwhile and which are
+not"*, has a complete answer that costs less than the incomplete one, and the project already owns it.
+
+**What MultiPV keeps.** Option 2, the detection sheet, is untouched and is where ranking genuinely
+matters: a marker needs *"Ne4 +1.83 | d5 +1.15"* to judge whether the cited move was worth playing.
+The cache table and `StockfishAnalyser.lines` stay for that.
+
+**Sequencing.** The peer reference is rebuilding now against the MultiPV rule. If E replaces it, that
+rebuild is spent — so **E should be measured against the current build before a second one is paid
+for**, and the comparison needs no engine: both rules can be run over the same games from the cache.
+
 ## Why a truncated list can still be a complete answer
 
 MultiPV 3 returns three moves, and the worry is obvious: *if the pin is the engine's 7th choice,
