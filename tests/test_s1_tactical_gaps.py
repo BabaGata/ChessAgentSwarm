@@ -61,6 +61,7 @@ def observation(
     error: bool,
     mover: str = "alice",
     punishments: tuple[Punishment, ...] = (),
+    candidates: tuple = (),
 ) -> Observation:
     """One observation. `punishments` is what analysis attaches to an error --
     the replies executing a motif that were worth playing (design.punishment
@@ -78,6 +79,7 @@ def observation(
         score_cp_after=-300 if error else 0,
         loss_wp=40.0 if error else 0.0,
         label=ErrorLabel.BLUNDER if error else None,
+        candidates=candidates,
         phase="late_middlegame",
         played_best=played == best,
         clock_before=None,
@@ -357,3 +359,84 @@ class TestContract:
         ]
 
         assert S1TacticalGaps().findings(a_context(opponent_only)) == ()
+
+
+class TestATacticThatWasNotTheVeryBestMove:
+    """*"Not best, good enough"*, on the player's own side.
+
+    `allowed_motif` was rebuilt on that rule for the opponent's reply
+    ([[design.punishment-validity]]). `_count_available` was left reading
+    `observation.best_move` alone, so a tactic the player could have played that
+    was second best by a hair was **not a missed tactic and not an opportunity**
+    -- it never reached the denominator at all. Measured over 187 positions,
+    best-move-only found 10 tactics where within-an-inaccuracy found 32, and
+    `missed_motif.pin` found **zero** where the wider rule found eight: a pin is
+    a quiet move, the engine rarely ranks it first, so a rule keyed on *first*
+    cannot see one ([[design.multipv-candidate-moves]]).
+
+    The author confirmed the rule is symmetric when asked directly.
+
+    The candidates come from the analysis pass. **An observation without them is
+    judged the old way**, on `best_move` alone, so a profile analysed before
+    this existed still measures something rather than nothing (L-046).
+    """
+
+    def counted(self, observations):
+        from chesscoach.sections.s1_tactical_gaps import _count
+
+        return _count(a_context(observations))
+
+    def test_a_second_best_fork_is_an_opportunity(self):
+        from chesscoach.analysis.cache import Line
+
+        # The engine prefers a quiet move by a hair; the fork is line two and
+        # well inside an inaccuracy of it.
+        rows = [observation(
+            1, ply, fen=FORK_FEN, played=QUIET_MOVE, best=QUIET_MOVE, error=True,
+            candidates=(Line(QUIET_MOVE, 120, False), Line(FORK_MOVE, 110, False)),
+        ) for ply in (11, 21, 31)]
+
+        counts = self.counted(rows)
+
+        assert counts.tallies["missed_motif.fork.own"].opportunities == 3
+
+    def test_a_fork_the_engine_would_not_play_is_not_one(self):
+        """The threshold is the point. A fork that loses a queen is available
+        and is not a missed opportunity -- the same rule, and the same constant,
+        that `punishment.qualifying` uses for the opponent."""
+        from chesscoach.analysis.cache import Line
+
+        rows = [observation(
+            1, ply, fen=FORK_FEN, played=QUIET_MOVE, best=QUIET_MOVE, error=True,
+            candidates=(Line(QUIET_MOVE, 120, False), Line(FORK_MOVE, -400, False)),
+        ) for ply in (11, 21, 31)]
+
+        counts = self.counted(rows)
+
+        # Absent rather than zero: the claim was never touched, and a tally that
+        # exists with no opportunities would read as "measured and found none".
+        assert "missed_motif.fork.own" not in counts.tallies
+
+    def test_without_candidates_it_reads_the_best_move_as_before(self):
+        rows = [observation(
+            1, ply, fen=FORK_FEN, played=QUIET_MOVE, best=FORK_MOVE, error=True,
+        ) for ply in (11, 21, 31)]
+
+        counts = self.counted(rows)
+
+        assert counts.tallies["missed_motif.fork.own"].instances == 3
+
+    def test_one_motif_counts_once_however_many_moves_execute_it(self):
+        """Two squares offering the same fork is one fork missed, not two --
+        the rule `_count_allowed` already applies on the other side."""
+        from chesscoach.analysis.cache import Line
+
+        rows = [observation(
+            1, ply, fen=FORK_FEN, played=QUIET_MOVE, best=QUIET_MOVE, error=True,
+            candidates=(Line(QUIET_MOVE, 120, False), Line(FORK_MOVE, 115, False),
+                        Line(FORK_MOVE, 115, False)),
+        ) for ply in (11, 21, 31)]
+
+        counts = self.counted(rows)
+
+        assert counts.tallies["missed_motif.fork.own"].opportunities == 3

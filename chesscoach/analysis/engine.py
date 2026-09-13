@@ -17,7 +17,7 @@ from types import TracebackType
 import chess
 import chess.engine
 
-from chesscoach.analysis.cache import EvalCache, PositionEval
+from chesscoach.analysis.cache import EvalCache, Line, PositionEval
 from chesscoach.analysis.labels import CLAMP_CP
 
 DEFAULT_DEPTH = 15
@@ -92,6 +92,53 @@ class StockfishAnalyser:
 
     def _analyse_uncached(self, board: chess.Board) -> PositionEval:
         return to_position_eval(self._engine.analyse(board, self._limit))
+
+    def lines(self, board: chess.Board, wanted: int) -> tuple[Line, ...]:
+        """The engine's `wanted` best moves here, in its own order, cached.
+
+        **Scores are from the side to move**, unlike `PositionEval.score_cp`
+        which is White-relative. A candidate list is read to rank *this
+        player's* options, and flipping the comparison at every call site is how
+        a sign error gets in.
+
+        Mate is clamped the same way `to_position_eval` clamps it, and for the
+        same reason: Stockfish encodes it near +-30000, which turns the move
+        that delivers it into an enormous apparent loss (L-005).
+
+        The cache is asked with the same `(fen, engine, depth)` key plus the
+        number of lines, because three lines and five are different questions.
+        """
+        fen = board.fen()
+        if self.cache is not None:
+            stored = self.cache.get_lines(fen, self.engine_name, self.depth, wanted)
+            if stored is not None:
+                return stored
+
+        infos = self._engine.analyse(board, self._limit, multipv=wanted)
+        if isinstance(infos, dict):  # an engine may collapse a single-PV result
+            infos = [infos]
+
+        found = []
+        for info in infos:
+            variation = info.get("pv") or []
+            if not variation:
+                continue
+            score = info["score"].pov(board.turn)
+            if score.is_mate():
+                ahead = (score.mate() or 0) > 0
+                found.append(Line(uci=variation[0].uci(),
+                                  score_cp=CLAMP_CP if ahead else -CLAMP_CP,
+                                  is_mate=True))
+            else:
+                raw = score.score() or 0
+                found.append(Line(uci=variation[0].uci(),
+                                  score_cp=max(-CLAMP_CP, min(CLAMP_CP, raw)),
+                                  is_mate=False))
+
+        lines = tuple(found)
+        if self.cache is not None:
+            self.cache.put_lines(fen, self.engine_name, self.depth, wanted, lines)
+        return lines
 
     def close(self) -> None:
         self._engine.quit()

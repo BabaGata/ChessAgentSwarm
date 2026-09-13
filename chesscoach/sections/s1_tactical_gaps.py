@@ -28,6 +28,7 @@ from dataclasses import dataclass, field
 
 import chess
 
+from chesscoach.analysis.labels import win_probability
 from chesscoach.analysis.observations import Observation
 from chesscoach.confidence import MIN_GAMES_WITH_DATA, ClaimStats, assign_tier
 from chesscoach.evaluation.splithalf import split_half_check
@@ -51,7 +52,7 @@ from chesscoach.sections.base import (
     instance_moves,
     split_by_tier,
 )
-from chesscoach.punishment import primary
+from chesscoach.punishment import WORTH_PLAYING_WP, primary
 from chesscoach.tactics import detect_motifs
 
 SECTION = "S1"
@@ -176,14 +177,36 @@ def _count(context: SectionContext) -> _Counts:
 def _count_available(
     tallies: dict[str, _Tally], board: chess.Board, observation: Observation
 ) -> None:
-    """Motifs the engine's move would have executed: an opportunity either way."""
+    """Motifs the player could have played: an opportunity either way.
+
+    **Not only the engine's single best move.** `allowed_motif` was rebuilt on
+    *"not best, good enough"* -- a punishment counts when it was within an
+    inaccuracy of the opponent's best ([[design.punishment-validity]]) -- and
+    this side was left reading `best_move` alone. So a fork the player could
+    have played, second best by a hair, was not a missed fork and was not even
+    an opportunity: it never reached the denominator.
+
+    Measured over 187 positions, best-move-only found **10** tactics where
+    within-an-inaccuracy found **32**, and `missed_motif.pin` found **zero**
+    against eight. A pin is a quiet move and the engine rarely ranks it first,
+    so a rule keyed on *first* cannot see one at all
+    ([[design.multipv-candidate-moves]]). The author confirmed the rule is
+    symmetric when asked.
+
+    **One threshold, one owner**: `WORTH_PLAYING_WP` is the same constant on
+    both sides, reused from the error threshold rather than chosen.
+
+    An observation with no candidates -- an older profile, or an analyser that
+    cannot do MultiPV -- is judged the old way, on the best move alone. That
+    measures less rather than nothing (L-046).
+    """
     best = _legal(board, observation.best_move)
     if best is None:
         return
 
     erred = observation.label is not None and not observation.played_best
 
-    for motif in detect_motifs(board, best):
+    for motif in _available_motifs(board, best, observation):
         missed = tallies[_key(MISSED, motif)]
         missed.opportunities += 1
 
@@ -199,6 +222,35 @@ def _count_available(
         elif observation.played_best:
             executed.instances += 1
             executed.games_hit.add(observation.game_id)
+
+
+def _available_motifs(
+    board: chess.Board, best: chess.Move, observation: Observation
+) -> frozenset[str]:
+    """Every motif the player could have executed by a move worth playing.
+
+    **A motif counts once however many moves execute it** -- two squares
+    offering the same fork is one fork missed, which is the rule
+    `_count_allowed` already applies on the other side.
+
+    The engine's own best move is always included, so this can only ever widen
+    what the old rule found. That matters for reading the rebuild: any change in
+    a `missed_motif` rate is an addition, never a substitution.
+    """
+    found = set(detect_motifs(board, best))
+    if not observation.candidates:
+        return frozenset(found)
+
+    # MultiPV returns its lines in descending order, so line one is the best.
+    top = win_probability(observation.candidates[0].score_cp)
+    for line in observation.candidates:
+        if top - win_probability(line.score_cp) > WORTH_PLAYING_WP:
+            # Descending order again: everything after this is worse still.
+            break
+        move = _legal(board, line.uci)
+        if move is not None:
+            found |= {str(m) for m in detect_motifs(board, move)}
+    return frozenset(found)
 
 
 def _count_allowed(

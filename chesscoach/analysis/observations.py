@@ -8,11 +8,11 @@ comparable (E01) and merging them silently is the bug that would follow.
 
 from __future__ import annotations
 
-from chesscoach.punishment import Punishment
-
 from dataclasses import dataclass
 
+from chesscoach.analysis.cache import Line
 from chesscoach.analysis.labels import ErrorLabel
+from chesscoach.punishment import Punishment
 
 
 @dataclass(frozen=True)
@@ -51,6 +51,17 @@ class Observation:
     # makes no engine call of its own, and this needs one per candidate.
     # Empty for every move that was not an error, which is most of them.
     punishments: tuple[Punishment, ...] = ()
+    # The engine's few best moves in the position **as it stood**, when this was
+    # an error: what the player could have played instead, in the engine's own
+    # order. `missed_motif` needs these because reading `best_move` alone makes
+    # a tactic that was second best by a hair not a missed tactic at all -- and
+    # not even an opportunity, since it never reaches the denominator. The
+    # symmetric rule to `punishments`, which the author confirmed applies to the
+    # player's own side too ([[design.multipv-candidate-moves]]).
+    #
+    # Empty for every move that was not an error, and empty when the analyser
+    # cannot do MultiPV, which is what keeps the cost at roughly 4 % of moves.
+    candidates: tuple[Line, ...] = ()
 
     @property
     def is_error(self) -> bool:

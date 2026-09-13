@@ -15,7 +15,7 @@ from typing import Protocol
 
 import chess
 
-from chesscoach.analysis.cache import PositionEval
+from chesscoach.analysis.cache import Line, PositionEval
 from chesscoach.analysis.labels import ErrorLabel, classify, move_loss_wp, win_probability
 from chesscoach.analysis.observations import Observation
 from chesscoach.ingest.corpus import Corpus
@@ -27,6 +27,22 @@ from chesscoach.punishment import Punishment, candidates_in, qualifying
 # observation rather than derived later.
 MIDDLEGAME_PIECES = 10
 LATE_MIDDLEGAME_PIECES = 5
+
+
+# How many candidate moves to ask for at an error position.
+#
+# **Three, and the number is a cost decision with a measurement behind it.**
+# MultiPV costs roughly N times a single search at a fixed depth -- measured
+# 2.83x at three against 5.28x at five -- because finding the second-best move
+# means not pruning the branches that prove it is second best. At three, and at
+# error positions only, the whole addition is about 38 seconds per player
+# ([[design.multipv-candidate-moves]]).
+#
+# Three is also enough to be *provably* complete much of the time: when the last
+# line shown is already more than an inaccuracy below the first, no unshown move
+# can qualify, because MultiPV returns its lines in descending order. See
+# `s1_tactical_gaps` for where that check is made.
+CANDIDATE_MOVES = 3
 
 
 class PositionAnalyser(Protocol):
@@ -79,8 +95,13 @@ def analyse_game(game: GameRecord, analyser: PositionAnalyser) -> tuple[Observat
         # measured 1.52 evaluations per error position, because `detect_motifs`
         # removes 93 % of replies for free before anything reaches the engine.
         punishments: tuple[Punishment, ...] = ()
+        candidates: tuple[Line, ...] = ()
         if label is not None:
             punishments = _punishments(board, current, mover_is_white, analyser)
+            # **The position as it stood**, rebuilt from the FEN rather than by
+            # unwinding: these are the player's own alternatives, and `board`
+            # has already had their move pushed onto it for the punishment call.
+            candidates = _candidates(chess.Board(fen_before), analyser)
 
         observations.append(
             Observation(
@@ -103,6 +124,7 @@ def analyse_game(game: GameRecord, analyser: PositionAnalyser) -> tuple[Observat
                 opponent=game.black if mover_is_white else game.white,
                 played_on=game.date,
                 punishments=punishments,
+                candidates=candidates,
                 engine=analyser.engine_name,
                 depth=analyser.depth,
             )
@@ -150,6 +172,24 @@ def _clock_at(game: GameRecord, index: int) -> float | None:
 def _clock_before(game: GameRecord, index: int) -> float | None:
     """The mover's own previous clock reading, two plies earlier."""
     return _clock_at(game, index - 2) if index >= 2 else None
+
+
+def _candidates(board: chess.Board, analyser: PositionAnalyser) -> tuple[Line, ...]:
+    """The engine's few best moves here, or nothing if it cannot say.
+
+    `PositionAnalyser` is a Protocol and `lines` is **not** part of it: the stubs
+    in the test suite implement `analyse` alone, and an older cache or a
+    different engine wrapper may too. A missing capability costs the candidates
+    and never the run (L-046) -- every claim that reads them already treats an
+    empty tuple as *"not measured"*.
+    """
+    asks = getattr(analyser, "lines", None)
+    if asks is None:
+        return ()
+    try:
+        return tuple(asks(board, CANDIDATE_MOVES))
+    except Exception:  # noqa: BLE001 - one unanswerable position must not end the game
+        return ()
 
 
 def _punishments(

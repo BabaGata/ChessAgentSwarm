@@ -161,3 +161,88 @@ class TestIncrementFromTheTag:
         assert increment_seconds(None) == 0.0
         assert increment_seconds("-") == 0.0
         assert increment_seconds("300+abc") == 0.0
+
+
+class TestCandidateMovesAtErrors:
+    """The engine's few good moves, carried on the observation.
+
+    `missed_motif` reads `observation.best_move` and nothing else, so a tactic
+    that was second best by a hair is not a missed tactic and is not even in the
+    denominator. `allowed_motif` was rebuilt on *"not best, good enough"* and
+    this side never was; the author confirmed the rule is symmetric
+    ([[design.multipv-candidate-moves]]).
+
+    The lines are produced **here**, beside the punishment call, for the reason
+    that call exists: `s1_tactical_gaps` makes no engine call of its own, and
+    the position is already open. They are asked for **only at error positions**
+    -- roughly 4 % of moves -- because MultiPV costs about N times a single
+    search, so asking everywhere would take a fifty-game analysis from eight
+    minutes past forty.
+    """
+
+    class Scripted(StubAnalyser):
+        """A stub that also answers the MultiPV question."""
+
+        def __init__(self, lines, **kwargs):
+            super().__init__(**kwargs)
+            self._lines = lines
+            self.line_calls: list[str] = []
+
+        def lines(self, board, wanted):
+            from chesscoach.analysis.cache import Line
+
+            self.line_calls.append(board.fen())
+            return tuple(Line(*row) for row in self._lines)[:wanted]
+
+    # The scores that make ply 3 a blunder, copied from
+    # `test_labels_an_error_when_the_evaluation_collapses` so both tests fail
+    # together if the labelling changes.
+    COLLAPSE = {0: 0, 1: 0, 2: 0, 3: -900, 4: -900}
+
+    def _corpus(self):
+        games = parse_pgn_text(PGN)[:1]
+        return build_corpus("alice", games), games
+
+    def test_an_error_carries_the_candidates(self):
+        corpus, games = self._corpus()
+        analyser = self.Scripted(
+            [("a1a2", 40, False), ("a1b1", 20, False)],
+            scores=self.COLLAPSE,
+        )
+
+        observations = analyse_corpus(corpus, games, analyser)
+        errored = [o for o in observations if o.label is not None]
+
+        assert errored
+        assert errored[0].candidates
+
+    def test_a_move_that_was_not_an_error_carries_none(self):
+        """The whole cost argument: 4 % of moves, not all of them."""
+        corpus, games = self._corpus()
+        analyser = self.Scripted([("a1a2", 40, False)], scores=self.COLLAPSE)
+
+        observations = analyse_corpus(corpus, games, analyser)
+
+        assert all(not o.candidates for o in observations if o.label is None)
+
+    def test_the_lines_are_for_the_position_before_the_move(self):
+        """They are the player's *alternatives*, so they belong to the position
+        as it stood -- not to the one their move produced."""
+        corpus, games = self._corpus()
+        analyser = self.Scripted([("a1a2", 40, False)], scores=self.COLLAPSE)
+
+        observations = analyse_corpus(corpus, games, analyser)
+        errored = [o for o in observations if o.label is not None][0]
+
+        assert errored.fen_before in analyser.line_calls
+
+    def test_an_analyser_that_cannot_do_multipv_still_works(self):
+        """`PositionAnalyser` is a Protocol and older stubs do not implement
+        `lines`. A missing capability must cost the candidates, never the run
+        (L-046)."""
+        corpus, games = self._corpus()
+
+        observations = analyse_corpus(corpus, games, StubAnalyser(scores=self.COLLAPSE))
+
+        assert observations
+        assert all(not o.candidates for o in observations)
