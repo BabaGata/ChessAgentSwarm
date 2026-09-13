@@ -2,7 +2,7 @@
 id: cas-exp-e55
 title: 'E55 — The precision screen exists, and it has nothing valid to measure yet'
 desc: 'Five samples can condemn a detector and cannot exonerate one, so the screen runs in two stages. The 23 existing marks cannot be dated against the code they judged, which makes them unusable rather than merely old — and the sheet now stamps its own commit so that cannot happen again.'
-updated: 2026-09-12
+updated: 2026-09-13
 created: 1788652800000
 ---
 
@@ -245,7 +245,53 @@ scored either way until it is re-marked on a corrected sheet.
 the other counted ones, and only then falls back to a search. **This affects every `allowed_motif`
 row ever marked**, including the rounds already scored.
 
-### The one rejection that is about the detector
+### The one rejection that is about the detector — diagnosed 2026-09-13
+
+> *"nc6 is not a good target, the black knight is defended and queen would never take that one. There
+> was actually a fork by Nc7 … The check should be done to see if the detected attacked piece was
+> actually good to be taken a move after."*
+
+**An earlier note here said `_is_discovered_attack` does not require its target to be winnable. That
+was wrong** — it requires `wins_material(after, square, mover) > 0`, exactly as `_is_fork` does. The
+test is there and it returns the wrong answer, which is a different and worse defect.
+
+`lichess.org/G2tV1k1i#24`, after `Nc7+`: the knight on c6 is defended by the b7 pawn **and** the d7
+queen, attacked only by `Qa4`. `Qxc6` would lose a queen for a knight. `wins_material` returns **+3**.
+
+The mechanism is in `wins_material`'s null move:
+
+```python
+if board.turn != side:
+    board = board.copy(stack=False)
+    board.push(chess.Move.null())   # flip the turn to ask "what could WHITE win here?"
+```
+
+After `Nc7+` it is Black to move **and Black is in check**. The null move makes it White's turn — and
+`is_check()` now answers **False**, because it only ever asks about the side to move. The check on the
+black king becomes invisible. SEE then plays `Qxc6` and finds that **every** black recapture is
+illegal, since `bxc6` and `Qxc6` leave the king in check from c7 — so it concludes the knight is free.
+The same position with the checking knight removed scores **0**.
+
+**For a fork this is right, and the docstring defends it on purpose:**
+
+> *"Pushed even when the other side is in check, deliberately: 'what could White win on a8?' is
+> exactly the question a fork detector asks after giving check, and refusing to answer it there would
+> blind the detector to every fork that comes with check — which is most of them."*
+
+That holds because a fork has **two** targets: the check forces the king to move, and *then* the other
+one falls. `Nc7+` really is a fork of `Ke8` and `Ra8`, and the detector reports `fork` as well — the
+author said so too.
+
+**For a discovered attack it does not hold.** There is one target, the opponent moves first, and the
+move they are *forced* to make can save it. The guard belongs to the motif, not to `wins_material`:
+`_is_trapped_piece` already carries the same one (`if after.is_check(): return False`), added for the
+same reason.
+
+**Not fixed.** The shape is a two-line guard and a test, but it needs deciding whether a discovered
+attack that gives check is *never* one or only one when the check can save the target, and that is a
+chess judgement rather than a code change.
+
+### The original note (superseded)
 
 > *"nc6 is not a good target, the black knight is defended and queen would never take that one. There
 > was actually a fork by Nc7 … The check should be done to see if the detected attacked piece was
