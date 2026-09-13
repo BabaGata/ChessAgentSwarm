@@ -146,3 +146,36 @@ Croatian takes an infinitive or `da bi`.
   stay.
 - Do not rewrite quoted material, code, captions of code listings, or the
   author's own sentences quoted from the vault.
+
+## Measuring against the author's own writing
+
+`python .claude/skills/human-prose/check_style.py`
+
+Counts, per 1000 words, the constructions that separate this project's drafts
+from the author's earlier reports in `Primjeri/`, and prints both tables so the
+gap is visible rather than argued about.
+
+What her writing does **not** contain, at all:
+
+| construction | typical draft | her reports |
+|---|---|---|
+| `nije X, nego Y` | 2.0 | 0.0 |
+| `..., a ne Y` | 4.6 | 0.0 |
+| bold run-in at the start of a paragraph | 3.1 | 0.0 |
+| italics for stress on an ordinary word | 6.6 | 0.0 |
+| colon inside a sentence | 8.3 | 1.1 |
+
+What her writing does contain, and the drafts did not:
+
+| construction | typical draft | her reports |
+|---|---|---|
+| `kako bi ...` (purpose clause) | 0.1 | 6.0 |
+| `iz tog razloga` | 0.0 | 1.4 |
+| `s obzirom da` | 0.0 | 0.7 |
+
+The rewrite is not about hitting those numbers exactly. A text that matched a
+profile perfectly would be its own kind of artefact, and some of these
+constructions are legitimate in a technical chapter where they would be out of
+place in a project report. The point is the direction: prefer a purpose clause
+or a `jer` clause over a contrast, and let the sentence carry the emphasis
+instead of the font.

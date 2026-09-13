@@ -469,6 +469,82 @@ or a label that is not ASCII and space-free.
   that the names were chosen for a chess player rather than for that
   literature.
 
+### An outside read of the thesis, and what survived checking
+
+The author had the finished document reviewed for signs of AI authorship. The
+review's own conclusion was that the *research* is clearly human and the
+*prose* is not, and that the citations deserved a closer look than the prose
+did. Both halves were acted on.
+
+**Five citation findings, checked against sources rather than memory.**
+
+- **Charness (1981) was the wrong reference** for the nine-year longitudinal
+  study of a player going 1600 → 2300 without searching deeper. The study is
+  **Charness (1989)**, "Expertise in chess and bridge". The vault had it right
+  in [[domain.expertise-research]]; the thesis had it wrong, which means the
+  error entered when the note became a chapter. Fixed, and `charness1981search`
+  is no longer cited anywhere.
+- **"oko 300 000 uzoraka" was "at least 300,000".** The Gobet & Charness
+  chapter says *"at least 300,000 chunks are required to reach grandmaster
+  level"*, verified by pulling the PDF and reading the sentence. Wording
+  corrected, and the figure is now attributed to that chapter alone rather than
+  co-cited with Gobet & Simon (1998), which is where the chunking claim
+  belongs.
+- **Glickman (1999) is the method, not evidence that Lichess uses it.** The
+  Lichess FAQ states it directly, and is now cited alongside.
+- **Spearman–Brown needs Brown.** Spearman (1910) alone was cited for a formula
+  that is half Brown's; Brown (1910) added.
+- **"Nijedan sustav ne mjeri ispravnost savjeta"** was scoped to five projects
+  in the text but nowhere said which five, how they were found, when, or what
+  counts as measuring correctness. All four are now stated, along with the fact
+  that the repositories may have changed since.
+
+The general lesson: **a claim that was right in the vault can still be wrong in
+the thesis.** Three of these five are transcription damage, not research
+damage, and none of them would have been caught by re-reading the chapter,
+only by going back to the source.
+
+### Matching the author's register, measured rather than argued
+
+The reviewer named the prose tells without naming their frequency, so the
+frequencies were counted, in the thesis and in her two earlier reports in
+`Primjeri/`. The gap was not subtle.
+
+| per 1000 words | thesis before | her reports | thesis after |
+|---|---|---|---|
+| `nije X, nego Y` | 2.0 | 0.0 | 1.5 |
+| `..., a ne Y` | 4.6 | 0.0 | 3.7 |
+| bold run-in | 3.1 | 0.0 | 1.6 |
+| italics for stress | 6.6 | 0.0 | 2.1 |
+| colon inside a sentence | 8.3 | 1.1 | 6.0 |
+| `kako bi ...` | 0.1 | **6.0** | 0.7 |
+| `iz tog razloga` | 0.0 | **1.4** | 0.1 |
+| `s obzirom da` | 0.0 | **0.7** | 0.4 |
+
+Her hallmark is the purpose clause. She explains why something was done inside
+the sentence that says it was done, and she never reaches for a contrast to
+make a point land. The thesis did the opposite everywhere. The rewrite pushed
+chapters 1, 2, 3 and 9 and the abstract most of the way across, and took the
+worst of it out of 4 to 8.
+
+It was **deliberately not pushed to zero**. A document that matched a profile
+exactly would be its own artefact, and some of these constructions are
+ordinary in a technical chapter where they would be out of place in a project
+report. `check_style.py` in the human-prose skill prints both tables so the
+next pass argues from counts rather than impressions.
+
+### What was left alone, and why
+
+- **Experiment count (87 stated, IDs up to E91).** The author asked to leave it
+  until the detector regeneration running in another session lands, since the
+  numbers will move anyway.
+- **One reviewer of twelve, who is the author.** This is a real methodological
+  limit and the thesis already states it three times, in the evaluation
+  chapter, in the results and in the conclusion. Nothing to fix in the writing.
+- **Hambrick et al. on one third of the variance.** Checked; the citation
+  supports the sentence.
+- **Stockfish 18 and the CC0 licence of the Lichess database.** Both check out.
+
 ## Mechanics
 
 - `report.tex` — preamble and `\input` only. Chapters in `Poglavlja/`.
