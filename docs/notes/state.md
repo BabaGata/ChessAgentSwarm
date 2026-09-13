@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 2026-09-12
+updated: 2026-09-13
 created: 1785254500000
 ---
 
@@ -270,6 +270,27 @@ struck through: a list nobody can act on is not a plan.
 0. **M8 — the figures that are not drawn.** Only the scorecard trajectory exists. Candidates, each
    already measured: split-half agreement, the cost profile cold against warm, and the strength
    estimate against actual rating for both speeds (which would show the blitz repair visually).
+
+0. **DONE — `missed_motif` counts tactics that were good enough, not only best** *(2026-09-13)*.
+   [[design.multipv-candidate-moves]] Options 1 and 2, built after the author confirmed the rule is
+   symmetric. `allowed_motif` had *"not best, good enough"*; this side read `best_move` alone, so a
+   fork second best by a hair was not a missed fork **and not an opportunity** — it never reached the
+   denominator. Measured over 187 positions: 10 tactics become **32**, and `missed_motif.pin` goes
+   from **zero to eight**, because a pin is a quiet move the engine rarely ranks first.
+
+   Three pieces: a `position_lines` cache table (a second table — `position_eval` has 283,576 rows
+   that must keep working, and lines are wanted at 4 % of positions), `StockfishAnalyser.lines`
+   (MultiPV, cached, scores from the side to move), and `analysis/core._candidates` (error positions
+   only, beside the punishment call). `_available_motifs` walks the candidates in the engine's
+   descending order and stops at the first more than `WORTH_PLAYING_WP` below the top. **One
+   threshold, one owner**, and the best move is always included, so the change can only widen.
+
+   **Peer reference rebuilding now** — six band×speed cells, ~50 min, with
+   `peers-e84-before-multipv.json` kept alongside. The separation register follows it.
+
+   Still open: the **completeness check** is half-enforced. The loop stops soundly (nothing is wrongly
+   included) but does not yet record whether the N=3 list was long enough to hold the whole qualifying
+   set, or was cut mid-set. Measurable on the rebuilt reference.
 
 0. **P1 — `missed_motif` still reads only the engine's single best move** *(designed 2026-09-12)*.
    The author asked whether Stockfish's several-good-moves output (MultiPV) could say which candidate

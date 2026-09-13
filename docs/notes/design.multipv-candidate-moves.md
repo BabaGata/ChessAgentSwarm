@@ -2,14 +2,14 @@
 id: cas-design-multipv-candidate-moves
 title: 'Design — Asking Stockfish for several good moves instead of one'
 desc: 'MultiPV costs roughly N times a single search, so it is not a saving. It is worth paying for anyway in one place: missed_motif still reads only the engine best move, and measured over 187 positions that rule finds 10 tactics where "not best, good enough" finds 32 — and zero pins where the wider rule finds eight.'
-updated: 2026-09-12
+updated: 2026-09-13
 created: 2026-09-12
 ---
 
 # Design — Asking Stockfish for several good moves instead of one
 
 **Serves:** V4 (gap detection), V8 (falsifiable coaching), C1 (free) ·
-**Follows:** [[design.punishment-validity]] · **Status:** **proposed** — measured, not built
+**Follows:** [[design.punishment-validity]] · **Status:** **BUILT** — Options 1 and 2, 2026-09-13
 
 ## The author's question
 
@@ -186,6 +186,38 @@ register both become stale for every `missed_motif` claim** (L-058), which is an
 a re-marking round, not a patch.
 
 Neither is built. This note exists so that the code has somewhere to come from (hard rule 4).
+
+## Built (2026-09-13)
+
+Option 1, in three pieces, each with its reason in the code:
+
+| | |
+|---|---|
+| `EvalCache.get_lines` / `put_lines` | a **second** table, `position_lines`. `position_eval` holds 283,576 rows that must keep working and the lines are wanted at 4 % of positions, so widening it would mean a migration for a column null on nearly everything. `lines_asked` is in the key: a stored list of *n* answers any request for *n* or fewer and never for more. |
+| `StockfishAnalyser.lines` | MultiPV, cached. Scores are **from the side to move**, unlike `PositionEval`'s White-relative ones — a candidate list is read to rank *this player's* options, and flipping the comparison at every call site is how a sign error gets in. Mate is clamped as `to_position_eval` clamps it (L-005). |
+| `analysis/core._candidates` | asks at **error positions only**, beside the punishment call, where the position is already open. `lines` is deliberately **not** in the `PositionAnalyser` Protocol: the test stubs implement `analyse` alone, so a missing capability costs the candidates and never the run (L-046). |
+
+and the claim itself:
+
+```python
+def _available_motifs(board, best, observation):
+    found = set(detect_motifs(board, best))          # always includes the best move
+    top = win_probability(observation.candidates[0].score_cp)
+    for line in observation.candidates:
+        if top - win_probability(line.score_cp) > WORTH_PLAYING_WP:
+            break                                     # descending order: the rest are worse
+        found |= {str(m) for m in detect_motifs(board, _legal(board, line.uci))}
+```
+
+**One threshold, one owner** — `WORTH_PLAYING_WP` is the same constant both sides use. **The best move
+is always included**, so this can only widen what the old rule found: any change in a rate after the
+rebuild is an addition, never a substitution. An observation with no candidates is judged the old way.
+
+**The completeness check is not yet enforced.** The loop `break`s on the first line more than an
+inaccuracy below the top, which is the *sound* half of the argument below — every line after it is
+worse, so nothing is wrongly included. What is not yet recorded is the other half: whether the list
+was long enough to contain the whole qualifying set, or was cut mid-set at N=3. Open question 1 is
+still open and is now measurable on the rebuilt reference.
 
 ## The real fix, in full
 
