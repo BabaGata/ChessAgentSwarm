@@ -360,6 +360,51 @@ And E85 has already measured the cost, because `allowed_motif` has been paying i
   ranked, which MultiPV can.
 - ❌ The MultiPV path is already built and this claim would stop using it.
 
+### Measured, 4,007 positions from the review cache (2026-09-13)
+
+The three rules run over the same games, no engine time:
+
+| motif | best-only | multipv-3 | **enumerate** |
+|---|--:|--:|--:|
+| `pin` | 41 | 99 | **91** |
+| `hangingPawn` | 166 | 175 | **211** |
+| `fork` | 49 | 35 | **57** |
+| `discoveredAttack` | 36 | 46 | **52** |
+| `hangingPiece` | 52 | 55 | **59** |
+| `trappedPiece` | 19 | 17 | **23** |
+| `skewer` | 17 | 16 | **21** |
+| `capturingDefender` | 6 | 5 | **8** |
+| `backRankMate` | 2 | 2 | **2** |
+| **total** | **388** | **450** | **524** |
+
+**MultiPV-3's list was cut mid-set in 261 of 4,007 positions (6.5 %)** — each one a place where the
+claim would have been a lower bound without saying so.
+
+**Two caveats, and they matter.**
+
+1. **`enumerate` here is itself a lower bound.** The comparison reads the cache, and a candidate whose
+   resulting position was never evaluated scores as unplayable and is dropped. There were **111,779
+   cache misses**, because `by_multipv` has to price every legal move. So the true `enumerate` count
+   is **higher than 524**, which only strengthens the direction.
+2. **The `multipv-3` column is not trustworthy.** The cache holds no MultiPV rows, so the ranking was
+   reconstructed by evaluating each move's resulting position — a proxy for the engine's own ordering,
+   not that ordering. The tell is `fork`, where multipv-3 scores **35 against best-only's 49**: a rule
+   that always includes the best move cannot find fewer than one that only looks at it, so the
+   reconstruction is dropping the engine's own best move from its top three. The 6.5 % truncation rate
+   is built on the same partial ranking and should be read as indicative, not exact.
+
+**What survives both caveats** is the comparison that decides the claim:
+
+> `enumerate` finds **at least 524** motifs where the old rule found **388** — **+35 % or more** — and
+> `missed_motif.pin` goes from **41 to 91**, more than doubling.
+
+That is the same result the 187-position MultiPV sample pointed at, now on twenty times the data and
+by the mechanism that shipped. It does not rest on the multipv column at all.
+
+**And the decision for E never rested on this measurement.** Complete-by-construction and 1.52× against
+2.83× are structural facts about the two mechanisms; the table only confirms the widening is worth
+having.
+
 ### Recommendation
 
 **E** — and that is the honest conclusion even though it makes work already done the wrong mechanism
