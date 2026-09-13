@@ -653,6 +653,60 @@ Worth keeping in mind: this is the strongest justification in the thesis for
 the methodology chapter existing at all, and it was missing because it was the
 author's own reasoning rather than something already written in the vault.
 
+### Five numbers were missing from the document, and the build was green
+
+The second review found "Kappa", "Korekcija", "KorekcijaTrazena",
+"PoboljsanjeBezTretmana" and "CiljTrazio" printed as words where numbers
+belong, and read them as an unfinished template. They were a **converter bug**,
+and the same one five times.
+
+Every one of them sits inside `$...$`. `InlineParser._math` renders inline maths
+by mapping the symbols it knows and then deleting every remaining backslash, so
+`\Kappa` lost its backslash and arrived as the word. Outside maths the walker
+expands macros as it meets them, which is why nothing else was affected and why
+this was invisible for weeks. Macros are now expanded before any backslash is
+touched.
+
+A second, smaller thing fell out of the same line: the symbol map consumed the
+space after a named command, so `\kappa = \Kappa` rendered as "κ= 0,74". The
+space after a command name only terminates the name in LaTeX; on the page it is
+a word space.
+
+**The test that should have existed now does.** It reads every
+`\newcommand` name out of `Src/brojke.tex` and fails if any of them appears as
+a bare word anywhere in the document, paragraphs and table cells alike. Two
+names are excluded by hand -- *Pouzdanost* and *Utemeljenost* are also ordinary
+Croatian words that open sentences in the prose, so finding them proves
+nothing. The lesson generalises past this bug: **the suite checked that content
+was present and never that a placeholder was absent.**
+
+### Two claims the thesis could not support
+
+- **Stockfish determinism.** Chapter 2 said the engine gives the same answer
+  for the same position at the same depth, and chapter 7 measures it giving
+  −5 cp cold and −24 cp after other positions, because the transposition table
+  carries state between calls. The thesis was contradicting itself across five
+  chapters. Chapter 2 now states the limit where the claim is made rather than
+  pointing forward to it.
+- **"To slaganje je dokaz da je dijagnoza bila točna."** Two independent
+  estimates agreeing is consistency, not proof of correctness. Softened to what
+  it actually shows: two measurements that do not lean on each other, giving
+  the same answer.
+
+### Tooling named, and one record taken out of the appendix
+
+The thesis said "a development environment with a language model" and never
+named it. It now names Claude Code and the Claude family, **without a version**:
+only today's session logs survive on disk, and they cannot speak for July and
+August, so naming a specific model would be asserting more than can be checked.
+The author chose that wording when asked. The system's own local models can be
+named exactly, because they are pinned in the source, so they are.
+
+ADR-0018, the record placing thesis writing inside mission step M8, is out of
+the appendix table at the author's request. The register still holds
+`\BrojADR` records and the intro now says the table lists those concerning the
+system, so the count stays honest.
+
 ## Mechanics
 
 - `report.tex` — preamble and `\input` only. Chapters in `Poglavlja/`.
