@@ -103,7 +103,8 @@ def notes_under(lines: list[str], index: int) -> list[str]:
         # Machine-written lines are regenerated on the new sheet, and the
         # provenance line is re-stamped there, so carrying any of them would
         # duplicate it.
-        if stripped.startswith(("punished by", "was available", "engine:", "(carried from")):
+        if stripped.startswith(("punished by", "was available", "engine:", "(carried from",
+                                "DOUBLE-CHECK:")):
             continue
         found.append(line)
     return found
@@ -121,6 +122,35 @@ def generated_at(lines: list[str]) -> str:
     return "unknown commit"
 
 
+def resolve(history: list[tuple[str, str]]) -> tuple[str, str | None]:
+    """The mark a position carries, and why to re-check it if there is a reason.
+
+    `history` is `(sheet, mark)` in sheet order, oldest first. The author's
+    rules, after a `[y]` was carried as `[?]` because a later sheet was unsure:
+
+    > *"[y], then [?] for cases like this keep y, only in case n the mark should
+    > not be transferred or it could but with leaving the annotation to double
+    > check"*
+
+    > *"not all n should be double checked, only n where there was y or ? on
+    > some other sheet"*
+
+    **An unsure mark never overrides a definite one**, so the latest `y` or `n`
+    wins and `?` survives only where nothing definite was ever said. **A
+    rejection some other sheet disagreed with is flagged** -- whichever way the
+    latest mark went, since the disagreement is the reason to look. A rejection
+    every sheet agreed on, or made once, is carried as it is.
+    """
+    definite = [(sheet, mark) for sheet, mark in history if mark in ("y", "n")]
+    mark = definite[-1][1] if definite else history[-1][1]
+
+    marks = {m for _, m in history}
+    if "n" in marks and marks & {"y", "?"}:
+        said = ", ".join(f"{m} on {sheet}" for sheet, m in history)
+        return mark, f"DOUBLE-CHECK: the sheets disagreed ({said})"
+    return mark, None
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     # **Several earlier sheets, oldest first.** Where two of them marked the same
@@ -133,8 +163,8 @@ def main() -> int:
 
     new, new_lines = parse(args.new)
 
-    marked: dict[tuple, dict] = {}
-    history: dict[tuple, list[tuple[str, str]]] = defaultdict(list)
+    # Every sheet's row for every marked position, oldest first.
+    seen: dict[tuple, list[dict]] = defaultdict(list)
     for path in args.old:
         rows, lines = parse(path)
         commit = generated_at(lines)
@@ -143,10 +173,24 @@ def main() -> int:
             if not row["mark"]:
                 continue
             count += 1
-            history[key].append((path.name, row["mark"]))
-            marked[key] = {**row, "source": path.name, "commit": commit,
-                           "comment": notes_under(lines, row["line"])}
+            seen[key].append({**row, "source": path.name, "commit": commit,
+                              "comment": notes_under(lines, row["line"])})
         print(f"OLD  {path.name}: {len(rows)} rows, {count} marked (built from {commit})")
+
+    marked: dict[tuple, dict] = {}
+    history: dict[tuple, list[tuple[str, str]]] = {}
+    for key, rows in seen.items():
+        history[key] = [(r["source"], r["mark"]) for r in rows]
+        mark, check = resolve(history[key])
+        # The row the carried mark came from supplies its commit: the latest
+        # sheet that gave this exact mark. **Comments come from every sheet**,
+        # oldest first: keeping a `[y]` over a later `[?]` must not also throw
+        # away what the author wrote on the later sheet (L-057).
+        origin = next(r for r in reversed(rows) if r["mark"] == mark)
+        comments: list[str] = []
+        for r in rows:
+            comments += [line for line in r["comment"] if line not in comments]
+        marked[key] = {**origin, "comment": comments, "check": check}
 
     kept = {key: row for key, row in marked.items() if key in new}
     gone = {key: row for key, row in marked.items() if key not in new}
@@ -158,7 +202,8 @@ def main() -> int:
     print(f"  distinct marked positions across the old sheets: {len(marked)}")
     if conflicts:
         print(f"  marked differently on different sheets: {len(conflicts)} "
-              "(the latest mark is the one carried)")
+              "(a definite mark beats an unsure one; a disputed [n] is flagged)")
+    print(f"  carried with DOUBLE-CHECK: {sum(1 for r in kept.values() if r['check'])}")
     print()
     print(f"  kept   {len(kept):3d}  same claim, same position -- the mark carries")
     print(f"  gone   {len(gone):3d}  marked, and the new sheet does not cite it")
@@ -204,11 +249,12 @@ def main() -> int:
         for key in sorted(kept, key=lambda k: -new[k]["line"]):
             row = kept[key]
             stamp = f"      (carried from {row['source']}, which judged commit {row['commit']})"
+            flag = [f"      {row['check']}"] if row["check"] else []
             at = new[key]["line"] + 1
             while at < len(merged) and merged[at].startswith("      ") \
                     and not ROW.match(merged[at]):
                 at += 1
-            merged[at:at] = row["comment"] + [stamp]
+            merged[at:at] = row["comment"] + flag + [stamp]
         args.out.write_text("\n".join(merged) + "\n", encoding="utf-8")
         print()
         print(f"merged sheet written to {args.out}")

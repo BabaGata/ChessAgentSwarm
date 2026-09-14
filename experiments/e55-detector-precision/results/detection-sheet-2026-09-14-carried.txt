@@ -75,11 +75,11 @@ long_think_error.long_think.own
       lichess.org/KVh1nudO#38
       engine: Nxd4 -1.29 | Rhf8 -1.57 | Bc5 -2.09   (the move above is not in the top 3)
       (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
-  [?] Hirsican              move  24  White Bb3      lost   8.4 wp
+  [y] Hirsican              move  24  White Bb3      lost   8.4 wp
       lichess.org/zU1S5uVh#47
       engine: Kd2 +2.94 | Bb3 +1.74 * | Qd1 +1.63
       What can be done for long think errors at all? If there is nothing concrete to practice it then I don't know it should stay for the report.
-      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
+      (carried from detection-sheet-2026-09-06-fixed-detectors.txt, which judged commit 48d8c89)
 
 missed_motif.pin.own
     claims: You miss pin tactics that were available.
