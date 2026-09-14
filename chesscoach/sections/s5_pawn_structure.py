@@ -196,11 +196,13 @@ def _count(context: SectionContext) -> _Counts:
 
 
 # Whether doubling your pawns by taking a piece that **had just arrived without
-# capturing** counts as a concession. The author's marks do not reach this case:
+# capturing** counts as a concession. The author's marks did not reach this case:
 # they decided "finished an exchange" (counts) and "started one" (does not), and
-# 29 % of the reviewed games' doublings are neither. `False` reads their words
-# literally -- taking first *begins* the exchange whatever the piece did to get
-# there -- and is the author's call to confirm.
+# 29 % of the reviewed games' doublings are neither.
+#
+# **Decided by the author, 2026-09-14: it does not count.** Asked directly, they
+# chose "you took first" -- making the first capture begins the exchange whatever
+# the piece did to get there, the same reading as their note on `gxf5`.
 DOUBLING_BY_TAKING_AN_ARRIVAL_COUNTS = False
 
 
