@@ -598,6 +598,32 @@ within `WORTH_PLAYING_WP` of the opponent's best. Same constant, same function f
 move, not only errors, so it cannot ride the error-only analysis branch — about **64 engine calls per
 player**, roughly six seconds. Not built; measured only.
 
+### The three material claims, built and rebuilt (2026-09-14)
+
+`4187ddd`: `moved_into_attack` asks whether a capture of the moved piece is worth playing;
+`miscounted_exchange` needs the capture to be at least an inaccuracy; `doubled` drops doublings taken
+on by capturing first (the author decided that taking a piece which had just arrived is capturing
+first). One peer rebuild covered all three.
+
+**Counts, 1400-1800:**
+
+| claim | blitz | rapid |
+|---|--:|--:|
+| `miscounted_exchange` | 144 → 79 (−45 %) | 135 → 73 (−46 %) |
+| `moved_into_attack` | 546 → 425 (−22 %) | 496 → 386 (−22 %) |
+| `concedes_weakness.doubled` | 350 → 295 (−16 %) | 291 → 230 (−21 %) |
+
+`doubled` moved far less than the **65 %** of raw doublings that capture first, because the claim
+counts only doublings that persist three moves, and persistent doublings are mostly recaptures, which
+still count. The 65 % was a figure about raw doublings, not the claim.
+
+**Separation: 24 → 25, one lost and none gained.** `moved_into_attack` and `doubled` still separate.
+**`miscounted_exchange` stopped separating** — dispersion 1.04, tail 0.394 — and the entry is
+**inconclusive**: the smallest effect the screen could see is 1.47×, past the 1.35× line. Halving the
+instances cost the screen its power. This is not evidence that players miscount exchanges equally; it
+is a claim now too thin to measure within band. Under the register's standing policy an inconclusive
+entry withholds the peer comparison all the same.
+
 ### 5. Needs an engine, not a rule — 3 rows, not fixed
 
 **The engine is not absent from the system; it is absent from the *detectors*, and that is a
