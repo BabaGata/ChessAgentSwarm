@@ -633,6 +633,16 @@ sheets, oldest first, and the latest mark wins. From the three sheets the author
 Three positions were marked differently on different sheets; one of them is on the new sheet
 (`long_think_error` at `zU1S5uVh#47`, `[y]` then `[?]`). Each carried row now ends with *"(carried from X, which judged commit Y)"*.
 
+**The author's rules for a disagreement**, applied by `carry_marks.resolve` and tested:
+
+- **An unsure mark never overrides a definite one** — *"[y], then [?] for cases like this keep y"*.
+  `zU1S5uVh#47` carries `[y]`. Comments are taken from every sheet, so the later `[?]`'s question is
+  not lost with its mark.
+- **A rejection is flagged only when another sheet disagreed** — *"not all n should be double checked,
+  only n where there was y or ? on some other sheet"*. Such a row is carried with a `DOUBLE-CHECK:` line
+  naming every sheet's mark. The one such position, `allowed_motif.hangingPawn` at `vyI9oLv3#52`
+  (`[n]` then `[?]`), is not on this sheet, so no row carries the note this time.
+
 `miscounted_exchange` and `missed_motif.hangingPawn` left the sheet. Both are claims the section no
 longer reports for these players, not detectors that stopped firing: `miscounted_exchange` is in the
 register now, and S7 refuses to speak without a peer comparison.
