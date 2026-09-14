@@ -909,6 +909,44 @@ The rating question itself is answered on the exact cohort: re-fetched for the
 same window, mean rating change −2; players whose rating fell met 7 of 7
 targets. E06's deeper-sample result is kept as the second check.
 
+### Every stated calculation, recomputed
+
+After the 92 % turned out to be 11 of 12, every sentence in the built thesis
+that states a calculation was pulled out -- 101 of them, read from the .docx so
+macros were already numbers -- and each was recomputed or traced to its note.
+The 61 experiment figures in `brojke.tex` were matched against the note each
+comment names: 52 matched directly, the other 9 were derived or traced by hand.
+All values held; two comments named the wrong experiment.
+
+**What did not hold:**
+
+- **Blitz: "150 naspram 148 za pogađanje" joined two runs.** E27 measured 150
+  against 157 for guessing; E29's held-out check 149 against 148. Written as it
+  was, the estimate was *worse* than guessing in a sentence calling it barely
+  better. Each figure now sits with its own baseline, and "pada sa 150 na 129"
+  is 149, the E29 starting point.
+- **Chabris & Hearst read their own data the other way.** The thesis said they
+  confirm the pattern-recognition direction. Gobet & Charness, verbatim: "While
+  they took this as evidence for the role of search, a more natural
+  interpretation..." The data is theirs, the reading is Gobet & Charness's;
+  attributed accordingly. The figures themselves (5.02, 6.85, a factor of six)
+  are now verified in the source, which closes one of the three open rows in
+  the source audit.
+- **"Četiri sekcije od jedanaest nisu izgrađene" was stale** in chapters 3
+  and 8. S1–S8 are built, S10 half, S9 and S11 not; chapter 5 had it right.
+- **"Šest puta više predviđanja"** -- 57 against 13 is 4.4 times; it is the
+  games that grew about sixfold.
+- **"Za oko trećinu"** is 36 %; **"omjer 1,81"** from rounded 7.7 % and 4.3 %
+  reads as 1.79, so it now says "oko 1,8".
+- **Agreement:** 103 boda, 141 bod.
+
+Also in `experiments.e05-natural-drift.md`, "every prediction's rate fell"
+contradicted its own table (12 of 13).
+
+Project-size counts have drifted -- code 24,170 → 24,686 lines, tests
+1,847 → 1,885, notes 173 → 175 -- because the detector work continues in
+another session. Left for the final pass, as the author asked.
+
 ## Mechanics
 
 - `report.tex` — preamble and `\input` only. Chapters in `Poglavlja/`.
