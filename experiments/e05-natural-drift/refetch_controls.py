@@ -16,13 +16,16 @@ Usage:
     python refetch_controls.py --results results/results.json \\
         --out ../../data/raw/e05-refetch
 
-Then, to answer the question the thesis leaves open:
+Then break the 92 % down by rating change:
 
-    python ../e06-progress-power/power.py --results results/results.json \\
-        --histories ../../data/raw/e05-refetch --ratio 0.34
+    PYTHONPATH=. python experiments/e06-progress-power/rating_vs_92.py \\
+        --results experiments/e05-natural-drift/results/results.json \\
+        --histories data/raw/e05-refetch-rc
 
-0.34 is the constant that produced the 92 %. Running it at the current constant
-as well shows whether the split by rating change depends on the target rule.
+The 92 % run predates the `expected` field, so `power.py` cannot re-decide its
+verdicts at another constant; `rating_vs_92.py` uses the stored verdicts, which
+came from the halve-the-gap rule (GAP_CLOSED_PER_BLOCK = 0.5). NO_CHANGE_RATIO
+= 0.34 arrived later, with the calibration.
 """
 
 from __future__ import annotations
@@ -91,7 +94,7 @@ def main() -> int:
                         help="E05 results.json, for the player names")
     parser.add_argument("--out", required=True, type=Path)
     parser.add_argument("--games", type=int, default=60,
-                        help="E05 used the newest 60 rapid games")
+                        help="E05 used the newest 60 rapid and classical games")
     parser.add_argument("--until", default=E05_UNTIL,
                         help="last day of games to include, YYYY-MM-DD")
     parser.add_argument("--token", default=None,

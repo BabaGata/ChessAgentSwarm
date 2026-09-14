@@ -37,7 +37,7 @@ these players was ever told anything. Any target met here was met by doing nothi
 | mean improvement, no coaching | **+11.2 points** |
 | mean improvement the target asked for | **+5.5 points** |
 
-Every single prediction's rate fell in the later period:
+The rate fell in 12 of 13 predictions; the one that rose is the one not met. (Corrected 2026-09-14: this line used to say every rate fell, contradicting the table below.)
 
 ```
   met       19.6% ->  3.8%   (target 14.2%)   allowed_motif.fork
