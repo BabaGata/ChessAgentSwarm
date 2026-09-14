@@ -167,3 +167,72 @@ class TestAMarkIsEvidenceAboutTheCodeItJudged:
     def test_a_section_claim_falls_back_to_the_sections_package(self):
         assert module_for("early_error.white.own") == "chesscoach/sections/"
         assert module_for("something_new.any.own") == "chesscoach/sections/"
+
+
+class TestReadingAMarkedSheet:
+    """Every claim's marks are credited to that claim, whatever its name holds.
+
+    `score.read` recognised a section by `[a-z][\w.]*` -- no spaces, hyphens or
+    apostrophes. The per-opening claims have all three: `out_of_book.Hungarian
+    Opening.own`, `out_of_book.Caro-Kann Defense.own`, `out_of_book.Queen's Pawn
+    Game.own`. Their headings were never recognised, so their marks were added
+    to **whichever claim came before them on the sheet**.
+
+    It moved a recorded verdict. On the 2026-09-07 sheet `out_of_book.Queen's
+    Pawn Game` sat directly under `missed_motif.fork`, and the scorer reported
+    fork at 2 of 8, 25 % -- its own 1 of 5 plus the opening claim's 1 of 3. The
+    true figure was 20 %. Condemned either way, and still a wrong number in the
+    record; and no per-opening claim had ever been scored at all.
+    """
+
+    SHEET = """WHAT THE SYSTEM DETECTS
+
+missed_motif.fork.own
+    claims: You miss forks.
+    5 instances across 2 players
+------------------------------------------------------------------------------
+  [y] alice   move 10  White Nc7   lost 20.0 wp
+  [n] alice   move 12  White Rd1   lost 10.0 wp
+
+out_of_book.Queen's Pawn Game.own
+    claims: You leave theory early in the Queen's Pawn Game.
+    3 instances across 1 players
+------------------------------------------------------------------------------
+  [n] bob     move  2  White e3    lost  1.7 wp
+  [?] bob     move  5  White Nf3   lost  1.6 wp
+
+out_of_book.Caro-Kann Defense.own
+    claims: You leave theory early in the Caro-Kann Defense.
+    2 instances across 1 players
+------------------------------------------------------------------------------
+  [y] carol   move  3  Black e6    lost  6.0 wp
+"""
+
+    def read(self, tmp_path):
+        import importlib.util
+        from pathlib import Path
+
+        script = Path(__file__).resolve().parents[1] / "experiments/e55-detector-precision/score.py"
+        spec = importlib.util.spec_from_file_location("e55_score", script)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        sheet = tmp_path / "sheet.txt"
+        sheet.write_text(self.SHEET, encoding="utf-8")
+        marks, fired = module.read(sheet)
+        return {m.detector: (m.right, m.wrong, m.unsure) for m in marks}, fired
+
+    def test_a_claim_with_spaces_and_an_apostrophe_keeps_its_own_marks(self, tmp_path):
+        marks, _ = self.read(tmp_path)
+
+        assert marks["out_of_book.Queen's Pawn Game.own"] == (0, 1, 1)
+
+    def test_the_claim_above_it_is_not_credited_with_them(self, tmp_path):
+        marks, _ = self.read(tmp_path)
+
+        assert marks["missed_motif.fork.own"] == (1, 1, 0)
+
+    def test_a_hyphenated_claim_is_recognised(self, tmp_path):
+        marks, fired = self.read(tmp_path)
+
+        assert marks["out_of_book.Caro-Kann Defense.own"] == (1, 0, 0)
+        assert fired["out_of_book.Caro-Kann Defense.own"] == 2

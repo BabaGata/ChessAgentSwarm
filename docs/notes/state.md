@@ -381,7 +381,8 @@ struck through: a list nobody can act on is not a plan.
 0. **DONE — the sheet is scored for the first time, and two more detectors fixed** *(2026-09-08)*.
    The author marked **60 boxes across the twelve most-firing detectors**, and
    `e55-detector-precision/score.py` read them. **Two condemned**: `out_of_book.any` at **0/3** and
-   `missed_motif.fork` at **25 %**. Six detectors scored 100 % on 4-5 marks each, which the screen
+   `missed_motif.fork` at **25 %** *(corrected 2026-09-14: 20 %, 1 of 5 — the scorer had credited the
+   next claim's marks to it)*. Six detectors scored 100 % on 4-5 marks each, which the screen
    correctly refuses to call confirmed. Full table → [[experiments.e55-detector-precision]].
    **Moves D4 off "no precision has been measured".**
 

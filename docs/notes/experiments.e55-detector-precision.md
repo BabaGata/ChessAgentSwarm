@@ -111,7 +111,7 @@ The author marked **60 boxes across the twelve most-firing detectors** on `detec
 | detector | fired | marks | precision | verdict |
 |---|--:|--:|--:|---|
 | `out_of_book.any.own` | 45 | 3 | **0 %** | **condemned** |
-| `missed_motif.fork.own` | 59 | 8 | **25 %** | **condemned** |
+| `missed_motif.fork.own` | 59 | 8 | **25 %** — *corrected: 1 of 5, 20 %* | **condemned** |
 | `allowed_motif.fork.own` | 181 | 5 | 60 % | unsettled |
 | `allowed_motif.hangingPawn.own` | 231 | 9 | 78 % | (marks stale, re-mark) |
 | `moved_into_attack.own_move.own` | 120 | 9 | 44 % | (marks stale, re-mark) |
@@ -623,6 +623,33 @@ still count. The 65 % was a figure about raw doublings, not the claim.
 instances cost the screen its power. This is not evidence that players miscount exchanges equally; it
 is a claim now too thin to measure within band. Under the register's standing policy an inconclusive
 entry withholds the peer comparison all the same.
+
+### Regenerated at `4498914`, marks carried from every marked sheet (2026-09-14)
+
+`detection-sheet-2026-09-14.txt`: 30 claims, 149 rows. `carry_marks.py` now takes several earlier
+sheets, oldest first, and the latest mark wins. From the three sheets the author actually marked —
+`detection-sheet copy.txt` (135 marks, `f15fd21`), `…-09-06-fixed-detectors` (73, `48d8c89`) and
+`…-09-07` (95, `e7c845e`) — **272 distinct marked positions**, **52 carried**, **97 rows unjudged**.
+Three positions were marked differently on different sheets; one of them is on the new sheet
+(`long_think_error` at `zU1S5uVh#47`, `[y]` then `[?]`). Each carried row now ends with *"(carried from X, which judged commit Y)"*.
+
+`miscounted_exchange` and `missed_motif.hangingPawn` left the sheet. Both are claims the section no
+longer reports for these players, not detectors that stopped firing: `miscounted_exchange` is in the
+register now, and S7 refuses to speak without a peer comparison.
+
+**Recall held.** `recheck.py` on every accepted motif row that names its executing move — 24 from the
+09-06 sheet, 25 from 09-07 — found **all 49 still fire**. The August sheet predates those lines and
+could not be re-asked.
+
+**A scorer bug, found by reading the carried rows.** `score.py` recognised a section heading only as
+`[a-z][\w.]*`, so no per-opening claim was ever scored and their marks were credited to the claim above
+them. `missed_motif.fork`'s 25 % above was really 20 %. Fixed with a test; the per-opening claims now
+score, and `out_of_book.Hungarian Opening` reads **condemned at 1 of 4** on marks made before its
+per-family baseline existed.
+
+**The carried numbers are not fresh precision.** The sheet is generated at current code, so `score.py`
+does not refuse it — but most carried marks judge older commits, and the scorer does not read the
+per-row stamp. Treat every carried verdict as a prompt to re-check, not a measurement.
 
 ### Restoring separation for `miscounted_exchange` — options, none chosen (2026-09-14)
 

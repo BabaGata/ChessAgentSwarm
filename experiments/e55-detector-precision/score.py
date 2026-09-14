@@ -49,7 +49,14 @@ SHEET = (Path(__file__).resolve().parents[1] / "e46-motif-precision" / "results"
 # A claim heading sits at the left margin and carries no box; an example line is
 # indented and starts with one. Two shapes, so neither can be mistaken for the
 # other however the sheet is edited.
-_HEADING = re.compile(r"^(?![ \t])([a-z][\w.]*)\s*$")
+# A claim heading: unindented `kind.subject.direction`. **The subject can hold
+# spaces, hyphens and apostrophes** -- `out_of_book.Queen's Pawn Game.own`. The
+# first version allowed only `[\w.]`, never matched those headings, and credited
+# their marks to whichever claim preceded them: `missed_motif.fork` was reported
+# at 25 % on the 2026-09-07 sheet when its own marks gave 20 %. The kind must be
+# a lowercase word immediately followed by a dot, which no prose line in the
+# sheet's header is.
+_HEADING = re.compile(r"^(?![ \t])([a-z][a-z_]*\.[^\n]+\.[a-z]+)\s*$")
 _BOX = re.compile(r"^\s*\[([ ynYN?])\]")
 _COUNT = re.compile(r"([\d,]+)\s+instances")
 _RECOVERED = re.compile(r"^([\w.]+)\s+(\d+)\s+(\d+)\s+(\d+)\s*$")

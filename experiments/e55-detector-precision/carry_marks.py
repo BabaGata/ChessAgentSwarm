@@ -100,28 +100,65 @@ def notes_under(lines: list[str], index: int) -> list[str]:
         stripped = line.strip()
         if stripped.startswith("lichess.org/"):
             continue
-        if stripped.startswith(("punished by", "was available")):
+        # Machine-written lines are regenerated on the new sheet, and the
+        # provenance line is re-stamped there, so carrying any of them would
+        # duplicate it.
+        if stripped.startswith(("punished by", "was available", "engine:", "(carried from")):
             continue
         found.append(line)
     return found
 
 
+GENERATED = re.compile(r"^GENERATED \S+ from commit (\S+?)\.?$")
+
+
+def generated_at(lines: list[str]) -> str:
+    """The commit a sheet was built from, as it stamped itself."""
+    for line in lines[:60]:
+        match = GENERATED.match(line.strip())
+        if match:
+            return match.group(1)
+    return "unknown commit"
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--old", required=True, type=Path)
+    # **Several earlier sheets, oldest first.** Where two of them marked the same
+    # claim at the same position, the later mark wins: it is the author's more
+    # recent judgement, and usually of code closer to what is running now.
+    parser.add_argument("--old", required=True, type=Path, nargs="+")
     parser.add_argument("--new", required=True, type=Path)
     parser.add_argument("--out", type=Path, default=None)
     args = parser.parse_args()
 
-    old, old_lines = parse(args.old)
     new, new_lines = parse(args.new)
 
-    marked = {key: row for key, row in old.items() if row["mark"]}
+    marked: dict[tuple, dict] = {}
+    history: dict[tuple, list[tuple[str, str]]] = defaultdict(list)
+    for path in args.old:
+        rows, lines = parse(path)
+        commit = generated_at(lines)
+        count = 0
+        for key, row in rows.items():
+            if not row["mark"]:
+                continue
+            count += 1
+            history[key].append((path.name, row["mark"]))
+            marked[key] = {**row, "source": path.name, "commit": commit,
+                           "comment": notes_under(lines, row["line"])}
+        print(f"OLD  {path.name}: {len(rows)} rows, {count} marked (built from {commit})")
+
     kept = {key: row for key, row in marked.items() if key in new}
     gone = {key: row for key, row in marked.items() if key not in new}
+    conflicts = {key: marks for key, marks in history.items()
+                 if len({mark for _, mark in marks}) > 1}
 
-    print(f"OLD  {args.old.name}: {len(old)} rows, {len(marked)} marked")
     print(f"NEW  {args.new.name}: {len(new)} rows")
+    print()
+    print(f"  distinct marked positions across the old sheets: {len(marked)}")
+    if conflicts:
+        print(f"  marked differently on different sheets: {len(conflicts)} "
+              "(the latest mark is the one carried)")
     print()
     print(f"  kept   {len(kept):3d}  same claim, same position -- the mark carries")
     print(f"  gone   {len(gone):3d}  marked, and the new sheet does not cite it")
@@ -150,7 +187,10 @@ def main() -> int:
         print("re-check any that matter before leaning on them.")
         for key in sorted(kept):
             row = kept[key]
-            print(f"  [{row['mark']}] {key[0]}  lichess.org/{key[1]}#{key[2]}")
+            clash = "   (sheets disagreed: " + ", ".join(
+                f"{mark} on {name}" for name, mark in history[key]) + ")" if key in conflicts else ""
+            print(f"  [{row['mark']}] {key[0]}  lichess.org/{key[1]}#{key[2]}  "
+                  f"from {row['source']}{clash}")
 
     if args.out:
         merged = list(new_lines)
@@ -158,15 +198,17 @@ def main() -> int:
             index = new[key]["line"]
             merged[index] = re.sub(r"^  \[.\s*\]", f"  [{row['mark']}]", merged[index], count=1)
         # Comments go back too, after the row's own lines, so the reason
-        # survives with the verdict.
+        # survives with the verdict -- followed by where the mark came from and
+        # which code it judged, so a carried mark can never be mistaken for a
+        # fresh one on the sheet the author marks next.
         for key in sorted(kept, key=lambda k: -new[k]["line"]):
-            comment = notes_under(old_lines, old[key]["line"])
-            if comment:
-                at = new[key]["line"] + 1
-                while at < len(merged) and merged[at].startswith("      ") \
-                        and not ROW.match(merged[at]):
-                    at += 1
-                merged[at:at] = comment
+            row = kept[key]
+            stamp = f"      (carried from {row['source']}, which judged commit {row['commit']})"
+            at = new[key]["line"] + 1
+            while at < len(merged) and merged[at].startswith("      ") \
+                    and not ROW.match(merged[at]):
+                at += 1
+            merged[at:at] = row["comment"] + [stamp]
         args.out.write_text("\n".join(merged) + "\n", encoding="utf-8")
         print()
         print(f"merged sheet written to {args.out}")

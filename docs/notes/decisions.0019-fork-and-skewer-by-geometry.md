@@ -2,7 +2,7 @@
 id: cas-adr-0019
 title: 'ADR-0019 — Fork and skewer are split by geometry, against the endorsed definition'
 desc: 'A slider attacking two pieces on one line through it is recorded as a skewer, not a fork. The author chose their own rule over the Lichess puzzle-theme definition the vocabulary is drawn from, knowing that the motif key is also the puzzle filter the exercise sends the player to.'
-updated: 2026-09-08
+updated: 2026-09-14
 created: 2026-09-08
 ---
 
@@ -13,8 +13,16 @@ created: 2026-09-08
 ## Context
 
 The first scored round of [[experiments.e55-detector-precision]] put `missed_motif.fork` at **25 %**
-precision (2 of 8) and **condemned** it. Six of the ten rejected fork rows across both directions
-carried one reason, written by the author on the sheet:
+precision (2 of 8) and **condemned** it.
+
+> **Correction, 2026-09-14.** The scorer did not recognise claim names containing spaces or
+> apostrophes and credited `out_of_book.Queen's Pawn Game`'s marks to the claim above it. Fork's own
+> marks were **1 of 5, 20 %** — still condemned, so the decision below is unaffected. Option 3's
+> counterfactual changes more: all four of fork's rejections were *"this is a skewer"*, so leaving the
+> code alone and reading them as vocabulary would have put it at **5 of 5**, not 63 %.
+
+Six of the ten rejected fork rows across both directions carried one reason, written by the author on
+the sheet:
 
 > *"This is a skewer, fork is only when one of the involved pieces is not aligned on the same
 > line/diagonal."*

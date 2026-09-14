@@ -32,10 +32,11 @@ allowed_motif.hangingPawn.own
     tells you: After choosing a move and before playing it, check every pawn you own that no longer has a defender. Dropped pawns rarely lose a game on their own and they are what your mistakes are most often costing you.
     232 instances across 5 players
 ------------------------------------------------------------------------------
-  [ ] Crossfire1983         move  23  White Kb1      lost   5.1 wp
+  [y] Crossfire1983         move  23  White Kb1      lost   5.1 wp
       lichess.org/6VIj14yA#45
       punished by Bxd3+ -- takes Pd3, with bd3
       engine: Bxd3+ +4.48 * | Qd6 +4.17 | b6 +3.77
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
   [ ] Hirsican              move  15  White Bg5      lost  31.9 wp
       lichess.org/8zsVzk0T#29
       punished by Qxe4+ -- takes Pe4, with qe4
@@ -58,21 +59,27 @@ long_think_error.long_think.own
     tells you: When a think runs long, stop and choose between your two best candidate moves rather than searching for a third.
     227 instances across 3 players
 ------------------------------------------------------------------------------
-  [ ] Hirsican              move  11  White Nc4      lost  11.2 wp
+  [y] Hirsican              move  11  White Nc4      lost  11.2 wp
       lichess.org/3pPHPEC4#21
       engine: Qh5 +0.01 | Nf3 -1.23 | Nxd5 -1.41   (the move above is not in the top 3)
-  [ ] Hirsican              move  15  White Rg1      lost  13.9 wp
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
+  [y] Hirsican              move  15  White Rg1      lost  13.9 wp
       lichess.org/2woiFZBd#29
       engine: g4 -0.06 | Qh3 -0.62 | Qg1 -1.05   (the move above is not in the top 3)
-  [ ] Hirsican              move  16  Black f5       lost  36.1 wp
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
+  [y] Hirsican              move  16  Black f5       lost  36.1 wp
       lichess.org/NF4Pv6NH#32
       engine: Bxc4 -0.40 | Be7 -2.55 | Rd7 -3.26   (the move above is not in the top 3)
-  [ ] Hirsican              move  19  Black Rb8      lost   5.8 wp
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
+  [y] Hirsican              move  19  Black Rb8      lost   5.8 wp
       lichess.org/KVh1nudO#38
       engine: Nxd4 -1.29 | Rhf8 -1.57 | Bc5 -2.09   (the move above is not in the top 3)
-  [ ] Hirsican              move  24  White Bb3      lost   8.4 wp
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
+  [?] Hirsican              move  24  White Bb3      lost   8.4 wp
       lichess.org/zU1S5uVh#47
       engine: Kd2 +2.94 | Bb3 +1.74 * | Qd1 +1.63
+      What can be done for long think errors at all? If there is nothing concrete to practice it then I don't know it should stay for the report.
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
 
 missed_motif.pin.own
     claims: You miss pin tactics that were available.
@@ -102,21 +109,27 @@ time_pressure_error.clock.own
     tells you: Spend less time in the opening so that the clock is not deciding your moves later.
     145 instances across 4 players
 ------------------------------------------------------------------------------
-  [ ] maikel5               move  15  Black Nb3+     lost  16.7 wp
+  [y] maikel5               move  15  Black Nb3+     lost  16.7 wp
       lichess.org/yKHBrF0e#30
       engine: Nc4 +3.41 | a6 +1.94 | g6 +1.90   (the move above is not in the top 3)
-  [ ] maikel5               move  24  Black Nexc2    lost   9.8 wp
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
+  [y] maikel5               move  24  Black Nexc2    lost   9.8 wp
       lichess.org/5KQuvjWo#48
       engine: Nf5 -0.66 | Ng4 -1.14 | Kb6 -1.25   (the move above is not in the top 3)
-  [ ] maikel5               move  26  Black Qxa4     lost  26.4 wp
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
+  [y] maikel5               move  26  Black Qxa4     lost  26.4 wp
       lichess.org/zcStry0S#52
       engine: Rxc5 +3.62 | Qxa4 +0.23 * | Re2 -1.77
-  [ ] maikel5               move  30  Black Kg7      lost  10.1 wp
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
+  [y] maikel5               move  30  Black Kg7      lost  10.1 wp
       lichess.org/e7cTUscH#60
       engine: c5 -2.04 | Nc4 -2.53 | Nc8 -3.38   (the move above is not in the top 3)
-  [ ] maikel5               move  55  White Ke3      lost  27.3 wp
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
+  [y] maikel5               move  55  White Ke3      lost  27.3 wp
       lichess.org/EGOMa6lY#109
       engine: e6 -0.42 | Kd5 -2.25 | Kd4 -2.30   (the move above is not in the top 3)
+      What is the advice for the time pressure?
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
 
 allowed_motif.fork.own
     claims: When you go wrong, it is often a fork that punishes you.
@@ -135,10 +148,11 @@ allowed_motif.fork.own
       lichess.org/mAkbxHJ2#13
       punished by Nxf2 -- forker nf2, target Qd1, target Rh1
       engine: Nxf2 +4.74 * | Nf6 -0.06 | Nh6 -0.41
-  [ ] bjagus                move  34  Black Rc8      lost   8.4 wp
+  [y] bjagus                move  34  Black Rc8      lost   8.4 wp
       lichess.org/Qm07J5oM#68
       punished by Qb5 -- forker Qb5, target pa5, target pb7
       engine: Qb5 +3.39 * | Rh2 +3.01 | Rh3 +2.83
+      (carried from detection-sheet copy.txt, which judged commit f15fd21)
   [ ] cademan               move  10  White f3       lost  33.8 wp
       lichess.org/bLhjYwVZ#19
       punished by e5 -- forker pe5, target Nd4, target Bf4
@@ -221,26 +235,31 @@ allowed_motif.hangingPiece.own
     tells you: Before committing a move, ask what your opponent's best reply threatens; a hanging piece is what has been punishing you.
     87 instances across 4 players
 ------------------------------------------------------------------------------
-  [ ] Maximilian_Honigtopf  move  63  White Rd2+     lost  29.5 wp
+  [y] Maximilian_Honigtopf  move  63  White Rd2+     lost  29.5 wp
       lichess.org/R9GJUKUy#125
       punished by Kxd2 -- takes Rd2, with kd2
       engine: Kxd2 +0.04 * | Kf3 -3.96 | Ke1 -4.13
-  [ ] cademan               move  35  White Ra8      lost  31.8 wp
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
+  [y] cademan               move  35  White Ra8      lost  31.8 wp
       lichess.org/0fP06oYk#69
       punished by Rxh5 -- takes Bh5, with rh5
       engine: Rxh5 +5.27 * | Rf5+ +3.54 | Bc6 +3.05
-  [ ] cademan               move  35  Black Kb8      lost  15.8 wp
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
+  [y] cademan               move  35  Black Kb8      lost  15.8 wp
       lichess.org/T7AhF7X3#70
       punished by Qxc2 -- takes qc2, with Qc2
       engine: Qxc2 +8.09 * | Rb1+ +6.74 | Qb5+ +4.64
-  [ ] goydorak              move  21  Black Be6      lost  13.0 wp
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
+  [y] goydorak              move  21  Black Be6      lost  13.0 wp
       lichess.org/QMc52cvf#42
       punished by Rxd6 -- takes bd6, with Rd6
       engine: Rxd6 +4.74 * | Qc2 +1.86 | Qc3 +1.68
-  [ ] goydorak              move  33  White Kh3      lost  13.7 wp
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
+  [y] goydorak              move  33  White Kh3      lost  13.7 wp
       lichess.org/YX1zeqwo#65
       punished by bxc4 -- takes Bc4, with pc4
       engine: bxc4 +6.06 * | g5 +4.20 | Be4 +4.08
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
 
 concedes_weakness.doubled.own
     claims: You end up with doubled pawns more often than players at your level.
@@ -256,9 +275,10 @@ concedes_weakness.doubled.own
   [ ] cademan               move   7  Black axb6     lost   0.0 wp
       lichess.org/lv4xIXt1#14
       engine: axb6 -0.15 * | Bg4 -0.34 | cxb6 -0.76
-  [ ] cademan               move  11  White fxe5     lost   4.0 wp
+  [y] cademan               move  11  White fxe5     lost   4.0 wp
       lichess.org/dw3zY6IW#21
       engine: dxe5 -0.13 | fxe5 -0.43 * | Bxg6 -0.83
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
   [ ] cademan               move  21  White dxe5     lost   0.0 wp
       lichess.org/yR15DtLj#41
       engine: dxe5 +1.13 * | Qxe5 -0.98 | Qf3 -2.26
@@ -293,31 +313,37 @@ allows_square.outpost.own
     tells you: Before a pawn move, ask which square it gives up for good — a pawn cannot come back. In the cited games, find the move where the square your opponent later occupied stopped being defensible.
     41 instances across 4 players
 ------------------------------------------------------------------------------
-  [ ] Maximilian_Honigtopf  move  16  Black Nd7      lost  10.5 wp
+  [y] Maximilian_Honigtopf  move  16  Black Nd7      lost  10.5 wp
       lichess.org/PbhJDtzW#32
       engine: Qd7 -1.24 | Ke7 -1.53 | Kf8 -2.03   (the move above is not in the top 3)
-  [ ] bjagus                move  15  White bxc5     lost   0.0 wp
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
+  [y] bjagus                move  15  White bxc5     lost   0.0 wp
       lichess.org/2B2tcJRK#29
       engine: bxc5 -1.55 * | a3 -2.11 | b5 -2.68
-  [ ] bjagus                move  20  Black a6       lost   0.0 wp
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
+  [y] bjagus                move  20  Black a6       lost   0.0 wp
       lichess.org/gcTZhkqt#40
       engine: Nc4 -1.64 | a6 -1.86 * | a5 -2.09
-  [ ] cademan               move  24  White exd4     lost   6.2 wp
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
+  [y] cademan               move  24  White exd4     lost   6.2 wp
       lichess.org/WW2QKoJn#47
       engine: Rxd4 -1.70 | Bh5+ -1.72 | exd4 -2.38 *
-  [ ] simonvj               move  14  Black fxe5     lost   0.0 wp
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
+  [y] simonvj               move  14  Black fxe5     lost   0.0 wp
       lichess.org/R4HBrccz#28
       engine: fxe5 -0.75 * | Nf7 -0.99 | Kh8 -1.00
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
 
 missed_motif.skewer.own
     claims: You miss skewer tactics that were available.
     tells you: Drill `skewer` puzzles, and solve to be right rather than fast — review every one you get wrong.
     40 instances across 8 players
 ------------------------------------------------------------------------------
-  [ ] Hirsican              move  25  Black Nxe4     lost  22.9 wp
+  [y] Hirsican              move  25  Black Nxe4     lost  22.9 wp
       lichess.org/f66m6egS#50
       was available Re8 -- skewerer re8, front Qe6, behind Ne4
       engine: Nd4 +5.32 | Rd1+ +5.08 | Re8 +3.92   (the move above is not in the top 3)
+      (carried from detection-sheet-2026-09-06-fixed-detectors.txt, which judged commit 48d8c89)
   [ ] Hirsican              move  39  White b5       lost  10.7 wp
       lichess.org/BFRr53W3#77
       engine: Rhf1 -0.44 | Rhg1 -0.49 | Rhd1 -0.97   (the move above is not in the top 3)
@@ -338,21 +364,30 @@ out_of_book.Hungarian Opening.own
     tells you: Learn a few more moves of the Hungarian Opening. Play through the cited games to the move where you left theory and look up what is played there -- that move is the edge of your repertoire.
     40 instances across 1 players
 ------------------------------------------------------------------------------
-  [ ] Odin5306              move   3  White c4       lost   0.0 wp
+  [n] Odin5306              move   3  White c4       lost   0.0 wp
       lichess.org/Ql2xAOb4#5
       engine: c4 +0.42 * | d4 +0.38 | Nf3 +0.32
-  [ ] Odin5306              move   4  White Qb3      lost   3.8 wp
+      This was a variant, the black exited it a move later, if it is suspected to be an out of book move then it should have at least significant loss in wp.
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
+  [y] Odin5306              move   4  White Qb3      lost   3.8 wp
       lichess.org/6SDh3ygT#7
       engine: b4 -0.14 | Nf3 -0.20 | d3 -0.22   (the move above is not in the top 3)
-  [ ] Odin5306              move   4  White Nc3      lost  11.2 wp
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
+  [n] Odin5306              move   4  White Nc3      lost  11.2 wp
       lichess.org/Ql2xAOb4#7
       engine: Bxb7 +1.71 | Qb3 +0.95 | d4 +0.68   (the move above is not in the top 3)
-  [ ] Odin5306              move   4  White Bb2      lost   0.0 wp
+      Black exited book in move 3. This was a mistake because the white did not took opportuniti of taking a pawn and later taking a fully blocked rook.
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
+  [n] Odin5306              move   4  White Bb2      lost   0.0 wp
       lichess.org/Xy4JGnN9#7
       engine: d3 -0.27 | Bb2 -0.51 * | d4 -0.63
-  [ ] Odin5306              move   5  White e3       lost   1.6 wp
+      This is a variant of the hungarian opening:slav formation, and it did not had any significant loss in wp.
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
+  [?] Odin5306              move   5  White e3       lost   1.6 wp
       lichess.org/PZvhzOfb#9
       engine: c4 -0.43 | d3 -0.47 | Nf3 -0.48   (the move above is not in the top 3)
+      It is not the most popular move in the slav formation but it is not a significant loss in wp.
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
 
 time_budget_error.after_overspending.own
     claims: When you use up most of your clock before move 15, the rest of that game goes worse — the cost of a long think lands later, not on the move itself.
@@ -422,21 +457,26 @@ endgame_error.any.own
     tells you: Study endgames — yours go wrong in rook-and-minor, rook, minor-piece endgames most often. Start with the basic winning and drawing methods rather than with studies, and play out the positions you got wrong.
     23 instances across 2 players
 ------------------------------------------------------------------------------
-  [ ] Crossfire1983         move  29  White Ke2      lost   9.0 wp
+  [y] Crossfire1983         move  29  White Ke2      lost   9.0 wp
       lichess.org/tY3LMtd9#57
       engine: a4 -1.63 | b3 -1.72 | b4 -1.72   (the move above is not in the top 3)
-  [ ] Crossfire1983         move  37  Black h4       lost   6.5 wp
+      (carried from detection-sheet-2026-09-06-fixed-detectors.txt, which judged commit 48d8c89)
+  [y] Crossfire1983         move  37  Black h4       lost   6.5 wp
       lichess.org/Dy63sMIT#74
       engine: b5 +1.86 | c5 +1.78 | a5 +1.28   (the move above is not in the top 3)
-  [ ] Crossfire1983         move  38  Black Kb6      lost   6.9 wp
+      (carried from detection-sheet-2026-09-06-fixed-detectors.txt, which judged commit 48d8c89)
+  [y] Crossfire1983         move  38  Black Kb6      lost   6.9 wp
       lichess.org/Dy63sMIT#76
       engine: b5 +1.74 | Re2 +1.71 | Rd2 +1.59   (the move above is not in the top 3)
-  [ ] Crossfire1983         move  39  Black Bg5      lost   6.9 wp
+      (carried from detection-sheet-2026-09-06-fixed-detectors.txt, which judged commit 48d8c89)
+  [y] Crossfire1983         move  39  Black Bg5      lost   6.9 wp
       lichess.org/Dy63sMIT#78
       engine: Rd2 +2.18 | a5 +2.00 | Kc7 +1.74   (the move above is not in the top 3)
-  [ ] bjagus                move  72  White Qa4      lost   9.8 wp
+      (carried from detection-sheet-2026-09-06-fixed-detectors.txt, which judged commit 48d8c89)
+  [y] bjagus                move  72  White Qa4      lost   9.8 wp
       lichess.org/qzchYSYO#143
       engine: Qd5+ -1.32 | Qa4 -1.61 * | Qb6 -2.41
+      (carried from detection-sheet-2026-09-06-fixed-detectors.txt, which judged commit 48d8c89)
 
 late_castling.book.own
     claims: In games where you were already drifting, your king stays in the centre longer than is usual in the openings you play.
@@ -449,12 +489,14 @@ late_castling.book.own
   [ ] Hirsican              move  13  White Bd3      lost   2.0 wp
       lichess.org/GV23qiD1#25
       engine: Bb5 -0.42 | Nd2 -0.57 | Be2 -0.60   (the move above is not in the top 3)
-  [ ] Hirsican              move  15  White O-O      lost   0.0 wp
+  [y] Hirsican              move  15  White O-O      lost   0.0 wp
       lichess.org/IPkBTNT3#29
       engine: O-O -1.59 * | Ke2 -1.87 | Rd1 -2.18
-  [ ] Hirsican              move  16  White O-O      lost   0.0 wp
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
+  [y] Hirsican              move  16  White O-O      lost   0.0 wp
       lichess.org/9bsVByg5#31
       engine: O-O -3.66 * | Bf2 -3.71 | Bd2 -3.92
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
   [ ] Odin5306              move  11  Black Kf8      lost   6.4 wp
       lichess.org/mdDgr7XJ#22
       engine: Kd7 -2.73 | Kf8 -4.27 * | Be5 -5.49
@@ -506,14 +548,18 @@ allowed_motif.discoveredAttack.own
     tells you: Before committing a move, ask what your opponent's best reply threatens; a discovered attack is what has been punishing you.
     17 instances across 2 players
 ------------------------------------------------------------------------------
-  [ ] Odin5306              move  15  Black Nd7      lost  20.3 wp
+  [?] Odin5306              move  15  Black Nd7      lost  20.3 wp
       lichess.org/Wdtrc0A6#30
       punished by Nc6 -- revealed Bf4, target bd6, moved Nc6
       engine: Nc6 +0.60 * | Nxd7 -1.33 | Nc4 -1.80
-  [ ] Odin5306              move  15  Black Bg4      lost   5.2 wp
+      Nxf7 would be a bad move for white with significant loss in wp, another move that leads to discovered attack Nc6 is much better.
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
+  [?] Odin5306              move  15  Black Bg4      lost   5.2 wp
       lichess.org/n3uQfuWO#30
       punished by Rg3 -- revealed Qd1, target bg4, moved Rg3
       engine: Rg3 +0.00 * | f5 -0.85 | h3 -1.07
+      Rh3 is a bad move for white with significant loss in wp, Rg3 is a good one.
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
   [ ] maikel5               move  11  Black b4       lost   8.8 wp
       lichess.org/3Zl3pKKO#22
       punished by axb4 -- revealed Ra1, target ba6, moved Pb4
@@ -522,10 +568,12 @@ allowed_motif.discoveredAttack.own
       lichess.org/3Zl3pKKO#24
       punished by axb4 -- revealed Ra1, target na6, moved Pb4
       engine: Ne2 +0.70 | axb4 +0.64 * | Na4 +0.45
-  [ ] maikel5               move  14  Black g5       lost  14.4 wp
+  [?] maikel5               move  14  Black g5       lost  14.4 wp
       lichess.org/hgx0M7Ir#28
       punished by d5 -- revealed Bb2, target qf6, moved Pd5
       engine: Ne5 +2.54 | d5 +1.92 * | Rae1 +1.46
+      Nxg5 is a really bad move for white with significant wp loss, Ne5 would be better.
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
 
 out_of_book.Caro-Kann Defense.own
     claims: You leave known theory sooner than players at your level when you play the Caro-Kann Defense.
@@ -541,9 +589,11 @@ out_of_book.Caro-Kann Defense.own
   [ ] maxhayastan           move   4  White Nf3      lost   0.0 wp
       lichess.org/Cukv91fm#7
       engine: d4 -0.31 | Nf3 -0.33 * | g4 -0.48
-  [ ] maxhayastan           move   5  White Bb5      lost   1.1 wp
+  [n] maxhayastan           move   5  White Bb5      lost   1.1 wp
       lichess.org/K49fz0r0#9
       engine: d4 -0.32 | Be2 -0.47 | Nf3 -0.49   (the move above is not in the top 3)
+      Out of book was on move 3 f4, after first out of book move, not another one should be detected.
+      (carried from detection-sheet-2026-09-06-fixed-detectors.txt, which judged commit 48d8c89)
   [ ] maxhayastan           move   5  White Nf3      lost   4.0 wp
       lichess.org/FnS6cApa#9
       engine: Nc3 +0.79 | Nd2 +0.69 | Nf3 +0.50 *
@@ -559,15 +609,21 @@ slow_development.book.own
   [ ] simonvj               move  13  Black O-O      lost  23.7 wp
       lichess.org/oIJVS7Pv#26
       engine: Qa5+ +4.00 | Ne4 +1.44 | c5 +0.88   (the move above is not in the top 3)
-  [ ] simonvj               move  15  White O-O      lost   0.0 wp
+  [y] simonvj               move  15  White O-O      lost   0.0 wp
       lichess.org/Hh01gXYE#29
       engine: O-O -8.45 * | f4 -8.68 | a3 -8.87
-  [ ] simonvj               move  20  White Bb2      lost   0.0 wp
+      There were some unnecessary moves and tactical mistakes but 0-0 was not one of them.
+      Oh I see, 0-0 was move for the end of the development and it was late, it really was it is good.
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
+  [y] simonvj               move  20  White Bb2      lost   0.0 wp
       lichess.org/Wkx21lEk#39
       engine: Bb2 +1.15 * | Rd1 +1.04 | Qc2 +0.82
-  [ ] simonvj               move  22  White Bxg5     lost   0.0 wp
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
+  [n] simonvj               move  22  White Bxg5     lost   0.0 wp
       lichess.org/6iNu6ltz#43
       engine: Bxg5 +7.19 * | Qf5 +6.60 | Rb1 +6.17
+      White played good moves, completing the development and taking the bishop out was never a better move then one of those which white played.
+      (carried from detection-sheet-2026-09-07.txt, which judged commit e7c845e)
 
 opening_disadvantage.any.own
     claims: You come out of the opening worse more often than most.
@@ -599,17 +655,19 @@ missed_motif.trappedPiece.own
       lichess.org/chrsKANE#9
       was available Qg4 -- traps ne4, with Qg4
       engine: Qg4 +2.31 | Qd3 +0.85 | a3 +0.81   (the move above is not in the top 3)
-  [ ] Crossfire1983         move   9  White b5       lost  30.3 wp
+  [y] Crossfire1983         move   9  White b5       lost  30.3 wp
       lichess.org/c9tGvWUt#17
       was available c5 -- traps bb6, with Pc5
       engine: c5 +2.43 | Ne5 +1.13 | Bg2 +0.48   (the move above is not in the top 3)
+      (carried from detection-sheet-2026-09-06-fixed-detectors.txt, which judged commit 48d8c89)
   [ ] Crossfire1983         move  18  Black Ba5      lost   5.3 wp
       lichess.org/B4aQVdb7#36
       engine: Bc5 +3.52 | a6 +3.15 | Ba5 +2.54 *
-  [ ] Crossfire1983         move  19  Black Ng6      lost  11.2 wp
+  [y] Crossfire1983         move  19  Black Ng6      lost  11.2 wp
       lichess.org/PjZgPmwV#38
       was available f5 -- traps Be4, with pf5
       engine: f5 -2.57 | g6 -3.49 | Rac8 -3.72   (the move above is not in the top 3)
+      (carried from detection-sheet-2026-09-06-fixed-detectors.txt, which judged commit 48d8c89)
   [ ] cademan               move  24  White f6       lost  28.6 wp
       lichess.org/M2HQqz8u#47
       was available a4 -- traps nb5, with Pa4
@@ -647,12 +705,16 @@ late_castling.own.own
   [ ] Sheriwoyama           move  12  Black O-O      lost   0.0 wp
       lichess.org/pYo52H1u#24
       engine: O-O -3.49 * | g6 -4.20 | Ndxe5 -4.43
-  [ ] Sheriwoyama           move  17  Black O-O      lost   0.0 wp
+  [?] Sheriwoyama           move  17  Black O-O      lost   0.0 wp
       lichess.org/xrSnYMfN#34
       engine: Bc6 +0.22 | O-O +0.20 * | e5 +0.13
-  [ ] maxhayastan           move  12  Black O-O      lost   0.0 wp
+      There wasn't too many bad moves that would indicate that this late castling was bad. Developing the knight that would allow black to castle on the king side was not a good move until it was played, and casteling on the queen size was a bad option.
+      (carried from detection-sheet-2026-09-06-fixed-detectors.txt, which judged commit 48d8c89)
+  [?] maxhayastan           move  12  Black O-O      lost   0.0 wp
       lichess.org/OK82drHY#24
       engine: O-O -1.31 * | Rf8 -2.56 | h5 -3.69
+      Casteling was not possible earlier while taking ok moves.
+      (carried from detection-sheet-2026-09-06-fixed-detectors.txt, which judged commit 48d8c89)
   [ ] maxhayastan           move  13  Black O-O-O    lost   3.3 wp
       lichess.org/NvrKhHlK#26
       engine: Rc8 +1.17 | O-O-O +0.54 * | Kd7 +0.37
@@ -662,9 +724,10 @@ slow_development.own.own
     tells you: Count your undeveloped pieces at move ten in the cited games. Aim to have the minor pieces out and the king castled before starting anything on a wing.
     8 instances across 2 players
 ------------------------------------------------------------------------------
-  [ ] Sheriwoyama           move  16  White Nd2      lost   6.1 wp
+  [y] Sheriwoyama           move  16  White Nd2      lost   6.1 wp
       lichess.org/LQU5WA5o#31
       engine: Qxd5 +1.08 | Nd2 +0.39 * | Qc5 +0.28
+      (carried from detection-sheet-2026-09-06-fixed-detectors.txt, which judged commit 48d8c89)
   [ ] Sheriwoyama           move  16  White Nc3      lost   0.0 wp
       lichess.org/Fg5pNQjM#31
       engine: Nc3 +3.91 * | Nd2 +3.85 | Rf7+ +3.82
@@ -683,22 +746,26 @@ missed_motif.capturingDefender.own
     tells you: Drill `capturingDefender` puzzles, and solve to be right rather than fast — review every one you get wrong.
     4 instances across 1 players
 ------------------------------------------------------------------------------
-  [ ] bjagus                move  11  Black Bf6      lost  43.6 wp
+  [y] bjagus                move  11  Black Bf6      lost  43.6 wp
       lichess.org/cfosGjRb#22
       was available Nxf3+ -- takes defender on Nf3, they recapture Bg2, then falls Bg5
       engine: Nxf3+ +4.94 | f6 +0.29 | Qd7 -0.20   (the move above is not in the top 3)
-  [ ] bjagus                move  15  Black Qb5      lost  39.5 wp
+      (carried from detection-sheet-2026-09-06-fixed-detectors.txt, which judged commit 48d8c89)
+  [y] bjagus                move  15  Black Qb5      lost  39.5 wp
       lichess.org/g6HpNh5P#30
       was available Bxe2 -- takes defender on Ne2, they recapture Qd1, then falls Bd4
       engine: Bxe2 +2.51 | Qd6 +0.05 | Qxd4+ -0.67   (the move above is not in the top 3)
-  [ ] bjagus                move  17  Black Nh5      lost  12.6 wp
+      (carried from detection-sheet-2026-09-06-fixed-detectors.txt, which judged commit 48d8c89)
+  [y] bjagus                move  17  Black Nh5      lost  12.6 wp
       lichess.org/nHlswj7q#34
       was available gxf4 -- takes defender on Pf4, they recapture Qg3, then falls Ne5
       engine: gxf4 +3.68 | Rg8 +3.05 | Qc7 +2.84   (the move above is not in the top 3)
-  [ ] bjagus                move  22  Black bxc4     lost   8.7 wp
+      (carried from detection-sheet-2026-09-06-fixed-detectors.txt, which judged commit 48d8c89)
+  [y] bjagus                move  22  Black bxc4     lost   8.7 wp
       lichess.org/nHlswj7q#44
       was available Bxe5 -- takes defender on Ne5, they recapture Qg7, then falls Bc4
       engine: O-O-O +1.30 | Bxe5 +0.96 | Qc5 +0.82   (the move above is not in the top 3)
+      (carried from detection-sheet-2026-09-06-fixed-detectors.txt, which judged commit 48d8c89)
 
 ==============================================================================
 NEVER FIRED IN THESE GAMES
