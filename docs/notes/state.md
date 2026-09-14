@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 2026-09-13
+updated: 2026-09-14
 created: 1785254500000
 ---
 
@@ -270,6 +270,21 @@ struck through: a list nobody can act on is not a plan.
 0. **M8 — the figures that are not drawn.** Only the scorecard trajectory exists. Candidates, each
    already measured: split-half agreement, the cost profile cold against warm, and the strength
    estimate against actual rating for both speeds (which would show the blitz repair visually).
+
+0. **DONE — the three material claims check what the static count cannot see** *(2026-09-14)*.
+   `moved_into_attack` asks whether a capture of the moved piece is worth playing (18.4 % of firings
+   were not); `miscounted_exchange` needs the capture to be at least an inaccuracy (exact on the
+   author's five marks); `doubled` drops doublings taken on by capturing first (five for five on the
+   marks; the author decided that taking a piece which had just arrived is capturing first). One
+   rebuild. Counts fell −22 %, −45 % and −16/−21 %. **Separation 24 → 25, one lost, none gained**:
+   `miscounted_exchange` entered the register *inconclusive* (smallest visible effect 1.47×) — correct
+   now and too thin to measure within band.
+
+   **Open, recorded without a choice:** five ways to restore its separation are written up in
+   [[experiments.e55-detector-precision]]. Only more games per peer is aimed at the cause (2× games →
+   1.33×, conclusive either way); pooling speeds, lowering the threshold and merging with
+   `moved_into_attack` each trade the claim's meaning for power. The corpora stop at 30 games per
+   player, so that option means fetching.
 
 0. **DONE — `missed_motif` counts tactics that were good enough, not only best** *(2026-09-13)*.
    [[design.multipv-candidate-moves]] Options 1 and 2, built after the author confirmed the rule is

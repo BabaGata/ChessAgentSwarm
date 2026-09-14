@@ -2,7 +2,7 @@
 id: cas-exp-e55
 title: 'E55 — The precision screen exists, and it has nothing valid to measure yet'
 desc: 'Five samples can condemn a detector and cannot exonerate one, so the screen runs in two stages. The 23 existing marks cannot be dated against the code they judged, which makes them unusable rather than merely old — and the sheet now stamps its own commit so that cannot happen again.'
-updated: 2026-09-13
+updated: 2026-09-14
 created: 1788652800000
 ---
 
@@ -623,6 +623,42 @@ still count. The 65 % was a figure about raw doublings, not the claim.
 instances cost the screen its power. This is not evidence that players miscount exchanges equally; it
 is a claim now too thin to measure within band. Under the register's standing policy an inconclusive
 entry withholds the peer comparison all the same.
+
+### Restoring separation for `miscounted_exchange` — options, none chosen (2026-09-14)
+
+Recorded as analysed; the author asked for the record and made no choice.
+
+**Why it went flat.** In the stratum the screen used, 1400-1800 blitz: 50 players, ~164 captures and
+29 games each, a pooled rate of **0.96 %** — a median of **1.5 instances per player**, eleven at zero.
+The smallest effect the screen can see is **1.47×**; conclusive needs ≤ 1.35×.
+
+**Projected with `register.py`'s own formula:**
+
+| data | smallest visible effect |
+|---|--:|
+| today | 1.47× |
+| 2× games per player | 1.33× |
+| 3× games per player | 1.27× |
+| 2× players | 1.39× |
+| 2× games and 2× players | 1.28× |
+
+Games per player buy more power than players do. The corpora on disk stop at **30 games per player**
+and the reference already uses ~29, so more games means fetching.
+
+**The five options:**
+
+1. **More games per peer** — the only one aimed at the cause. Makes the verdict *conclusive*, which may
+   be conclusively flat; helps every thin claim, not only this one; roughly doubles rebuild time.
+2. **Pool blitz and rapid** — twice the instances without fetching, but the peer lookup is keyed on
+   speed, so separation that appears only when speeds are pooled says nothing about that comparison;
+   pooling bands already inflated dispersion falsely once (E83).
+3. **Lower the cost threshold** — the static count's firings split 17 % costless, 27 % 0–2 wp, 15 %
+   2–5 wp, 41 % ≥ 5 wp. The author's five marks cannot tell a threshold anywhere in (0, 5.4] apart,
+   so they do not forbid it; but it is a new constant chosen to rescue separation (L-054), and
+   0–2 wp is inside depth-15 noise. Defensible only after marking rows in the 2–5 wp band.
+4. **Merge with `moved_into_attack`** — undoes a measured improvement (E35: combined 1.75×, split
+   2.71× and 1.84×) and joins two claims that want opposite advice.
+5. **Accept** — correct, rare, measured, and withheld from peer comparison by the register.
 
 ### 5. Needs an engine, not a rule — 3 rows, not fixed
 
