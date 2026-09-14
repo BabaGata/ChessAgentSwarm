@@ -104,3 +104,34 @@ and must not appear in the thesis as though it were.
 - **Improvers had more findings per player** (16 predictions from 12 players vs 36 from 26), which is
   itself worth noticing — more active players generate more data and clear the confidence gate more
   often.
+
+## Addendum 2026-09-14 — the 92 % cohort itself, re-fetched
+
+The author asked whether the 92 % could be real improvement. E06 above answers
+it for the deep 84-player rerun, not for the 32 players the 92 % was measured
+on, and their histories were gone. They were re-fetched by name
+(`e05-natural-drift/refetch_controls.py`): until 2026-08-01, 60 games, rapid and
+classical as `e01 fetch_games.py` did. 19 histories match E05's game count
+exactly, 12 differ by the 1–8 games E05 dropped during analysis, one account no
+longer exists.
+
+The 92 % results predate the `expected` field, so `power.py` cannot re-decide
+them; `rating_vs_92.py` uses the stored verdict instead, which is the one that
+produced 92 %.
+
+| | predictions met | mean rating change |
+|---|---|---|
+| rating fell (7 players) | **7/7** | −41.8 |
+| rating rose (5 players) | 4/5 | +32.2 |
+| whole cohort (31 with history) | — | **−2.0**, median +0.8 |
+
+**The cohort did not improve over the window, and the players who got worse met
+every target.** Improvement cannot be what met them. Small n, unambiguous
+direction.
+
+Two fetch lessons, both cost an attempt each:
+- **curl showed Lichess's 429 as a 404 HTML page**; urllib reported the real
+  code. The endpoint was rate-limited, not blocked.
+- **Without `until` the API returns the newest games**, which is a later period
+  than the experiment measured; **rapid alone** dropped one player from 60
+  games to 18. Replicating a fetch means replicating its query.

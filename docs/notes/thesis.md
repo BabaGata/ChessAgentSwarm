@@ -892,6 +892,23 @@ Side note: `experiments/e06-progress-power/power.py` names this confound in a
 comment -- "the confound's fingerprint" -- which is how the analysis was found
 at all. Writing the objection into the code paid off months later.
 
+### The 92 % was a 60-game number, and the thesis did not say so
+
+Answering the author's rating question surfaced a larger omission. The vault's
+E05 note records a rerun on 84 players × ~150 games in which drift without
+coaching fell from +11.2 to +4.8 points: "the +11.2 was never a fact about chess
+players. It was a fact about measuring them briefly." The thesis stated 92 % and
++11.2 as the result, with only a table row ("šest puta više podataka") hinting
+otherwise.
+
+Chapter 8 now says the 92 % is an upper bound from the least favourable
+conditions and gives the deeper figure. The abstract says the 92 % came from
+60-game histories and that players whose rating fell met their targets too.
+
+The rating question itself is answered on the exact cohort: re-fetched for the
+same window, mean rating change −2; players whose rating fell met 7 of 7
+targets. E06's deeper-sample result is kept as the second check.
+
 ## Mechanics
 
 - `report.tex` — preamble and `\input` only. Chapters in `Poglavlja/`.
