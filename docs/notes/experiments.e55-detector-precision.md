@@ -565,6 +565,39 @@ continuation, and the honest options are a transposition check, a popularity sou
 frequencies rather than names, or dropping the ply-after-a-leaf case entirely. None is a threshold
 change.
 
+### `moved_into_attack`, measured (2026-09-14)
+
+The author's row: `Ng5` at `tXOF3X1K#25` — *"taking the knight would result in a forced checkmate
+for white, in this case this was not the issue."*
+
+**Two hypotheses died first, both mine.**
+
+- *"`loss_wp` already answers it."* No. Over 894 cached firings, 109 cost nothing and the opponent
+  **took the piece anyway in 46 of them** with the evaluation unmoved. A zero loss does not mean the
+  piece was safe; about half those are compensation — material given for something the engine values.
+- *"Costless means a false positive."* No. The author's own row cost **1.8 wp**, so any gate on cost
+  misses the case it was meant to catch.
+
+**What does answer it** is the question `punishment.qualifying` already asks of the opponent's
+replies: *is the capture worth playing?* On the author's row the only capture, `Qxg5`, reaches
+**2.5 wp against a best of 79.3** — it trails by **76.8**.
+
+Run over every firing, with the engine where the cache was thin (769 calls):
+
+| | firings | |
+|---|--:|--:|
+| the capture is worth playing | 737 | 81.6 % |
+| **not worth playing — no real attack** | **166** | **18.4 %** |
+
+**Nearly one firing in five claims an attack the opponent should not execute.** The trailing margins
+run from just past the threshold (5.5, 6.3 wp) to the author's kind of case (69.2, 26.3 wp).
+
+**The fix is the rule the project already owns**: fire only when some capture of the moved piece is
+within `WORTH_PLAYING_WP` of the opponent's best. Same constant, same function family as
+`punishments` and `available`. Its one real cost is placement: `moved_into_attack` fires on **any**
+move, not only errors, so it cannot ride the error-only analysis branch — about **64 engine calls per
+player**, roughly six seconds. Not built; measured only.
+
 ### 5. Needs an engine, not a rule — 3 rows, not fixed
 
 **The engine is not absent from the system; it is absent from the *detectors*, and that is a
