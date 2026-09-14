@@ -56,7 +56,7 @@ from chesscoach.sections.base import (
     instance_moves,
     split_by_tier,
 )
-from chesscoach.structure import LOCATORS, PERSISTS_MOVES, conceded, created_files
+from chesscoach.structure import DOUBLED, LOCATORS, PERSISTS_MOVES, conceded, created_files
 
 SECTION = "S5"
 
@@ -177,6 +177,10 @@ def _count(context: SectionContext) -> _Counts:
         created = _still_there_later(
             created, observation, colour, later, before_board, after_board
         )
+        if DOUBLED in created and _doubled_by_starting_an_exchange(
+            observation, following.get((observation.game_id, observation.ply - 1))
+        ):
+            created = created - {DOUBLED}
 
         _tally(tallies, _key(POOLED_SUBJECT), observation, bool(created))
         for feature in sorted(created):
@@ -189,6 +193,56 @@ def _count(context: SectionContext) -> _Counts:
         games_with_data=len({o.game_id for o in moves}),
     )
 
+
+
+# Whether doubling your pawns by taking a piece that **had just arrived without
+# capturing** counts as a concession. The author's marks do not reach this case:
+# they decided "finished an exchange" (counts) and "started one" (does not), and
+# 29 % of the reviewed games' doublings are neither. `False` reads their words
+# literally -- taking first *begins* the exchange whatever the piece did to get
+# there -- and is the author's call to confirm.
+DOUBLING_BY_TAKING_AN_ARRIVAL_COUNTS = False
+
+
+def _doubled_by_starting_an_exchange(
+    observation: Observation, previous: Observation | None
+) -> bool:
+    """Did this capture double the pawns by taking material first?
+
+    The author, on `gxf5` at h7rhc8WZ#16: *"Black took a pawn, this was a
+    beginning of the exchange that white did not continue immediately."* Their
+    five marks split five for five on it. Every accepted row **finished** an
+    exchange -- the opponent captured on that square and the player took back --
+    so the doubled pawns were the price of recovering material. The rejected row
+    **started** one. Structure given up for material the player chose to grab is
+    a trade, not a weakness conceded.
+
+    A cost gate was measured first and would have been wrong: three of the four
+    accepted rows cost under an inaccuracy.
+
+    A move that is not a capture is never excluded. Pawns only change file by
+    capturing, so in a real game this never happens; it keeps a synthetic
+    position's answer where it was.
+    """
+    board = chess.Board(observation.fen_before)
+    try:
+        move = chess.Move.from_uci(observation.move_played)
+    except ValueError:
+        return False
+    if move not in board.legal_moves or not board.is_capture(move):
+        return False
+    if previous is None:
+        return True  # nothing came before it, so it cannot be taking back
+
+    try:
+        last = chess.Move.from_uci(previous.move_played)
+    except ValueError:
+        return True
+    if last.to_square != move.to_square:
+        return True  # the piece taken had been standing there
+    if chess.Board(previous.fen_before).is_capture(last):
+        return False  # finishing an exchange: the concession stands
+    return not DOUBLING_BY_TAKING_AN_ARRIVAL_COUNTS
 
 
 def _positions_after(context: SectionContext) -> dict[str, list[tuple[int, str]]]:

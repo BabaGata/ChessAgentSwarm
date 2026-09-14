@@ -20,7 +20,8 @@ from chesscoach.analysis.labels import ErrorLabel, classify, move_loss_wp, win_p
 from chesscoach.analysis.observations import Observation
 from chesscoach.ingest.corpus import Corpus
 from chesscoach.ingest.pgn import GameRecord, increment_seconds
-from chesscoach.punishment import Punishment, candidates_in, qualifying
+from chesscoach.material import moved_into_attack
+from chesscoach.punishment import WORTH_PLAYING_WP, Punishment, candidates_in, qualifying
 
 # Coarse phase boundaries by remaining non-pawn material. E03 found phase
 # predicts errors better than any positional feature, so it is recorded on every
@@ -74,6 +75,13 @@ def analyse_game(game: GameRecord, analyser: PositionAnalyser) -> tuple[Observat
         board.push(move)
         current = analyser.analyse(board)
         label = _label(previous, current, mover_is_white, played_best)
+        # Every move, not only errors: putting a piece en prise is a habit a
+        # move can have without costing anything. The engine is asked only when
+        # the static check fires, which the measurement put at about 64 calls a
+        # player.
+        winnable = _moved_piece_winnable(
+            chess.Board(fen_before), move, analyser, after_eval=current
+        )
 
         # Only errors are priced, which is what keeps this affordable: E85
         # measured 1.52 evaluations per error position, because `detect_motifs`
@@ -111,6 +119,7 @@ def analyse_game(game: GameRecord, analyser: PositionAnalyser) -> tuple[Observat
                 played_on=game.date,
                 punishments=punishments,
                 available=available,
+                moved_piece_winnable=winnable,
                 engine=analyser.engine_name,
                 depth=analyser.depth,
             )
@@ -158,6 +167,56 @@ def _clock_at(game: GameRecord, index: int) -> float | None:
 def _clock_before(game: GameRecord, index: int) -> float | None:
     """The mover's own previous clock reading, two plies earlier."""
     return _clock_at(game, index - 2) if index >= 2 else None
+
+
+def _moved_piece_winnable(
+    board: chess.Board,
+    move: chess.Move,
+    analyser: PositionAnalyser,
+    after_eval: PositionEval | None = None,
+) -> bool | None:
+    """Can the piece this move put en prise actually be won?
+
+    `board` is the position before the move. `None` when `moved_into_attack`
+    does not fire -- nothing is in question, and no engine call is made.
+
+    The author, on `Ng5` at tXOF3X1K#25: *"Taking the knight would result in a
+    forced checkmate for white, in this case this was not the issue."* The
+    static exchange count cannot see that. Two cheaper answers were measured and
+    both failed: the move's own cost (in 46 of 109 costless firings the
+    opponent took the piece anyway) and a cost gate (the author's row cost
+    1.8 wp).
+
+    What answers it is the question `punishment.qualifying` asks of every
+    reply: **is capturing it worth playing?** Some capture of the moved piece
+    must be within `WORTH_PLAYING_WP` of the opponent's best. On the author's
+    row the only capture reaches 2.5 wp against a best of 79.3. Across 903
+    firings, 18.4 % fail this.
+
+    `after_eval` is the evaluation the analysis pass already made of the
+    position after the move, passed in so it is not asked for twice.
+    """
+    if not moved_into_attack(board, move):
+        return None
+
+    after = board.copy(stack=False)
+    after.push(move)
+    here = after_eval if after_eval is not None else analyser.analyse(after)
+    opponent_is_white = after.turn == chess.WHITE
+
+    def for_opponent(cp: int) -> float:
+        white_wp = win_probability(cp)
+        return white_wp if opponent_is_white else 100.0 - white_wp
+
+    best_wp = for_opponent(here.score_cp)
+    for capture in after.legal_moves:
+        if capture.to_square != move.to_square or not after.is_capture(capture):
+            continue
+        taken = after.copy(stack=False)
+        taken.push(capture)
+        if best_wp - for_opponent(analyser.analyse(taken).score_cp) <= WORTH_PLAYING_WP:
+            return True
+    return False
 
 
 def _available(

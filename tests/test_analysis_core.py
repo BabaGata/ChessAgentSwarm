@@ -220,3 +220,76 @@ class TestWhatThePlayerCouldHavePlayed:
         errored = [o for o in observations if o.label is not None][0]
 
         assert errored.fen_before in analyser.calls
+
+
+class TestIsTheMovedPieceReallyWinnable:
+    """`moved_into_attack` claims a piece can be won; the engine checks the claim.
+
+    The author, on `Ng5` at tXOF3X1K#25:
+
+    > *"Taking the knight would result in a forced checkmate for white, in this
+    > case this was not the issue."*
+
+    The detector is a static exchange count and cannot see that. Two cheaper
+    answers were measured and **both were wrong**: the move's own cost (46 of 109
+    costless firings were taken anyway) and a cost gate (the author's row cost
+    1.8 wp). What answers it is the question `punishment.qualifying` asks of the
+    opponent's replies -- **is capturing it worth playing?** On the author's row
+    the only capture reaches 2.5 wp against a best of 79.3. Across 903 firings,
+    **18.4 %** claim an attack whose best capture is not worth playing.
+
+    This detector fires on any move, not only errors, so it cannot ride the
+    error-only branch: about 64 engine calls per player.
+    """
+
+    WALK_IN = "4k3/8/8/1p6/8/8/8/R3K3 w - - 0 1"   # Ra1-a4, the b5 pawn takes
+
+    class ByPosition:
+        """A stub whose evaluation depends on the position, not the ply."""
+
+        engine_name = "stub"
+        depth = 15
+
+        def __init__(self, scores: dict[str, int], default: int = 0):
+            self.scores = scores
+            self.default = default
+
+        def analyse(self, board):
+            from chesscoach.analysis.cache import PositionEval
+
+            return PositionEval(score_cp=self.scores.get(board.epd(), self.default))
+
+    def _after(self, fen: str, uci: str) -> tuple[chess.Board, chess.Move]:
+        board = chess.Board(fen)
+        return board, chess.Move.from_uci(uci)
+
+    def test_a_capture_as_good_as_the_best_makes_it_winnable(self):
+        from chesscoach.analysis.core import _moved_piece_winnable
+
+        board, move = self._after(self.WALK_IN, "a1a4")
+        analyser = self.ByPosition({}, default=0)   # every position level
+
+        assert _moved_piece_winnable(board, move, analyser) is True
+
+    def test_a_capture_that_loses_for_the_capturer_is_not(self):
+        """The author's shape: the capture exists and is terrible to play."""
+        from chesscoach.analysis.core import _moved_piece_winnable
+
+        board, move = self._after(self.WALK_IN, "a1a4")
+        after = board.copy(stack=False)
+        after.push(move)
+        taken = after.copy(stack=False)
+        taken.push(chess.Move.from_uci("b5a4"))
+        # Black to move after Ra4 and level; after bxa4, White is winning outright.
+        analyser = self.ByPosition({after.epd(): 0, taken.epd(): 900})
+
+        assert _moved_piece_winnable(board, move, analyser) is False
+
+    def test_a_move_the_detector_does_not_fire_on_is_not_asked(self):
+        """None, not False: "not in question" must not read as "checked and
+        safe", and it costs no engine call."""
+        from chesscoach.analysis.core import _moved_piece_winnable
+
+        board, move = self._after(self.WALK_IN, "a1a3")   # a3 is not attacked
+
+        assert _moved_piece_winnable(board, move, self.ByPosition({})) is None

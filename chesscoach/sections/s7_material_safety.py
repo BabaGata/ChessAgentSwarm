@@ -204,7 +204,14 @@ def _count(context: SectionContext) -> _Counts:
         _record(
             tallies[MOVED_INTO_ATTACK],
             observation,
-            moved_into_attack(board, move) and not _offered_pawn(board, move, observation),
+            moved_into_attack(board, move)
+            and not _offered_pawn(board, move, observation)
+            # **Only a piece that can really be won.** The analysis pass asked
+            # whether some capture of it is worth playing; the author's rejected
+            # `Ng5` was a knight whose only capture loses to mate, and 18.4 % of
+            # firings were that shape. `None` is an older profile, which keeps
+            # the static answer rather than going silent.
+            and observation.moved_piece_winnable is not False,
         )
         if board.is_capture(move):
             # Split on the reviewer's distinction, and the split sharpened
@@ -212,10 +219,23 @@ def _count(context: SectionContext) -> _Counts:
             # 2.71x and 1.84x (E35). A sacrifice near the king and an
             # exchange that did not add up want opposite advice.
             _record(tallies[SACRIFICED], observation, sacrificed_for_attack(board, move))
+            # **A miscounted exchange is one that lost something.** The static
+            # count cannot see past the recaptures, and the author's rejected
+            # `Nxf5` lost two pawns' worth by that count and won it straight
+            # back with `Qe6+` -- *"The move didn't had any significant wp loss
+            # after all."* The engine already judged the move, so that verdict
+            # decides: at least an inaccuracy, or it was not a miscount.
+            #
+            # Exact on the author's five marks (keeps 52.7, 5.4, 18.3, 23.9 wp;
+            # drops 0.0). Drops 54 % of cached firings, plus the 8 % in decided
+            # positions where the clamped evaluation says nothing either way.
+            # Still an opportunity: it was a capture that could have been
+            # miscounted, so the denominator does not move.
             _record(
                 tallies[MISCOUNTED],
                 observation,
-                miscounted_exchange_away_from_king(board, move),
+                miscounted_exchange_away_from_king(board, move)
+                and observation.label is not None,
             )
 
     return _Counts(

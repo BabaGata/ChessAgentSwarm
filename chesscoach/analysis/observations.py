@@ -66,6 +66,13 @@ class Observation:
     # one, so there is no truncation to check for. Empty for every move that was
     # not an error, which is what keeps the cost at roughly 4 % of moves.
     available: tuple[Punishment, ...] = ()
+    # Whether the piece this move put en prise can actually be won: some capture
+    # of it is within `WORTH_PLAYING_WP` of the opponent's best. `None` when
+    # nothing was put en prise, or the profile predates the check -- *"not in
+    # question"*, never *"checked and safe"*. `moved_into_attack` is a static
+    # exchange count, and the author's rejected `Ng5` was a knight whose only
+    # capture loses to mate.
+    moved_piece_winnable: bool | None = None
 
     @property
     def is_error(self) -> bool:

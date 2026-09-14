@@ -369,3 +369,75 @@ class TestPersistenceTracksTheFileThatWasMade:
 
         assert made
         assert all(made & doubled_files(chess.Board(fen), chess.WHITE) for fen in ahead)
+
+
+class TestADoublingThatStartedAnExchange:
+    """Doubled pawns taken on to finish an exchange count; grabbing material first does not.
+
+    The author, on `gxf5` at h7rhc8WZ#16:
+
+    > *"Black took a pawn, this was a beginning of the exchange that white did
+    > not continue immediately."*
+
+    Their five marks split on exactly this, five for five. Every accepted row
+    **finished** an exchange -- `Bxf3 gxf3`, `Nxf4 exf4`, `Bxe5 fxe5`, `Bxf3
+    gxf3` -- where the doubled pawns are the price of getting the material back.
+    The rejected row **started** one: a pawn that had been standing there,
+    taken first. Structure accepted for material the player chose to grab is a
+    trade, not a weakness conceded.
+
+    A cost gate was measured first and would have been wrong: three of the four
+    accepted rows cost under an inaccuracy (0.0, 4.0, 2.5 wp).
+
+    Across the reviewed games doublings split three ways: 36 % start an
+    exchange, 35 % finish one, 29 % take a piece that had just arrived without
+    capturing. The author's marks do not reach that third group, so it is
+    decided by `DOUBLING_BY_TAKING_AN_ARRIVAL_COUNTS` rather than guessed at
+    inside the rule.
+    """
+
+    def played(self, fen: str, ucis: list[str], start_ply: int = 11):
+        """Observations for a real move sequence, White being the player."""
+        from dataclasses import replace
+
+        board = chess.Board(fen)
+        rows = []
+        for offset, uci in enumerate(ucis):
+            white = board.turn == chess.WHITE
+            rows.append(replace(
+                an_observation(game_id="g1", ply=start_ply + offset, fen=board.fen(),
+                               white=white, mover="alice" if white else "bob"),
+                move_played=uci,
+            ))
+            board.push(chess.Move.from_uci(uci))
+        rows.append(an_observation(game_id="g1", ply=start_ply + len(ucis),
+                                   fen=board.fen(), white=board.turn == chess.WHITE,
+                                   mover="alice" if board.turn == chess.WHITE else "bob"))
+        return rows
+
+    def doubled_instances(self, rows) -> int:
+        from chesscoach.sections.s5_pawn_structure import _count
+
+        tally = _count(a_context(rows)).tallies.get(
+            Claim.of(kind="concedes_weakness", subject="doubled").key()
+        )
+        return tally.instances if tally else 0
+
+    def test_recapturing_into_doubled_pawns_counts(self):
+        rows = self.played("4k3/8/8/8/6b1/5N2/5PP1/4K3 b - - 0 1", ["g4f3", "g2f3"])
+
+        assert self.doubled_instances(rows) == 1
+
+    def test_starting_an_exchange_into_doubled_pawns_does_not(self):
+        rows = self.played("4k3/8/8/5p2/5PP1/8/8/4K3 b - - 0 1", ["e8d8", "g4f5"])
+
+        assert self.doubled_instances(rows) == 0
+
+    def test_taking_a_piece_that_just_arrived_follows_the_named_constant(self):
+        from chesscoach.sections.s5_pawn_structure import (
+            DOUBLING_BY_TAKING_AN_ARRIVAL_COUNTS,
+        )
+
+        rows = self.played("4k3/8/8/3b4/8/8/5PP1/4K3 b - - 0 1", ["d5f3", "g2f3"])
+
+        assert self.doubled_instances(rows) == int(DOUBLING_BY_TAKING_AN_ARRIVAL_COUNTS)

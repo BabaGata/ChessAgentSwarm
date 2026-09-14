@@ -132,12 +132,39 @@ class TestItReadsThePlayedMove:
 
         assert result[Claim.of(kind=MISCOUNTED, subject="own_move").key()].opportunities == 0
 
-    def test_a_losing_capture_counts_as_a_miscount(self):
-        result = measured(games(12, fen=BAD_CAPTURE, move="a1a4"))
+    def test_a_losing_capture_that_cost_the_game_something_counts(self):
+        result = measured(games(12, fen=BAD_CAPTURE, move="a1a4", erred=True))
         key = Claim.of(kind=MISCOUNTED, subject="own_move").key()
 
         assert result[key].opportunities == 12
         assert result[key].instances == 12
+
+    def test_a_losing_capture_the_engine_says_cost_nothing_is_not_a_miscount(self):
+        """The author, on `Nxf5` at HfHWPjFM#67, rejected:
+
+        > *"This was not a miscalculated exchange because after an exchange there
+        > was a fork tactics by white queen to fork by Qe6 pieces Kg8 and Nf5 and
+        > take the knight back after that. The move didn't had any significant wp
+        > loss after all."*
+
+        The static exchange count says the capture loses two pawns' worth. It
+        cannot see `Qe6+` two plies later. The engine can, and the evaluation
+        moved from +321 to +305. **A miscounted exchange is one that lost
+        something**, so the move has to have been at least an inaccuracy.
+
+        Measured against the author's five marks the rule is exact: it keeps all
+        four accepted rows (52.7, 5.4, 18.3, 23.9 wp) and drops the rejected one
+        (0.0). Across 199 cached firings it drops **54 %**, plus 8 % in decided
+        positions where the evaluation has saturated and says nothing.
+
+        Still counted as an opportunity -- it *was* a capture the player could
+        have miscounted -- so the denominator is unchanged.
+        """
+        result = measured(games(12, fen=BAD_CAPTURE, move="a1a4", erred=False))
+        key = Claim.of(kind=MISCOUNTED, subject="own_move").key()
+
+        assert result[key].opportunities == 12
+        assert result[key].instances == 0
 
     def test_a_winning_capture_does_not(self):
         result = measured(games(12, fen=GOOD_CAPTURE, move="a1a4"))
@@ -241,3 +268,40 @@ class TestWhatItReports:
 
         for finding in report.sub_threshold:
             assert finding.confidence.tier is ConfidenceTier.WATCH
+
+
+class TestAnAttackTheOpponentShouldNotExecute:
+    """`moved_into_attack` counts only a piece that can really be won.
+
+    The analysis pass sets `moved_piece_winnable` by asking whether some capture
+    of the moved piece is worth playing -- the question `punishment.qualifying`
+    asks everywhere else. The author's rejected `Ng5` was a knight whose only
+    capture loses to mate; 18.4 % of 903 firings were that shape.
+    """
+
+    def with_winnable(self, value):
+        from dataclasses import replace
+
+        return [replace(o, moved_piece_winnable=value) for o in games(12)]
+
+    def test_a_piece_no_capture_should_take_is_not_counted(self):
+        result = measured(self.with_winnable(False))
+        key = Claim.of(kind=MOVED_INTO_ATTACK, subject="own_move").key()
+
+        assert result[key].instances == 0
+        # Still an opportunity: every move is a chance to walk into an attack.
+        assert result[key].opportunities == 12
+
+    def test_a_piece_that_can_really_be_won_is(self):
+        result = measured(self.with_winnable(True))
+        key = Claim.of(kind=MOVED_INTO_ATTACK, subject="own_move").key()
+
+        assert result[key].instances == 12
+
+    def test_an_older_profile_without_the_check_keeps_the_static_answer(self):
+        """None means "not checked", so the claim falls back to what it did
+        before rather than going silent on every old profile (L-046)."""
+        result = measured(self.with_winnable(None))
+        key = Claim.of(kind=MOVED_INTO_ATTACK, subject="own_move").key()
+
+        assert result[key].instances == 12
