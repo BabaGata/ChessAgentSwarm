@@ -978,6 +978,18 @@ Appendix A keeps the August report and gains a second one: the author's own
 not have, so it compared nothing with peers while saying it had (I-11). The
 appendix shows the `1600-2000` re-run and states what the wrong band did.
 
+### Bibliography trimmed, 63 to 51
+
+At the author's request ("trenutačno ima previše toga") twelve sources that
+supported no claim the thesis depends on were removed, each with its sentence:
+de Groot 1965 and Gobet 1998 (Chase and Simon and CHREST carry the point),
+Sala 2016 (Sala 2017 is the meta-analysis), Embrey (Rasmussen and Reason carry
+the taxonomy), Maia's follow-up, Elo 1978 (the thesis uses Glicko-2), Piech
+2015 (Corbett carries knowledge tracing), Hearsay-II's own paper (Nii
+describes the model), ChatDev and generative agents (AutoGen and MetaGPT are
+the examples), Wang 2026 on long-horizon failure (three findings remain) and
+DSRP (nothing in the thesis used it). Checks pass; 48 pages without appendices.
+
 ## Mechanics
 
 - `report.tex` — preamble and `\input` only. Chapters in `Poglavlja/`.
