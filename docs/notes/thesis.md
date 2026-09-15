@@ -831,7 +831,8 @@ Three outside reviews found, between them, a wrong reference, five numbers that
 never reached the page, a contradiction spanning five chapters, and a document
 more certain than its evidence. None of that was found by reading harder; it
 was found by asking the same questions in the same order. That order is now
-`.claude/skills/thesis-review/`, with a checker that runs the mechanical half.
+the global skill `~/.claude/skills/thesis-review/` (kept out of the repository), with a
+checker that runs the mechanical half from the repository root.
 
 Eight automated checks, each traceable to a defect a reviewer actually found:
 citation map complete in both directions, a year in brackets with no cite,
