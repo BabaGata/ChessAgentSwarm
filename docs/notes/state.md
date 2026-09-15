@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 2026-09-14
+updated: 2026-09-15
 created: 1785254500000
 ---
 
@@ -270,6 +270,15 @@ struck through: a list nobody can act on is not a plan.
 0. **M8 — the figures that are not drawn.** Only the scorecard trajectory exists. Candidates, each
    already measured: split-half agreement, the cost profile cold against warm, and the strength
    estimate against actual rating for both speeds (which would show the blitz repair visually).
+
+0. **CLOSED FOR SUBMISSION** *(2026-09-15)*. Work stopped here for the thesis deadline. Last state:
+   `detection-sheet-2026-09-14-carried.txt` regenerated at current code, marks carried from every
+   marked sheet under the author's disagreement rules, and a first round of new marks on it committed
+   **unscored**. Left open and recorded, not started: scoring those marks; `miscounted_exchange`
+   separation (options in [[experiments.e55-detector-precision]]); `capturingDefender` and
+   `trappedPiece` precision; the `skewer` exercise filter; the whole `out_of_book` question
+   ([[design.opening-book-is-a-naming-resource]]); and the thesis appendix line for E55, which still
+   reads *"nothing valid to measure"*.
 
 0. **DONE — the three material claims check what the static count cannot see** *(2026-09-14)*.
    `moved_into_attack` asks whether a capture of the moved piece is worth playing (18.4 % of firings
