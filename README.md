@@ -24,10 +24,13 @@ afterwards. Start there:
 ## What exists today
 
 The full loop: ingest → deterministic analysis → findings → priorities → plan → progress check.
-Seven of the eleven planned section agents are built. Two of the four that are
-not exist as **refusals** rather than as gaps: E10 found calculation quality is
-not measurable from game records, and the candidates that would have carried the
-missing sections did not survive screening (E09, E11).
+Eight of the eleven planned section agents are built (S1–S8), each screened
+against real players before it was written. Of the other three, S10 exists as a
+**refusal** rather than a gap: a player's style tendency is measured, but *"this
+style suits you"* is not supported by the evidence, so it asserts nothing (E14).
+S9 (planning and prophylaxis) and S11 (practical and psychological play) are not
+built — scheduled last on purpose, because they are where a coach is most likely
+to produce fluent nonsense.
 
 The **evaluation harness** also exists, built deliberately *before* the first agent — one written
 afterwards is one shaped by the agents.
@@ -39,9 +42,14 @@ chesscoach/
   profile/        the player profile — models and persistence
   sections/       the diagnostic agents — tactical gaps, decision process,
                   endgame technique, opening outcomes, pawn structure,
-                  squares and files, attack and defence
+                  squares and files, material safety, attack and defence
   evaluation/     split-half replication, planted weaknesses, ground-truth scoring
-  tactics.py      eight motif detectors, precision-gated by E04
+  tactics.py      nine motif detectors, named after the Lichess puzzle themes
+  material.py     why material was lost, as distinct from what won it
+  punishment.py   which replies count as punishing a mistake
+  precision.py    how often a detector is right, from marks a person made
+  separation.py   which claims may compare a player with peers, and which may not
+  development.py  opening development, against a strong-player expectation
   strength.py     how strong the play looks — ±103 points from rapid, ±129 from
                   blitz, measured on strangers; rating never shown to it
   style.py        how they play, as distinct from how well — and no verdict on it
@@ -58,12 +66,17 @@ chesscoach/
   explainer.py    the report a person reads. Templates, not generation
   session.py      one session end to end, and the probe gate
   pipeline.py     engine/cache session and provenance
-  cli.py          coach · analyse · probe · report · check-progress ·
-                  fetch-corpus · build-peer-reference ·
+  opening_*.py    the opening brief — plans quoted from sources, a three-agent
+                  local-model swarm (Scout, Assessor, Compiler), and a run store
+  knowledge*.py   what the swarm knows about each thing it detects: what it is,
+                  why it matters, how to practise it
+  conversation.py the conversation behind `talk`: ask, analyse, coach one thing
+  cli.py          coach · talk · analyse · probe · report · check-progress ·
+                  fetch-corpus · build-peer-reference · build-graph · ask ·
                   make-eval-set · check-eval-set · score-agent
-experiments/      e01–e29: the measurements that shaped the design, including
+experiments/      e01–e89: the measurements that shaped the design, including
                   the negative ones
-tests/            877 tests
+tests/            2,177 tests
 ```
 
 The loop runs end to end in **one command**: fetch → analyse → diagnose → prioritise → ask → plan
@@ -86,7 +99,7 @@ shut until answers exist from someone else.
 | *(optional)* **Docker** | only for `ask`, which reads a Neo4j graph |
 
 Everything else is in the repository: the peer reference, the opening book and its
-norms, the shelf and the knowledge base — about 4.6 MB, all public-domain or
+norms, the shelf and the knowledge base — about 7 MB, all public-domain or
 generated here. **There is nothing to download and nothing to build first.**
 
 ### One player, one report
@@ -134,16 +147,9 @@ Add `--probe --model llama3.1:8b-instruct-q6_K` to be asked about your own
 positions first, which is what turns *"you miss pins"* into *"you know what a pin
 is and did not see this one"*.
 
-That is the whole thing: it asks four questions games cannot answer, fetches the
-player's rated rapid, classical and blitz games, analyses them, diagnoses, picks
-one or two priorities, plans, and prints a report. Say you have an hour a week
-and the plan comes back with one thing in it, not two.
-**1.5 seconds for 60 games on a warm cache**; about 80 seconds for a player the
-engine has never seen. Zero cash.
-
-Add `--probe --model llama3.1:8b-instruct-q6_K` to be asked about your own
-positions first, which is what turns *"you miss pins"* into *"you know what a pin
-is and did not see this one"*.
+Unless `--no-questions` is passed, it first asks four questions games cannot
+answer. Say you have an hour a week and the plan comes back with one thing in it,
+not two. `talk` does the same as a conversation, and coaches one thing.
 
 Needs a local Stockfish binary and a peer reference. Everything else is free and
 offline.
@@ -201,8 +207,8 @@ The second command verifies the planted flaw is actually visible to the analysis
 anything is scored against it. A fixture nobody has checked is not a test.
 
 ```bash
-python -m pytest                              # 877 tests
-python -m pytest --cov=chesscoach             # 85% coverage
+python -m pytest                              # 2,177 tests
+python -m pytest --cov=chesscoach             # 86% coverage
 ```
 
 ## What it currently says about real players

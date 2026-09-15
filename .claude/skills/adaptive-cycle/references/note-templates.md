@@ -68,7 +68,7 @@ created: <epoch-ms>
 <what this makes easy, what it makes hard, what it forecloses>
 
 ## Vision link
-<which V1–V8 / C1–C6 item this serves>
+<which V1–V9 / C1–C7 item this serves>
 
 ## Revisit when
 <the concrete condition that should reopen this>

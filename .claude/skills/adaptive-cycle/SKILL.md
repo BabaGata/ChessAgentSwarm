@@ -24,7 +24,7 @@ Run all nine phases, in order. Phases 5–8 are where the value is; a cycle that
 
 Read, in this order:
 
-1. `docs/notes/vision.md` — the goal, its capabilities V1–V8 and constraints C1–C6
+1. `docs/notes/vision.md` — the goal, its capabilities V1–V9 and constraints C1–C7
 2. `docs/notes/mission.md` — the steps and which one is **active**
 3. `docs/notes/state.md` — the scorecard, next priorities, open questions, blockers
 4. The active mission-step note, `docs/notes/mission.step-NN-*.md`
@@ -49,7 +49,7 @@ For anything non-trivial, present the plan before executing it.
 
 Answer these in writing, in the mission-step note's working log:
 
-1. **Which V1–V8 capability or C1–C6 constraint does this serve?** If none — stop, do not do it.
+1. **Which V1–V9 capability or C1–C7 constraint does this serve?** If none — stop, do not do it.
 2. **Which `state.md` scorecard dimension does it move, and by how much?**
 3. **Is there a cheaper or more direct way to move that same dimension?** If yes, switch to it.
 4. **What does it foreclose?** Architecture, cost profile, scope lock-in.

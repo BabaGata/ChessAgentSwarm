@@ -2,7 +2,7 @@
 id: cas-process
 title: Process
 desc: 'The mandatory operating cycle every unit of work in this project follows.'
-updated: 1785254500000
+updated: 1789430400000
 created: 1785254500000
 ---
 
@@ -32,7 +32,7 @@ Phases 5–8 are not optional cleanup. A cycle that skips them has not finished.
 
 For the planned unit of work, answer in writing:
 
-1. **Which [[vision]] capability (V1–V8) or constraint (C1–C6) does this serve?**
+1. **Which [[vision]] capability (V1–V9) or constraint (C1–C7) does this serve?**
    If the answer is "none", do not do it.
 2. **How much does it move the corresponding [[state]] scorecard dimension?**
 3. **Is there a cheaper or more direct way to move that same dimension?**

@@ -2,7 +2,7 @@
 id: cas-thesis
 title: Thesis
 desc: 'The written thesis: structure, where each chapter draws from, and the rules that keep it from claiming more than the vault does.'
-updated: 1789516800000
+updated: 1789430400000
 created: 1788780000000
 ---
 
@@ -14,6 +14,10 @@ Lives in `Masters-thesis/`, which is **gitignored** — nothing there is committ
 **Working title:** *Roj agenata za personalizirano šahovsko podučavanje*
 
 ## The mission gap this exposed — closed 2026-09-08
+
+> **Superseded 2026-09-15.** M8 was removed from [[mission]] at the author's request
+> ([[decisions.0020-the-thesis-leaves-the-mission]]). What follows is kept as the record of why it
+> was added.
 
 M1–M7 contained **no step for writing the thesis**, and the thesis is the project's actual
 deliverable. Now **M8 — write the thesis**, added to [[mission]] with

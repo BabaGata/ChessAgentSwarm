@@ -11,7 +11,7 @@ unit of work in this repo — research, design, code, refactor or documentation.
 The Dendron vault in `docs/notes/` is the authority on project state. Session memory is not.
 Orient there first:
 
-- `docs/notes/vision.md` — the goal: capabilities V1–V8, constraints C1–C6, success criteria
+- `docs/notes/vision.md` — the goal: capabilities V1–V9, constraints C1–C7, success criteria
 - `docs/notes/mission.md` — the 7 iterative steps and which one is **active**
 - `docs/notes/state.md` — what exists, the distance-to-vision scorecard, next priorities
 - `docs/notes/process.md` — the cycle, in human-readable form
