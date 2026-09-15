@@ -991,6 +991,13 @@ describes the model), ChatDev and generative agents (AutoGen and MetaGPT are
 the examples), Wang 2026 on long-horizon failure (three findings remain) and
 DSRP (nothing in the thesis used it). Checks pass; 48 pages without appendices.
 
+### The last marks, scored
+
+Chapter 7 had ended the audit with "the last marks were entered just before submission and were not
+scored". They are now: 90 of 100 accepted across the 22 detectors with valid marks (83-94 %), with the
+caveat that five marks can condemn a detector and cannot confirm one, the one condemned opening claim,
+and the four detectors whose marks predate their last change. Numbers are macros in `brojke.tex`.
+
 ## Mechanics
 
 - `report.tex` — preamble and `\input` only. Chapters in `Poglavlja/`.

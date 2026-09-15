@@ -264,7 +264,8 @@ struck through: a list nobody can act on is not a plan.
 0. **CLOSED FOR SUBMISSION** *(2026-09-15)*. Work stopped here for the thesis deadline. Last state:
    `detection-sheet-2026-09-14-carried.txt` regenerated at current code, marks carried from every
    marked sheet under the author's disagreement rules, and a first round of new marks on it committed
-   **unscored**. Left open and recorded, not started: scoring those marks; `miscounted_exchange`
+   **unscored** -- scored the same day: 90 of 100 accepted over 22 detectors, 0 confirmed, 1 condemned
+   (`out_of_book.Hungarian Opening`), 4 stale ([[experiments.e55-detector-precision]]). Left open and recorded, not started: `miscounted_exchange`
    separation (options in [[experiments.e55-detector-precision]]); `capturingDefender` and
    `trappedPiece` precision; the `skewer` exercise filter; and the whole `out_of_book` question
    ([[design.opening-book-is-a-naming-resource]]).

@@ -757,3 +757,20 @@ work left on this list.
 
 `long_think_error`'s `[?]` is the *"what can be practised"* question, answered by the sheet now
 printing `tells you:` under each claim rather than by any change to the detector.
+
+## The 09-14 sheet, scored (2026-09-15)
+
+`score.py` on `detection-sheet-2026-09-14-carried.txt` (current code; marks carried where the detector
+had not changed). Output in `results/precision.txt`. **0 confirmed, 21 unsettled, 1 condemned, 4 stale.**
+
+- **Pooled over the 22 detectors with valid marks: 90 of 100 accepted, Wilson 83-94 %** (5 unsure,
+  excluded). The pooled figure is computed outside `score.py`, which scores per detector on purpose;
+  most detectors carry five marks, and five of five still spans 57-100 %.
+- **Condemned:** `out_of_book.Hungarian Opening` 1/4. `out_of_book.Caro-Kann` 0/1 is unsettled.
+- **Weakest of the rest:** `missed_motif.trappedPiece` 3/5, `slow_development.book` 3/5,
+  `missed_motif.pin` 3/4, `missed_motif.discoveredAttack` 4/5.
+- **Stale, not counted:** `hangingPawn`, `moved_into_attack`, `early_error`, `advantage_error` -- their
+  recovered 08-23 marks predate later changes to the modules.
+
+Nothing was fixed on these marks: the code is closed for submission. The thesis (ch. 7, detector
+audit) reports the pooled figure with the five-marks caveat.
