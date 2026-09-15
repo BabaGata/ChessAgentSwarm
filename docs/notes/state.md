@@ -257,6 +257,10 @@ struck through: a list nobody can act on is not a plan.
 
 ### Open, and unblocked
 
+0. **OPEN — `--band` accepts a band the reference does not have** *(2026-09-15, found after closing)*. A band with no cells silently drops every peer comparison while the report says it compared → [[learning.risks]] I-11. Not fixed for submission; the thesis states it.
+
+   **Thesis brought to the submitted state, 2026-09-15.** Counts (2,177 tests, 176 notes, 21 ADRs); the E84 three-band reference replacing the single 84-player description and the "other bands are future work" line; cited examples preferring costly instances (9cc480d); the exhaustive good-enough rule for missed motifs; the post-E86 marking-round fixes; the four context questions; and a second report in appendix A, on the author's own games at `1600-2000`, beside the August one the reviewer read.
+
 0. **CLOSED FOR SUBMISSION** *(2026-09-15)*. Work stopped here for the thesis deadline. Last state:
    `detection-sheet-2026-09-14-carried.txt` regenerated at current code, marks carried from every
    marked sheet under the author's disagreement rules, and a first round of new marks on it committed

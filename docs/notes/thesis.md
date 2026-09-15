@@ -951,6 +951,33 @@ Project-size counts have drifted -- code 24,170 → 24,686 lines, tests
 1,847 → 1,885, notes 173 → 175 -- because the detector work continues in
 another session. Left for the final pass, as the author asked.
 
+### Brought to the submitted state
+
+The other session had refreshed the counts and two passages on 2026-09-15 and
+left appendix A on the August report on purpose. Reading every commit since
+thesis writing began (32 outside the thesis) found what the text still
+described as it used to be:
+
+- **One 84-player reference**, when E84 had built three overlapping bands per
+  speed (31–51 players each) on 2026-09-05, and chapter 9 still listed other
+  bands as future work. The 84-player measurements stay described as what they
+  were; the current reference is described alongside.
+- **Uniform evidence sampling**, when 9cc480d made citations prefer instances
+  that cost the player something (37 of 163 cited rows had cost nothing).
+- **Missed motifs from the engine's top move**, when a motif-executing move
+  within an inaccuracy of the best now counts, found exhaustively (10 → 32
+  opportunities over 187 positions, missed pins 0 → 8).
+- **The audit ending at E86**, when the author's marking rounds had since fixed
+  the recapture-as-hanging-pawn bug (884 → 719), split fork from skewer,
+  retired `out_of_book.any`, and made `moved_into_attack` require a winnable
+  piece (18.4 % of 903 firings were not).
+- **No context questions**, though four are asked before every analysis.
+
+Appendix A keeps the August report and gains a second one: the author's own
+60 blitz games. Her run had used `--band 1400-2000`, a band the reference does
+not have, so it compared nothing with peers while saying it had (I-11). The
+appendix shows the `1600-2000` re-run and states what the wrong band did.
+
 ## Mechanics
 
 - `report.tex` — preamble and `\input` only. Chapters in `Poglavlja/`.

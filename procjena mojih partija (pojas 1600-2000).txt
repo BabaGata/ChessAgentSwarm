@@ -1,0 +1,110 @@
+player   BabaGata
+fetching up to 60 rated games...
+games    60
+
+Four questions first — the games cannot answer these, and every one
+of them is skippable with Enter.
+
+  What do you want out of your chess?
+    (Rating, a specific opponent, enjoying it more — anything.)
+  > 
+  Realistically, how many hours a week can you give it?
+    (The honest number, not the aspirational one. It decides how much is planned.)
+  > 
+  What have you already tried that did not work?
+    (So the plan does not hand you back something you have done.)
+  > 
+  Do you play anywhere these games will not show — over the board, another site?
+    (Anything invisible here is a gap in what any of this can say.)
+  > 
+engine   Stockfish 18
+analysing 60 games...
+
+====================================================================
+
+Report for BabaGata
+60 games (2022.03.11 to 2025.05.16), rating band 1600-2000
+
+HOW STRONG YOUR PLAY LOOKS
+
+   About 1822, and most likely between 1693 and 1951.
+   Judged from how often you blunder across 1578 of your own blitz moves, and nothing else —
+   not from your rating, which was never shown to it.
+   This is your blitz standard — the speed most of these games were played at.
+
+WHAT YOU TOLD ME
+
+   You want    To play it better
+   Time        0.5 hours a week — so this plan has one thing in it, not two
+   Tried       No
+
+WHAT STANDS OUT
+
+1. Your play falls off when the clock is short.
+
+   How often   28% of the time, against 23% for players at your level
+   Seen in     36 of 59 games
+   Costing you about 39.6 points of win probability a game.
+   Players at your level lose about 11.1 to the same thing, so roughly
+   28.6 a game is what fixing this could get back.
+   For example move 32, you played Qxb5 (Be4 was better)
+      as White, vs Maksim_Volodin, 2022.06.26 — lichess.org/PAsW1RaM#63
+   For example move 32, you played Rxh4 (Nb6 was better)
+      as Black, vs mahdiboy_bbb, 2025.04.16 — lichess.org/dqqSfEyi#64
+   For example move 54, you played Kh4 (Qf4 was better)
+      as White, vs D2otieh, 2022.07.19 — lichess.org/lN5EPxYL#107
+
+(3 further patterns were found but not prioritised — working on one or two things at a time is the point.)
+
+BY AREA OF THE GAME
+
+   A map, not a to-do list — the plan above is what to act on.
+
+   Tactics                    discovered attack missed when available; pin conceded when you go wrong; pin missed when available
+   Positional judgement       nothing stood out
+   Openings                   nothing stood out
+   Endgames                   nothing stood out
+   Attack & defence           nothing stood out
+   Practical process          mistakes when short of time
+
+   Not measured by this system at all: Fundamentals, Calculation & visualisation, Planning, Meta-learning.
+
+WHAT TO DO
+
+1. Spend less time in the opening so that the clock is not deciding your moves later.
+   Why    seen in 36 of 59 games, at 28.3% against 22.6% for peers at your level
+
+WHAT WOULD SHOW IT WORKED
+
+ - mistakes when short of time: below 16% over your next 20 games
+
+THE OPENING YOU PLAY -- Sicilian Defense
+
+  Main line   1. e4 c5 2. Nf3 d6 3. d4 cxd4
+
+  You reach:
+    Alapin Variation                      3 games   1. e4 c5 2. c3
+    Open                                  2 games   1. e4 c5 2. Nf3 Nc6 3. d4
+    Accelerated Dragon, Maróczy Bind      2 games   1. e4 c5 2. Nf3 Nc6 3. d4 cxd4 4. Nxd4 g6 5. c4
+    Prins Variation                       2 games   1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. f3
+
+
+WHAT YOUR WHOLE LEVEL LOSES MOST TO
+
+ - Players at your level lose about 32.0 points of win probability a game to moves played in under two seconds.
+ - Players at your level lose about 3.4 points of win probability a game to pieces left hanging by the opponent and not taken.
+
+   These are not findings about you — they are what the whole rating band
+   loses most to, and the stronger players in it lose less. Your own one or
+   two priorities above are the ones that are unusual for you specifically.
+
+WHAT THIS DOES NOT KNOW
+
+ - You said you also play here: Yes. None of those games are in this, so anything that only happens there is invisible to all of it.
+ - This is measured from your own games and nothing else — it says what happened, not why, except where a probe asked you directly.
+ - Rates are compared with players in your rating band, so they say you are unusual, not that you are bad.
+ - Nothing here estimates your potential or your ceiling, because nothing here could.
+ - The rating estimate here is read from blitz games and is rough — tested on players it had never seen it was out by about 130 points, and it still tends to read people as weaker than they are. Read it as a ballpark, not a rating.
+
+====================================================================
+profile  C:/Users/vujic/AppData/Local/Temp/claude/C--Users-vujic-Documents-MachineLearning-ChessAgentSwarm/387eef64-56f9-40a3-968f-a9414f19f139/scratchpad/my-profile-1600-2000.json
