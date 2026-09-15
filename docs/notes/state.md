@@ -276,9 +276,16 @@ struck through: a list nobody can act on is not a plan.
    marked sheet under the author's disagreement rules, and a first round of new marks on it committed
    **unscored**. Left open and recorded, not started: scoring those marks; `miscounted_exchange`
    separation (options in [[experiments.e55-detector-precision]]); `capturingDefender` and
-   `trappedPiece` precision; the `skewer` exercise filter; the whole `out_of_book` question
-   ([[design.opening-book-is-a-naming-resource]]); and the thesis appendix line for E55, which still
-   reads *"nothing valid to measure"*.
+   `trappedPiece` precision; the `skewer` exercise filter; and the whole `out_of_book` question
+   ([[design.opening-book-is-a-naming-resource]]).
+
+   **Pre-submission check, 2026-09-15.** Full suite passes at **86 %** coverage; `coach` runs end to
+   end on `bjagus` (54 games, report and profile written). Thesis refreshed in place — the folder is
+   not under version control: `brojke.tex` counts (code 24 686 lines, tests 22 871 lines / 1 897
+   functions, 175 notes, coverage 86 %), the E55 appendix row, and chapter 8's retired pawn-move claim
+   now quoting the current register (dispersion 1.35, p = 0.053). `check_tex.py` clean, `.docx`
+   rebuilt, its tests pass. Appendix A keeps the August report on purpose: the reviewer's remarks
+   refer to that version.
 
 0. **DONE — the three material claims check what the static count cannot see** *(2026-09-14)*.
    `moved_into_attack` asks whether a capture of the moved piece is worth playing (18.4 % of firings
