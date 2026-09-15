@@ -2,13 +2,13 @@
 id: cas-adr-0018
 title: 'ADR-0018 — The thesis is a mission step, and it runs alongside'
 desc: 'M8 added. Writing the thesis is a measurement instrument, not a report: its first pass forced three claims in this vault to be weakened against the code.'
-updated: 1788825600000
+updated: 1789430400000
 created: 1788825600000
 ---
 
 # ADR-0018 — The thesis is a mission step, and it runs alongside
 
-**Date:** 2026-09-08 · **Status:** accepted
+**Date:** 2026-09-08 · **Status:** superseded by [[decisions.0020-the-thesis-leaves-the-mission]] (2026-09-15)
 **Vision link:** C5 (auditable reasoning) and [[vision]] success criterion 6 (a third party can
 reproduce this from the vault)
 

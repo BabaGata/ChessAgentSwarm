@@ -2,7 +2,7 @@
 id: cas-state
 title: State
 desc: 'Where the project actually is right now, how far that is from the vision, and what comes next.'
-updated: 2026-09-15
+updated: 1789430400000
 created: 1785254500000
 ---
 
@@ -10,8 +10,8 @@ created: 1785254500000
 
 **Snapshot date:** 2026-09-08
 **Active mission steps:** **M6/M7** — correcting what the detectors name, and giving each claim
-something to say · **M8** — write the thesis, added 2026-09-08
-([[decisions.0018-the-thesis-is-a-mission-step]]) and running alongside
+something to say. Writing the thesis is no longer a mission step
+([[decisions.0020-the-thesis-leaves-the-mission]]).
 **Last commit:** `chore(M6): regenerate the detection sheet at the corrected detectors`
 **Scale:** 23,235 lines in `chesscoach/`, **1,800 tests at 88 % coverage**, 87 experiments,
 170 vault notes, 18 ADRs, 60 lessons
@@ -255,21 +255,7 @@ struck through: a list nobody can act on is not a plan.
    theory or from peers ([[experiments.e58-opening-development]]), and whether a check that also wins
    a pawn is too small to call a fork ([[experiments.e57-fork-rebuilt]]).
 
-0. **P1 — Compile the thesis, and supply the supervisor names** (M8). There is no LaTeX toolchain on
-   this machine, so `FIDIT_template_hrv/` has been checked by script — labels, citations, macro
-   definitions, environment balance — and **never compiled**. The title page carries the template's
-   default supervisors. Both need a person.
-
 ### Open, and unblocked
-
-0. **M8 — carry the regeneration into the thesis.** Chapters 7–8 quote figures measured before the
-   detector rebuild. Every one of them is a macro in `FIDIT_template_hrv/Src/brojke.tex` with its
-   source note beside it, so this is one file's worth of edits, not a re-read of 85 pages. Do it once
-   the sheet is marked and the numbers settle, not before.
-
-0. **M8 — the figures that are not drawn.** Only the scorecard trajectory exists. Candidates, each
-   already measured: split-half agreement, the cost profile cold against warm, and the strength
-   estimate against actual rating for both speeds (which would show the blitz repair visually).
 
 0. **CLOSED FOR SUBMISSION** *(2026-09-15)*. Work stopped here for the thesis deadline. Last state:
    `detection-sheet-2026-09-14-carried.txt` regenerated at current code, marks carried from every
