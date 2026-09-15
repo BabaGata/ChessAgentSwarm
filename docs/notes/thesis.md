@@ -201,7 +201,7 @@ sentence between dashes. She was right, and the size of it is measurable.
 
 Everything left is a table cell where the dash means "nothing here".
 
-**`.claude/skills/human-prose/` was built for this**, with `check_prose.py` to
+**The global skill `~/.claude/skills/human-prose/` was built for this**, with `check_prose.py` to
 measure and `references/sources.md` for where the tells come from. The research
 was done in English deliberately, since the material is far thicker there, and
 the sentence-level habits carry over.
