@@ -10,7 +10,7 @@ created: 1789862400000
 
 **Status:** accepted · **Date:** 2026-09-19 · **Builds on:**
 [[decisions.0013-a-local-model-may-rephrase-what-it-cannot-assert]] · **Design:**
-[[design.narrated-session]] · **Evidence:** [[experiments.e90-narrated-session]]
+[[design.narrated-session]] · **Evidence:** [[experiments.e92-narrated-session]]
 
 ## Context
 
@@ -32,15 +32,15 @@ practically.
 
 ## Alternatives rejected
 
-- **Model writes the whole report.** E90's whole-report summary was wrong in 3 of 8 read by hand
+- **Model writes the whole report.** E92's whole-report summary was wrong in 3 of 8 read by hand
   while passing the check; the report stays the auditable artefact.
-- **Model answers chess questions itself.** R-03; E90's first run produced a wrong definition that
+- **Model answers chess questions itself.** R-03; E92's first run produced a wrong definition that
   passed the check.
 
 ## Consequences
 
 The session now uses a local model (C1 holds: 1.9 GB, ~8 s per summary, ~4 s per answer). Residue:
-a sentence that reverses a relation using the source's own words passes the check (1 in 8 in E90).
+a sentence that reverses a relation using the source's own words passes the check (1 in 8 in E92).
 
 ## Reopen when
 

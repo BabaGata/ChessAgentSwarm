@@ -1,4 +1,4 @@
-"""E90: does the local model's summary pass its check, and what do follow-ups get?
+"""E92: does the local model's summary pass its check, and what do follow-ups get?
 
 Design: docs/notes/design.narrated-session.md
 

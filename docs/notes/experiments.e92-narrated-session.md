@@ -1,16 +1,16 @@
 ---
-id: cas-exp-e90
-title: 'E90 — A local model in the session: the check passes what a reader catches'
+id: cas-exp-e92
+title: 'E92 — A local model in the session: the check passes what a reader catches'
 desc: 'Three ways of giving qwen2.5:3b the findings. The automatic check kept 18/20, 56/59 and 41/59; reading eight by hand found 3, several and 1 misstatements. Concept questions answered from the report came out wrong, so they are routed to the books. Practice positions work once moves are read on the board.'
 updated: 1789862400000
 created: 1789862400000
 ---
 
-# E90 — A local model in the coaching session
+# E92 — A local model in the coaching session
 
 **Answers:** the author's request to have the model write the results, take follow-up questions and
 use the prober at the end ([[design.narrated-session]]) · **Code:** `chesscoach/narrator.py`,
-`followup.py`, `exercise.py`, `after_report.py`; `experiments/e90-narrated-session/` ·
+`followup.py`, `exercise.py`, `after_report.py`; `experiments/e92-narrated-session/` ·
 **Date:** 2026-09-19 · **Status:** done — **adopted, with the residue stated**
 
 ## Setup
@@ -34,7 +34,7 @@ sentences are rejected (18 of 59, almost all on novelty) — a finding whose sen
 left out of the summary, never replaced.
 
 **What no version fixes: a sentence made of the source's own numbers and words that reverses a
-relation.** `grounding`'s docstring already names this residue for opening plans; E90 measured it in
+relation.** `grounding`'s docstring already names this residue for opening plans; E92 measured it in
 the summary at 1 in 8 players on the shipped arm.
 
 ## Follow-up questions (6 players × 3 questions)

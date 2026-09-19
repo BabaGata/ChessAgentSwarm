@@ -36,7 +36,7 @@ stays printed in full.
    ≤ 0.45) **plus a new number check**: every number must occur in the sheet. A rejected sentence
    leaves its finding out; none kept or no model → no summary, and one line saying why. Printed above
    the full report under a heading that says a local model wrote it from the measurements below.
-   (First designed on the whole rendered report; E90 changed it — see *Built*.)
+   (First designed on the whole rendered report; E92 changed it — see *Built*.)
 2. **Follow-up questions (`followup.py`).** After the report the player may ask questions. First
    the model answers from the report alone, or says the report does not cover it; the answer is
    checked the same way. If the report does not cover it and the book knowledge graph is reachable,
@@ -57,7 +57,7 @@ stays printed in full.
       stopped Ollama end the session cleanly
 - [x] the `--probe` path's `peers` bug fixed
 - [x] measured on real profiles: summary acceptance rate, time per summary, and the rejection reasons
-- [ ] thesis updated to describe what the model does and what it measured at
+- [x] thesis updated to describe what the model does and what it measured at
 
 ## Alignment (phase 2)
 
@@ -97,5 +97,5 @@ summary is therefore built from the profile, not from the rendered report.
 have marked `Bg4` wrong against `c8g4`. Answers are read on the board, and the position is printed
 as a board from the side to move.
 
-43 tests; 2,220 in all. Measured in [[experiments.e90-narrated-session]]; decision
+43 tests; 2,220 in all. Measured in [[experiments.e92-narrated-session]]; decision
 [[decisions.0021-a-local-model-in-the-session]].

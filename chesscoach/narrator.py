@@ -7,7 +7,7 @@ The report itself stays templates: every sentence in it is reviewable and every
 number is computed. What the model adds is the thing templates do badly -- a few
 sentences in one voice that say what matters, addressed to the player.
 
-**How it is given the facts was decided by measuring (E90).** Given the whole
+**How it is given the facts was decided by measuring (E92).** Given the whole
 report, the model mixed findings up: a cost moved from one pattern to another,
 and every such sentence passed the check because each number was somewhere in
 the report. Given one finding's block of report text, it read "64% of the time"

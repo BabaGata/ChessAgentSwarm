@@ -67,7 +67,7 @@ class TestChecking:
 
 
 class TestNotation:
-    """E90: profiles store moves as UCI (`c8g4`). Shown as UCI, and compared as
+    """E92: profiles store moves as UCI (`c8g4`). Shown as UCI, and compared as
     text, a player typing the move the report printed (`Bg4`) would be told it
     was wrong. Moves are shown in SAN and an answer is read on the board."""
 

@@ -62,7 +62,7 @@ class TestFromTheReport:
 
 
 class TestConceptQuestionsNeverUseTheReport:
-    """E90: asked "What is a pin?", the model answered from the report with a wrong
+    """E92: asked "What is a pin?", the model answered from the report with a wrong
     definition, and it passed the check at 42 % novelty -- the same as a good
     answer. A definition is chess knowledge, so it only ever comes from the books."""
 

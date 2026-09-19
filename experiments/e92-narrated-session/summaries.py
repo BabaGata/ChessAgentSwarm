@@ -1,4 +1,4 @@
-"""E90, second arm: the summary written one finding at a time, on the same profiles.
+"""E92, second arm: the summary written one finding at a time, on the same profiles.
 
 The first arm (`run.py`) summarised the whole report in one call; reading its
 output by hand found findings mixed up. This re-runs only the summary, on the

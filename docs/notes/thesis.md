@@ -1029,6 +1029,15 @@ results describe them), chapter 5 condensed, the families-of-measures table and 
 detail in ch. 7 shortened, storage/cost/omissions in ch. 4 and the source swarm and command list in
 ch. 6 turned into paragraphs. Body: 49 pages.
 
+### A local model in the session, in the thesis (2026-09-19)
+
+The thesis had just been corrected to say no model takes part in the report; the author then asked
+for one. Chapter 2 gained step 8 (summary, questions, practice), chapter 7 a section with E92's
+three-input table and the hand audit (6 of 8 correct on the shipped input, one reversed relation),
+and appendix A a recorded session. Abstract, ch. 1, 3, 4 (text and diagram), 6 and 9 follow. To stay
+under 50 pages: the expert-review threshold table became a sentence, two refused-items bullets and a
+limitation that repeated ch. 8 went, and the conclusion lost its process paragraph. Body: 49 pages.
+
 ## Mechanics
 
 - `report.tex` — preamble and `\input` only. Chapters in `Poglavlja/`.

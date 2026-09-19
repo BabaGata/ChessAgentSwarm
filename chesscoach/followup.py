@@ -27,7 +27,7 @@ from chesscoach import answering, ollama
 from chesscoach.narrator import MODEL, verdict
 
 # A question asking what a chess idea *is*. Answered only from the books, never
-# from the report: E90 asked "What is a pin?" and the model answered from the
+# from the report: E92 asked "What is a pin?" and the model answered from the
 # report with a wrong definition that passed the check at 42 % novelty, the same
 # as a good answer. Novelty cannot separate them, so the route does. English and
 # Croatian, since the author's players ask in both.

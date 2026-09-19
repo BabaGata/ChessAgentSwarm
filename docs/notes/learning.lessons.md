@@ -26,7 +26,7 @@ what a future cycle does — otherwise it is a diary entry and does not belong h
 
 ### L-062 — A checker that passes the output is not a reader who has read it
 **Date:** 2026-09-19 · **Cycle / mission step:** M7 · **Class:** technique
-**Context:** Adding a local model to the session ([[experiments.e90-narrated-session]]).
+**Context:** Adding a local model to the session ([[experiments.e92-narrated-session]]).
 **Observation:** The grounding check (no unseen number, move or square; novelty under 0.45) kept 18 of
 20 whole-report summaries, and reading eight of them found three wrong: a cost moved to another
 finding, a caveat pinned on the wrong claim, *missed* for *conceded*. Each changed the input, and
@@ -39,7 +39,7 @@ acceptance rate is not the quality measure -- a hand audit is, and it has to be 
 input changes. Where the check cannot separate right from wrong at all, route around it (concept
 questions never reach the report path) rather than tune a threshold.
 **Applied to:** `narrator.facts` (fact sheets, one finding at a time), `followup` concept routing,
-E90's audit table; the thesis states the residue.
+E92's audit table; the thesis states the residue.
 
 ---
 

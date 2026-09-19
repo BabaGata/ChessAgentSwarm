@@ -261,9 +261,9 @@ struck through: a list nobody can act on is not a plan.
    now prints a model-written summary above the report (one fact sheet per finding, checked for
    numbers, moves and novelty), takes follow-up questions (report, else books, else refusal; concept
    questions only from the books) and offers practice positions from the prober
-   ([[decisions.0021-a-local-model-in-the-session]], [[design.narrated-session]]). E90: 20/20 reports
+   ([[decisions.0021-a-local-model-in-the-session]], [[design.narrated-session]]). E92: 20/20 reports
    get a summary, 41/59 finding sentences kept, ~8 s; a hand read of 8 found 1 reversed relation the
-   check cannot see ([[experiments.e90-narrated-session]], L-062). **Open:** a relation-level check;
+   check cannot see ([[experiments.e92-narrated-session]], L-062). **Open:** a relation-level check;
    the "% of the time" → "% of games" slip in follow-up answers; the circular book definition of *pin*.
 
 0. **OPEN — `--band` accepts a band the reference does not have** *(2026-09-15, found after closing)*. A band with no cells silently drops every peer comparison while the report says it compared → [[learning.risks]] I-11. Not fixed for submission; the thesis states it.

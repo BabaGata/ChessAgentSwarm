@@ -103,7 +103,7 @@ def _exercise(finding: Finding) -> Exercise | None:
 def _is_the_move(given: str, exercise: Exercise) -> bool:
     """Read the answer on the board, so SAN, UCI and a lower-case piece all count.
 
-    E90: moves are stored as UCI and the report prints SAN, so a plain text
+    E92: moves are stored as UCI and the report prints SAN, so a plain text
     comparison marked the move the player had just read as wrong.
     """
     if given.casefold() in {exercise.better_move.casefold(), exercise.better_uci.casefold()}:

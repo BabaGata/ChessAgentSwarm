@@ -72,7 +72,7 @@ class TestNumbers:
 
 
 class TestFacts:
-    """E90: given the report's own layout, the model read "64% of the time" as "64% of
+    """E92: given the report's own layout, the model read "64% of the time" as "64% of
     the games" and copied its labels ("Target:", "Below 3% ..."). It is given plain
     sentences built from the measurements instead."""
 
@@ -126,7 +126,7 @@ class TestAcceptance:
 
 
 class TestOneFindingAtATime:
-    """E90: summaries of the whole report mixed findings up -- a cost moved from one
+    """E92: summaries of the whole report mixed findings up -- a cost moved from one
     pattern to another. Each finding is written from its own facts only, so a
     number borrowed from another finding is ungrounded and caught."""
 

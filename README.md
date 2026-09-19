@@ -78,7 +78,7 @@ chesscoach/
   cli.py          coach · talk · analyse · probe · report · check-progress ·
                   fetch-corpus · build-peer-reference · build-graph · ask ·
                   make-eval-set · check-eval-set · score-agent
-experiments/      e01–e90: the measurements that shaped the design, including
+experiments/      e01–e92: the measurements that shaped the design, including
                   the negative ones
 tests/            2,220 tests
 ```
