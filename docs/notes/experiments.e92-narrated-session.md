@@ -59,6 +59,16 @@ report prints SAN, so the first version would have marked a player typing `Bg4` 
 now read on the board (SAN, UCI and a lower-case piece letter all count) and the position is printed
 as a board from the side to move. Nothing about the finding changes (D10 still open).
 
+## Found by the author on her own session
+
+- *"Can you tell me from my own games where I miss pins"* was refused, while her profile held four
+  positions for that finding: measured but not planned (half an hour a week buys one priority), so
+  not in the report the follow-up model reads. "Where" and "how to practise" questions are now
+  answered from the profile without a model (`evidence_answers.py`).
+- The exercise board showed White to move and its link opened with Black to move. Lichess `#N` is
+  the position **after** half-move N; every citation (report, conversation, exercise) now opens one
+  half-move earlier, on the position being chosen in.
+
 ## Verdict
 
 Adopted: the summary is labelled as the model's, checked against its own facts, and followed by the
