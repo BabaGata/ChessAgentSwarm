@@ -305,6 +305,11 @@ def _pooled_endgame_action(finding) -> str:
     )
 
 
+def action_for(finding: Finding) -> str:
+    """The advice the plan would give for this finding, planned or not."""
+    return _action(finding)
+
+
 def _action(finding: Finding) -> str:
     """What to do about it.
 

@@ -41,7 +41,7 @@ def main() -> int:
         store = GraphStore.connect(settings_from_env())
     except GraphUnavailable:
         store = None
-    ask_questions(report, scripted([*questions, ""]), print, store=store)
+    ask_questions(report, scripted([*questions, ""]), print, store=store, profile=profile)
     practise(profile, scripted(["y", *moves]), print)
     return 0
 

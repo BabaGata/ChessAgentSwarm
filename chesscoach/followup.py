@@ -24,6 +24,7 @@ from dataclasses import dataclass
 from enum import Enum
 
 from chesscoach import answering, ollama
+from chesscoach.evidence_answers import from_profile
 from chesscoach.narrator import MODEL, verdict
 
 # A question asking what a chess idea *is*. Answered only from the books, never
@@ -63,6 +64,7 @@ Question: {question}
 
 
 class Source(Enum):
+    PROFILE = "profile"
     REPORT = "report"
     BOOKS = "books"
     REFUSED = "refused"
@@ -78,10 +80,13 @@ class Reply:
     reason: str = ""
 
 
-def answer_followup(question: str, report: str, *, store=None, model: str = MODEL,
+def answer_followup(question: str, report: str, *, store=None, profile=None, model: str = MODEL,
                     book_model: str = "phi4-mini:3.8b", host: str = ollama.OLLAMA_URL,
                     transport=None) -> Reply:
-    """Answer from the report, else from the books, else refuse."""
+    """From the profile's own positions, else the report, else the books, else refuse."""
+    direct = from_profile(question, profile)
+    if direct is not None:
+        return Reply(direct, Source.PROFILE)
     if is_concept_question(question):
         return _from_books(question, store, book_model, host, transport)
     try:

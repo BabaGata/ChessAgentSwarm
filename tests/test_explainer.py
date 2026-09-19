@@ -140,7 +140,7 @@ class TestEvidence:
 
         # The id now arrives as a link the player can open at the right move,
         # rather than a bare string they have to go hunting with (D18).
-        assert "lichess.org/abc123#40" in report
+        assert "lichess.org/abc123#39" in report
 
     def test_ply_is_shown_as_a_move_number(self):
         # Ply is 1-based, so ply 40 is Black's move 20. This test previously

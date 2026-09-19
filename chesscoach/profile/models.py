@@ -467,7 +467,11 @@ class Evidence:
         if self.played_on:
             parts.append(self.played_on)
         where = ", ".join(parts)
-        link = f"lichess.org/{self.game_id}#{self.ply}"
+        # Lichess's `#N` opens the position *after* half-move N, with the other side
+        # to move. Every citation is about the move the player was choosing, so it
+        # opens one half-move earlier, on the position they were looking at. Found
+        # by the author, whose exercise board and link showed different sides to move.
+        link = f"lichess.org/{self.game_id}#{max(self.ply - 1, 0)}"
         return f"{where} — {link}" if where else link
 
 

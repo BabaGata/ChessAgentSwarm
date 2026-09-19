@@ -195,7 +195,7 @@ class TestExplainingOnRequest:
         said = opened(a_finding(), knowledge=None).reply("explain 1").say
 
         assert "do not have a checked explanation" in said
-        assert "lichess.org/g1#14" in said
+        assert "lichess.org/g1#13" in said
 
     def test_a_number_anywhere_in_the_reply_is_understood(self):
         """"explain 1" is the ordinary way to ask; matching a leading digit
@@ -345,7 +345,7 @@ class TestTheAgentNeverSuppliesChess:
         assert "You miss pin tactics" in whole      # phrasing
         assert "A pin is a pin." in whole           # knowledge base
         assert "do something about pin" in whole    # planner
-        assert "lichess.org/g1#14" in whole         # the player's own game
+        assert "lichess.org/g1#13" in whole         # the player's own game
 
     def test_it_works_with_no_model_and_no_knowledge_base(self):
         """C1: the conversation must not require anything to be running."""

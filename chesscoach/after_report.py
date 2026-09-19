@@ -37,8 +37,8 @@ def summary_lines(profile: PlayerProfile, *, model: str | None = None,
     return lines + [""]
 
 
-def ask_questions(report: str, read, write, *, store=None, model: str | None = None,
-                  transport=None, limit: int = 10) -> int:
+def ask_questions(report: str, read, write, *, store=None, profile=None,
+                  model: str | None = None, transport=None, limit: int = 10) -> int:
     """Answer the player's questions until they stop. Returns how many were asked."""
     write("\nYou can ask about your report, or about a chess idea in it. "
           "An empty line ends the questions.")
@@ -48,7 +48,7 @@ def ask_questions(report: str, read, write, *, store=None, model: str | None = N
         if not question:
             break
         asked += 1
-        kwargs = {"store": store, "transport": transport}
+        kwargs = {"store": store, "profile": profile, "transport": transport}
         if model:
             kwargs["model"] = model
         reply = answer_followup(question, report, **kwargs)

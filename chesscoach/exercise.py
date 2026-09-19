@@ -95,9 +95,14 @@ def _exercise(finding: Finding) -> Exercise | None:
         move=move_number(evidence.ply),
         played=evidence.played_san,
         better_move=evidence.better_san or evidence.better_move,
-        where=evidence.citation(),
+        where=link_before(evidence),
         better_uci=evidence.better_move,
     )
+
+
+def link_before(evidence) -> str:
+    """The citation, which links to the position before the move (see `Evidence.citation`)."""
+    return evidence.citation()
 
 
 def _is_the_move(given: str, exercise: Exercise) -> bool:

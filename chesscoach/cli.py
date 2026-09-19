@@ -1088,7 +1088,7 @@ def coach(args: argparse.Namespace) -> int:
     print("\n" + "=" * 68)
 
     if not args.no_questions_after:
-        _questions_after(report, args)
+        _questions_after(report, profile, args)
     if not args.no_practice:
         profile = practise(profile, input, print)
         save_profile(profile, out)
@@ -1096,7 +1096,7 @@ def coach(args: argparse.Namespace) -> int:
     return 0
 
 
-def _questions_after(report: str, args: argparse.Namespace) -> None:
+def _questions_after(report: str, profile, args: argparse.Namespace) -> None:
     """Follow-up questions, with the book graph if it is reachable.
 
     A stopped graph is not a reason to skip the questions: the report can still
@@ -1112,12 +1112,13 @@ def _questions_after(report: str, args: argparse.Namespace) -> None:
               f"can be answered: {error})")
         from chesscoach.after_report import ask_questions
 
-        ask_questions(report, input, print, model=args.summary_model)
+        ask_questions(report, input, print, profile=profile, model=args.summary_model)
         return
     from chesscoach.after_report import ask_questions
 
     with store:
-        ask_questions(report, input, print, store=store, model=args.summary_model)
+        ask_questions(report, input, print, store=store, profile=profile,
+                      model=args.summary_model)
 
 
 def _strength(observations, username: str, games=()):

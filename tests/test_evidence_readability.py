@@ -104,10 +104,12 @@ class TestCitation:
         assert "2026.07.14" in line
 
     def test_it_gives_a_link_that_opens_at_the_right_move(self):
-        # Lichess anchors on the half-move, which is what `ply` already is.
+        # Lichess's `#N` shows the position after half-move N. The citation is
+        # about the move being chosen, so it opens one half-move earlier, with the
+        # player to move -- the author found the other side to move otherwise.
         line = Evidence.from_observation(an_observation()).citation()
 
-        assert "lichess.org/abc123#4" in line
+        assert "lichess.org/abc123#3" in line
 
     def test_it_degrades_to_the_id_when_nothing_else_is_known(self):
         line = Evidence(game_id="abc123", ply=4, fen=START).citation()

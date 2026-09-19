@@ -30,7 +30,7 @@ class TestChoosingPositions:
         assert len(exercises) == 1
         assert exercises[0].better_move == "Bb5"
         assert exercises[0].played == "h3"
-        assert "lichess.org/abc123#40" in exercises[0].where
+        assert "lichess.org/abc123#39" in exercises[0].where
 
     def test_process_claims_qualify_too(self):
         assert exercises_for(a_profile(a_process_finding()))
@@ -100,6 +100,18 @@ class TestNotation:
 
     def test_nonsense_is_not_right_and_does_not_raise(self):
         assert not check(self.exercise(), "Qxz9").correct
+
+
+class TestTheLinkShowsTheSamePosition:
+    """Found by the author: the link opened with the other side to move. Lichess's
+    `#N` shows the position *after* ply N, but the exercise asks for the move the
+    player was about to make, so the link must stop one ply earlier."""
+
+    def test_the_link_is_one_ply_before_the_move(self):
+        exercise = exercises_for(a_profile(a_finding()))[0]
+
+        assert "lichess.org/abc123#39" in exercise.where
+        assert "#40" not in exercise.where
 
 
 class TestNothingChanges:

@@ -389,7 +389,8 @@ def _evidence(finding: Finding, limit: int = 2) -> str:
         played = f", you played {item.move_played}" if item.move_played else ""
         lines.append(
             f"   move {move_number(item.ply)}{played} "
-            f"— lichess.org/{item.game_id}#{item.ply}"
+            # One half-move back, on the position being chosen in (`Evidence.citation`).
+            f"— lichess.org/{item.game_id}#{max(item.ply - 1, 0)}"
         )
     return "\n".join(lines) if lines else "   (no positions were sampled for this one)"
 
