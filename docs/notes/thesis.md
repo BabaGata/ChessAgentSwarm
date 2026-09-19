@@ -1020,6 +1020,15 @@ all clear about input, processing and output. Done as:
 
 Body grew from 48 to 56 pages. The author's pre-regeneration file is kept beside the thesis.
 
+### Plain words, and under 50 pages (2026-09-19)
+
+At the author's request the statistics glossary was dropped and statistical names (tests, p-values,
+intervals, correlation, kappa, cross-validation) were replaced in the text by what they mean. To get
+under 50 pages: methodology cut from ~7 pages to ~3 (lessons L-018 and L-036 now point to where the
+results describe them), chapter 5 condensed, the families-of-measures table and the determinism
+detail in ch. 7 shortened, storage/cost/omissions in ch. 4 and the source swarm and command list in
+ch. 6 turned into paragraphs. Body: 49 pages.
+
 ## Mechanics
 
 - `report.tex` — preamble and `\input` only. Chapters in `Poglavlja/`.
