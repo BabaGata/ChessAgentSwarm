@@ -998,6 +998,28 @@ scored". They are now: 90 of 100 accepted across the 22 detectors with valid mar
 caveat that five marks can condemn a detector and cannot confirm one, the one condemned opening claim,
 and the four detectors whose marks predate their last change. Numbers are macros in `brojke.tex`.
 
+### The author's Word edits, and a chapter on what the system does (2026-09-19)
+
+The author rewrote the first ~20 pages in Word. Her edits were diffed paragraph by paragraph against
+a scratch build and ported into the LaTeX, so the docx regenerates with correct numbering. She
+deleted the research questions (they repeated the goals in 1.2), so 8.6 now answers the goals and
+the IP labels are gone.
+
+She then asked for the text to be clear to readers who know neither chess nor statistics, and above
+all clear about input, processing and output. Done as:
+
+- **New chapter 2, "Kako sustav radi"**: chess basics, what the system takes, the seven processing
+  steps in plain words, the author's own report walked through, what is built but not used, and a
+  table of every check with what it does not show.
+- **A factual correction the thesis had carried**: the text said the last three layers use a
+  language model. In the `coach` path none does -- planner and explainer are templates, the prober
+  is off, `plan_selector` is called by nothing. Abstract, ch. 1, 2, 4 (text and layer diagram),
+  6, 7 and 9 now say so.
+- Plain explanations of intervals, p-values, regression to the mean (with a worked example),
+  slope attenuation; the glossary gained meanings for every chess term and a statistics section.
+
+Body grew from 48 to 56 pages. The author's pre-regeneration file is kept beside the thesis.
+
 ## Mechanics
 
 - `report.tex` — preamble and `\input` only. Chapters in `Poglavlja/`.
