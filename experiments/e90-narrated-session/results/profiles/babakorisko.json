@@ -1,0 +1,528 @@
+{
+  "band_notes": [
+    {
+      "claim_key": "instant_move_error.instant_moves.own",
+      "cost_per_game": 19.2,
+      "learnable_r": -0.4,
+      "wording": "moves played in under two seconds"
+    },
+    {
+      "claim_key": "missed_motif.hangingPiece.own",
+      "cost_per_game": 3.12,
+      "learnable_r": -0.31,
+      "wording": "pieces left hanging by the opponent and not taken"
+    }
+  ],
+  "context": null,
+  "corpus": {
+    "corpus_id": "2be6d4e98f10d4f29a5a9ec24b7ad353",
+    "date_range": [
+      "2026.07.21",
+      "2026.08.19"
+    ],
+    "excluded": [],
+    "game_ids": [
+      "117ggpqy",
+      "2dM5Lvlh",
+      "EkzWn5s6",
+      "GC9ZDw3P",
+      "HtZxh1fM",
+      "KdHyE8dZ",
+      "L0wrgMwU",
+      "LRY2xriG",
+      "LYMXPsmX",
+      "QE9eeigk",
+      "RTlQkWUc",
+      "VmQTB4Fq",
+      "WiWP5tXC",
+      "ZLCGFZp0",
+      "ZgfqqG82",
+      "aCao9R5S",
+      "bxK2KcG1",
+      "clik8DdZ",
+      "g9Z0H9tw",
+      "h2Wx7j1Z",
+      "iD1k35jg",
+      "l1NDADFw",
+      "qBytUD91",
+      "qCj6gzly",
+      "qd62Aox1",
+      "rKRefdZf",
+      "uWhlJeAL",
+      "xpeJb4vq",
+      "y2eh9bzv",
+      "zlDBity5"
+    ],
+    "n_games": 30,
+    "time_controls": [
+      "600+0",
+      "600+4",
+      "600+5"
+    ]
+  },
+  "coverage": [
+    "allowed_motif.capturingDefender.own",
+    "allowed_motif.discoveredAttack.own",
+    "allowed_motif.fork.own",
+    "allowed_motif.hangingPawn.own",
+    "allowed_motif.hangingPiece.own",
+    "allowed_motif.pin.own",
+    "allowed_motif.skewer.own",
+    "allows_pressure.king.own",
+    "allows_square.any.own",
+    "allows_square.outpost.own",
+    "allows_square.rook_seventh.own",
+    "concedes_weakness.any.own",
+    "concedes_weakness.backward.own",
+    "concedes_weakness.doubled.own",
+    "concedes_weakness.isolated.own",
+    "endgame_error.any.own",
+    "endgame_error.minor.own",
+    "endgame_error.queen.own",
+    "endgame_error.rook.own",
+    "endgame_error.rook_minor.own",
+    "executed_motif.discoveredAttack.own",
+    "executed_motif.fork.own",
+    "executed_motif.hangingPawn.own",
+    "executed_motif.hangingPiece.own",
+    "executed_motif.pin.own",
+    "executed_motif.skewer.own",
+    "executed_motif.trappedPiece.own",
+    "instant_move_error.instant_moves.own",
+    "late_castling.book.own",
+    "late_castling.own.own",
+    "long_think_error.long_think.own",
+    "miscounted_exchange.own_move.own",
+    "missed_motif.discoveredAttack.own",
+    "missed_motif.fork.own",
+    "missed_motif.hangingPawn.own",
+    "missed_motif.hangingPiece.own",
+    "missed_motif.pin.own",
+    "missed_motif.skewer.own",
+    "missed_motif.trappedPiece.own",
+    "moved_into_attack.own_move.own",
+    "opening_disadvantage.any.own",
+    "opening_pawn_error.any.own",
+    "out_of_book.Caro-Kann Defense.own",
+    "out_of_book.English Opening.own",
+    "out_of_book.Gr\u00fcnfeld Defense.own",
+    "out_of_book.King's Pawn Game.own",
+    "out_of_book.Modern Defense.own",
+    "out_of_book.Scandinavian Defense.own",
+    "out_of_book.Sicilian Defense.own",
+    "out_of_book.Vienna Game.own",
+    "out_of_book.any.own",
+    "repeat_move.any.own",
+    "sacrificed_for_attack.own_move.own",
+    "slow_development.book.own",
+    "slow_development.own.own",
+    "time_budget_error.after_overspending.own",
+    "time_pressure_error.clock.own"
+  ],
+  "findings": [
+    {
+      "claim": {
+        "context": {},
+        "direction": "own",
+        "kind": "allowed_motif",
+        "subject": "hangingPawn"
+      },
+      "confidence": {
+        "reasons": [
+          "distinct_games=11",
+          "games_with_data=30",
+          "interval does not exclude the baseline rate",
+          "clears the comparison by less than 1.25x"
+        ],
+        "replicated": true,
+        "tier": "watch"
+      },
+      "evidence": [
+        {
+          "better_move": null,
+          "fen": "2r5/4kp1p/p5p1/4Nn2/2Pp2P1/b7/P4P1P/3R2K1 b - - 0 31",
+          "game_id": "GC9ZDw3P",
+          "loss_wp": 5.4,
+          "move_played": "e7d6",
+          "note": "you allowed hangingPawn here",
+          "opponent": "UsuTeN",
+          "opponent_reply": "e5f7",
+          "played_on": "2026.08.16",
+          "player_is_white": false,
+          "ply": 62
+        },
+        {
+          "better_move": null,
+          "fen": "8/7p/7R/2r2k2/2P5/8/Pb3P1P/6K1 b - - 2 38",
+          "game_id": "GC9ZDw3P",
+          "loss_wp": 6.0,
+          "move_played": "c5c4",
+          "note": "you allowed hangingPawn here",
+          "opponent": "UsuTeN",
+          "opponent_reply": "h6h7",
+          "played_on": "2026.08.16",
+          "player_is_white": false,
+          "ply": 76
+        },
+        {
+          "better_move": null,
+          "fen": "2kr3r/ppp2R2/3p1np1/3P1bp1/8/2P2N2/P1PQ1PPP/5K1R b - - 0 16",
+          "game_id": "RTlQkWUc",
+          "loss_wp": 7.0,
+          "move_played": "h8e8",
+          "note": "you allowed hangingPawn here",
+          "opponent": "UsuTeN",
+          "opponent_reply": "f3g5",
+          "played_on": "2026.08.03",
+          "player_is_white": false,
+          "ply": 32
+        },
+        {
+          "better_move": null,
+          "fen": "r1bqk1nr/pp1p1ppp/2n1p3/8/2B1P3/2P2N2/P4PPP/R1BQ1RK1 b kq - 2 8",
+          "game_id": "iD1k35jg",
+          "loss_wp": 5.8,
+          "move_played": "d7d5",
+          "note": "you allowed hangingPawn here",
+          "opponent": "UsuTeN",
+          "opponent_reply": "e4d5",
+          "played_on": "2026.08.15",
+          "player_is_white": false,
+          "ply": 16
+        }
+      ],
+      "gap_type": {
+        "determined_by": "inferred",
+        "hypothesis": "unknown",
+        "probe_ids": []
+      },
+      "history": [],
+      "id": "S1.allowed_motif.hangingPawn.own",
+      "measurement": {
+        "baseline_rate": 0.04,
+        "ci95": [
+          0.082610643407449,
+          0.18936780715468765
+        ],
+        "cost_per_game": 7.066,
+        "cost_wp": 211.98,
+        "distinct_games": 11,
+        "excess_cost_per_game": 0.0,
+        "games_with_data": 30,
+        "instances": 19,
+        "instances_at": [
+          "2dM5Lvlh:59",
+          "EkzWn5s6:14",
+          "GC9ZDw3P:18",
+          "GC9ZDw3P:62",
+          "GC9ZDw3P:76",
+          "LRY2xriG:33",
+          "LRY2xriG:35",
+          "LYMXPsmX:30",
+          "QE9eeigk:33",
+          "RTlQkWUc:32",
+          "clik8DdZ:22",
+          "clik8DdZ:40",
+          "clik8DdZ:56",
+          "h2Wx7j1Z:25",
+          "iD1k35jg:16",
+          "iD1k35jg:22",
+          "qCj6gzly:20",
+          "qCj6gzly:36",
+          "qCj6gzly:38"
+        ],
+        "lift_vs_baseline": 3.1675,
+        "lift_vs_peer": 1.2043726235741445,
+        "peer_cost_per_game": 7.9444904458598735,
+        "peer_rate": 0.1052,
+        "rate": 0.1267
+      },
+      "provenance": {
+        "analysed_at": "2026-09-19",
+        "corpus_id": "2be6d4e98f10d4f29a5a9ec24b7ad353",
+        "depth": 15,
+        "engine": "Stockfish 18"
+      },
+      "section": "S1",
+      "status": "candidate"
+    },
+    {
+      "claim": {
+        "context": {},
+        "direction": "own",
+        "kind": "allowed_motif",
+        "subject": "hangingPiece"
+      },
+      "confidence": {
+        "reasons": [
+          "distinct_games=7",
+          "games_with_data=30",
+          "interval does not exclude the baseline rate"
+        ],
+        "replicated": true,
+        "tier": "watch"
+      },
+      "evidence": [
+        {
+          "better_move": null,
+          "fen": "rnb1kb1r/pp4pp/2p1p3/3p1p2/5P1q/1P1PP1nP/PBPNK1P1/R2Q1BNR w kq - 3 9",
+          "game_id": "117ggpqy",
+          "loss_wp": 20.3,
+          "move_played": "e2f2",
+          "note": "you allowed hangingPiece here",
+          "opponent": "UsuTeN",
+          "opponent_reply": "g3h1",
+          "played_on": "2026.08.08",
+          "player_is_white": true,
+          "ply": 17
+        },
+        {
+          "better_move": null,
+          "fen": "2kr3r/ppp2R2/3p1np1/3P1bp1/8/2P2N2/P1PQ1PPP/5K1R b - - 0 16",
+          "game_id": "RTlQkWUc",
+          "loss_wp": 7.0,
+          "move_played": "h8e8",
+          "note": "you allowed hangingPiece here",
+          "opponent": "UsuTeN",
+          "opponent_reply": "f7f6",
+          "played_on": "2026.08.03",
+          "player_is_white": false,
+          "ply": 32
+        },
+        {
+          "better_move": null,
+          "fen": "N1bk2nr/pp1ppp1p/6p1/8/3bq3/4B3/P4PPP/1R1QK2R w K - 0 15",
+          "game_id": "h2Wx7j1Z",
+          "loss_wp": 13.9,
+          "move_played": "d1d4",
+          "note": "you allowed hangingPiece here",
+          "opponent": "UsuTeN",
+          "opponent_reply": "e4b1",
+          "played_on": "2026.08.15",
+          "player_is_white": true,
+          "ply": 29
+        },
+        {
+          "better_move": null,
+          "fen": "r2q1rk1/p2b1ppp/2p2B2/8/2P5/5N2/P4PPP/R2Q1RK1 b - - 0 14",
+          "game_id": "iD1k35jg",
+          "loss_wp": 23.0,
+          "move_played": "d8f6",
+          "note": "you allowed hangingPiece here",
+          "opponent": "UsuTeN",
+          "opponent_reply": "d1d7",
+          "played_on": "2026.08.15",
+          "player_is_white": false,
+          "ply": 28
+        }
+      ],
+      "gap_type": {
+        "determined_by": "inferred",
+        "hypothesis": "unknown",
+        "probe_ids": []
+      },
+      "history": [],
+      "id": "S1.allowed_motif.hangingPiece.own",
+      "measurement": {
+        "baseline_rate": 0.05,
+        "ci95": [
+          0.03661146073480972,
+          0.11836352652481316
+        ],
+        "cost_per_game": 6.692333333333334,
+        "cost_wp": 200.77,
+        "distinct_games": 7,
+        "excess_cost_per_game": 1.2138872785829316,
+        "games_with_data": 30,
+        "instances": 10,
+        "instances_at": [
+          "117ggpqy:17",
+          "KdHyE8dZ:27",
+          "RTlQkWUc:28",
+          "RTlQkWUc:32",
+          "h2Wx7j1Z:15",
+          "h2Wx7j1Z:29",
+          "iD1k35jg:28",
+          "iD1k35jg:74",
+          "rKRefdZf:29",
+          "xpeJb4vq:47"
+        ],
+        "lift_vs_baseline": 1.3339999999999999,
+        "lift_vs_peer": 1.6428571428571428,
+        "peer_cost_per_game": 5.478446054750402,
+        "peer_rate": 0.0406,
+        "rate": 0.0667
+      },
+      "provenance": {
+        "analysed_at": "2026-09-19",
+        "corpus_id": "2be6d4e98f10d4f29a5a9ec24b7ad353",
+        "depth": 15,
+        "engine": "Stockfish 18"
+      },
+      "section": "S1",
+      "status": "candidate"
+    },
+    {
+      "claim": {
+        "context": {},
+        "direction": "own",
+        "kind": "missed_motif",
+        "subject": "discoveredAttack"
+      },
+      "confidence": {
+        "reasons": [
+          "distinct_games=5",
+          "games_with_data=30",
+          "not replicated across a split of the player's games"
+        ],
+        "replicated": false,
+        "tier": "watch"
+      },
+      "evidence": [
+        {
+          "better_move": "a5c4",
+          "fen": "3r2k1/ppp2pbp/q7/n2P1p2/Q1P3r1/4PP2/P2N2PP/1R3RK1 b - - 0 24",
+          "game_id": "LYMXPsmX",
+          "loss_wp": 6.2,
+          "move_played": "g4h4",
+          "note": "discoveredAttack was available here",
+          "opponent": "JJK99",
+          "opponent_reply": null,
+          "played_on": "2026.08.19",
+          "player_is_white": false,
+          "ply": 48
+        },
+        {
+          "better_move": "e1d2",
+          "fen": "N1bk2nr/pp1ppp1p/6p1/8/3Q4/4B3/P4PPP/1q2K2R w K - 0 16",
+          "game_id": "h2Wx7j1Z",
+          "loss_wp": 18.9,
+          "move_played": "d4d1",
+          "note": "discoveredAttack was available here",
+          "opponent": "UsuTeN",
+          "opponent_reply": null,
+          "played_on": "2026.08.15",
+          "player_is_white": true,
+          "ply": 31
+        },
+        {
+          "better_move": "g2g3",
+          "fen": "1q4k1/pp2pNbp/4Qnp1/6B1/8/2P5/PP3PPP/3r1BK1 w - - 6 23",
+          "game_id": "xpeJb4vq",
+          "loss_wp": 36.2,
+          "move_played": "e6e7",
+          "note": "discoveredAttack was available here",
+          "opponent": "ganesha16",
+          "opponent_reply": null,
+          "played_on": "2026.07.21",
+          "player_is_white": true,
+          "ply": 45
+        },
+        {
+          "better_move": "e2e4",
+          "fen": "rq4k1/1p4pp/p2N1b2/3nn3/6b1/B4N2/PPP1Q1PP/R3R2K w - - 2 21",
+          "game_id": "y2eh9bzv",
+          "loss_wp": 9.2,
+          "move_played": "h2h3",
+          "note": "discoveredAttack was available here",
+          "opponent": "Jaydenthetwin",
+          "opponent_reply": null,
+          "played_on": "2026.08.17",
+          "player_is_white": true,
+          "ply": 41
+        }
+      ],
+      "gap_type": {
+        "determined_by": "inferred",
+        "hypothesis": "unknown",
+        "probe_ids": []
+      },
+      "history": [],
+      "id": "S1.missed_motif.discoveredAttack.own",
+      "measurement": {
+        "baseline_rate": 0.2077,
+        "ci95": [
+          0.30573785458380187,
+          0.863158240538479
+        ],
+        "cost_per_game": 2.6396666666666664,
+        "cost_wp": 79.19,
+        "distinct_games": 5,
+        "excess_cost_per_game": 0.13184023354564722,
+        "games_with_data": 30,
+        "instances": 5,
+        "instances_at": [
+          "LYMXPsmX:48",
+          "VmQTB4Fq:14",
+          "h2Wx7j1Z:31",
+          "xpeJb4vq:45",
+          "y2eh9bzv:41"
+        ],
+        "lift_vs_baseline": 3.0091478093403947,
+        "lift_vs_peer": null,
+        "peer_cost_per_game": 2.507826433121019,
+        "peer_rate": null,
+        "rate": 0.625
+      },
+      "provenance": {
+        "analysed_at": "2026-09-19",
+        "corpus_id": "2be6d4e98f10d4f29a5a9ec24b7ad353",
+        "depth": 15,
+        "engine": "Stockfish 18"
+      },
+      "section": "S1",
+      "status": "candidate"
+    }
+  ],
+  "history": [],
+  "plan": {
+    "created": "2026-09-19",
+    "outcomes": [],
+    "steps": [
+      {
+        "action": "After choosing a move and before playing it, check every pawn you own that no longer has a defender. Dropped pawns rarely lose a game on their own and they are what your mistakes are most often costing you.",
+        "check_after_games": 20,
+        "finding_id": "S1.allowed_motif.hangingPawn.own",
+        "progress_sign": "pawns dropped when you go wrong below 6.7% over the next 20 games (measured 12.7%, ~11.6% if nothing changes; the share of players who reach this without changing anything has not been recalibrated since the error threshold moved, so it is not quoted)",
+        "target_rate": 0.0672,
+        "time_estimate_days": null,
+        "why": "seen in 11 of 30 games, at 12.7% against 10.5% for peers at your level"
+      },
+      {
+        "action": "Before committing a move, ask what your opponent's best reply threatens; a hanging piece is what has been punishing you.",
+        "check_after_games": 20,
+        "finding_id": "S1.allowed_motif.hangingPiece.own",
+        "progress_sign": "hanging piece conceded when you go wrong below 2.6% over the next 20 games (measured 6.7%, ~4.5% if nothing changes; the share of players who reach this without changing anything has not been recalibrated since the error threshold moved, so it is not quoted)",
+        "target_rate": 0.026,
+        "time_estimate_days": null,
+        "why": "seen in 7 of 30 games, at 6.7% against 4.1% for peers at your level"
+      },
+      {
+        "action": "Drill `discoveredAttack` puzzles, and solve to be right rather than fast \u2014 review every one you get wrong.",
+        "check_after_games": 150,
+        "finding_id": "S1.missed_motif.discoveredAttack.own",
+        "progress_sign": "discovered attack missed when available below 27.2% over the next 150 games (measured 62.5%, ~46.8% if nothing changes; the share of players who reach this without changing anything has not been recalibrated since the error threshold moved, so it is not quoted)",
+        "target_rate": 0.2717,
+        "time_estimate_days": null,
+        "why": "seen in 5 of 30 games, at 62.5% against 20.8% elsewhere"
+      }
+    ]
+  },
+  "player": {
+    "band": "1400-1800",
+    "ratings": {},
+    "source": "lichess",
+    "username": "babakorisko"
+  },
+  "probes": [],
+  "schema_version": 16,
+  "strength": {
+    "extrapolated": false,
+    "method": "blunder-rate-ols/e13",
+    "moves": 573,
+    "rating": 1637,
+    "speed": "rapid",
+    "typical_error": 103
+  },
+  "style": []
+}

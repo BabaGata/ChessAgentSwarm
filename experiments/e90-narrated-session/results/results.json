@@ -1,0 +1,300 @@
+[
+  {
+    "player": "AGM_EliasBelmonte035",
+    "accepted": true,
+    "reason": "",
+    "seconds": 7.31,
+    "summary": "You played with a standard rating of about 1799, which is most likely between 1696 and 1902. Your mistakes often involve dropping pawns, which cost you about 14.5 points of win probability per game. Fixing this could potentially get you back about 6.7 points per game. Additionally, you come out of the opening worse more often than most players, and you miss pin tactics more frequently. To improve, focus on checking every pawn that no longer has a defender before playing, choose one opening for each color to play more familiar positions, and drill pin puzzles to be right rather than fast. Over the next 20 games, you should drop pawns less frequently, come out of the opening worse less often, and miss fewer pins.",
+    "report_chars": 5028,
+    "answers": [
+      {
+        "question": "Why is my first weakness a problem for me?",
+        "source": "report",
+        "reason": "",
+        "text": "Your first weakness is a problem because dropped pawns rarely lose a game on their own, but they cost you about 14.5 points of win probability a game, which is significantly impacting your games. Fixing this could get you back about 6.7 points a game.",
+        "seconds": 3.66
+      },
+      {
+        "question": "What should I practise first?",
+        "source": "report",
+        "reason": "",
+        "text": "You should start by checking every pawn you own that no longer has a defender after choosing a move and before playing it. This has been seen in 13 of 21 games, at 19.7% against 10.4% for peers at your level.",
+        "seconds": 3.12
+      },
+      {
+        "question": "What is a pin?",
+        "source": "books",
+        "reason": "",
+        "text": "A pin is a tactic involving pins, where a piece is unable to move without revealing an attack on a higher value piece.\n\n— Lichess (lichess-org/lila), puzzle theme definitions and Edward Lasker describe it this way.\n  definition://pin\n  definition://skewer\n  book://edward-lasker-chess-and-checkers#42",
+        "seconds": 18.23
+      }
+    ]
+  },
+  {
+    "player": "babakorisko",
+    "accepted": false,
+    "reason": "gives numbers the report does not: 21, 19",
+    "seconds": 7.95,
+    "summary": null,
+    "report_chars": 5769,
+    "answers": [
+      {
+        "question": "Why is my first weakness a problem for me?",
+        "source": "report",
+        "reason": "",
+        "text": "Your first weakness is a problem because dropped pawns rarely lose a game on their own, but they are what your mistakes are most often costing you.",
+        "seconds": 3.27
+      },
+      {
+        "question": "What should I practise first?",
+        "source": "report",
+        "reason": "",
+        "text": "1. After choosing a move and before playing it, check every pawn you own that no longer has a defender.",
+        "seconds": 2.63
+      },
+      {
+        "question": "What is a pin?",
+        "source": "books",
+        "reason": "",
+        "text": "A pin is a tactic involving pins, where a piece is unable to move without revealing an attack on a higher value piece.\n\n— Lichess (lichess-org/lila), puzzle theme definitions and Edward Lasker describe it this way.\n  definition://pin\n  definition://skewer\n  book://edward-lasker-chess-and-checkers#42",
+        "seconds": 17.02
+      }
+    ]
+  },
+  {
+    "player": "Barsa1984",
+    "accepted": true,
+    "reason": "",
+    "seconds": 8.81,
+    "summary": "You played at about 1545, and most likely between 1442 and 1648. Your mistakes, particularly in discovered attacks and pins, cost you about 4.6 points of win probability per game. Fixing these issues could potentially get you back 2.1 points per game from discovered attacks and 2.5 points per game from pins. Your long thinks tend to end in mistakes, costing you about 29.1 points of win probability per game. To improve, focus on drilling discovered attack and pin puzzles, solving them to be right rather than fast, and when a think runs long, choose between your two best candidate moves. Over the next 87 games, you should aim to miss discovered attacks below 31%, and below 31% for pins over the next 66 games. Over the next 20 games, you should aim to miss mistakes after a long think below 23%.",
+    "report_chars": 5108,
+    "answers": [
+      {
+        "question": "Why is my first weakness a problem for me?",
+        "source": "report",
+        "reason": "",
+        "text": "Your first weakness, missing discovered attacks and pins, is a problem because it costs you about 4.6 points of win probability per game, which is significant at your level. Fixing this could get you back about 2.1 points per game.",
+        "seconds": 3.52
+      },
+      {
+        "question": "What should I practise first?",
+        "source": "report",
+        "reason": "",
+        "text": "You should start by drilling discovered attack puzzles and solve them to be right rather than fast — review every one you get wrong.",
+        "seconds": 2.66
+      },
+      {
+        "question": "What is a pin?",
+        "source": "books",
+        "reason": "",
+        "text": "A pin is a tactic involving pins, where a piece is unable to move without revealing an attack on a higher value piece.\n\n— Lichess (lichess-org/lila), puzzle theme definitions and Edward Lasker describe it this way.\n  definition://pin\n  definition://skewer\n  book://edward-lasker-chess-and-checkers#42",
+        "seconds": 16.51
+      }
+    ]
+  },
+  {
+    "player": "BASHENDI",
+    "accepted": true,
+    "reason": "",
+    "seconds": 7.52,
+    "summary": "You played with a rating of about 1635, and most likely between 1532 and 1738. The mistakes you made, specifically blunders from your own rapid moves, were the main factor in your games. The most common mistake was missing a threat from a hanging piece, which occurred in 4 out of 21 games, a rate of 5.0%, which is not uncommon for your level but still costly. To improve, start by asking yourself what your opponent's best reply threatens before making a move, and focus on solving discovered attack puzzles to avoid missing these threats.",
+    "report_chars": 4659,
+    "answers": [
+      {
+        "question": "Why is my first weakness a problem for me?",
+        "source": "refused",
+        "reason": "novelty 50% over 45%: weakness, common, issue, per, means, it's, significant, problem",
+        "text": "I can answer from your report and from the chess books I have, and neither covers that.",
+        "seconds": 3.28
+      },
+      {
+        "question": "What should I practise first?",
+        "source": "report",
+        "reason": "",
+        "text": "Before committing a move, ask what your opponent's best reply threatens; a hanging piece is what has been punishing you. This should be your first priority — the others can wait their turn.",
+        "seconds": 2.85
+      },
+      {
+        "question": "What is a pin?",
+        "source": "books",
+        "reason": "",
+        "text": "A pin is a tactic involving pins, where a piece is unable to move without revealing an attack on a higher value piece.\n\n— Lichess (lichess-org/lila), puzzle theme definitions and Edward Lasker describe it this way.\n  definition://pin\n  definition://skewer\n  book://edward-lasker-chess-and-checkers#42",
+        "seconds": 16.87
+      }
+    ]
+  },
+  {
+    "player": "bidochon",
+    "accepted": true,
+    "reason": "",
+    "seconds": 8.25,
+    "summary": "You played at a rating of about 1764, which is within the 1661 to 1867 range. The main areas you need to focus on are avoiding blunders, especially those involving a hanging piece, and checking for dropped pawns, as these were the most common mistakes in your games. Additionally, you should be more mindful of the squares your pieces occupy, as letting a piece be taken on a square without a defender is a significant error. To show improvement, you should aim to reduce the percentage of games where you make these mistakes to below 3% for hanging pieces, below 7% for dropped pawns, and below 1% for moves that leave your piece takeable over the next 20 games.",
+    "report_chars": 6083,
+    "answers": [
+      {
+        "question": "Why is my first weakness a problem for me?",
+        "source": "report",
+        "reason": "",
+        "text": "Your first weakness, dropping pieces, is a problem because it costs you about 8.9 points of win probability per game, which is more significant than dropping pawns or leaving pieces unguarded. Fixing this can help you get back about 3.5 points per game.",
+        "seconds": 3.67
+      },
+      {
+        "question": "What should I practise first?",
+        "source": "report",
+        "reason": "",
+        "text": "Before committing a move, ask what your opponent's best reply threatens; a hanging piece is what has been punishing you. This should be your first priority — the others can wait their turn.",
+        "seconds": 2.86
+      },
+      {
+        "question": "What is a pin?",
+        "source": "books",
+        "reason": "",
+        "text": "A pin is a tactic involving pins, where a piece is unable to move without revealing an attack on a higher value piece.\n\n— Lichess (lichess-org/lila), puzzle theme definitions and Edward Lasker describe it this way.\n  definition://pin\n  definition://skewer\n  book://edward-lasker-chess-and-checkers#42",
+        "seconds": 17.3
+      }
+    ]
+  },
+  {
+    "player": "BLITZ_GRIEK",
+    "accepted": true,
+    "reason": "",
+    "seconds": 8.59,
+    "summary": "You played at about 1670, with most games played at a speed of rapid. Your play often involves dropping pawns, which costs you about 12.8 points of win probability per game. You also sometimes put pieces on squares that can be taken, costing you about 5.4 points per game, and miss pin tactics, costing you about 3.3 points per game. To improve, focus on checking pawns that no longer have defenders, ensuring the square a piece is moving to is not easily attacked, and practice solving pin puzzles. Over the next 20 games, you should drop pawns less than 8% of the time, and miss pins less than 31% of the time.",
+    "report_chars": 5592,
+    "answers": [
+      {
+        "question": "Why is my first weakness a problem for me?",
+        "source": "report",
+        "reason": "",
+        "text": "Your first weakness, dropping pawns when you go wrong, is a problem because it costs you about 12.8 points of win probability per game, which is significantly higher than players at your level, who lose about 7.8 points to the same issue. Fixing this could get you back about 5.0 points per game.",
+        "seconds": 3.77
+      },
+      {
+        "question": "What should I practise first?",
+        "source": "report",
+        "reason": "",
+        "text": "1. After choosing a move and before playing it, check every pawn you own that no longer has a defender. Dropped pawns rarely lose a game on their own and they are what your mistakes are most often costing you. Start by doing this one first — the others can wait their turn.",
+        "seconds": 3.15
+      },
+      {
+        "question": "What is a pin?",
+        "source": "books",
+        "reason": "",
+        "text": "A pin is a tactic involving pins, where a piece is unable to move without revealing an attack on a higher value piece.\n\n— Lichess (lichess-org/lila), puzzle theme definitions and Edward Lasker describe it this way.\n  definition://pin\n  definition://skewer\n  book://edward-lasker-chess-and-checkers#42",
+        "seconds": 17.06
+      }
+    ]
+  },
+  {
+    "player": "CheckZILLA1",
+    "accepted": true,
+    "reason": "",
+    "seconds": 8.17,
+    "summary": "You ended up with doubled pawns more often than players at your level, which happened in 8 out of 30 games. You also left free pawns on the board, which occurred in 10 out of 30 games, costing you about 7.0 points of win probability per game. Additionally, you missed fork tactics in 4 out of 30 games, costing you about 3.0 points of win probability per game. To improve, focus on noticing and choosing the structure rather than allowing weaknesses, checking for material that is simply there, and solving fork puzzles.",
+    "report_chars": 5260
+  },
+  {
+    "player": "chessmanuz2023",
+    "accepted": true,
+    "reason": "",
+    "seconds": 4.51,
+    "summary": "You played at about 1911 strength, with a blunder rate that is outside the range this was calibrated on. Your play stands out in three areas: missing pin tactics, letting opponents establish knights you cannot chase away, and finishing development later than usual. Specifically, you miss pin tactics 64% of the time, let opponents establish knights 1% of the time, and finish development 47% of the time, which is outside the range for players at your level. To improve, focus on drilling pin puzzles, asking yourself which squares pawns give up, and ensuring your minor pieces are out and your king is castled by move ten.",
+    "report_chars": 5145
+  },
+  {
+    "player": "Chloekalypse",
+    "accepted": true,
+    "reason": "",
+    "seconds": 5.2,
+    "summary": "You played at about 1515, with most likely a rating between 1412 and 1618. Your mistakes often come from forks, which cost you about 5.6 points per game, more than players at your level. Additionally, you sometimes leave pieces vulnerable, costing you about 3.0 points per game, and you tend to make mistakes when your thinking process is long, costing you about 13.7 points per game. To improve, focus on checking for forks before making a move, ensuring the square a piece is moved to is safe, and stopping long thinks to choose between your best options. Over the next 20 games, aim to reduce the percentage of forks you concede to below 3%, the percentage of moves that leave your pieces vulnerable to capture to below 1%, and the percentage of mistakes after long thinks to below 27%.",
+    "report_chars": 5381
+  },
+  {
+    "player": "der_zocker09",
+    "accepted": true,
+    "reason": "",
+    "seconds": 3.77,
+    "summary": "You played at a rating of about 1685, which is most likely between 1582 and 1788. The mistakes you made, particularly in not seeing undefended pawns and missed discovered attacks, cost you the most. To improve, start by checking the whole board for material before each move, focusing on uncaptured pawns first. Additionally, always consider your opponent's best response, especially discovered attacks, and practice solving fork puzzles to improve your accuracy.",
+    "report_chars": 5814
+  },
+  {
+    "player": "Dhananjay2106",
+    "accepted": true,
+    "reason": "",
+    "seconds": 4.62,
+    "summary": "You played consistently at a rating of about 1523, with most of your games played at a rapid speed. Your play often suffered from pin tactics, which cost you about 3.5 points per game. Additionally, you missed pin tactics that were available in 58% of the time, costing you about 2.5 points per game. Your long thinks tended to end in mistakes, costing you about 8.3 points per game. To improve, focus on asking what your opponent's best reply threatens before committing a move, especially pins, and practice solving pin puzzles. When a think runs long, choose between your two best candidate moves rather than searching for a third.",
+    "report_chars": 5002
+  },
+  {
+    "player": "Drexy2525",
+    "accepted": true,
+    "reason": "",
+    "seconds": 4.31,
+    "summary": "You played at a standard of about 1799, with most of your games played at a rating band of 1400-1800. The report highlights that you miss pin tactics, often leading to a loss of 7.0 points of win probability per game. Additionally, you frequently concede forks and discovered attacks, which cost you about 5.4 points of win probability per game. To improve, focus on drilling pin puzzles and always consider your opponent's best reply, especially for forks and discovered attacks.",
+    "report_chars": 5217
+  },
+  {
+    "player": "ege_tagil",
+    "accepted": true,
+    "reason": "",
+    "seconds": 7.19,
+    "summary": "You played with a rating of about 1717, which is most likely between 1614 and 1820. The speed at which most of these games were played was rapid, with a standard of about 1717. \n\nWhat stands out is your tendency to leave free pawns on the board, which cost you about 9.8 points of win probability per game. This happens 71% of the time, compared to 25% for players at your level. For example, in your game against Murathan0123, you played Bb4+ instead of dxe4. \n\nAnother area where you struggle is putting the piece you just moved on a square where it can be won, costing you about 4.1 points of win probability per game. This happens 3% of the time, compared to 1% for players at your level. For instance, in your game against ulrichwerner, you played d4 instead of Kg8.\n\nYour long thinks also tend to end in a mistake, costing you about 7.7 points of win probability per game. This happens 55% of the time, compared to 36% for players at your level. For example, in your game against Prime_Olise17Bayern, you played b4 instead of Qa3.\n\nTo improve, focus on checking the whole board for material that is simply there, such as undefended pawns. Before letting a piece go, ask yourself what attacks it and what defends",
+    "report_chars": 5437
+  },
+  {
+    "player": "engin_demir007",
+    "accepted": false,
+    "reason": "gives numbers the report does not: 19",
+    "seconds": 5.14,
+    "summary": null,
+    "report_chars": 5153
+  },
+  {
+    "player": "ergili",
+    "accepted": true,
+    "reason": "",
+    "seconds": 4.97,
+    "summary": "You played at about 1780, and most likely between 1677 and 1883. Your mistakes often involve dropping pawns, which cost you about 13.1 points per game. Fixing this could get you back about 5.3 points per game. Another common mistake is making long thinks, which cost you about 24.7 points per game. Missing fork tactics also cost you about 2.9 points per game. To improve, focus on checking pawns without defenders before making a move, choosing between your two best moves when thinking long, and drilling fork puzzles. Over the next 20 games, you should drop pawns less than 8% of the time, make fewer long thinks, and miss fewer forks.",
+    "report_chars": 5233
+  },
+  {
+    "player": "FANG_2013",
+    "accepted": true,
+    "reason": "",
+    "seconds": 4.51,
+    "summary": "You played at a standard of about 1545, with most games played at a rapid speed. Your mistakes, particularly dropping pawns and conceding forks, were costing you games. To improve, start by checking every pawn that no longer has a defender before playing, and before committing a move, consider your opponent's best reply. Additionally, before letting a piece move to a square, think about what attacks and defends that square. If you can reduce the percentage of dropped pawns, forks conceded, and pieces that leave themselves vulnerable to capture to below 6%, 3%, and 1% respectively over your next 20 games, it would show these improvements are working.",
+    "report_chars": 6094
+  },
+  {
+    "player": "g_sarp",
+    "accepted": true,
+    "reason": "",
+    "seconds": 5.18,
+    "summary": "You played at a standard of about 902, which is most likely between 799 and 1005. Your play often involves dropping a piece, and this happens about 12% of the time, compared to 4% for players at your level. Fixing this could potentially get you back about 16.2 points of win probability per game. Another area where you struggle is putting the piece you just moved on a square where it can be won, which happens about 3% of the time, compared to 1% for players at your level. This costs you about 9.5 points of win probability per game. Lastly, your long thinks tend to end in a mistake, happening about 52% of the time, compared to 36% for players at your level.",
+    "report_chars": 5357
+  },
+  {
+    "player": "GarryMcwormeater",
+    "accepted": true,
+    "reason": "",
+    "seconds": 5.18,
+    "summary": "You played consistently at a rating of about 1656, which is within the 1553 to 1759 range. Your mistakes often came from being caught by a discovered attack, which cost you about 10.0 points of win probability per game. Additionally, you missed pin tactics that were available, costing you about 4.9 points per game. Your long thinks ended in mistakes, costing you about 24.5 points per game. To improve, focus on asking what your opponent's best reply threatens before committing a move, drill pin puzzles, and choose between your two best candidate moves when a think runs long. Over the next 20 games, aim to have discovered attacks conceded at below 5%, pin tactics missed at below 31%, and mistakes after a long think at below 22%.",
+    "report_chars": 5020
+  },
+  {
+    "player": "garvitbhalla",
+    "accepted": true,
+    "reason": "",
+    "seconds": 4.63,
+    "summary": "You played with a rating standard of about 1591, and most likely between 1488 and 1694. The mistakes you made in rapid games, specifically blunders from your own moves, were the main factor in how strong your play looks. To improve, focus on stopping a long think and choosing between your two best candidate moves, as well as asking what your opponent's best reply threatens, especially for pins. Additionally, practice solving discovered attack puzzles to avoid missing them. If these improvements are working, you should see your mistakes after a long think drop below 24% over your next 20 games, pin mistakes drop below 3% over your next 20 games, and missed discovered attacks drop below 30% over your next 172 games.",
+    "report_chars": 5533
+  },
+  {
+    "player": "GERDBAD92",
+    "accepted": true,
+    "reason": "",
+    "seconds": 4.84,
+    "summary": "In your games, you often lose due to discovered attacks, dropping pawns, and leaving pieces vulnerable to capture. This report shows that you lose about 10.3 points per game due to discovered attacks, 10.5 points per game due to dropped pawns, and 6.5 points per game due to pieces being taken. To improve, focus on asking what your opponent's best response threatens before making a move, checking if any of your pawns are unprotected, and ensuring the square you place a piece on is not under attack and not defended. If you can reduce these losses to below 4% for discovered attacks, 7% for dropped pawns, and 1% for pieces being taken, you could see significant improvement in your games.",
+    "report_chars": 5480
+  }
+]

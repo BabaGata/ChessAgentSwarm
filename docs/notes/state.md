@@ -8,13 +8,13 @@ created: 1785254500000
 
 # State
 
-**Snapshot date:** 2026-09-15
+**Snapshot date:** 2026-09-19
 **Active mission steps:** **M6/M7** — correcting what the detectors name, and giving each claim
 something to say. Writing the thesis is no longer a mission step
 ([[decisions.0020-the-thesis-leaves-the-mission]]).
-**Last commit:** `docs(M6): bring the README and entry-point docs up to date`
-**Scale:** 24,686 lines in `chesscoach/`, **2,177 tests at 86 % coverage**, 87 experiments,
-176 vault notes, 21 ADRs, 62 lessons
+**Last commit:** `feat(M7): a local model in the coaching session`
+**Scale:** 25,266 lines in `chesscoach/`, **2,220 tests at 87 % coverage**, 88 experiments,
+179 vault notes, 22 ADRs, 63 lessons
 
 Rewritten at the end of every cycle. The honest answer to "if someone joined today, what would they
 need to know?"
@@ -256,6 +256,15 @@ struck through: a list nobody can act on is not a plan.
    a pawn is too small to call a fork ([[experiments.e57-fork-rebuilt]]).
 
 ### Open, and unblocked
+
+0. **A local model in the session** *(2026-09-19, the author reopened the code for it)*. `coach`
+   now prints a model-written summary above the report (one fact sheet per finding, checked for
+   numbers, moves and novelty), takes follow-up questions (report, else books, else refusal; concept
+   questions only from the books) and offers practice positions from the prober
+   ([[decisions.0021-a-local-model-in-the-session]], [[design.narrated-session]]). E90: 20/20 reports
+   get a summary, 41/59 finding sentences kept, ~8 s; a hand read of 8 found 1 reversed relation the
+   check cannot see ([[experiments.e90-narrated-session]], L-062). **Open:** a relation-level check;
+   the "% of the time" → "% of games" slip in follow-up answers; the circular book definition of *pin*.
 
 0. **OPEN — `--band` accepts a band the reference does not have** *(2026-09-15, found after closing)*. A band with no cells silently drops every peer comparison while the report says it compared → [[learning.risks]] I-11. Not fixed for submission; the thesis states it.
 

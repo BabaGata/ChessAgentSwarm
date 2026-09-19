@@ -1,0 +1,162 @@
+[
+  {
+    "player": "AGM_EliasBelmonte035",
+    "findings": 3,
+    "accepted": true,
+    "reason": "",
+    "seconds": 8.73,
+    "summary": "After choosing a move, check every pawn you own that no longer has a defender. What to do: Pick one opening for White and one for Black, and play only those for a while. The aim is to familiarize yourself with these positions, not to master better theory. You missed pin tactics that were available in 6 out of 21 games, costing you about 3.8 points of win probability per game. Fixing this could potentially get you back about 0.6 points per game."
+  },
+  {
+    "player": "babakorisko",
+    "findings": 3,
+    "accepted": true,
+    "reason": "",
+    "seconds": 8.04,
+    "summary": "After choosing a move, check every pawn you own that no longer has a defender. Below 3% over your next 20 games. Target: Improve your discovered attack tactics to below 27% over your next 150 games."
+  },
+  {
+    "player": "Barsa1984",
+    "findings": 3,
+    "accepted": true,
+    "reason": "1 of 3 findings left out: novelty 46% over 45%: focus, improving, understanding, twice, rate, typically",
+    "seconds": 8.46,
+    "summary": "You should focus on drilling discovered attack puzzles and solve them correctly rather than quickly, as you missed these tactics in 8 out of 28 games, which is more often than in other games. Below 23% over your next 20 games."
+  },
+  {
+    "player": "BASHENDI",
+    "findings": 2,
+    "accepted": true,
+    "reason": "",
+    "seconds": 5.6,
+    "summary": "Before committing a move, ask what your opponent's best reply threatens; a hanging piece is what has been punishing you. You missed discovering attack tactics that were available, and this finding shows that these mistakes cost you about 2.8 points of win probability per game."
+  },
+  {
+    "player": "bidochon",
+    "findings": 3,
+    "accepted": true,
+    "reason": "",
+    "seconds": 8.19,
+    "summary": "Before committing a move, ask what your opponent's best reply threatens; a hanging piece is what has been punishing you. Target: pawns dropped when you go wrong: below 7% over your next 20 games Before you let go of a piece, ask yourself what attacks it and what defends it on the square you are putting it on."
+  },
+  {
+    "player": "BLITZ_GRIEK",
+    "findings": 3,
+    "accepted": true,
+    "reason": "",
+    "seconds": 8.17,
+    "summary": "After choosing a move, check every pawn you own that no longer has a defender. Before you let go of a piece, ask yourself what attacks it and what defends it on the square you are putting it on. You missed pin tactics that were available, and this finding shows that these missed opportunities cost you about 3.3 points per game."
+  },
+  {
+    "player": "CheckZILLA1",
+    "findings": 3,
+    "accepted": true,
+    "reason": "",
+    "seconds": 8.24,
+    "summary": "In the positions where you played bxc6, exf5, and gxf6, you either chose to create doubled pawns or allowed them to form. It's important to identify whether you were proactive in creating these weaknesses or simply allowed them to develop. Target: free pawns left uncaptured: below 16% over your next 22 games Below 24% over your next 134 games."
+  },
+  {
+    "player": "chessmanuz2023",
+    "findings": 3,
+    "accepted": true,
+    "reason": "",
+    "seconds": 8.57,
+    "summary": "You should focus on improving your understanding of pin tactics, as you missed them in 64% of the games where they were available. Before making a pawn move, always consider which square it gives up for good, as a pawn cannot come back. In the cited games, find the move where the square your opponent later occupied stopped being defensible. Count your undeveloped pieces at move ten in the games where your pieces came out late, aiming to have the minor pieces out and the king castled before starting anything on a wing."
+  },
+  {
+    "player": "Chloekalypse",
+    "findings": 3,
+    "accepted": true,
+    "reason": "",
+    "seconds": 8.92,
+    "summary": "Before committing a move, ask what your opponent's best reply threatens; a fork is what has been punishing you. What to do: Before you let go of a piece, ask one question about the square you are putting it on: what attacks it, and what defends it. Not the whole position -- one square, every move. You should focus on choosing between your two best candidate moves when a long think ends in a mistake, as this has been seen in 13 of 26 games, at 57.1% against 36.1% for players at your level."
+  },
+  {
+    "player": "der_zocker09",
+    "findings": 3,
+    "accepted": true,
+    "reason": "",
+    "seconds": 8.2,
+    "summary": "Before you move, check the whole board for material that is simply there — undefended pawns included. These are not tactics to calculate; they are pawns you have not looked at. Below 2% over your next 20 games. Target: Below 24% of your games over the next 89 games when missing forks when available."
+  },
+  {
+    "player": "Dhananjay2106",
+    "findings": 3,
+    "accepted": true,
+    "reason": "",
+    "seconds": 8.07,
+    "summary": "Before committing a move, ask what your opponent's best reply threatens; a pin is what has been punishing you. You missed pin tactics in 58% of the games, which is costing you about 2.5 points of win probability per game. Below 23% over your next 33 games."
+  },
+  {
+    "player": "Drexy2525",
+    "findings": 3,
+    "accepted": true,
+    "reason": "",
+    "seconds": 7.96,
+    "summary": "You should focus on improving your understanding of pin tactics, as you missed opportunities in 60% of your games where pins were available. Below 3% over your next 20 games. Below 2% over your next 20 games."
+  },
+  {
+    "player": "ege_tagil",
+    "findings": 3,
+    "accepted": true,
+    "reason": "1 of 3 findings left out: novelty 67% over 45%: mindful, place, ensuring, easily, taken, opponent",
+    "seconds": 8.37,
+    "summary": "Before you move, check the whole board for material that is simply there — undefended pawns included. These are not tactics to calculate; they are pawns you have not looked at. When you spend too much time thinking, choose between your two best moves instead of searching for a third."
+  },
+  {
+    "player": "engin_demir007",
+    "findings": 3,
+    "accepted": true,
+    "reason": "",
+    "seconds": 8.47,
+    "summary": "You are coming out of the opening worse more often than most, and this happens in 52% of your games. What to do: After choosing a move and before playing it, check every pawn you own that no longer has a defender. Dropped pawns rarely lose a game on their own, and they are what your mistakes are most often costing you. What to do: Before committing a move, ask what your opponent's best reply threatens; a hanging piece is what has been punishing you."
+  },
+  {
+    "player": "ergili",
+    "findings": 3,
+    "accepted": true,
+    "reason": "",
+    "seconds": 8.04,
+    "summary": "After choosing a move, check every pawn you own that no longer has a defender. You should focus on choosing between your two best candidate moves when a long think ends, rather than searching for a third option. You should focus on improving your ability to see and exploit fork tactics, as you missed them in 44% of the games where they were available."
+  },
+  {
+    "player": "FANG_2013",
+    "findings": 3,
+    "accepted": true,
+    "reason": "",
+    "seconds": 7.92,
+    "summary": "After choosing a move, check every pawn you own that no longer has a defender. Below 3% over your next 20 games. Before you let go of a piece, ask yourself what attacks it and what defends it, especially for moves that leave the piece takeable."
+  },
+  {
+    "player": "g_sarp",
+    "findings": 3,
+    "accepted": true,
+    "reason": "",
+    "seconds": 8.55,
+    "summary": "Before committing a move, ask what your opponent's best reply threatens; focusing on avoiding a hanging piece, which has been punishing you in 14 of 30 games. Before you let go of a piece, ask yourself what attacks it and what defends it on the square you are putting it on, and aim to reduce such moves to below 1% over your next 20 games. When a long think ends in a mistake, try choosing between your two best candidate moves instead of searching for a third."
+  },
+  {
+    "player": "GarryMcwormeater",
+    "findings": 3,
+    "accepted": true,
+    "reason": "",
+    "seconds": 8.25,
+    "summary": "Before committing a move, ask what your opponent's best reply threatens; a discovered attack is what has been punishing you. You missed pin tactics in 69% of the games, costing you about 4.9 points of win probability per game. Fixing this could get you back about 1.7 points per game. Below 22% over your next 20 games."
+  },
+  {
+    "player": "garvitbhalla",
+    "findings": 3,
+    "accepted": true,
+    "reason": "1 of 3 findings left out: novelty 45% over 45%: focus, identifying, own, consider, replies",
+    "seconds": 8.36,
+    "summary": "When a long think ends in a mistake, choose between your two best candidate moves rather than searching for a third. You missed discovered attack tactics that were available, and this happened 86% of the time, costing you about 2.6 points per game."
+  },
+  {
+    "player": "GERDBAD92",
+    "findings": 3,
+    "accepted": true,
+    "reason": "",
+    "seconds": 8.24,
+    "summary": "Before committing a move, ask what your opponent's best reply threatens; a discovered attack is what has been punishing you. Target: pawns dropped when you go wrong: below 7% over your next 20 games Before you let go of a piece, ask yourself what attacks it and what defends it on the square you are putting it on."
+  }
+]

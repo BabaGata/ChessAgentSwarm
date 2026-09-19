@@ -35,6 +35,7 @@ real work, or if a future reader would otherwise ask *"why on earth is it like t
 | [[decisions.0018-the-thesis-is-a-mission-step]] | 2026-09-08 | The thesis becomes **M8** and runs alongside M7, not after it. It may never claim more than [[state]] does, which makes it a measurement step: its first pass forced three claims in this vault to be weakened against the code | superseded by 0020 |
 | [[decisions.0019-fork-and-skewer-by-geometry]] | 2026-09-08 | A slider attacking two pieces on one line through it is a **skewer**, not a fork — the author's rule over the endorsed Lichess definition, knowing the motif key is also the puzzle filter | accepted |
 | [[decisions.0020-the-thesis-leaves-the-mission]] | 2026-09-15 | Writing the thesis is **no longer a mission step**: M8 is removed from [[mission]] at the author's request; its alignment row (C5, success criterion 6) passes to M6, and the thesis tasks leave [[state]] | accepted |
+| [[decisions.0021-a-local-model-in-the-session]] | 2026-09-19 | The session gains a **model-written summary** (one fact sheet per finding, checked for numbers, moves and novelty), **follow-up questions** (report, else books, else refusal; concept questions only from the books) and **practice positions** from the prober. The template report still follows in full | accepted |
 
 ## Template
 

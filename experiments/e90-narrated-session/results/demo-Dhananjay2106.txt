@@ -1,0 +1,169 @@
+IN SHORT
+
+   When you go wrong, it is often a pin that punishes you, and this happened in 8 out of 29
+   games, costing you about 3.5 points of win probability per game. You missed pin tactics that
+   were available in 58% of the times it could have happened, and this pattern costs you about
+   2.5 points of win probability per game. Your long thinks tend to end in a mistake, which
+   costs you about 8.3 points of win probability per game.
+
+   Written by a local language model from the measurements below, and checked against them.
+
+Report for Dhananjay2106
+30 games (2026.07.12 to 2026.08.14), rating band 1400-1800
+
+HOW STRONG YOUR PLAY LOOKS
+
+   About 1523, and most likely between 1420 and 1626.
+   Judged from how often you blunder across 562 of your own rapid moves, and nothing else —
+   not from your rating, which was never shown to it.
+   This is your rapid standard — the speed most of these games were played at.
+
+WHAT STANDS OUT
+
+1. When you go wrong, it is often a pin that punishes you.
+
+   How often   8% of the time
+   Seen in     8 of 29 games
+   Costing you about 3.5 points of win probability a game.
+   Players at your level lose about 2.7 to the same thing, so roughly
+   0.7 a game is what fixing this could get back.
+   For example move 12, you played Nxd5, and Bxd5 punished it
+      as Black, vs DaddyDragon80, 2026.07.15 — lichess.org/7HZ3FRpy#24
+   For example move 12, you played Rae1, and Bb4 punished it
+      as White, vs mravi24, 2026.08.06 — lichess.org/LfS4aG0v#23
+   For example move 6, you played Nc3, and Qxe5 punished it
+      as White, vs nakshsocool, 2026.07.27 — lichess.org/qVGYVYwC#11
+
+2. You miss pin tactics that were available.
+
+   How often   58% of the time
+   Seen in     7 of 29 games
+   Costing you about 2.5 points of win probability a game.
+   Players at your level lose about 3.2 to the same thing, so this is
+   not costing you your rating — it is costing you the next one.
+   For example move 9, you played Qf3 (e5 was better)
+      as White, vs zavazingo33, 2026.08.06 — lichess.org/6mnMNspk#17
+   For example move 10, you played Kf1 (O-O was better)
+      as White, vs seig14, 2026.08.08 — lichess.org/A6n41BX1#19
+   For example move 15, you played g3+ (d4+ was better)
+      as White, vs nakshsocool, 2026.08.11 — lichess.org/JJmiJoet#29
+
+3. Your long thinks tend to end in a mistake.
+
+   Ordinary for your level, and still what these mistakes cost you most.
+
+   How often   44% of the time, against 36% for players at your level
+   Seen in     10 of 29 games
+   Costing you about 8.3 points of win probability a game.
+   Players at your level lose about 20.4 to the same thing, so this is
+   not costing you your rating — it is costing you the next one.
+   For example move 32, you played Rcxc6 (Re5 was better)
+      as White, vs seig14, 2026.08.08 — lichess.org/A6n41BX1#63
+   For example move 10, you played Qc3 (Bb5+ was better)
+      as White, vs nakshsocool, 2026.07.27 — lichess.org/AW0TgWIl#19
+   For example move 30, you played Nd3 (Qe2 was better)
+      as White, vs mravi24, 2026.08.06 — lichess.org/LfS4aG0v#59
+
+BY AREA OF THE GAME
+
+   A map, not a to-do list — the plan above is what to act on.
+
+   Tactics                    pin conceded when you go wrong; pin missed when available
+   Positional judgement       nothing stood out
+   Openings                   nothing stood out
+   Endgames                   nothing stood out
+   Attack & defence           nothing stood out
+   Practical process          mistakes after a long think
+
+   Not measured by this system at all: Fundamentals, Calculation & visualisation, Planning, Meta-learning.
+
+WHAT TO DO
+
+1. Before committing a move, ask what your opponent's best reply threatens; a pin is what has been punishing you.
+   Why    seen in 8 of 29 games, at 8.2% against 3.2% elsewhere
+   Start  Do this one first — the others can wait their turn.
+
+2. Drill `pin` puzzles, and solve to be right rather than fast — review every one you get wrong.
+   Why    seen in 7 of 29 games, at 58.3% against 24.5% elsewhere
+
+3. When a think runs long, stop and choose between your two best candidate moves rather than searching for a third.
+   Why    seen in 10 of 29 games, at 44.4% against 36.1% for peers at your level
+   Note   Ordinary for your level, and still what these mistakes cost you most.
+
+WHAT WOULD SHOW IT WORKED
+
+ - pin conceded when you go wrong: below 3% over your next 20 games
+ - pin missed when available: below 31% over your next 97 games
+ - mistakes after a long think: below 23% over your next 33 games
+
+WHAT YOUR WHOLE LEVEL LOSES MOST TO
+
+ - Players at your level lose about 19.0 points of win probability a game to moves played in under two seconds.
+ - Players at your level lose about 3.1 points of win probability a game to pieces left hanging by the opponent and not taken.
+
+   These are not findings about you — they are what the whole rating band
+   loses most to, and the stronger players in it lose less. Your own one or
+   two priorities above are the ones that are unusual for you specifically.
+
+WHAT THIS DOES NOT KNOW
+
+ - This is measured from your own games and nothing else — it says what happened, not why, except where a probe asked you directly.
+ - Rates are compared with players in your rating band, so they say you are unusual, not that you are bad.
+ - Nothing here estimates your potential or your ceiling, because nothing here could.
+ - The two costs above should not be added together — a single mistake can belong to both patterns, so the totals overlap by an unknown amount.
+
+You can ask about your report, or about a chess idea in it. An empty line ends the questions.
+
+  question > Why do my long thinks go wrong?
+
+   Your long thinks tend to end in a mistake, costing you about 8.3 points of win probability a game. Mistakes after a long think are what this system found most problematic, occurring in 44% of the games, against 36% for players at your level.
+
+  question > What should I practise first?
+
+   Before committing a move, ask what your opponent's best reply threatens; a pin is what has been punishing you. This is seen in 8 of 29 games, at 8.2% against 3.2% elsewhere, so start with this first.
+
+  question > What is a pin?
+
+   A pin is a tactic involving pins, where a piece is unable to move without revealing an attack on a higher value piece.
+
+   — Lichess (lichess-org/lila), puzzle theme definitions and Edward Lasker describe it this way.
+     definition://pin
+     definition://skewer
+     book://edward-lasker-chess-and-checkers#42
+
+  question > 
+
+Want to try 2 positions from your own games, where the engine found a better move? (y/n)
+  > y
+
+--- 1/2  pin missed when available
+   your game, move 9: as White, vs zavazingo33, 2026.08.06 — lichess.org/6mnMNspk#17
+
+      r . b q k . . r
+      p p p p . p p p
+      . . . . . n . .
+      . . . . . . . .
+      . . B . P . . .
+      . . P . . . . .
+      P P . . . P P P
+      R . B Q K . . R
+
+   White to move.  (r1bqk2r/pppp1ppp/5n2/8/2B1P3/2P5/PP3PPP/R1BQK2R w KQkq - 1 9)
+   your move > Nf3
+   Not the engine's move. In the game you played Qf3, and the engine's choice was e5.
+
+--- 2/2  mistakes after a long think
+   your game, move 32: as White, vs seig14, 2026.08.08 — lichess.org/A6n41BX1#63
+
+      . . . . r . . .
+      . . . . . p k .
+      R . p . . . p p
+      . . R . . p . .
+      . . . P . r . .
+      . . P . . . . P
+      P . . . . . P K
+      . . . . . . . .
+
+   White to move.  (4r3/5pk1/R1p3pp/2R2p2/3P1r2/2P4P/P5PK/8 w - - 2 32)
+   your move > Bg4
+   Not the engine's move. In the game you played Rcxc6, and the engine's choice was Re5.

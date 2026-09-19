@@ -64,6 +64,10 @@ chesscoach/
   prober.py       asks the player, and tells a knowledge gap from a skill gap
   classifiers.py  the one place a language model acts — local, and ablated
   explainer.py    the report a person reads. Templates, not generation
+  narrator.py     a local model's summary above the report, checked against its facts
+  followup.py     questions after the report: from the report, else the books, else no
+  exercise.py     practice positions from the player's own games (the prober's move check)
+  after_report.py the session around the report, testable without a terminal
   session.py      one session end to end, and the probe gate
   pipeline.py     engine/cache session and provenance
   opening_*.py    the opening brief — plans quoted from sources, a three-agent
@@ -74,9 +78,9 @@ chesscoach/
   cli.py          coach · talk · analyse · probe · report · check-progress ·
                   fetch-corpus · build-peer-reference · build-graph · ask ·
                   make-eval-set · check-eval-set · score-agent
-experiments/      e01–e89: the measurements that shaped the design, including
+experiments/      e01–e90: the measurements that shaped the design, including
                   the negative ones
-tests/            2,177 tests
+tests/            2,220 tests
 ```
 
 The loop runs end to end in **one command**: fetch → analyse → diagnose → prioritise → ask → plan
@@ -117,7 +121,12 @@ python -m chesscoach.cli coach \
 ```
 
 That is the whole thing. It fetches the player's rated games, analyses them,
-diagnoses, picks one or two priorities, plans, and prints a report.
+diagnoses, picks one or two priorities, plans, and prints a report. Above the
+report a local model (`qwen2.5:3b` through Ollama) writes a short summary, checked
+against the measurements; after it you can ask questions, and at the end try the
+positions from your own games where the engine found a better move. Each part is
+optional: `--no-summary`, `--no-questions-after`, `--no-practice`. Without Ollama
+the session runs as before and says why there is no summary.
 
 **Already have the games?** Pass `--pgn games.pgn` and it will not fetch.
 **Do not want the four questions?** Add `--no-questions`.

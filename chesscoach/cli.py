@@ -780,6 +780,22 @@ def build_parser() -> argparse.ArgumentParser:
         "--runs", default=None,
         help="run store to read an approved opening brief from (data/runs.db)",
     )
+    session.add_argument(
+        "--no-summary", action="store_true",
+        help="skip the local model's summary above the report",
+    )
+    session.add_argument(
+        "--no-questions-after", action="store_true",
+        help="skip the follow-up questions after the report",
+    )
+    session.add_argument(
+        "--no-practice", action="store_true",
+        help="skip the positions from the player's own games at the end",
+    )
+    session.add_argument(
+        "--summary-model", default=None,
+        help="ollama model for the summary and the follow-up answers (default qwen2.5:3b)",
+    )
     session.set_defaults(handler=coach)
 
     chat = subcommands.add_parser(
@@ -1050,10 +1066,8 @@ def coach(args: argparse.Namespace) -> int:
     one thing, which meant "using the swarm" started with a script in an
     experiments directory.
     """
-    from chesscoach.band import notes_for
+    from chesscoach.after_report import practise, summary_lines
     from chesscoach.explainer import render
-    from chesscoach.ingest.lichess import LichessUnavailable, fetch_games_pgn
-    from chesscoach.ingest.pgn import parse_pgn_text
 
     made = _coached_profile(args)
     if made is None:
@@ -1061,16 +1075,49 @@ def coach(args: argparse.Namespace) -> int:
     profile, games = made
 
     if args.probe:
-        profile = _probe_interactively(profile, peers, args)
+        profile = _probe_interactively(profile, _load_peers(args), args)
 
     out = args.out or f"{args.player}-profile.json"
     save_profile(profile, out)
+    report = render(profile, opening=_opening_brief(games, args.runs),
+                    resource=_opening_resource(games))
     print("\n" + "=" * 68 + "\n")
-    print(render(profile, opening=_opening_brief(games, args.runs),
-                 resource=_opening_resource(games)))
+    if not args.no_summary:
+        print("\n".join(summary_lines(profile, model=args.summary_model)))
+    print(report)
     print("\n" + "=" * 68)
-    print(f"profile  {out}")
+
+    if not args.no_questions_after:
+        _questions_after(report, args)
+    if not args.no_practice:
+        profile = practise(profile, input, print)
+        save_profile(profile, out)
+    print(f"\nprofile  {out}")
     return 0
+
+
+def _questions_after(report: str, args: argparse.Namespace) -> None:
+    """Follow-up questions, with the book graph if it is reachable.
+
+    A stopped graph is not a reason to skip the questions: the report can still
+    answer questions about itself. It is said once, so a refusal later is not
+    mistaken for the books having nothing to say (L-046).
+    """
+    from chesscoach.graph import GraphStore, GraphUnavailable, settings_from_env
+
+    try:
+        store = GraphStore.connect(settings_from_env())
+    except GraphUnavailable as error:
+        print(f"\n(the chess books are not available, so only questions about the report "
+              f"can be answered: {error})")
+        from chesscoach.after_report import ask_questions
+
+        ask_questions(report, input, print, model=args.summary_model)
+        return
+    from chesscoach.after_report import ask_questions
+
+    with store:
+        ask_questions(report, input, print, store=store, model=args.summary_model)
 
 
 def _strength(observations, username: str, games=()):

@@ -1,0 +1,162 @@
+[
+  {
+    "player": "AGM_EliasBelmonte035",
+    "findings": 3,
+    "accepted": true,
+    "reason": "1 of 3 findings left out: novelty 45% over 45%: make, happens, frequently, think, affecting",
+    "seconds": 8.29,
+    "summary": "You are reaching playable middlegames less often than most, which is concerning given the opportunities you have. You missed pin tactics that were available in many of your games, and this has cost you about 3.8 points of win probability per game."
+  },
+  {
+    "player": "babakorisko",
+    "findings": 3,
+    "accepted": true,
+    "reason": "",
+    "seconds": 8.3,
+    "summary": "When you drop a pawn, it often leads to a loss of about 7.1 points of win probability per game, which is significant and costly. When you drop a piece, it often leads to a loss of about 6.7 points of win probability per game, which is more than the average for players at your level. You missed discovering attack tactics that were available in 62% of the times it could have happened, and this pattern costs you about 2.6 points of win probability per game."
+  },
+  {
+    "player": "Barsa1984",
+    "findings": 3,
+    "accepted": true,
+    "reason": "",
+    "seconds": 8.24,
+    "summary": "You missed discovering attack tactics that were available in 77% of the times it could have happened, leading to a cost of about 4.6 points of win probability per game. You missed pin tactics that were available in 59% of the times it could have happened, costing you about 5.7 points of win probability per game. When your long thinks tend to end in a mistake, it's costing you a significant portion of your win probability in those games."
+  },
+  {
+    "player": "BASHENDI",
+    "findings": 2,
+    "accepted": true,
+    "reason": "1 of 2 findings left out: novelty 45% over 45%: opportunities, exploit, has, significant, impact",
+    "seconds": 5.21,
+    "summary": "When you make this mistake, it often leads to a loss of about 3.6 points in win probability for the game."
+  },
+  {
+    "player": "bidochon",
+    "findings": 3,
+    "accepted": true,
+    "reason": "2 of 3 findings left out: novelty 50% over 45%: make, happens, frequently, think, affecting, significantly; novelty 78% over 45%: consider, whether, taken, protected, adjust, strategy, accordingly",
+    "seconds": 8.1,
+    "summary": "When you drop a piece, it often leads to a loss of about 8.9 points of win probability per game, which is more than the average for players at your level."
+  },
+  {
+    "player": "BLITZ_GRIEK",
+    "findings": 3,
+    "accepted": true,
+    "reason": "2 of 3 findings left out: novelty 55% over 45%: leads, significant, loss, happens, frequently, think; novelty 46% over 45%: consider, whether, taken, protected, choose, compared",
+    "seconds": 8.63,
+    "summary": "You missed pin tactics that were available, and this occurred in 43% of the times it could have happened. It costs you about 3.3 points of win probability a game, which is similar to what players at your level typically lose to the same thing."
+  },
+  {
+    "player": "CheckZILLA1",
+    "findings": 3,
+    "accepted": true,
+    "reason": "",
+    "seconds": 8.42,
+    "summary": "You should pay closer attention to the structure of your position, questioning whether you chose to create doubled pawns or simply allowed them to form. You leave free pawns on the board, material that was there for the taking, in 29% of the times it could have happened, and this has cost you about 7.0 points of win probability per game. You missed opportunities with forks that were available in 44% of the times it could have happened, leading to a loss of about 3.0 points of win probability per game."
+  },
+  {
+    "player": "chessmanuz2023",
+    "findings": 3,
+    "accepted": true,
+    "reason": "1 of 3 findings left out: novelty 50% over 45%: pay, closer, attention, determine, fate",
+    "seconds": 7.82,
+    "summary": "You missed pin tactics that were available in many of your games, and this has cost you about 4.3 points of win probability per game. You should aim to develop your minor pieces and castle your king earlier in the game to avoid losing points."
+  },
+  {
+    "player": "Chloekalypse",
+    "findings": 3,
+    "accepted": true,
+    "reason": "1 of 3 findings left out: novelty 45% over 45%: make, leads, results, significant, loss",
+    "seconds": 8.23,
+    "summary": "Before you let go of a piece, ask yourself what attacks and what defends the square you are putting it on, as this happened less frequently in your games compared to players at your level. Your long thinks tend to end in a mistake, and this pattern costs you about 13.7 points of win probability per game."
+  },
+  {
+    "player": "der_zocker09",
+    "findings": 3,
+    "accepted": true,
+    "reason": "",
+    "seconds": 8.51,
+    "summary": "You leave free pawns on the board in 34% of the times it could have happened, which costs you about 9.9 points of win probability per game. When you go wrong, it is often a discovered attack that punishes you, and this has happened in 4% of the times it could have happened. You missed many fork tactics that were available, and this happened in 44% of the times it could have happened. It costs you about 2.0 points of win probability per game, which is similar to what players at your level typically lose to this issue."
+  },
+  {
+    "player": "Dhananjay2106",
+    "findings": 3,
+    "accepted": true,
+    "reason": "",
+    "seconds": 8.29,
+    "summary": "When you go wrong, it is often a pin that punishes you, and this happened in 8 out of 29 games, costing you about 3.5 points of win probability per game. You missed pin tactics that were available in 58% of the times it could have happened, and this has cost you about 2.5 points of win probability per game. Your long thinks tend to end in a mistake, and this pattern has cost you about 8.3 points of win probability per game."
+  },
+  {
+    "player": "Drexy2525",
+    "findings": 3,
+    "accepted": true,
+    "reason": "2 of 3 findings left out: novelty 75% over 45%: face, seems, particularly, effective, catching, mistakes, costing, similar; novelty 57% over 45%: seems, some, reason, losing, it's, something, aware, making",
+    "seconds": 8.22,
+    "summary": "You missed pin tactics that were available in 60% of the times it could have happened, and it costs you about 7.0 points of win probability per game."
+  },
+  {
+    "player": "ege_tagil",
+    "findings": 3,
+    "accepted": true,
+    "reason": "1 of 3 findings left out: novelty 80% over 45%: make, consider, whether, place, board, captured, think, protect",
+    "seconds": 8.13,
+    "summary": "You leave free pawns on the board in many of your games, and this happens more often than it should, costing you about 9.8 points of win probability per game. When you find yourself thinking for a long time, it's important to choose between your two best moves rather than continuing to search for a third option."
+  },
+  {
+    "player": "engin_demir007",
+    "findings": 3,
+    "accepted": true,
+    "reason": "1 of 3 findings left out: novelty 47% over 45%: leads, significant, loss, considering, crucial, avoid, mistakes",
+    "seconds": 8.29,
+    "summary": "You are reaching playable middlegames less often than most, which is why you come out of the opening worse more often. When you make a mistake, it is often a pawn that you simply drop, and this happens more frequently than you might think, affecting about 17% of your games, and it costs you about 19.0 points of win probability."
+  },
+  {
+    "player": "ergili",
+    "findings": 3,
+    "accepted": true,
+    "reason": "",
+    "seconds": 8.32,
+    "summary": "When you go wrong, it is often a pawn you simply drop, and this costly mistake has cost you about 13.1 points of win probability per game. Your long thinks tend to end in a mistake, and this pattern has cost you about 24.7 points of win probability per game. You missed opportunities with forks that were available in 44% of the times it could have happened, and these missed tactics cost you about 2.9 points of win probability per game."
+  },
+  {
+    "player": "FANG_2013",
+    "findings": 3,
+    "accepted": true,
+    "reason": "1 of 3 findings left out: novelty 45% over 45%: make, leads, results, significant, loss",
+    "seconds": 8.36,
+    "summary": "When you make a mistake, it is often a pawn that you simply drop, and this happens more frequently than you might think, affecting about 11% of your games, and it costs you about 6.1 points of win probability per game. Before you let go of a piece, ask yourself, \"What attacks and what defends the square I am putting it on?\""
+  },
+  {
+    "player": "g_sarp",
+    "findings": 3,
+    "accepted": true,
+    "reason": "1 of 3 findings left out: novelty 53% over 45%: leads, significant, loss, considering, response, crucial, avoid, mistakes",
+    "seconds": 8.07,
+    "summary": "Before you let go of a piece, ask yourself, \"What attacks and what defends the square I am putting it on?\" Your long thinks tend to end in a mistake, and this pattern costs you about 23.0 points of win probability per game."
+  },
+  {
+    "player": "GarryMcwormeater",
+    "findings": 3,
+    "accepted": true,
+    "reason": "2 of 3 findings left out: novelty 71% over 45%: make, mistake, frequently, leads, loss; novelty 75% over 45%: seems, like, often, overlook, opportunities, use, has, significant",
+    "seconds": 7.75,
+    "summary": "Your long thinks tend to end in a mistake, and this pattern costs you about 24.5 points of win probability per game."
+  },
+  {
+    "player": "garvitbhalla",
+    "findings": 3,
+    "accepted": true,
+    "reason": "",
+    "seconds": 8.34,
+    "summary": "Your long thinks tend to end in a mistake, and this pattern costs you about 26.3 points of win probability per game. It seems that in some of your games, a pin has been the reason for losing about 5.4 points of win probability, which is concerning given that this happened in 6% of the times it could have occurred. You missed discovering attack tactics that were available in 86% of the times it could have happened, and this has cost you about 2.6 points of win probability per game."
+  },
+  {
+    "player": "GERDBAD92",
+    "findings": 3,
+    "accepted": true,
+    "reason": "2 of 3 findings left out: novelty 71% over 45%: make, mistake, frequently, leads, loss; novelty 62% over 45%: seems, like, sometimes, make, lead, losing, happens, frequently",
+    "seconds": 8.12,
+    "summary": "When you go wrong, it is often a pawn you simply drop, and this costly mistake has cost you 10.5 points of win probability per game."
+  }
+]
